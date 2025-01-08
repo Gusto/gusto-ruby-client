@@ -1,0 +1,403 @@
+# TimeOffPolicies
+(*time_off_policies*)
+
+## Overview
+
+### Available Operations
+
+* [calculate_accruing_hours](#calculate_accruing_hours) - Calculate accruing time off hours
+* [get_by_id](#get_by_id) - Get a time off policy
+* [update](#update) - Update a time off policy
+* [get](#get) - Get all time off policies
+* [create](#create) - Create a time off policy
+* [add_employees](#add_employees) - Add employees to a time off policy
+* [remove_employees](#remove_employees) - Remove employees from a time off policy
+* [update_balance](#update_balance) - Update employee time off hour balances
+* [deactivate](#deactivate) - Deactivate a time off policy
+
+## calculate_accruing_hours
+
+Returns a list of accruing time off for each time off policy associated with the employee.
+
+Factors affecting the accrued hours:
+  * the time off policy accrual method (whether they get pay per hour worked, per hour paid, with / without overtime, accumulate time off based on pay period / calendar year / anniversary)
+  * how many hours of work during this pay period
+  * how many hours of PTO / sick hours taken during this pay period (for per hour paid policies only)
+  * company pay schedule frequency (for per pay period)
+
+If none of the parameters is passed in, the accrued time off hour will be 0.
+
+scope: `payrolls:read`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.calculate_accruing_hours(payroll_id="<id>", employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequestBody.new())
+
+if ! res.accruing_time_off_hour_object.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `payroll_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the payroll                                                                                                                                                                                                      |
+| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequestBody)](../../models/operations/postv1payrollspayrollidcalculateaccruingtimeoffhoursrequestbody.md)                           | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursResponse)](../../models/operations/postv1payrollspayrollidcalculateaccruingtimeoffhoursresponse.md)**
+
+
+
+## get_by_id
+
+Get a time off policy
+
+scope: `time_off_policies:read`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.get_by_id(time_off_policy_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.time_off_policy.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `time_off_policy_uuid`                                                                                                                                                                                                       | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company time off policy                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::GetTimeOffPoliciesTimeOffPolicyUuidResponse)](../../models/operations/gettimeoffpoliciestimeoffpolicyuuidresponse.md)**
+
+
+
+## update
+
+Update a time off policy
+
+scope: `time_off_policies:write`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.update(time_off_policy_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody.new())
+
+if ! res.time_off_policy.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `time_off_policy_uuid`                                                                                                                                                                                                       | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company time off policy                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody)](../../models/operations/puttimeoffpoliciestimeoffpolicyuuidrequestbody.md)                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Can update any attributes of the time off policy except policy_type, is_active, complete & employees                                                                                                                         |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidResponse)](../../models/operations/puttimeoffpoliciestimeoffpolicyuuidresponse.md)**
+
+
+
+## get
+
+Get all time off policies for a company
+
+scope: `time_off_policies:read`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.get(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.time_off_policy_list.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::GetCompaniesCompanyUuidTimeOffPoliciesResponse)](../../models/operations/getcompaniescompanyuuidtimeoffpoliciesresponse.md)**
+
+
+
+## create
+
+Create a time off policy
+
+scope: `time_off_policies:write`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.create(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesRequestBody.new(
+  name: "<value>",
+  policy_type: "<value>",
+  accrual_method: ::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesAccrualMethod::PER_ANNIVERSARY_YEAR,
+))
+
+if ! res.time_off_policy.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesRequestBody)](../../models/operations/postcompaniescompanyuuidtimeoffpoliciesrequestbody.md)                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | Requires a policy name, a policy_type, and an accrual_method                                                                                                                                                                 |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesResponse)](../../models/operations/postcompaniescompanyuuidtimeoffpoliciesresponse.md)**
+
+
+
+## add_employees
+
+Add employees to a time off policy. Employees are required to have at least one job to be added to a time off policy. Accepts starting balances for non-unlimited policies
+
+scope: `time_off_policies:write`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.add_employees(time_off_policy_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesRequestBody.new())
+
+if ! res.time_off_policy.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `time_off_policy_uuid`                                                                                                                                                                                                       | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company time off policy                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesRequestBody)](../../models/operations/putversiontimeoffpoliciestimeoffpolicyuuidaddemployeesrequestbody.md)                       | :heavy_minus_sign:                                                                                                                                                                                                           | A list of employee objects containing the employee uuid                                                                                                                                                                      |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesResponse)](../../models/operations/putversiontimeoffpoliciestimeoffpolicyuuidaddemployeesresponse.md)**
+
+
+
+## remove_employees
+
+Remove employees from a time off policy
+
+scope: `time_off_policies:write`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.remove_employees(time_off_policy_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesRequestBody.new())
+
+if ! res.time_off_policy.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `time_off_policy_uuid`                                                                                                                                                                                                       | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company time off policy                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesRequestBody)](../../models/operations/putv1timeoffpoliciestimeoffpolicyuuidremoveemployeesrequestbody.md)                           | :heavy_minus_sign:                                                                                                                                                                                                           | A list of employee objects containing the employee uuid                                                                                                                                                                      |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesResponse)](../../models/operations/putv1timeoffpoliciestimeoffpolicyuuidremoveemployeesresponse.md)**
+
+
+
+## update_balance
+
+Updates time off hours balances for employees for a time off policy
+
+scope: `time_off_policies:write`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.update_balance(time_off_policy_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequestBody.new())
+
+if ! res.time_off_policy.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `time_off_policy_uuid`                                                                                                                                                                                                       | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company time off policy                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequestBody)](../../models/operations/putversiontimeoffpoliciestimeoffpolicyuuidbalancerequestbody.md)                                 | :heavy_minus_sign:                                                                                                                                                                                                           | A list of employee objects containing the employee uuid and time off hours balance                                                                                                                                           |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceResponse)](../../models/operations/putversiontimeoffpoliciestimeoffpolicyuuidbalanceresponse.md)**
+
+
+
+## deactivate
+
+Deactivate a time off policy
+
+scope: `time_off_policies:write`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.time_off_policies.deactivate(time_off_policy_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.time_off_policy.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `time_off_policy_uuid`                                                                                                                                                                                                       | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company time off policy                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidDeactivateResponse)](../../models/operations/putv1timeoffpoliciestimeoffpolicyuuiddeactivateresponse.md)**
+

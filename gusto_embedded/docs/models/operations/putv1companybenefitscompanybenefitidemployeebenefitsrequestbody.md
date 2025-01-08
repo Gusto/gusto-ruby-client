@@ -1,0 +1,8 @@
+# PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody
+
+
+## Fields
+
+| Field                                                                                                                       | Type                                                                                                                        | Required                                                                                                                    | Description                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `employee_benefits`                                                                                                         | T::Array<[::OpenApiSDK::Shared::EmployeeBenefitForCompanyBenefit](../../models/shared/employeebenefitforcompanybenefit.md)> | :heavy_check_mark:                                                                                                          | The list of employee benefits to create or update                                                                           |

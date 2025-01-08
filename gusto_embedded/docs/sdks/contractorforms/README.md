@@ -1,0 +1,182 @@
+# ContractorForms
+(*contractor_forms*)
+
+## Overview
+
+### Available Operations
+
+* [get](#get) - Get all contractor forms
+* [get_by_id](#get_by_id) - Get a contractor form
+* [get_pdf](#get_pdf) - Get the contractor form pdf
+* [generate1099](#generate1099) - Generate a 1099 form [DEMO]
+
+## get
+
+Get a list of all contractor's forms
+
+scope: `contractor_forms:read`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.contractor_forms.get(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.form_1099s.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contractor_uuid`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor                                                                                                                                                                                                   |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::GetV1ContractorFormsResponse)](../../models/operations/getv1contractorformsresponse.md)**
+
+
+
+## get_by_id
+
+Get a contractor form
+
+scope: `contractor_forms:read`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.contractor_forms.get_by_id(contractor_uuid="<id>", form_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.form_1099.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contractor_uuid`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor                                                                                                                                                                                                   |
+| `form_id`                                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the form                                                                                                                                                                                                         |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::GetV1ContractorFormResponse)](../../models/operations/getv1contractorformresponse.md)**
+
+
+
+## get_pdf
+
+Get the link to the form PDF
+
+scope: `contractor_forms:read`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.contractor_forms.get_pdf(contractor_uuid="<id>", form_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.form_pdf.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contractor_uuid`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor                                                                                                                                                                                                   |
+| `form_id`                                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the form                                                                                                                                                                                                         |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::GetV1ContractorFormPdfResponse)](../../models/operations/getv1contractorformpdfresponse.md)**
+
+
+
+## generate1099
+
+> 🚧 Demo action
+>
+> This action is only available in the Demo environment
+
+Generates a 1099 document for testing purposes.
+
+scope: `contractors:write`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded'
+
+
+s = ::OpenApiSDK::GustoEmbedded.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.contractor_forms.generate1099(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1SandboxGenerate1099RequestBody.new(
+  contractor_id: "<id>",
+))
+
+if ! res.form_1099.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1SandboxGenerate1099RequestBody)](../../models/operations/postv1sandboxgenerate1099requestbody.md)                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PostV1SandboxGenerate1099Response)](../../models/operations/postv1sandboxgenerate1099response.md)**
+
