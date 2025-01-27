@@ -1,0 +1,10 @@
+# PutV1CompanyFormSignRequestBody
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `signature_text`                                                                       | *::String*                                                                             | :heavy_check_mark:                                                                     | The signature                                                                          |
+| `agree`                                                                                | *T::Boolean*                                                                           | :heavy_check_mark:                                                                     | Whether you agree to sign electronically                                               |
+| `signed_by_ip_address`                                                                 | *::String*                                                                             | :heavy_check_mark:                                                                     | The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. |

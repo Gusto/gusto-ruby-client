@@ -1,0 +1,13 @@
+# Earnings
+
+An array of earnings for the employee. Depends on your company selections, earnings includes wages, hours, bonuses, tips, commission and more.
+
+
+## Fields
+
+| Field                                                                                      | Type                                                                                       | Required                                                                                   | Description                                                                                |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `hours`                                                                                    | *T.nilable(::String)*                                                                      | :heavy_minus_sign:                                                                         | The hour of the compensation for the pay period.                                           |
+| `amount`                                                                                   | *T.nilable(::String)*                                                                      | :heavy_minus_sign:                                                                         | The amount of the earning.                                                                 |
+| `earning_id`                                                                               | *T.nilable(::Integer)*                                                                     | :heavy_minus_sign:                                                                         | The ID of the earning.                                                                     |
+| `earning_type`                                                                             | [T.nilable(::OpenApiSDK::Operations::EarningType)](../../models/operations/earningtype.md) | :heavy_minus_sign:                                                                         | The earning type for the compensation.                                                     |

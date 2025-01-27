@@ -1,0 +1,40 @@
+speakeasyVersion: 1.476.2
+sources:
+    GustoEmbedded-OAS:
+        sourceNamespace: gusto-embedded-oas
+        sourceRevisionDigest: sha256:1f0225951e2fc6d57955fdf09d8e8366d8075d6b7353cfcde924564be725679d
+        sourceBlobDigest: sha256:1b2940d54f390eb1a747acbb40c3da0c3c90c5f79d12398a397a6acef756dc05
+        tags:
+            - latest
+            - "2024-04-01"
+targets:
+    gusto-embedded:
+        source: GustoEmbedded-OAS
+        sourceNamespace: gusto-embedded-oas
+        sourceRevisionDigest: sha256:1f0225951e2fc6d57955fdf09d8e8366d8075d6b7353cfcde924564be725679d
+        sourceBlobDigest: sha256:1b2940d54f390eb1a747acbb40c3da0c3c90c5f79d12398a397a6acef756dc05
+        codeSamplesNamespace: gusto-embedded-oas-code-samples
+        codeSamplesRevisionDigest: sha256:289169518abd8dbe14bf353dad324d03a71709eaa97cd46d1396addb742dd295
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        GustoEmbedded-OAS:
+            inputs:
+                - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/ar/add-generated-openapi-spec-to-repo/generated/embedded/api.v2024-04-01.embedded.yaml
+                  authHeader: Authorization
+                  authSecret: $openapi_doc_auth_token
+            overlays:
+                - location: .speakeasy/speakeasy-modifications-overlay.yaml
+            registry:
+                location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas
+    targets:
+        gusto-embedded:
+            target: ruby
+            source: GustoEmbedded-OAS
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas-code-samples
+                labelOverride:
+                    fixedValue: Ruby (SDK)
+                blocking: false
