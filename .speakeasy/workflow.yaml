@@ -1,0 +1,11 @@
+workflowVersion: 1.0.0
+sources:
+    GustoEmbedded-OAS:
+        inputs:
+            - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/generated/embedded/api.v2024-04-01.embedded.yaml
+              authHeader: Authorization
+              authSecret: $openapi_doc_auth_token
+targets:
+    gusto-embedded:
+        target: ruby
+        source: GustoEmbedded-OAS

@@ -1,9 +1,0 @@
-# ApplicableIf
-
-
-## Fields
-
-| Field                                                                                           | Type                                                                                            | Required                                                                                        | Description                                                                                     |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `key`                                                                                           | *T.nilable(::String)*                                                                           | :heavy_minus_sign:                                                                              | An identifier for an individual requirement. Uniqueness is guaranteed within a requirement set. |
-| `value`                                                                                         | *T.nilable(::Object)*                                                                           | :heavy_minus_sign:                                                                              | The required value of the requirement identified by `key`                                       |
