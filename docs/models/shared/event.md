@@ -1,0 +1,16 @@
+# Event
+
+Representation of an Event
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `uuid`                                                                               | *::String*                                                                           | :heavy_check_mark:                                                                   | Unique identifier for the event.                                                     |
+| `event_type`                                                                         | *T.nilable(::String)*                                                                | :heavy_minus_sign:                                                                   | Description of the event (e.g., payroll.submitted, or company.form.signed).          |
+| `resource_type`                                                                      | [T.nilable(::OpenApiSDK::Shared::ResourceType)](../../models/shared/resourcetype.md) | :heavy_minus_sign:                                                                   | Name of the parent resource of the described entity.                                 |
+| `resource_uuid`                                                                      | *T.nilable(::String)*                                                                | :heavy_minus_sign:                                                                   | Unique identifier for the parent resource.                                           |
+| `entity_type`                                                                        | *T.nilable(::String)*                                                                | :heavy_minus_sign:                                                                   | Name of the entity that the event corresponds to.                                    |
+| `entity_uuid`                                                                        | *T.nilable(::String)*                                                                | :heavy_minus_sign:                                                                   | Unique identifier for the entity.                                                    |
+| `timestamp`                                                                          | *T.nilable(::Integer)*                                                               | :heavy_minus_sign:                                                                   | Time at which this event was created. Measured in seconds since the Unix epoch.      |

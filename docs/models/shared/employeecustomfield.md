@@ -1,0 +1,16 @@
+# EmployeeCustomField
+
+A custom field of an employee
+
+
+## Fields
+
+| Field                                                                             | Type                                                                              | Required                                                                          | Description                                                                       |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `id`                                                                              | *::String*                                                                        | :heavy_check_mark:                                                                | N/A                                                                               |
+| `company_custom_field_id`                                                         | *::String*                                                                        | :heavy_check_mark:                                                                | This is the id of the response object from when you get the company custom fields |
+| `name`                                                                            | *::String*                                                                        | :heavy_check_mark:                                                                | N/A                                                                               |
+| `type`                                                                            | [::OpenApiSDK::Shared::CustomFieldType](../../models/shared/customfieldtype.md)   | :heavy_check_mark:                                                                | Input type for the custom field.                                                  |
+| `description`                                                                     | *T.nilable(::String)*                                                             | :heavy_minus_sign:                                                                | N/A                                                                               |
+| `value`                                                                           | *::String*                                                                        | :heavy_check_mark:                                                                | N/A                                                                               |
+| `selection_options`                                                               | T::Array<*::String*>                                                              | :heavy_minus_sign:                                                                | An array of options for fields of type radio. Otherwise, null.                    |

@@ -1,0 +1,10 @@
+# PostV1CompaniesCompanyIdBankAccountsRequestBody
+
+
+## Fields
+
+| Field                                                                                      | Type                                                                                       | Required                                                                                   | Description                                                                                |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `routing_number`                                                                           | *T.nilable(::String)*                                                                      | :heavy_minus_sign:                                                                         | The bank routing number                                                                    |
+| `account_number`                                                                           | *T.nilable(::String)*                                                                      | :heavy_minus_sign:                                                                         | The bank account number                                                                    |
+| `account_type`                                                                             | [T.nilable(::OpenApiSDK::Operations::AccountType)](../../models/operations/accounttype.md) | :heavy_minus_sign:                                                                         | The bank account type                                                                      |

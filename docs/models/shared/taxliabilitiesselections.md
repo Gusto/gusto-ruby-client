@@ -1,0 +1,13 @@
+# TaxLiabilitiesSelections
+
+Example response
+
+
+## Fields
+
+| Field                                                                                             | Type                                                                                              | Required                                                                                          | Description                                                                                       |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `tax_id`                                                                                          | *T.nilable(::Integer)*                                                                            | :heavy_minus_sign:                                                                                | The ID of the tax.                                                                                |
+| `tax_name`                                                                                        | *T.nilable(::String)*                                                                             | :heavy_minus_sign:                                                                                | The name of the tax.                                                                              |
+| `last_unpaid_external_payroll_uuid`                                                               | *T.nilable(::String)*                                                                             | :heavy_minus_sign:                                                                                | The UUID of last unpaid external payroll.                                                         |
+| `possible_liabilities`                                                                            | T::Array<[::OpenApiSDK::Shared::PossibleLiabilities](../../models/shared/possibleliabilities.md)> | :heavy_minus_sign:                                                                                | Possible tax liabilities selections.                                                              |
