@@ -41,7 +41,7 @@ The SDK can be installed using [RubyGems](https://rubygems.org/):
 
 ```bash
 gem install specific_install
-gem specific_install  
+gem specific_install https://github.com/Gusto/gusto-ruby-client -d gusto_embedded 
 ```
 <!-- End SDK Installation [installation] -->
 

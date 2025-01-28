@@ -5,8 +5,11 @@ management:
   docVersion: "2024-04-01"
   speakeasyVersion: 1.476.2
   generationVersion: 2.495.1
-  releaseVersion: 0.1.2
-  configChecksum: 48c2edfc9eae907b8c236b4b204d5cc6
+  releaseVersion: 0.1.3
+  configChecksum: febfe006c62bbfe083b02280a1df92ad
+  repoURL: https://github.com/Gusto/gusto-ruby-client.git
+  repoSubDirectory: gusto_embedded
+  installationURL: https://github.com/Gusto/gusto-ruby-client -d gusto_embedded
 features:
   ruby:
     core: 3.5.1
