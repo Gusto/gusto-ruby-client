@@ -1,3 +1,5 @@
 *.gem
 .rbenv-gemsets
 .DS_Store
+/.speakeasy/reports
+/.speakeasy/temp
