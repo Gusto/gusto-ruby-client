@@ -20,8 +20,8 @@ module OpenApiSDK
 
 
     sig { params(notification_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetNotificationsNotificationUuidResponse) }
-    def get(notification_uuid, x_gusto_api_version = nil)
-      # get - Get a notification's details
+    def get_details(notification_uuid, x_gusto_api_version = nil)
+      # get_details - Get a notification's details
       # Upon receiving a notification webhook event, use this endpoint to fetch the notification's details. The notification details include basic suggested content that can help you build notifications in your platform.
       # 
       # Note: partners are responsible for the delivery and any custom state management of notifications in their application. Refer to our [partner notification guide](https://docs.gusto.com/embedded-payroll/docs/partner-notifications) for more details.

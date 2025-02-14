@@ -6,15 +6,15 @@
 ### Available Operations
 
 * [create](#create) - Create a company benefit
-* [list_for_company](#list_for_company) - Get benefits for a company
+* [list](#list) - Get benefits for a company
 * [get](#get) - Get a company benefit
 * [update](#update) - Update a company benefit
 * [delete](#delete) - Delete a company benefit
-* [list_supported](#list_supported) - Get all benefits supported by Gusto
-* [get_benefit_by_id](#get_benefit_by_id) - Get a supported benefit by ID
+* [get_all](#get_all) - Get all benefits supported by Gusto
+* [get_supported](#get_supported) - Get a supported benefit by ID
 * [get_summary](#get_summary) - Get company benefit summary by company benefit id.
 * [get_employee_benefits](#get_employee_benefits) - Get all employee benefits for a company benefit
-* [bulk_update_employee_benefits](#bulk_update_employee_benefits) - Bulk update employee benefits for a company benefit
+* [update_employee_benefits](#update_employee_benefits) - Bulk update employee benefits for a company benefit
 * [get_requirements](#get_requirements) - Get benefit fields requirements by ID
 
 ## create
@@ -39,9 +39,9 @@ s.config_security(
 )
 
     
-res = s.company_benefits.create(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequestBody.new(
+res = s.company_benefits.create(company_id="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequestBody.new(
   description: "yuck vice between gee ugh ha",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_benefit.nil?
   # handle response
@@ -54,8 +54,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequestBody](../../models/operations/postv1companiescompanyidcompanybenefitsrequestbody.md)                                                                | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequestBody)](../../models/operations/postv1companiescompanyidcompanybenefitsrequestbody.md)                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -63,7 +63,7 @@ end
 
 
 
-## list_for_company
+## list
 
 Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
 
@@ -87,7 +87,7 @@ s.config_security(
 )
 
     
-res = s.company_benefits.list_for_company(company_id="<id>", enrollment_count=false, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_benefits.list(company_id="<id>", enrollment_count=false, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_benefit_list.nil?
   # handle response
@@ -177,9 +177,9 @@ s.config_security(
 )
 
     
-res = s.company_benefits.update(company_benefit_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequestBody.new(
+res = s.company_benefits.update(company_benefit_id="<id>", request_body=::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequestBody.new(
   version: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_benefit.nil?
   # handle response
@@ -192,8 +192,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_benefit_id`                                                                                                                                                                                                         | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company benefit                                                                                                                                                                                              |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequestBody](../../models/operations/putv1companybenefitscompanybenefitidrequestbody.md)                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequestBody)](../../models/operations/putv1companybenefitscompanybenefitidrequestbody.md)                                                           | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -245,7 +245,7 @@ end
 
 
 
-## list_supported
+## get_all
 
 Returns all benefits supported by Gusto.
 
@@ -267,7 +267,7 @@ s.config_security(
 )
 
     
-res = s.company_benefits.list_supported(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_benefits.get_all(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.supported_benefit_list.nil?
   # handle response
@@ -287,7 +287,7 @@ end
 
 
 
-## get_benefit_by_id
+## get_supported
 
 Returns a benefit supported by Gusto.
 
@@ -309,7 +309,7 @@ s.config_security(
 )
 
     
-res = s.company_benefits.get_benefit_by_id(benefit_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_benefits.get_supported(benefit_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.supported_benefit.nil?
   # handle response
@@ -425,7 +425,7 @@ end
 
 
 
-## bulk_update_employee_benefits
+## update_employee_benefits
 
 Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
 
@@ -449,13 +449,13 @@ s.config_security(
 )
 
     
-res = s.company_benefits.bulk_update_employee_benefits(company_benefit_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody.new(
+res = s.company_benefits.update_employee_benefits(company_benefit_id="<id>", request_body=::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody.new(
   employee_benefits: [
     ::OpenApiSDK::Shared::EmployeeBenefitForCompanyBenefit.new(
       employee_uuid: "<id>",
     ),
   ],
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_benefit_list.nil?
   # handle response
@@ -468,8 +468,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_benefit_id`                                                                                                                                                                                                         | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company benefit                                                                                                                                                                                              |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody](../../models/operations/putv1companybenefitscompanybenefitidemployeebenefitsrequestbody.md)                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody)](../../models/operations/putv1companybenefitscompanybenefitidemployeebenefitsrequestbody.md)                           | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

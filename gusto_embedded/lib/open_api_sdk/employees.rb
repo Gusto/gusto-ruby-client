@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1EmployeesRequestBody)).returns(::OpenApiSDK::Operations::PostV1EmployeesResponse) }
-    def create(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1EmployeesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1EmployeesResponse) }
+    def create(company_id, request_body, x_gusto_api_version = nil)
       # create - Create an employee
       # Create an employee.
       # 
@@ -28,8 +28,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1EmployeesRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -42,6 +42,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -80,8 +81,8 @@ module OpenApiSDK
 
 
     sig { params(request: T.nilable(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdEmployeesRequest)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdEmployeesResponse) }
-    def list_by_company(request)
-      # list_by_company - Get employees of a company
+    def list(request)
+      # list - Get employees of a company
       # Get all of the employees, onboarding, active and terminated, for a given company.
       # 
       # scope: `employees:read`
@@ -121,8 +122,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), historical_employee_body: T.nilable(::OpenApiSDK::Shared::HistoricalEmployeeBody)).returns(::OpenApiSDK::Operations::PostV1HistoricalEmployeesResponse) }
-    def create_historical(company_uuid, x_gusto_api_version = nil, historical_employee_body = nil)
+    sig { params(company_uuid: ::String, historical_employee_body: ::OpenApiSDK::Shared::HistoricalEmployeeBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1HistoricalEmployeesResponse) }
+    def create_historical(company_uuid, historical_employee_body, x_gusto_api_version = nil)
       # create_historical - Create a historical employee
       # Create a historical employee, an employee that was previously dismissed from the company in the current year.
       # 
@@ -130,8 +131,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1HistoricalEmployeesRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        historical_employee_body: historical_employee_body
+        historical_employee_body: historical_employee_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -144,6 +145,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :historical_employee_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -175,62 +177,6 @@ module OpenApiSDK
           out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
         end
-      end
-
-      res
-    end
-
-
-    sig { params(company_uuid: ::String, historical_employee_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1HistoricalEmployeesRequestBody)).returns(::OpenApiSDK::Operations::PutV1HistoricalEmployeesResponse) }
-    def update_historical_employee(company_uuid, historical_employee_uuid, x_gusto_api_version = nil, request_body = nil)
-      # update_historical_employee - Update a historical employee
-      # Update a historical employee, an employee that was previously dismissed from the company in the current year.
-      # 
-      # scope: `employees:manage`
-      request = ::OpenApiSDK::Operations::PutV1HistoricalEmployeesRequest.new(
-        
-        company_uuid: company_uuid,
-        historical_employee_uuid: historical_employee_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        ::OpenApiSDK::Operations::PutV1HistoricalEmployeesRequest,
-        base_url,
-        '/v1/companies/{company_uuid}/historical_employees/{historical_employee_uuid}',
-        request
-      )
-      headers = Utils.get_headers(request)
-      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
-      headers['content-type'] = req_content_type
-      headers['Accept'] = 'application/json'
-      headers['user-agent'] = @sdk_configuration.user_agent
-
-      r = @sdk_configuration.client.put(url) do |req|
-        req.headers = headers
-        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
-        if form
-          req.body = Utils.encode_form(form)
-        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-          req.body = URI.encode_www_form(data)
-        else
-          req.body = data
-        end
-      end
-
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
-
-      res = ::OpenApiSDK::Operations::PutV1HistoricalEmployeesResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
-      )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::Employee)
-          res.employee = out
-        end
-      elsif r.status == 404
       end
 
       res
@@ -286,8 +232,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesResponse) }
-    def update(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesResponse) }
+    def update(employee_id, request_body, x_gusto_api_version = nil)
       # update - Update an employee
       # Update an employee.
       # 
@@ -295,8 +241,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -309,6 +255,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -394,8 +341,57 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigResponse) }
-    def update_onboarding_documents_config(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse) }
+    def get_custom_fields(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
+      # get_custom_fields - Get an employee's custom fields
+      # Returns a list of the employee's custom fields.
+      # 
+      # scope: `employees:read`
+      request = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdCustomFieldsRequest.new(
+        
+        employee_id: employee_id,
+        page: page,
+        per: per,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdCustomFieldsRequest,
+        base_url,
+        '/v1/employees/{employee_id}/custom_fields',
+        request
+      )
+      headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdCustomFieldsRequest, request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        req.params = query_params
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponseBody)
+          res.object = out
+        end
+      elsif r.status == 404
+      end
+
+      res
+    end
+
+
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigResponse) }
+    def update_onboarding_documents_config(employee_id, request_body, x_gusto_api_version = nil)
       # update_onboarding_documents_config - Update an employee's onboarding documents config
       # Indicate whether to include the Form I-9 for an employee during the onboarding process.
       # 
@@ -403,8 +399,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -417,6 +413,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -530,8 +527,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusResponse) }
-    def update_onboarding_status(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusResponse) }
+    def update_onboarding_status(employee_id, request_body, x_gusto_api_version = nil)
       # update_onboarding_status - Update the employee's onboarding status
       # scope: `employees:manage`
       # 
@@ -548,8 +545,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -562,6 +559,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

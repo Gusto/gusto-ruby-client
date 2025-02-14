@@ -5,11 +5,11 @@
 
 ### Available Operations
 
-* [create_company_report](#create_company_report) - Create a custom report
+* [create_custom](#create_custom) - Create a custom report
 * [get](#get) - Get a report
 * [get_template](#get_template) - Get a report template
 
-## create_company_report
+## create_custom
 
 Create a custom report for a company. This endpoint initiates creating a custom report with custom columns, groupings, and filters. The `request_uuid` in the response can then be used to poll for the status and report URL upon completion using the report GET endpoint.
 
@@ -29,19 +29,19 @@ s.config_security(
 )
 
     
-res = s.reports.create_company_report(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostCompaniesCompanyUuidReportsRequestBody.new(
+res = s.reports.create_custom(company_uuid="<id>", request_body=::OpenApiSDK::Operations::PostCompaniesCompanyUuidReportsRequestBody.new(
   columns: [
-    ::OpenApiSDK::Operations::Columns::PAYROLL_TYPE,
+    ::OpenApiSDK::Operations::Columns::PAY_PERIOD_START,
   ],
   groupings: [
-    ::OpenApiSDK::Operations::Groupings::EMPLOYEE,
+    ::OpenApiSDK::Operations::Groupings::WORK_ADDRESS_STATE,
   ],
   file_type: ::OpenApiSDK::Operations::FileType::CSV,
   start_date: Date.parse("2024-01-01"),
   end_date: Date.parse("2024-04-01"),
   dismissed_start_date: Date.parse("2024-01-01"),
   dismissed_end_date: Date.parse("2024-04-01"),
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.create_report.nil?
   # handle response
@@ -54,8 +54,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostCompaniesCompanyUuidReportsRequestBody](../../models/operations/postcompaniescompanyuuidreportsrequestbody.md)                                                                                | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostCompaniesCompanyUuidReportsRequestBody)](../../models/operations/postcompaniescompanyuuidreportsrequestbody.md)                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

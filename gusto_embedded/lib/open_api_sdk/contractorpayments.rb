@@ -125,8 +125,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsResponse) }
-    def create(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsResponse) }
+    def create(company_id, request_body, x_gusto_api_version = nil)
       # create - Create a contractor payment
       # Pay a contractor. Information needed depends on the contractor's wage type (hourly vs fixed)
       # 
@@ -134,8 +134,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -148,6 +148,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -186,8 +187,8 @@ module OpenApiSDK
 
 
     sig { params(request: T.nilable(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdContractorPaymentsRequest)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdContractorPaymentsResponse) }
-    def get(request)
-      # get - Get contractor payments for a company
+    def list(request)
+      # list - Get contractor payments for a company
       # Returns an object containing individual contractor payments, within a given time period, including totals.
       # 
       # scope: `payrolls:read`
@@ -228,8 +229,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, contractor_payment_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse) }
-    def get_by_company(company_id, contractor_payment_id, x_gusto_api_version = nil)
-      # get_by_company - Get a single contractor payment
+    def get(company_id, contractor_payment_id, x_gusto_api_version = nil)
+      # get - Get a single contractor payment
       # Returns a single contractor payment.
       # scope: `payrolls:read`
       request = ::OpenApiSDK::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest.new(
@@ -319,8 +320,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody)).returns(::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewResponse) }
-    def preview(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewResponse) }
+    def preview(company_uuid, request_body, x_gusto_api_version = nil)
       # preview - Preview contractor payment debit date
       # Returns a debit_date dependent on the ACH payment speed of the company.
       # 
@@ -330,8 +331,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -344,6 +345,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

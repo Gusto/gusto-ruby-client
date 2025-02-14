@@ -5,9 +5,9 @@
 
 ### Available Operations
 
-* [get](#get) - Get a notification's details
+* [get_details](#get_details) - Get a notification's details
 
-## get
+## get_details
 
 Upon receiving a notification webhook event, use this endpoint to fetch the notification's details. The notification details include basic suggested content that can help you build notifications in your platform.
 
@@ -31,7 +31,7 @@ s.config_security(
 )
 
     
-res = s.notifications.get(notification_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.notifications.get_details(notification_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.notification.nil?
   # handle response

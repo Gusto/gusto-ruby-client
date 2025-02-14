@@ -19,9 +19,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(payroll_id: ::String, employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequestBody)).returns(::OpenApiSDK::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursResponse) }
-    def calculate_accruing_hours(payroll_id, employee_id, x_gusto_api_version = nil, request_body = nil)
-      # calculate_accruing_hours - Calculate accruing time off hours
+    sig { params(payroll_id: ::String, employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursResponse) }
+    def calculate_accruing_time_off_hours(payroll_id, employee_id, request_body, x_gusto_api_version = nil)
+      # calculate_accruing_time_off_hours - Calculate accruing time off hours
       # Returns a list of accruing time off for each time off policy associated with the employee.
       # 
       # Factors affecting the accrued hours:
@@ -37,8 +37,8 @@ module OpenApiSDK
         
         payroll_id: payroll_id,
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -51,6 +51,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -132,8 +133,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(time_off_policy_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody)).returns(::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidResponse) }
-    def update(time_off_policy_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(time_off_policy_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidResponse) }
+    def update(time_off_policy_uuid, request_body, x_gusto_api_version = nil)
       # update - Update a time off policy
       # Update a time off policy
       # 
@@ -141,8 +142,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequest.new(
         
         time_off_policy_uuid: time_off_policy_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -155,6 +156,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -237,8 +239,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesRequestBody)).returns(::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesResponse) }
-    def create(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesResponse) }
+    def create(company_uuid, request_body, x_gusto_api_version = nil)
       # create - Create a time off policy
       # Create a time off policy
       # 
@@ -246,8 +248,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostCompaniesCompanyUuidTimeOffPoliciesRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -260,6 +262,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -297,8 +300,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(time_off_policy_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesRequestBody)).returns(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesResponse) }
-    def add_employees(time_off_policy_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(time_off_policy_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesResponse) }
+    def add_employees(time_off_policy_uuid, request_body, x_gusto_api_version = nil)
       # add_employees - Add employees to a time off policy
       # Add employees to a time off policy. Employees are required to have at least one job to be added to a time off policy. Accepts starting balances for non-unlimited policies
       # 
@@ -306,8 +309,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesRequest.new(
         
         time_off_policy_uuid: time_off_policy_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -320,6 +323,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -357,8 +361,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(time_off_policy_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesRequestBody)).returns(::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesResponse) }
-    def remove_employees(time_off_policy_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(time_off_policy_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesResponse) }
+    def remove_employees(time_off_policy_uuid, request_body, x_gusto_api_version = nil)
       # remove_employees - Remove employees from a time off policy
       # Remove employees from a time off policy
       # 
@@ -366,8 +370,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesRequest.new(
         
         time_off_policy_uuid: time_off_policy_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -380,6 +384,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -417,8 +422,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(time_off_policy_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequestBody)).returns(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceResponse) }
-    def update_balance(time_off_policy_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(time_off_policy_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceResponse) }
+    def update_balance(time_off_policy_uuid, request_body, x_gusto_api_version = nil)
       # update_balance - Update employee time off hour balances
       # Updates time off hours balances for employees for a time off policy
       # 
@@ -426,8 +431,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequest.new(
         
         time_off_policy_uuid: time_off_policy_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -440,6 +445,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

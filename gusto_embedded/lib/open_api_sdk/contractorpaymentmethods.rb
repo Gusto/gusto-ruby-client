@@ -9,7 +9,7 @@ require 'sorbet-runtime'
 
 module OpenApiSDK
   extend T::Sig
-  class AcceptTerms
+  class ContractorPaymentMethods
     extend T::Sig
 
 
@@ -19,30 +19,32 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequestBody)).returns(::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceResponse) }
-    def create(company_uuid, x_gusto_api_version = nil, request_body = nil)
-      # create - Accept terms of service for a company user
-      # Accept the Gusto Embedded Payroll's [Terms of Service](https://flows.gusto.com/terms).
-      # The user must have a role in the company in order to accept the Terms of Service.
+    sig { params(contractor_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostV1ContractorsContractorUuidBankAccountsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1ContractorsContractorUuidBankAccountsResponse) }
+    def create_bank_account(contractor_uuid, request_body, x_gusto_api_version = nil)
+      # create_bank_account - Create a contractor bank account
+      # Creates a contractor bank account.
       # 
-      # scope: `terms_of_services:write`
-      request = ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequest.new(
+      # Note: We currently only support one bank account per contractor. Using this endpoint on a contractor who already has a bank account will just replace it.
+      # 
+      # scope: `contractor_payment_methods:write`
+      request = ::OpenApiSDK::Operations::PostV1ContractorsContractorUuidBankAccountsRequest.new(
         
-        company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        contractor_uuid: contractor_uuid,
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequest,
+        ::OpenApiSDK::Operations::PostV1ContractorsContractorUuidBankAccountsRequest,
         base_url,
-        '/v1/partner_managed_companies/{company_uuid}/accept_terms_of_service',
+        '/v1/contractors/{contractor_uuid}/bank_accounts',
         request
       )
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -60,13 +62,13 @@ module OpenApiSDK
 
       content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
 
-      res = ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceResponse.new(
+      res = ::OpenApiSDK::Operations::PostV1ContractorsContractorUuidBankAccountsResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
-      if r.status == 200
+      if r.status == 201
         if Utils.match_content_type(content_type, 'application/json')
-          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceResponseBody)
-          res.object = out
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::ContractorBankAccount)
+          res.contractor_bank_account = out
         end
       elsif r.status == 404
       elsif r.status == 422

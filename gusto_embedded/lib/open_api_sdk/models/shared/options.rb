@@ -14,10 +14,10 @@ module OpenApiSDK
       # A display label that corresponds to the answer value
       field :label, ::String, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('label') } }
       # An allowed value to answer the question
-      field :value, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('value') } }
+      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('value') } }
 
 
-      sig { params(label: ::String, value: T.nilable(::String)).void }
+      sig { params(label: ::String, value: T.nilable(::Object)).void }
       def initialize(label: nil, value: nil)
         @label = label
         @value = value

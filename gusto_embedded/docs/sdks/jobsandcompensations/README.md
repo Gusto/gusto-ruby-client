@@ -8,11 +8,12 @@
 * [create_job](#create_job) - Create a job
 * [get_jobs](#get_jobs) - Get jobs for an employee
 * [get_job](#get_job) - Get a job
-* [update_job](#update_job) - Update a job
-* [delete_job](#delete_job) - Delete an individual job
+* [update](#update) - Update a job
+* [delete](#delete) - Delete an individual job
 * [get_compensations](#get_compensations) - Get compensations for a job
 * [create_compensation](#create_compensation) - Create a compensation
-* [get](#get) - Get a compensation
+* [get_compensation](#get_compensation) - Get a compensation
+* [update_compensation](#update_compensation) - Update a compensation
 * [delete_compensation](#delete_compensation) - Delete a compensation
 
 ## create_job
@@ -35,10 +36,10 @@ s.config_security(
 )
 
     
-res = s.jobs_and_compensations.create_job(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1JobsJobIdRequestBody.new(
+res = s.jobs_and_compensations.create_job(employee_id="<id>", request_body=::OpenApiSDK::Operations::PostV1JobsJobIdRequestBody.new(
   title: "<value>",
   hire_date: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.job.nil?
   # handle response
@@ -51,8 +52,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1JobsJobIdRequestBody](../../models/operations/postv1jobsjobidrequestbody.md)                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                           | Create a job.                                                                                                                                                                                                                |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1JobsJobIdRequestBody)](../../models/operations/postv1jobsjobidrequestbody.md)                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | Create a job.                                                                                                                                                                                                                |
 
 ### Response
 
@@ -146,7 +147,7 @@ end
 
 
 
-## update_job
+## update
 
 Update a job.
 
@@ -166,9 +167,9 @@ s.config_security(
 )
 
     
-res = s.jobs_and_compensations.update_job(job_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1JobsJobIdRequestBody.new(
+res = s.jobs_and_compensations.update(job_id="<id>", request_body=::OpenApiSDK::Operations::PutV1JobsJobIdRequestBody.new(
   version: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.job.nil?
   # handle response
@@ -181,8 +182,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `job_id`                                                                                                                                                                                                                     | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the job                                                                                                                                                                                                          |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1JobsJobIdRequestBody](../../models/operations/putv1jobsjobidrequestbody.md)                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | Update a job.                                                                                                                                                                                                                |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1JobsJobIdRequestBody)](../../models/operations/putv1jobsjobidrequestbody.md)                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Update a job.                                                                                                                                                                                                                |
 
 ### Response
 
@@ -190,7 +191,7 @@ end
 
 
 
-## delete_job
+## delete
 
 Deletes a specific job that an employee holds.
 
@@ -210,7 +211,7 @@ s.config_security(
 )
 
     
-res = s.jobs_and_compensations.delete_job(job_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.jobs_and_compensations.delete(job_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
   # handle response
@@ -299,10 +300,10 @@ s.config_security(
 )
 
     
-res = s.jobs_and_compensations.create_compensation(job_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompensationsCompensationIdRequestBody.new(
+res = s.jobs_and_compensations.create_compensation(job_id="<id>", request_body=::OpenApiSDK::Operations::PostV1CompensationsCompensationIdRequestBody.new(
   payment_unit: ::OpenApiSDK::Operations::PaymentUnit::PAYCHECK,
   flsa_status: ::OpenApiSDK::Shared::FlsaStatusType::COMMISSION_ONLY_NONEXEMPT,
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.compensation.nil?
   # handle response
@@ -315,8 +316,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `job_id`                                                                                                                                                                                                                     | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the job                                                                                                                                                                                                          |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompensationsCompensationIdRequestBody](../../models/operations/postv1compensationscompensationidrequestbody.md)                                                                            | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompensationsCompensationIdRequestBody)](../../models/operations/postv1compensationscompensationidrequestbody.md)                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -324,7 +325,7 @@ end
 
 
 
-## get
+## get_compensation
 
 Compensations contain information on how much is paid out for a job. Jobs may have many compensations, but only one that is active. The current compensation is the one with the most recent `effective_date`.
 
@@ -345,7 +346,7 @@ s.config_security(
 )
 
     
-res = s.jobs_and_compensations.get(compensation_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.jobs_and_compensations.get_compensation(compensation_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.compensation.nil?
   # handle response
@@ -363,6 +364,50 @@ end
 ### Response
 
 **[T.nilable(::OpenApiSDK::Operations::GetV1CompensationsCompensationIdResponse)](../../models/operations/getv1compensationscompensationidresponse.md)**
+
+
+
+## update_compensation
+
+Compensations contain information on how much is paid out for a job. Jobs may have many compensations, but only one that is active. The current compensation is the one with the most recent `effective_date`.
+
+scope: `jobs:write`
+
+### Example Usage
+
+```ruby
+require 'gusto'
+
+
+s = ::OpenApiSDK::Gusto.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.jobs_and_compensations.update_compensation(compensation_id="<id>", request_body=::OpenApiSDK::Operations::PutV1CompensationsCompensationIdRequestBody.new(
+  version: "<value>",
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.compensation.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `compensation_id`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the compensation                                                                                                                                                                                                 |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1CompensationsCompensationIdRequestBody](../../models/operations/putv1compensationscompensationidrequestbody.md)                                                                              | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::PutV1CompensationsCompensationIdResponse)](../../models/operations/putv1compensationscompensationidresponse.md)**
 
 
 

@@ -5,9 +5,9 @@
 
 ### Available Operations
 
-* [list](#list) - Get all events
+* [get](#get) - Get all events
 
-## list
+## get
 
 Fetch all events, going back up to 30 days, that your partner application has the required scopes for. Note that a partner does NOT have to have verified webhook subscriptions in order to utilize this endpoint.
 
@@ -30,7 +30,7 @@ req = ::OpenApiSDK::Operations::GetEventsRequest.new(
   sort_order: ::OpenApiSDK::Shared::SortOrder::ASC,
 )
     
-res = s.events.list(req, ::OpenApiSDK::Operations::GetEventsSecurity.new(
+res = s.events.get(req, ::OpenApiSDK::Operations::GetEventsSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ))
 

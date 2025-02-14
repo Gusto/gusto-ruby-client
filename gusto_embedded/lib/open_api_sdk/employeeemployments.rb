@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsRequestBody)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsResponse) }
-    def create_termination(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsResponse) }
+    def create_termination(employee_id, request_body, x_gusto_api_version = nil)
       # create_termination - Create an employee termination
       # Terminations are created whenever an employee is scheduled to leave the company. The only things required are an effective date (their last day of work) and whether they should receive their wages in a one-off termination payroll or with the rest of the company.
       # 
@@ -30,8 +30,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -44,6 +44,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -82,8 +83,8 @@ module OpenApiSDK
 
 
     sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdTerminationsResponse) }
-    def list_terminations(employee_id, x_gusto_api_version = nil)
-      # list_terminations - Get terminations for an employee
+    def get_terminations(employee_id, x_gusto_api_version = nil)
+      # get_terminations - Get terminations for an employee
       # Terminations are created whenever an employee is scheduled to leave the company. The only things required are an effective date (their last day of work) and whether they should receive their wages in a one-off termination payroll or with the rest of the company.
       # 
       # Note that some states require employees to receive their final wages within 24 hours (unless they consent otherwise,) in which case running a one-off payroll may be the only option.
@@ -173,8 +174,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1TerminationsEmployeeIdRequestBody)).returns(::OpenApiSDK::Operations::PutV1TerminationsEmployeeIdResponse) }
-    def update_termination(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1TerminationsEmployeeIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1TerminationsEmployeeIdResponse) }
+    def update_termination(employee_id, request_body, x_gusto_api_version = nil)
       # update_termination - Update an employee termination
       # Terminations are created whenever an employee is scheduled to leave the company. The only things required are an effective date (their last day of work) and whether they should receive their wages in a one-off termination payroll or with the rest of the company.
       # 
@@ -184,8 +185,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1TerminationsEmployeeIdRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -198,6 +199,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -234,17 +236,17 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), rehire_body: T.nilable(::OpenApiSDK::Shared::RehireBody)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdRehireResponse) }
-    def rehire(employee_id, x_gusto_api_version = nil, rehire_body = nil)
-      # rehire - Create an employee rehire
+    sig { params(employee_id: ::String, rehire_body: ::OpenApiSDK::Shared::RehireBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdRehireResponse) }
+    def create_rehire(employee_id, rehire_body, x_gusto_api_version = nil)
+      # create_rehire - Create an employee rehire
       # Rehire is created whenever an employee is scheduled to return to the company.
       # 
       # scope: `employments:write`
       request = ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdRehireRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        rehire_body: rehire_body
+        rehire_body: rehire_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -257,6 +259,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :rehire_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -294,17 +297,17 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdRehireRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdRehireResponse) }
-    def update_rehire(employee_id, x_gusto_api_version = nil, request_body = nil)
-      # update_rehire - Update an employee rehire
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdRehireRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdRehireResponse) }
+    def rehire(employee_id, request_body, x_gusto_api_version = nil)
+      # rehire - Update an employee rehire
       # Update an employee's rehire.
       # 
       # scope: `employments:write`
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdRehireRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -317,6 +320,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -441,6 +445,51 @@ module OpenApiSDK
           out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
         end
+      end
+
+      res
+    end
+
+
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryResponse) }
+    def get_history(employee_id, x_gusto_api_version = nil)
+      # get_history - Get employment history for an employee
+      # Retrieve the employment history for a given employee, which includes termination and rehire.
+      # 
+      # scope: `employments:read`
+      request = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryRequest.new(
+        
+        employee_id: employee_id,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryRequest,
+        base_url,
+        '/v1/employees/{employee_id}/employment_history',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, T::Array[::OpenApiSDK::Shared::EmploymentHistoryList])
+          res.employment_history_list = out
+        end
+      elsif r.status == 404
       end
 
       res

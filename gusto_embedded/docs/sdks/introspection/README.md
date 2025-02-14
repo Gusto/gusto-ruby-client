@@ -5,10 +5,10 @@
 
 ### Available Operations
 
-* [get_token_info](#get_token_info) - Get info about the current access token
-* [refresh_access_token](#refresh_access_token) - Refresh access token
+* [get_info](#get_info) - Get info about the current access token
+* [refresh_token](#refresh_token) - Refresh access token
 
-## get_token_info
+## get_info
 
 Returns scope and resource information associated with the current access token.
 
@@ -26,7 +26,7 @@ s.config_security(
 )
 
     
-res = s.introspection.get_token_info(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.object.nil?
   # handle response
@@ -46,7 +46,7 @@ end
 
 
 
-## refresh_access_token
+## refresh_token
 
 Exchange a refresh token for a new access token.
 
@@ -68,12 +68,12 @@ s.config_security(
 )
 
     
-res = s.introspection.refresh_access_token(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::RefreshAccessTokenRequestBody.new(
+res = s.introspection.refresh_token(request_body=::OpenApiSDK::Operations::RefreshAccessTokenRequestBody.new(
   client_id: "<id>",
   client_secret: "<value>",
   refresh_token: "<value>",
   grant_type: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.authentication.nil?
   # handle response
@@ -85,8 +85,8 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::RefreshAccessTokenRequestBody](../../models/operations/refreshaccesstokenrequestbody.md)                                                                                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::RefreshAccessTokenRequestBody)](../../models/operations/refreshaccesstokenrequestbody.md)                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

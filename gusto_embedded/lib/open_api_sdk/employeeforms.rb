@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1SandboxGenerateW2RequestBody)).returns(::OpenApiSDK::Operations::PostV1SandboxGenerateW2Response) }
-    def generate_w2(x_gusto_api_version = nil, request_body = nil)
+    sig { params(request_body: ::OpenApiSDK::Operations::PostV1SandboxGenerateW2RequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1SandboxGenerateW2Response) }
+    def generate_w2(request_body, x_gusto_api_version = nil)
       # generate_w2 - Generate a W2 form [DEMO]
       # > 🚧 Demo action
       # >
@@ -31,8 +31,8 @@ module OpenApiSDK
       # scope: `employees:write`
       request = ::OpenApiSDK::Operations::PostV1SandboxGenerateW2Request.new(
         
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -40,6 +40,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -78,8 +79,8 @@ module OpenApiSDK
 
 
     sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeeFormsResponse) }
-    def list_by_employee_id(employee_id, x_gusto_api_version = nil)
-      # list_by_employee_id - Get all employee forms
+    def list(employee_id, x_gusto_api_version = nil)
+      # list - Get all employee forms
       # Get a list of all employee's forms
       # 
       # scope: `employee_forms:read`
@@ -214,8 +215,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, form_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeeFormSignRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeeFormSignResponse) }
-    def sign(employee_id, form_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, form_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeeFormSignRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeeFormSignResponse) }
+    def sign(employee_id, form_id, request_body, x_gusto_api_version = nil)
       # sign - Sign an employee form
       # Sign an employee form.
       # 
@@ -227,8 +228,8 @@ module OpenApiSDK
         
         employee_id: employee_id,
         form_id: form_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -241,6 +242,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

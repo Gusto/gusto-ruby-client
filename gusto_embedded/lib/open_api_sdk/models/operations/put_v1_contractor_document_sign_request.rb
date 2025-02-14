@@ -14,12 +14,12 @@ module OpenApiSDK
       # The ID or UUID of the document
       field :document_uuid, ::String, { 'path_param': { 'field_name': 'document_uuid', 'style': 'simple', 'explode': false } }
 
-      field :request_body, T.nilable(::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody), { 'request': { 'media_type': 'application/json' } }
+      field :request_body, ::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody, { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::OpenApiSDK::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(document_uuid: ::String, request_body: T.nilable(::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
+      sig { params(document_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
       def initialize(document_uuid: nil, request_body: nil, x_gusto_api_version: nil)
         @document_uuid = document_uuid
         @request_body = request_body

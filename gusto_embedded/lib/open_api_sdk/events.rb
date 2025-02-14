@@ -20,8 +20,8 @@ module OpenApiSDK
 
 
     sig { params(request: T.nilable(::OpenApiSDK::Operations::GetEventsRequest), security: ::OpenApiSDK::Operations::GetEventsSecurity).returns(::OpenApiSDK::Operations::GetEventsResponse) }
-    def list(request, security)
-      # list - Get all events
+    def get(request, security)
+      # get - Get all events
       # Fetch all events, going back up to 30 days, that your partner application has the required scopes for. Note that a partner does NOT have to have verified webhook subscriptions in order to utilize this endpoint.
       # 
       # > 📘 System Access Authentication

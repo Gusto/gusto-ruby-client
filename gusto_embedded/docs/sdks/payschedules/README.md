@@ -6,12 +6,12 @@
 ### Available Operations
 
 * [create](#create) - Create a new pay schedule
-* [list_by_company](#list_by_company) - Get the pay schedules for a company
-* [preview](#preview) - Preview pay schedule dates
+* [get_all](#get_all) - Get the pay schedules for a company
+* [get_preview](#get_preview) - Preview pay schedule dates
 * [get](#get) - Get a pay schedule
 * [update](#update) - Update a pay schedule
-* [list](#list) - Get pay periods for a company
-* [get_unprocessed_termination_pay_periods](#get_unprocessed_termination_pay_periods) - Get termination pay periods for a company
+* [get_pay_periods](#get_pay_periods) - Get pay periods for a company
+* [get_unprocessed_termination_periods](#get_unprocessed_termination_periods) - Get termination pay periods for a company
 * [get_assignments](#get_assignments) - Get pay schedule assignments for a company
 * [preview_assignment](#preview_assignment) - Preview pay schedule assignments for a company
 * [assign](#assign) - Assign pay schedules for a company
@@ -40,11 +40,11 @@ s.config_security(
 )
 
     
-res = s.pay_schedules.create(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesRequestBody.new(
+res = s.pay_schedules.create(company_id="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesRequestBody.new(
   frequency: ::OpenApiSDK::Operations::Frequency::EVERY_OTHER_WEEK,
   anchor_pay_date: "2020-05-15",
   anchor_end_of_pay_period: "2020-05-08",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.pay_schedule_create_update.nil?
   # handle response
@@ -57,8 +57,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesRequestBody](../../models/operations/postv1companiescompanyidpayschedulesrequestbody.md)                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesRequestBody)](../../models/operations/postv1companiescompanyidpayschedulesrequestbody.md)                                                           | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -66,7 +66,7 @@ end
 
 
 
-## list_by_company
+## get_all
 
 The pay schedule object in Gusto captures the details of when employees work and when they should be paid. A company can have multiple pay schedules.
 
@@ -86,7 +86,7 @@ s.config_security(
 )
 
     
-res = s.pay_schedules.list_by_company(company_id="<id>", page=6859.72, per=8467.26, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.pay_schedules.get_all(company_id="<id>", page=4610.08, per=592.15, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.pay_schedule_list.nil?
   # handle response
@@ -109,7 +109,7 @@ end
 
 
 
-## preview
+## get_preview
 
 Provides a preview of a pay schedule with the specified parameters for the next 18 months.
 
@@ -136,7 +136,7 @@ req = ::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewReques
   anchor_end_of_pay_period: "2020-05-08",
 )
     
-res = s.pay_schedules.preview(req)
+res = s.pay_schedules.get_preview(req)
 
 if ! res.object.nil?
   # handle response
@@ -218,11 +218,11 @@ s.config_security(
 )
 
     
-res = s.pay_schedules.update(company_id="<id>", pay_schedule_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody.new(
+res = s.pay_schedules.update(company_id="<id>", pay_schedule_id="<id>", request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody.new(
   version: "<value>",
   anchor_pay_date: "2020-05-15",
   anchor_end_of_pay_period: "2020-05-08",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.pay_schedule_create_update.nil?
   # handle response
@@ -236,8 +236,8 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
 | `pay_schedule_id`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the pay schedule                                                                                                                                                                                                 |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody](../../models/operations/putv1companiescompanyidpayschedulespayscheduleidrequestbody.md)                                              | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody)](../../models/operations/putv1companiescompanyidpayschedulespayscheduleidrequestbody.md)                                   | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -245,7 +245,7 @@ end
 
 
 
-## list
+## get_pay_periods
 
 Pay periods are the foundation of payroll. Compensation, time & attendance, taxes, and expense reports all rely on when they happened. To begin submitting information for a given payroll, we need to agree on the time period.
 
@@ -275,7 +275,7 @@ req = ::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest.new(
   end_date: "2020-01-31",
 )
     
-res = s.pay_schedules.list(req)
+res = s.pay_schedules.get_pay_periods(req)
 
 if ! res.pay_period_list.nil?
   # handle response
@@ -295,7 +295,7 @@ end
 
 
 
-## get_unprocessed_termination_pay_periods
+## get_unprocessed_termination_periods
 
 When a payroll admin terminates an employee and selects "Dismissal Payroll" as the employee's final payroll, their last pay period will appear on the list.
 
@@ -317,7 +317,7 @@ s.config_security(
 )
 
     
-res = s.pay_schedules.get_unprocessed_termination_pay_periods(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.pay_schedules.get_unprocessed_termination_periods(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.unprocessed_termination_pay_period_list.nil?
   # handle response
@@ -399,9 +399,9 @@ s.config_security(
 )
 
     
-res = s.pay_schedules.preview_assignment(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, pay_schedule_assignment_body=::OpenApiSDK::Shared::PayScheduleAssignmentBody.new(
+res = s.pay_schedules.preview_assignment(company_id="<id>", pay_schedule_assignment_body=::OpenApiSDK::Shared::PayScheduleAssignmentBody.new(
   type: ::OpenApiSDK::Shared::PayScheduleAssignmentBodyType::HOURLY_SALARIED,
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.pay_schedule_assignment_preview.nil?
   # handle response
@@ -414,8 +414,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `pay_schedule_assignment_body`                                                                                                                                                                                               | [::OpenApiSDK::Shared::PayScheduleAssignmentBody](../../models/shared/payscheduleassignmentbody.md)                                                                                                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `pay_schedule_assignment_body`                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Shared::PayScheduleAssignmentBody)](../../models/shared/payscheduleassignmentbody.md)                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -444,9 +444,9 @@ s.config_security(
 )
 
     
-res = s.pay_schedules.assign(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, pay_schedule_assignment_body=::OpenApiSDK::Shared::PayScheduleAssignmentBody.new(
+res = s.pay_schedules.assign(company_id="<id>", pay_schedule_assignment_body=::OpenApiSDK::Shared::PayScheduleAssignmentBody.new(
   type: ::OpenApiSDK::Shared::PayScheduleAssignmentBodyType::BY_DEPARTMENT,
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
   # handle response
@@ -459,8 +459,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `pay_schedule_assignment_body`                                                                                                                                                                                               | [::OpenApiSDK::Shared::PayScheduleAssignmentBody](../../models/shared/payscheduleassignmentbody.md)                                                                                                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `pay_schedule_assignment_body`                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Shared::PayScheduleAssignmentBody)](../../models/shared/payscheduleassignmentbody.md)                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

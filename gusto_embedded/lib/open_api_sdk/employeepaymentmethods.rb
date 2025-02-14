@@ -19,45 +19,47 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodResponse) }
-    def get(employee_id, x_gusto_api_version = nil)
-      # get - Get an employee's payment method
-      # Fetches an employee's payment method. An employee payment method
-      # describes how the payment should be split across the employee's associated
-      # bank accounts.
+    sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsResponse) }
+    def get_bank_accounts(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
+      # get_bank_accounts - Get all employee bank accounts
+      # Returns all employee bank accounts.
       # 
       # scope: `employee_payment_methods:read`
-      request = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodRequest.new(
+      request = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsRequest.new(
         
         employee_id: employee_id,
+        page: page,
+        per: per,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodRequest,
+        ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsRequest,
         base_url,
-        '/v1/employees/{employee_id}/payment_method',
+        '/v1/employees/{employee_id}/bank_accounts',
         request
       )
       headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsRequest, request)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       r = @sdk_configuration.client.get(url) do |req|
         req.headers = headers
+        req.params = query_params
         Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
       end
 
       content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
 
-      res = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodResponse.new(
+      res = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::EmployeePaymentMethod)
-          res.employee_payment_method = out
+          out = Utils.unmarshal_complex(r.env.response_body, T::Array[::OpenApiSDK::Shared::EmployeeBankAccount])
+          res.employee_bank_account_list = out
         end
       elsif r.status == 404
       end

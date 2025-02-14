@@ -5,11 +5,11 @@
 
 ### Available Operations
 
-* [get_state_requirements](#get_state_requirements) - Get State Tax Requirements
+* [get](#get) - Get State Tax Requirements
 * [update_state](#update_state) - Update State Tax Requirements
 * [get_all](#get_all) - Get All Tax Requirement States
 
-## get_state_requirements
+## get
 
 Get all tax requirements for a given state.
 
@@ -69,7 +69,7 @@ s.config_security(
 )
 
     
-res = s.tax_requirements.get_state_requirements(company_uuid="<id>", state="Nevada", scheduling=false, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.tax_requirements.get(company_uuid="<id>", state="Oklahoma", scheduling=false, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.tax_requirements_state.nil?
   # handle response
@@ -112,7 +112,7 @@ s.config_security(
 )
 
     
-res = s.tax_requirements.update_state(company_uuid="<id>", state="Massachusetts", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody.new())
+res = s.tax_requirements.update_state(company_uuid="<id>", state="Massachusetts", request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody.new(), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
   # handle response
@@ -126,8 +126,8 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
 | `state`                                                                                                                                                                                                                      | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | 2-letter US state abbreviation                                                                                                                                                                                               |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody](../../models/operations/putv1companiescompanyuuidtaxrequirementsstaterequestbody.md)                                                    | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody)](../../models/operations/putv1companiescompanyuuidtaxrequirementsstaterequestbody.md)                                         | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

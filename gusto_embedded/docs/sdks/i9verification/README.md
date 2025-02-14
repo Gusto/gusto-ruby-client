@@ -5,14 +5,58 @@
 
 ### Available Operations
 
-* [create_or_update](#create_or_update) - Create or update an employee's I-9 authorization
+* [get_authorization](#get_authorization) - Get an employee's I-9 authorization
+* [update](#update) - Create or update an employee's I-9 authorization
 * [get_document_options](#get_document_options) - Get an employee's I-9 verification document options
 * [get_documents](#get_documents) - Get an employee's I-9 verification documents
-* [update_documents](#update_documents) - Create an employee's I-9 authorization verification documents
+* [create_documents](#create_documents) - Create an employee's I-9 authorization verification documents
 * [delete_document](#delete_document) - Delete an employee's I-9 verification document
 * [employer_sign](#employer_sign) - Employer sign an employee's Form I-9
 
-## create_or_update
+## get_authorization
+
+An employee's I-9 authorization stores information about an employee's authorization status and I-9 signatures, information required to filled out the Form I-9 for employment eligibility verification.
+
+**NOTE:** The `form_uuid` in responses from this endpoint can be used to retrieve the PDF version of the I-9. See the "get employee form PDF" request for more details.
+
+scope: `i9_authorizations:read`
+
+### Example Usage
+
+```ruby
+require 'gusto'
+
+
+s = ::OpenApiSDK::Gusto.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.i9_verification.get_authorization(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.i9_authorization.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdI9AuthorizationResponse)](../../models/operations/getv1employeesemployeeidi9authorizationresponse.md)**
+
+
+
+## update
 
 An employee's I-9 authorization stores information about an employee's authorization status, as well as signatures and other information required to complete the Form I-9 for employment eligibility verification.
 
@@ -50,9 +94,9 @@ s.config_security(
 )
 
     
-res = s.i9_verification.create_or_update(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationRequestBody.new(
-  authorization_status: ::OpenApiSDK::Operations::AuthorizationStatus::NONCITIZEN,
-))
+res = s.i9_verification.update(employee_id="<id>", request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationRequestBody.new(
+  authorization_status: ::OpenApiSDK::Operations::AuthorizationStatus::ALIEN,
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.i9_authorization.nil?
   # handle response
@@ -65,8 +109,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationRequestBody](../../models/operations/putv1employeesemployeeidi9authorizationrequestbody.md)                                                                | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationRequestBody)](../../models/operations/putv1employeesemployeeidi9authorizationrequestbody.md)                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -156,7 +200,7 @@ end
 
 
 
-## update_documents
+## create_documents
 
 An employee's I-9 verification documents are the documents an employee has provided the employer to verify their identity and authorization to work in the United States.
 
@@ -183,7 +227,7 @@ s.config_security(
 )
 
     
-res = s.i9_verification.update_documents(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequestBody.new(
+res = s.i9_verification.create_documents(employee_id="<id>", request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequestBody.new(
   documents: [
     ::OpenApiSDK::Operations::Documents.new(
       document_type: "<value>",
@@ -191,7 +235,7 @@ res = s.i9_verification.update_documents(employee_id="<id>", x_gusto_api_version
       issuing_authority: "<value>",
     ),
   ],
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.i9_authorization_documents_object.nil?
   # handle response
@@ -204,8 +248,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequestBody](../../models/operations/putv1employeesemployeeidi9authorizationdocumentsrequestbody.md)                                              | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequestBody)](../../models/operations/putv1employeesemployeeidi9authorizationdocumentsrequestbody.md)                                   | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -275,12 +319,12 @@ s.config_security(
 )
 
     
-res = s.i9_verification.employer_sign(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequestBody.new(
+res = s.i9_verification.employer_sign(employee_id="<id>", request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequestBody.new(
   signature_text: "<value>",
   signer_title: "<value>",
   signed_by_ip_address: "<value>",
   agree: false,
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.i9_authorization.nil?
   # handle response
@@ -293,8 +337,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequestBody](../../models/operations/putv1employeesemployeeidi9authorizationemployersignrequestbody.md)                                        | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequestBody)](../../models/operations/putv1employeesemployeeidi9authorizationemployersignrequestbody.md)                             | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPayrollsRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPayrollsResponse) }
-    def create_off_cycle(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPayrollsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPayrollsResponse) }
+    def create_off_cycle(company_id, request_body, x_gusto_api_version = nil)
       # create_off_cycle - Create an off-cycle payroll
       # Creates a new, unprocessed, off-cycle payroll.
       # 
@@ -35,8 +35,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPayrollsRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -49,6 +49,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -87,8 +88,8 @@ module OpenApiSDK
 
 
     sig { params(request: T.nilable(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPayrollsRequest)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPayrollsResponse) }
-    def get_all(request)
-      # get_all - Get all payrolls for a company
+    def list(request)
+      # list - Get all payrolls for a company
       # Returns a list of payrolls for a company. You can change the payrolls returned by updating the processing_status, payroll_types, start_date, & end_date params.
       # 
       # By default, will return processed, regular payrolls for the past 6 months.
@@ -135,8 +136,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPayrollReversalsResponse) }
-    def get_payroll_reversals(company_id, page = nil, per = nil, x_gusto_api_version = nil)
-      # get_payroll_reversals - Get approved payroll reversals
+    def get_approved_reversals(company_id, page = nil, per = nil, x_gusto_api_version = nil)
+      # get_approved_reversals - Get approved payroll reversals
       # Returns all approved Payroll Reversals for a Company.
       # 
       # scope: `payrolls:read`
@@ -240,8 +241,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPayrollsRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPayrollsResponse) }
-    def update(company_id, payroll_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, payroll_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPayrollsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPayrollsResponse) }
+    def update(company_id, payroll_id, request_body, x_gusto_api_version = nil)
       # update - Update a payroll by ID
       # This endpoint allows you to update information for one or more employees for a specific **unprocessed** payroll.  You can think of the **unprocessed**
       # payroll object as a template of fields that you can update.  You cannot modify the structure of the payroll object through this endpoint, only values
@@ -253,8 +254,8 @@ module OpenApiSDK
         
         company_id: company_id,
         payroll_id: payroll_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -267,6 +268,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -498,8 +500,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostCompaniesPayrollSkipCompanyUuidRequestBody)).returns(::OpenApiSDK::Operations::PostCompaniesPayrollSkipCompanyUuidResponse) }
-    def skip(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostCompaniesPayrollSkipCompanyUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostCompaniesPayrollSkipCompanyUuidResponse) }
+    def skip(company_uuid, request_body, x_gusto_api_version = nil)
       # skip - Skip a payroll
       # Submits a $0 payroll for employees associated with the pay schedule to skip payroll. This submission is asynchronous and a successful request responds with a 202 HTTP status. Upon success, the payroll is transitioned to the `processed` state.
       # 
@@ -509,8 +511,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostCompaniesPayrollSkipCompanyUuidRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -523,6 +525,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -556,9 +559,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(payroll_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostPayrollsGrossUpPayrollUuidRequestBody)).returns(::OpenApiSDK::Operations::PostPayrollsGrossUpPayrollUuidResponse) }
-    def gross_up(payroll_uuid, x_gusto_api_version = nil, request_body = nil)
-      # gross_up - Calculate gross up
+    sig { params(payroll_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostPayrollsGrossUpPayrollUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostPayrollsGrossUpPayrollUuidResponse) }
+    def calculate_gross_up(payroll_uuid, request_body, x_gusto_api_version = nil)
+      # calculate_gross_up - Calculate gross up
       # Calculates gross up earnings for an employee's payroll, given net earnings. This endpoint is only applicable to off-cycle unprocessed payrolls.
       # 
       # The gross up amount must then be mapped to the corresponding fixed compensation earning type to get the correct payroll amount. For example, for bonus off-cycles, the gross up amount should be set with the Bonus earning type in the payroll `fixed_compensations` field.
@@ -567,8 +570,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostPayrollsGrossUpPayrollUuidRequest.new(
         
         payroll_uuid: payroll_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -581,6 +584,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -668,8 +672,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdSubmitRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdSubmitResponse) }
-    def submit(company_id, payroll_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, payroll_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdSubmitRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdSubmitResponse) }
+    def submit(company_id, payroll_id, request_body, x_gusto_api_version = nil)
       # submit - Submit payroll
       # Submits an unprocessed payroll to be calculated and run. This submission is asynchronous and a successful request responds with a 202 HTTP status. Upon success, transitions the payroll to the `processed` state.
       # 
@@ -682,8 +686,8 @@ module OpenApiSDK
         
         company_id: company_id,
         payroll_id: payroll_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -696,6 +700,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -870,17 +875,17 @@ module OpenApiSDK
     end
 
 
-    sig { params(payroll_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1PayrollsPayrollUuidGeneratedDocumentsPrintablePayrollChecksRequestBody)).returns(::OpenApiSDK::Operations::PostV1PayrollsPayrollUuidGeneratedDocumentsPrintablePayrollChecksResponse) }
-    def generate_printable_payroll_checks(payroll_uuid, x_gusto_api_version = nil, request_body = nil)
-      # generate_printable_payroll_checks - Generate printable payroll checks (pdf)
+    sig { params(payroll_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostV1PayrollsPayrollUuidGeneratedDocumentsPrintablePayrollChecksRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1PayrollsPayrollUuidGeneratedDocumentsPrintablePayrollChecksResponse) }
+    def generate_printable_checks(payroll_uuid, request_body, x_gusto_api_version = nil)
+      # generate_printable_checks - Generate printable payroll checks (pdf)
       # This endpoint initiates the generation of employee checks for the payroll specified by payroll_uuid. A generation status and corresponding request_uuid will be returned. Use the generated document GET endpoint with document_type: `printable_payroll_checks` and request_uuid to poll the check generation process and retrieve the generated check URL upon completion.
       # 
       # scope: `generated_documents:write`
       request = ::OpenApiSDK::Operations::PostV1PayrollsPayrollUuidGeneratedDocumentsPrintablePayrollChecksRequest.new(
         
         payroll_uuid: payroll_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -893,6 +898,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

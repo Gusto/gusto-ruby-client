@@ -14,12 +14,12 @@ module OpenApiSDK
       # A customer facing label for the answer
       field :label, ::String, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('label') } }
       # The actual value to be submitted
-      field :value, ::String, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('value') } }
+      field :value, ::Object, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('value') } }
       # A less verbose label that may sometimes be available
       field :short_label, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('short_label') } }
 
 
-      sig { params(label: ::String, value: ::String, short_label: T.nilable(::String)).void }
+      sig { params(label: ::String, value: ::Object, short_label: T.nilable(::String)).void }
       def initialize(label: nil, value: nil, short_label: nil)
         @label = label
         @value = value

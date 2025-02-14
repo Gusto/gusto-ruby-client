@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdEarningTypesRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdEarningTypesResponse) }
-    def create(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdEarningTypesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdEarningTypesResponse) }
+    def create(company_id, request_body, x_gusto_api_version = nil)
       # create - Create a custom earning type
       # Create a custom earning type.
       # 
@@ -30,8 +30,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdEarningTypesRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -44,6 +44,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -82,8 +83,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdEarningTypesResponse) }
-    def get_all(company_id, x_gusto_api_version = nil)
-      # get_all - Get all earning types for a company
+    def list(company_id, x_gusto_api_version = nil)
+      # list - Get all earning types for a company
       # A payroll item in Gusto is associated to an earning type to name the type of earning described by the payroll item.
       # 
       # #### Default Earning Type
@@ -132,9 +133,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, earning_type_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse) }
-    def update_earning_type(company_id, earning_type_uuid, x_gusto_api_version = nil, request_body = nil)
-      # update_earning_type - Update an earning type
+    sig { params(company_id: ::String, earning_type_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse) }
+    def update(company_id, earning_type_uuid, request_body, x_gusto_api_version = nil)
+      # update - Update an earning type
       # Update an earning type.
       # 
       # scope: `payrolls:write`
@@ -142,8 +143,8 @@ module OpenApiSDK
         
         company_id: company_id,
         earning_type_uuid: earning_type_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -156,6 +157,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -194,8 +196,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, earning_type_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::DeleteV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse) }
-    def deactivate(company_id, earning_type_uuid, x_gusto_api_version = nil)
-      # deactivate - Deactivate an earning type
+    def delete(company_id, earning_type_uuid, x_gusto_api_version = nil)
+      # delete - Deactivate an earning type
       # Deactivate an earning type.
       # 
       # scope: `payrolls:write`

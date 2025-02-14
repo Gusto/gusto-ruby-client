@@ -14,12 +14,12 @@ module OpenApiSDK
       # The UUID of the employee
       field :employee_id, ::String, { 'path_param': { 'field_name': 'employee_id', 'style': 'simple', 'explode': false } }
 
-      field :request_body, T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsRequestBody), { 'request': { 'media_type': 'application/json' } }
+      field :request_body, ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsRequestBody, { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::OpenApiSDK::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(employee_id: ::String, request_body: T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsRequestBody), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
+      sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdTerminationsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
       def initialize(employee_id: nil, request_body: nil, x_gusto_api_version: nil)
         @employee_id = employee_id
         @request_body = request_body

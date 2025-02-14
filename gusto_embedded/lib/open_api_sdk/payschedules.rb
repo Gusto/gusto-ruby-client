@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesResponse) }
-    def create(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesResponse) }
+    def create(company_id, request_body, x_gusto_api_version = nil)
       # create - Create a new pay schedule
       # If a company does not have any pay schedules, this endpoint will create a single pay schedule and assign it to all employees. This is a common use case during company onboarding.
       # 
@@ -32,8 +32,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -46,6 +46,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -66,7 +67,7 @@ module OpenApiSDK
       res = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
-      if r.status == 200
+      if r.status == 201
         if Utils.match_content_type(content_type, 'application/json')
           out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::PayScheduleCreateUpdate)
           res.pay_schedule_create_update = out
@@ -84,8 +85,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPaySchedulesResponse) }
-    def list_by_company(company_id, page = nil, per = nil, x_gusto_api_version = nil)
-      # list_by_company - Get the pay schedules for a company
+    def get_all(company_id, page = nil, per = nil, x_gusto_api_version = nil)
+      # get_all - Get the pay schedules for a company
       # The pay schedule object in Gusto captures the details of when employees work and when they should be paid. A company can have multiple pay schedules.
       # 
       # scope: `pay_schedules:read`
@@ -133,8 +134,8 @@ module OpenApiSDK
 
 
     sig { params(request: T.nilable(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewRequest)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewResponse) }
-    def preview(request)
-      # preview - Preview pay schedule dates
+    def get_preview(request)
+      # get_preview - Preview pay schedule dates
       # Provides a preview of a pay schedule with the specified parameters for the next 18 months.
       # 
       # scope: `pay_schedules:write`
@@ -219,8 +220,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, pay_schedule_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse) }
-    def update(company_id, pay_schedule_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, pay_schedule_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse) }
+    def update(company_id, pay_schedule_id, request_body, x_gusto_api_version = nil)
       # update - Update a pay schedule
       # Updates a pay schedule.
       # 
@@ -229,8 +230,8 @@ module OpenApiSDK
         
         company_id: company_id,
         pay_schedule_id: pay_schedule_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -243,6 +244,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -281,8 +283,8 @@ module OpenApiSDK
 
 
     sig { params(request: T.nilable(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdPayPeriodsResponse) }
-    def list(request)
-      # list - Get pay periods for a company
+    def get_pay_periods(request)
+      # get_pay_periods - Get pay periods for a company
       # Pay periods are the foundation of payroll. Compensation, time & attendance, taxes, and expense reports all rely on when they happened. To begin submitting information for a given payroll, we need to agree on the time period.
       # 
       # By default, this endpoint returns pay periods starting from 6 months ago to the date today.  Use the `start_date` and `end_date` parameters to change the scope of the response.  End dates can be up to 3 months in the future and there is no limit on start dates.
@@ -327,8 +329,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse) }
-    def get_unprocessed_termination_pay_periods(company_id, x_gusto_api_version = nil)
-      # get_unprocessed_termination_pay_periods - Get termination pay periods for a company
+    def get_unprocessed_termination_periods(company_id, x_gusto_api_version = nil)
+      # get_unprocessed_termination_periods - Get termination pay periods for a company
       # When a payroll admin terminates an employee and selects "Dismissal Payroll" as the employee's final payroll, their last pay period will appear on the list.
       # 
       # This endpoint returns the unprocessed pay periods for past and future terminated employees in a given company.
@@ -418,8 +420,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), pay_schedule_assignment_body: T.nilable(::OpenApiSDK::Shared::PayScheduleAssignmentBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignmentPreviewResponse) }
-    def preview_assignment(company_id, x_gusto_api_version = nil, pay_schedule_assignment_body = nil)
+    sig { params(company_id: ::String, pay_schedule_assignment_body: ::OpenApiSDK::Shared::PayScheduleAssignmentBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignmentPreviewResponse) }
+    def preview_assignment(company_id, pay_schedule_assignment_body, x_gusto_api_version = nil)
       # preview_assignment - Preview pay schedule assignments for a company
       # This endpoint returns the employee changes, including pay period and transition pay periods, for changing the pay schedule.
       # 
@@ -427,8 +429,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignmentPreviewRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        pay_schedule_assignment_body: pay_schedule_assignment_body
+        pay_schedule_assignment_body: pay_schedule_assignment_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -441,6 +443,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :pay_schedule_assignment_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -478,8 +481,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), pay_schedule_assignment_body: T.nilable(::OpenApiSDK::Shared::PayScheduleAssignmentBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignResponse) }
-    def assign(company_id, x_gusto_api_version = nil, pay_schedule_assignment_body = nil)
+    sig { params(company_id: ::String, pay_schedule_assignment_body: ::OpenApiSDK::Shared::PayScheduleAssignmentBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignResponse) }
+    def assign(company_id, pay_schedule_assignment_body, x_gusto_api_version = nil)
       # assign - Assign pay schedules for a company
       # This endpoint assigns employees to pay schedules based on the schedule type.
       # For `by_employee` and `by_department` schedules, use the `partial_assignment` parameter to control the assignment scope. Set it to `true` for partial assignments (only some employees or departments at a time) and `false` for full assignments (all employees or departments at once).
@@ -488,8 +491,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        pay_schedule_assignment_body: pay_schedule_assignment_body
+        pay_schedule_assignment_body: pay_schedule_assignment_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -502,6 +505,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :pay_schedule_assignment_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

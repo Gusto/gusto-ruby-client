@@ -8,8 +8,8 @@
 * [get_receipt](#get_receipt) - Get a single contractor payment receipt
 * [fund](#fund) - Fund a contractor payment [DEMO]
 * [create](#create) - Create a contractor payment
-* [get](#get) - Get contractor payments for a company
-* [get_by_company](#get_by_company) - Get a single contractor payment
+* [list](#list) - Get contractor payments for a company
+* [get](#get) - Get a single contractor payment
 * [delete](#delete) - Cancel a contractor payment
 * [preview](#preview) - Preview contractor payment debit date
 
@@ -126,14 +126,14 @@ s.config_security(
 )
 
     
-res = s.contractor_payments.create(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequestBody.new(
+res = s.contractor_payments.create(company_id="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequestBody.new(
   contractor_uuid: "<id>",
   date: Date.parse("2020-01-01"),
   wage: 5000.0,
   hours: 40.0,
   bonus: 500.0,
   reimbursement: 20.0,
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor_payment.nil?
   # handle response
@@ -146,8 +146,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequestBody](../../models/operations/postv1companiescompanyidcontractorpaymentsrequestbody.md)                                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequestBody)](../../models/operations/postv1companiescompanyidcontractorpaymentsrequestbody.md)                                               | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -155,7 +155,7 @@ end
 
 
 
-## get
+## list
 
 Returns an object containing individual contractor payments, within a given time period, including totals.
 
@@ -181,7 +181,7 @@ req = ::OpenApiSDK::Operations::GetV1CompaniesCompanyIdContractorPaymentsRequest
   end_date: "2020-12-31",
 )
     
-res = s.contractor_payments.get(req)
+res = s.contractor_payments.list(req)
 
 if ! res.one_of.nil?
   # handle response
@@ -201,7 +201,7 @@ end
 
 
 
-## get_by_company
+## get
 
 Returns a single contractor payment.
 scope: `payrolls:read`
@@ -220,7 +220,7 @@ s.config_security(
 )
 
     
-res = s.contractor_payments.get_by_company(company_id="<id>", contractor_payment_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_payments.get(company_id="<id>", contractor_payment_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor_payment.nil?
   # handle response
@@ -306,11 +306,11 @@ s.config_security(
 )
 
     
-res = s.contractor_payments.preview(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody.new(
+res = s.contractor_payments.preview(company_uuid="<id>", request_body=::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody.new(
   contractor_payments: [
     ::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPayments.new(),
   ],
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.two_hundred_application_json_object.nil?
   # handle response
@@ -323,8 +323,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody](../../models/operations/getcompaniescompanyuuidcontractorpaymentspreviewrequestbody.md)                                              | :heavy_check_mark:                                                                                                                                                                                                           | a list of contractor payments.                                                                                                                                                                                               |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody)](../../models/operations/getcompaniescompanyuuidcontractorpaymentspreviewrequestbody.md)                                   | :heavy_minus_sign:                                                                                                                                                                                                           | a list of contractor payments.                                                                                                                                                                                               |
 
 ### Response
 

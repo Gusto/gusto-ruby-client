@@ -17,18 +17,15 @@ module OpenApiSDK
       field :page, T.nilable(::Float), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
       # Number of objects per page. For majority of endpoints will default to 25
       field :per, T.nilable(::Float), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
-
-      field :request_body, T.nilable(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsRequestBody), { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::OpenApiSDK::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), request_body: T.nilable(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsRequestBody), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
-      def initialize(employee_id: nil, page: nil, per: nil, request_body: nil, x_gusto_api_version: nil)
+      sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
+      def initialize(employee_id: nil, page: nil, per: nil, x_gusto_api_version: nil)
         @employee_id = employee_id
         @page = page
         @per = per
-        @request_body = request_body
         @x_gusto_api_version = x_gusto_api_version
       end
     end

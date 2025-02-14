@@ -11,18 +11,18 @@ module OpenApiSDK
     class PutV1WebhookSubscriptionUuidRequest < ::OpenApiSDK::Utils::FieldAugmented
       extend T::Sig
 
+
+      field :request_body, ::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody, { 'request': { 'media_type': 'application/json' } }
       # The webhook subscription UUID.
       field :webhook_subscription_uuid, ::String, { 'path_param': { 'field_name': 'webhook_subscription_uuid', 'style': 'simple', 'explode': false } }
-
-      field :request_body, T.nilable(::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody), { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::OpenApiSDK::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(webhook_subscription_uuid: ::String, request_body: T.nilable(::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
-      def initialize(webhook_subscription_uuid: nil, request_body: nil, x_gusto_api_version: nil)
-        @webhook_subscription_uuid = webhook_subscription_uuid
+      sig { params(request_body: ::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody, webhook_subscription_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
+      def initialize(request_body: nil, webhook_subscription_uuid: nil, x_gusto_api_version: nil)
         @request_body = request_body
+        @webhook_subscription_uuid = webhook_subscription_uuid
         @x_gusto_api_version = x_gusto_api_version
       end
     end

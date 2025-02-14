@@ -19,9 +19,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsResponse) }
-    def create_company_account(company_id, x_gusto_api_version = nil, request_body = nil)
-      # create_company_account - Create a company bank account
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsResponse) }
+    def create(company_id, request_body, x_gusto_api_version = nil)
+      # create - Create a company bank account
       # This endpoint creates a new company bank account.
       # 
       # Upon being created, two verification deposits are automatically sent to the bank account, and the bank account's verification_status is 'awaiting_deposits'. 
@@ -37,8 +37,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -51,6 +51,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -89,8 +90,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdBankAccountsResponse) }
-    def get_all(company_id, x_gusto_api_version = nil)
-      # get_all - Get all company bank accounts
+    def get(company_id, x_gusto_api_version = nil)
+      # get - Get all company bank accounts
       # Returns company bank accounts. Currently, we only support a single default bank account per company.
       # 
       # scope: `company_bank_accounts:read`
@@ -133,8 +134,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(bank_account_uuid: ::String, company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyResponse) }
-    def verify(bank_account_uuid, company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(bank_account_uuid: ::String, company_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyResponse) }
+    def verify(bank_account_uuid, company_id, request_body, x_gusto_api_version = nil)
       # verify - Verify a company bank account
       # Verify a company bank account by confirming the two micro-deposits sent to the bank account. Note that the order of the two deposits specified in request parameters does not matter. There's a maximum of 5 verification attempts, after which we will automatically initiate a new set of micro-deposits and require the bank account to be verified with the new micro-deposits.
       # 
@@ -156,8 +157,8 @@ module OpenApiSDK
         
         bank_account_uuid: bank_account_uuid,
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -170,6 +171,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -207,51 +209,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, bank_account_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse) }
-    def delete(employee_id, bank_account_uuid, x_gusto_api_version = nil)
-      # delete - Delete an employee bank account
-      # Deletes an employee bank account. To update an employee's bank
-      # account details, delete the bank account first and create a new one.
-      # 
-      # scope: `employee_payment_methods:write`
-      request = ::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest.new(
-        
-        employee_id: employee_id,
-        bank_account_uuid: bank_account_uuid,
-        x_gusto_api_version: x_gusto_api_version
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        ::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest,
-        base_url,
-        '/v1/employees/{employee_id}/bank_accounts/{bank_account_uuid}',
-        request
-      )
-      headers = Utils.get_headers(request)
-      headers['Accept'] = '*/*'
-      headers['user-agent'] = @sdk_configuration.user_agent
-
-      r = @sdk_configuration.client.delete(url) do |req|
-        req.headers = headers
-        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
-      end
-
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
-
-      res = ::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
-      )
-      if r.status == 204
-      elsif r.status == 404
-      end
-
-      res
-    end
-
-
-    sig { params(x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1PlaidProcessorTokenRequestBody)).returns(::OpenApiSDK::Operations::PostV1PlaidProcessorTokenResponse) }
-    def create_from_plaid_token(x_gusto_api_version = nil, request_body = nil)
+    sig { params(request_body: ::OpenApiSDK::Operations::PostV1PlaidProcessorTokenRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1PlaidProcessorTokenResponse) }
+    def create_from_plaid_token(request_body, x_gusto_api_version = nil)
       # create_from_plaid_token - Create a bank account from a plaid processor token
       # This endpoint creates a new **verified** bank account by using a plaid processor token to retrieve its information.
       # 
@@ -265,8 +224,8 @@ module OpenApiSDK
       # > If a default company bank account exists, it will be disabled and the new bank account will replace it as the company's default funding method.
       request = ::OpenApiSDK::Operations::PostV1PlaidProcessorTokenRequest.new(
         
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -274,6 +233,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

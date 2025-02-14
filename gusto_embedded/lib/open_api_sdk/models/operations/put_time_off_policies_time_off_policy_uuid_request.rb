@@ -11,18 +11,18 @@ module OpenApiSDK
     class PutTimeOffPoliciesTimeOffPolicyUuidRequest < ::OpenApiSDK::Utils::FieldAugmented
       extend T::Sig
 
+      # Can update any attributes of the time off policy except policy_type, is_active, complete & employees
+      field :request_body, ::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody, { 'request': { 'media_type': 'application/json' } }
       # The UUID of the company time off policy
       field :time_off_policy_uuid, ::String, { 'path_param': { 'field_name': 'time_off_policy_uuid', 'style': 'simple', 'explode': false } }
-      # Can update any attributes of the time off policy except policy_type, is_active, complete & employees
-      field :request_body, T.nilable(::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody), { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::OpenApiSDK::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(time_off_policy_uuid: ::String, request_body: T.nilable(::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
-      def initialize(time_off_policy_uuid: nil, request_body: nil, x_gusto_api_version: nil)
-        @time_off_policy_uuid = time_off_policy_uuid
+      sig { params(request_body: ::OpenApiSDK::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody, time_off_policy_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
+      def initialize(request_body: nil, time_off_policy_uuid: nil, x_gusto_api_version: nil)
         @request_body = request_body
+        @time_off_policy_uuid = time_off_policy_uuid
         @x_gusto_api_version = x_gusto_api_version
       end
     end

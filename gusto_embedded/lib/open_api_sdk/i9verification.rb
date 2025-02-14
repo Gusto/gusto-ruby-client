@@ -19,9 +19,56 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationResponse) }
-    def create_or_update(employee_id, x_gusto_api_version = nil, request_body = nil)
-      # create_or_update - Create or update an employee's I-9 authorization
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdI9AuthorizationResponse) }
+    def get_authorization(employee_id, x_gusto_api_version = nil)
+      # get_authorization - Get an employee's I-9 authorization
+      # An employee's I-9 authorization stores information about an employee's authorization status and I-9 signatures, information required to filled out the Form I-9 for employment eligibility verification.
+      # 
+      # **NOTE:** The `form_uuid` in responses from this endpoint can be used to retrieve the PDF version of the I-9. See the "get employee form PDF" request for more details.
+      # 
+      # scope: `i9_authorizations:read`
+      request = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdI9AuthorizationRequest.new(
+        
+        employee_id: employee_id,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdI9AuthorizationRequest,
+        base_url,
+        '/v1/employees/{employee_id}/i9_authorization',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdI9AuthorizationResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::I9Authorization)
+          res.i9_authorization = out
+        end
+      elsif r.status == 404
+      end
+
+      res
+    end
+
+
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationResponse) }
+    def update(employee_id, request_body, x_gusto_api_version = nil)
+      # update - Create or update an employee's I-9 authorization
       # An employee's I-9 authorization stores information about an employee's authorization status, as well as signatures and other information required to complete the Form I-9 for employment eligibility verification.
       # 
       # If the version is supplied and the employee I-9 authorization exists, this endpoint acts as an update. Otherwise, it will create an employee I-9 authorization.
@@ -46,8 +93,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -60,6 +107,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -187,9 +235,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsResponse) }
-    def update_documents(employee_id, x_gusto_api_version = nil, request_body = nil)
-      # update_documents - Create an employee's I-9 authorization verification documents
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsResponse) }
+    def create_documents(employee_id, request_body, x_gusto_api_version = nil)
+      # create_documents - Create an employee's I-9 authorization verification documents
       # An employee's I-9 verification documents are the documents an employee has provided the employer to verify their identity and authorization to work in the United States.
       # 
       # Use the document options endpoint to get the possible document types and titles, which can vary depending on the employee's authorization status.
@@ -203,8 +251,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -217,6 +265,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -296,8 +345,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignResponse) }
-    def employer_sign(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignResponse) }
+    def employer_sign(employee_id, request_body, x_gusto_api_version = nil)
       # employer_sign - Employer sign an employee's Form I-9
       # Sign an employee's Form I-9 as an employer. Once the form is signed, the employee's I-9 authorization is considered complete and cannot be modified.
       # 
@@ -305,8 +354,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -319,6 +368,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

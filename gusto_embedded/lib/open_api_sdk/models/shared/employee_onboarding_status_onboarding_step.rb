@@ -15,7 +15,7 @@ module OpenApiSDK
       field :completed, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('completed') } }
       # String identifier for the onboarding step.
       field :id, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('id') } }
-      # When true, this step has been completed.
+      # When true, this step is required.
       field :required, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('required') } }
       # A list of onboarding steps required to begin this step.
       field :requirements, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('requirements') } }

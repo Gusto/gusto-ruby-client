@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompanySignatoriesRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompanySignatoriesResponse) }
-    def create(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompanySignatoriesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompanySignatoriesResponse) }
+    def create(company_uuid, request_body, x_gusto_api_version = nil)
       # create - Create a signatory
       # Create a company signatory with complete information.
       # A signatory can legally sign forms once the identity verification process is successful.
@@ -30,8 +30,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompanySignatoriesRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -44,6 +44,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -64,7 +65,7 @@ module OpenApiSDK
       res = ::OpenApiSDK::Operations::PostV1CompanySignatoriesResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
-      if r.status == 201
+      if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
           out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::Signatory)
           res.signatory = out
@@ -82,8 +83,8 @@ module OpenApiSDK
 
 
     sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyUuidSignatoriesResponse) }
-    def get(company_uuid, x_gusto_api_version = nil)
-      # get - Get all company signatories
+    def list(company_uuid, x_gusto_api_version = nil)
+      # list - Get all company signatories
       # Returns company signatories. Currently we only support a single signatory per company.
       # 
       # scope: `signatories:read`
@@ -126,15 +127,15 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteResponse) }
-    def invite(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteResponse) }
+    def invite(company_uuid, request_body, x_gusto_api_version = nil)
       # invite - Invite a signatory
       # Create a signatory with minimal information. This signatory can be invited to provide more information through the `PUT /v1/companies/{company_uuid}/signatories/{signatory_uuid}` endpoint. This will start the identity verification process and allow the signatory to be verified to sign documents.
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -147,6 +148,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -184,8 +186,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, signatory_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidResponse) }
-    def update(company_uuid, signatory_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, signatory_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidResponse) }
+    def update(company_uuid, signatory_uuid, request_body, x_gusto_api_version = nil)
       # update - Update a signatory
       # Update a signatory that has been either invited or created. If the signatory has been created with minimal information through the `POST /v1/companies/{company_uuid}/signatories/invite` endpoint, then the first update must contain all attributes specified in the request body in order to start the identity verification process.
       # 
@@ -194,8 +196,8 @@ module OpenApiSDK
         
         company_uuid: company_uuid,
         signatory_uuid: signatory_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -208,6 +210,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

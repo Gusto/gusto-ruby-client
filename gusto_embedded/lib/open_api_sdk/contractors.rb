@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsResponse) }
-    def create(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsResponse) }
+    def create(company_uuid, request_body, x_gusto_api_version = nil)
       # create - Create a contractor
       # Create an individual or business contractor.
       # 
@@ -28,8 +28,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -42,6 +42,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -80,8 +81,8 @@ module OpenApiSDK
 
 
     sig { params(request: T.nilable(::OpenApiSDK::Operations::GetV1CompaniesCompanyUuidContractorsRequest)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyUuidContractorsResponse) }
-    def get(request)
-      # get - Get contractors of a company
+    def list(request)
+      # list - Get contractors of a company
       # Get all contractors, active and inactive, individual and business, for a company.
       # 
       # scope: `contractors:read`
@@ -122,8 +123,8 @@ module OpenApiSDK
 
 
     sig { params(contractor_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1ContractorsContractorUuidResponse) }
-    def get_by_uuid(contractor_uuid, x_gusto_api_version = nil)
-      # get_by_uuid - Get a contractor
+    def get(contractor_uuid, x_gusto_api_version = nil)
+      # get - Get a contractor
       # Get a contractor.
       # 
       # scope: `contractors:read`
@@ -166,8 +167,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(contractor_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidRequestBody)).returns(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidResponse) }
-    def update(contractor_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(contractor_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1ContractorsContractorUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidResponse) }
+    def update(contractor_uuid, request_body, x_gusto_api_version = nil)
       # update - Update a contractor
       # Update a contractor.
       # 
@@ -179,8 +180,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1ContractorsContractorUuidRequest.new(
         
         contractor_uuid: contractor_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -193,6 +194,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -347,8 +349,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(contractor_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusRequestBody)).returns(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusResponse) }
-    def update_onboarding_status(contractor_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(contractor_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusResponse) }
+    def update_onboarding_status(contractor_uuid, request_body, x_gusto_api_version = nil)
       # update_onboarding_status - Change the contractor's onboarding status
       # Updates a contractor's onboarding status.
       # 
@@ -366,8 +368,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusRequest.new(
         
         contractor_uuid: contractor_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -380,6 +382,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -462,8 +465,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(contractor_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressRequestBody)).returns(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressResponse) }
-    def update_address(contractor_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(contractor_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressResponse) }
+    def update_address(contractor_uuid, request_body, x_gusto_api_version = nil)
       # update_address - Update a contractor's address
       # The address of a contractor is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
       # 
@@ -471,8 +474,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressRequest.new(
         
         contractor_uuid: contractor_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -485,6 +488,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

@@ -6,7 +6,7 @@
 ### Available Operations
 
 * [get](#get) - Get all recovery cases for a company
-* [initiate_redeibit](#initiate_redeibit) - Initiate a redebit for a recovery case
+* [redebit](#redebit) - Initiate a redebit for a recovery case
 
 ## get
 
@@ -49,7 +49,7 @@ end
 
 
 
-## initiate_redeibit
+## redebit
 
 After resolving the underlying bank error, initiate a redebit for an open recovery case. This submission is asynchronous and a successful request responds with a 202 HTTP status.
 
@@ -73,7 +73,7 @@ s.config_security(
 )
 
     
-res = s.recovery_cases.initiate_redeibit(recovery_case_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.recovery_cases.redebit(recovery_case_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
   # handle response

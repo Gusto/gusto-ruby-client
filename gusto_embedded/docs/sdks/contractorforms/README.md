@@ -5,12 +5,12 @@
 
 ### Available Operations
 
-* [get_all](#get_all) - Get all contractor forms
+* [list](#list) - Get all contractor forms
 * [get](#get) - Get a contractor form
 * [get_pdf](#get_pdf) - Get the contractor form pdf
 * [generate1099](#generate1099) - Generate a 1099 form [DEMO]
 
-## get_all
+## list
 
 Get a list of all contractor's forms
 
@@ -30,7 +30,7 @@ s.config_security(
 )
 
     
-res = s.contractor_forms.get_all(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_forms.list(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.form_1099s.nil?
   # handle response
@@ -159,9 +159,9 @@ s.config_security(
 )
 
     
-res = s.contractor_forms.generate1099(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1SandboxGenerate1099RequestBody.new(
+res = s.contractor_forms.generate1099(request_body=::OpenApiSDK::Operations::PostV1SandboxGenerate1099RequestBody.new(
   contractor_id: "<id>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.form_1099.nil?
   # handle response
@@ -173,8 +173,8 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1SandboxGenerate1099RequestBody](../../models/operations/postv1sandboxgenerate1099requestbody.md)                                                                                            | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1SandboxGenerate1099RequestBody)](../../models/operations/postv1sandboxgenerate1099requestbody.md)                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

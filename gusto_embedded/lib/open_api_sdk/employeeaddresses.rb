@@ -20,8 +20,8 @@ module OpenApiSDK
 
 
     sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdHomeAddressesResponse) }
-    def get_all(employee_id, x_gusto_api_version = nil)
-      # get_all - Get an employee's home addresses
+    def get(employee_id, x_gusto_api_version = nil)
+      # get - Get an employee's home addresses
       # The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
       # 
       # Supports home address effective dating and courtesy withholding.
@@ -66,9 +66,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdHomeAddressesRequestBody)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdHomeAddressesResponse) }
-    def add_home_address(employee_id, x_gusto_api_version = nil, request_body = nil)
-      # add_home_address - Create an employee's home address
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdHomeAddressesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdHomeAddressesResponse) }
+    def create(employee_id, request_body, x_gusto_api_version = nil)
+      # create - Create an employee's home address
       # The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
       # 
       # Supports home address effective dating and courtesy withholding.
@@ -77,8 +77,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdHomeAddressesRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -91,6 +91,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -111,7 +112,7 @@ module OpenApiSDK
       res = ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdHomeAddressesResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
-      if r.status == 200
+      if r.status == 201
         if Utils.match_content_type(content_type, 'application/json')
           out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::EmployeeAddress)
           res.employee_address = out
@@ -129,8 +130,8 @@ module OpenApiSDK
 
 
     sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1HomeAddressesHomeAddressUuidResponse) }
-    def get(home_address_uuid, x_gusto_api_version = nil)
-      # get - Get an employee's home address
+    def retrieve_home_address(home_address_uuid, x_gusto_api_version = nil)
+      # retrieve_home_address - Get an employee's home address
       # The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
       # 
       # Supports home address effective dating and courtesy withholding.
@@ -175,9 +176,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1HomeAddressesHomeAddressUuidRequestBody)).returns(::OpenApiSDK::Operations::PutV1HomeAddressesHomeAddressUuidResponse) }
-    def update_home_address(home_address_uuid, x_gusto_api_version = nil, request_body = nil)
-      # update_home_address - Update an employee's home address
+    sig { params(home_address_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1HomeAddressesHomeAddressUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1HomeAddressesHomeAddressUuidResponse) }
+    def update(home_address_uuid, request_body, x_gusto_api_version = nil)
+      # update - Update an employee's home address
       # The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
       # 
       # Supports home address effective dating and courtesy withholding.
@@ -186,8 +187,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1HomeAddressesHomeAddressUuidRequest.new(
         
         home_address_uuid: home_address_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -200,6 +201,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -238,8 +240,8 @@ module OpenApiSDK
 
 
     sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::DeleteV1HomeAddressesHomeAddressUuidResponse) }
-    def delete_home_address(home_address_uuid, x_gusto_api_version = nil)
-      # delete_home_address - Delete an employee's home address
+    def delete(home_address_uuid, x_gusto_api_version = nil)
+      # delete - Delete an employee's home address
       # Used for deleting an employee's home address.  Cannot delete the employee's active home address.
       # 
       # scope: `employees:write`
@@ -284,8 +286,8 @@ module OpenApiSDK
 
 
     sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdWorkAddressesResponse) }
-    def list_work_addresses(employee_id, x_gusto_api_version = nil)
-      # list_work_addresses - Get an employee's work addresses
+    def get_work_addresses(employee_id, x_gusto_api_version = nil)
+      # get_work_addresses - Get an employee's work addresses
       # Returns a list of an employee's work addresses. Each address includes its effective date and a boolean
       # signifying if it is the currently active work address.
       # 
@@ -329,17 +331,17 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdWorkAddressesResponse) }
-    def create(employee_id, x_gusto_api_version = nil, request_body = nil)
-      # create - Create an employee work address
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdWorkAddressesResponse) }
+    def create_work_address(employee_id, request_body, x_gusto_api_version = nil)
+      # create_work_address - Create an employee work address
       # The work address of an employee describes when an employee began working at an associated company location.
       # 
       # scope: `employees:manage`
       request = ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -352,6 +354,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -390,8 +393,8 @@ module OpenApiSDK
 
 
     sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1WorkAddressesWorkAddressUuidResponse) }
-    def get_work_address(work_address_uuid, x_gusto_api_version = nil)
-      # get_work_address - Get an employee work address
+    def retrieve_work_address(work_address_uuid, x_gusto_api_version = nil)
+      # retrieve_work_address - Get an employee work address
       # The work address of an employee is used for payroll tax purposes.
       # 
       # scope: `employees:read`
@@ -434,17 +437,17 @@ module OpenApiSDK
     end
 
 
-    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody)).returns(::OpenApiSDK::Operations::PutV1WorkAddressesWorkAddressUuidResponse) }
-    def update(work_address_uuid, x_gusto_api_version = nil, request_body = nil)
-      # update - Update an employee work address
+    sig { params(work_address_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1WorkAddressesWorkAddressUuidResponse) }
+    def update_work_address(work_address_uuid, request_body, x_gusto_api_version = nil)
+      # update_work_address - Update an employee work address
       # The work address of an employee is used for payroll tax purposes.
       # 
       # scope: `employees:manage`
       request = ::OpenApiSDK::Operations::PutV1WorkAddressesWorkAddressUuidRequest.new(
         
         work_address_uuid: work_address_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -457,6 +460,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -495,8 +499,8 @@ module OpenApiSDK
 
 
     sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::DeleteV1WorkAddressesWorkAddressUuidResponse) }
-    def delete(work_address_uuid, x_gusto_api_version = nil)
-      # delete - Delete an employee's work address
+    def delete_work_address(work_address_uuid, x_gusto_api_version = nil)
+      # delete_work_address - Delete an employee's work address
       # Used for deleting an employee's work address.  Cannot delete the employee's active work address.
       # 
       # scope: `employees:manage`

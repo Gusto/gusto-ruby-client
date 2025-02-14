@@ -10,9 +10,12 @@ require 'sorbet-runtime'
 module OpenApiSDK
   extend T::Sig
 
-  SERVERS = [
-    'https://api.gusto-demo.com', # 1 - Demo
-  ].freeze
+  SERVER_DEMO = :demo # Demo
+  SERVER_PROD = :prod # Prod
+  SERVERS = {
+    demo: 'https://api.gusto-demo.com',
+    prod: 'https://api.gusto.com',
+  }.freeze
   # Contains the list of servers available to the SDK
 
   class SDKConfiguration < ::OpenApiSDK::Utils::FieldAugmented
@@ -21,7 +24,7 @@ module OpenApiSDK
     field :client, T.nilable(Faraday::Connection)
     field :security, T.nilable(::OpenApiSDK::Shared::Security)
     field :server_url, T.nilable(String)
-    field :server_idx, T.nilable(Integer)
+    field :server, Symbol
     field :language, String
     field :openapi_doc_version, String
     field :sdk_version, String
@@ -29,24 +32,24 @@ module OpenApiSDK
     field :user_agent, String
 
 
-    sig { params(client: Faraday::Connection, security: T.nilable(::OpenApiSDK::Shared::Security), server_url: T.nilable(String), server_idx: T.nilable(Integer)).void }
-    def initialize(client, security, server_url, server_idx)
+    sig { params(client: Faraday::Connection, security: T.nilable(::OpenApiSDK::Shared::Security), server_url: T.nilable(String), server: T.nilable(Symbol)).void }
+    def initialize(client, security, server_url, server)
       @client = client
       @server_url = server_url
-      @server_idx = server_idx.nil? ? 0 : server_idx
-      raise StandardError, "Invalid server index #{server_idx}" if @server_idx.negative? || @server_idx >= SERVERS.length
+      @server = server.nil? ? SERVER_DEMO : server
+      raise StandardError, "Invalid server \"#{server}\"" if !SERVERS.key?(@server)
       @security = security
       @language = 'ruby'
       @openapi_doc_version = '2024-04-01'
-      @sdk_version = '0.1.2'
-      @gen_version = '2.495.1'
-      @user_agent = 'speakeasy-sdk/ruby 0.1.2 2.495.1 2024-04-01 gusto'
+      @sdk_version = '0.2.0'
+      @gen_version = '2.512.4'
+      @user_agent = 'speakeasy-sdk/ruby 0.2.0 2.512.4 2024-04-01 gusto'
     end
 
     sig { returns([String, T::Hash[Symbol, String]]) }
     def get_server_details
       return [@server_url.delete_suffix('/'), {}] if !@server_url.nil?
-      [SERVERS[@server_idx], {}]
+      [SERVERS[@server], {}]
     end
   end
 end

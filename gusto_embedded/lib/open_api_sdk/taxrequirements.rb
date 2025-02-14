@@ -20,8 +20,8 @@ module OpenApiSDK
 
 
     sig { params(company_uuid: ::String, state: ::String, scheduling: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyUuidTaxRequirementsStateResponse) }
-    def get_state_requirements(company_uuid, state, scheduling = nil, x_gusto_api_version = nil)
-      # get_state_requirements - Get State Tax Requirements
+    def get(company_uuid, state, scheduling = nil, x_gusto_api_version = nil)
+      # get - Get State Tax Requirements
       # Get all tax requirements for a given state.
       # 
       # ### Metadata Examples
@@ -108,8 +108,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, state: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateResponse) }
-    def update_state(company_uuid, state, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, state: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateResponse) }
+    def update_state(company_uuid, state, request_body, x_gusto_api_version = nil)
       # update_state - Update State Tax Requirements
       # Update State Tax Requirements
       # 
@@ -118,8 +118,8 @@ module OpenApiSDK
         
         company_uuid: company_uuid,
         state: state,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -132,6 +132,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

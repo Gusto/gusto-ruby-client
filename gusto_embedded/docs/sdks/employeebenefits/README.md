@@ -6,11 +6,12 @@
 ### Available Operations
 
 * [create](#create) - Create an employee benefit
-* [get_all](#get_all) - Get all benefits for an employee
-* [get](#get) - Get an employee benefit
+* [get](#get) - Get all benefits for an employee
+* [retrieve](#retrieve) - Get an employee benefit
 * [update](#update) - Update an employee benefit
 * [delete](#delete) - Delete an employee benefit
-* [create_ytd_amounts](#create_ytd_amounts) - Create year-to-date benefit amounts from a different company
+* [get_ytd_benefit_amounts_from_different_company](#get_ytd_benefit_amounts_from_different_company) - Get year-to-date benefit amounts from a different company
+* [create_ytd_benefit_amounts_from_different_company](#create_ytd_benefit_amounts_from_different_company) - Create year-to-date benefit amounts from a different company
 
 ## create
 
@@ -32,9 +33,9 @@ s.config_security(
 )
 
     
-res = s.employee_benefits.create(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequestBody.new(
+res = s.employee_benefits.create(employee_id="<id>", request_body=::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequestBody.new(
   company_benefit_uuid: "<id>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_benefit.nil?
   # handle response
@@ -47,8 +48,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequestBody](../../models/operations/postv1employeesemployeeidemployeebenefitsrequestbody.md)                                                            | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequestBody)](../../models/operations/postv1employeesemployeeidemployeebenefitsrequestbody.md)                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -56,7 +57,7 @@ end
 
 
 
-## get_all
+## get
 
 Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
 
@@ -80,7 +81,7 @@ s.config_security(
 )
 
     
-res = s.employee_benefits.get_all(employee_id="<id>", page=4610.08, per=592.15, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_benefits.get(employee_id="<id>", page=7003.47, per=5588.34, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_benefit_list.nil?
   # handle response
@@ -103,7 +104,7 @@ end
 
 
 
-## get
+## retrieve
 
 Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
 
@@ -125,7 +126,7 @@ s.config_security(
 )
 
     
-res = s.employee_benefits.get(employee_benefit_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_benefits.retrieve(employee_benefit_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_benefit.nil?
   # handle response
@@ -166,9 +167,9 @@ s.config_security(
 )
 
     
-res = s.employee_benefits.update(employee_benefit_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequestBody.new(
+res = s.employee_benefits.update(employee_benefit_id="<id>", request_body=::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequestBody.new(
   version: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_benefit.nil?
   # handle response
@@ -181,8 +182,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_benefit_id`                                                                                                                                                                                                        | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee benefit.                                                                                                                                                                                            |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequestBody](../../models/operations/putv1employeebenefitsemployeebenefitidrequestbody.md)                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequestBody)](../../models/operations/putv1employeebenefitsemployeebenefitidrequestbody.md)                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -231,7 +232,52 @@ end
 
 
 
-## create_ytd_amounts
+## get_ytd_benefit_amounts_from_different_company
+
+Retrieves year-to-date benefit amounts that were contributed at a different company for the specified employee.
+Returns benefit amounts for the requested tax year (defaults to current year if not specified).
+
+This endpoint only supports retrieving outside contributions for 401(k) benefits.
+
+scope: `employee_benefits:read`
+
+### Example Usage
+
+```ruby
+require 'gusto'
+
+
+s = ::OpenApiSDK::Gusto.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.employee_benefits.get_ytd_benefit_amounts_from_different_company(employee_id="<id>", tax_year=2024, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.ytd_benefit_amounts_from_different_company_list.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |                                                                                                                                                                                                                              |
+| `tax_year`                                                                                                                                                                                                                   | *T.nilable(::Integer)*                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | The tax year for which to retrieve YTD benefit amounts. Defaults to current year if not specified.                                                                                                                           | 2024                                                                                                                                                                                                                         |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyResponse)](../../models/operations/getemployeeytdbenefitamountsfromdifferentcompanyresponse.md)**
+
+
+
+## create_ytd_benefit_amounts_from_different_company
 
 Year-to-date benefit amounts from a different company represents the amount of money added to an employee's plan during a current year, made outside of the current contribution when they were employed at a different company.
 
@@ -253,11 +299,11 @@ s.config_security(
 )
 
     
-res = s.employee_benefits.create_ytd_amounts(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, post_employee_ytd_benefit_amounts_from_different_company=::OpenApiSDK::Shared::PostEmployeeYtdBenefitAmountsFromDifferentCompany.new(
-  tax_year: 5536.72,
+res = s.employee_benefits.create_ytd_benefit_amounts_from_different_company(employee_id="<id>", post_employee_ytd_benefit_amounts_from_different_company=::OpenApiSDK::Shared::PostEmployeeYtdBenefitAmountsFromDifferentCompany.new(
+  tax_year: 5621.31,
   ytd_employee_deduction_amount: "<value>",
   ytd_company_contribution_amount: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
   # handle response
@@ -270,8 +316,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `post_employee_ytd_benefit_amounts_from_different_company`                                                                                                                                                                   | [::OpenApiSDK::Shared::PostEmployeeYtdBenefitAmountsFromDifferentCompany](../../models/shared/postemployeeytdbenefitamountsfromdifferentcompany.md)                                                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `post_employee_ytd_benefit_amounts_from_different_company`                                                                                                                                                                   | [T.nilable(::OpenApiSDK::Shared::PostEmployeeYtdBenefitAmountsFromDifferentCompany)](../../models/shared/postemployeeytdbenefitamountsfromdifferentcompany.md)                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

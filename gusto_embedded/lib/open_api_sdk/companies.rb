@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(security: ::OpenApiSDK::Operations::PostV1PartnerManagedCompaniesSecurity, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1PartnerManagedCompaniesRequestBody)).returns(::OpenApiSDK::Operations::PostV1PartnerManagedCompaniesResponse) }
-    def create_partner_managed(security, x_gusto_api_version = nil, request_body = nil)
+    sig { params(security: ::OpenApiSDK::Operations::PostV1PartnerManagedCompaniesSecurity, request_body: ::OpenApiSDK::Operations::PostV1PartnerManagedCompaniesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1PartnerManagedCompaniesResponse) }
+    def create_partner_managed(security, request_body, x_gusto_api_version = nil)
       # create_partner_managed - Create a partner managed company
       # Create a partner managed company. When you successfully call the API, it does the following:
       # * Creates a new company in Gusto
@@ -36,8 +36,8 @@ module OpenApiSDK
       # > this endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access)
       request = ::OpenApiSDK::Operations::PostV1PartnerManagedCompaniesRequest.new(
         
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -45,6 +45,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -130,8 +131,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesResponse) }
-    def update(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesResponse) }
+    def update(company_id, request_body, x_gusto_api_version = nil)
       # update - Update a company
       # Update a company.
       # 
@@ -139,8 +140,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1CompaniesRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -153,6 +154,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -190,9 +192,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateRequestBody)).returns(::OpenApiSDK::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateResponse) }
-    def migrate_partner_managed(company_uuid, x_gusto_api_version = nil, request_body = nil)
-      # migrate_partner_managed - Migrate company to embedded payroll
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateResponse) }
+    def migrate(company_uuid, request_body, x_gusto_api_version = nil)
+      # migrate - Migrate company to embedded payroll
       # Migrate an existing Gusto customer to your embedded payroll product.
       # 
       # To use this endpoint, the customer will need to connect their Gusto account to your application using [OAuth2](https://docs.gusto.com/embedded-payroll/docs/oauth2) then view and [accept the Embedded Payroll Terms of Service](https://docs.gusto.com/embedded-payroll/reference/post-partner-managed-companies-company_uuid-accept_terms_of_service).
@@ -201,8 +203,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -215,6 +217,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -252,8 +255,70 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceRequestBody)).returns(::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceResponse) }
-    def retrieve_terms_of_service(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceResponse) }
+    def accept_terms_of_service(company_uuid, request_body, x_gusto_api_version = nil)
+      # accept_terms_of_service - Accept terms of service for a company user
+      # Accept the Gusto Embedded Payroll's [Terms of Service](https://flows.gusto.com/terms).
+      # The user must have a role in the company in order to accept the Terms of Service.
+      # 
+      # scope: `terms_of_services:write`
+      request = ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequest.new(
+        
+        company_uuid: company_uuid,
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequest,
+        base_url,
+        '/v1/partner_managed_companies/{company_uuid}/accept_terms_of_service',
+        request
+      )
+      headers = Utils.get_headers(request)
+      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.post(url) do |req|
+        req.headers = headers
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+        if form
+          req.body = Utils.encode_form(form)
+        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+          req.body = URI.encode_www_form(data)
+        else
+          req.body = data
+        end
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceResponseBody)
+          res.object = out
+        end
+      elsif r.status == 404
+      elsif r.status == 422
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
+      end
+
+      res
+    end
+
+
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceResponse) }
+    def retrieve_terms_of_service(company_uuid, request_body, x_gusto_api_version = nil)
       # retrieve_terms_of_service - Retrieve terms of service status for a company user
       # Retrieve the user acceptance status of the Gusto Embedded Payroll's [Terms of Service](https://flows.gusto.com/terms).
       # 
@@ -261,8 +326,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -275,6 +340,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -312,8 +378,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdAdminsRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdAdminsResponse) }
-    def create_admin(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdAdminsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdAdminsResponse) }
+    def create_admin(company_id, request_body, x_gusto_api_version = nil)
       # create_admin - Create an admin for the company
       # Creates a new admin for a company.
       # If the email matches an existing user, this will create an admin account for the current user. Otherwise, this will create a new user.
@@ -322,8 +388,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdAdminsRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -336,6 +402,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -367,6 +434,55 @@ module OpenApiSDK
           out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
         end
+      end
+
+      res
+    end
+
+
+    sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdAdminsResponse) }
+    def list_admins(company_id, page = nil, per = nil, x_gusto_api_version = nil)
+      # list_admins - Get all the admins at a company
+      # Returns a list of all the admins at a company
+      # 
+      # scope: `company_admin:read`
+      request = ::OpenApiSDK::Operations::GetV1CompaniesCompanyIdAdminsRequest.new(
+        
+        company_id: company_id,
+        page: page,
+        per: per,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::GetV1CompaniesCompanyIdAdminsRequest,
+        base_url,
+        '/v1/companies/{company_id}/admins',
+        request
+      )
+      headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdAdminsRequest, request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        req.params = query_params
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::GetV1CompaniesCompanyIdAdminsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, T::Array[::OpenApiSDK::Shared::Admin])
+          res.admin_list = out
+        end
+      elsif r.status == 404
       end
 
       res

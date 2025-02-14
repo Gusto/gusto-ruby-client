@@ -64,8 +64,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostCompaniesCompanyUuidHolidayPayPolicyRequestBody)).returns(::OpenApiSDK::Operations::PostCompaniesCompanyUuidHolidayPayPolicyResponse) }
-    def create(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostCompaniesCompanyUuidHolidayPayPolicyRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostCompaniesCompanyUuidHolidayPayPolicyResponse) }
+    def create(company_uuid, request_body, x_gusto_api_version = nil)
       # create - Create a holiday pay policy for a company
       # Create a holiday pay policy for a company
       # 
@@ -73,8 +73,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostCompaniesCompanyUuidHolidayPayPolicyRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -87,6 +87,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -124,8 +125,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRequestBody)).returns(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyResponse) }
-    def update(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyResponse) }
+    def update(company_uuid, request_body, x_gusto_api_version = nil)
       # update - Update a company's holiday pay policy
       # Update a company's holiday pay policy
       # 
@@ -133,8 +134,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -147,6 +148,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -230,8 +232,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddRequestBody)).returns(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddResponse) }
-    def add_employees(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddResponse) }
+    def add_employees(company_uuid, request_body, x_gusto_api_version = nil)
       # add_employees - Add employees to a company's holiday pay policy
       # Add employees to a company's holiday pay policy
       # 
@@ -239,8 +241,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -253,6 +255,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -290,8 +293,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRemoveRequestBody)).returns(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRemoveResponse) }
-    def remove_employees(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRemoveRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRemoveResponse) }
+    def remove_employees(company_uuid, request_body, x_gusto_api_version = nil)
       # remove_employees - Remove employees from a company's holiday pay policy
       # Remove employees from a company's holiday pay policy
       # 
@@ -299,8 +302,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRemoveRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -313,6 +316,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -350,17 +354,17 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::GetCompaniesCompanyUuidPaidHolidaysRequestBody)).returns(::OpenApiSDK::Operations::GetCompaniesCompanyUuidPaidHolidaysResponse) }
-    def preview_by_company(company_uuid, x_gusto_api_version = nil, request_body = nil)
-      # preview_by_company - Preview a company's paid holidays
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::GetCompaniesCompanyUuidPaidHolidaysRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetCompaniesCompanyUuidPaidHolidaysResponse) }
+    def preview_paid_holidays(company_uuid, request_body, x_gusto_api_version = nil)
+      # preview_paid_holidays - Preview a company's paid holidays
       # Preview a company's paid holidays
       # 
       # scope: `holiday_pay_policies:read`
       request = ::OpenApiSDK::Operations::GetCompaniesCompanyUuidPaidHolidaysRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -373,6 +377,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
