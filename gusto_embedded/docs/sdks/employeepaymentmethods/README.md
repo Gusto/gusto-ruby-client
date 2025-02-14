@@ -5,13 +5,11 @@
 
 ### Available Operations
 
-* [get](#get) - Get an employee's payment method
+* [get_bank_accounts](#get_bank_accounts) - Get all employee bank accounts
 
-## get
+## get_bank_accounts
 
-Fetches an employee's payment method. An employee payment method
-describes how the payment should be split across the employee's associated
-bank accounts.
+Returns all employee bank accounts.
 
 scope: `employee_payment_methods:read`
 
@@ -29,9 +27,9 @@ s.config_security(
 )
 
     
-res = s.employee_payment_methods.get(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_payment_methods.get_bank_accounts(employee_id="<id>", page=7912.08, per=1441.06, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
-if ! res.employee_payment_method.nil?
+if ! res.employee_bank_account_list.nil?
   # handle response
 end
 
@@ -42,9 +40,11 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `page`                                                                                                                                                                                                                       | *T.nilable(::Float)*                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.                                                                                                                       |
+| `per`                                                                                                                                                                                                                        | *T.nilable(::Float)*                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | Number of objects per page. For majority of endpoints will default to 25                                                                                                                                                     |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodResponse)](../../models/operations/getv1employeesemployeeidpaymentmethodresponse.md)**
+**[T.nilable(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsResponse)](../../models/operations/getv1employeesemployeeidbankaccountsresponse.md)**
 

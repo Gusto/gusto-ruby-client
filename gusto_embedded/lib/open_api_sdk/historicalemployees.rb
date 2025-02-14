@@ -9,7 +9,7 @@ require 'sorbet-runtime'
 
 module OpenApiSDK
   extend T::Sig
-  class Compensations
+  class HistoricalEmployees
     extend T::Sig
 
 
@@ -19,29 +19,31 @@ module OpenApiSDK
     end
 
 
-    sig { params(compensation_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompensationsCompensationIdRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompensationsCompensationIdResponse) }
-    def update(compensation_id, x_gusto_api_version = nil, request_body = nil)
-      # update - Update a compensation
-      # Compensations contain information on how much is paid out for a job. Jobs may have many compensations, but only one that is active. The current compensation is the one with the most recent `effective_date`.
+    sig { params(company_uuid: ::String, historical_employee_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1HistoricalEmployeesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1HistoricalEmployeesResponse) }
+    def update(company_uuid, historical_employee_uuid, request_body, x_gusto_api_version = nil)
+      # update - Update a historical employee
+      # Update a historical employee, an employee that was previously dismissed from the company in the current year.
       # 
-      # scope: `jobs:write`
-      request = ::OpenApiSDK::Operations::PutV1CompensationsCompensationIdRequest.new(
+      # scope: `employees:manage`
+      request = ::OpenApiSDK::Operations::PutV1HistoricalEmployeesRequest.new(
         
-        compensation_id: compensation_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        company_uuid: company_uuid,
+        historical_employee_uuid: historical_employee_uuid,
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::OpenApiSDK::Operations::PutV1CompensationsCompensationIdRequest,
+        ::OpenApiSDK::Operations::PutV1HistoricalEmployeesRequest,
         base_url,
-        '/v1/compensations/{compensation_id}',
+        '/v1/companies/{company_uuid}/historical_employees/{historical_employee_uuid}',
         request
       )
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -59,20 +61,15 @@ module OpenApiSDK
 
       content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
 
-      res = ::OpenApiSDK::Operations::PutV1CompensationsCompensationIdResponse.new(
+      res = ::OpenApiSDK::Operations::PutV1HistoricalEmployeesResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::Compensation)
-          res.compensation = out
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::Employee)
+          res.employee = out
         end
       elsif r.status == 404
-      elsif r.status == 422
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::UnprocessableEntityErrorObject)
-          res.unprocessable_entity_error_object = out
-        end
       end
 
       res

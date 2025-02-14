@@ -65,8 +65,8 @@ module OpenApiSDK
 
 
     sig { params(recovery_case_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::RedebitRecoveryCaseResponse) }
-    def initiate_redeibit(recovery_case_uuid, x_gusto_api_version = nil)
-      # initiate_redeibit - Initiate a redebit for a recovery case
+    def redebit(recovery_case_uuid, x_gusto_api_version = nil)
+      # redebit - Initiate a redebit for a recovery case
       # After resolving the underlying bank error, initiate a redebit for an open recovery case. This submission is asynchronous and a successful request responds with a 202 HTTP status.
       # 
       # It may take up to four business days for the ACH debit to process; in the meantime, the status of the recovery case will be in the `initiated_redebit` state. When funds are successfully redebited, the recovery case is transitioned to the `recovered` state.

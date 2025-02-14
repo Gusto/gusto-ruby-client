@@ -5,15 +5,15 @@
 
 ### Available Operations
 
-* [create](#create) - Create a webhook subscription
+* [create_subscription](#create_subscription) - Create a webhook subscription
 * [list_subscriptions](#list_subscriptions) - List webhook subscriptions
 * [update_subscription](#update_subscription) - Update a webhook subscription
 * [get_subscription](#get_subscription) - Get a webhook subscription
-* [delete](#delete) - Delete a webhook subscription
+* [delete_subscription](#delete_subscription) - Delete a webhook subscription
 * [verify](#verify) - Verify the webhook subscription
 * [request_verification_token](#request_verification_token) - Request the webhook subscription verification_token
 
-## create
+## create_subscription
 
 Create a webhook subscription to receive events of the specified subscription_types whenever there is a state change.
 
@@ -32,14 +32,14 @@ require 'gusto'
 s = ::OpenApiSDK::Gusto.new
 
     
-res = s.webhooks.create(::OpenApiSDK::Operations::PostV1WebhookSubscriptionSecurity.new(
+res = s.webhooks.create_subscription(::OpenApiSDK::Operations::PostV1WebhookSubscriptionSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody.new(
-  url: "https://probable-heating.com/",
+  ), request_body=::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody.new(
+  url: "https://dense-bidet.name/",
   subscription_types: [
-    ::OpenApiSDK::Operations::SubscriptionTypes::COMPANY,
+    ::OpenApiSDK::Operations::SubscriptionTypes::EMPLOYEE,
   ],
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.webhook_subscription.nil?
   # handle response
@@ -52,8 +52,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `security`                                                                                                                                                                                                                   | [::OpenApiSDK::Operations::PostV1WebhookSubscriptionSecurity](../../models/operations/postv1webhooksubscriptionsecurity.md)                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody](../../models/operations/postv1webhooksubscriptionrequestbody.md)                                                                                            | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody)](../../models/operations/postv1webhooksubscriptionrequestbody.md)                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -125,11 +125,11 @@ s = ::OpenApiSDK::Gusto.new
     
 res = s.webhooks.update_subscription(::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), webhook_subscription_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody.new(
+  ), webhook_subscription_uuid="<id>", request_body=::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody.new(
   subscription_types: [
     ::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidSubscriptionTypes::PAY_SCHEDULE,
   ],
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.webhook_subscription.nil?
   # handle response
@@ -143,8 +143,8 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `security`                                                                                                                                                                                                                   | [::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidSecurity](../../models/operations/putv1webhooksubscriptionuuidsecurity.md)                                                                                            | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
 | `webhook_subscription_uuid`                                                                                                                                                                                                  | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The webhook subscription UUID.                                                                                                                                                                                               |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody](../../models/operations/putv1webhooksubscriptionuuidrequestbody.md)                                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody)](../../models/operations/putv1webhooksubscriptionuuidrequestbody.md)                                                                           | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -196,7 +196,7 @@ end
 
 
 
-## delete
+## delete_subscription
 
 Deletes the Webhook Subscription associated with the provided UUID.
 
@@ -216,7 +216,7 @@ require 'gusto'
 s = ::OpenApiSDK::Gusto.new
 
     
-res = s.webhooks.delete(::OpenApiSDK::Operations::DeleteV1WebhookSubscriptionUuidSecurity.new(
+res = s.webhooks.delete_subscription(::OpenApiSDK::Operations::DeleteV1WebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), webhook_subscription_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
@@ -264,9 +264,9 @@ s = ::OpenApiSDK::Gusto.new
     
 res = s.webhooks.verify(::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), webhook_subscription_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidRequestBody.new(
+  ), webhook_subscription_uuid="<id>", request_body=::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidRequestBody.new(
   verification_token: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.webhook_subscription.nil?
   # handle response
@@ -280,8 +280,8 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `security`                                                                                                                                                                                                                   | [::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidSecurity](../../models/operations/putv1verifywebhooksubscriptionuuidsecurity.md)                                                                                | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
 | `webhook_subscription_uuid`                                                                                                                                                                                                  | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The webhook subscription UUID.                                                                                                                                                                                               |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidRequestBody](../../models/operations/putv1verifywebhooksubscriptionuuidrequestbody.md)                                                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidRequestBody)](../../models/operations/putv1verifywebhooksubscriptionuuidrequestbody.md)                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

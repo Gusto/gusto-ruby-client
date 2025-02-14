@@ -6,8 +6,8 @@
 ### Available Operations
 
 * [create](#create) - Create a company location
-* [get_company_locations](#get_company_locations) - Get company locations
-* [get](#get) - Get a location
+* [get](#get) - Get company locations
+* [retrieve](#retrieve) - Get a location
 * [update](#update) - Update a location
 * [get_minimum_wages](#get_minimum_wages) - Get minimum wages for a location
 
@@ -33,13 +33,13 @@ s.config_security(
 )
 
     
-res = s.locations.create(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequestBody.new(
+res = s.locations.create(company_id="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequestBody.new(
   phone_number: "741.279.0107 x857",
   street_1: "<value>",
   city: "Grand Island",
   state: "Illinois",
   zip: "22031",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location.nil?
   # handle response
@@ -52,8 +52,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequestBody](../../models/operations/postv1companiescompanyidlocationsrequestbody.md)                                                                            | :heavy_check_mark:                                                                                                                                                                                                           | Create a company location.                                                                                                                                                                                                   |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequestBody)](../../models/operations/postv1companiescompanyidlocationsrequestbody.md)                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | Create a company location.                                                                                                                                                                                                   |
 
 ### Response
 
@@ -61,7 +61,7 @@ end
 
 
 
-## get_company_locations
+## get
 
 Company locations represent all addresses associated with a company. These can be filing addresses, mailing addresses, and/or work locations; one address may serve multiple, or all, purposes.
 
@@ -83,7 +83,7 @@ s.config_security(
 )
 
     
-res = s.locations.get_company_locations(company_id="<id>", page=4211.18, per=6486.0, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.locations.get(company_id="<id>", page=7003.47, per=5588.34, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location_list.nil?
   # handle response
@@ -106,7 +106,7 @@ end
 
 
 
-## get
+## retrieve
 
 Get a location.
 
@@ -126,7 +126,7 @@ s.config_security(
 )
 
     
-res = s.locations.get(location_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.locations.retrieve(location_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location.nil?
   # handle response
@@ -167,9 +167,9 @@ s.config_security(
 )
 
     
-res = s.locations.update(location_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1LocationsLocationIdRequestBody.new(
+res = s.locations.update(location_id="<id>", request_body=::OpenApiSDK::Operations::PutV1LocationsLocationIdRequestBody.new(
   version: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location.nil?
   # handle response
@@ -182,8 +182,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `location_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the location                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1LocationsLocationIdRequestBody](../../models/operations/putv1locationslocationidrequestbody.md)                                                                                              | :heavy_check_mark:                                                                                                                                                                                                           | Update a location                                                                                                                                                                                                            |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1LocationsLocationIdRequestBody)](../../models/operations/putv1locationslocationidrequestbody.md)                                                                                   | :heavy_minus_sign:                                                                                                                                                                                                           | Update a location                                                                                                                                                                                                            |
 
 ### Response
 

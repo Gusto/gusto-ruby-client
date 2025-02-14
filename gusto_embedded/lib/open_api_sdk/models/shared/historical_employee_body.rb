@@ -27,6 +27,8 @@ module OpenApiSDK
       field :termination, ::OpenApiSDK::Shared::HistoricalEmployeeBodyTermination, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('termination') } }
 
       field :work_address, ::OpenApiSDK::Shared::WorkAddress, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('work_address') } }
+      # Optional. If provided, the email address will be saved to the employee.
+      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('email') } }
 
       field :employee_state_taxes, T.nilable(::OpenApiSDK::Shared::EmployeeStateTaxes), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('employee_state_taxes') } }
 
@@ -35,8 +37,8 @@ module OpenApiSDK
       field :preferred_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('preferred_first_name') } }
 
 
-      sig { params(date_of_birth: ::String, first_name: ::String, home_address: ::OpenApiSDK::Shared::HistoricalEmployeeBodyHomeAddress, job: ::OpenApiSDK::Shared::HistoricalEmployeeBodyJob, last_name: ::String, ssn: ::String, termination: ::OpenApiSDK::Shared::HistoricalEmployeeBodyTermination, work_address: ::OpenApiSDK::Shared::WorkAddress, employee_state_taxes: T.nilable(::OpenApiSDK::Shared::EmployeeStateTaxes), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String)).void }
-      def initialize(date_of_birth: nil, first_name: nil, home_address: nil, job: nil, last_name: nil, ssn: nil, termination: nil, work_address: nil, employee_state_taxes: nil, middle_initial: nil, preferred_first_name: nil)
+      sig { params(date_of_birth: ::String, first_name: ::String, home_address: ::OpenApiSDK::Shared::HistoricalEmployeeBodyHomeAddress, job: ::OpenApiSDK::Shared::HistoricalEmployeeBodyJob, last_name: ::String, ssn: ::String, termination: ::OpenApiSDK::Shared::HistoricalEmployeeBodyTermination, work_address: ::OpenApiSDK::Shared::WorkAddress, email: T.nilable(::String), employee_state_taxes: T.nilable(::OpenApiSDK::Shared::EmployeeStateTaxes), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String)).void }
+      def initialize(date_of_birth: nil, first_name: nil, home_address: nil, job: nil, last_name: nil, ssn: nil, termination: nil, work_address: nil, email: nil, employee_state_taxes: nil, middle_initial: nil, preferred_first_name: nil)
         @date_of_birth = date_of_birth
         @first_name = first_name
         @home_address = home_address
@@ -45,6 +47,7 @@ module OpenApiSDK
         @ssn = ssn
         @termination = termination
         @work_address = work_address
+        @email = email
         @employee_state_taxes = employee_state_taxes
         @middle_initial = middle_initial
         @preferred_first_name = preferred_first_name

@@ -16,10 +16,10 @@ module OpenApiSDK
       # The effective end date of the answer - currently always null.
       field :valid_up_to, T.nilable(::Object), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('valid_up_to') } }
       # The answer to the corresponding question - this may be a string, number, boolean, or null.
-      field :value, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('value') } }
+      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('value') } }
 
 
-      sig { params(valid_from: T.nilable(::String), valid_up_to: T.nilable(::Object), value: T.nilable(::String)).void }
+      sig { params(valid_from: T.nilable(::String), valid_up_to: T.nilable(::Object), value: T.nilable(::Object)).void }
       def initialize(valid_from: nil, valid_up_to: nil, value: nil)
         @valid_from = valid_from
         @valid_up_to = valid_up_to

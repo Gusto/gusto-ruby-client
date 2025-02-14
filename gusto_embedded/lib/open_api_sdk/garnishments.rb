@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdGarnishmentsRequestBody)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdGarnishmentsResponse) }
-    def create(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdGarnishmentsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdGarnishmentsResponse) }
+    def create(employee_id, request_body, x_gusto_api_version = nil)
       # create - Create a garnishment
       # Garnishments, or employee deductions, are fixed amounts or percentages deducted from an employee’s pay. They can be deducted a specific number of times or on a recurring basis. Garnishments can also have maximum deductions on a yearly or per-pay-period bases. Common uses for garnishments are court-ordered payments for child support or back taxes. Some companies provide loans to their employees that are repaid via garnishments.
       # 
@@ -28,8 +28,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdGarnishmentsRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -42,6 +42,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -80,8 +81,8 @@ module OpenApiSDK
 
 
     sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdGarnishmentsResponse) }
-    def get(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
-      # get - Get garnishments for an employee
+    def list(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
+      # list - Get garnishments for an employee
       # Garnishments, or employee deductions, are fixed amounts or percentages deducted from an employee’s pay. They can be deducted a specific number of times or on a recurring basis. Garnishments can also have maximum deductions on a yearly or per-pay-period bases. Common uses for garnishments are court-ordered payments for child support or back taxes. Some companies provide loans to their employees that are repaid via garnishments.
       # 
       # scope: `garnishments:read`
@@ -129,8 +130,8 @@ module OpenApiSDK
 
 
     sig { params(garnishment_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1GarnishmentsGarnishmentIdResponse) }
-    def get_by_id(garnishment_id, x_gusto_api_version = nil)
-      # get_by_id - Get a garnishment
+    def get(garnishment_id, x_gusto_api_version = nil)
+      # get - Get a garnishment
       # Garnishments, or employee deductions, are fixed amounts or percentages deducted from an employee’s pay. They can be deducted a specific number of times or on a recurring basis. Garnishments can also have maximum deductions on a yearly or per-pay-period bases. Common uses for garnishments are court-ordered payments for child support or back taxes. Some companies provide loans to their employees that are repaid via garnishments.
       # 
       # scope: `garnishments:read`
@@ -173,8 +174,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(garnishment_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1GarnishmentsGarnishmentIdRequestBody)).returns(::OpenApiSDK::Operations::PutV1GarnishmentsGarnishmentIdResponse) }
-    def update(garnishment_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(garnishment_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1GarnishmentsGarnishmentIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1GarnishmentsGarnishmentIdResponse) }
+    def update(garnishment_id, request_body, x_gusto_api_version = nil)
       # update - Update a garnishment
       # Garnishments, or employee deductions, are fixed amounts or percentages deducted from an employee’s pay. They can be deducted a specific number of times or on a recurring basis. Garnishments can also have maximum deductions on a yearly or per-pay-period bases. Common uses for garnishments are court-ordered payments for child support or back taxes. Some companies provide loans to their employees that are repaid via garnishments.
       # 
@@ -182,8 +183,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1GarnishmentsGarnishmentIdRequest.new(
         
         garnishment_id: garnishment_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -196,6 +197,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

@@ -6,7 +6,7 @@
 ### Available Operations
 
 * [create](#create) - Create a signatory
-* [get](#get) - Get all company signatories
+* [list](#list) - Get all company signatories
 * [invite](#invite) - Invite a signatory
 * [update](#update) - Update a signatory
 * [delete](#delete) - Delete a signatory
@@ -33,7 +33,7 @@ s.config_security(
 )
 
     
-res = s.signatories.create(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompanySignatoriesRequestBody.new(
+res = s.signatories.create(company_uuid="<id>", request_body=::OpenApiSDK::Operations::PostV1CompanySignatoriesRequestBody.new(
   ssn: "<value>",
   first_name: "Jed",
   last_name: "Johnson",
@@ -47,7 +47,7 @@ res = s.signatories.create(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK
     state: "North Carolina",
     zip: "05065",
   ),
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.signatory.nil?
   # handle response
@@ -60,8 +60,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompanySignatoriesRequestBody](../../models/operations/postv1companysignatoriesrequestbody.md)                                                                                              | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompanySignatoriesRequestBody)](../../models/operations/postv1companysignatoriesrequestbody.md)                                                                                   | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -69,7 +69,7 @@ end
 
 
 
-## get
+## list
 
 Returns company signatories. Currently we only support a single signatory per company.
 
@@ -89,7 +89,7 @@ s.config_security(
 )
 
     
-res = s.signatories.get(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.signatories.list(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.signatory_list.nil?
   # handle response
@@ -128,9 +128,9 @@ s.config_security(
 )
 
     
-res = s.signatories.invite(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody.new(
+res = s.signatories.invite(company_uuid="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody.new(
   email: "Maureen_Wyman@yahoo.com",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.signatory.nil?
   # handle response
@@ -143,8 +143,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody](../../models/operations/postv1companiescompanyuuidsignatoriesinviterequestbody.md)                                                        | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody)](../../models/operations/postv1companiescompanyuuidsignatoriesinviterequestbody.md)                                             | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -172,7 +172,7 @@ s.config_security(
 )
 
     
-res = s.signatories.update(company_uuid="<id>", signatory_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody.new())
+res = s.signatories.update(company_uuid="<id>", signatory_uuid="<id>", request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody.new(), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.signatory.nil?
   # handle response
@@ -186,8 +186,8 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
 | `signatory_uuid`                                                                                                                                                                                                             | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the signatory                                                                                                                                                                                                    |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody](../../models/operations/putv1companiescompanyuuidsignatoriessignatoryuuidrequestbody.md)                                            | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody)](../../models/operations/putv1companiescompanyuuidsignatoriessignatoryuuidrequestbody.md)                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

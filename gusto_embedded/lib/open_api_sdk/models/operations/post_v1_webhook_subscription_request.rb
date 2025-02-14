@@ -12,12 +12,12 @@ module OpenApiSDK
       extend T::Sig
 
 
-      field :request_body, T.nilable(::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody), { 'request': { 'media_type': 'application/json' } }
+      field :request_body, ::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody, { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::OpenApiSDK::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(request_body: T.nilable(::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
+      sig { params(request_body: ::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
       def initialize(request_body: nil, x_gusto_api_version: nil)
         @request_body = request_body
         @x_gusto_api_version = x_gusto_api_version

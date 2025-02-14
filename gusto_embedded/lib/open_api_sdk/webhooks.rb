@@ -19,9 +19,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(security: ::OpenApiSDK::Operations::PostV1WebhookSubscriptionSecurity, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody)).returns(::OpenApiSDK::Operations::PostV1WebhookSubscriptionResponse) }
-    def create(security, x_gusto_api_version = nil, request_body = nil)
-      # create - Create a webhook subscription
+    sig { params(security: ::OpenApiSDK::Operations::PostV1WebhookSubscriptionSecurity, request_body: ::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1WebhookSubscriptionResponse) }
+    def create_subscription(security, request_body, x_gusto_api_version = nil)
+      # create_subscription - Create a webhook subscription
       # Create a webhook subscription to receive events of the specified subscription_types whenever there is a state change.
       # 
       # > 📘 System Access Authentication
@@ -31,8 +31,8 @@ module OpenApiSDK
       # scope: `webhook_subscriptions:write`
       request = ::OpenApiSDK::Operations::PostV1WebhookSubscriptionRequest.new(
         
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -40,6 +40,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -120,8 +121,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(security: ::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidSecurity, webhook_subscription_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody)).returns(::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidResponse) }
-    def update_subscription(security, webhook_subscription_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(security: ::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidSecurity, webhook_subscription_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidResponse) }
+    def update_subscription(security, webhook_subscription_uuid, request_body, x_gusto_api_version = nil)
       # update_subscription - Update a webhook subscription
       # Updates the Webhook Subscription associated with the provided UUID.
       # 
@@ -134,8 +135,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1WebhookSubscriptionUuidRequest.new(
         
         webhook_subscription_uuid: webhook_subscription_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -148,6 +149,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -236,8 +238,8 @@ module OpenApiSDK
 
 
     sig { params(security: ::OpenApiSDK::Operations::DeleteV1WebhookSubscriptionUuidSecurity, webhook_subscription_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::DeleteV1WebhookSubscriptionUuidResponse) }
-    def delete(security, webhook_subscription_uuid, x_gusto_api_version = nil)
-      # delete - Delete a webhook subscription
+    def delete_subscription(security, webhook_subscription_uuid, x_gusto_api_version = nil)
+      # delete_subscription - Delete a webhook subscription
       # Deletes the Webhook Subscription associated with the provided UUID.
       # 
       # > 📘 System Access Authentication
@@ -281,8 +283,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(security: ::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidSecurity, webhook_subscription_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidRequestBody)).returns(::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidResponse) }
-    def verify(security, webhook_subscription_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(security: ::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidSecurity, webhook_subscription_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidResponse) }
+    def verify(security, webhook_subscription_uuid, request_body, x_gusto_api_version = nil)
       # verify - Verify the webhook subscription
       # When a webhook subscription is created, a `verification_token` is POSTed to the registered webhook subscription URL. This `verify` endpoint needs to be called with `verification_token` before webhook events can be sent to the registered webhook URL.
       # 
@@ -297,8 +299,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1VerifyWebhookSubscriptionUuidRequest.new(
         
         webhook_subscription_uuid: webhook_subscription_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -311,6 +313,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

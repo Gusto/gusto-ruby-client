@@ -7,7 +7,7 @@
 
 * [get](#get) - Get a single Wire In Request
 * [submit](#submit) - Submit a wire in request
-* [list_for_company](#list_for_company) - Get all Wire In Requests for a company
+* [list](#list) - Get all Wire In Requests for a company
 
 ## get
 
@@ -70,11 +70,11 @@ s.config_security(
 )
 
     
-res = s.wire_in_requests.submit(wire_in_request_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidRequestBody.new(
+res = s.wire_in_requests.submit(wire_in_request_uuid="<id>", request_body=::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidRequestBody.new(
   date_sent: "<value>",
   bank_name: "<value>",
   amount_sent: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.wire_in_request.nil?
   # handle response
@@ -87,8 +87,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `wire_in_request_uuid`                                                                                                                                                                                                       | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the Wire In Request                                                                                                                                                                                              |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidRequestBody](../../models/operations/putwireinrequestswireinrequestuuidrequestbody.md)                                                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidRequestBody)](../../models/operations/putwireinrequestswireinrequestuuidrequestbody.md)                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -96,7 +96,7 @@ end
 
 
 
-## list_for_company
+## list
 
 Fetches all Wire In Requests for a company.
 
@@ -116,7 +116,7 @@ s.config_security(
 )
 
     
-res = s.wire_in_requests.list_for_company(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.wire_in_requests.list(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.wire_in_request_list.nil?
   # handle response

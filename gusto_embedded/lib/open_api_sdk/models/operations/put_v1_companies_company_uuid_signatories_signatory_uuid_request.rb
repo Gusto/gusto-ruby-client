@@ -13,19 +13,19 @@ module OpenApiSDK
 
       # The UUID of the company
       field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
+
+      field :request_body, ::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody, { 'request': { 'media_type': 'application/json' } }
       # The UUID of the signatory
       field :signatory_uuid, ::String, { 'path_param': { 'field_name': 'signatory_uuid', 'style': 'simple', 'explode': false } }
-
-      field :request_body, T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody), { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::OpenApiSDK::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(company_uuid: ::String, signatory_uuid: ::String, request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
-      def initialize(company_uuid: nil, signatory_uuid: nil, request_body: nil, x_gusto_api_version: nil)
+      sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody, signatory_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).void }
+      def initialize(company_uuid: nil, request_body: nil, signatory_uuid: nil, x_gusto_api_version: nil)
         @company_uuid = company_uuid
-        @signatory_uuid = signatory_uuid
         @request_body = request_body
+        @signatory_uuid = signatory_uuid
         @x_gusto_api_version = x_gusto_api_version
       end
     end

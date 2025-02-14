@@ -5,12 +5,12 @@
 
 ### Available Operations
 
-* [list](#list) - Get all contractor documents
+* [get_all](#get_all) - Get all contractor documents
 * [get](#get) - Get a contractor document
 * [get_pdf](#get_pdf) - Get the contractor document pdf
 * [sign](#sign) - Sign a contractor document
 
-## list
+## get_all
 
 Get a list of all contractor's documents
 
@@ -30,7 +30,7 @@ s.config_security(
 )
 
     
-res = s.contractor_documents.list(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_documents.get_all(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.documents.nil?
   # handle response
@@ -153,13 +153,13 @@ s.config_security(
 )
 
     
-res = s.contractor_documents.sign(document_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody.new(
+res = s.contractor_documents.sign(document_uuid="<id>", request_body=::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody.new(
   fields_: [
     ::OpenApiSDK::Operations::Fields.new(),
   ],
   agree: false,
   signed_by_ip_address: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.document_signed.nil?
   # handle response
@@ -172,8 +172,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `document_uuid`                                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The ID or UUID of the document                                                                                                                                                                                               |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody](../../models/operations/putv1contractordocumentsignrequestbody.md)                                                                                        | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody)](../../models/operations/putv1contractordocumentsignrequestbody.md)                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

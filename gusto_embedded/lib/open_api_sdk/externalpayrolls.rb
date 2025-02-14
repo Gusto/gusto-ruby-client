@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1ExternalPayrollRequestBody)).returns(::OpenApiSDK::Operations::PostV1ExternalPayrollResponse) }
-    def create(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostV1ExternalPayrollRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1ExternalPayrollResponse) }
+    def create(company_uuid, request_body, x_gusto_api_version = nil)
       # create - Create a new external payroll for a company
       # Creates a new external payroll for the company.
       # 
@@ -28,8 +28,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1ExternalPayrollRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -42,6 +42,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -80,8 +81,8 @@ module OpenApiSDK
 
 
     sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompanyExternalPayrollsResponse) }
-    def list_by_company(company_uuid, x_gusto_api_version = nil)
-      # list_by_company - Get external payrolls for a company
+    def get(company_uuid, x_gusto_api_version = nil)
+      # get - Get external payrolls for a company
       # Get an external payroll for a given company.
       # 
       # scope: `external_payrolls:read`
@@ -125,8 +126,8 @@ module OpenApiSDK
 
 
     sig { params(company_uuid: ::String, external_payroll_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1ExternalPayrollResponse) }
-    def get(company_uuid, external_payroll_id, x_gusto_api_version = nil)
-      # get - Get an external payroll
+    def retrieve(company_uuid, external_payroll_id, x_gusto_api_version = nil)
+      # retrieve - Get an external payroll
       # Get an external payroll for a given company.
       # 
       # scope: `external_payrolls:read`
@@ -212,8 +213,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, external_payroll_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1ExternalPayrollRequestBody)).returns(::OpenApiSDK::Operations::PutV1ExternalPayrollResponse) }
-    def update(company_uuid, external_payroll_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, external_payroll_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1ExternalPayrollRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1ExternalPayrollResponse) }
+    def update(company_uuid, external_payroll_id, request_body, x_gusto_api_version = nil)
       # update - Update an external payroll
       # Update an external payroll with a list of external payroll items
       # 
@@ -222,8 +223,8 @@ module OpenApiSDK
         
         company_uuid: company_uuid,
         external_payroll_id: external_payroll_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -236,6 +237,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -322,8 +324,8 @@ module OpenApiSDK
 
 
     sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1TaxLiabilitiesResponse) }
-    def get_tax_liabilities(company_uuid, x_gusto_api_version = nil)
-      # get_tax_liabilities - Get tax liabilities
+    def list_tax_liabilities(company_uuid, x_gusto_api_version = nil)
+      # list_tax_liabilities - Get tax liabilities
       # Get tax liabilities from aggregate external payrolls for a company.
       # 
       # scope: `external_payrolls:read`
@@ -366,8 +368,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1TaxLiabilitiesRequestBody)).returns(::OpenApiSDK::Operations::PutV1TaxLiabilitiesResponse) }
-    def update_tax_liabilities(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1TaxLiabilitiesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1TaxLiabilitiesResponse) }
+    def update_tax_liabilities(company_uuid, request_body, x_gusto_api_version = nil)
       # update_tax_liabilities - Update tax liabilities
       # Update tax liabilities for a company.
       # 
@@ -375,8 +377,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1TaxLiabilitiesRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -389,6 +391,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

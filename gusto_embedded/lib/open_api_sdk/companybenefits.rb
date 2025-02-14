@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsResponse) }
-    def create(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsResponse) }
+    def create(company_id, request_body, x_gusto_api_version = nil)
       # create - Create a company benefit
       # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
       # 
@@ -30,8 +30,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -44,6 +44,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -82,8 +83,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, enrollment_count: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdCompanyBenefitsResponse) }
-    def list_for_company(company_id, enrollment_count = nil, x_gusto_api_version = nil)
-      # list_for_company - Get benefits for a company
+    def list(company_id, enrollment_count = nil, x_gusto_api_version = nil)
+      # list - Get benefits for a company
       # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
       # 
       # Note that company benefits can be deactivated only when no employees are enrolled.
@@ -185,8 +186,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_benefit_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdResponse) }
-    def update(company_benefit_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_benefit_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdResponse) }
+    def update(company_benefit_id, request_body, x_gusto_api_version = nil)
       # update - Update a company benefit
       # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
       # 
@@ -196,8 +197,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequest.new(
         
         company_benefit_id: company_benefit_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -210,6 +211,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -297,8 +299,8 @@ module OpenApiSDK
 
 
     sig { params(x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1BenefitsResponse) }
-    def list_supported(x_gusto_api_version = nil)
-      # list_supported - Get all benefits supported by Gusto
+    def get_all(x_gusto_api_version = nil)
+      # get_all - Get all benefits supported by Gusto
       # Returns all benefits supported by Gusto.
       # 
       # The benefit object in Gusto contains high level information about a particular benefit type and its tax considerations. When companies choose to offer a benefit, they are creating a Company Benefit object associated with a particular benefit.
@@ -338,8 +340,8 @@ module OpenApiSDK
 
 
     sig { params(benefit_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1BenefitsBenefitIdResponse) }
-    def get_benefit_by_id(benefit_id, x_gusto_api_version = nil)
-      # get_benefit_by_id - Get a supported benefit by ID
+    def get_supported(benefit_id, x_gusto_api_version = nil)
+      # get_supported - Get a supported benefit by ID
       # Returns a benefit supported by Gusto.
       # 
       # The benefit object in Gusto contains high level information about a particular benefit type and its tax considerations. When companies choose to offer a benefit, they are creating a Company Benefit object associated with a particular benefit.
@@ -481,9 +483,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_benefit_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse) }
-    def bulk_update_employee_benefits(company_benefit_id, x_gusto_api_version = nil, request_body = nil)
-      # bulk_update_employee_benefits - Bulk update employee benefits for a company benefit
+    sig { params(company_benefit_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse) }
+    def update_employee_benefits(company_benefit_id, request_body, x_gusto_api_version = nil)
+      # update_employee_benefits - Bulk update employee benefits for a company benefit
       # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
       # 
       # Create or update(if the employee is already enrolled in the company benefit previously) an employee benefit for the company benefit.
@@ -494,8 +496,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequest.new(
         
         company_benefit_id: company_benefit_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -508,6 +510,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

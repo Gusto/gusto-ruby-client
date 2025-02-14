@@ -20,8 +20,8 @@ module OpenApiSDK
 
 
     sig { params(contractor_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1ContractorDocumentsResponse) }
-    def list(contractor_uuid, x_gusto_api_version = nil)
-      # list - Get all contractor documents
+    def get_all(contractor_uuid, x_gusto_api_version = nil)
+      # get_all - Get all contractor documents
       # Get a list of all contractor's documents
       # 
       # scope: `contractor_documents:read`
@@ -154,8 +154,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(document_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody)).returns(::OpenApiSDK::Operations::PutV1ContractorDocumentSignResponse) }
-    def sign(document_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(document_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1ContractorDocumentSignResponse) }
+    def sign(document_uuid, request_body, x_gusto_api_version = nil)
       # sign - Sign a contractor document
       # Sign a contractor document.
       # 
@@ -163,8 +163,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1ContractorDocumentSignRequest.new(
         
         document_uuid: document_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -177,6 +177,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

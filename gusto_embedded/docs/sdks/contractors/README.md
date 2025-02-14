@@ -6,8 +6,8 @@
 ### Available Operations
 
 * [create](#create) - Create a contractor
-* [get](#get) - Get contractors of a company
-* [get_by_uuid](#get_by_uuid) - Get a contractor
+* [list](#list) - Get contractors of a company
+* [get](#get) - Get a contractor
 * [update](#update) - Update a contractor
 * [delete](#delete) - Delete a contractor
 * [get_onboarding_status](#get_onboarding_status) - Get the contractor's onboarding status
@@ -35,12 +35,12 @@ s.config_security(
 )
 
     
-res = s.contractors.create(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsRequestBody.new(
+res = s.contractors.create(company_uuid="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsRequestBody.new(
   type: ::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsType::INDIVIDUAL,
   wage_type: ::OpenApiSDK::Operations::WageType::HOURLY,
   start_date: "2020-01-11",
   hourly_rate: "40.0",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor.nil?
   # handle response
@@ -53,8 +53,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsRequestBody](../../models/operations/postv1companiescompanyuuidcontractorsrequestbody.md)                                                                    | :heavy_check_mark:                                                                                                                                                                                                           | Create an individual or business contractor.                                                                                                                                                                                 |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyUuidContractorsRequestBody)](../../models/operations/postv1companiescompanyuuidcontractorsrequestbody.md)                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | Create an individual or business contractor.                                                                                                                                                                                 |
 
 ### Response
 
@@ -62,7 +62,7 @@ end
 
 
 
-## get
+## list
 
 Get all contractors, active and inactive, individual and business, for a company.
 
@@ -86,7 +86,7 @@ req = ::OpenApiSDK::Operations::GetV1CompaniesCompanyUuidContractorsRequest.new(
   company_uuid: "<id>",
 )
     
-res = s.contractors.get(req)
+res = s.contractors.list(req)
 
 if ! res.contractor_list.nil?
   # handle response
@@ -106,7 +106,7 @@ end
 
 
 
-## get_by_uuid
+## get
 
 Get a contractor.
 
@@ -126,7 +126,7 @@ s.config_security(
 )
 
     
-res = s.contractors.get_by_uuid(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractors.get(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor.nil?
   # handle response
@@ -171,11 +171,11 @@ s.config_security(
 )
 
     
-res = s.contractors.update(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1ContractorsContractorUuidRequestBody.new(
+res = s.contractors.update(contractor_uuid="<id>", request_body=::OpenApiSDK::Operations::PutV1ContractorsContractorUuidRequestBody.new(
   version: "<value>",
   start_date: "2020-01-11",
   hourly_rate: "40.0",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor.nil?
   # handle response
@@ -188,8 +188,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `contractor_uuid`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor                                                                                                                                                                                                   |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1ContractorsContractorUuidRequestBody](../../models/operations/putv1contractorscontractoruuidrequestbody.md)                                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidRequestBody)](../../models/operations/putv1contractorscontractoruuidrequestbody.md)                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -340,9 +340,9 @@ s.config_security(
 )
 
     
-res = s.contractors.update_onboarding_status(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusRequestBody.new(
+res = s.contractors.update_onboarding_status(contractor_uuid="<id>", request_body=::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusRequestBody.new(
   onboarding_status: ::OpenApiSDK::Operations::OnboardingStatus::ONBOARDING_COMPLETED,
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor_onboarding_status.nil?
   # handle response
@@ -355,8 +355,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `contractor_uuid`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor                                                                                                                                                                                                   |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusRequestBody](../../models/operations/putv1contractorscontractoruuidonboardingstatusrequestbody.md)                                                  | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidOnboardingStatusRequestBody)](../../models/operations/putv1contractorscontractoruuidonboardingstatusrequestbody.md)                                       | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -425,9 +425,9 @@ s.config_security(
 )
 
     
-res = s.contractors.update_address(contractor_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressRequestBody.new(
+res = s.contractors.update_address(contractor_uuid="<id>", request_body=::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressRequestBody.new(
   version: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor_address.nil?
   # handle response
@@ -440,8 +440,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `contractor_uuid`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor                                                                                                                                                                                                   |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressRequestBody](../../models/operations/putv1contractorscontractoruuidaddressrequestbody.md)                                                                    | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1ContractorsContractorUuidAddressRequestBody)](../../models/operations/putv1contractorscontractoruuidaddressrequestbody.md)                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

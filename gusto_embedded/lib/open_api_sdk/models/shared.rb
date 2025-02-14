@@ -274,6 +274,7 @@ module OpenApiSDK
     autoload :BenefitTypeRequirementsCoverageAmountDefaultValue, 'open_api_sdk/models/shared/benefit_type_requirements_coverage_amount_default_value.rb'
     autoload :CoverageAmount, 'open_api_sdk/models/shared/coverage_amount.rb'
     autoload :BenefitTypeRequirements, 'open_api_sdk/models/shared/benefit_type_requirements.rb'
+    autoload :YtdBenefitAmountsFromDifferentCompany, 'open_api_sdk/models/shared/ytd_benefit_amounts_from_different_company.rb'
     autoload :PostEmployeeYtdBenefitAmountsFromDifferentCompany, 'open_api_sdk/models/shared/post_employee_ytd_benefit_amounts_from_different_company.rb'
     autoload :FipsCodes, 'open_api_sdk/models/shared/fips_codes.rb'
     autoload :Key, 'open_api_sdk/models/shared/key.rb'

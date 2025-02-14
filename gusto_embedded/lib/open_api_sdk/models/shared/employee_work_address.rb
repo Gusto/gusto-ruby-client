@@ -13,6 +13,8 @@ module OpenApiSDK
 
       # The unique identifier of this work address.
       field :uuid, ::String, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('uuid') } }
+      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+      field :version, ::String, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('version') } }
       # Signifies if this address is the active work address for the current date
       field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('active') } }
 
@@ -31,15 +33,14 @@ module OpenApiSDK
       field :street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('street_1') } }
 
       field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('street_2') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('version') } }
 
       field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('zip') } }
 
 
-      sig { params(uuid: ::String, active: T.nilable(T::Boolean), city: T.nilable(::String), country: T.nilable(::String), effective_date: T.nilable(::String), employee_uuid: T.nilable(::String), location_uuid: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), version: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(uuid: nil, active: nil, city: nil, country: nil, effective_date: nil, employee_uuid: nil, location_uuid: nil, state: nil, street_1: nil, street_2: nil, version: nil, zip: nil)
+      sig { params(uuid: ::String, version: ::String, active: T.nilable(T::Boolean), city: T.nilable(::String), country: T.nilable(::String), effective_date: T.nilable(::String), employee_uuid: T.nilable(::String), location_uuid: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
+      def initialize(uuid: nil, version: nil, active: nil, city: nil, country: nil, effective_date: nil, employee_uuid: nil, location_uuid: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
         @uuid = uuid
+        @version = version
         @active = active
         @city = city
         @country = country
@@ -49,7 +50,6 @@ module OpenApiSDK
         @state = state
         @street_1 = street_1
         @street_2 = street_2
-        @version = version
         @zip = zip
       end
     end

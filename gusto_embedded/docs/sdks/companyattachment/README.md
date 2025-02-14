@@ -5,11 +5,12 @@
 
 ### Available Operations
 
-* [get_details](#get_details) - Get Company Attachment Details
+* [get_download_url](#get_download_url) - Get a temporary url to download the Company Attachment file
 
-## get_details
+## get_download_url
 
-Retrieve the detail of an attachment uploaded by the company.
+Retrieve a temporary url to download a attachment file uploaded
+by the company.
 
 scope: `company_attachments:read`
 
@@ -27,9 +28,9 @@ s.config_security(
 )
 
     
-res = s.company_attachment.get_details(company_id="<id>", company_attachment_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_attachment.get_download_url(company_id="<id>", company_attachment_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
-if ! res.company_attachment.nil?
+if ! res.object.nil?
   # handle response
 end
 
@@ -45,5 +46,5 @@ end
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetV1CompaniesAttachmentResponse)](../../models/operations/getv1companiesattachmentresponse.md)**
+**[T.nilable(::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlResponse)](../../models/operations/getv1companiesattachmenturlresponse.md)**
 

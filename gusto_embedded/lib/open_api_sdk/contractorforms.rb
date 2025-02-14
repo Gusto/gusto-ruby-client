@@ -20,8 +20,8 @@ module OpenApiSDK
 
 
     sig { params(contractor_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1ContractorFormsResponse) }
-    def get_all(contractor_uuid, x_gusto_api_version = nil)
-      # get_all - Get all contractor forms
+    def list(contractor_uuid, x_gusto_api_version = nil)
+      # list - Get all contractor forms
       # Get a list of all contractor's forms
       # 
       # scope: `contractor_forms:read`
@@ -156,8 +156,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1SandboxGenerate1099RequestBody)).returns(::OpenApiSDK::Operations::PostV1SandboxGenerate1099Response) }
-    def generate1099(x_gusto_api_version = nil, request_body = nil)
+    sig { params(request_body: ::OpenApiSDK::Operations::PostV1SandboxGenerate1099RequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1SandboxGenerate1099Response) }
+    def generate1099(request_body, x_gusto_api_version = nil)
       # generate1099 - Generate a 1099 form [DEMO]
       # > 🚧 Demo action
       # >
@@ -168,8 +168,8 @@ module OpenApiSDK
       # scope: `contractors:write`
       request = ::OpenApiSDK::Operations::PostV1SandboxGenerate1099Request.new(
         
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -177,6 +177,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

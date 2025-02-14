@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequestBody)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsResponse) }
-    def create(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsResponse) }
+    def create(employee_id, request_body, x_gusto_api_version = nil)
       # create - Create an employee benefit
       # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
       # 
@@ -28,8 +28,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -42,6 +42,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -80,8 +81,8 @@ module OpenApiSDK
 
 
     sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdEmployeeBenefitsResponse) }
-    def get_all(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
-      # get_all - Get all benefits for an employee
+    def get(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
+      # get - Get all benefits for an employee
       # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
       # 
       # Returns an array of all employee benefits for this employee
@@ -133,8 +134,8 @@ module OpenApiSDK
 
 
     sig { params(employee_benefit_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeeBenefitsEmployeeBenefitIdResponse) }
-    def get(employee_benefit_id, x_gusto_api_version = nil)
-      # get - Get an employee benefit
+    def retrieve(employee_benefit_id, x_gusto_api_version = nil)
+      # retrieve - Get an employee benefit
       # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
       # 
       # Benefits containing PHI are only visible to applications with the `employee_benefits:read:phi` scope.
@@ -179,8 +180,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_benefit_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdResponse) }
-    def update(employee_benefit_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_benefit_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdResponse) }
+    def update(employee_benefit_id, request_body, x_gusto_api_version = nil)
       # update - Update an employee benefit
       # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
       # 
@@ -188,8 +189,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequest.new(
         
         employee_benefit_id: employee_benefit_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -202,6 +203,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -280,9 +282,60 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), post_employee_ytd_benefit_amounts_from_different_company: T.nilable(::OpenApiSDK::Shared::PostEmployeeYtdBenefitAmountsFromDifferentCompany)).returns(::OpenApiSDK::Operations::PostEmployeeYtdBenefitAmountsFromDifferentCompanyResponse) }
-    def create_ytd_amounts(employee_id, x_gusto_api_version = nil, post_employee_ytd_benefit_amounts_from_different_company = nil)
-      # create_ytd_amounts - Create year-to-date benefit amounts from a different company
+    sig { params(employee_id: ::String, tax_year: T.nilable(::Integer), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyResponse) }
+    def get_ytd_benefit_amounts_from_different_company(employee_id, tax_year = nil, x_gusto_api_version = nil)
+      # get_ytd_benefit_amounts_from_different_company - Get year-to-date benefit amounts from a different company
+      # Retrieves year-to-date benefit amounts that were contributed at a different company for the specified employee.
+      # Returns benefit amounts for the requested tax year (defaults to current year if not specified).
+      # 
+      # This endpoint only supports retrieving outside contributions for 401(k) benefits.
+      # 
+      # scope: `employee_benefits:read`
+      request = ::OpenApiSDK::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyRequest.new(
+        
+        employee_id: employee_id,
+        tax_year: tax_year,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyRequest,
+        base_url,
+        '/v1/employees/{employee_id}/ytd_benefit_amounts_from_different_company',
+        request
+      )
+      headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::OpenApiSDK::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyRequest, request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        req.params = query_params
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, T::Array[::OpenApiSDK::Shared::YtdBenefitAmountsFromDifferentCompany])
+          res.ytd_benefit_amounts_from_different_company_list = out
+        end
+      elsif r.status == 404
+      end
+
+      res
+    end
+
+
+    sig { params(employee_id: ::String, post_employee_ytd_benefit_amounts_from_different_company: ::OpenApiSDK::Shared::PostEmployeeYtdBenefitAmountsFromDifferentCompany, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostEmployeeYtdBenefitAmountsFromDifferentCompanyResponse) }
+    def create_ytd_benefit_amounts_from_different_company(employee_id, post_employee_ytd_benefit_amounts_from_different_company, x_gusto_api_version = nil)
+      # create_ytd_benefit_amounts_from_different_company - Create year-to-date benefit amounts from a different company
       # Year-to-date benefit amounts from a different company represents the amount of money added to an employee's plan during a current year, made outside of the current contribution when they were employed at a different company.
       # 
       # This endpoint only supports passing outside contributions for 401(k) benefits.
@@ -291,8 +344,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostEmployeeYtdBenefitAmountsFromDifferentCompanyRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        post_employee_ytd_benefit_amounts_from_different_company: post_employee_ytd_benefit_amounts_from_different_company
+        post_employee_ytd_benefit_amounts_from_different_company: post_employee_ytd_benefit_amounts_from_different_company,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -305,6 +358,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :post_employee_ytd_benefit_amounts_from_different_company, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

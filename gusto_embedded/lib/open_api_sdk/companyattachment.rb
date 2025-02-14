@@ -19,13 +19,14 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, company_attachment_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesAttachmentResponse) }
-    def get_details(company_id, company_attachment_uuid, x_gusto_api_version = nil)
-      # get_details - Get Company Attachment Details
-      # Retrieve the detail of an attachment uploaded by the company.
+    sig { params(company_id: ::String, company_attachment_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlResponse) }
+    def get_download_url(company_id, company_attachment_uuid, x_gusto_api_version = nil)
+      # get_download_url - Get a temporary url to download the Company Attachment file
+      # Retrieve a temporary url to download a attachment file uploaded
+      # by the company.
       # 
       # scope: `company_attachments:read`
-      request = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentRequest.new(
+      request = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlRequest.new(
         
         company_id: company_id,
         company_attachment_uuid: company_attachment_uuid,
@@ -34,9 +35,9 @@ module OpenApiSDK
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::OpenApiSDK::Operations::GetV1CompaniesAttachmentRequest,
+        ::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlRequest,
         base_url,
-        '/v1/companies/{company_id}/attachments/{company_attachment_uuid}',
+        '/v1/companies/{company_id}/attachments/{company_attachment_uuid}/download_url',
         request
       )
       headers = Utils.get_headers(request)
@@ -50,13 +51,13 @@ module OpenApiSDK
 
       content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
 
-      res = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentResponse.new(
+      res = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::CompanyAttachment)
-          res.company_attachment = out
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlResponseBody)
+          res.object = out
         end
       elsif r.status == 404
       end

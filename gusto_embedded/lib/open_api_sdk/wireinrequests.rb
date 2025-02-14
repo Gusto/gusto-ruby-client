@@ -64,8 +64,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(wire_in_request_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidRequestBody)).returns(::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidResponse) }
-    def submit(wire_in_request_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(wire_in_request_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidResponse) }
+    def submit(wire_in_request_uuid, request_body, x_gusto_api_version = nil)
       # submit - Submit a wire in request
       # Submit a wire in request for a payment
       # 
@@ -73,8 +73,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutWireInRequestsWireInRequestUuidRequest.new(
         
         wire_in_request_uuid: wire_in_request_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -87,6 +87,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -125,8 +126,8 @@ module OpenApiSDK
 
 
     sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetCompaniesCompanyUuidWireInRequestUuidResponse) }
-    def list_for_company(company_uuid, x_gusto_api_version = nil)
-      # list_for_company - Get all Wire In Requests for a company
+    def list(company_uuid, x_gusto_api_version = nil)
+      # list - Get all Wire In Requests for a company
       # Fetches all Wire In Requests for a company.
       # 
       # scope: `payrolls:read`

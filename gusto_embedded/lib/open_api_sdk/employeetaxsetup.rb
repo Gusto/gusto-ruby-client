@@ -64,8 +64,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdFederalTaxesRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdFederalTaxesResponse) }
-    def update_federal_taxes(employee_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdFederalTaxesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdFederalTaxesResponse) }
+    def update_federal_taxes(employee_uuid, request_body, x_gusto_api_version = nil)
       # update_federal_taxes - Update an employee's federal taxes
       # Update attributes relevant for an employee's federal taxes.
       # 
@@ -73,8 +73,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdFederalTaxesRequest.new(
         
         employee_uuid: employee_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -87,6 +87,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -181,8 +182,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdStateTaxesResponse) }
-    def update_state_taxes(employee_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdStateTaxesResponse) }
+    def update_state_taxes(employee_uuid, request_body, x_gusto_api_version = nil)
       # update_state_taxes - Update an employee's state taxes
       # Update attributes relevant for an employee's state taxes.
       # 
@@ -192,8 +193,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdStateTaxesRequest.new(
         
         employee_uuid: employee_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -206,6 +207,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

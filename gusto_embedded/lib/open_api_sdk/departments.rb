@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostDepartmentsRequestBody)).returns(::OpenApiSDK::Operations::PostDepartmentsResponse) }
-    def create(company_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_uuid: ::String, request_body: ::OpenApiSDK::Operations::PostDepartmentsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostDepartmentsResponse) }
+    def create(company_uuid, request_body, x_gusto_api_version = nil)
       # create - Create a department
       # Create a department
       # 
@@ -28,8 +28,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostDepartmentsRequest.new(
         
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -42,6 +42,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -170,8 +171,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(department_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutDepartmentsRequestBody)).returns(::OpenApiSDK::Operations::PutDepartmentsResponse) }
-    def update(department_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(department_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutDepartmentsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutDepartmentsResponse) }
+    def update(department_uuid, request_body, x_gusto_api_version = nil)
       # update - Update a department
       # Update a department
       # 
@@ -179,8 +180,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutDepartmentsRequest.new(
         
         department_uuid: department_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -193,6 +194,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -277,8 +279,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(department_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutAddPeopleToDepartmentRequestBody)).returns(::OpenApiSDK::Operations::PutAddPeopleToDepartmentResponse) }
-    def add_people(department_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(department_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutAddPeopleToDepartmentRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutAddPeopleToDepartmentResponse) }
+    def add_people(department_uuid, request_body, x_gusto_api_version = nil)
       # add_people - Add people to a department
       # Add employees and contractors to a department
       # 
@@ -287,8 +289,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutAddPeopleToDepartmentRequest.new(
         
         department_uuid: department_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -301,6 +303,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -333,8 +336,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(department_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutRemovePeopleFromDepartmentRequestBody)).returns(::OpenApiSDK::Operations::PutRemovePeopleFromDepartmentResponse) }
-    def remove_people(department_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(department_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutRemovePeopleFromDepartmentRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutRemovePeopleFromDepartmentResponse) }
+    def remove_people(department_uuid, request_body, x_gusto_api_version = nil)
       # remove_people - Remove people from a department
       # Remove employees and contractors from a department
       # 
@@ -343,8 +346,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutRemovePeopleFromDepartmentRequest.new(
         
         department_uuid: department_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -357,6 +360,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

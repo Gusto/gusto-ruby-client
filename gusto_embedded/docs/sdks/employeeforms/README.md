@@ -6,7 +6,7 @@
 ### Available Operations
 
 * [generate_w2](#generate_w2) - Generate a W2 form [DEMO]
-* [list_by_employee_id](#list_by_employee_id) - Get all employee forms
+* [list](#list) - Get all employee forms
 * [get](#get) - Get an employee form
 * [get_pdf](#get_pdf) - Get the employee form pdf
 * [sign](#sign) - Sign an employee form
@@ -35,9 +35,9 @@ s.config_security(
 )
 
     
-res = s.employee_forms.generate_w2(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1SandboxGenerateW2RequestBody.new(
+res = s.employee_forms.generate_w2(request_body=::OpenApiSDK::Operations::PostV1SandboxGenerateW2RequestBody.new(
   employee_id: "<id>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.form.nil?
   # handle response
@@ -49,8 +49,8 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1SandboxGenerateW2RequestBody](../../models/operations/postv1sandboxgeneratew2requestbody.md)                                                                                                | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1SandboxGenerateW2RequestBody)](../../models/operations/postv1sandboxgeneratew2requestbody.md)                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -58,7 +58,7 @@ end
 
 
 
-## list_by_employee_id
+## list
 
 Get a list of all employee's forms
 
@@ -78,7 +78,7 @@ s.config_security(
 )
 
     
-res = s.employee_forms.list_by_employee_id(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_forms.list(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.form_list.nil?
   # handle response
@@ -206,11 +206,11 @@ s.config_security(
 )
 
     
-res = s.employee_forms.sign(employee_id="<id>", form_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1EmployeeFormSignRequestBody.new(
+res = s.employee_forms.sign(employee_id="<id>", form_id="<id>", request_body=::OpenApiSDK::Operations::PutV1EmployeeFormSignRequestBody.new(
   signature_text: "<value>",
   agree: false,
   signed_by_ip_address: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.form.nil?
   # handle response
@@ -224,8 +224,8 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
 | `form_id`                                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the form                                                                                                                                                                                                         |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1EmployeeFormSignRequestBody](../../models/operations/putv1employeeformsignrequestbody.md)                                                                                                    | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1EmployeeFormSignRequestBody)](../../models/operations/putv1employeeformsignrequestbody.md)                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

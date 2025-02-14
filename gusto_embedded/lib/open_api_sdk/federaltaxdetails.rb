@@ -64,8 +64,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdFederalTaxDetailsRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdFederalTaxDetailsResponse) }
-    def update(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompaniesCompanyIdFederalTaxDetailsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdFederalTaxDetailsResponse) }
+    def update(company_id, request_body, x_gusto_api_version = nil)
       # update - Update Federal Tax Details
       # Updates attributes relevant for a company's federal taxes.
       # This information is required is to onboard a company for use with Gusto Embedded Payroll.
@@ -74,8 +74,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1CompaniesCompanyIdFederalTaxDetailsRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -88,6 +88,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

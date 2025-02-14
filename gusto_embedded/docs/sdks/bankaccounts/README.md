@@ -5,13 +5,12 @@
 
 ### Available Operations
 
-* [create_company_account](#create_company_account) - Create a company bank account
-* [get_all](#get_all) - Get all company bank accounts
+* [create](#create) - Create a company bank account
+* [get](#get) - Get all company bank accounts
 * [verify](#verify) - Verify a company bank account
-* [delete](#delete) - Delete an employee bank account
 * [create_from_plaid_token](#create_from_plaid_token) - Create a bank account from a plaid processor token
 
-## create_company_account
+## create
 
 This endpoint creates a new company bank account.
 
@@ -40,7 +39,7 @@ s.config_security(
 )
 
     
-res = s.bank_accounts.create_company_account(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsRequestBody.new())
+res = s.bank_accounts.create(company_id="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsRequestBody.new(), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_bank_account.nil?
   # handle response
@@ -53,8 +52,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsRequestBody](../../models/operations/postv1companiescompanyidbankaccountsrequestbody.md)                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdBankAccountsRequestBody)](../../models/operations/postv1companiescompanyidbankaccountsrequestbody.md)                                                           | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -62,7 +61,7 @@ end
 
 
 
-## get_all
+## get
 
 Returns company bank accounts. Currently, we only support a single default bank account per company.
 
@@ -82,7 +81,7 @@ s.config_security(
 )
 
     
-res = s.bank_accounts.get_all(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.bank_accounts.get(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_bank_account_list.nil?
   # handle response
@@ -136,10 +135,10 @@ s.config_security(
 )
 
     
-res = s.bank_accounts.verify(bank_account_uuid="<id>", company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody.new(
+res = s.bank_accounts.verify(bank_account_uuid="<id>", company_id="<id>", request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody.new(
   deposit_1: 7888.92,
   deposit_2: 1895.95,
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_bank_account.nil?
   # handle response
@@ -153,55 +152,12 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `bank_account_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the bank account                                                                                                                                                                                                 |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody](../../models/operations/putv1companiescompanyidbankaccountsverifyrequestbody.md)                                                            | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody)](../../models/operations/putv1companiescompanyidbankaccountsverifyrequestbody.md)                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
 **[T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyResponse)](../../models/operations/putv1companiescompanyidbankaccountsverifyresponse.md)**
-
-
-
-## delete
-
-Deletes an employee bank account. To update an employee's bank
-account details, delete the bank account first and create a new one.
-
-scope: `employee_payment_methods:write`
-
-### Example Usage
-
-```ruby
-require 'gusto'
-
-
-s = ::OpenApiSDK::Gusto.new
-s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
-res = s.bank_accounts.delete(employee_id="<id>", bank_account_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
-
-if res.status_code == 200
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
-| `bank_account_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the bank account                                                                                                                                                                                                 |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse)](../../models/operations/deletev1employeesemployeeidbankaccountsbankaccountidresponse.md)**
 
 
 
@@ -232,11 +188,11 @@ s.config_security(
 )
 
     
-res = s.bank_accounts.create_from_plaid_token(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1PlaidProcessorTokenRequestBody.new(
+res = s.bank_accounts.create_from_plaid_token(request_body=::OpenApiSDK::Operations::PostV1PlaidProcessorTokenRequestBody.new(
   owner_type: ::OpenApiSDK::Operations::OwnerType::COMPANY,
   owner_id: "<id>",
   processor_token: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.one_of.nil?
   # handle response
@@ -248,8 +204,8 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1PlaidProcessorTokenRequestBody](../../models/operations/postv1plaidprocessortokenrequestbody.md)                                                                                            | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1PlaidProcessorTokenRequestBody)](../../models/operations/postv1plaidprocessortokenrequestbody.md)                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 

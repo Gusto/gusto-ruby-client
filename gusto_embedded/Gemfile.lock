@@ -1,12 +1,12 @@
 PATH
   remote: .
   specs:
-    gusto (0.1.2)
+    gusto (0.2.0)
       faraday
       faraday-multipart
       rack
       rake
-      sorbet
+      sorbet-runtime
 
 GEM
   remote: https://rubygems.org/
@@ -60,6 +60,8 @@ GEM
     sorbet (0.5.11668)
       sorbet-static (= 0.5.11668)
     sorbet-runtime (0.5.11668)
+    sorbet-static (0.5.11668-aarch64-linux)
+    sorbet-static (0.5.11668-universal-darwin)
     sorbet-static (0.5.11668-x86_64-linux)
     sorbet-static-and-runtime (0.5.11668)
       sorbet (= 0.5.11668)
@@ -93,11 +95,11 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  minitest
   gusto!
+  minitest
   rubocop (~> 1.60.2)
-  sorbet-runtime
+  sorbet
   tapioca
 
 BUNDLED WITH
-  2.5.23
+   2.5.23

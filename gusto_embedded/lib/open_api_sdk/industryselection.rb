@@ -64,8 +64,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1CompanyIndustryRequestBody)).returns(::OpenApiSDK::Operations::PutV1CompanyIndustryResponse) }
-    def update(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompanyIndustryRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompanyIndustryResponse) }
+    def update(company_id, request_body, x_gusto_api_version = nil)
       # update - Update a company industry selection
       # Update the company industry selection by passing in industry classification codes: [NAICS code](https://www.naics.com), [SICS code](https://siccode.com/) and industry title. Our UI is leveraging [Middesk API](https://docs.middesk.com/reference/introduction) to determine industry classification codes.
       # 
@@ -73,8 +73,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1CompanyIndustryRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -87,6 +87,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -107,7 +108,7 @@ module OpenApiSDK
       res = ::OpenApiSDK::Operations::PutV1CompanyIndustryResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
-      if r.status == 200
+      if r.status == 201
         if Utils.match_content_type(content_type, 'application/json')
           out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::Industry)
           res.industry = out

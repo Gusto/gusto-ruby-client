@@ -19,14 +19,13 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, company_attachment_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlResponse) }
-    def get_download_url(company_id, company_attachment_uuid, x_gusto_api_version = nil)
-      # get_download_url - Get a temporary url to download the Company Attachment file
-      # Retrieve a temporary url to download a attachment file uploaded
-      # by the company.
+    sig { params(company_id: ::String, company_attachment_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesAttachmentResponse) }
+    def get_details(company_id, company_attachment_uuid, x_gusto_api_version = nil)
+      # get_details - Get Company Attachment Details
+      # Retrieve the detail of an attachment uploaded by the company.
       # 
       # scope: `company_attachments:read`
-      request = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlRequest.new(
+      request = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentRequest.new(
         
         company_id: company_id,
         company_attachment_uuid: company_attachment_uuid,
@@ -35,9 +34,9 @@ module OpenApiSDK
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlRequest,
+        ::OpenApiSDK::Operations::GetV1CompaniesAttachmentRequest,
         base_url,
-        '/v1/companies/{company_id}/attachments/{company_attachment_uuid}/download_url',
+        '/v1/companies/{company_id}/attachments/{company_attachment_uuid}',
         request
       )
       headers = Utils.get_headers(request)
@@ -51,13 +50,13 @@ module OpenApiSDK
 
       content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
 
-      res = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlResponse.new(
+      res = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Operations::GetV1CompaniesAttachmentUrlResponseBody)
-          res.object = out
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::CompanyAttachment)
+          res.company_attachment = out
         end
       elsif r.status == 404
       end
@@ -66,8 +65,53 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesAttachmentRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesAttachmentResponse) }
-    def create(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesAttachmentsResponse) }
+    def get_list(company_id, x_gusto_api_version = nil)
+      # get_list - Get List of Company Attachments
+      # Retrieve a list of all the attachments uploaded by the company.
+      # 
+      # scope: `company_attachments:read`
+      request = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentsRequest.new(
+        
+        company_id: company_id,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::GetV1CompaniesAttachmentsRequest,
+        base_url,
+        '/v1/companies/{company_id}/attachments',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::GetV1CompaniesAttachmentsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, T::Array[::OpenApiSDK::Shared::CompanyAttachment])
+          res.company_attachment_list = out
+        end
+      elsif r.status == 404
+      end
+
+      res
+    end
+
+
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesAttachmentRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesAttachmentResponse) }
+    def create(company_id, request_body, x_gusto_api_version = nil)
       # create - Create Company Attachment and Upload File
       # Upload a file and create a company attachment. We recommend uploading
       # PDF files for optimal compatibility. However, the following file types are
@@ -77,8 +121,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesAttachmentRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -91,6 +135,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :multipart)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

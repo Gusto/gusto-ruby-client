@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1JobsJobIdRequestBody)).returns(::OpenApiSDK::Operations::PostV1JobsJobIdResponse) }
-    def create_job(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1JobsJobIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1JobsJobIdResponse) }
+    def create_job(employee_id, request_body, x_gusto_api_version = nil)
       # create_job - Create a job
       # Create a job.
       # 
@@ -28,8 +28,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1JobsJobIdRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -42,6 +42,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -169,17 +170,17 @@ module OpenApiSDK
     end
 
 
-    sig { params(job_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1JobsJobIdRequestBody)).returns(::OpenApiSDK::Operations::PutV1JobsJobIdResponse) }
-    def update_job(job_id, x_gusto_api_version = nil, request_body = nil)
-      # update_job - Update a job
+    sig { params(job_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1JobsJobIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1JobsJobIdResponse) }
+    def update(job_id, request_body, x_gusto_api_version = nil)
+      # update - Update a job
       # Update a job.
       # 
       # scope: `jobs:write`
       request = ::OpenApiSDK::Operations::PutV1JobsJobIdRequest.new(
         
         job_id: job_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -192,6 +193,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -230,8 +232,8 @@ module OpenApiSDK
 
 
     sig { params(job_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::DeleteV1JobsJobIdResponse) }
-    def delete_job(job_id, x_gusto_api_version = nil)
-      # delete_job - Delete an individual job
+    def delete(job_id, x_gusto_api_version = nil)
+      # delete - Delete an individual job
       # Deletes a specific job that an employee holds.
       # 
       # scope: `jobs:write`
@@ -316,8 +318,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(job_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompensationsCompensationIdRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompensationsCompensationIdResponse) }
-    def create_compensation(job_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(job_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompensationsCompensationIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompensationsCompensationIdResponse) }
+    def create_compensation(job_id, request_body, x_gusto_api_version = nil)
       # create_compensation - Create a compensation
       # Compensations contain information on how much is paid out for a job. Jobs may have many compensations, but only one that is active. The current compensation is the one with the most recent `effective_date`.
       # 
@@ -325,8 +327,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompensationsCompensationIdRequest.new(
         
         job_id: job_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -339,6 +341,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -377,8 +380,8 @@ module OpenApiSDK
 
 
     sig { params(compensation_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompensationsCompensationIdResponse) }
-    def get(compensation_id, x_gusto_api_version = nil)
-      # get - Get a compensation
+    def get_compensation(compensation_id, x_gusto_api_version = nil)
+      # get_compensation - Get a compensation
       # Compensations contain information on how much is paid out for a job. Jobs may have many compensations, but only one that is active. The current compensation is the one with the most recent `effective_date`.
       # 
       # scope: `jobs:read`
@@ -416,6 +419,67 @@ module OpenApiSDK
           res.compensation = out
         end
       elsif r.status == 404
+      end
+
+      res
+    end
+
+
+    sig { params(compensation_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1CompensationsCompensationIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1CompensationsCompensationIdResponse) }
+    def update_compensation(compensation_id, request_body, x_gusto_api_version = nil)
+      # update_compensation - Update a compensation
+      # Compensations contain information on how much is paid out for a job. Jobs may have many compensations, but only one that is active. The current compensation is the one with the most recent `effective_date`.
+      # 
+      # scope: `jobs:write`
+      request = ::OpenApiSDK::Operations::PutV1CompensationsCompensationIdRequest.new(
+        
+        compensation_id: compensation_id,
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::PutV1CompensationsCompensationIdRequest,
+        base_url,
+        '/v1/compensations/{compensation_id}',
+        request
+      )
+      headers = Utils.get_headers(request)
+      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.put(url) do |req|
+        req.headers = headers
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+        if form
+          req.body = Utils.encode_form(form)
+        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+          req.body = URI.encode_www_form(data)
+        else
+          req.body = data
+        end
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::PutV1CompensationsCompensationIdResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::Compensation)
+          res.compensation = out
+        end
+      elsif r.status == 404
+      elsif r.status == 422
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res

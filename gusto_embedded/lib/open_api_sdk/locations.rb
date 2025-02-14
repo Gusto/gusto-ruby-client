@@ -19,8 +19,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequestBody)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsResponse) }
-    def create(company_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(company_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsResponse) }
+    def create(company_id, request_body, x_gusto_api_version = nil)
       # create - Create a company location
       # Company locations represent all addresses associated with a company. These can be filing addresses, mailing addresses, and/or work locations; one address may serve multiple, or all, purposes.
       # 
@@ -30,8 +30,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequest.new(
         
         company_id: company_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -44,6 +44,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -82,8 +83,8 @@ module OpenApiSDK
 
 
     sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdLocationsResponse) }
-    def get_company_locations(company_id, page = nil, per = nil, x_gusto_api_version = nil)
-      # get_company_locations - Get company locations
+    def get(company_id, page = nil, per = nil, x_gusto_api_version = nil)
+      # get - Get company locations
       # Company locations represent all addresses associated with a company. These can be filing addresses, mailing addresses, and/or work locations; one address may serve multiple, or all, purposes.
       # 
       # Since all company locations are subsets of locations, retrieving or updating an individual record should be done via the locations endpoints.
@@ -133,8 +134,8 @@ module OpenApiSDK
 
 
     sig { params(location_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1LocationsLocationIdResponse) }
-    def get(location_id, x_gusto_api_version = nil)
-      # get - Get a location
+    def retrieve(location_id, x_gusto_api_version = nil)
+      # retrieve - Get a location
       # Get a location.
       # 
       # scope: `companies:read`
@@ -177,8 +178,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(location_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1LocationsLocationIdRequestBody)).returns(::OpenApiSDK::Operations::PutV1LocationsLocationIdResponse) }
-    def update(location_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(location_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1LocationsLocationIdRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1LocationsLocationIdResponse) }
+    def update(location_id, request_body, x_gusto_api_version = nil)
       # update - Update a location
       # Update a location.
       # 
@@ -186,8 +187,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1LocationsLocationIdRequest.new(
         
         location_id: location_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -200,6 +201,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

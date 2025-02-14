@@ -19,9 +19,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdBankAccountsRequestBody)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdBankAccountsResponse) }
-    def create_bank_account(employee_id, x_gusto_api_version = nil, request_body = nil)
-      # create_bank_account - Create an employee bank account
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdBankAccountsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdBankAccountsResponse) }
+    def create(employee_id, request_body, x_gusto_api_version = nil)
+      # create - Create an employee bank account
       # Creates an employee bank account. An employee can have multiple
       # bank accounts. Note that creating an employee bank account will also update
       # the employee's payment method.
@@ -30,8 +30,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PostV1EmployeesEmployeeIdBankAccountsRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -44,6 +44,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -81,50 +82,42 @@ module OpenApiSDK
     end
 
 
-    sig { params(request: T.nilable(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsRequest)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsResponse) }
-    def get_bank_accounts(request)
-      # get_bank_accounts - Get all employee bank accounts
-      # Returns all employee bank accounts.
+    sig { params(employee_id: ::String, bank_account_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse) }
+    def delete_bank_account(employee_id, bank_account_uuid, x_gusto_api_version = nil)
+      # delete_bank_account - Delete an employee bank account
+      # Deletes an employee bank account. To update an employee's bank
+      # account details, delete the bank account first and create a new one.
       # 
-      # scope: `employee_payment_methods:read`
+      # scope: `employee_payment_methods:write`
+      request = ::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest.new(
+        
+        employee_id: employee_id,
+        bank_account_uuid: bank_account_uuid,
+        x_gusto_api_version: x_gusto_api_version
+      )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsRequest,
+        ::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdRequest,
         base_url,
-        '/v1/employees/{employee_id}/bank_accounts',
+        '/v1/employees/{employee_id}/bank_accounts/{bank_account_uuid}',
         request
       )
       headers = Utils.get_headers(request)
-      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
-      headers['content-type'] = req_content_type
-      query_params = Utils.get_query_params(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsRequest, request)
-      headers['Accept'] = 'application/json'
+      headers['Accept'] = '*/*'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.get(url) do |req|
+      r = @sdk_configuration.client.delete(url) do |req|
         req.headers = headers
-        req.params = query_params
         Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
-        if form
-          req.body = Utils.encode_form(form)
-        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-          req.body = URI.encode_www_form(data)
-        else
-          req.body = data
-        end
       end
 
       content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
 
-      res = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdBankAccountsResponse.new(
+      res = ::OpenApiSDK::Operations::DeleteV1EmployeesEmployeeIdBankAccountsBankAccountIdResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Utils.unmarshal_complex(r.env.response_body, T::Array[::OpenApiSDK::Shared::EmployeeBankAccount])
-          res.employee_bank_account_list = out
-        end
+      if r.status == 204
       elsif r.status == 404
       end
 
@@ -132,8 +125,8 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, bank_account_uuid: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdBankAccountsRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdBankAccountsResponse) }
-    def update_bank_account(employee_id, bank_account_uuid, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, bank_account_uuid: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdBankAccountsRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdBankAccountsResponse) }
+    def update_bank_account(employee_id, bank_account_uuid, request_body, x_gusto_api_version = nil)
       # update_bank_account - Update an employee bank account
       # Updates an employee bank account.
       # 
@@ -142,8 +135,8 @@ module OpenApiSDK
         
         employee_id: employee_id,
         bank_account_uuid: bank_account_uuid,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -156,6 +149,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -193,8 +187,55 @@ module OpenApiSDK
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdPaymentMethodRequestBody)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdPaymentMethodResponse) }
-    def update(employee_id, x_gusto_api_version = nil, request_body = nil)
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodResponse) }
+    def get(employee_id, x_gusto_api_version = nil)
+      # get - Get an employee's payment method
+      # Fetches an employee's payment method. An employee payment method
+      # describes how the payment should be split across the employee's associated
+      # bank accounts.
+      # 
+      # scope: `employee_payment_methods:read`
+      request = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodRequest.new(
+        
+        employee_id: employee_id,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodRequest,
+        base_url,
+        '/v1/employees/{employee_id}/payment_method',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdPaymentMethodResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Utils.unmarshal_complex(r.env.response_body, ::OpenApiSDK::Shared::EmployeePaymentMethod)
+          res.employee_payment_method = out
+        end
+      elsif r.status == 404
+      end
+
+      res
+    end
+
+
+    sig { params(employee_id: ::String, request_body: ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdPaymentMethodRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdPaymentMethodResponse) }
+    def update(employee_id, request_body, x_gusto_api_version = nil)
       # update - Update an employee's payment method
       # Updates an employee's payment method. Note that creating an employee
       # bank account will also update the employee's payment method.
@@ -203,8 +244,8 @@ module OpenApiSDK
       request = ::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdPaymentMethodRequest.new(
         
         employee_id: employee_id,
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -217,6 +258,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

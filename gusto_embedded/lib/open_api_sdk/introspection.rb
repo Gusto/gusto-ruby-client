@@ -20,8 +20,8 @@ module OpenApiSDK
 
 
     sig { params(x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::GetV1TokenInfoResponse) }
-    def get_token_info(x_gusto_api_version = nil)
-      # get_token_info - Get info about the current access token
+    def get_info(x_gusto_api_version = nil)
+      # get_info - Get info about the current access token
       # Returns scope and resource information associated with the current access token.
       request = ::OpenApiSDK::Operations::GetV1TokenInfoRequest.new(
         
@@ -55,9 +55,9 @@ module OpenApiSDK
     end
 
 
-    sig { params(x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader), request_body: T.nilable(::OpenApiSDK::Operations::RefreshAccessTokenRequestBody)).returns(::OpenApiSDK::Operations::RefreshAccessTokenResponse) }
-    def refresh_access_token(x_gusto_api_version = nil, request_body = nil)
-      # refresh_access_token - Refresh access token
+    sig { params(request_body: ::OpenApiSDK::Operations::RefreshAccessTokenRequestBody, x_gusto_api_version: T.nilable(::OpenApiSDK::Shared::VersionHeader)).returns(::OpenApiSDK::Operations::RefreshAccessTokenResponse) }
+    def refresh_token(request_body, x_gusto_api_version = nil)
+      # refresh_token - Refresh access token
       # Exchange a refresh token for a new access token.
       # 
       # The previous `refresh_token` will be revoked on the first usage of the new `access_token`.
@@ -65,8 +65,8 @@ module OpenApiSDK
       # The `expires_in` value is provided in seconds from when the `access_token` was generated.
       request = ::OpenApiSDK::Operations::RefreshAccessTokenRequest.new(
         
-        x_gusto_api_version: x_gusto_api_version,
-        request_body: request_body
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -74,6 +74,7 @@ module OpenApiSDK
       headers = Utils.get_headers(request)
       req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
       headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 

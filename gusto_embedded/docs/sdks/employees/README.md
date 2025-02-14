@@ -6,12 +6,12 @@
 ### Available Operations
 
 * [create](#create) - Create an employee
-* [list_by_company](#list_by_company) - Get employees of a company
+* [list](#list) - Get employees of a company
 * [create_historical](#create_historical) - Create a historical employee
-* [update_historical_employee](#update_historical_employee) - Update a historical employee
 * [get](#get) - Get an employee
 * [update](#update) - Update an employee
 * [delete](#delete) - Delete an onboarding employee
+* [get_custom_fields](#get_custom_fields) - Get an employee's custom fields
 * [update_onboarding_documents_config](#update_onboarding_documents_config) - Update an employee's onboarding documents config
 * [get_onboarding_status](#get_onboarding_status) - Get the employee's onboarding status
 * [update_onboarding_status](#update_onboarding_status) - Update the employee's onboarding status
@@ -37,10 +37,10 @@ s.config_security(
 )
 
     
-res = s.employees.create(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PostV1EmployeesRequestBody.new(
+res = s.employees.create(company_id="<id>", request_body=::OpenApiSDK::Operations::PostV1EmployeesRequestBody.new(
   first_name: "Jed",
   last_name: "Johnson",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee.nil?
   # handle response
@@ -53,8 +53,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1EmployeesRequestBody](../../models/operations/postv1employeesrequestbody.md)                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                           | Create an employee.                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PostV1EmployeesRequestBody)](../../models/operations/postv1employeesrequestbody.md)                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | Create an employee.                                                                                                                                                                                                          |
 
 ### Response
 
@@ -62,7 +62,7 @@ end
 
 
 
-## list_by_company
+## list
 
 Get all of the employees, onboarding, active and terminated, for a given company.
 
@@ -86,7 +86,7 @@ req = ::OpenApiSDK::Operations::GetV1CompaniesCompanyIdEmployeesRequest.new(
   company_id: "<id>",
 )
     
-res = s.employees.list_by_company(req)
+res = s.employees.list(req)
 
 if ! res.employee_list.nil?
   # handle response
@@ -126,10 +126,10 @@ s.config_security(
 )
 
     
-res = s.employees.create_historical(company_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, historical_employee_body=::OpenApiSDK::Shared::HistoricalEmployeeBody.new(
+res = s.employees.create_historical(company_uuid="<id>", historical_employee_body=::OpenApiSDK::Shared::HistoricalEmployeeBody.new(
   first_name: "Cortez",
   last_name: "Dickens",
-  date_of_birth: "1995-10-26",
+  date_of_birth: "1995-11-13",
   ssn: "<value>",
   work_address: ::OpenApiSDK::Shared::WorkAddress.new(),
   home_address: ::OpenApiSDK::Shared::HistoricalEmployeeBodyHomeAddress.new(
@@ -140,7 +140,7 @@ res = s.employees.create_historical(company_uuid="<id>", x_gusto_api_version=::O
   ),
   termination: ::OpenApiSDK::Shared::HistoricalEmployeeBodyTermination.new(),
   job: ::OpenApiSDK::Shared::HistoricalEmployeeBodyJob.new(),
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee.nil?
   # handle response
@@ -153,70 +153,12 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `historical_employee_body`                                                                                                                                                                                                   | [::OpenApiSDK::Shared::HistoricalEmployeeBody](../../models/shared/historicalemployeebody.md)                                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                           | Create a historical employee.                                                                                                                                                                                                |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `historical_employee_body`                                                                                                                                                                                                   | [T.nilable(::OpenApiSDK::Shared::HistoricalEmployeeBody)](../../models/shared/historicalemployeebody.md)                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | Create a historical employee.                                                                                                                                                                                                |
 
 ### Response
 
 **[T.nilable(::OpenApiSDK::Operations::PostV1HistoricalEmployeesResponse)](../../models/operations/postv1historicalemployeesresponse.md)**
-
-
-
-## update_historical_employee
-
-Update a historical employee, an employee that was previously dismissed from the company in the current year.
-
-scope: `employees:manage`
-
-### Example Usage
-
-```ruby
-require 'gusto'
-
-
-s = ::OpenApiSDK::Gusto.new
-s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
-res = s.employees.update_historical_employee(company_uuid="<id>", historical_employee_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1HistoricalEmployeesRequestBody.new(
-  version: "<value>",
-  first_name: "Victor",
-  last_name: "Bauch",
-  date_of_birth: "1964-12-07",
-  ssn: "<value>",
-  work_address: ::OpenApiSDK::Operations::WorkAddress.new(),
-  home_address: ::OpenApiSDK::Operations::PutV1HistoricalEmployeesHomeAddress.new(
-    street_1: "<value>",
-    city: "Beahanfort",
-    state: "North Dakota",
-    zip: "56434-1950",
-  ),
-  termination: ::OpenApiSDK::Operations::Termination.new(),
-  job: ::OpenApiSDK::Operations::Job.new(),
-))
-
-if ! res.employee.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `historical_employee_uuid`                                                                                                                                                                                                   | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the historical employee                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1HistoricalEmployeesRequestBody)](../../models/operations/putv1historicalemployeesrequestbody.md)                                                                                   | :heavy_minus_sign:                                                                                                                                                                                                           | Update a historical employee.                                                                                                                                                                                                |
-
-### Response
-
-**[T.nilable(::OpenApiSDK::Operations::PutV1HistoricalEmployeesResponse)](../../models/operations/putv1historicalemployeesresponse.md)**
 
 
 
@@ -285,9 +227,9 @@ s.config_security(
 )
 
     
-res = s.employees.update(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1EmployeesRequestBody.new(
+res = s.employees.update(employee_id="<id>", request_body=::OpenApiSDK::Operations::PutV1EmployeesRequestBody.new(
   version: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee.nil?
   # handle response
@@ -300,8 +242,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1EmployeesRequestBody](../../models/operations/putv1employeesrequestbody.md)                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | Update an employee.                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1EmployeesRequestBody)](../../models/operations/putv1employeesrequestbody.md)                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Update an employee.                                                                                                                                                                                                          |
 
 ### Response
 
@@ -352,6 +294,49 @@ end
 
 
 
+## get_custom_fields
+
+Returns a list of the employee's custom fields.
+
+scope: `employees:read`
+
+### Example Usage
+
+```ruby
+require 'gusto'
+
+
+s = ::OpenApiSDK::Gusto.new
+s.config_security(
+  ::OpenApiSDK::Shared::Security.new(
+    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  )
+)
+
+    
+res = s.employees.get_custom_fields(employee_id="<id>", page=6531.7, per=3092.2, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.object.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `page`                                                                                                                                                                                                                       | *T.nilable(::Float)*                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.                                                                                                                       |
+| `per`                                                                                                                                                                                                                        | *T.nilable(::Float)*                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | Number of objects per page. For majority of endpoints will default to 25                                                                                                                                                     |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::OpenApiSDK::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse)](../../models/operations/getv1employeesemployeeidcustomfieldsresponse.md)**
+
+
+
 ## update_onboarding_documents_config
 
 Indicate whether to include the Form I-9 for an employee during the onboarding process.
@@ -372,7 +357,7 @@ s.config_security(
 )
 
     
-res = s.employees.update_onboarding_documents_config(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody.new())
+res = s.employees.update_onboarding_documents_config(employee_id="<id>", request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody.new(), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_onboarding_document.nil?
   # handle response
@@ -385,8 +370,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody](../../models/operations/putv1employeesemployeeidonboardingdocumentsconfigrequestbody.md)                                            | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody)](../../models/operations/putv1employeesemployeeidonboardingdocumentsconfigrequestbody.md)                                 | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -500,9 +485,9 @@ s.config_security(
 )
 
     
-res = s.employees.update_onboarding_status(employee_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody.new(
+res = s.employees.update_onboarding_status(employee_id="<id>", request_body=::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody.new(
   onboarding_status: "<value>",
-))
+), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_onboarding_status.nil?
   # handle response
@@ -515,8 +500,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody](../../models/operations/putv1employeesemployeeidonboardingstatusrequestbody.md)                                                              | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `request_body`                                                                                                                                                                                                               | [T.nilable(::OpenApiSDK::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody)](../../models/operations/putv1employeesemployeeidonboardingstatusrequestbody.md)                                                   | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
