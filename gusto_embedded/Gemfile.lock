@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gusto (0.2.0)
+    gusto (0.2.1)
       faraday
       faraday-multipart
       rack
