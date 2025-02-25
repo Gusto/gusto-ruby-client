@@ -15,6 +15,8 @@ module OpenApiSDK
       field :uuid, ::String, { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('uuid') } }
       # The description of the form
       field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('description') } }
+      # The content type of the associated document. Most forms are PDFs with a content type of `application/pdf`. Some tax file packages will be zip files (containing PDFs) with a content type of `application/zip`. This attribute will be `null` when the document has not been prepared.
+      field :document_content_type, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('document_content_type') } }
       # If the form is in a draft state. E.g. End of year tax forms may be provided in a draft state prior to being finalized.
       field :draft, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('draft') } }
       # The UUID of the employee
@@ -31,10 +33,11 @@ module OpenApiSDK
       field :year, T.nilable(::Integer), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('year') } }
 
 
-      sig { params(uuid: ::String, description: T.nilable(::String), draft: T.nilable(T::Boolean), employee_uuid: T.nilable(::String), name: T.nilable(::String), quarter: T.nilable(::Integer), requires_signing: T.nilable(T::Boolean), title: T.nilable(::String), year: T.nilable(::Integer)).void }
-      def initialize(uuid: nil, description: nil, draft: nil, employee_uuid: nil, name: nil, quarter: nil, requires_signing: nil, title: nil, year: nil)
+      sig { params(uuid: ::String, description: T.nilable(::String), document_content_type: T.nilable(::String), draft: T.nilable(T::Boolean), employee_uuid: T.nilable(::String), name: T.nilable(::String), quarter: T.nilable(::Integer), requires_signing: T.nilable(T::Boolean), title: T.nilable(::String), year: T.nilable(::Integer)).void }
+      def initialize(uuid: nil, description: nil, document_content_type: nil, draft: nil, employee_uuid: nil, name: nil, quarter: nil, requires_signing: nil, title: nil, year: nil)
         @uuid = uuid
         @description = description
+        @document_content_type = document_content_type
         @draft = draft
         @employee_uuid = employee_uuid
         @name = name

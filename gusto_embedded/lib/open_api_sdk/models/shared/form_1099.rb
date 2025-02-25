@@ -17,6 +17,8 @@ module OpenApiSDK
       field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('contractor_uuid') } }
       # The description of the form
       field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('description') } }
+      # The content type of the associated document. Most forms are PDFs with a content type of `application/pdf`. Some tax file packages will be zip files (containing PDFs) with a content type of `application/zip`. This attribute will be `null` when the document has not been prepared.
+      field :document_content_type, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('document_content_type') } }
       # If the form is in a draft state. E.g. End of year tax forms may be provided in a draft state prior to being finalized.
       field :draft, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('draft') } }
       # The type identifier of the form
@@ -31,11 +33,12 @@ module OpenApiSDK
       field :year, T.nilable(::Integer), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('year') } }
 
 
-      sig { params(uuid: ::String, contractor_uuid: T.nilable(::String), description: T.nilable(::String), draft: T.nilable(T::Boolean), name: T.nilable(::String), quarter: T.nilable(::Integer), requires_signing: T.nilable(T::Boolean), title: T.nilable(::String), year: T.nilable(::Integer)).void }
-      def initialize(uuid: nil, contractor_uuid: nil, description: nil, draft: nil, name: nil, quarter: nil, requires_signing: nil, title: nil, year: nil)
+      sig { params(uuid: ::String, contractor_uuid: T.nilable(::String), description: T.nilable(::String), document_content_type: T.nilable(::String), draft: T.nilable(T::Boolean), name: T.nilable(::String), quarter: T.nilable(::Integer), requires_signing: T.nilable(T::Boolean), title: T.nilable(::String), year: T.nilable(::Integer)).void }
+      def initialize(uuid: nil, contractor_uuid: nil, description: nil, document_content_type: nil, draft: nil, name: nil, quarter: nil, requires_signing: nil, title: nil, year: nil)
         @uuid = uuid
         @contractor_uuid = contractor_uuid
         @description = description
+        @document_content_type = document_content_type
         @draft = draft
         @name = name
         @quarter = quarter

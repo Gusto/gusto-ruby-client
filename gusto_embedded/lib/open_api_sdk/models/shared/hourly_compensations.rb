@@ -15,6 +15,8 @@ module OpenApiSDK
       field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('amount') } }
       # The amount multiplied by the base rate to calculate total compensation per hour worked.
       field :compensation_multiplier, T.nilable(::Float), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('compensation_multiplier') } }
+      # The FLSA Status of the employee's primary job compensation
+      field :flsa_status, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('flsa_status') } }
       # The number of hours to be compensated for this pay period.
       field :hours, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('hours') } }
       # The UUID of the job for the compensation.
@@ -23,10 +25,11 @@ module OpenApiSDK
       field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::OpenApiSDK::Utils.field_name('name') } }
 
 
-      sig { params(amount: T.nilable(::String), compensation_multiplier: T.nilable(::Float), hours: T.nilable(::String), job_uuid: T.nilable(::String), name: T.nilable(::String)).void }
-      def initialize(amount: nil, compensation_multiplier: nil, hours: nil, job_uuid: nil, name: nil)
+      sig { params(amount: T.nilable(::String), compensation_multiplier: T.nilable(::Float), flsa_status: T.nilable(::String), hours: T.nilable(::String), job_uuid: T.nilable(::String), name: T.nilable(::String)).void }
+      def initialize(amount: nil, compensation_multiplier: nil, flsa_status: nil, hours: nil, job_uuid: nil, name: nil)
         @amount = amount
         @compensation_multiplier = compensation_multiplier
+        @flsa_status = flsa_status
         @hours = hours
         @job_uuid = job_uuid
         @name = name

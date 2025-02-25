@@ -31,7 +31,7 @@ res = s.historical_employees.update(company_uuid="<id>", historical_employee_uui
   version: "<value>",
   first_name: "Ruthe",
   last_name: "Hegmann",
-  date_of_birth: "2006-08-02",
+  date_of_birth: "2006-08-12",
   ssn: "<value>",
   work_address: ::OpenApiSDK::Operations::WorkAddress.new(),
   home_address: ::OpenApiSDK::Operations::PutV1HistoricalEmployeesHomeAddress.new(
