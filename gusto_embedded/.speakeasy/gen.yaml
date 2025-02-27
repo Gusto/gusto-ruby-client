@@ -1,6 +1,6 @@
 configVersion: 2.0.0
 generation:
-  sdkClassName: Gusto
+  sdkClassName: Client
   maintainOpenAPIOrder: true
   usageSnippets:
     optionalPropertyRendering: withExample
@@ -28,6 +28,6 @@ ruby:
       webhooks: models/webhooks
   inputModelSuffix: input
   maxMethodParams: 4
-  module: OpenApiSdk
+  module: GustoEmbedded
   outputModelSuffix: output
   packageName: gusto
