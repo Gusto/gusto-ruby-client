@@ -1,6 +1,6 @@
 configVersion: 2.0.0
 generation:
-  sdkClassName: Api
+  sdkClassName: Client
   maintainOpenAPIOrder: true
   usageSnippets:
     optionalPropertyRendering: withExample
