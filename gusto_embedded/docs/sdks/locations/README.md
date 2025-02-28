@@ -25,21 +25,21 @@ scope: `companies:write`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.locations.create(company_id="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequestBody.new(
+res = s.locations.create(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdLocationsRequestBody.new(
   phone_number: "741.279.0107 x857",
   street_1: "<value>",
   city: "Grand Island",
   state: "Illinois",
   zip: "22031",
-), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location.nil?
   # handle response
@@ -52,12 +52,12 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsRequestBody](../../models/operations/postv1companiescompanyidlocationsrequestbody.md)                                                                            | :heavy_check_mark:                                                                                                                                                                                                           | Create a company location.                                                                                                                                                                                                   |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PostV1CompaniesCompanyIdLocationsRequestBody](../../models/operations/postv1companiescompanyidlocationsrequestbody.md)                                                                         | :heavy_check_mark:                                                                                                                                                                                                           | Create a company location.                                                                                                                                                                                                   |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdLocationsResponse)](../../models/operations/postv1companiescompanyidlocationsresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdLocationsResponse)](../../models/operations/postv1companiescompanyidlocationsresponse.md)**
 
 
 
@@ -75,15 +75,15 @@ scope: `companies:read`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.locations.get(company_id="<id>", page=7003.47, per=5588.34, x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.locations.get(company_id="<id>", page=7003.47, per=5588.34, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location_list.nil?
   # handle response
@@ -98,11 +98,11 @@ end
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
 | `page`                                                                                                                                                                                                                       | *T.nilable(::Float)*                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.                                                                                                                       |
 | `per`                                                                                                                                                                                                                        | *T.nilable(::Float)*                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                           | Number of objects per page. For majority of endpoints will default to 25                                                                                                                                                     |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdLocationsResponse)](../../models/operations/getv1companiescompanyidlocationsresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdLocationsResponse)](../../models/operations/getv1companiescompanyidlocationsresponse.md)**
 
 
 
@@ -118,15 +118,15 @@ scope: `companies:read`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.locations.retrieve(location_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.locations.retrieve(location_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location.nil?
   # handle response
@@ -139,11 +139,11 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `location_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the location                                                                                                                                                                                                     |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetV1LocationsLocationIdResponse)](../../models/operations/getv1locationslocationidresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::GetV1LocationsLocationIdResponse)](../../models/operations/getv1locationslocationidresponse.md)**
 
 
 
@@ -159,17 +159,17 @@ scope: `companies.write`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.locations.update(location_id="<id>", request_body=::OpenApiSDK::Operations::PutV1LocationsLocationIdRequestBody.new(
+res = s.locations.update(location_id="<id>", request_body=::GustoEmbedded::Operations::PutV1LocationsLocationIdRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location.nil?
   # handle response
@@ -182,12 +182,12 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `location_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the location                                                                                                                                                                                                     |
-| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1LocationsLocationIdRequestBody](../../models/operations/putv1locationslocationidrequestbody.md)                                                                                              | :heavy_check_mark:                                                                                                                                                                                                           | Update a location                                                                                                                                                                                                            |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PutV1LocationsLocationIdRequestBody](../../models/operations/putv1locationslocationidrequestbody.md)                                                                                           | :heavy_check_mark:                                                                                                                                                                                                           | Update a location                                                                                                                                                                                                            |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::PutV1LocationsLocationIdResponse)](../../models/operations/putv1locationslocationidresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::PutV1LocationsLocationIdResponse)](../../models/operations/putv1locationslocationidresponse.md)**
 
 
 
@@ -203,15 +203,15 @@ scope: `companies:read`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.locations.get_minimum_wages(location_uuid="<id>", effective_date="2020-01-31", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.locations.get_minimum_wages(location_uuid="<id>", effective_date="2020-01-31", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.minimum_wage_list.nil?
   # handle response
@@ -225,9 +225,9 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `location_uuid`                                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the location                                                                                                                                                                                                     |                                                                                                                                                                                                                              |
 | `effective_date`                                                                                                                                                                                                             | *T.nilable(::String)*                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          | 2020-01-31                                                                                                                                                                                                                   |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetV1LocationsLocationUuidMinimumWagesResponse)](../../models/operations/getv1locationslocationuuidminimumwagesresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesResponse)](../../models/operations/getv1locationslocationuuidminimumwagesresponse.md)**
 

@@ -23,14 +23,14 @@ scope: `events:read`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 
 
-req = ::OpenApiSDK::Operations::GetEventsRequest.new(
-  sort_order: ::OpenApiSDK::Shared::SortOrder::ASC,
+req = ::GustoEmbedded::Operations::GetEventsRequest.new(
+  sort_order: ::GustoEmbedded::Shared::SortOrder::ASC,
 )
     
-res = s.events.get(req, ::OpenApiSDK::Operations::GetEventsSecurity.new(
+res = s.events.get(req, ::GustoEmbedded::Operations::GetEventsSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ))
 
@@ -42,12 +42,12 @@ end
 
 ### Parameters
 
-| Parameter                                                                                   | Type                                                                                        | Required                                                                                    | Description                                                                                 |
-| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| `request`                                                                                   | [::OpenApiSDK::Operations::GetEventsRequest](../../models/operations/geteventsrequest.md)   | :heavy_check_mark:                                                                          | The request object to use for the request.                                                  |
-| `security`                                                                                  | [::OpenApiSDK::Operations::GetEventsSecurity](../../models/operations/geteventssecurity.md) | :heavy_check_mark:                                                                          | The security requirements to use for the request.                                           |
+| Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `request`                                                                                      | [::GustoEmbedded::Operations::GetEventsRequest](../../models/operations/geteventsrequest.md)   | :heavy_check_mark:                                                                             | The request object to use for the request.                                                     |
+| `security`                                                                                     | [::GustoEmbedded::Operations::GetEventsSecurity](../../models/operations/geteventssecurity.md) | :heavy_check_mark:                                                                             | The security requirements to use for the request.                                              |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetEventsResponse)](../../models/operations/geteventsresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::GetEventsResponse)](../../models/operations/geteventsresponse.md)**
 

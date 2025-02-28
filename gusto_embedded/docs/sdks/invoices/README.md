@@ -23,14 +23,14 @@ scope: `invoices:read`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 
 
-req = ::OpenApiSDK::Operations::GetInvoicesInvoicePeriodRequest.new(
+req = ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodRequest.new(
   invoice_period: "2020-01",
 )
     
-res = s.invoices.get(req, ::OpenApiSDK::Operations::GetInvoicesInvoicePeriodSecurity.new(
+res = s.invoices.get(req, ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ))
 
@@ -42,12 +42,12 @@ end
 
 ### Parameters
 
-| Parameter                                                                                                                 | Type                                                                                                                      | Required                                                                                                                  | Description                                                                                                               |
-| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                 | [::OpenApiSDK::Operations::GetInvoicesInvoicePeriodRequest](../../models/operations/getinvoicesinvoiceperiodrequest.md)   | :heavy_check_mark:                                                                                                        | The request object to use for the request.                                                                                |
-| `security`                                                                                                                | [::OpenApiSDK::Operations::GetInvoicesInvoicePeriodSecurity](../../models/operations/getinvoicesinvoiceperiodsecurity.md) | :heavy_check_mark:                                                                                                        | The security requirements to use for the request.                                                                         |
+| Parameter                                                                                                                    | Type                                                                                                                         | Required                                                                                                                     | Description                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                    | [::GustoEmbedded::Operations::GetInvoicesInvoicePeriodRequest](../../models/operations/getinvoicesinvoiceperiodrequest.md)   | :heavy_check_mark:                                                                                                           | The request object to use for the request.                                                                                   |
+| `security`                                                                                                                   | [::GustoEmbedded::Operations::GetInvoicesInvoicePeriodSecurity](../../models/operations/getinvoicesinvoiceperiodsecurity.md) | :heavy_check_mark:                                                                                                           | The security requirements to use for the request.                                                                            |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetInvoicesInvoicePeriodResponse)](../../models/operations/getinvoicesinvoiceperiodresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::GetInvoicesInvoicePeriodResponse)](../../models/operations/getinvoicesinvoiceperiodresponse.md)**
 

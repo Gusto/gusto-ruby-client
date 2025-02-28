@@ -24,17 +24,17 @@ scope: `payrolls:write`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.earning_types.create(company_id="<id>", request_body=::OpenApiSDK::Operations::PostV1CompaniesCompanyIdEarningTypesRequestBody.new(
+res = s.earning_types.create(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdEarningTypesRequestBody.new(
   name: "<value>",
-), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.earning_type.nil?
   # handle response
@@ -47,12 +47,12 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PostV1CompaniesCompanyIdEarningTypesRequestBody](../../models/operations/postv1companiescompanyidearningtypesrequestbody.md)                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PostV1CompaniesCompanyIdEarningTypesRequestBody](../../models/operations/postv1companiescompanyidearningtypesrequestbody.md)                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::PostV1CompaniesCompanyIdEarningTypesResponse)](../../models/operations/postv1companiescompanyidearningtypesresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdEarningTypesResponse)](../../models/operations/postv1companiescompanyidearningtypesresponse.md)**
 
 
 
@@ -74,15 +74,15 @@ scope: `payrolls:read`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.earning_types.list(company_id="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.earning_types.list(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.earning_type_list.nil?
   # handle response
@@ -95,11 +95,11 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetV1CompaniesCompanyIdEarningTypesResponse)](../../models/operations/getv1companiescompanyidearningtypesresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEarningTypesResponse)](../../models/operations/getv1companiescompanyidearningtypesresponse.md)**
 
 
 
@@ -115,15 +115,15 @@ scope: `payrolls:write`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.earning_types.update(company_id="<id>", earning_type_uuid="<id>", request_body=::OpenApiSDK::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidRequestBody.new(), x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.earning_types.update(company_id="<id>", earning_type_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.earning_type.nil?
   # handle response
@@ -137,12 +137,12 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
 | `earning_type_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the earning type                                                                                                                                                                                                 |
-| `request_body`                                                                                                                                                                                                               | [::OpenApiSDK::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidRequestBody](../../models/operations/putv1companiescompanyidearningtypesearningtypeuuidrequestbody.md)                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidRequestBody](../../models/operations/putv1companiescompanyidearningtypesearningtypeuuidrequestbody.md)                                       | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse)](../../models/operations/putv1companiescompanyidearningtypesearningtypeuuidresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse)](../../models/operations/putv1companiescompanyidearningtypesearningtypeuuidresponse.md)**
 
 
 
@@ -158,15 +158,15 @@ scope: `payrolls:write`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.earning_types.delete(company_id="<id>", earning_type_uuid="<id>", x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.earning_types.delete(company_id="<id>", earning_type_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
   # handle response
@@ -180,9 +180,9 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
 | `earning_type_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the earning type                                                                                                                                                                                                 |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::OpenApiSDK::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::DeleteV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse)](../../models/operations/deletev1companiescompanyidearningtypesearningtypeuuidresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::DeleteV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse)](../../models/operations/deletev1companiescompanyidearningtypesearningtypeuuidresponse.md)**
 

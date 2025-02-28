@@ -15,3 +15,11 @@ Based on:
 - Speakeasy CLI 1.502.0 (2.524.1) https://github.com/speakeasy-api/speakeasy
 ### Generated
 - [ruby v0.2.1] gusto_embedded
+
+## 2025-02-28 17:14:15
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.508.0 (2.536.0) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [ruby v0.2.2] gusto_embedded
