@@ -19,15 +19,15 @@ scope: `ach_transactions:read`
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
 
-req = ::OpenApiSDK::Operations::GetAchTransactionsRequest.new(
+req = ::GustoEmbedded::Operations::GetAchTransactionsRequest.new(
   company_uuid: "<id>",
 )
     
@@ -41,11 +41,11 @@ end
 
 ### Parameters
 
-| Parameter                                                                                                   | Type                                                                                                        | Required                                                                                                    | Description                                                                                                 |
-| ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                   | [::OpenApiSDK::Operations::GetAchTransactionsRequest](../../models/operations/getachtransactionsrequest.md) | :heavy_check_mark:                                                                                          | The request object to use for the request.                                                                  |
+| Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                      | [::GustoEmbedded::Operations::GetAchTransactionsRequest](../../models/operations/getachtransactionsrequest.md) | :heavy_check_mark:                                                                                             | The request object to use for the request.                                                                     |
 
 ### Response
 
-**[T.nilable(::OpenApiSDK::Operations::GetAchTransactionsResponse)](../../models/operations/getachtransactionsresponse.md)**
+**[T.nilable(::GustoEmbedded::Operations::GetAchTransactionsResponse)](../../models/operations/getachtransactionsresponse.md)**
 

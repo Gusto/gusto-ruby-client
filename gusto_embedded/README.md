@@ -54,15 +54,15 @@ gem specific_install https://github.com/Gusto/gusto-ruby-client -d gusto_embedde
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new
+s = ::GustoEmbedded::Client.new
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.introspection.get_info(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.object.nil?
   # handle response
@@ -87,6 +87,7 @@ end
 * [get](docs/sdks/bankaccounts/README.md#get) - Get all company bank accounts
 * [verify](docs/sdks/bankaccounts/README.md#verify) - Verify a company bank account
 * [create_from_plaid_token](docs/sdks/bankaccounts/README.md#create_from_plaid_token) - Create a bank account from a plaid processor token
+
 
 ### [companies](docs/sdks/companies/README.md)
 
@@ -318,7 +319,6 @@ end
 
 * [get](docs/sdks/generateddocuments/README.md#get) - Get a generated document
 
-
 ### [historical_employees](docs/sdks/historicalemployees/README.md)
 
 * [update](docs/sdks/historicalemployees/README.md#update) - Update a historical employee
@@ -494,17 +494,17 @@ You can override the default server globally by passing a server name to the `se
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new(
+s = ::GustoEmbedded::Client.new(
       server: "prod",
     )
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.introspection.get_info(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.object.nil?
   # handle response
@@ -519,17 +519,17 @@ The default server can also be overridden globally by passing a URL to the `serv
 require 'gusto'
 
 
-s = ::OpenApiSDK::Gusto.new(
+s = ::GustoEmbedded::Client.new(
       server_url: "https://api.gusto-demo.com",
     )
 s.config_security(
-  ::OpenApiSDK::Shared::Security.new(
+  ::GustoEmbedded::Shared::Security.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   )
 )
 
     
-res = s.introspection.get_info(x_gusto_api_version=::OpenApiSDK::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.object.nil?
   # handle response
