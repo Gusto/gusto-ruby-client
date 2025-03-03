@@ -1,7 +1,5 @@
-![gusto logo](./assets/Gusto_logo.png)
-
 # Gusto Ruby Client
-**Payroll, HR, benefits. Simplified**
+![gusto logo](./assets/Gusto_logo.png)
 
 Developer-friendly & type-safe Ruby client libraries built for Gusto’s Embedded and App Integration APIs.
 
