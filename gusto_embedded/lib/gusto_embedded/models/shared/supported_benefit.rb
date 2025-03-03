@@ -12,7 +12,7 @@ module GustoEmbedded
       extend T::Sig
 
       # The benefit type in Gusto.
-      field :benefit_type, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
+      field :benefit_type, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
       # Category where the benefit belongs to.
       field :category, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
       # The description of the benefit.
@@ -33,7 +33,7 @@ module GustoEmbedded
       field :yearly_limit, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('yearly_limit') } }
 
 
-      sig { params(benefit_type: T.nilable(::Float), category: T.nilable(::String), description: T.nilable(::String), healthcare: T.nilable(T::Boolean), imputed: T.nilable(T::Boolean), name: T.nilable(::String), posttax: T.nilable(T::Boolean), pretax: T.nilable(T::Boolean), retirement: T.nilable(T::Boolean), yearly_limit: T.nilable(T::Boolean)).void }
+      sig { params(benefit_type: T.nilable(::Integer), category: T.nilable(::String), description: T.nilable(::String), healthcare: T.nilable(T::Boolean), imputed: T.nilable(T::Boolean), name: T.nilable(::String), posttax: T.nilable(T::Boolean), pretax: T.nilable(T::Boolean), retirement: T.nilable(T::Boolean), yearly_limit: T.nilable(T::Boolean)).void }
       def initialize(benefit_type: nil, category: nil, description: nil, healthcare: nil, imputed: nil, name: nil, posttax: nil, pretax: nil, retirement: nil, yearly_limit: nil)
         @benefit_type = benefit_type
         @category = category

@@ -440,7 +440,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdAdminsResponse) }
+    sig { params(company_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdAdminsResponse) }
     def list_admins(company_id, page = nil, per = nil, x_gusto_api_version = nil)
       # list_admins - Get all the admins at a company
       # Returns a list of all the admins at a company
@@ -489,8 +489,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompanyOnboardingStatusResponse) }
-    def get_onboarding_status(company_uuid, x_gusto_api_version = nil)
+    sig { params(company_uuid: ::String, additional_steps: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompanyOnboardingStatusResponse) }
+    def get_onboarding_status(company_uuid, additional_steps = nil, x_gusto_api_version = nil)
       # get_onboarding_status - Get the company's onboarding status
       # Get company's onboarding status.
       # The data returned helps inform the required onboarding steps and respective completion status.
@@ -499,6 +499,7 @@ module GustoEmbedded
       request = ::GustoEmbedded::Operations::GetV1CompanyOnboardingStatusRequest.new(
         
         company_uuid: company_uuid,
+        additional_steps: additional_steps,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
@@ -510,11 +511,13 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetV1CompanyOnboardingStatusRequest, request)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       r = @sdk_configuration.client.get(url) do |req|
         req.headers = headers
+        req.params = query_params
         Utils.configure_request_security(req, @sdk_configuration.security) if !@sdk_configuration.nil? && !@sdk_configuration.security.nil?
       end
 
@@ -597,7 +600,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdCustomFieldsResponse) }
+    sig { params(company_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdCustomFieldsResponse) }
     def get_custom_fields(company_id, page = nil, per = nil, x_gusto_api_version = nil)
       # get_custom_fields - Get the custom fields of a company
       # Returns a list of the custom fields of the company. Useful when you need to know the schema of custom fields for an entire company

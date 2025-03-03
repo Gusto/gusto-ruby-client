@@ -19,7 +19,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdBankAccountsResponse) }
+    sig { params(employee_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdBankAccountsResponse) }
     def get_bank_accounts(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
       # get_bank_accounts - Get all employee bank accounts
       # Returns all employee bank accounts.
