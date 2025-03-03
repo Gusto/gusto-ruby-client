@@ -5,7 +5,8 @@
 Developer-friendly & type-safe Ruby client libraries built for Gusto’s Embedded and App Integration APIs.
 
 > [!NOTE]
-> This library is still in beta. We may release breaking changes without incrementing a major version.
+> This library is currently in **beta**, and we are actively making improvements. As a result, **we may introduce breaking
+> changes without prior notice**. We recommend using version pinning where possible and checking for updates regularly.
 
 ## Client Libraries
 
