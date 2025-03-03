@@ -80,7 +80,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdGarnishmentsResponse) }
+    sig { params(employee_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdGarnishmentsResponse) }
     def list(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
       # list - Get garnishments for an employee
       # Garnishments, or employee deductions, are fixed amounts or percentages deducted from an employee’s pay. They can be deducted a specific number of times or on a recurring basis. Garnishments can also have maximum deductions on a yearly or per-pay-period bases. Common uses for garnishments are court-ordered payments for child support or back taxes. Some companies provide loans to their employees that are repaid via garnishments.

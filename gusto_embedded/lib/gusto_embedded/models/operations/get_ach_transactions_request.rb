@@ -16,20 +16,20 @@ module GustoEmbedded
       # The UUID of the contractor payment
       field :contractor_payment_uuid, T.nilable(::String), { 'query_param': { 'field_name': 'contractor_payment_uuid', 'style': 'form', 'explode': true } }
       # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
-      field :page, T.nilable(::Float), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
+      field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
       # Used to filter the ACH transactions to only include those with a specific payment direction, either "credit" or "debit".
       field :payment_direction, T.nilable(::String), { 'query_param': { 'field_name': 'payment_direction', 'style': 'form', 'explode': true } }
       # The UUID of the payroll
       field :payroll_uuid, T.nilable(::String), { 'query_param': { 'field_name': 'payroll_uuid', 'style': 'form', 'explode': true } }
       # Number of objects per page. For majority of endpoints will default to 25
-      field :per, T.nilable(::Float), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
+      field :per, T.nilable(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
       # Used to filter the ACH transactions to only include those with a specific transaction type, such as "Credit employee pay".
       field :transaction_type, T.nilable(::String), { 'query_param': { 'field_name': 'transaction_type', 'style': 'form', 'explode': true } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(company_uuid: ::String, contractor_payment_uuid: T.nilable(::String), page: T.nilable(::Float), payment_direction: T.nilable(::String), payroll_uuid: T.nilable(::String), per: T.nilable(::Float), transaction_type: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      sig { params(company_uuid: ::String, contractor_payment_uuid: T.nilable(::String), page: T.nilable(::Integer), payment_direction: T.nilable(::String), payroll_uuid: T.nilable(::String), per: T.nilable(::Integer), transaction_type: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
       def initialize(company_uuid: nil, contractor_payment_uuid: nil, page: nil, payment_direction: nil, payroll_uuid: nil, per: nil, transaction_type: nil, x_gusto_api_version: nil)
         @company_uuid = company_uuid
         @contractor_payment_uuid = contractor_payment_uuid

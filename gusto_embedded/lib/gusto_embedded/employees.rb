@@ -341,7 +341,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse) }
+    sig { params(employee_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse) }
     def get_custom_fields(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
       # get_custom_fields - Get an employee's custom fields
       # Returns a list of the employee's custom fields.

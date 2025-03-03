@@ -82,7 +82,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdLocationsResponse) }
+    sig { params(company_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdLocationsResponse) }
     def get(company_id, page = nil, per = nil, x_gusto_api_version = nil)
       # get - Get company locations
       # Company locations represent all addresses associated with a company. These can be filing addresses, mailing addresses, and/or work locations; one address may serve multiple, or all, purposes.

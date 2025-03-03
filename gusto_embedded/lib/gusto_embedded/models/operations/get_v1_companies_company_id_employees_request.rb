@@ -18,9 +18,9 @@ module GustoEmbedded
       # - custom_fields: Include employees' custom fields
       field :include, T.nilable(T::Array[::GustoEmbedded::Operations::Include]), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
       # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
-      field :page, T.nilable(::Float), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
+      field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
       # Number of objects per page. For majority of endpoints will default to 25
-      field :per, T.nilable(::Float), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
+      field :per, T.nilable(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
       # A string to search for in the object's names
       field :search_term, T.nilable(::String), { 'query_param': { 'field_name': 'search_term', 'style': 'form', 'explode': true } }
       # Filters employees by the provided boolean
@@ -29,7 +29,7 @@ module GustoEmbedded
       field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(company_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::Include]), page: T.nilable(::Float), per: T.nilable(::Float), search_term: T.nilable(::String), terminated: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      sig { params(company_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::Include]), page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), terminated: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
       def initialize(company_id: nil, include: nil, page: nil, per: nil, search_term: nil, terminated: nil, x_gusto_api_version: nil)
         @company_id = company_id
         @include = include

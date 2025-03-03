@@ -135,7 +135,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollReversalsResponse) }
+    sig { params(company_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollReversalsResponse) }
     def get_approved_reversals(company_id, page = nil, per = nil, x_gusto_api_version = nil)
       # get_approved_reversals - Get approved payroll reversals
       # Returns all approved Payroll Reversals for a Company.

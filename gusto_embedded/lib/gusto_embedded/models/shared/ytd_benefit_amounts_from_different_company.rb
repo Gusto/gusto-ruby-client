@@ -12,7 +12,7 @@ module GustoEmbedded
       extend T::Sig
 
       # The benefit type supported by Gusto. See [Benefit Types](https://docs.gusto.com/embedded-payroll/reference/get-v1-benefits) for more information.
-      field :benefit_type, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
+      field :benefit_type, ::Integer, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
       # The unique identifier for this benefit amount record.
       field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
       # The year-to-date company contribution made outside the current company.
@@ -21,7 +21,7 @@ module GustoEmbedded
       field :ytd_employee_deduction_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_employee_deduction_amount') } }
 
 
-      sig { params(benefit_type: ::Float, uuid: ::String, ytd_company_contribution_amount: ::String, ytd_employee_deduction_amount: ::String).void }
+      sig { params(benefit_type: ::Integer, uuid: ::String, ytd_company_contribution_amount: ::String, ytd_employee_deduction_amount: ::String).void }
       def initialize(benefit_type: nil, uuid: nil, ytd_company_contribution_amount: nil, ytd_employee_deduction_amount: nil)
         @benefit_type = benefit_type
         @uuid = uuid

@@ -84,7 +84,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPaySchedulesResponse) }
+    sig { params(company_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPaySchedulesResponse) }
     def get_all(company_id, page = nil, per = nil, x_gusto_api_version = nil)
       # get_all - Get the pay schedules for a company
       # The pay schedule object in Gusto captures the details of when employees work and when they should be paid. A company can have multiple pay schedules.

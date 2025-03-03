@@ -18,10 +18,10 @@ module GustoEmbedded
       # The year-to-date employee deduction made outside the current company.
       field :ytd_employee_deduction_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_employee_deduction_amount') } }
       # The benefit type supported by Gusto.
-      field :benefit_type, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
+      field :benefit_type, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
 
 
-      sig { params(tax_year: ::Float, ytd_company_contribution_amount: ::String, ytd_employee_deduction_amount: ::String, benefit_type: T.nilable(::Float)).void }
+      sig { params(tax_year: ::Float, ytd_company_contribution_amount: ::String, ytd_employee_deduction_amount: ::String, benefit_type: T.nilable(::Integer)).void }
       def initialize(tax_year: nil, ytd_company_contribution_amount: nil, ytd_employee_deduction_amount: nil, benefit_type: nil)
         @tax_year = tax_year
         @ytd_company_contribution_amount = ytd_company_contribution_amount

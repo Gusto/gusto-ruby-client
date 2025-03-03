@@ -80,7 +80,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdEmployeeBenefitsResponse) }
+    sig { params(employee_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdEmployeeBenefitsResponse) }
     def get(employee_id, page = nil, per = nil, x_gusto_api_version = nil)
       # get - Get all benefits for an employee
       # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.

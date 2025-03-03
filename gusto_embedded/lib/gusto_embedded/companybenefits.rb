@@ -82,8 +82,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, enrollment_count: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdCompanyBenefitsResponse) }
-    def list(company_id, enrollment_count = nil, x_gusto_api_version = nil)
+    sig { params(company_id: ::String, active: T.nilable(T::Boolean), enrollment_count: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdCompanyBenefitsResponse) }
+    def list(company_id, active = nil, enrollment_count = nil, x_gusto_api_version = nil)
       # list - Get benefits for a company
       # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
       # 
@@ -95,6 +95,7 @@ module GustoEmbedded
       request = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdCompanyBenefitsRequest.new(
         
         company_id: company_id,
+        active: active,
         enrollment_count: enrollment_count,
         x_gusto_api_version: x_gusto_api_version
       )
@@ -430,7 +431,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_benefit_id: ::String, page: T.nilable(::Float), per: T.nilable(::Float), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse) }
+    sig { params(company_benefit_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse) }
     def get_employee_benefits(company_benefit_id, page = nil, per = nil, x_gusto_api_version = nil)
       # get_employee_benefits - Get all employee benefits for a company benefit
       # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.

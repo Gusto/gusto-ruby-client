@@ -16,14 +16,14 @@ module GustoEmbedded
       # Whether this benefit is active for employee participation.
       field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
       # The ID of the benefit to which the company benefit belongs.
-      field :benefit_type, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
+      field :benefit_type, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
       # Whether the employer is subject to file W-2 forms for an employee on leave. Only applicable to third party sick pay benefits.
       field :responsible_for_employee_w2, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('responsible_for_employee_w2') } }
       # Whether the employer is subject to pay employer taxes when an employee is on leave. Only applicable to third party sick pay benefits.
       field :responsible_for_employer_taxes, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('responsible_for_employer_taxes') } }
 
 
-      sig { params(description: ::String, active: T.nilable(T::Boolean), benefit_type: T.nilable(::Float), responsible_for_employee_w2: T.nilable(T::Boolean), responsible_for_employer_taxes: T.nilable(T::Boolean)).void }
+      sig { params(description: ::String, active: T.nilable(T::Boolean), benefit_type: T.nilable(::Integer), responsible_for_employee_w2: T.nilable(T::Boolean), responsible_for_employer_taxes: T.nilable(T::Boolean)).void }
       def initialize(description: nil, active: nil, benefit_type: nil, responsible_for_employee_w2: nil, responsible_for_employer_taxes: nil)
         @description = description
         @active = active

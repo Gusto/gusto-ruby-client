@@ -41,9 +41,9 @@ module GustoEmbedded
       @security = security
       @language = 'ruby'
       @openapi_doc_version = '2024-04-01'
-      @sdk_version = '0.2.2'
+      @sdk_version = '0.2.3'
       @gen_version = '2.536.0'
-      @user_agent = 'speakeasy-sdk/ruby 0.2.2 2.536.0 2024-04-01 gusto'
+      @user_agent = 'speakeasy-sdk/ruby 0.2.3 2.536.0 2024-04-01 gusto'
     end
 
     sig { returns([String, T::Hash[Symbol, String]]) }
