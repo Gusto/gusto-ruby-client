@@ -3,6 +3,9 @@
 
 Developer-friendly & type-safe Ruby client libraries built for Gusto’s Embedded and App Integration APIs.
 
+> [!WARNING]
+> This library is still in beta. We may release breaking changes without incrementing a major version.
+
 > [!NOTE]
 > Exciting news! Our first Ruby library beta release is here.
 
@@ -18,6 +21,6 @@ Developer-friendly & type-safe Ruby client libraries built for Gusto’s Embedd
 ## Support
 
 If you encounter any challenges while utilizing our SDKs, please don't hesitate to reach out for assistance.
-You can raise any issues by filing a new [Github issue](https://github.com/Gusto/gusto-ruby-client/issues/new) on this repository.
+You can raise any issues or submit feedback by filing a new [Github issue](https://github.com/Gusto/gusto-ruby-client/issues/new) on this repository.
 
 <!-- End Gusto Support Notes -->
