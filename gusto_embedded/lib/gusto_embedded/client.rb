@@ -16,24 +16,23 @@ module GustoEmbedded
     attr_accessor :introspection, :companies, :invoices, :company_attachments, :company_attachment, :federal_tax_details, :industry_selection, :signatories, :flows, :locations, :bank_accounts, :external_payrolls, :payment_configs, :pay_schedules, :employees, :historical_employees, :departments, :employee_employments, :employee_addresses, :employee_tax_setup, :employee_payment_method, :employee_payment_methods, :jobs_and_compensations, :earning_types, :contractors, :contractor_payment_methods, :contractor_payment_method, :webhooks, :contractor_forms, :contractor_documents, :employee_forms, :payrolls, :time_off_policies, :contractor_payments, :contractor_payment_groups, :company_forms, :generated_documents, :reports, :company_benefits, :employee_benefits, :garnishments, :i9_verification, :tax_requirements, :holiday_pay_policies, :notifications, :events, :recovery_cases, :ach_transactions, :wire_in_requests
 
     sig do
-      params(client: Faraday::Request,
-             security: T.nilable(Shared::Security),
-             server: T.nilable(Symbol),
-             server_url: String,
-             url_params: T::Hash[Symbol, String]).void
+      params(
+        client: T.nilable(Faraday::Request),
+        security: T.nilable(::GustoEmbedded::Shared::Security),
+        security_source: T.nilable(T.proc.returns(::GustoEmbedded::Shared::Security)),
+        server: T.nilable(Symbol),
+        server_url: T.nilable(String),
+        url_params: T.nilable(T::Hash[Symbol, String])
+      ).void
     end
-    def initialize(client: nil,
-                   security: nil,
-                   server: nil,
-                   server_url: nil,
-                   url_params: nil)
-
+    def initialize(client: nil, security: nil, security_source: nil, server: nil, server_url: nil, url_params: nil)
       ## Instantiates the SDK configuring it with the provided parameters.
-      # @param [Faraday::Request] client The faraday HTTP client to use for all operations
-      # @param [Shared::Security] security The security details required for authentication
-      # @param [::Symbol] server The server identifier to use for all operations
-      # @param [::String] server_url The server URL to use for all operations
-      # @param [::Hash<::Symbol, ::String>] url_params Parameters to optionally template the server URL with
+      # @param [T.nilable(Faraday::Request)] client The faraday HTTP client to use for all operations
+      # @param [T.nilable(::GustoEmbedded::Shared::Security)] security: The security details required for authentication
+      # @param [T.proc.returns(T.nilable(::GustoEmbedded::Shared::Security))] security_source: A function that returns security details required for authentication
+      # @param [T.nilable(::Symbol)] server The server identifier to use for all operations
+      # @param [T.nilable(::String)] server_url The server URL to use for all operations
+      # @param [T.nilable(::Hash<::Symbol, ::String>)] url_params Parameters to optionally template the server URL with
 
       if client.nil?
         client = Faraday.new(request: {
@@ -49,8 +48,13 @@ module GustoEmbedded
           server_url = Utils.template_url(server_url, url_params)
         end
       end
-
-      @sdk_configuration = SDKConfiguration.new(client, security, server_url, server)
+      @sdk_configuration = SDKConfiguration.new(
+        client,
+        security,
+        security_source,
+        server_url,
+        server
+      )
       init_sdks
     end
 
@@ -65,11 +69,6 @@ module GustoEmbedded
       raise StandardError, "Invalid server \"#{server}\"" if !SERVERS.key?(server)
       @sdk_configuration.server = server
       init_sdks
-    end
-
-    sig { params(security: ::GustoEmbedded::Shared::Security).void }
-    def config_security(security)
-      @sdk_configuration.security = security
     end
 
     sig { void }

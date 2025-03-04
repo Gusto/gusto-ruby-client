@@ -129,7 +129,7 @@ s.config_security(
 res = s.employees.create_historical(company_uuid="<id>", historical_employee_body=::GustoEmbedded::Shared::HistoricalEmployeeBody.new(
   first_name: "Cortez",
   last_name: "Dickens",
-  date_of_birth: "1995-11-29",
+  date_of_birth: "1995-12-01",
   ssn: "<value>",
   work_address: ::GustoEmbedded::Shared::WorkAddress.new(),
   home_address: ::GustoEmbedded::Shared::HistoricalEmployeeBodyHomeAddress.new(
