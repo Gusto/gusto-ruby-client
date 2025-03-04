@@ -22,7 +22,7 @@ module GustoEmbedded
     extend T::Sig
 
     field :client, T.nilable(Faraday::Connection)
-    field :security, T.nilable(::GustoEmbedded::Shared::Security)
+    field :security_source, T.nilable(T.proc.returns(T.nilable(::GustoEmbedded::Shared::Security)))
     field :server_url, T.nilable(String)
     field :server, Symbol
     field :language, String
@@ -32,18 +32,23 @@ module GustoEmbedded
     field :user_agent, String
 
 
-    sig { params(client: Faraday::Connection, security: T.nilable(::GustoEmbedded::Shared::Security), server_url: T.nilable(String), server: T.nilable(Symbol)).void }
-    def initialize(client, security, server_url, server)
+
+    sig { params(client: T.nilable(Faraday::Connection), security: T.nilable(::GustoEmbedded::Shared::Security), security_source: T.nilable(T.proc.returns(::GustoEmbedded::Shared::Security)), server_url: T.nilable(String), server: T.nilable(Symbol)).void }
+    def initialize(client, security, security_source, server_url, server)
       @client = client
       @server_url = server_url
       @server = server.nil? ? SERVER_DEMO : server
       raise StandardError, "Invalid server \"#{server}\"" if !SERVERS.key?(@server)
-      @security = security
+      if !security_source.nil?
+        @security_source = security_source
+      elsif !security.nil?
+        @security_source = -> { security }
+      end
       @language = 'ruby'
       @openapi_doc_version = '2024-04-01'
-      @sdk_version = '0.2.3'
-      @gen_version = '2.536.0'
-      @user_agent = 'speakeasy-sdk/ruby 0.2.3 2.536.0 2024-04-01 gusto'
+      @sdk_version = '0.2.4'
+      @gen_version = '2.539.1'
+      @user_agent = 'speakeasy-sdk/ruby 0.2.4 2.539.1 2024-04-01 gusto'
     end
 
     sig { returns([String, T::Hash[Symbol, String]]) }
