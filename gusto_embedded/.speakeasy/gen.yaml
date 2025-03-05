@@ -31,4 +31,4 @@ ruby:
   maxMethodParams: 4
   module: GustoEmbedded
   outputModelSuffix: output
-  packageName: gusto
+  packageName: gusto_embedded_client
