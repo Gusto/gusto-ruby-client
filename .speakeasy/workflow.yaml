@@ -17,6 +17,9 @@ targets:
         target: ruby
         source: GustoEmbedded-OAS
         output: ./gusto_embedded
+        publish:
+            rubygems:
+                token: $rubygems_auth_token
         codeSamples:
             registry:
                 location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas-code-samples
