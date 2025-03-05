@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gusto (0.2.4)
+    gusto_embedded_client (0.2.5)
       faraday
       faraday-multipart
       rack
@@ -97,7 +97,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  gusto!
+  gusto_embedded_client!
   minitest
   minitest-focus
   rubocop (~> 1.60.2)

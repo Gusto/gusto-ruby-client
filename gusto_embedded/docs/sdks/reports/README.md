@@ -18,7 +18,7 @@ scope: `company_reports:write`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -72,7 +72,7 @@ scope: `company_reports:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -113,7 +113,7 @@ scope: `company_reports:write`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new

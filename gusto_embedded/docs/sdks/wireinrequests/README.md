@@ -18,7 +18,7 @@ scope: `payrolls:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -59,7 +59,7 @@ scope: `payrolls:run`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -105,7 +105,7 @@ scope: `payrolls:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new

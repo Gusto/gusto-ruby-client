@@ -20,7 +20,7 @@ scope: `garnishments:write`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -65,7 +65,7 @@ scope: `garnishments:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -108,7 +108,7 @@ scope: `garnishments:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -149,7 +149,7 @@ scope: `garnishments:write`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -193,7 +193,7 @@ scope: `garnishments:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new

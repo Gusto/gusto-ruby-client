@@ -1,18 +1,19 @@
 lockVersion: 2.0.0
 id: 8eb78f74-a965-461b-96d6-fcfa1cb6186a
 management:
-  docChecksum: bb3ce44f85049dc2d55d18c172266e69
+  docChecksum: 0c1d511b9a14082d55cd08b360437a86
   docVersion: "2024-04-01"
-  speakeasyVersion: 1.509.1
-  generationVersion: 2.539.1
-  releaseVersion: 0.2.4
-  configChecksum: 89a56374f24adb7875fc86785d61ae06
+  speakeasyVersion: 1.510.0
+  generationVersion: 2.541.0
+  releaseVersion: 0.2.5
+  configChecksum: c42b3d829d80af4def132df60ad68174
   repoURL: https://github.com/Gusto/gusto-ruby-client.git
   repoSubDirectory: gusto_embedded
   installationURL: https://github.com/Gusto/gusto-ruby-client -d gusto_embedded
+  published: true
 features:
   ruby:
-    core: 3.5.3
+    core: 3.5.4
     deprecations: 2.81.2
     flattening: 2.81.1
     getRequestBodies: 2.81.1
@@ -946,7 +947,6 @@ generatedFiles:
   - docs/models/shared/fundingtype.md
   - docs/models/shared/garnishment.md
   - docs/models/shared/garnishmentchildsupport.md
-  - docs/models/shared/garnishmentchildsupportinput.md
   - docs/models/shared/garnishmenttype.md
   - docs/models/shared/generateddocument.md
   - docs/models/shared/generateddocumentstatus.md
@@ -1161,12 +1161,11 @@ generatedFiles:
   - docs/sdks/timeoffpolicies/README.md
   - docs/sdks/webhooks/README.md
   - docs/sdks/wireinrequests/README.md
-  - gusto.gemspec
+  - gusto_embedded_client.gemspec
   - lib/crystalline.rb
   - lib/crystalline/metadata_fields.rb
   - lib/crystalline/t.rb
   - lib/crystalline/utils.rb
-  - lib/gusto.rb
   - lib/gusto_embedded/achtransactions.rb
   - lib/gusto_embedded/bankaccounts.rb
   - lib/gusto_embedded/client.rb
@@ -2124,7 +2123,6 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/funding_type.rb
   - lib/gusto_embedded/models/shared/garnishment.rb
   - lib/gusto_embedded/models/shared/garnishment_child_support.rb
-  - lib/gusto_embedded/models/shared/garnishment_child_support_input.rb
   - lib/gusto_embedded/models/shared/garnishment_type.rb
   - lib/gusto_embedded/models/shared/generated_document.rb
   - lib/gusto_embedded/models/shared/generated_document_status.rb
@@ -2302,6 +2300,7 @@ generatedFiles:
   - lib/gusto_embedded/utils/utils.rb
   - lib/gusto_embedded/webhooks.rb
   - lib/gusto_embedded/wireinrequests.rb
+  - lib/gusto_embedded_client.rb
   - sorbet/config
   - sorbet/rbi/annotations/.gitattributes
   - sorbet/rbi/annotations/faraday.rbi
@@ -7605,7 +7604,7 @@ examples:
           employee_id: "<id>"
         header: {}
       requestBody:
-        application/json: {"amount": "40", "court_ordered": true, "garnishment_type": "child_support", "recurring": true, "pay_period_maximum": "500.00", "deduct_as_percentage": true, "child_support": {"state": "FL", "payment_period": "Monthly", "case_number": "CS1234"}}
+        application/json: {"amount": "40", "court_ordered": true, "garnishment_type": "child_support", "recurring": true, "pay_period_maximum": "500.00", "deduct_as_percentage": true, "child_support": {"state": "FL", "payment_period": "Monthly", "fips_code": "12011", "case_number": "CS1234"}}
       responses:
         "201":
           application/json: {"uuid": "427b9e5b-95d2-4cfd-b063-45dff43ac8aa"}
@@ -7841,7 +7840,7 @@ examples:
           employee_id: "<id>"
         header: {}
       requestBody:
-        application/json: {"signature_text": "<value>", "signer_title": "<value>", "signed_by_ip_address": "<value>", "agree": false}
+        application/json: {"signature_text": "<value>", "signer_title": "<value>", "agree": false}
       responses:
         "200":
           application/json: {"uuid": "ab18cec1-6568-4d93-b2ad-8deafd3f650c", "version": "<value>", "authorization_status": "alien", "employer_signed": true, "employee_signed": true}

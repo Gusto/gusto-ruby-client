@@ -58,7 +58,7 @@ scope: `company_tax_requirements:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -101,7 +101,7 @@ scope: `company_tax_requirements:write`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -144,7 +144,7 @@ scope: `company_tax_requirements:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new

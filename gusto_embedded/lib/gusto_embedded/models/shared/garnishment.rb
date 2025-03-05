@@ -37,12 +37,14 @@ module GustoEmbedded
       field :recurring, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recurring') } }
       # The number of times to apply the garnishment. Ignored if recurring is true.
       field :times, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('times') } }
+      # A maximum total deduction for the lifetime of this garnishment. A null value indicates no maximum.
+      field :total_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_amount') } }
       # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
       field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
 
-      sig { params(uuid: ::String, active: T.nilable(T::Boolean), amount: T.nilable(::String), annual_maximum: T.nilable(::String), child_support: T.nilable(::GustoEmbedded::Shared::GarnishmentChildSupport), court_ordered: T.nilable(T::Boolean), deduct_as_percentage: T.nilable(T::Boolean), description: T.nilable(::String), employee_uuid: T.nilable(::String), garnishment_type: T.nilable(::GustoEmbedded::Shared::GarnishmentType), pay_period_maximum: T.nilable(::String), recurring: T.nilable(T::Boolean), times: T.nilable(::Integer), version: T.nilable(::String)).void }
-      def initialize(uuid: nil, active: nil, amount: nil, annual_maximum: nil, child_support: nil, court_ordered: nil, deduct_as_percentage: nil, description: nil, employee_uuid: nil, garnishment_type: nil, pay_period_maximum: nil, recurring: nil, times: nil, version: nil)
+      sig { params(uuid: ::String, active: T.nilable(T::Boolean), amount: T.nilable(::String), annual_maximum: T.nilable(::String), child_support: T.nilable(::GustoEmbedded::Shared::GarnishmentChildSupport), court_ordered: T.nilable(T::Boolean), deduct_as_percentage: T.nilable(T::Boolean), description: T.nilable(::String), employee_uuid: T.nilable(::String), garnishment_type: T.nilable(::GustoEmbedded::Shared::GarnishmentType), pay_period_maximum: T.nilable(::String), recurring: T.nilable(T::Boolean), times: T.nilable(::Integer), total_amount: T.nilable(::String), version: T.nilable(::String)).void }
+      def initialize(uuid: nil, active: nil, amount: nil, annual_maximum: nil, child_support: nil, court_ordered: nil, deduct_as_percentage: nil, description: nil, employee_uuid: nil, garnishment_type: nil, pay_period_maximum: nil, recurring: nil, times: nil, total_amount: nil, version: nil)
         @uuid = uuid
         @active = active
         @amount = amount
@@ -56,6 +58,7 @@ module GustoEmbedded
         @pay_period_maximum = pay_period_maximum
         @recurring = recurring
         @times = times
+        @total_amount = total_amount
         @version = version
       end
     end

@@ -3,8 +3,8 @@
 $LOAD_PATH.push File.expand_path('lib', __dir__)
 
 Gem::Specification.new do |s|
-  s.name        = 'gusto'
-  s.version     = '0.2.4'
+  s.name        = 'gusto_embedded_client'
+  s.version     = '0.2.5'
   s.platform    = Gem::Platform::RUBY
   s.licenses    = ['Apache-2.0']
   s.summary     = ''

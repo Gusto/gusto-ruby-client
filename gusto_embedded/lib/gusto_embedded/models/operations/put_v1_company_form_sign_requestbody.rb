@@ -15,11 +15,11 @@ module GustoEmbedded
       field :agree, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('agree') } }
       # The signature
       field :signature_text, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signature_text') } }
-      # The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported.
-      field :signed_by_ip_address, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_by_ip_address') } }
+      # The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead.
+      field :signed_by_ip_address, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_by_ip_address') } }
 
 
-      sig { params(agree: T::Boolean, signature_text: ::String, signed_by_ip_address: ::String).void }
+      sig { params(agree: T::Boolean, signature_text: ::String, signed_by_ip_address: T.nilable(::String)).void }
       def initialize(agree: nil, signature_text: nil, signed_by_ip_address: nil)
         @agree = agree
         @signature_text = signature_text

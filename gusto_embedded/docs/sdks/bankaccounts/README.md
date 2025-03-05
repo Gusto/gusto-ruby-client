@@ -28,7 +28,7 @@ scope: `company_bank_accounts:write`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -70,7 +70,7 @@ scope: `company_bank_accounts:read`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -124,7 +124,7 @@ scope: `company_bank_accounts:write`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -177,7 +177,7 @@ scope: `plaid_processor:write`
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new

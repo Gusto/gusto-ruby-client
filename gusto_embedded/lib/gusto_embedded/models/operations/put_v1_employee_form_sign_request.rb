@@ -19,14 +19,17 @@ module GustoEmbedded
       field :request_body, ::GustoEmbedded::Operations::PutV1EmployeeFormSignRequestBody, { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      # Optional header to supply the IP address. This can be used to supply the IP address for signature endpoints instead of the signed_by_ip_address parameter.
+      field :x_gusto_client_ip, T.nilable(::String), { 'header': { 'field_name': 'x-gusto-client-ip', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(employee_id: ::String, form_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeeFormSignRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(employee_id: nil, form_id: nil, request_body: nil, x_gusto_api_version: nil)
+      sig { params(employee_id: ::String, form_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeeFormSignRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader), x_gusto_client_ip: T.nilable(::String)).void }
+      def initialize(employee_id: nil, form_id: nil, request_body: nil, x_gusto_api_version: nil, x_gusto_client_ip: nil)
         @employee_id = employee_id
         @form_id = form_id
         @request_body = request_body
         @x_gusto_api_version = x_gusto_api_version
+        @x_gusto_client_ip = x_gusto_client_ip
       end
     end
   end

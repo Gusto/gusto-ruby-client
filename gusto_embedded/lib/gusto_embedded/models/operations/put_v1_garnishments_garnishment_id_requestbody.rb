@@ -20,7 +20,7 @@ module GustoEmbedded
       # The maximum deduction per annum. A null value indicates no maximum. Represented as a float, e.g. "200.00".
       field :annual_maximum, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('annual_maximum') } }
       # Additional child support order details
-      field :child_support, T.nilable(::GustoEmbedded::Shared::GarnishmentChildSupportInput), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support') } }
+      field :child_support, T.nilable(::GustoEmbedded::Shared::GarnishmentChildSupport), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support') } }
       # Whether the garnishment is court ordered.
       field :court_ordered, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('court_ordered') } }
       # Whether the amount should be treated as a percentage to be deducted per pay period.
@@ -37,7 +37,7 @@ module GustoEmbedded
       field :total_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_amount') } }
 
 
-      sig { params(version: ::String, active: T.nilable(T::Boolean), amount: T.nilable(::String), annual_maximum: T.nilable(::String), child_support: T.nilable(::GustoEmbedded::Shared::GarnishmentChildSupportInput), court_ordered: T.nilable(T::Boolean), deduct_as_percentage: T.nilable(T::Boolean), description: T.nilable(::String), pay_period_maximum: T.nilable(::String), recurring: T.nilable(T::Boolean), times: T.nilable(::Integer), total_amount: T.nilable(::String)).void }
+      sig { params(version: ::String, active: T.nilable(T::Boolean), amount: T.nilable(::String), annual_maximum: T.nilable(::String), child_support: T.nilable(::GustoEmbedded::Shared::GarnishmentChildSupport), court_ordered: T.nilable(T::Boolean), deduct_as_percentage: T.nilable(T::Boolean), description: T.nilable(::String), pay_period_maximum: T.nilable(::String), recurring: T.nilable(T::Boolean), times: T.nilable(::Integer), total_amount: T.nilable(::String)).void }
       def initialize(version: nil, active: nil, amount: nil, annual_maximum: nil, child_support: nil, court_ordered: nil, deduct_as_percentage: nil, description: nil, pay_period_maximum: nil, recurring: nil, times: nil, total_amount: nil)
         @version = version
         @active = active

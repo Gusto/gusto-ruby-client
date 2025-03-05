@@ -99,7 +99,6 @@ module GustoEmbedded
     autoload :Garnishment, 'gusto_embedded/models/shared/garnishment.rb'
     autoload :PaymentPeriod, 'gusto_embedded/models/shared/payment_period.rb'
     autoload :GarnishmentChildSupport, 'gusto_embedded/models/shared/garnishment_child_support.rb'
-    autoload :GarnishmentChildSupportInput, 'gusto_embedded/models/shared/garnishment_child_support_input.rb'
     autoload :Termination, 'gusto_embedded/models/shared/termination.rb'
     autoload :Name, 'gusto_embedded/models/shared/name.rb'
     autoload :PaidTimeOff, 'gusto_embedded/models/shared/paid_time_off.rb'

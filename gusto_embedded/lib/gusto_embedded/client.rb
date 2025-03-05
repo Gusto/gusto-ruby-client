@@ -48,6 +48,8 @@ module GustoEmbedded
           server_url = Utils.template_url(server_url, url_params)
         end
       end
+
+      raise StandardError, "Invalid server \"#{server}\"" if !server.nil? && !SERVERS.key?(server)
       @sdk_configuration = SDKConfiguration.new(
         client,
         security,
@@ -55,19 +57,6 @@ module GustoEmbedded
         server_url,
         server
       )
-      init_sdks
-    end
-
-    sig { params(server_url: String).void }
-    def config_server_url(server_url)
-      @sdk_configuration.server_url = server_url
-      init_sdks
-    end
-
-    sig { params(server: Symbol).void }
-    def config_server(server)
-      raise StandardError, "Invalid server \"#{server}\"" if !SERVERS.key?(server)
-      @sdk_configuration.server = server
       init_sdks
     end
 

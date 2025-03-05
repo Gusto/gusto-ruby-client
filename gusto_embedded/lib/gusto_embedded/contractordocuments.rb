@@ -157,8 +157,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(document_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1ContractorDocumentSignRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1ContractorDocumentSignResponse) }
-    def sign(document_uuid, request_body, x_gusto_api_version = nil)
+    sig { params(document_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1ContractorDocumentSignRequestBody, x_gusto_client_ip: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1ContractorDocumentSignResponse) }
+    def sign(document_uuid, request_body, x_gusto_client_ip = nil, x_gusto_api_version = nil)
       # sign - Sign a contractor document
       # Sign a contractor document.
       # 
@@ -167,6 +167,7 @@ module GustoEmbedded
         
         document_uuid: document_uuid,
         request_body: request_body,
+        x_gusto_client_ip: x_gusto_client_ip,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details

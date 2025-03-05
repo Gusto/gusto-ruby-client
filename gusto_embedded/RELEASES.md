@@ -39,3 +39,13 @@ Based on:
 - Speakeasy CLI 1.509.1 (2.539.1) https://github.com/speakeasy-api/speakeasy
 ### Generated
 - [ruby v0.2.4] gusto_embedded
+
+## 2025-03-05 23:20:14
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.510.0 (2.541.0) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [ruby v0.2.5] gusto_embedded
+### Releases
+- [Ruby Gems v0.2.5] https://rubygems.org/gems/gusto_embedded_client/versions/0.2.5 - gusto_embedded
