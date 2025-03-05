@@ -157,8 +157,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(form_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1CompanyFormSignRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1CompanyFormSignResponse) }
-    def sign(form_id, request_body, x_gusto_api_version = nil)
+    sig { params(form_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1CompanyFormSignRequestBody, x_gusto_client_ip: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1CompanyFormSignResponse) }
+    def sign(form_id, request_body, x_gusto_client_ip = nil, x_gusto_api_version = nil)
       # sign - Sign a company form
       # Sign a company form. Company forms must be signed by the company signatory.
       # 
@@ -167,6 +167,7 @@ module GustoEmbedded
         
         form_id: form_id,
         request_body: request_body,
+        x_gusto_client_ip: x_gusto_client_ip,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details

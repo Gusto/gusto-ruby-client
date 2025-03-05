@@ -1,21 +1,21 @@
-speakeasyVersion: 1.509.1
+speakeasyVersion: 1.510.0
 sources:
     GustoEmbedded-OAS:
         sourceNamespace: gusto-embedded-oas
-        sourceRevisionDigest: sha256:55eaf2cce38a208fa8baa74815f28588e3bd9304914d4eff3fa39a9b76a727a3
-        sourceBlobDigest: sha256:c20a775fa195f2d0d56cc20d5038c48dabad6ef9e989331262532d91daca126b
+        sourceRevisionDigest: sha256:3ce4a45e55f963a1a3f16911033bf61bb7786917980559034bd2704b9d11c2e4
+        sourceBlobDigest: sha256:763cc39ff356851cf8f1a7e38b865e5c8689a2aac9ea830dd0b03defd6fe832f
         tags:
             - latest
-            - speakeasy-sdk-regen-1741109699
+            - speakeasy-sdk-regen-1741216831
             - "2024-04-01"
 targets:
     gusto-embedded:
         source: GustoEmbedded-OAS
         sourceNamespace: gusto-embedded-oas
-        sourceRevisionDigest: sha256:55eaf2cce38a208fa8baa74815f28588e3bd9304914d4eff3fa39a9b76a727a3
-        sourceBlobDigest: sha256:c20a775fa195f2d0d56cc20d5038c48dabad6ef9e989331262532d91daca126b
+        sourceRevisionDigest: sha256:3ce4a45e55f963a1a3f16911033bf61bb7786917980559034bd2704b9d11c2e4
+        sourceBlobDigest: sha256:763cc39ff356851cf8f1a7e38b865e5c8689a2aac9ea830dd0b03defd6fe832f
         codeSamplesNamespace: gusto-embedded-oas-code-samples
-        codeSamplesRevisionDigest: sha256:825790cc3c7eda86d1e29ab4585c22cb7be6af4e9b0bac78f99de09c28755bd0
+        codeSamplesRevisionDigest: sha256:765fe672934b038e4d63f85cde8202df1ad0c6583f6c1c2e66605d9147b0bf23
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
@@ -36,6 +36,9 @@ workflow:
             target: ruby
             source: GustoEmbedded-OAS
             output: ./gusto_embedded
+            publish:
+                rubygems:
+                    token: $rubygems_auth_token
             codeSamples:
                 registry:
                     location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas-code-samples

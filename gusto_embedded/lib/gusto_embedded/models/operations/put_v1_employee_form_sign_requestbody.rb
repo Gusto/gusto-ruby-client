@@ -15,8 +15,6 @@ module GustoEmbedded
       field :agree, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('agree') } }
       # The signature
       field :signature_text, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signature_text') } }
-      # The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported.
-      field :signed_by_ip_address, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_by_ip_address') } }
       # Whether there is a preparer
       field :preparer, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer') } }
       # Whether preparer agrees to sign electronically
@@ -89,13 +87,14 @@ module GustoEmbedded
       field :preparer4_street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_street_2') } }
 
       field :preparer4_zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_zip') } }
+      # The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead.
+      field :signed_by_ip_address, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_by_ip_address') } }
 
 
-      sig { params(agree: T::Boolean, signature_text: ::String, signed_by_ip_address: ::String, preparer: T.nilable(T::Boolean), preparer_agree: T.nilable(::String), preparer_city: T.nilable(::String), preparer_first_name: T.nilable(::String), preparer_last_name: T.nilable(::String), preparer_state: T.nilable(::String), preparer_street_1: T.nilable(::String), preparer_street_2: T.nilable(::String), preparer_zip: T.nilable(::String), preparer2: T.nilable(T::Boolean), preparer2_agree: T.nilable(::String), preparer2_city: T.nilable(::String), preparer2_first_name: T.nilable(::String), preparer2_last_name: T.nilable(::String), preparer2_state: T.nilable(::String), preparer2_street_1: T.nilable(::String), preparer2_street_2: T.nilable(::String), preparer2_zip: T.nilable(::String), preparer3: T.nilable(T::Boolean), preparer3_agree: T.nilable(::String), preparer3_city: T.nilable(::String), preparer3_first_name: T.nilable(::String), preparer3_last_name: T.nilable(::String), preparer3_state: T.nilable(::String), preparer3_street_1: T.nilable(::String), preparer3_street_2: T.nilable(::String), preparer3_zip: T.nilable(::String), preparer4: T.nilable(T::Boolean), preparer4_agree: T.nilable(::String), preparer4_city: T.nilable(::String), preparer4_first_name: T.nilable(::String), preparer4_last_name: T.nilable(::String), preparer4_state: T.nilable(::String), preparer4_street_1: T.nilable(::String), preparer4_street_2: T.nilable(::String), preparer4_zip: T.nilable(::String)).void }
-      def initialize(agree: nil, signature_text: nil, signed_by_ip_address: nil, preparer: nil, preparer_agree: nil, preparer_city: nil, preparer_first_name: nil, preparer_last_name: nil, preparer_state: nil, preparer_street_1: nil, preparer_street_2: nil, preparer_zip: nil, preparer2: nil, preparer2_agree: nil, preparer2_city: nil, preparer2_first_name: nil, preparer2_last_name: nil, preparer2_state: nil, preparer2_street_1: nil, preparer2_street_2: nil, preparer2_zip: nil, preparer3: nil, preparer3_agree: nil, preparer3_city: nil, preparer3_first_name: nil, preparer3_last_name: nil, preparer3_state: nil, preparer3_street_1: nil, preparer3_street_2: nil, preparer3_zip: nil, preparer4: nil, preparer4_agree: nil, preparer4_city: nil, preparer4_first_name: nil, preparer4_last_name: nil, preparer4_state: nil, preparer4_street_1: nil, preparer4_street_2: nil, preparer4_zip: nil)
+      sig { params(agree: T::Boolean, signature_text: ::String, preparer: T.nilable(T::Boolean), preparer_agree: T.nilable(::String), preparer_city: T.nilable(::String), preparer_first_name: T.nilable(::String), preparer_last_name: T.nilable(::String), preparer_state: T.nilable(::String), preparer_street_1: T.nilable(::String), preparer_street_2: T.nilable(::String), preparer_zip: T.nilable(::String), preparer2: T.nilable(T::Boolean), preparer2_agree: T.nilable(::String), preparer2_city: T.nilable(::String), preparer2_first_name: T.nilable(::String), preparer2_last_name: T.nilable(::String), preparer2_state: T.nilable(::String), preparer2_street_1: T.nilable(::String), preparer2_street_2: T.nilable(::String), preparer2_zip: T.nilable(::String), preparer3: T.nilable(T::Boolean), preparer3_agree: T.nilable(::String), preparer3_city: T.nilable(::String), preparer3_first_name: T.nilable(::String), preparer3_last_name: T.nilable(::String), preparer3_state: T.nilable(::String), preparer3_street_1: T.nilable(::String), preparer3_street_2: T.nilable(::String), preparer3_zip: T.nilable(::String), preparer4: T.nilable(T::Boolean), preparer4_agree: T.nilable(::String), preparer4_city: T.nilable(::String), preparer4_first_name: T.nilable(::String), preparer4_last_name: T.nilable(::String), preparer4_state: T.nilable(::String), preparer4_street_1: T.nilable(::String), preparer4_street_2: T.nilable(::String), preparer4_zip: T.nilable(::String), signed_by_ip_address: T.nilable(::String)).void }
+      def initialize(agree: nil, signature_text: nil, preparer: nil, preparer_agree: nil, preparer_city: nil, preparer_first_name: nil, preparer_last_name: nil, preparer_state: nil, preparer_street_1: nil, preparer_street_2: nil, preparer_zip: nil, preparer2: nil, preparer2_agree: nil, preparer2_city: nil, preparer2_first_name: nil, preparer2_last_name: nil, preparer2_state: nil, preparer2_street_1: nil, preparer2_street_2: nil, preparer2_zip: nil, preparer3: nil, preparer3_agree: nil, preparer3_city: nil, preparer3_first_name: nil, preparer3_last_name: nil, preparer3_state: nil, preparer3_street_1: nil, preparer3_street_2: nil, preparer3_zip: nil, preparer4: nil, preparer4_agree: nil, preparer4_city: nil, preparer4_first_name: nil, preparer4_last_name: nil, preparer4_state: nil, preparer4_street_1: nil, preparer4_street_2: nil, preparer4_zip: nil, signed_by_ip_address: nil)
         @agree = agree
         @signature_text = signature_text
-        @signed_by_ip_address = signed_by_ip_address
         @preparer = preparer
         @preparer_agree = preparer_agree
         @preparer_city = preparer_city
@@ -132,6 +131,7 @@ module GustoEmbedded
         @preparer4_street_1 = preparer4_street_1
         @preparer4_street_2 = preparer4_street_2
         @preparer4_zip = preparer4_zip
+        @signed_by_ip_address = signed_by_ip_address
       end
     end
   end

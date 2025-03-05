@@ -40,8 +40,7 @@ Gusto API: Welcome to Gusto's Embedded Payroll API documentation!
 The SDK can be installed using [RubyGems](https://rubygems.org/):
 
 ```bash
-gem install specific_install
-gem specific_install https://github.com/Gusto/gusto-ruby-client -d gusto_embedded 
+gem install gusto_embedded_client
 ```
 <!-- End SDK Installation [installation] -->
 
@@ -51,7 +50,7 @@ gem specific_install https://github.com/Gusto/gusto-ruby-client -d gusto_embedde
 ### Example
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -491,7 +490,7 @@ You can override the default server globally by passing a server name to the `se
 #### Example
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new(
@@ -516,7 +515,7 @@ end
 
 The default server can also be overridden globally by passing a URL to the `server_url (String)` optional parameter when initializing the SDK client instance. For example:
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new(

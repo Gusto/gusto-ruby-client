@@ -15,24 +15,24 @@ module GustoEmbedded
       field :agree, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('agree') } }
       # The signature
       field :signature_text, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signature_text') } }
-      # The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported.
-      field :signed_by_ip_address, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_by_ip_address') } }
       # The signer's job title
       field :signer_title, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signer_title') } }
       # Any additional notes
       field :additional_info, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_info') } }
       # Whether an alternative procedure authorized by DHS to examine documents was used
       field :alt_procedure, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('alt_procedure') } }
+      # The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead.
+      field :signed_by_ip_address, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_by_ip_address') } }
 
 
-      sig { params(agree: T::Boolean, signature_text: ::String, signed_by_ip_address: ::String, signer_title: ::String, additional_info: T.nilable(::String), alt_procedure: T.nilable(T::Boolean)).void }
-      def initialize(agree: nil, signature_text: nil, signed_by_ip_address: nil, signer_title: nil, additional_info: nil, alt_procedure: nil)
+      sig { params(agree: T::Boolean, signature_text: ::String, signer_title: ::String, additional_info: T.nilable(::String), alt_procedure: T.nilable(T::Boolean), signed_by_ip_address: T.nilable(::String)).void }
+      def initialize(agree: nil, signature_text: nil, signer_title: nil, additional_info: nil, alt_procedure: nil, signed_by_ip_address: nil)
         @agree = agree
         @signature_text = signature_text
-        @signed_by_ip_address = signed_by_ip_address
         @signer_title = signer_title
         @additional_info = additional_info
         @alt_procedure = alt_procedure
+        @signed_by_ip_address = signed_by_ip_address
       end
     end
   end

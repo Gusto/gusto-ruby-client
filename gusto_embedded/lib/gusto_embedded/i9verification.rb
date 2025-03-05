@@ -351,8 +351,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignResponse) }
-    def employer_sign(employee_id, request_body, x_gusto_api_version = nil)
+    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignRequestBody, x_gusto_client_ip: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdI9AuthorizationEmployerSignResponse) }
+    def employer_sign(employee_id, request_body, x_gusto_client_ip = nil, x_gusto_api_version = nil)
       # employer_sign - Employer sign an employee's Form I-9
       # Sign an employee's Form I-9 as an employer. Once the form is signed, the employee's I-9 authorization is considered complete and cannot be modified.
       # 
@@ -361,6 +361,7 @@ module GustoEmbedded
         
         employee_id: employee_id,
         request_body: request_body,
+        x_gusto_client_ip: x_gusto_client_ip,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details

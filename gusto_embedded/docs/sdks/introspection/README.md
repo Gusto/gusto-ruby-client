@@ -15,7 +15,7 @@ Returns scope and resource information associated with the current access token.
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new
@@ -57,7 +57,7 @@ The `expires_in` value is provided in seconds from when the `access_token` was g
 ### Example Usage
 
 ```ruby
-require 'gusto'
+require 'gusto_embedded_client'
 
 
 s = ::GustoEmbedded::Client.new

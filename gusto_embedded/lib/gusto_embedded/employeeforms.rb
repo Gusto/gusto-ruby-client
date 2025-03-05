@@ -219,8 +219,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, form_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeeFormSignRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1EmployeeFormSignResponse) }
-    def sign(employee_id, form_id, request_body, x_gusto_api_version = nil)
+    sig { params(request: ::GustoEmbedded::Operations::PutV1EmployeeFormSignRequest).returns(::GustoEmbedded::Operations::PutV1EmployeeFormSignResponse) }
+    def sign(request)
       # sign - Sign an employee form
       # Sign an employee form.
       # 
@@ -228,13 +228,6 @@ module GustoEmbedded
       # first name, last name, street address, city, state, and zip for that preparer are all required.
       # 
       # scope: `employee_forms:sign`
-      request = ::GustoEmbedded::Operations::PutV1EmployeeFormSignRequest.new(
-        
-        employee_id: employee_id,
-        form_id: form_id,
-        request_body: request_body,
-        x_gusto_api_version: x_gusto_api_version
-      )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
