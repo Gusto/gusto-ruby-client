@@ -75,7 +75,7 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::AccruingTimeOffHour])
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::AccruingTimeOffHourObject)
           res.accruing_time_off_hour_object = out
         end
       elsif r.status == 422
