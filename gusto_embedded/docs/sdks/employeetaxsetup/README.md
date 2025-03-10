@@ -21,15 +21,12 @@ Get attributes relevant for an employee's federal taxes.
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_tax_setup.get_federal_taxes(employee_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_federal_tax.nil?
@@ -62,15 +59,12 @@ scope: `employee_federal_taxes:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_tax_setup.update_federal_taxes(employee_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdFederalTaxesRequestBody.new(
   version: "<value>",
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
@@ -118,15 +112,12 @@ scope: `employee_state_taxes:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_tax_setup.get_state_taxes(employee_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_state_taxes_list.nil?
@@ -161,15 +152,12 @@ scope: `employee_state_taxes:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_tax_setup.update_state_taxes(employee_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody.new(
   states: [
     ::GustoEmbedded::Operations::States.new(

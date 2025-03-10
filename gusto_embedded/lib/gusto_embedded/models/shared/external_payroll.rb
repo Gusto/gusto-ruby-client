@@ -26,7 +26,7 @@ module GustoEmbedded
       # External payroll items for employees
       field :external_payroll_items, T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollItems]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_payroll_items') } }
       # Stores metadata of the external payroll.
-      field :metadata, T.nilable(::GustoEmbedded::Shared::ExternalPayrollMetadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
+      field :metadata, T.nilable(::GustoEmbedded::Shared::Metadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
       # External payroll's pay period end date.
       field :payment_period_end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_end_date') } }
       # External payroll's pay period start date.
@@ -35,7 +35,7 @@ module GustoEmbedded
       field :status, T.nilable(::GustoEmbedded::Shared::Status), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Status, true) } }
 
 
-      sig { params(uuid: ::String, applicable_benefits: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableBenefits]), applicable_earnings: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableEarnings]), applicable_taxes: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableTaxes]), check_date: T.nilable(::String), company_uuid: T.nilable(::String), external_payroll_items: T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollItems]), metadata: T.nilable(::GustoEmbedded::Shared::ExternalPayrollMetadata), payment_period_end_date: T.nilable(::String), payment_period_start_date: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::Status)).void }
+      sig { params(uuid: ::String, applicable_benefits: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableBenefits]), applicable_earnings: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableEarnings]), applicable_taxes: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableTaxes]), check_date: T.nilable(::String), company_uuid: T.nilable(::String), external_payroll_items: T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollItems]), metadata: T.nilable(::GustoEmbedded::Shared::Metadata), payment_period_end_date: T.nilable(::String), payment_period_start_date: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::Status)).void }
       def initialize(uuid: nil, applicable_benefits: nil, applicable_earnings: nil, applicable_taxes: nil, check_date: nil, company_uuid: nil, external_payroll_items: nil, metadata: nil, payment_period_end_date: nil, payment_period_start_date: nil, status: nil)
         @uuid = uuid
         @applicable_benefits = applicable_benefits

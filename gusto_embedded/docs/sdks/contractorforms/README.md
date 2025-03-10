@@ -21,15 +21,12 @@ scope: `contractor_forms:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_forms.list(contractor_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.form_1099s.nil?
@@ -62,15 +59,12 @@ scope: `contractor_forms:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_forms.get(contractor_uuid="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.form_1099.nil?
@@ -104,15 +98,12 @@ scope: `contractor_forms:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_forms.get_pdf(contractor_uuid="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.form_pdf.nil?
@@ -150,15 +141,12 @@ scope: `contractors:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_forms.generate1099(request_body=::GustoEmbedded::Operations::PostV1SandboxGenerate1099RequestBody.new(
   contractor_id: "<id>",
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)

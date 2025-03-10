@@ -19,15 +19,12 @@ scope: `recovery_cases:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.recovery_cases.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.recovery_case_list.nil?
@@ -64,15 +61,12 @@ scope: `recovery_cases:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.recovery_cases.redebit(recovery_case_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200

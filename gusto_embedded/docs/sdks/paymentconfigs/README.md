@@ -19,15 +19,12 @@ scope: `company_payment_configs:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.payment_configs.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.payment_configs.nil?
@@ -60,15 +57,12 @@ scope: `company_payment_configs:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.payment_configs.update(company_uuid="<id>", request_body="<value>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.payment_configs.nil?

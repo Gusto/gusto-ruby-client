@@ -28,15 +28,12 @@ scope: `employments:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.create_termination(employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdTerminationsRequestBody.new(
   effective_date: "<value>",
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
@@ -74,15 +71,12 @@ scope: `employments:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.get_terminations(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.termination_list.nil?
@@ -115,15 +109,12 @@ scope: `employments:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.delete_termination(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
@@ -158,15 +149,12 @@ scope: `employments:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.update_termination(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1TerminationsEmployeeIdRequestBody.new(
   version: "<value>",
   effective_date: "<value>",
@@ -203,15 +191,12 @@ scope: `employments:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.create_rehire(employee_id="<id>", rehire_body=::GustoEmbedded::Shared::RehireBody.new(
   effective_date: "<value>",
   file_new_hire_report: false,
@@ -249,15 +234,12 @@ scope: `employments:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.rehire(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdRehireRequestBody.new(
   version: "<value>",
   effective_date: "<value>",
@@ -296,15 +278,12 @@ scope: `employments:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.get_rehire(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.rehire.nil?
@@ -337,15 +316,12 @@ scope: `employments:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.delete_rehire(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
@@ -378,15 +354,12 @@ scope: `employments:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.employee_employments.get_history(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employment_history_list.nil?

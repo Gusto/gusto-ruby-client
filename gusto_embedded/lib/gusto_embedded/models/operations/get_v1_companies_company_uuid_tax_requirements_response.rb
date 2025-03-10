@@ -18,10 +18,10 @@ module GustoEmbedded
       # HTTP response status code for this operation
       field :status_code, ::Integer
       # OK
-      field :response_bodies, T.nilable(T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyUuidTaxRequirementsResponseBody])
+      field :response_bodies, T.nilable(T::Array[::GustoEmbedded::Operations::ResponseBody])
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, response_bodies: T.nilable(T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyUuidTaxRequirementsResponseBody])).void }
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, response_bodies: T.nilable(T::Array[::GustoEmbedded::Operations::ResponseBody])).void }
       def initialize(content_type: nil, raw_response: nil, status_code: nil, response_bodies: nil)
         @content_type = content_type
         @raw_response = raw_response

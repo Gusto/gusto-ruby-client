@@ -20,15 +20,12 @@ scope: `contractor_payment_methods:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_payment_methods.create_bank_account(contractor_uuid="<id>", request_body=::GustoEmbedded::Operations::PostV1ContractorsContractorUuidBankAccountsRequestBody.new(
   name: "<value>",
   routing_number: "<value>",

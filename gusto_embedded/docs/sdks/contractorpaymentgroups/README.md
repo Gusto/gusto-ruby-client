@@ -23,15 +23,12 @@ scope: `payrolls:run`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_payment_groups.create(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsRequestBody.new(
   check_date: Date.parse("2020-01-01"),
   creation_token: "1d532d13-8f61-4a57-ad3c-b5fac1c6e05e",
@@ -76,21 +73,18 @@ scope: `payrolls:read`
 ```ruby
 require 'gusto_embedded_client'
 
-
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
 req = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsRequest.new(
   company_id: "<id>",
   start_date: "2020-01-01",
   end_date: "2020-12-31",
 )
-    
+
 res = s.contractor_payment_groups.get_list(req)
 
 if ! res.contractor_payment_group_list.nil?
@@ -122,15 +116,12 @@ scope: `payrolls:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_payment_groups.preview(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequestBody.new(
   check_date: Date.parse("2020-01-01"),
   creation_token: "1d532d13-8f61-4a57-ad3c-b5fac1c6e05e",
@@ -175,15 +166,12 @@ scope: `payrolls:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_payment_groups.get(contractor_payment_group_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor_payment_group.nil?
@@ -216,15 +204,12 @@ scope: `payrolls:run`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_payment_groups.delete(contractor_payment_group_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
@@ -261,15 +246,12 @@ scope: `payrolls:run`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.contractor_payment_groups.fund(contractor_payment_group_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor_payment_group.nil?

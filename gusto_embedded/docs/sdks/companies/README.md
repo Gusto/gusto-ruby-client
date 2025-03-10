@@ -37,11 +37,11 @@ IMPORTANT: the returned access and refresh tokens are reserved for this company 
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
 
-    
-res = s.companies.create_partner_managed(::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesSecurity.new(
+res = s.companies.create_partner_managed(security: ::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), request_body=::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesRequestBody.new(
   user: ::GustoEmbedded::Operations::User.new(
@@ -88,15 +88,12 @@ scope: `companies:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.get(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company.nil?
@@ -129,15 +126,12 @@ scope: `companies:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.update(company_id="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesRequestBody.new(
   contractor_only: false,
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
@@ -175,15 +169,12 @@ scope: `partner_managed_companies:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.migrate(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateRequestBody.new(
   email: "Benjamin_Kihn44@yahoo.com",
   ip_address: "198.52.136.51",
@@ -222,15 +213,12 @@ scope: `terms_of_services:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.accept_terms_of_service(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequestBody.new(
   email: "Justine73@gmail.com",
   ip_address: "168.91.169.217",
@@ -268,15 +256,12 @@ scope: `terms_of_services:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.retrieve_terms_of_service(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceRequestBody.new(
   email: "Erika_Schuster@yahoo.com",
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
@@ -313,15 +298,12 @@ scope: `company_admin:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.create_admin(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdAdminsRequestBody.new(
   first_name: "Guillermo",
   last_name: "Koch",
@@ -359,15 +341,12 @@ scope: `company_admin:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.list_admins(company_id="<id>", page=620604, per=696322, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.admin_list.nil?
@@ -403,15 +382,12 @@ scope: `company_onboarding_status:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.get_onboarding_status(company_uuid="<id>", additional_steps="external_payroll", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_onboarding_status.nil?
@@ -457,15 +433,12 @@ scope: `companies:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.finish_onboarding(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_onboarding_status.nil?
@@ -498,15 +471,12 @@ scope: `companies:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.companies.get_custom_fields(company_id="<id>", page=653170, per=309220, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.company_custom_field_list.nil?

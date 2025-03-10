@@ -28,11 +28,11 @@ scope: `webhook_subscriptions:write`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
 
-    
-res = s.webhooks.create_subscription(::GustoEmbedded::Operations::PostV1WebhookSubscriptionSecurity.new(
+res = s.webhooks.create_subscription(security: ::GustoEmbedded::Operations::PostV1WebhookSubscriptionSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::PostV1WebhookSubscriptionSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), request_body=::GustoEmbedded::Operations::PostV1WebhookSubscriptionRequestBody.new(
   url: "https://dense-bidet.name/",
@@ -76,11 +76,11 @@ scope: `webhook_subscriptions:read`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
 
-    
-res = s.webhooks.list_subscriptions(::GustoEmbedded::Operations::GetV1WebhookSubscriptionsSecurity.new(
+res = s.webhooks.list_subscriptions(security: ::GustoEmbedded::Operations::GetV1WebhookSubscriptionsSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::GetV1WebhookSubscriptionsSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
@@ -119,11 +119,11 @@ scope: `webhook_subscriptions:write`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
 
-    
-res = s.webhooks.update_subscription(::GustoEmbedded::Operations::PutV1WebhookSubscriptionUuidSecurity.new(
+res = s.webhooks.update_subscription(security: ::GustoEmbedded::Operations::PutV1WebhookSubscriptionUuidSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::PutV1WebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), webhook_subscription_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1WebhookSubscriptionUuidRequestBody.new(
   subscription_types: [
@@ -168,11 +168,11 @@ scope: `webhook_subscriptions:read`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
 
-    
-res = s.webhooks.get_subscription(::GustoEmbedded::Operations::GetV1WebhookSubscriptionUuidSecurity.new(
+res = s.webhooks.get_subscription(security: ::GustoEmbedded::Operations::GetV1WebhookSubscriptionUuidSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::GetV1WebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
@@ -212,11 +212,11 @@ scope: `webhook_subscriptions:write`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
 
-    
-res = s.webhooks.delete_subscription(::GustoEmbedded::Operations::DeleteV1WebhookSubscriptionUuidSecurity.new(
+res = s.webhooks.delete_subscription(security: ::GustoEmbedded::Operations::DeleteV1WebhookSubscriptionUuidSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::DeleteV1WebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
@@ -258,11 +258,11 @@ scope: `webhook_subscriptions:write`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
 
-    
-res = s.webhooks.verify(::GustoEmbedded::Operations::PutV1VerifyWebhookSubscriptionUuidSecurity.new(
+res = s.webhooks.verify(security: ::GustoEmbedded::Operations::PutV1VerifyWebhookSubscriptionUuidSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::PutV1VerifyWebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), webhook_subscription_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1VerifyWebhookSubscriptionUuidRequestBody.new(
   verification_token: "<value>",
@@ -305,11 +305,11 @@ scope: `webhook_subscriptions:read`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
 
-    
-res = s.webhooks.request_verification_token(::GustoEmbedded::Operations::GetV1WebhookSubscriptionVerificationTokenUuidSecurity.new(
+res = s.webhooks.request_verification_token(security: ::GustoEmbedded::Operations::GetV1WebhookSubscriptionVerificationTokenUuidSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::GetV1WebhookSubscriptionVerificationTokenUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 

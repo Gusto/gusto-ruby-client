@@ -204,7 +204,7 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyUuidTaxRequirementsResponseBody])
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Operations::ResponseBody])
           res.response_bodies = out
         end
       elsif r.status == 404

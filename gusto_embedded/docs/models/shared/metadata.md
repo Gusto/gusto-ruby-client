@@ -1,9 +1,10 @@
 # Metadata
 
-Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided.
+Stores metadata of the external payroll.
 
 
 ## Fields
 
-| Field       | Type        | Required    | Description |
-| ----------- | ----------- | ----------- | ----------- |
+| Field                                              | Type                                               | Required                                           | Description                                        |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| `deletable`                                        | *T.nilable(T::Boolean)*                            | :heavy_minus_sign:                                 | Determines if the external payroll can be deleted. |

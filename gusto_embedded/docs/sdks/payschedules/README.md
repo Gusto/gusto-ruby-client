@@ -31,15 +31,12 @@ scope: `pay_schedules:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.pay_schedules.create(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPaySchedulesRequestBody.new(
   frequency: ::GustoEmbedded::Operations::Frequency::EVERY_OTHER_WEEK,
   anchor_pay_date: "2020-05-15",
@@ -77,15 +74,12 @@ scope: `pay_schedules:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.pay_schedules.get_all(company_id="<id>", page=461008, per=59215, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.pay_schedule_list.nil?
@@ -120,14 +114,11 @@ scope: `pay_schedules:write`
 ```ruby
 require 'gusto_embedded_client'
 
-
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
 req = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewRequest.new(
   company_id: "<id>",
@@ -135,7 +126,7 @@ req = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewReq
   anchor_pay_date: "2020-05-15",
   anchor_end_of_pay_period: "2020-05-08",
 )
-    
+
 res = s.pay_schedules.get_preview(req)
 
 if ! res.object.nil?
@@ -167,15 +158,12 @@ scope: `pay_schedules:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.pay_schedules.get(company_id="<id>", pay_schedule_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.pay_schedule.nil?
@@ -209,15 +197,12 @@ scope: `pay_schedules:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.pay_schedules.update(company_id="<id>", pay_schedule_id="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody.new(
   version: "<value>",
   anchor_pay_date: "2020-05-15",
@@ -260,21 +245,18 @@ scope: `payrolls:read`
 ```ruby
 require 'gusto_embedded_client'
 
-
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
 req = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest.new(
   company_id: "<id>",
   start_date: "2020-01-01",
   end_date: "2020-01-31",
 )
-    
+
 res = s.pay_schedules.get_pay_periods(req)
 
 if ! res.pay_period_list.nil?
@@ -308,15 +290,12 @@ scope: `payrolls:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.pay_schedules.get_unprocessed_termination_periods(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.unprocessed_termination_pay_period_list.nil?
@@ -349,15 +328,12 @@ scope: `pay_schedules:read`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.pay_schedules.get_assignments(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.pay_schedule_assignment.nil?
@@ -390,15 +366,12 @@ scope: `pay_schedules:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.pay_schedules.preview_assignment(company_id="<id>", pay_schedule_assignment_body=::GustoEmbedded::Shared::PayScheduleAssignmentBody.new(
   type: ::GustoEmbedded::Shared::PayScheduleAssignmentBodyType::HOURLY_SALARIED,
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
@@ -435,15 +408,12 @@ scope: `pay_schedules:write`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.pay_schedules.assign(company_id="<id>", pay_schedule_assignment_body=::GustoEmbedded::Shared::PayScheduleAssignmentBody.new(
   type: ::GustoEmbedded::Shared::PayScheduleAssignmentBodyType::BY_DEPARTMENT,
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)

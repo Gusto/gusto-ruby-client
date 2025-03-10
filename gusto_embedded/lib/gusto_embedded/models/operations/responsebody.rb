@@ -11,15 +11,17 @@ module GustoEmbedded
     class ResponseBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
-
-      field :questions, T::Array[::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesQuestions], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('questions') } }
-
+      # If all requirements for the state have been satisfied such that the company can complete
+      # onboarding, the company is `setup_complete` in the state. A company must be `setup_complete` in
+      # all relevant states to complete the `state_setup` company onboarding step.
+      field :setup_complete, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('setup_complete') } }
+      # One of the two-letter state abbreviations for the fifty United States and the District of Columbia (DC)
       field :state, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
 
 
-      sig { params(questions: T::Array[::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesQuestions], state: ::String).void }
-      def initialize(questions: nil, state: nil)
-        @questions = questions
+      sig { params(setup_complete: T::Boolean, state: ::String).void }
+      def initialize(setup_complete: nil, state: nil)
+        @setup_complete = setup_complete
         @state = state
       end
     end
