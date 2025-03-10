@@ -240,8 +240,8 @@ module GustoEmbedded
       elsif r.status == 404
       elsif r.status == 422
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Operations::ResponseBody])
-          res.response_bodies = out
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
         end
       end
 

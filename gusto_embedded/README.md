@@ -26,6 +26,7 @@ Gusto API: Welcome to Gusto's Embedded Payroll API documentation!
 * [gusto](#gusto)
   * [SDK Installation](#sdk-installation)
   * [SDK Example Usage](#sdk-example-usage)
+  * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Server Selection](#server-selection)
 * [Development](#development)
@@ -52,15 +53,12 @@ gem install gusto_embedded_client
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.object.nil?
@@ -69,6 +67,65 @@ end
 
 ```
 <!-- End SDK Example Usage [usage] -->
+
+<!-- Start Authentication [security] -->
+## Authentication
+
+### Per-Client Security Schemes
+
+This SDK supports the following security scheme globally:
+
+| Name                  | Type | Scheme      |
+| --------------------- | ---- | ----------- |
+| `company_access_auth` | http | HTTP Bearer |
+
+You can set the security parameters through the `security` optional parameter when initializing the SDK client instance. For example:
+```ruby
+require 'gusto_embedded_client'
+
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
+
+res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.object.nil?
+  # handle response
+end
+
+```
+
+### Per-Operation Security Schemes
+
+Some operations in this SDK require the security scheme to be specified at the request level. For example:
+```ruby
+require 'gusto_embedded_client'
+
+s = ::GustoEmbedded::Client.new
+
+res = s.companies.create_partner_managed(security: ::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), request_body=::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesRequestBody.new(
+  user: ::GustoEmbedded::Operations::User.new(
+    first_name: "Gail",
+    last_name: "Stracke",
+    email: "Emanuel.McClure@gmail.com",
+  ),
+  company: ::GustoEmbedded::Operations::Company.new(
+    name: "<value>",
+  ),
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.object.nil?
+  # handle response
+end
+
+```
+<!-- End Authentication [security] -->
 
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations
@@ -492,17 +549,13 @@ You can override the default server globally by passing a server name to the `se
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new(
       server: "prod",
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
     )
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
 
-    
 res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.object.nil?
@@ -517,17 +570,13 @@ The default server can also be overridden globally by passing a URL to the `serv
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new(
       server_url: "https://api.gusto-demo.com",
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
     )
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
 
-    
 res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.object.nil?
