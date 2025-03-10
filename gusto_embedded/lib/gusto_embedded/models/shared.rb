@@ -210,6 +210,7 @@ module GustoEmbedded
     autoload :EmployeePayStub, 'gusto_embedded/models/shared/employee_pay_stub.rb'
     autoload :EmployeeCheckNumberMapping, 'gusto_embedded/models/shared/employee_check_number_mapping.rb'
     autoload :PayrollCheck, 'gusto_embedded/models/shared/payroll_check.rb'
+    autoload :AccruingTimeOffHourObject, 'gusto_embedded/models/shared/accruing_time_off_hour_object.rb'
     autoload :AccruingTimeOffHour, 'gusto_embedded/models/shared/accruing_time_off_hour.rb'
     autoload :PolicyType, 'gusto_embedded/models/shared/policy_type.rb'
     autoload :TimeOffPolicyEmployees, 'gusto_embedded/models/shared/time_off_policy_employees.rb'
