@@ -13,7 +13,7 @@ Developer-friendly & type-safe Ruby client libraries built for Gusto’s Embedd
 <!-- Start Gusto Ruby Client Libraries -->
 | Library | Description | Rubygems |
 | :- |:- |:- |
-| **[Gusto Embedded](https://github.com/Gusto/gusto-ruby-client/tree/main/gusto_embedded#gusto)** | APIs for building an embedded payroll application | |
+| **[Gusto Embedded](https://github.com/Gusto/gusto-ruby-client/tree/main/gusto_embedded#gusto)** | APIs for building an embedded payroll application | [![Rubygem](https://img.shields.io/gem/v/gusto_embedded_client?color=%230A8080)](https://rubygems.org/gems/gusto_embedded_client) |
 <!-- End Gusto Ruby Client Libraries -->
 
 <!-- Start Gusto Support Notes -->
