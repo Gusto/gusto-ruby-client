@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8eb78f74-a965-461b-96d6-fcfa1cb6186a
 management:
-  docChecksum: 0c1d511b9a14082d55cd08b360437a86
+  docChecksum: c4bbb668676635dabb3d2be600272902
   docVersion: "2024-04-01"
-  speakeasyVersion: 1.510.0
-  generationVersion: 2.541.0
-  releaseVersion: 0.2.5
-  configChecksum: c42b3d829d80af4def132df60ad68174
+  speakeasyVersion: 1.513.4
+  generationVersion: 2.545.4
+  releaseVersion: 0.2.6
+  configChecksum: 07b59bfff94b3f00c47978f8f17ac80c
   repoURL: https://github.com/Gusto/gusto-ruby-client.git
   repoSubDirectory: gusto_embedded
   installationURL: https://github.com/Gusto/gusto-ruby-client -d gusto_embedded
@@ -216,7 +216,6 @@ generatedFiles:
   - docs/models/operations/getv1companiescompanyuuidsignatoriesresponse.md
   - docs/models/operations/getv1companiescompanyuuidtaxrequirementsrequest.md
   - docs/models/operations/getv1companiescompanyuuidtaxrequirementsresponse.md
-  - docs/models/operations/getv1companiescompanyuuidtaxrequirementsresponsebody.md
   - docs/models/operations/getv1companiescompanyuuidtaxrequirementsstaterequest.md
   - docs/models/operations/getv1companiescompanyuuidtaxrequirementsstateresponse.md
   - docs/models/operations/getv1companiespayrollblockerscompanyuuidrequest.md
@@ -694,8 +693,6 @@ generatedFiles:
   - docs/models/operations/putv1employeesemployeeidrehirerequest.md
   - docs/models/operations/putv1employeesemployeeidrehirerequestbody.md
   - docs/models/operations/putv1employeesemployeeidrehireresponse.md
-  - docs/models/operations/putv1employeesemployeeidstatetaxesanswers.md
-  - docs/models/operations/putv1employeesemployeeidstatetaxesquestions.md
   - docs/models/operations/putv1employeesemployeeidstatetaxesrequest.md
   - docs/models/operations/putv1employeesemployeeidstatetaxesrequestbody.md
   - docs/models/operations/putv1employeesemployeeidstatetaxesresponse.md
@@ -921,16 +918,13 @@ generatedFiles:
   - docs/models/shared/employmenthistorylistemploymentstatus.md
   - docs/models/shared/employmentstatus.md
   - docs/models/shared/entityerrorobject.md
-  - docs/models/shared/entityerrorobjectmetadata.md
   - docs/models/shared/entitytype.md
-  - docs/models/shared/errors.md
   - docs/models/shared/event.md
   - docs/models/shared/externalpayroll.md
   - docs/models/shared/externalpayrollbasic.md
   - docs/models/shared/externalpayrollbasicstatus.md
   - docs/models/shared/externalpayrollbenefits.md
   - docs/models/shared/externalpayrollitems.md
-  - docs/models/shared/externalpayrollmetadata.md
   - docs/models/shared/externalpayrolltaxes.md
   - docs/models/shared/externalpayrolltaxsuggestions.md
   - docs/models/shared/federalholidays.md
@@ -1391,7 +1385,6 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/get_v1_companies_company_uuid_signatories_response.rb
   - lib/gusto_embedded/models/operations/get_v1_companies_company_uuid_tax_requirements_request.rb
   - lib/gusto_embedded/models/operations/get_v1_companies_company_uuid_tax_requirements_response.rb
-  - lib/gusto_embedded/models/operations/get_v1_companies_company_uuid_tax_requirements_responsebody.rb
   - lib/gusto_embedded/models/operations/get_v1_companies_company_uuid_tax_requirements_state_request.rb
   - lib/gusto_embedded/models/operations/get_v1_companies_company_uuid_tax_requirements_state_response.rb
   - lib/gusto_embedded/models/operations/get_v1_companies_payroll_blockers_company_uuid_request.rb
@@ -1869,8 +1862,6 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/put_v1_employees_employee_id_rehire_request.rb
   - lib/gusto_embedded/models/operations/put_v1_employees_employee_id_rehire_requestbody.rb
   - lib/gusto_embedded/models/operations/put_v1_employees_employee_id_rehire_response.rb
-  - lib/gusto_embedded/models/operations/put_v1_employees_employee_id_state_taxes_answers.rb
-  - lib/gusto_embedded/models/operations/put_v1_employees_employee_id_state_taxes_questions.rb
   - lib/gusto_embedded/models/operations/put_v1_employees_employee_id_state_taxes_request.rb
   - lib/gusto_embedded/models/operations/put_v1_employees_employee_id_state_taxes_requestbody.rb
   - lib/gusto_embedded/models/operations/put_v1_employees_employee_id_state_taxes_response.rb
@@ -2097,16 +2088,13 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/employment_history_list_employment_status.rb
   - lib/gusto_embedded/models/shared/employment_status.rb
   - lib/gusto_embedded/models/shared/entity_error_object.rb
-  - lib/gusto_embedded/models/shared/entity_error_object_metadata.rb
   - lib/gusto_embedded/models/shared/entity_type.rb
-  - lib/gusto_embedded/models/shared/errors.rb
   - lib/gusto_embedded/models/shared/event.rb
   - lib/gusto_embedded/models/shared/external_payroll.rb
   - lib/gusto_embedded/models/shared/external_payroll_basic.rb
   - lib/gusto_embedded/models/shared/external_payroll_basic_status.rb
   - lib/gusto_embedded/models/shared/external_payroll_benefits.rb
   - lib/gusto_embedded/models/shared/external_payroll_items.rb
-  - lib/gusto_embedded/models/shared/external_payroll_metadata.rb
   - lib/gusto_embedded/models/shared/external_payroll_tax_suggestions.rb
   - lib/gusto_embedded/models/shared/external_payroll_taxes.rb
   - lib/gusto_embedded/models/shared/federal_holidays.rb
@@ -2366,7 +2354,7 @@ examples:
         application/json: {"user": {"first_name": "Gail", "last_name": "Stracke", "email": "Emanuel.McClure@gmail.com"}, "company": {"name": "<value>"}}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       requestBody:
         application/json: {"user": {"first_name": "Gretchen", "last_name": "Vandervort", "email": "Giuseppe_Turcotte@yahoo.com"}, "company": {"name": "<value>"}}
@@ -2378,7 +2366,7 @@ examples:
         application/json: {"user": {"first_name": "Dominic", "last_name": "Bins", "email": "Maxime41@hotmail.com"}, "company": {"name": "<value>"}}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies:
     Example:
       parameters:
@@ -2408,7 +2396,7 @@ examples:
         application/json: {"contractor_only": false}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2428,7 +2416,7 @@ examples:
         application/json: {"contractor_only": true}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-v1-partner-managed-companies-company-uuid-migrate:
     Example:
       parameters:
@@ -2449,7 +2437,7 @@ examples:
         application/json: {"email": "Erna62@gmail.com", "ip_address": "02de:9982:167f:34c3:bfe5:a8ab:0cf3:5c87", "external_user_id": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2469,7 +2457,7 @@ examples:
         application/json: {"email": "Johann_Thompson@hotmail.com", "ip_address": "82.48.167.70", "external_user_id": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-partner-managed-companies-company_uuid-accept_terms_of_service:
     Example:
       parameters:
@@ -2490,7 +2478,7 @@ examples:
         application/json: {"email": "Justine73@gmail.com", "ip_address": "168.91.169.217", "external_user_id": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2510,7 +2498,7 @@ examples:
         application/json: {"email": "Jerad_Dicki@yahoo.com", "ip_address": "61.236.253.221", "external_user_id": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-partner-managed-companies-company_uuid-retrieve_terms_of_service:
     Example:
       parameters:
@@ -2531,7 +2519,7 @@ examples:
         application/json: {"email": "Erika_Schuster@yahoo.com"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2551,7 +2539,7 @@ examples:
         application/json: {"email": "Katheryn_Ernser@hotmail.com"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-companies-company_id-admins:
     Example:
       parameters:
@@ -2572,7 +2560,7 @@ examples:
         application/json: {"first_name": "Guillermo", "last_name": "Koch", "email": "Justine_Gusikowski92@yahoo.com"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2592,7 +2580,7 @@ examples:
         application/json: {"first_name": "Jessika", "last_name": "Hudson", "email": "Cornell_Monahan86@hotmail.com"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-admins:
     Example:
       parameters:
@@ -2630,7 +2618,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2646,7 +2634,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-custom_fields:
     Example:
       parameters:
@@ -2675,7 +2663,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2693,7 +2681,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-attachment:
     Example:
       parameters:
@@ -2743,7 +2731,7 @@ examples:
         multipart/form-data: {"document": {"": "0xBBcAF75054"}, "category": "gep_notice"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2763,7 +2751,7 @@ examples:
         multipart/form-data: {"document": {"": "0x40b0ecD9a5"}, "category": "compliance"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-federal_tax_details:
     Example:
       parameters:
@@ -2793,7 +2781,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2813,7 +2801,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-company-industry:
     Example:
       parameters:
@@ -2845,7 +2833,7 @@ examples:
         application/json: {"naics_code": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2865,7 +2853,7 @@ examples:
         application/json: {"naics_code": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-company-signatories:
     Example:
       parameters:
@@ -2888,7 +2876,7 @@ examples:
         application/json: {"ssn": "<value>", "first_name": "Sven", "last_name": "Kunze", "email": "Otho78@gmail.com", "title": "<value>", "phone": "545.244.3901", "birthday": "<value>", "home_address": {"street_1": "<value>", "city": "New Josiane", "state": "Kentucky", "zip": "11880"}}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2908,7 +2896,7 @@ examples:
         application/json: {"ssn": "<value>", "first_name": "Winfield", "last_name": "Grady-Cruickshank", "email": "Paula_Weber@hotmail.com", "title": "<value>", "phone": "(773) 321-8929", "birthday": "<value>", "home_address": {"street_1": "<value>", "city": "Lakeland", "state": "Louisiana", "zip": "12614-6739"}}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_uuid-signatories:
     Example:
       parameters:
@@ -2938,7 +2926,7 @@ examples:
         application/json: {"email": "Fidel_Witting91@gmail.com"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -2958,7 +2946,7 @@ examples:
         application/json: {"email": "Cassie.Corwin26@yahoo.com"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-v1-companies-company_uuid-signatories-signatory_uuid:
     Example:
       parameters:
@@ -2981,7 +2969,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3003,7 +2991,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-companies-company_uuid-signatories-signatory_uuid:
     speakeasy-default-delete-v1-companies-company-uuid-signatories-signatory-uuid:
       parameters:
@@ -3031,7 +3019,7 @@ examples:
         application/json: {"flow_type": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3051,7 +3039,7 @@ examples:
         application/json: {"flow_type": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-companies-company_id-locations:
     Example:
       parameters:
@@ -3072,7 +3060,7 @@ examples:
         application/json: {"phone_number": "741.279.0107 x857", "street_1": "<value>", "city": "Grand Island", "state": "Illinois", "zip": "22031"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3092,7 +3080,7 @@ examples:
         application/json: {"phone_number": "824-550-4439 x01255", "street_1": "<value>", "city": "South Barrett", "state": "Georgia", "zip": "80985-0183"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-locations:
     Example:
       parameters:
@@ -3132,7 +3120,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3152,7 +3140,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-locations-location_uuid-minimum_wages:
     Example:
       parameters:
@@ -3184,7 +3172,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3204,7 +3192,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-bank-accounts:
     Example:
       parameters:
@@ -3236,7 +3224,7 @@ examples:
         application/json: {"deposit_1": 7888.92, "deposit_2": 1895.95}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3258,7 +3246,7 @@ examples:
         application/json: {"deposit_1": 7567.55, "deposit_2": 3940.54}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-plaid-processor_token:
     Create a company bank account:
       requestBody:
@@ -3278,7 +3266,7 @@ examples:
         application/json: {"owner_type": "Company", "owner_id": "<id>", "processor_token": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       requestBody:
         application/json: {"owner_type": "Company", "owner_id": "<id>", "processor_token": "<value>"}
@@ -3290,7 +3278,7 @@ examples:
         application/json: {"owner_type": "Company", "owner_id": "<id>", "processor_token": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-external-payroll:
     Example:
       parameters:
@@ -3311,7 +3299,7 @@ examples:
         application/json: {"check_date": "<value>", "payment_period_start_date": "<value>", "payment_period_end_date": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3331,7 +3319,7 @@ examples:
         application/json: {"check_date": "<value>", "payment_period_start_date": "<value>", "payment_period_end_date": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-company-external-payrolls:
     Example:
       parameters:
@@ -3380,7 +3368,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3402,7 +3390,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-external-payroll-calculate-taxes:
     Example:
       parameters:
@@ -3442,7 +3430,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3462,7 +3450,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-v1-tax-liabilities-finish:
     Basic:
       parameters:
@@ -3471,7 +3459,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3487,7 +3475,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-company-payment-configs:
     Example:
       parameters:
@@ -3517,7 +3505,7 @@ examples:
         application/json: "<value>"
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3537,7 +3525,7 @@ examples:
         application/json: "<value>"
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-companies-company_id-pay_schedules:
     Example:
       parameters:
@@ -3560,7 +3548,7 @@ examples:
         application/json: {"frequency": "Every other week", "anchor_pay_date": "2020-05-15", "anchor_end_of_pay_period": "2020-05-08"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3580,7 +3568,7 @@ examples:
         application/json: {"frequency": "Every week", "anchor_pay_date": "2020-05-15", "anchor_end_of_pay_period": "2020-05-08"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-pay_schedules:
     Example:
       parameters:
@@ -3636,7 +3624,7 @@ examples:
         application/json: {"version": "<value>", "anchor_pay_date": "2020-05-15", "anchor_end_of_pay_period": "2020-05-08"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3658,7 +3646,7 @@ examples:
         application/json: {"version": "<value>", "anchor_pay_date": "2020-05-15", "anchor_end_of_pay_period": "2020-05-08"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-pay_periods:
     Example:
       parameters:
@@ -3709,7 +3697,7 @@ examples:
         application/json: {"type": "hourly_salaried"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3729,7 +3717,7 @@ examples:
         application/json: {"type": "single"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-companies-company_id-pay_schedules-assign:
     Example:
       parameters:
@@ -3747,7 +3735,7 @@ examples:
         application/json: {"type": "by_department"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3767,7 +3755,7 @@ examples:
         application/json: {"type": "hourly_salaried"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-employees:
     Example:
       parameters:
@@ -3809,7 +3797,7 @@ examples:
         application/json: {"first_name": "Valerie", "last_name": "Dach"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3829,7 +3817,7 @@ examples:
         application/json: {"first_name": "Kyleigh", "last_name": "Will"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-employees:
     Example:
       parameters:
@@ -3871,7 +3859,7 @@ examples:
         application/json: {"first_name": "Donavon", "last_name": "Baumbach", "date_of_birth": "1991-01-07", "ssn": "<value>", "work_address": {}, "home_address": {"street_1": "<value>", "city": "MacGyverboro", "state": "Mississippi", "zip": "73859"}, "termination": {}, "job": {}}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3891,7 +3879,7 @@ examples:
         application/json: {"first_name": "Rae", "last_name": "Corkery", "date_of_birth": "1947-12-07", "ssn": "<value>", "work_address": {}, "home_address": {"street_1": "<value>", "city": "Gerholdshire", "state": "Nebraska", "zip": "28098-5552"}, "termination": {}, "job": {}}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-v1-historical_employees:
     Example:
       parameters:
@@ -3975,7 +3963,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -3995,7 +3983,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-employee:
     Basic:
       parameters:
@@ -4004,7 +3992,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4020,7 +4008,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-custom_fields:
     Example:
       parameters:
@@ -4071,7 +4059,7 @@ examples:
         application/json: {"onboarding_status": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4091,7 +4079,7 @@ examples:
         application/json: {"onboarding_status": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-version-employees-time_off_activities:
     example:
       parameters:
@@ -4120,7 +4108,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4140,7 +4128,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-companies-departments:
     Example:
       parameters:
@@ -4179,7 +4167,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4199,7 +4187,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-department:
     Basic:
       parameters:
@@ -4208,7 +4196,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4224,7 +4212,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-add-people-to-department:
     Example:
       parameters:
@@ -4267,7 +4255,7 @@ examples:
         application/json: {"effective_date": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4287,7 +4275,7 @@ examples:
         application/json: {"effective_date": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-terminations:
     Example:
       parameters:
@@ -4326,7 +4314,7 @@ examples:
         application/json: {"version": "<value>", "effective_date": "<value>"}
       responses:
         "404":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4346,7 +4334,7 @@ examples:
         application/json: {"version": "<value>", "effective_date": "<value>"}
       responses:
         "404":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-employees-employee_id-rehire:
     Example:
       parameters:
@@ -4367,7 +4355,7 @@ examples:
         application/json: {"effective_date": "<value>", "file_new_hire_report": true, "work_location_uuid": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4387,7 +4375,7 @@ examples:
         application/json: {"effective_date": "<value>", "file_new_hire_report": true, "work_location_uuid": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-v1-employees-employee_id-rehire:
     Example:
       parameters:
@@ -4408,7 +4396,7 @@ examples:
         application/json: {"version": "<value>", "effective_date": "<value>", "file_new_hire_report": false, "work_location_uuid": "<id>"}
       responses:
         "404":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4428,7 +4416,7 @@ examples:
         application/json: {"version": "<value>", "effective_date": "<value>", "file_new_hire_report": false, "work_location_uuid": "<id>"}
       responses:
         "404":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-rehire:
     Example:
       parameters:
@@ -4489,7 +4477,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4509,7 +4497,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-home_addresses-home_address_uuid:
     Example:
       parameters:
@@ -4539,7 +4527,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4559,7 +4547,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-home_addresses-home_address_uuid:
     Basic:
       parameters:
@@ -4568,7 +4556,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4584,7 +4572,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-work_addresses:
     Example:
       parameters:
@@ -4614,7 +4602,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4634,7 +4622,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-work_addresses-work_address_uuid:
     Example:
       parameters:
@@ -4664,7 +4652,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4684,7 +4672,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-work_addresses-work_address_uuid:
     Basic:
       parameters:
@@ -4693,7 +4681,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4709,7 +4697,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-federal_taxes:
     Example:
       parameters:
@@ -4739,7 +4727,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4759,7 +4747,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-state_taxes:
     Employee-State-Taxes-List-Example:
       parameters:
@@ -4801,7 +4789,7 @@ examples:
         application/json: {"states": [{"state": "Ohio"}, {"state": "Ohio"}]}
       responses:
         "422":
-          application/json: [{"state": "CA", "questions": [{"key": "filing_status", "answers": [{"valid_from": "2010-01-01", "valid_up_to": null, "errors": ["string"]}]}]}]
+          application/json: {"errors": [{"error_key": "states", "category": "nested_errors"}]}
   post-v1-employees-employee_id-bank_accounts:
     Example:
       parameters:
@@ -4822,7 +4810,7 @@ examples:
         application/json: {"name": "<value>", "routing_number": "<value>", "account_number": "<value>", "account_type": "Checking"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4842,7 +4830,7 @@ examples:
         application/json: {"name": "<value>", "routing_number": "<value>", "account_number": "<value>", "account_type": "Checking"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-bank_accounts:
     Example:
       parameters:
@@ -4882,7 +4870,7 @@ examples:
         application/json: {"name": "<value>", "routing_number": "<value>", "account_number": "<value>", "account_type": "Checking"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4904,7 +4892,7 @@ examples:
         application/json: {"name": "<value>", "routing_number": "<value>", "account_number": "<value>", "account_type": "Checking"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-payment_method:
     Example:
       parameters:
@@ -4955,7 +4943,7 @@ examples:
         application/json: {"version": "<value>", "type": "Check"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -4975,7 +4963,7 @@ examples:
         application/json: {"version": "<value>", "type": "Check"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-jobs-job_id:
     Example:
       parameters:
@@ -4996,7 +4984,7 @@ examples:
         application/json: {"title": "<value>", "hire_date": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5016,7 +5004,7 @@ examples:
         application/json: {"title": "<value>", "hire_date": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-jobs:
     Example:
       parameters:
@@ -5057,7 +5045,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5077,7 +5065,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-jobs-job_id:
     speakeasy-default-delete-v1-jobs-job-id:
       parameters:
@@ -5124,7 +5112,7 @@ examples:
         application/json: {"payment_unit": "Paycheck", "flsa_status": "Commission Only Nonexempt"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5144,7 +5132,7 @@ examples:
         application/json: {"payment_unit": "Month", "flsa_status": "Commission Only Exempt"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-compensations-compensation_id:
     Exempt:
       parameters:
@@ -5192,7 +5180,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5212,7 +5200,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-compensations-compensation_id:
     speakeasy-default-delete-v1-compensations-compensation-id:
       parameters:
@@ -5239,7 +5227,7 @@ examples:
         application/json: {"name": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5259,7 +5247,7 @@ examples:
         application/json: {"name": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-earning_types:
     Example:
       parameters:
@@ -5291,7 +5279,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5313,7 +5301,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-companies-company_id-earning_types-earning_type_uuid:
     speakeasy-default-delete-v1-companies-company-id-earning-types-earning-type-uuid:
       parameters:
@@ -5373,7 +5361,7 @@ examples:
         application/json: {"type": "Business", "wage_type": "Fixed", "start_date": "2020-01-11", "hourly_rate": "40.0"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5393,7 +5381,7 @@ examples:
         application/json: {"type": "Business", "wage_type": "Hourly", "start_date": "2020-01-11", "hourly_rate": "40.0"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_uuid-contractors:
     Example:
       parameters:
@@ -5473,7 +5461,7 @@ examples:
         application/json: {"version": "<value>", "start_date": "2020-01-11", "hourly_rate": "40.0"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5493,7 +5481,7 @@ examples:
         application/json: {"version": "<value>", "start_date": "2020-01-11", "hourly_rate": "40.0"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-contractors-contractor_uuid:
     speakeasy-default-delete-v1-contractors-contractor-uuid:
       parameters:
@@ -5529,7 +5517,7 @@ examples:
         application/json: {"onboarding_status": "onboarding_completed"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5549,7 +5537,7 @@ examples:
         application/json: {"onboarding_status": "onboarding_completed"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-contractors-contractor_uuid-address:
     Example:
       parameters:
@@ -5579,7 +5567,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5599,7 +5587,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-contractors-contractor_uuid-bank_accounts:
     Example:
       parameters:
@@ -5620,7 +5608,7 @@ examples:
         application/json: {"name": "<value>", "routing_number": "<value>", "account_number": "<value>", "account_type": "Checking"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5640,7 +5628,7 @@ examples:
         application/json: {"name": "<value>", "routing_number": "<value>", "account_number": "<value>", "account_type": "Savings"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-contractors-contractor_uuid-bank_accounts:
     Example:
       parameters:
@@ -5693,7 +5681,7 @@ examples:
         application/json: {"version": "<value>", "type": "Check"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5713,7 +5701,7 @@ examples:
         application/json: {"version": "<value>", "type": "Check"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-webhook-subscription:
     Example:
       requestBody:
@@ -5726,7 +5714,7 @@ examples:
         application/json: {"url": "https://dense-bidet.name/", "subscription_types": ["EmployeeJobCompensation"]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       requestBody:
         application/json: {"url": "https://quarterly-omelet.biz", "subscription_types": ["EmployeeJobCompensation", "Notification"]}
@@ -5738,7 +5726,7 @@ examples:
         application/json: {"url": "https://stunning-hope.com", "subscription_types": ["Payroll"]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-webhook-subscriptions:
     Example:
       responses:
@@ -5764,7 +5752,7 @@ examples:
         application/json: {"subscription_types": ["Company", "ExternalPayroll", "Payroll"]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5784,7 +5772,7 @@ examples:
         application/json: {"subscription_types": ["EmployeeJobCompensation", "Signatory"]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-webhook-subscription-uuid:
     Example:
       parameters:
@@ -5820,7 +5808,7 @@ examples:
         application/json: {"verification_token": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5840,7 +5828,7 @@ examples:
         application/json: {"verification_token": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-webhook-subscription-verification-token-uuid:
     speakeasy-default-get-v1-webhook-subscription-verification-token-uuid:
       parameters:
@@ -5888,7 +5876,7 @@ examples:
         application/json: {"contractor_id": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       requestBody:
         application/json: {"contractor_id": "<id>"}
@@ -5900,7 +5888,7 @@ examples:
         application/json: {"contractor_id": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-contractor-documents:
     Example:
       parameters:
@@ -5948,7 +5936,7 @@ examples:
         application/json: {"fields": [], "agree": true, "signed_by_ip_address": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -5968,7 +5956,7 @@ examples:
         application/json: {"fields": [{}, {}], "agree": true, "signed_by_ip_address": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-sandbox-generate_w2:
     Example:
       requestBody:
@@ -5981,7 +5969,7 @@ examples:
         application/json: {"employee_id": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       requestBody:
         application/json: {"employee_id": "<id>"}
@@ -5993,7 +5981,7 @@ examples:
         application/json: {"employee_id": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employee-forms:
     Example:
       parameters:
@@ -6045,7 +6033,7 @@ examples:
         application/json: {"signature_text": "<value>", "agree": false, "signed_by_ip_address": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6067,7 +6055,7 @@ examples:
         application/json: {"signature_text": "<value>", "agree": true, "signed_by_ip_address": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-companies-company_id-payrolls:
     Example:
       parameters:
@@ -6088,7 +6076,7 @@ examples:
         application/json: {"off_cycle": true, "off_cycle_reason": "Transition from old pay schedule", "start_date": "<value>", "end_date": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6108,7 +6096,7 @@ examples:
         application/json: {"off_cycle": true, "off_cycle_reason": "Dismissed employee", "start_date": "<value>", "end_date": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-payrolls:
     Example:
       parameters:
@@ -6173,7 +6161,7 @@ examples:
         application/json: {"employee_compensations": [{}, {}]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6195,7 +6183,7 @@ examples:
         application/json: {"employee_compensations": [{}, {}, {}]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-companies-company_id-payrolls:
     speakeasy-default-delete-v1-companies-company-id-payrolls:
       parameters:
@@ -6304,7 +6292,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6322,7 +6310,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-payrolls-payroll_uuid-employees-employee_uuid-pay_stub:
     speakeasy-default-get-v1-payrolls-payroll-uuid-employees-employee-uuid-pay-stub:
       parameters:
@@ -6359,7 +6347,7 @@ examples:
         application/json: {"printing_format": "top"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6379,7 +6367,7 @@ examples:
         application/json: {"printing_format": "bottom"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-payrolls-payroll_id-calculate_accruing_time_off_hours:
     Example:
       parameters:
@@ -6402,7 +6390,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6424,7 +6412,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-time_off_policies-time_off_policy_uuid:
     Unlimited Policy:
       parameters:
@@ -6491,7 +6479,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6511,7 +6499,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-companies-company_uuid-time_off_policies:
     example:
       parameters:
@@ -6573,7 +6561,7 @@ examples:
         application/json: {"name": "<value>", "policy_type": "<value>", "accrual_method": "per_pay_period"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6593,7 +6581,7 @@ examples:
         application/json: {"name": "<value>", "policy_type": "<value>", "accrual_method": "per_hour_paid"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-version-time_off_policies-time_off_policy_uuid-add_employees:
     Unlimited Policy:
       parameters:
@@ -6635,7 +6623,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6655,7 +6643,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-v1-time_off_policies-time_off_policy_uuid-remove_employees:
     example:
       parameters:
@@ -6676,7 +6664,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6696,7 +6684,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-version-time_off_policies-time_off_policy_uuid-balance:
     example:
       parameters:
@@ -6717,7 +6705,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6737,7 +6725,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-v1-time_off_policies-time_off_policy_uuid-deactivate:
     example:
       parameters:
@@ -6754,7 +6742,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6770,7 +6758,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-contractor_payments-contractor_payment_uuid-receipt:
     Example:
       parameters:
@@ -6796,7 +6784,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6812,7 +6800,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-companies-company_id-contractor_payments:
     Example:
       parameters:
@@ -6833,7 +6821,7 @@ examples:
         application/json: {"contractor_uuid": "<id>", "date": "2020-01-01", "wage": 5000, "hours": 40, "bonus": 500, "reimbursement": 20}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6853,7 +6841,7 @@ examples:
         application/json: {"contractor_uuid": "<id>", "date": "2020-01-01", "wage": 5000, "hours": 40, "bonus": 500, "reimbursement": 20}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-contractor_payments:
     Example:
       parameters:
@@ -6885,7 +6873,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6903,7 +6891,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-companies-company_uuid-contractor_payments-preview:
     Example:
       parameters:
@@ -6945,7 +6933,7 @@ examples:
         application/json: {"check_date": "2020-01-01", "creation_token": "1d532d13-8f61-4a57-ad3c-b5fac1c6e05e", "contractor_payments": [{"wage": 5000, "hours": 40, "bonus": 500, "reimbursement": 20}, {"wage": 5000, "hours": 40, "bonus": 500, "reimbursement": 20}, {"wage": 5000, "hours": 40, "bonus": 500, "reimbursement": 20}]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -6965,7 +6953,7 @@ examples:
         application/json: {"check_date": "2020-01-01", "creation_token": "1d532d13-8f61-4a57-ad3c-b5fac1c6e05e", "contractor_payments": []}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-contractor_payment_groups:
     Example:
       parameters:
@@ -6998,7 +6986,7 @@ examples:
         application/json: {"check_date": "2020-01-01", "creation_token": "1d532d13-8f61-4a57-ad3c-b5fac1c6e05e", "contractor_payments": [{"wage": 5000, "hours": 40, "bonus": 500, "reimbursement": 20}]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7018,7 +7006,7 @@ examples:
         application/json: {"check_date": "2020-01-01", "creation_token": "1d532d13-8f61-4a57-ad3c-b5fac1c6e05e", "contractor_payments": []}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-contractor_payment_groups-contractor_payment_group_id:
     Example:
       parameters:
@@ -7036,7 +7024,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7052,7 +7040,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-v1-contractor_payment_groups-contractor_payment_group_id-fund:
     Example:
       parameters:
@@ -7069,7 +7057,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7085,7 +7073,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-company-forms:
     Example:
       parameters:
@@ -7133,7 +7121,7 @@ examples:
         application/json: {"signature_text": "<value>", "agree": false, "signed_by_ip_address": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7153,7 +7141,7 @@ examples:
         application/json: {"signature_text": "<value>", "agree": true, "signed_by_ip_address": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-generated_documents-document_type-request_uuid:
     Example:
       parameters:
@@ -7184,7 +7172,7 @@ examples:
         application/json: {"columns": [], "groupings": ["employee"], "file_type": "json", "start_date": "2024-01-01", "end_date": "2024-04-01", "dismissed_start_date": "2024-01-01", "dismissed_end_date": "2024-04-01"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7204,7 +7192,7 @@ examples:
         application/json: {"columns": [], "groupings": ["work_address_state", "work_address"], "file_type": "csv", "start_date": "2024-01-01", "end_date": "2024-04-01", "dismissed_start_date": "2024-01-01", "dismissed_end_date": "2024-04-01"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-reports-report_uuid:
     Example:
       parameters:
@@ -7244,7 +7232,7 @@ examples:
         application/json: {"description": "bulky electronics through for ick superb nudge embalm simple ouch"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7264,7 +7252,7 @@ examples:
         application/json: {"description": "down ha who political inside bony procurement funny entwine institute"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_id-company_benefits:
     Example:
       parameters:
@@ -7305,7 +7293,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7325,7 +7313,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-company_benefits-company_benefit_id:
     Example:
       parameters:
@@ -7391,7 +7379,7 @@ examples:
         application/json: {"employee_benefits": []}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7411,7 +7399,7 @@ examples:
         application/json: {"employee_benefits": [{"employee_uuid": "<id>"}]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-benefits-benefits_id-requirements:
     Example:
       parameters:
@@ -7451,7 +7439,7 @@ examples:
         application/json: {"company_benefit_uuid": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7471,7 +7459,7 @@ examples:
         application/json: {"company_benefit_uuid": "<id>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-employee_benefits:
     Example:
       parameters:
@@ -7529,7 +7517,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7549,7 +7537,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-employee_benefits-employee_benefit_id:
     speakeasy-default-delete-v1-employee-benefits-employee-benefit-id:
       parameters:
@@ -7566,7 +7554,7 @@ examples:
         application/json: {"tax_year": 5621.31, "ytd_employee_deduction_amount": "<value>", "ytd_company_contribution_amount": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7586,7 +7574,7 @@ examples:
         application/json: {"tax_year": 9236.96, "ytd_employee_deduction_amount": "<value>", "ytd_company_contribution_amount": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   post-v1-employees-employee_id-garnishments:
     Example:
       parameters:
@@ -7617,7 +7605,7 @@ examples:
         application/json: {"amount": "<value>", "court_ordered": true}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7637,7 +7625,7 @@ examples:
         application/json: {"amount": "<value>", "court_ordered": true}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-garnishments:
     Example:
       parameters:
@@ -7695,7 +7683,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7715,7 +7703,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-garnishments-child_support: {}
   get-v1-employees-employee_id-i9_authorization:
     Example:
@@ -7746,7 +7734,7 @@ examples:
         application/json: {"authorization_status": "permanent_resident"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7766,7 +7754,7 @@ examples:
         application/json: {"authorization_status": "permanent_resident"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-employees-employee_id-i9_authorization-document_options:
     Example:
       parameters:
@@ -7805,7 +7793,7 @@ examples:
         application/json: {"documents": [{"document_type": "<value>", "document_title": "<value>", "issuing_authority": "<value>"}]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7825,7 +7813,7 @@ examples:
         application/json: {"documents": [{"document_type": "<value>", "document_title": "<value>", "issuing_authority": "<value>"}, {"document_type": "<value>", "document_title": "<value>", "issuing_authority": "<value>"}, {"document_type": "<value>", "document_title": "<value>", "issuing_authority": "<value>"}]}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-v1-employees-employee_id-i9_authorization-documents-document_id:
     speakeasy-default-delete-v1-employees-employee-id-i9-authorization-documents-document-id:
       parameters:
@@ -7853,7 +7841,7 @@ examples:
         application/json: {"signature_text": "<value>", "signer_title": "<value>", "signed_by_ip_address": "<value>", "agree": true}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7873,7 +7861,7 @@ examples:
         application/json: {"signature_text": "<value>", "signer_title": "<value>", "signed_by_ip_address": "<value>", "agree": true}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_uuid-tax_requirements-state:
     Example Tax Requirements for GA:
       parameters:
@@ -7904,7 +7892,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7926,7 +7914,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-v1-companies-company_uuid-tax_requirements:
     Company with requirements in CA and GA:
       parameters:
@@ -7965,7 +7953,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -7985,7 +7973,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-companies-company_uuid-holiday_pay_policy:
     Example:
       parameters:
@@ -8006,7 +7994,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -8026,7 +8014,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   delete-companies-company_uuid-holiday_pay_policy:
     Basic:
       parameters:
@@ -8035,7 +8023,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -8051,7 +8039,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-companies-company_uuid-holiday_pay_policy-add:
     Example:
       parameters:
@@ -8072,7 +8060,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -8092,7 +8080,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   put-companies-company_uuid-holiday_pay_policy-remove:
     Example:
       parameters:
@@ -8113,7 +8101,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -8133,7 +8121,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-companies-company_uuid-paid_holidays:
     Example:
       parameters:
@@ -8151,7 +8139,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -8171,7 +8159,7 @@ examples:
         application/json: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-notifications-notification_uuid:
     Example:
       parameters:
@@ -8188,7 +8176,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -8204,7 +8192,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-events:
     Example:
       parameters:
@@ -8231,7 +8219,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -8247,7 +8235,7 @@ examples:
         header: {}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-ach-transactions:
     Example:
       parameters:
@@ -8294,7 +8282,7 @@ examples:
         application/json: {"date_sent": "<value>", "bank_name": "<value>", "amount_sent": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll."}]}
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
     Resource:
       parameters:
         path:
@@ -8314,7 +8302,7 @@ examples:
         application/json: {"date_sent": "<value>", "bank_name": "<value>", "amount_sent": "<value>"}
       responses:
         "422":
-          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "hours", "category": "invalid_attribute_value", "message": "Ella Fitzgerald is paid fixed wage and hours cannot be set on a contractor payment"}]}, {"error_key": "contractor_payments", "category": "nested_errors", "errors": [{"error_key": "wage", "category": "invalid_attribute_value", "message": "Isaiah Berlin is paid hourly and wage cannot be set on a contractor payment"}]}]}
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
   get-companies-company_uuid-wire_in_request_uuid:
     Example:
       parameters:

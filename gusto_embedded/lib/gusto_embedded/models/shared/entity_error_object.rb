@@ -12,18 +12,18 @@ module GustoEmbedded
       extend T::Sig
 
       # Specifies the type of error. The category provides error groupings and can be used to build custom error handling in your integration. If category is `nested_errors`, the object will contain a nested `errors` property with entity errors.
-      field :category, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
+      field :category, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
       # Specifies where the error occurs. Typically this key identifies the attribute/parameter related to the error.
-      field :error_key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('error_key') } }
+      field :error_key, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('error_key') } }
       # Will only exist if category is `nested_errors`. It is possible to have multiple levels of nested errors.
-      field :errors, T.nilable(T::Array[::GustoEmbedded::Shared::Errors]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('errors') } }
+      field :errors, T.nilable(T::Array[::GustoEmbedded::Shared::EntityErrorObject]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('errors') } }
       # Provides details about the error - generally this message can be surfaced to an end user.
       field :message, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message') } }
       # Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided.
-      field :metadata, T.nilable(::GustoEmbedded::Shared::Metadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
+      field :metadata, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
 
 
-      sig { params(category: T.nilable(::String), error_key: T.nilable(::String), errors: T.nilable(T::Array[::GustoEmbedded::Shared::Errors]), message: T.nilable(::String), metadata: T.nilable(::GustoEmbedded::Shared::Metadata)).void }
+      sig { params(category: ::String, error_key: ::String, errors: T.nilable(T::Array[::GustoEmbedded::Shared::EntityErrorObject]), message: T.nilable(::String), metadata: T.nilable(::Object)).void }
       def initialize(category: nil, error_key: nil, errors: nil, message: nil, metadata: nil)
         @category = category
         @error_key = error_key

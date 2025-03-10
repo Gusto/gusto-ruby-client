@@ -22,15 +22,15 @@ scope: `invoices:read`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
-
 
 req = ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodRequest.new(
   invoice_period: "2020-01",
 )
-    
-res = s.invoices.get(req, ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodSecurity.new(
+
+res = s.invoices.get(security: ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), req, ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ))
 

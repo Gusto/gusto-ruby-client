@@ -18,20 +18,17 @@ scope: `employees:manage`
 ```ruby
 require 'gusto_embedded_client'
 
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
-    
 res = s.historical_employees.update(company_uuid="<id>", historical_employee_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1HistoricalEmployeesRequestBody.new(
   version: "<value>",
   first_name: "Ruthe",
   last_name: "Hegmann",
-  date_of_birth: "2006-08-21",
+  date_of_birth: "2006-08-25",
   ssn: "<value>",
   work_address: ::GustoEmbedded::Operations::WorkAddress.new(),
   home_address: ::GustoEmbedded::Operations::PutV1HistoricalEmployeesHomeAddress.new(

@@ -18,19 +18,16 @@ scope: `ach_transactions:read`
 ```ruby
 require 'gusto_embedded_client'
 
-
-s = ::GustoEmbedded::Client.new
-s.config_security(
-  ::GustoEmbedded::Shared::Security.new(
-    company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  )
-)
-
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
 
 req = ::GustoEmbedded::Operations::GetAchTransactionsRequest.new(
   company_uuid: "<id>",
 )
-    
+
 res = s.ach_transactions.get_all(req)
 
 if ! res.ach_transaction_list.nil?

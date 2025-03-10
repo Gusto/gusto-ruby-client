@@ -22,15 +22,15 @@ scope: `events:read`
 ```ruby
 require 'gusto_embedded_client'
 
-
 s = ::GustoEmbedded::Client.new
-
 
 req = ::GustoEmbedded::Operations::GetEventsRequest.new(
   sort_order: ::GustoEmbedded::Shared::SortOrder::ASC,
 )
-    
-res = s.events.get(req, ::GustoEmbedded::Operations::GetEventsSecurity.new(
+
+res = s.events.get(security: ::GustoEmbedded::Operations::GetEventsSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), req, ::GustoEmbedded::Operations::GetEventsSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ))
 
