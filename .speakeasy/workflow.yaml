@@ -3,11 +3,11 @@ speakeasyVersion: 1.513.4
 sources:
     GustoEmbedded-OAS:
         inputs:
-            - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/generated/embedded/api.v2024-04-01.embedded.yaml
+            - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/ar/poc-new-field-staging-deploy/generated/embedded/api.v2024-04-01.embedded.yaml
               authHeader: Authorization
               authSecret: $openapi_doc_auth_token
         overlays:
-            - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/.speakeasy/speakeasy-modifications-overlay.yaml
+            - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/ar/poc-new-field-staging-deploy/.speakeasy/speakeasy-modifications-overlay.yaml
               authHeader: Authorization
               authSecret: $openapi_doc_auth_token
         registry:
