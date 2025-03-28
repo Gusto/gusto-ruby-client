@@ -172,7 +172,7 @@ module GustoEmbedded
       res = ::GustoEmbedded::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
-      if r.status == 201
+      if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::Signatory)
           res.signatory = out

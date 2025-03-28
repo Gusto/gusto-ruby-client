@@ -166,7 +166,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.pay_schedules.get(company_id="<id>", pay_schedule_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
-if ! res.pay_schedule.nil?
+if ! res.pay_schedule_object.nil?
   # handle response
 end
 

@@ -50,6 +50,7 @@ module GustoEmbedded
   autoload :Garnishments, 'gusto_embedded/garnishments'
   autoload :I9Verification, 'gusto_embedded/i9verification'
   autoload :TaxRequirements, 'gusto_embedded/taxrequirements'
+  autoload :CompaniesSuspensions, 'gusto_embedded/companies_suspensions'
   autoload :HolidayPayPolicies, 'gusto_embedded/holidaypaypolicies'
   autoload :Notifications, 'gusto_embedded/notifications'
   autoload :Events, 'gusto_embedded/events'

@@ -125,7 +125,7 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::PaySchedule])
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::PayScheduleList])
           res.pay_schedule_list = out
         end
       elsif r.status == 404
@@ -214,8 +214,8 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::PaySchedule)
-          res.pay_schedule = out
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::PayScheduleObject)
+          res.pay_schedule_object = out
         end
       elsif r.status == 404
       end

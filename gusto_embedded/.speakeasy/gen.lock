@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8eb78f74-a965-461b-96d6-fcfa1cb6186a
 management:
-  docChecksum: faf71a2fd549ee108515b43e930d0e1c
+  docChecksum: 040871ecd05195c4f0c000645be00a17
   docVersion: "2024-04-01"
   speakeasyVersion: 1.513.4
   generationVersion: 2.545.4
-  releaseVersion: 0.2.7
-  configChecksum: c9a70ab80ed635d2c2657d1a2d5c3a11
+  releaseVersion: 0.2.8
+  configChecksum: ad94c16b4cbe5544544de7347d86d64c
   repoURL: https://github.com/Gusto/gusto-ruby-client.git
   repoSubDirectory: gusto_embedded
   installationURL: https://github.com/Gusto/gusto-ruby-client -d gusto_embedded
@@ -128,6 +128,8 @@ generatedFiles:
   - docs/models/operations/getcompaniescompanyuuidpaidholidaysresponse.md
   - docs/models/operations/getcompaniescompanyuuidreporttemplatesreporttyperequest.md
   - docs/models/operations/getcompaniescompanyuuidreporttemplatesreporttyperesponse.md
+  - docs/models/operations/getcompaniescompanyuuidsuspensionsrequest.md
+  - docs/models/operations/getcompaniescompanyuuidsuspensionsresponse.md
   - docs/models/operations/getcompaniescompanyuuidtimeoffpoliciesrequest.md
   - docs/models/operations/getcompaniescompanyuuidtimeoffpoliciesresponse.md
   - docs/models/operations/getcompaniescompanyuuidwireinrequestuuidrequest.md
@@ -375,6 +377,7 @@ generatedFiles:
   - docs/models/operations/job.md
   - docs/models/operations/juneteenth.md
   - docs/models/operations/laborday.md
+  - docs/models/operations/leavingfor.md
   - docs/models/operations/liabilityselections.md
   - docs/models/operations/limitoption.md
   - docs/models/operations/memorialday.md
@@ -399,6 +402,9 @@ generatedFiles:
   - docs/models/operations/postcompaniescompanyuuidreportsrequest.md
   - docs/models/operations/postcompaniescompanyuuidreportsrequestbody.md
   - docs/models/operations/postcompaniescompanyuuidreportsresponse.md
+  - docs/models/operations/postcompaniescompanyuuidsuspensionsrequest.md
+  - docs/models/operations/postcompaniescompanyuuidsuspensionsrequestbody.md
+  - docs/models/operations/postcompaniescompanyuuidsuspensionsresponse.md
   - docs/models/operations/postcompaniescompanyuuidtimeoffpoliciesaccrualmethod.md
   - docs/models/operations/postcompaniescompanyuuidtimeoffpoliciesrequest.md
   - docs/models/operations/postcompaniescompanyuuidtimeoffpoliciesrequestbody.md
@@ -602,6 +608,7 @@ generatedFiles:
   - docs/models/operations/putv1companiescompanyidpayrollsrequest.md
   - docs/models/operations/putv1companiescompanyidpayrollsrequestbody.md
   - docs/models/operations/putv1companiescompanyidpayrollsresponse.md
+  - docs/models/operations/putv1companiescompanyidpayrollswithholdingpayperiod.md
   - docs/models/operations/putv1companiescompanyidpayschedulespayscheduleidfrequency.md
   - docs/models/operations/putv1companiescompanyidpayschedulespayscheduleidrequest.md
   - docs/models/operations/putv1companiescompanyidpayschedulespayscheduleidrequestbody.md
@@ -762,6 +769,8 @@ generatedFiles:
   - docs/models/operations/queryparamfrequency.md
   - docs/models/operations/queryparaminclude.md
   - docs/models/operations/questions.md
+  - docs/models/operations/reason.md
+  - docs/models/operations/reconciletaxmethod.md
   - docs/models/operations/redebitrecoverycaserequest.md
   - docs/models/operations/redebitrecoverycaseresponse.md
   - docs/models/operations/refreshaccesstokenrequest.md
@@ -833,6 +842,7 @@ generatedFiles:
   - docs/models/shared/companyonboardingstatus.md
   - docs/models/shared/companypaidtimeoff.md
   - docs/models/shared/companystatus.md
+  - docs/models/shared/companysuspension.md
   - docs/models/shared/compensation.md
   - docs/models/shared/compensations.md
   - docs/models/shared/contractor.md
@@ -1027,7 +1037,6 @@ generatedFiles:
   - docs/models/shared/payrolltotalstype.md
   - docs/models/shared/payrolltype.md
   - docs/models/shared/payrollwithholdingpayperiodtype.md
-  - docs/models/shared/payschedule.md
   - docs/models/shared/payscheduleassignment.md
   - docs/models/shared/payscheduleassignmentbody.md
   - docs/models/shared/payscheduleassignmentbodytype.md
@@ -1041,6 +1050,8 @@ generatedFiles:
   - docs/models/shared/payschedulecreateupdate.md
   - docs/models/shared/payschedulefrequency.md
   - docs/models/shared/payschedulefrequencycreateupdate.md
+  - docs/models/shared/payschedulelist.md
+  - docs/models/shared/payscheduleobject.md
   - docs/models/shared/payscheduletype.md
   - docs/models/shared/plaidstatus.md
   - docs/models/shared/policytype.md
@@ -1051,6 +1062,7 @@ generatedFiles:
   - docs/models/shared/primarysignatory.md
   - docs/models/shared/ratetype.md
   - docs/models/shared/recipienttype.md
+  - docs/models/shared/reconciletaxmethod.md
   - docs/models/shared/recoverycase.md
   - docs/models/shared/recoverycasestatus.md
   - docs/models/shared/rehire.md
@@ -1073,6 +1085,7 @@ generatedFiles:
   - docs/models/shared/supportedbenefit.md
   - docs/models/shared/taxes.md
   - docs/models/shared/taxliabilitiesselections.md
+  - docs/models/shared/taxrefunds.md
   - docs/models/shared/taxrequirement.md
   - docs/models/shared/taxrequirementmetadata.md
   - docs/models/shared/taxrequirementmetadataoptions.md
@@ -1110,6 +1123,7 @@ generatedFiles:
   - docs/sdks/bankaccounts/README.md
   - docs/sdks/client/README.md
   - docs/sdks/companies/README.md
+  - docs/sdks/companiessuspensions/README.md
   - docs/sdks/companyattachment/README.md
   - docs/sdks/companyattachments/README.md
   - docs/sdks/companybenefits/README.md
@@ -1165,6 +1179,7 @@ generatedFiles:
   - lib/gusto_embedded/bankaccounts.rb
   - lib/gusto_embedded/client.rb
   - lib/gusto_embedded/companies.rb
+  - lib/gusto_embedded/companies_suspensions.rb
   - lib/gusto_embedded/companyattachment.rb
   - lib/gusto_embedded/companyattachments.rb
   - lib/gusto_embedded/companybenefits.rb
@@ -1298,6 +1313,8 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/get_companies_company_uuid_paid_holidays_response.rb
   - lib/gusto_embedded/models/operations/get_companies_company_uuid_report_templates_report_type_request.rb
   - lib/gusto_embedded/models/operations/get_companies_company_uuid_report_templates_report_type_response.rb
+  - lib/gusto_embedded/models/operations/get_companies_company_uuid_suspensions_request.rb
+  - lib/gusto_embedded/models/operations/get_companies_company_uuid_suspensions_response.rb
   - lib/gusto_embedded/models/operations/get_companies_company_uuid_time_off_policies_request.rb
   - lib/gusto_embedded/models/operations/get_companies_company_uuid_time_off_policies_response.rb
   - lib/gusto_embedded/models/operations/get_companies_company_uuid_wire_in_request_uuid_request.rb
@@ -1545,6 +1562,7 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/job.rb
   - lib/gusto_embedded/models/operations/juneteenth.rb
   - lib/gusto_embedded/models/operations/labor_day.rb
+  - lib/gusto_embedded/models/operations/leaving_for.rb
   - lib/gusto_embedded/models/operations/liability_selections.rb
   - lib/gusto_embedded/models/operations/limit_option.rb
   - lib/gusto_embedded/models/operations/memorial_day.rb
@@ -1569,6 +1587,9 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/post_companies_company_uuid_reports_request.rb
   - lib/gusto_embedded/models/operations/post_companies_company_uuid_reports_requestbody.rb
   - lib/gusto_embedded/models/operations/post_companies_company_uuid_reports_response.rb
+  - lib/gusto_embedded/models/operations/post_companies_company_uuid_suspensions_request.rb
+  - lib/gusto_embedded/models/operations/post_companies_company_uuid_suspensions_requestbody.rb
+  - lib/gusto_embedded/models/operations/post_companies_company_uuid_suspensions_response.rb
   - lib/gusto_embedded/models/operations/post_companies_company_uuid_time_off_policies_accrual_method.rb
   - lib/gusto_embedded/models/operations/post_companies_company_uuid_time_off_policies_request.rb
   - lib/gusto_embedded/models/operations/post_companies_company_uuid_time_off_policies_requestbody.rb
@@ -1776,6 +1797,7 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/put_v1_companies_company_id_payrolls_request.rb
   - lib/gusto_embedded/models/operations/put_v1_companies_company_id_payrolls_requestbody.rb
   - lib/gusto_embedded/models/operations/put_v1_companies_company_id_payrolls_response.rb
+  - lib/gusto_embedded/models/operations/put_v1_companies_company_id_payrolls_withholding_pay_period.rb
   - lib/gusto_embedded/models/operations/put_v1_companies_company_uuid_signatories_signatory_uuid_home_address.rb
   - lib/gusto_embedded/models/operations/put_v1_companies_company_uuid_signatories_signatory_uuid_request.rb
   - lib/gusto_embedded/models/operations/put_v1_companies_company_uuid_signatories_signatory_uuid_requestbody.rb
@@ -1932,6 +1954,8 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/queryparam_frequency.rb
   - lib/gusto_embedded/models/operations/queryparam_include.rb
   - lib/gusto_embedded/models/operations/questions.rb
+  - lib/gusto_embedded/models/operations/reason.rb
+  - lib/gusto_embedded/models/operations/reconcile_tax_method.rb
   - lib/gusto_embedded/models/operations/redebit_recovery_case_request.rb
   - lib/gusto_embedded/models/operations/redebit_recovery_case_response.rb
   - lib/gusto_embedded/models/operations/refresh_access_token_request.rb
@@ -2004,6 +2028,7 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/company_onboarding_status.rb
   - lib/gusto_embedded/models/shared/company_paid_time_off.rb
   - lib/gusto_embedded/models/shared/company_status.rb
+  - lib/gusto_embedded/models/shared/company_suspension.rb
   - lib/gusto_embedded/models/shared/compensation.rb
   - lib/gusto_embedded/models/shared/compensations.rb
   - lib/gusto_embedded/models/shared/contractor.rb
@@ -2160,7 +2185,6 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/paid_time_off.rb
   - lib/gusto_embedded/models/shared/pay_period.rb
   - lib/gusto_embedded/models/shared/pay_period_payroll.rb
-  - lib/gusto_embedded/models/shared/pay_schedule.rb
   - lib/gusto_embedded/models/shared/pay_schedule_assignment.rb
   - lib/gusto_embedded/models/shared/pay_schedule_assignment_body.rb
   - lib/gusto_embedded/models/shared/pay_schedule_assignment_body_type.rb
@@ -2174,6 +2198,8 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/pay_schedule_create_update.rb
   - lib/gusto_embedded/models/shared/pay_schedule_frequency.rb
   - lib/gusto_embedded/models/shared/pay_schedule_frequency_create_update.rb
+  - lib/gusto_embedded/models/shared/pay_schedule_list.rb
+  - lib/gusto_embedded/models/shared/pay_schedule_object.rb
   - lib/gusto_embedded/models/shared/pay_schedule_type.rb
   - lib/gusto_embedded/models/shared/payment_configs.rb
   - lib/gusto_embedded/models/shared/payment_direction.rb
@@ -2222,6 +2248,7 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/primary_signatory.rb
   - lib/gusto_embedded/models/shared/rate_type.rb
   - lib/gusto_embedded/models/shared/recipient_type.rb
+  - lib/gusto_embedded/models/shared/reconcile_tax_method.rb
   - lib/gusto_embedded/models/shared/recovery_case.rb
   - lib/gusto_embedded/models/shared/recovery_case_status.rb
   - lib/gusto_embedded/models/shared/rehire.rb
@@ -2243,6 +2270,7 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/subscription_types.rb
   - lib/gusto_embedded/models/shared/supported_benefit.rb
   - lib/gusto_embedded/models/shared/tax_liabilities_selections.rb
+  - lib/gusto_embedded/models/shared/tax_refunds.rb
   - lib/gusto_embedded/models/shared/tax_requirement.rb
   - lib/gusto_embedded/models/shared/tax_requirement_metadata.rb
   - lib/gusto_embedded/models/shared/tax_requirement_metadata_options.rb
@@ -2919,6 +2947,8 @@ examples:
       responses:
         "201":
           application/json: {"uuid": "f8c653dc-0094-41fb-8670-45d6399afade", "first_name": "Bob", "last_name": "Johnson", "title": "Owner", "phone": "4239879876", "email": "olin.okuneva@denesik.us", "birthday": "2002-10-31", "is_admin": false, "has_ssn": true, "version": "49ea586f528411f5cfadfd54452b2423", "identity_verification_status": "Skipped", "home_address": {"street_1": "524 Roob Divide", "street_2": "Suite 565", "city": "San Francisco", "state": "CA", "zip": "94107", "country": "USA"}}
+        "200":
+          application/json: {"uuid": "f8c653dc-0094-41fb-8670-45d6399afade", "first_name": "Bob", "last_name": "Johnson", "title": "Owner", "phone": "4239879876", "email": "olin.okuneva@denesik.us", "birthday": "2002-10-31", "is_admin": false, "has_ssn": true, "version": "49ea586f528411f5cfadfd54452b2423", "identity_verification_status": "Skipped", "home_address": {"street_1": "524 Roob Divide", "street_2": "Suite 565", "city": "San Francisco", "state": "CA", "zip": "94107", "country": "USA"}}
     Basic:
       parameters:
         path:
@@ -3580,7 +3610,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: [{"uuid": "2097fe08-407a-46d7-b35c-a32402a2355e", "frequency": "Twice per month", "anchor_pay_date": "2020-05-15", "anchor_end_of_pay_period": "2020-05-08", "day_1": 15, "day_2": 31, "name": "Engineering", "custom_name": "Engineering department pay schedule", "auto_pilot": false, "active": true}, {"uuid": "8fc9f556-74fa-4271-97f6-4bfbfc5a5352", "frequency": "Monthly", "anchor_pay_date": "2020-05-31", "day_1": 31, "day_2": null, "name": "Sales", "custom_name": "Sales department monthly schedule", "auto_pilot": false, "active": false}, {"uuid": "0e07d35a-af11-4123-bfcb-4dd5f2f12ee1", "frequency": "Monthly", "anchor_pay_date": "2020-05-31", "day_1": 31, "day_2": null, "name": "Staff", "custom_name": "Staff department pay schedule", "auto_pilot": true, "active": false}]
+          application/json: [{"uuid": "2097fe08-407a-46d7-b35c-a32402a2355e", "frequency": "Twice per month", "anchor_pay_date": "2020-05-15", "anchor_end_of_pay_period": "2020-05-08", "day_1": 15, "day_2": 31, "name": "Engineering", "custom_name": "Engineering department pay schedule", "auto_pilot": false, "active": true, "version": "68934a3e9455fa72420237eb05902327"}, {"uuid": "8fc9f556-74fa-4271-97f6-4bfbfc5a5352", "frequency": "Monthly", "anchor_pay_date": "2020-05-31", "day_1": 31, "day_2": null, "name": "Sales", "custom_name": "Sales department monthly schedule", "auto_pilot": false, "active": false, "version": "68934a3e9455fa72420237eb05902320"}, {"uuid": "0e07d35a-af11-4123-bfcb-4dd5f2f12ee1", "frequency": "Monthly", "anchor_pay_date": "2020-05-31", "day_1": 31, "day_2": null, "name": "Staff", "custom_name": "Staff department pay schedule", "auto_pilot": true, "active": false, "version": "68934a3e9455fa72420237eb05902323"}]
   get-v1-companies-company_id-pay_schedules-preview:
     Example:
       parameters:
@@ -3603,7 +3633,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: {"uuid": "f2a69c38-e2f9-4e31-b5c5-4754fc60a052", "frequency": "Twice per month", "anchor_pay_date": "2020-05-15", "anchor_end_of_pay_period": "2020-05-08", "day_1": 15, "day_2": 31, "name": "Engineering", "custom_name": "A new monthly pay schedule", "auto_pilot": false, "active": true}
+          application/json: {"uuid": "f2a69c38-e2f9-4e31-b5c5-4754fc60a052", "frequency": "Twice per month", "anchor_pay_date": "2020-05-15", "anchor_end_of_pay_period": "2020-05-08", "day_1": 15, "day_2": 31, "name": "Engineering", "custom_name": "A new monthly pay schedule", "auto_pilot": false, "active": true, "version": "68934a3e9455fa72420237eb05902327"}
   put-v1-companies-company_id-pay_schedules-pay_schedule_id:
     Example:
       parameters:
@@ -4766,7 +4796,7 @@ examples:
           employee_uuid: "<id>"
         header: {}
       requestBody:
-        application/json: {"states": [{"state": "CA", "questions": [{"key": "filing_status", "answers": [{"value": "M", "valid_from": "2010-01-01", "valid_up_to": null}]}, {"key": "withholding_allowance", "answers": [{"value": "2", "valid_from": "2010-01-01", "valid_up_to": null}]}, {"key": "additional_withholding", "answers": [{"value": "25.0", "valid_from": "2010-01-01", "valid_up_to": null}]}, {"key": "file_new_hire_report", "answers": [{"value": "true", "valid_from": "2010-01-01", "valid_up_to": null}]}]}]}
+        application/json: {"states": [{"state": "CA", "questions": [{"key": "filing_status", "answers": [{"value": "M", "valid_from": "2010-01-01", "valid_up_to": null}]}, {"key": "withholding_allowance", "answers": [{"value": 2, "valid_from": "2010-01-01", "valid_up_to": null}]}, {"key": "additional_withholding", "answers": [{"value": "25.0", "valid_from": "2010-01-01", "valid_up_to": null}]}, {"key": "file_new_hire_report", "answers": [{"value": true, "valid_from": "2010-01-01", "valid_up_to": null}]}]}]}
       responses:
         "200":
           application/json: [{"employee_uuid": "<id>", "state": "Ohio", "questions": [{"label": "<value>", "description": "which difficult really", "key": "<key>", "input_question_format": {"type": "<value>"}, "answers": [{}, {}]}]}, {"employee_uuid": "<id>", "state": "Alabama", "questions": []}, {"employee_uuid": "<id>", "state": "Tennessee", "questions": [{"label": "<value>", "description": "notwithstanding yippee now cinch against however unearth outside stiff", "key": "<key>", "input_question_format": {"type": "<value>"}, "answers": [{}, {}, {}]}, {"label": "<value>", "description": "incidentally shadowy cleverly", "key": "<key>", "input_question_format": {"type": "<value>"}, "answers": [{}, {}, {}]}, {"label": "<value>", "description": "off frizz yowza huzzah whose", "key": "<key>", "input_question_format": {"type": "<value>"}, "answers": [{}, {}]}]}]
@@ -8325,5 +8355,59 @@ examples:
       responses:
         "200":
           application/json: [{"uuid": "c5fdae57-5483-4529-9aae-f0edceed92d3", "benefit_type": 1, "ytd_employee_deduction_amount": "5000.00", "ytd_company_contribution_amount": "2500.00"}, {"uuid": "1bfdb946-b2be-4909-ac46-9e7f73872d0a", "benefit_type": 5, "ytd_employee_deduction_amount": "2132.00", "ytd_company_contribution_amount": "3345.00"}]
+  get-companies-company_uuid-suspensions:
+    speakeasy-default-get-companies-company-uuid-suspensions:
+      parameters:
+        path:
+          company_uuid: "<id>"
+        header: {}
+      responses:
+        "200":
+          application/json: [{}, {}, {}]
+  post-companies-company_uuid-suspensions:
+    Leaving to join another payroll provider:
+      parameters:
+        path:
+          company_uuid: "<id>"
+        header: {}
+      requestBody:
+        application/json: {"file_quarterly_forms": true, "file_yearly_forms": true, "reconcile_tax_method": "pay_taxes", "reason": "switching_provider", "leaving_for": "other"}
+    Company is shutting down:
+      parameters:
+        path:
+          company_uuid: "<id>"
+        header: {}
+      requestBody:
+        application/json: {"file_quarterly_forms": true, "file_yearly_forms": true, "reconcile_tax_method": "pay_taxes", "reason": "shutting_down"}
+    Basic:
+      parameters:
+        path:
+          company_uuid: "<id>"
+        header: {}
+      requestBody:
+        application/json: {"file_quarterly_forms": false, "file_yearly_forms": false, "reconcile_tax_method": "refund_taxes", "reason": "acquired"}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "base", "category": "payroll_blocker", "message": "Company must complete all onboarding requirements in order to run payroll.", "metadata": {"key": "needs_onboarding"}}]}
+    Resource:
+      parameters:
+        path:
+          company_uuid: "<id>"
+        header: {}
+      requestBody:
+        application/json: {"file_quarterly_forms": false, "file_yearly_forms": false, "reconcile_tax_method": "refund_taxes", "reason": "switching_provider"}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "first_name", "category": "invalid_attribute_value", "message": "First name is required"}, {"error_key": "date_of_birth", "category": "invalid_attribute_value", "message": "Date of birth is not a valid date"}]}
+    Nested:
+      parameters:
+        path:
+          company_uuid: "<id>"
+        header: {}
+      requestBody:
+        application/json: {"file_quarterly_forms": false, "file_yearly_forms": false, "reconcile_tax_method": "pay_taxes", "reason": "no_more_employees"}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
 examplesVersion: 1.0.0
 generatedTests: {}
