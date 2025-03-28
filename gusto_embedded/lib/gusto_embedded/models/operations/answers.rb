@@ -14,12 +14,12 @@ module GustoEmbedded
 
       field :valid_from, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('valid_from') } }
 
-      field :value, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+      field :value, ::Object, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
       field :valid_up_to, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('valid_up_to') } }
 
 
-      sig { params(valid_from: ::String, value: ::String, valid_up_to: T.nilable(::Object)).void }
+      sig { params(valid_from: ::String, value: ::Object, valid_up_to: T.nilable(::Object)).void }
       def initialize(valid_from: nil, value: nil, valid_up_to: nil)
         @valid_from = valid_from
         @value = value

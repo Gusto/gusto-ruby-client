@@ -8,11 +8,13 @@ module GustoEmbedded
   module Shared
   
     # The representation of a pay schedule.
-    class PaySchedule < ::Crystalline::FieldAugmented
+    class PayScheduleObject < ::Crystalline::FieldAugmented
       extend T::Sig
 
       # The unique identifier of the pay schedule in Gusto.
       field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
       # Whether this pay schedule is associated with any employees. A pay schedule is inactive when it's unassigned.
       field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
       # The last date of the first pay period. This can be the same date as the anchor pay date.
@@ -33,9 +35,10 @@ module GustoEmbedded
       field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
 
 
-      sig { params(uuid: ::String, active: T.nilable(T::Boolean), anchor_end_of_pay_period: T.nilable(::String), anchor_pay_date: T.nilable(::String), auto_pilot: T.nilable(T::Boolean), custom_name: T.nilable(::String), day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), frequency: T.nilable(::GustoEmbedded::Shared::PayScheduleFrequency), name: T.nilable(::String)).void }
-      def initialize(uuid: nil, active: nil, anchor_end_of_pay_period: nil, anchor_pay_date: nil, auto_pilot: nil, custom_name: nil, day_1: nil, day_2: nil, frequency: nil, name: nil)
+      sig { params(uuid: ::String, version: ::String, active: T.nilable(T::Boolean), anchor_end_of_pay_period: T.nilable(::String), anchor_pay_date: T.nilable(::String), auto_pilot: T.nilable(T::Boolean), custom_name: T.nilable(::String), day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), frequency: T.nilable(::GustoEmbedded::Shared::PayScheduleFrequency), name: T.nilable(::String)).void }
+      def initialize(uuid: nil, version: nil, active: nil, anchor_end_of_pay_period: nil, anchor_pay_date: nil, auto_pilot: nil, custom_name: nil, day_1: nil, day_2: nil, frequency: nil, name: nil)
         @uuid = uuid
+        @version = version
         @active = active
         @anchor_end_of_pay_period = anchor_end_of_pay_period
         @anchor_pay_date = anchor_pay_date

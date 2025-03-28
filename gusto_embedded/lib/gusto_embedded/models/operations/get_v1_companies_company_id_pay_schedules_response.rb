@@ -18,10 +18,10 @@ module GustoEmbedded
       # HTTP response status code for this operation
       field :status_code, ::Integer
       # Example response
-      field :pay_schedule_list, T.nilable(T::Array[::GustoEmbedded::Shared::PaySchedule])
+      field :pay_schedule_list, T.nilable(T::Array[::GustoEmbedded::Shared::PayScheduleList])
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, pay_schedule_list: T.nilable(T::Array[::GustoEmbedded::Shared::PaySchedule])).void }
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, pay_schedule_list: T.nilable(T::Array[::GustoEmbedded::Shared::PayScheduleList])).void }
       def initialize(content_type: nil, raw_response: nil, status_code: nil, pay_schedule_list: nil)
         @content_type = content_type
         @raw_response = raw_response

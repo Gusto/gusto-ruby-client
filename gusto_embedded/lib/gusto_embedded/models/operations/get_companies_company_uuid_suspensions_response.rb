@@ -8,7 +8,7 @@ module GustoEmbedded
   module Operations
   
 
-    class GetV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse < ::Crystalline::FieldAugmented
+    class GetCompaniesCompanyUuidSuspensionsResponse < ::Crystalline::FieldAugmented
       extend T::Sig
 
       # HTTP response content type for this operation
@@ -18,15 +18,15 @@ module GustoEmbedded
       # HTTP response status code for this operation
       field :status_code, ::Integer
       # Example response
-      field :pay_schedule_object, T.nilable(::GustoEmbedded::Shared::PayScheduleObject)
+      field :company_suspension_list, T.nilable(T::Array[::GustoEmbedded::Shared::CompanySuspension])
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, pay_schedule_object: T.nilable(::GustoEmbedded::Shared::PayScheduleObject)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, pay_schedule_object: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, company_suspension_list: T.nilable(T::Array[::GustoEmbedded::Shared::CompanySuspension])).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, company_suspension_list: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
-        @pay_schedule_object = pay_schedule_object
+        @company_suspension_list = company_suspension_list
       end
     end
   end
