@@ -22,7 +22,7 @@ module GustoEmbedded
     sig { params(company_uuid: ::String, request_body: ::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsResponse) }
     def create_custom(company_uuid, request_body, x_gusto_api_version = nil)
       # create_custom - Create a custom report
-      # Create a custom report for a company. This endpoint initiates creating a custom report with custom columns, groupings, and filters. The `request_uuid` in the response can then be used to poll for the status and report URL upon completion using the report GET endpoint.
+      # Create a custom report for a company. This endpoint initiates creating a custom report with custom columns, groupings, and filters. The `request_uuid` in the response can then be used to poll for the status and report URL upon completion using the report GET endpoint. This URL is valid for 10 minutes.
       # 
       # scope: `company_reports:write`
       request = ::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsRequest.new(

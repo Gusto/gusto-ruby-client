@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8eb78f74-a965-461b-96d6-fcfa1cb6186a
 management:
-  docChecksum: 040871ecd05195c4f0c000645be00a17
+  docChecksum: 0666aa5ba193f86f8a9463d0e91eb577
   docVersion: "2024-04-01"
   speakeasyVersion: 1.513.4
   generationVersion: 2.545.4
-  releaseVersion: 0.2.8
-  configChecksum: ad94c16b4cbe5544544de7347d86d64c
+  releaseVersion: 0.2.9
+  configChecksum: af07f46320a75ae58d662bc100b0a086
   repoURL: https://github.com/Gusto/gusto-ruby-client.git
   repoSubDirectory: gusto_embedded
   installationURL: https://github.com/Gusto/gusto-ruby-client -d gusto_embedded
