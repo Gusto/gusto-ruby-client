@@ -28,7 +28,7 @@ res = s.historical_employees.update(company_uuid="<id>", historical_employee_uui
   version: "<value>",
   first_name: "Ruthe",
   last_name: "Hegmann",
-  date_of_birth: "2006-09-18",
+  date_of_birth: "2006-10-01",
   ssn: "<value>",
   work_address: ::GustoEmbedded::Operations::WorkAddress.new(),
   home_address: ::GustoEmbedded::Operations::PutV1HistoricalEmployeesHomeAddress.new(

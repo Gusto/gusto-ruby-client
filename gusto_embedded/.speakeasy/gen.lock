@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8eb78f74-a965-461b-96d6-fcfa1cb6186a
 management:
-  docChecksum: 0666aa5ba193f86f8a9463d0e91eb577
+  docChecksum: a09c3a680cf665097ead3e1f2b2c6ccb
   docVersion: "2024-04-01"
   speakeasyVersion: 1.513.4
   generationVersion: 2.545.4
-  releaseVersion: 0.2.9
-  configChecksum: af07f46320a75ae58d662bc100b0a086
+  releaseVersion: 0.2.10
+  configChecksum: a803ca4ad1f713cb258cf6b8b6b566b2
   repoURL: https://github.com/Gusto/gusto-ruby-client.git
   repoSubDirectory: gusto_embedded
   installationURL: https://github.com/Gusto/gusto-ruby-client -d gusto_embedded
@@ -8200,7 +8200,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: {"uuid": "7b1d0df1-6403-4a06-8768-c1dd7d24d27a", "company_uuid": "88f7cca1-dcad-4d20-84db-7fb80303d69f", "title": "Action required: Additional information needed to process payroll", "message": "If we do not receive this information as soon as possible, your payroll may not be processed on time.", "category": "information_request", "actionable": true, "published_at": "2022-01-01T00:00:00.000Z", "due_at": "2022-02-01T00:00:00.000Z", "resources": [{"entity_type": "Employee", "entity_uuid": "21b6f9ce-0ac4-4745-8d8a-127f8c0f00f2"}]}
+          application/json: {"uuid": "7b1d0df1-6403-4a06-8768-c1dd7d24d27a", "company_uuid": "88f7cca1-dcad-4d20-84db-7fb80303d69f", "title": "Action required: Additional information needed to process payroll", "message": "If we do not receive this information as soon as possible, your payroll may not be processed on time.", "category": "information_request", "actionable": true, "can_block_payroll": true, "published_at": "2022-01-01T00:00:00.000Z", "due_at": "2022-02-01T00:00:00.000Z", "resources": [{"entity_type": "Employee", "entity_uuid": "21b6f9ce-0ac4-4745-8d8a-127f8c0f00f2"}]}
     Basic:
       parameters:
         path:
