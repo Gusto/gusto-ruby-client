@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8eb78f74-a965-461b-96d6-fcfa1cb6186a
 management:
-  docChecksum: a09c3a680cf665097ead3e1f2b2c6ccb
+  docChecksum: 619f21de074755bc5b20e5d12cd31138
   docVersion: "2024-04-01"
   speakeasyVersion: 1.513.4
   generationVersion: 2.545.4
-  releaseVersion: 0.2.10
-  configChecksum: a803ca4ad1f713cb258cf6b8b6b566b2
+  releaseVersion: 0.2.11
+  configChecksum: bc50e0fafa093ccdb91c369acaa7ed5f
   repoURL: https://github.com/Gusto/gusto-ruby-client.git
   repoSubDirectory: gusto_embedded
   installationURL: https://github.com/Gusto/gusto-ruby-client -d gusto_embedded
@@ -7617,7 +7617,7 @@ examples:
         application/json: {"amount": "150.00", "description": "Back taxes", "court_ordered": true, "recurring": true, "deduct_as_percentage": false}
       responses:
         "201":
-          application/json: {"uuid": "0648730b-e81b-40fd-b400-179e824ec05f"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7484f", "version": "52b7c567242cb7452e89ba2bc02cb476", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "8.00", "description": "Company loan to employee", "court_ordered": false, "times": 5, "recurring": false, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "100.00", "deduct_as_percentage": true, "garnishment_type": null, "child_support": null}
     Child-Support-Example:
       parameters:
         path:
@@ -7627,7 +7627,7 @@ examples:
         application/json: {"amount": "40", "court_ordered": true, "garnishment_type": "child_support", "recurring": true, "pay_period_maximum": "500.00", "deduct_as_percentage": true, "child_support": {"state": "FL", "payment_period": "Monthly", "fips_code": "12011", "case_number": "CS1234"}}
       responses:
         "201":
-          application/json: {"uuid": "427b9e5b-95d2-4cfd-b063-45dff43ac8aa"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7481a", "version": "52b7c567242cb7452e89ba2bc02cb383", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "40.00", "description": "Child support - AZ28319", "court_ordered": true, "times": null, "recurring": true, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "400.00", "deduct_as_percentage": true, "garnishment_type": "child_support", "child_support": {"state": "AZ", "payment_period": "Monthly", "fips_code": "04000", "case_number": "AZ28319", "order_number": null, "remittance_number": null}}
     Basic:
       parameters:
         path:
@@ -7667,7 +7667,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: [{"uuid": "c8a232aa-0b11-4b8a-b005-71e9e705d0e6"}, {"uuid": "21e27667-18d6-4d46-812e-0aee1b9ddf12"}]
+          application/json: [{"uuid": "4c7841a2-1363-497e-bc0f-664703c7484f", "version": "52b7c567242cb7452e89ba2bc02cb476", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "8.00", "description": "Company loan to employee", "court_ordered": false, "times": 5, "recurring": false, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "100.00", "deduct_as_percentage": true, "garnishment_type": null, "child_support": null}, {"uuid": "4c7841a2-1363-497e-bc0f-664703c7481a", "version": "52b7c567242cb7452e89ba2bc02cb383", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "40.00", "description": "Child support - AZ28319", "court_ordered": true, "times": null, "recurring": true, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "400.00", "deduct_as_percentage": true, "garnishment_type": "child_support", "child_support": {"state": "AZ", "payment_period": "Monthly", "fips_code": "04000", "case_number": "AZ28319", "order_number": null, "remittance_number": null}}]
   get-v1-garnishments-garnishment_id:
     Example:
       parameters:
@@ -7676,7 +7676,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: {"uuid": "a1b1d4d7-9d85-4c0c-970a-7d2676a05c04"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7484f", "version": "52b7c567242cb7452e89ba2bc02cb476", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "8.00", "description": "Company loan to employee", "court_ordered": false, "times": 5, "recurring": false, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "100.00", "deduct_as_percentage": true, "garnishment_type": null, "child_support": null}
     Child-Support-Example:
       parameters:
         path:
@@ -7684,7 +7684,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: {"uuid": "c70f28ce-90e2-4168-b683-1abb1a5f7f21"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7481a", "version": "52b7c567242cb7452e89ba2bc02cb383", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "40.00", "description": "Child support - AZ28319", "court_ordered": true, "times": null, "recurring": true, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "400.00", "deduct_as_percentage": true, "garnishment_type": "child_support", "child_support": {"state": "AZ", "payment_period": "Monthly", "fips_code": "04000", "case_number": "AZ28319", "order_number": null, "remittance_number": null}}
   put-v1-garnishments-garnishment_id:
     Example:
       parameters:
@@ -7695,7 +7695,7 @@ examples:
         application/json: {"active": false, "version": "52b7c567242cb7452e89ba2bc02cb476"}
       responses:
         "200":
-          application/json: {"uuid": "4c044b4e-cf94-4436-a3fb-eaf811f919f4"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7484f", "version": "52b7c567242cb7452e89ba2bc02cb476", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "8.00", "description": "Company loan to employee", "court_ordered": false, "times": 5, "recurring": false, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "100.00", "deduct_as_percentage": true, "garnishment_type": null, "child_support": null}
     Child-Support-Example:
       parameters:
         path:
@@ -7705,7 +7705,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "200":
-          application/json: {"uuid": "b05be711-9e3f-4fc9-8067-cd32e9559970"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7481a", "version": "52b7c567242cb7452e89ba2bc02cb383", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "40.00", "description": "Child support - AZ28319", "court_ordered": true, "times": null, "recurring": true, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "400.00", "deduct_as_percentage": true, "garnishment_type": "child_support", "child_support": {"state": "AZ", "payment_period": "Monthly", "fips_code": "04000", "case_number": "AZ28319", "order_number": null, "remittance_number": null}}
     Basic:
       parameters:
         path:
@@ -7736,7 +7736,11 @@ examples:
       responses:
         "422":
           application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
-  get-v1-garnishments-child_support: {}
+  get-v1-garnishments-child_support:
+    Example:
+      responses:
+        "200":
+          application/json: {"agencies": [{"state": "AK", "name": "Alaska Child Support Services Division", "manual_payment_required": false, "fips_codes": [{"code": "0200000", "county": null}], "required_attributes": [{"key": "case_number", "label": "CSE Case Number"}]}, {"state": "OH", "name": "Ohio Office of Child Support Enforcement", "manual_payment_required": false, "fips_codes": [{"code": "39000", "county": null}], "required_attributes": [{"key": "case_number", "label": "CSE Case Number"}, {"key": "order_number", "label": "Order Identifier"}]}]}
   get-v1-employees-employee_id-i9_authorization:
     Example:
       parameters:
