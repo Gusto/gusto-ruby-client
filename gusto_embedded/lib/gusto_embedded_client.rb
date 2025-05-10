@@ -54,6 +54,7 @@ module GustoEmbedded
   autoload :HolidayPayPolicies, 'gusto_embedded/holidaypaypolicies'
   autoload :Notifications, 'gusto_embedded/notifications'
   autoload :Events, 'gusto_embedded/events'
+  autoload :InformationRequests, 'gusto_embedded/information_requests'
   autoload :RecoveryCases, 'gusto_embedded/recoverycases'
   autoload :AchTransactions, 'gusto_embedded/achtransactions'
   autoload :WireInRequests, 'gusto_embedded/wireinrequests'

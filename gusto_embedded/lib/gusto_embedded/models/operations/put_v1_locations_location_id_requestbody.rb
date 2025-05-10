@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Operations
   
-    # Update a location
+
     class PutV1LocationsLocationIdRequestBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
