@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8eb78f74-a965-461b-96d6-fcfa1cb6186a
 management:
-  docChecksum: a09c3a680cf665097ead3e1f2b2c6ccb
+  docChecksum: bfca505ed9d87b4217b8e5b7ad47fb74
   docVersion: "2024-04-01"
   speakeasyVersion: 1.513.4
   generationVersion: 2.545.4
-  releaseVersion: 0.2.10
-  configChecksum: a803ca4ad1f713cb258cf6b8b6b566b2
+  releaseVersion: 0.2.11
+  configChecksum: bc50e0fafa093ccdb91c369acaa7ed5f
   repoURL: https://github.com/Gusto/gusto-ruby-client.git
   repoSubDirectory: gusto_embedded
   installationURL: https://github.com/Gusto/gusto-ruby-client -d gusto_embedded
@@ -143,6 +143,8 @@ generatedFiles:
   - docs/models/operations/geteventsrequest.md
   - docs/models/operations/geteventsresponse.md
   - docs/models/operations/geteventssecurity.md
+  - docs/models/operations/getinformationrequestsrequest.md
+  - docs/models/operations/getinformationrequestsresponse.md
   - docs/models/operations/getinvoicesinvoiceperiodrequest.md
   - docs/models/operations/getinvoicesinvoiceperiodresponse.md
   - docs/models/operations/getinvoicesinvoiceperiodsecurity.md
@@ -342,6 +344,7 @@ generatedFiles:
   - docs/models/operations/getv1jobsjobidresponse.md
   - docs/models/operations/getv1locationslocationidrequest.md
   - docs/models/operations/getv1locationslocationidresponse.md
+  - docs/models/operations/getv1locationslocationuuidminimumwagesheaderxgustoapiversion.md
   - docs/models/operations/getv1locationslocationuuidminimumwagesrequest.md
   - docs/models/operations/getv1locationslocationuuidminimumwagesresponse.md
   - docs/models/operations/getv1paymentreceiptspayrollspayrolluuidrequest.md
@@ -370,6 +373,7 @@ generatedFiles:
   - docs/models/operations/getwireinrequestswireinrequestuuidrequest.md
   - docs/models/operations/getwireinrequestswireinrequestuuidresponse.md
   - docs/models/operations/groupings.md
+  - docs/models/operations/headerxgustoapiversion.md
   - docs/models/operations/homeaddress.md
   - docs/models/operations/hourlycompensations.md
   - docs/models/operations/include.md
@@ -796,6 +800,7 @@ generatedFiles:
   - docs/models/operations/wagetype.md
   - docs/models/operations/withholdingpayperiod.md
   - docs/models/operations/workaddress.md
+  - docs/models/operations/xgustoapiversion.md
   - docs/models/shared/accounttype.md
   - docs/models/shared/accruingtimeoffhour.md
   - docs/models/shared/accruingtimeoffhourobject.md
@@ -835,6 +840,7 @@ generatedFiles:
   - docs/models/shared/companybenefit.md
   - docs/models/shared/companybenefitwithemployeebenefits.md
   - docs/models/shared/companybenefitwithemployeebenefitscontribution.md
+  - docs/models/shared/companybenefitwithemployeebenefitssource.md
   - docs/models/shared/companycontributionannualmaximum.md
   - docs/models/shared/companycustomfield.md
   - docs/models/shared/companycustomfieldlist.md
@@ -973,6 +979,9 @@ generatedFiles:
   - docs/models/shared/identityverificationstatus.md
   - docs/models/shared/independenceday.md
   - docs/models/shared/industry.md
+  - docs/models/shared/informationrequest.md
+  - docs/models/shared/informationrequeststatus.md
+  - docs/models/shared/informationrequesttype.md
   - docs/models/shared/invoicedata.md
   - docs/models/shared/job.md
   - docs/models/shared/juneteenth.md
@@ -989,6 +998,7 @@ generatedFiles:
   - docs/models/shared/name.md
   - docs/models/shared/newyearsday.md
   - docs/models/shared/notification.md
+  - docs/models/shared/notificationstatus.md
   - docs/models/shared/offcyclereasontype.md
   - docs/models/shared/onboardingdocumentsconfig.md
   - docs/models/shared/onboardingstatus.md
@@ -1079,6 +1089,7 @@ generatedFiles:
   - docs/models/shared/security.md
   - docs/models/shared/signatory.md
   - docs/models/shared/sortorder.md
+  - docs/models/shared/source.md
   - docs/models/shared/splitby.md
   - docs/models/shared/status.md
   - docs/models/shared/subscriptiontypes.md
@@ -1155,6 +1166,7 @@ generatedFiles:
   - docs/sdks/holidaypaypolicies/README.md
   - docs/sdks/i9verification/README.md
   - docs/sdks/industryselection/README.md
+  - docs/sdks/informationrequests/README.md
   - docs/sdks/introspection/README.md
   - docs/sdks/invoices/README.md
   - docs/sdks/jobsandcompensations/README.md
@@ -1211,6 +1223,7 @@ generatedFiles:
   - lib/gusto_embedded/holidaypaypolicies.rb
   - lib/gusto_embedded/i9verification.rb
   - lib/gusto_embedded/industryselection.rb
+  - lib/gusto_embedded/information_requests.rb
   - lib/gusto_embedded/introspection.rb
   - lib/gusto_embedded/invoices.rb
   - lib/gusto_embedded/jobsandcompensations.rb
@@ -1328,6 +1341,8 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/get_events_request.rb
   - lib/gusto_embedded/models/operations/get_events_response.rb
   - lib/gusto_embedded/models/operations/get_events_security.rb
+  - lib/gusto_embedded/models/operations/get_information_requests_request.rb
+  - lib/gusto_embedded/models/operations/get_information_requests_response.rb
   - lib/gusto_embedded/models/operations/get_invoices_invoice_period_request.rb
   - lib/gusto_embedded/models/operations/get_invoices_invoice_period_response.rb
   - lib/gusto_embedded/models/operations/get_invoices_invoice_period_security.rb
@@ -1527,6 +1542,7 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/get_v1_jobs_job_id_response.rb
   - lib/gusto_embedded/models/operations/get_v1_locations_location_id_request.rb
   - lib/gusto_embedded/models/operations/get_v1_locations_location_id_response.rb
+  - lib/gusto_embedded/models/operations/get_v1_locations_location_uuid_minimum_wages_header_x_gusto_api_version.rb
   - lib/gusto_embedded/models/operations/get_v1_locations_location_uuid_minimum_wages_request.rb
   - lib/gusto_embedded/models/operations/get_v1_locations_location_uuid_minimum_wages_response.rb
   - lib/gusto_embedded/models/operations/get_v1_payment_receipts_payrolls_payroll_uuid_request.rb
@@ -1555,6 +1571,7 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/get_wire_in_requests_wire_in_request_uuid_request.rb
   - lib/gusto_embedded/models/operations/get_wire_in_requests_wire_in_request_uuid_response.rb
   - lib/gusto_embedded/models/operations/groupings.rb
+  - lib/gusto_embedded/models/operations/header_x_gusto_api_version.rb
   - lib/gusto_embedded/models/operations/home_address.rb
   - lib/gusto_embedded/models/operations/hourly_compensations.rb
   - lib/gusto_embedded/models/operations/include.rb
@@ -1981,6 +1998,7 @@ generatedFiles:
   - lib/gusto_embedded/models/operations/wage_type.rb
   - lib/gusto_embedded/models/operations/withholding_pay_period.rb
   - lib/gusto_embedded/models/operations/work_address.rb
+  - lib/gusto_embedded/models/operations/x_gusto_api_version.rb
   - lib/gusto_embedded/models/shared.rb
   - lib/gusto_embedded/models/shared/account_type.rb
   - lib/gusto_embedded/models/shared/accruing_time_off_hour.rb
@@ -2021,6 +2039,7 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/company_benefit.rb
   - lib/gusto_embedded/models/shared/company_benefit_with_employee_benefits.rb
   - lib/gusto_embedded/models/shared/company_benefit_with_employee_benefits_contribution.rb
+  - lib/gusto_embedded/models/shared/company_benefit_with_employee_benefits_source.rb
   - lib/gusto_embedded/models/shared/company_contribution_annual_maximum.rb
   - lib/gusto_embedded/models/shared/company_custom_field.rb
   - lib/gusto_embedded/models/shared/company_custom_field_list.rb
@@ -2159,6 +2178,9 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/identity_verification_status.rb
   - lib/gusto_embedded/models/shared/independence_day.rb
   - lib/gusto_embedded/models/shared/industry.rb
+  - lib/gusto_embedded/models/shared/information_request.rb
+  - lib/gusto_embedded/models/shared/information_request_status.rb
+  - lib/gusto_embedded/models/shared/information_request_type.rb
   - lib/gusto_embedded/models/shared/invoice_data.rb
   - lib/gusto_embedded/models/shared/job.rb
   - lib/gusto_embedded/models/shared/juneteenth.rb
@@ -2175,6 +2197,7 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/name.rb
   - lib/gusto_embedded/models/shared/new_years_day.rb
   - lib/gusto_embedded/models/shared/notification.rb
+  - lib/gusto_embedded/models/shared/notification_status.rb
   - lib/gusto_embedded/models/shared/off_cycle_reason_type.rb
   - lib/gusto_embedded/models/shared/onboarding_documents_config.rb
   - lib/gusto_embedded/models/shared/onboarding_status.rb
@@ -2265,6 +2288,7 @@ generatedFiles:
   - lib/gusto_embedded/models/shared/security.rb
   - lib/gusto_embedded/models/shared/signatory.rb
   - lib/gusto_embedded/models/shared/sort_order.rb
+  - lib/gusto_embedded/models/shared/source.rb
   - lib/gusto_embedded/models/shared/split_by.rb
   - lib/gusto_embedded/models/shared/status.rb
   - lib/gusto_embedded/models/shared/subscription_types.rb
@@ -3132,6 +3156,16 @@ examples:
       responses:
         "200":
           application/json: {"uuid": "04552eb9-7829-4b18-ae96-6983552948df", "version": "7d9753112507b9dda4fb97910f39b06e", "company_uuid": "6bf7807c-a5a0-4f4d-b2e7-3fbb4b2299fb", "phone_number": "5825710808", "street_1": "412 Kiera Stravenue", "street_2": "Suite 391", "city": "San Francisco", "state": "CA", "zip": "94107", "country": "USA", "active": true, "mailing_address": false, "filing_address": false, "created_at": "2023-09-12T16:42:25.000-07:00", "updated_at": "2023-09-12T16:42:25.000-07:00"}
+    test_example:
+      parameters:
+        path:
+          location_id: "<id>"
+        header: {}
+      responses:
+        "200":
+          application/json: {"uuid": "92a4bb87-8731-4cbc-a8b5-ff15e71e5c6d", "version": "d058d4dabda76568bc8b5c571bd4397e", "company_uuid": "1fcd2fd8-9ce7-40dc-92c2-a9278e957047", "phone_number": "8094206653", "street_1": "84802 Darrel Crossing", "street_2": "Suite 187", "city": "Kenna", "state": "WV", "zip": "25248", "country": "USA", "active": true, "mailing_address": true, "filing_address": false, "created_at": "2025-04-28T13:03:41.000-07:00", "updated_at": "2025-04-28T13:03:41.000-07:00"}
+        "404":
+          application/json: {"errors": [{"error_key": "request", "category": "not_found", "message": "The requested resource was not found."}]}
   put-v1-locations-location_id:
     Example:
       parameters:
@@ -3173,6 +3207,30 @@ examples:
       responses:
         "422":
           application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
+    request_example_1:
+      parameters:
+        path:
+          location_id: "<id>"
+        header: {}
+      requestBody:
+        application/json: {"version": "52d5265dbe000f69a8e95e8a7b1300b6", "phone_number": "8009360383", "street_1": "300 3rd Street", "street_2": "Apartment 318", "city": "San Francisco", "zip": "94107", "filing_address": true}
+      responses:
+        "200":
+          application/json: {"uuid": "d95fa7f0-e743-42ce-b47c-b60cc78135dd"}
+        "404":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
+    test_example:
+      parameters:
+        path:
+          location_id: "<id>"
+        header: {}
+      requestBody:
+        application/json: {"version": "<value>"}
+      responses:
+        "200":
+          application/json: {"uuid": "976e2a84-939e-43a0-8299-e9b151587469", "version": "b32d692e5323b53a927628d6417a8f7e", "company_uuid": "65832238-d188-459e-bbcb-8f3225acacfb", "phone_number": "8009360383", "street_1": "300 3rd Street", "street_2": "Apartment 318", "city": "San Francisco", "state": "SC", "zip": "94107", "country": "USA", "active": true, "mailing_address": true, "filing_address": true, "created_at": "2025-04-28T13:03:43.000-07:00", "updated_at": "2025-04-28T13:03:44.000-07:00"}
+        "404":
+          application/json: {"errors": [{"error_key": "state", "category": "invalid_attribute_value", "message": "State is in the wrong format"}]}
   get-v1-locations-location_uuid-minimum_wages:
     Example:
       parameters:
@@ -3184,6 +3242,30 @@ examples:
       responses:
         "200":
           application/json: [{"uuid": "70c523ff-c71e-4474-9c83-a4ea51bd54a8", "wage": "13.0", "wage_type": "Regular", "effective_date": "2022-01-01", "authority": "State", "notes": "Employers with 6 or more employees"}]
+    "":
+      parameters:
+        path:
+          location_uuid: "<id>"
+        query:
+          effective_date: "2020-01-31"
+        header: {}
+      responses:
+        "200":
+          application/json: [{"uuid": "51a05d45-4150-43d0-817d-ded00b53e08d", "wage": "<value>", "wage_type": "<value>", "effective_date": "2025-07-18", "authority": "<value>"}, {"uuid": "6bcf0983-eca2-4a56-b844-6e8c6e9a7665", "wage": "<value>", "wage_type": "<value>", "effective_date": "2024-05-23", "authority": "<value>"}, {"uuid": "6279a5fa-0ee0-4322-b251-c08f7a91301b", "wage": "<value>", "wage_type": "<value>", "effective_date": "2024-02-09", "authority": "<value>"}]
+        "404":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
+    test_example:
+      parameters:
+        path:
+          location_uuid: "<id>"
+        query:
+          effective_date: "2020-01-31"
+        header: {}
+      responses:
+        "200":
+          application/json: [{"uuid": "32cdd7db-7315-4225-a53a-d6a17e710802", "wage": "15.0", "wage_type": "Regular", "effective_date": "2017-01-01", "authority": "City", "notes": "large companies"}, {"uuid": "003eeb45-eaec-41cf-8544-07f9d2186494", "wage": "10.5", "wage_type": "Regular", "effective_date": "2017-01-01", "authority": "City", "notes": "large companies"}, {"uuid": "0b851548-b7c3-4616-ad66-908f30bbcb2e", "wage": "10.5", "wage_type": "Regular", "effective_date": "2017-01-01", "authority": "State", "notes": "large companies"}, {"uuid": "9b362d44-6b56-49d2-9b5c-f499eec1486f", "wage": "10.5", "wage_type": "Regular", "effective_date": "2017-01-01", "authority": "Federal", "notes": "large companies"}]
+        "404":
+          application/json: {"errors": [{"error_key": "request", "category": "not_found", "message": "The requested resource was not found."}]}
   post-v1-companies-company_id-bank-accounts:
     Example:
       parameters:
@@ -3286,7 +3368,8 @@ examples:
       responses:
         "201":
           application/json: "<value>"
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Example:
       requestBody:
         application/json: {"owner_type": "Company", "owner_id": "<id>", "processor_token": "<value>"}
@@ -3758,6 +3841,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"type": "by_employee", "employees": [{"employee_uuid": "f0238368-f2cf-43e2-9a07-b0265f2cec69", "pay_schedule_uuid": "c277ac52-9871-4a96-a1e6-0c449684602a"}]}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Basic:
       parameters:
         path:
@@ -3799,7 +3885,8 @@ examples:
       responses:
         "201":
           application/json: {"uuid": "2593d737-d298-41b9-954f-79fed0af3fb4", "first_name": "Marc", "last_name": "Mertz", "eligible_paid_time_off": [{"accrual_unit": "Hour", "accrual_method": "unlimited", "accrual_period": "Year"}, {"accrual_unit": "Hour", "accrual_method": "unlimited", "accrual_period": "Year"}]}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}]}
     Create Employee Example:
       parameters:
         path:
@@ -3871,7 +3958,8 @@ examples:
       responses:
         "201":
           application/json: {"uuid": "c5eac208-191a-4d7d-b286-05f8a2516327", "first_name": "Cordelia", "last_name": "Prosacco", "eligible_paid_time_off": [{"accrual_unit": "Hour", "accrual_method": "unlimited", "accrual_period": "Year"}, {"accrual_unit": "Hour", "accrual_method": "unlimited", "accrual_period": "Year"}, {"accrual_unit": "Hour", "accrual_method": "unlimited", "accrual_period": "Year"}]}
-        "422": {}
+        "422":
+          application/json: {"errors": []}
     Create Historical Employee Example:
       parameters:
         path:
@@ -3965,7 +4053,8 @@ examples:
       responses:
         "200":
           application/json: {"uuid": "0488dda5-9bd2-4e22-8225-091b969a682e", "first_name": "Daphney", "last_name": "Shanahan", "eligible_paid_time_off": [{"accrual_unit": "Hour", "accrual_method": "unlimited", "accrual_period": "Year"}, {"accrual_unit": "Hour", "accrual_method": "unlimited", "accrual_period": "Year"}, {"accrual_unit": "Hour", "accrual_method": "unlimited", "accrual_period": "Year"}]}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Create Employee Example:
       parameters:
         path:
@@ -4801,7 +4890,7 @@ examples:
         "200":
           application/json: [{"employee_uuid": "<id>", "state": "Ohio", "questions": [{"label": "<value>", "description": "which difficult really", "key": "<key>", "input_question_format": {"type": "<value>"}, "answers": [{}, {}]}]}, {"employee_uuid": "<id>", "state": "Alabama", "questions": []}, {"employee_uuid": "<id>", "state": "Tennessee", "questions": [{"label": "<value>", "description": "notwithstanding yippee now cinch against however unearth outside stiff", "key": "<key>", "input_question_format": {"type": "<value>"}, "answers": [{}, {}, {}]}, {"label": "<value>", "description": "incidentally shadowy cleverly", "key": "<key>", "input_question_format": {"type": "<value>"}, "answers": [{}, {}, {}]}, {"label": "<value>", "description": "off frizz yowza huzzah whose", "key": "<key>", "input_question_format": {"type": "<value>"}, "answers": [{}, {}]}]}]
         "422":
-          application/json: [{"state": "Rhode Island", "questions": [{"key": "<key>"}, {"key": "<key>"}]}, {"state": "Florida", "questions": [{"key": "<key>"}]}]
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}]}
     Employee-State-Taxes-List-Example:
       parameters:
         path:
@@ -4942,6 +5031,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"version": "63859768485e218ccf8a449bb60f14ed", "type": "Direct Deposit", "split_by": "Amount", "splits": [{"uuid": "e88f9436-b74e-49a8-87e9-777b9bfe715e", "name": "BoA Checking Account", "priority": 1, "split_amount": 500}, {"uuid": "0d2b7f73-05d6-4184-911d-269edeecc30a", "name": "Chase Checking Account", "priority": 2, "split_amount": 1000}, {"uuid": "1531e824-8d9e-4bd8-9f90-0d04608125d7", "name": "US Bank Checking Account", "priority": 3, "split_amount": null}]}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     example-2:
       parameters:
         path:
@@ -4949,6 +5041,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"version": "63859768485e218ccf8a449bb60f14ed", "type": "Direct Deposit", "split_by": "Percentage", "splits": [{"uuid": "e88f9436-b74e-49a8-87e9-777b9bfe715e", "name": "BoA Checking Account", "priority": 1, "split_amount": 60}, {"uuid": "0d2b7f73-05d6-4184-911d-269edeecc30a", "name": "Chase Checking Account", "priority": 2, "split_amount": 40}]}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     example-3:
       parameters:
         path:
@@ -4956,6 +5051,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"version": "63859768485e218ccf8a449bb60f14ed", "type": "Check"}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}]}
     Example:
       parameters:
         path:
@@ -5352,7 +5450,8 @@ examples:
       responses:
         "201":
           application/json: {"uuid": "45c84535-4779-4ecb-af28-3bb833fa3225", "hourly_rate": "50.0"}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}]}
     Create a Business contractor:
       parameters:
         path:
@@ -5363,7 +5462,8 @@ examples:
       responses:
         "201":
           application/json: {"uuid": "4113dafc-14a6-4275-a15f-9c79a520c8a0", "hourly_rate": "50.0"}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Individual Contractor:
       parameters:
         path:
@@ -5452,7 +5552,8 @@ examples:
       responses:
         "200":
           application/json: {"uuid": "63ba7bbb-da29-4c1b-827d-792289357acf", "hourly_rate": "50.0"}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Update a Business Contractor:
       parameters:
         path:
@@ -5463,7 +5564,8 @@ examples:
       responses:
         "200":
           application/json: {"uuid": "72a92a7e-5b65-4564-908c-30ecaedc35c9", "hourly_rate": "50.0"}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Individual Contractor:
       parameters:
         path:
@@ -5687,6 +5789,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"version": "63859768485e218ccf8a449bb60f14ed", "type": "Direct Deposit"}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     example-3:
       parameters:
         path:
@@ -5694,6 +5799,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"version": "63859768485e218ccf8a449bb60f14ed", "type": "Check"}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Example:
       parameters:
         path:
@@ -6139,7 +6247,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: [{"payroll_deadline": "2021-02-18T22:00:00Z", "check_date": "2021-02-22", "processed": true, "processed_date": "2021-02-18", "calculated_at": "2021-02-18T12:00:00Z", "uuid": "b50e611d-8f3d-4f24-b001-46675f7b5777", "payroll_uuid": "b50e611d-8f3d-4f24-b001-46675f7b5777", "company_uuid": "6bf7807c-a5a0-4f4d-b2e7-3fbb4b2299fb", "off_cycle": false, "external": false, "pay_period": {"start_date": "2021-02-01", "end_date": "2021-02-15", "pay_schedule_uuid": "00ebc4a4-ec88-4435-8f45-c505bb63e501"}, "totals": {"company_debit": "121747.71", "net_pay_debit": "79283.80", "tax_debit": "42463.91", "reimbursement_debit": "0.00", "child_support_debit": "0.00", "reimbursements": "0.00", "net_pay": "81752.94", "gross_pay": "130635.89", "employee_bonuses": "0.00", "employee_commissions": "18536.37", "employee_cash_tips": "0.00", "employee_paycheck_tips": "0.00", "additional_earnings": "0.00", "owners_draw": "0.00", "check_amount": "2469.14", "employer_taxes": "6917.19", "employee_taxes": "35546.72", "benefits": "0.00", "employee_benefits_deductions": "13336.23", "imputed_pay": "0.00", "deferred_payroll_taxes": "0.00", "other_deductions": "240.00"}, "created_at": "2021-02-01T22:00:00Z"}, {"payroll_deadline": "2021-02-28", "check_date": "2021-03-01", "processed": false, "processed_date": "nil", "calculated_at": "nil", "uuid": "c8a232aa-0b11-4b8a-b005-71e9e705d0e6", "payroll_uuid": "b50e611d-8f3d-4f24-b001-46675f7b5777", "company_uuid": "6bf7807c-a5a0-4f4d-b2e7-3fbb4b2299fb", "off_cycle": false, "external": false, "pay_period": {"start_date": "2021-02-16", "end_date": "2021-03-01", "pay_schedule_uuid": "00ebc4a4-ec88-4435-8f45-c505bb63e501"}, "created_at": "2022-02-01T22:00:00Z"}]
+          application/json: [{"payroll_deadline": "2021-02-18T22:00:00Z", "check_date": "2021-02-22", "processed": true, "processed_date": "2021-02-18", "calculated_at": "2021-02-18T12:00:00Z", "uuid": "b50e611d-8f3d-4f24-b001-46675f7b5777", "payroll_uuid": "b50e611d-8f3d-4f24-b001-46675f7b5777", "company_uuid": "6bf7807c-a5a0-4f4d-b2e7-3fbb4b2299fb", "off_cycle": false, "external": false, "pay_period": {"start_date": "2021-02-01", "end_date": "2021-02-15", "pay_schedule_uuid": "00ebc4a4-ec88-4435-8f45-c505bb63e501"}, "totals": {"company_debit": "121747.71", "net_pay_debit": "79283.80", "tax_debit": "42463.91", "reimbursement_debit": "0.00", "child_support_debit": "0.00", "reimbursements": "0.00", "net_pay": "81752.94", "gross_pay": "130635.89", "employee_bonuses": "0.00", "employee_commissions": "18536.37", "employee_cash_tips": "0.00", "employee_paycheck_tips": "0.00", "additional_earnings": "0.00", "owners_draw": "0.00", "check_amount": "2469.14", "employer_taxes": "6917.19", "employee_taxes": "35546.72", "benefits": "0.00", "employee_benefits_deductions": "13336.23", "imputed_pay": "0.00", "deferred_payroll_taxes": "0.00", "other_deductions": "240.00"}, "created_at": "2021-02-01T22:00:00Z", "reversal_payroll_uuids": []}, {"payroll_deadline": "2021-02-28", "check_date": "2021-03-01", "processed": false, "processed_date": "nil", "calculated_at": "nil", "uuid": "c8a232aa-0b11-4b8a-b005-71e9e705d0e6", "payroll_uuid": "b50e611d-8f3d-4f24-b001-46675f7b5777", "company_uuid": "6bf7807c-a5a0-4f4d-b2e7-3fbb4b2299fb", "off_cycle": false, "external": false, "pay_period": {"start_date": "2021-02-16", "end_date": "2021-03-01", "pay_schedule_uuid": "00ebc4a4-ec88-4435-8f45-c505bb63e501"}, "created_at": "2022-02-01T22:00:00Z"}]
   get-v1-companies-company_id-payroll_reversals:
     Example:
       parameters:
@@ -6481,7 +6589,8 @@ examples:
       responses:
         "200":
           application/json: {"uuid": "64a9fdcb-6b72-49e9-938f-aad91c34e607", "company_uuid": "<id>", "name": "<value>", "policy_type": "vacation", "accrual_method": "<value>", "is_active": true, "employees": [{}]}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Unlimited Vacation Policy:
       parameters:
         path:
@@ -6491,7 +6600,7 @@ examples:
         application/json: {}
       responses:
         "200":
-          application/json: {"uuid": "3f746cd0-dd08-408f-b712-8180c7c621e9", "company_uuid": "de83cff2-8e7a-448e-a28c-14258a9971c3", "name": "Unlimited Vacation Policy", "policy_type": "vacation", "accrual_method": "unlimited", "accrual_rate": "<value>", "accrual_rate_unit": "<value>", "paid_out_on_termination": false, "accrual_waiting_period_days": 857478, "carryover_limit_hours": "<value>", "max_accrual_hours_per_year": "<value>", "max_hours": "<value>", "complete": true, "is_active": true, "employees": []}
+          application/json: {"uuid": "3f746cd0-dd08-408f-b712-8180c7c621e9", "company_uuid": "de83cff2-8e7a-448e-a28c-14258a9971c3", "name": "Unlimited Vacation Policy", "policy_type": "vacation", "accrual_method": "unlimited", "accrual_rate": "<value>", "accrual_rate_unit": "<value>", "paid_out_on_termination": false, "accrual_waiting_period_days": 597129, "carryover_limit_hours": "<value>", "max_accrual_hours_per_year": "<value>", "max_hours": "<value>", "complete": true, "is_active": true, "employees": []}
     Hourly Vacation Policy:
       parameters:
         path:
@@ -6552,7 +6661,8 @@ examples:
       responses:
         "201":
           application/json: {"uuid": "68a1c8b1-cf9c-4f0b-91c3-8910fc125ec7", "company_uuid": "<id>", "name": "<value>", "policy_type": "vacation", "accrual_method": "<value>", "is_active": false, "employees": []}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}]}
     Hourly Policy:
       parameters:
         path:
@@ -6563,7 +6673,8 @@ examples:
       responses:
         "201":
           application/json: {"uuid": "8b50daa4-883a-45ac-bf16-67931a204633", "company_uuid": "<id>", "name": "<value>", "policy_type": "vacation", "accrual_method": "<value>", "is_active": false, "employees": [{}, {}, {}]}
-        "422": {}
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Unlimited Vacation Policy:
       parameters:
         path:
@@ -6573,7 +6684,7 @@ examples:
         application/json: {"name": "<value>", "policy_type": "<value>", "accrual_method": "per_anniversary_year"}
       responses:
         "201":
-          application/json: {"uuid": "3f746cd0-dd08-408f-b712-8180c7c621e9", "company_uuid": "de83cff2-8e7a-448e-a28c-14258a9971c3", "name": "Unlimited Vacation Policy", "policy_type": "vacation", "accrual_method": "unlimited", "accrual_rate": "<value>", "accrual_rate_unit": "<value>", "paid_out_on_termination": false, "accrual_waiting_period_days": 486589, "carryover_limit_hours": "<value>", "max_accrual_hours_per_year": "<value>", "max_hours": "<value>", "complete": true, "is_active": true, "employees": []}
+          application/json: {"uuid": "3f746cd0-dd08-408f-b712-8180c7c621e9", "company_uuid": "de83cff2-8e7a-448e-a28c-14258a9971c3", "name": "Unlimited Vacation Policy", "policy_type": "vacation", "accrual_method": "unlimited", "accrual_rate": "<value>", "accrual_rate_unit": "<value>", "paid_out_on_termination": false, "accrual_waiting_period_days": 417458, "carryover_limit_hours": "<value>", "max_accrual_hours_per_year": "<value>", "max_hours": "<value>", "complete": true, "is_active": true, "employees": []}
     Hourly Vacation Policy:
       parameters:
         path:
@@ -6635,7 +6746,8 @@ examples:
       responses:
         "200":
           application/json: {"uuid": "1cb0826f-c6d7-4361-b3e7-5e6d8af6853e", "company_uuid": "<id>", "name": "<value>", "policy_type": "vacation", "accrual_method": "<value>", "is_active": true, "employees": [{}]}
-        "422": {}
+        "422":
+          application/json: {"errors": []}
     Hourly Policy:
       parameters:
         path:
@@ -7254,7 +7366,7 @@ examples:
         application/json: {"description": "yuck vice between gee ugh ha"}
       responses:
         "201":
-          application/json: {"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "company_uuid": "881ce3f2-e3e1-49c9-8ad4-0bcf515f5618", "uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "benefit_type": 1, "active": true, "description": "Kaiser Permanente", "deletable": true, "supports_percentage_amounts": true, "responsible_for_employer_taxes": false, "responsible_for_employee_w2": false}
+          application/json: {"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "company_uuid": "881ce3f2-e3e1-49c9-8ad4-0bcf515f5618", "uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "benefit_type": 1, "active": true, "description": "Kaiser Permanente", "source": "external", "partner_name": "XYZ Corp", "deletable": true, "supports_percentage_amounts": true, "responsible_for_employer_taxes": false, "responsible_for_employee_w2": false}
     Basic:
       parameters:
         path:
@@ -7294,7 +7406,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: [{"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "company_uuid": "528cc543-8a41-497e-b479-23a4c5ec77ac", "uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "benefit_type": 1, "active": true, "description": "Kaiser Permanente", "deletable": true, "supports_percentage_amounts": true, "responsible_for_employer_taxes": false, "responsible_for_employee_w2": false}]
+          application/json: [{"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "company_uuid": "528cc543-8a41-497e-b479-23a4c5ec77ac", "uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "benefit_type": 1, "active": true, "description": "Kaiser Permanente", "source": "external", "partner_name": "XYZ Corp", "deletable": true, "supports_percentage_amounts": true, "responsible_for_employer_taxes": false, "responsible_for_employee_w2": false}]
   get-v1-company_benefits-company_benefit_id:
     Example:
       parameters:
@@ -7304,7 +7416,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: {"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "active": true, "description": "Kaiser Permanente", "deletable": true, "supports_percentage_amounts": true, "responsible_for_employer_taxes": false, "responsible_for_employee_w2": false, "employee_benefits": [{"employee_uuid": "ae44a0b2-3c89-41e1-91c8-5f8224a779ca", "company_benefit_uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "active": true, "deduct_as_percentage": false, "employee_deduction": "3", "company_contribution": "0", "uuid": "9988f241-9aee-4383-bfca-eac79cf58135", "contribution": {"type": "amount", "value": 0}}]}
+          application/json: {"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "active": true, "description": "Kaiser Permanente", "source": "external", "partner_name": "XYZ Corp", "deletable": true, "supports_percentage_amounts": true, "responsible_for_employer_taxes": false, "responsible_for_employee_w2": false, "employee_benefits": [{"employee_uuid": "ae44a0b2-3c89-41e1-91c8-5f8224a779ca", "company_benefit_uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "active": true, "deduct_as_percentage": false, "employee_deduction": "3", "company_contribution": "0", "uuid": "9988f241-9aee-4383-bfca-eac79cf58135", "contribution": {"type": "amount", "value": 0}}]}
   put-v1-company_benefits-company_benefit_id:
     Example:
       parameters:
@@ -7315,7 +7427,7 @@ examples:
         application/json: {"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "active": false}
       responses:
         "200":
-          application/json: {"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "company_uuid": "881ce3f2-e3e1-49c9-8ad4-0bcf515f5618", "uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "benefit_type": 1, "active": true, "description": "Kaiser Permanente", "deletable": true, "supports_percentage_amounts": true, "responsible_for_employer_taxes": false, "responsible_for_employee_w2": false}
+          application/json: {"version": "98jr3289h3298hr9329gf9egskt3kagri32qqgiqe3872", "company_uuid": "881ce3f2-e3e1-49c9-8ad4-0bcf515f5618", "uuid": "d2cec746-caee-464a-bcaf-00d93f7049c9", "benefit_type": 1, "active": true, "description": "Kaiser Permanente", "source": "external", "partner_name": "XYZ Corp", "deletable": true, "supports_percentage_amounts": true, "responsible_for_employer_taxes": false, "responsible_for_employee_w2": false}
     Basic:
       parameters:
         path:
@@ -7617,7 +7729,7 @@ examples:
         application/json: {"amount": "150.00", "description": "Back taxes", "court_ordered": true, "recurring": true, "deduct_as_percentage": false}
       responses:
         "201":
-          application/json: {"uuid": "0648730b-e81b-40fd-b400-179e824ec05f"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7484f", "version": "52b7c567242cb7452e89ba2bc02cb476", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "8.00", "description": "Company loan to employee", "court_ordered": false, "times": 5, "recurring": false, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "100.00", "deduct_as_percentage": true, "garnishment_type": null, "child_support": null}
     Child-Support-Example:
       parameters:
         path:
@@ -7627,7 +7739,7 @@ examples:
         application/json: {"amount": "40", "court_ordered": true, "garnishment_type": "child_support", "recurring": true, "pay_period_maximum": "500.00", "deduct_as_percentage": true, "child_support": {"state": "FL", "payment_period": "Monthly", "fips_code": "12011", "case_number": "CS1234"}}
       responses:
         "201":
-          application/json: {"uuid": "427b9e5b-95d2-4cfd-b063-45dff43ac8aa"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7481a", "version": "52b7c567242cb7452e89ba2bc02cb383", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "40.00", "description": "Child support - AZ28319", "court_ordered": true, "times": null, "recurring": true, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "400.00", "deduct_as_percentage": true, "garnishment_type": "child_support", "child_support": {"state": "AZ", "payment_period": "Monthly", "fips_code": "04000", "case_number": "AZ28319", "order_number": null, "remittance_number": null}}
     Basic:
       parameters:
         path:
@@ -7667,7 +7779,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: [{"uuid": "c8a232aa-0b11-4b8a-b005-71e9e705d0e6"}, {"uuid": "21e27667-18d6-4d46-812e-0aee1b9ddf12"}]
+          application/json: [{"uuid": "4c7841a2-1363-497e-bc0f-664703c7484f", "version": "52b7c567242cb7452e89ba2bc02cb476", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "8.00", "description": "Company loan to employee", "court_ordered": false, "times": 5, "recurring": false, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "100.00", "deduct_as_percentage": true, "garnishment_type": null, "child_support": null}, {"uuid": "4c7841a2-1363-497e-bc0f-664703c7481a", "version": "52b7c567242cb7452e89ba2bc02cb383", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "40.00", "description": "Child support - AZ28319", "court_ordered": true, "times": null, "recurring": true, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "400.00", "deduct_as_percentage": true, "garnishment_type": "child_support", "child_support": {"state": "AZ", "payment_period": "Monthly", "fips_code": "04000", "case_number": "AZ28319", "order_number": null, "remittance_number": null}}]
   get-v1-garnishments-garnishment_id:
     Example:
       parameters:
@@ -7676,7 +7788,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: {"uuid": "a1b1d4d7-9d85-4c0c-970a-7d2676a05c04"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7484f", "version": "52b7c567242cb7452e89ba2bc02cb476", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "8.00", "description": "Company loan to employee", "court_ordered": false, "times": 5, "recurring": false, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "100.00", "deduct_as_percentage": true, "garnishment_type": null, "child_support": null}
     Child-Support-Example:
       parameters:
         path:
@@ -7684,7 +7796,7 @@ examples:
         header: {}
       responses:
         "200":
-          application/json: {"uuid": "c70f28ce-90e2-4168-b683-1abb1a5f7f21"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7481a", "version": "52b7c567242cb7452e89ba2bc02cb383", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "40.00", "description": "Child support - AZ28319", "court_ordered": true, "times": null, "recurring": true, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "400.00", "deduct_as_percentage": true, "garnishment_type": "child_support", "child_support": {"state": "AZ", "payment_period": "Monthly", "fips_code": "04000", "case_number": "AZ28319", "order_number": null, "remittance_number": null}}
   put-v1-garnishments-garnishment_id:
     Example:
       parameters:
@@ -7695,7 +7807,7 @@ examples:
         application/json: {"active": false, "version": "52b7c567242cb7452e89ba2bc02cb476"}
       responses:
         "200":
-          application/json: {"uuid": "4c044b4e-cf94-4436-a3fb-eaf811f919f4"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7484f", "version": "52b7c567242cb7452e89ba2bc02cb476", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "8.00", "description": "Company loan to employee", "court_ordered": false, "times": 5, "recurring": false, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "100.00", "deduct_as_percentage": true, "garnishment_type": null, "child_support": null}
     Child-Support-Example:
       parameters:
         path:
@@ -7705,7 +7817,7 @@ examples:
         application/json: {"version": "<value>"}
       responses:
         "200":
-          application/json: {"uuid": "b05be711-9e3f-4fc9-8067-cd32e9559970"}
+          application/json: {"uuid": "4c7841a2-1363-497e-bc0f-664703c7481a", "version": "52b7c567242cb7452e89ba2bc02cb383", "employee_uuid": "a6b53294-f871-4db2-bbd4-8c3d1fe56440", "active": true, "amount": "40.00", "description": "Child support - AZ28319", "court_ordered": true, "times": null, "recurring": true, "annual_maximum": null, "total_amount": null, "pay_period_maximum": "400.00", "deduct_as_percentage": true, "garnishment_type": "child_support", "child_support": {"state": "AZ", "payment_period": "Monthly", "fips_code": "04000", "case_number": "AZ28319", "order_number": null, "remittance_number": null}}
     Basic:
       parameters:
         path:
@@ -7736,7 +7848,11 @@ examples:
       responses:
         "422":
           application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
-  get-v1-garnishments-child_support: {}
+  get-v1-garnishments-child_support:
+    Example:
+      responses:
+        "200":
+          application/json: {"agencies": [{"state": "AK", "name": "Alaska Child Support Services Division", "manual_payment_required": false, "fips_codes": [{"code": "0200000", "county": null}], "required_attributes": [{"key": "case_number", "label": "CSE Case Number"}]}, {"state": "OH", "name": "Ohio Office of Child Support Enforcement", "manual_payment_required": false, "fips_codes": [{"code": "39000", "county": null}], "required_attributes": [{"key": "case_number", "label": "CSE Case Number"}, {"key": "order_number", "label": "Order Identifier"}]}]}
   get-v1-employees-employee_id-i9_authorization:
     Example:
       parameters:
@@ -7914,6 +8030,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"requirement_sets": [{"key": "registrations", "effective_from": null, "state": "GA", "requirements": [{"key": "71653ec0-00b5-4c66-a58b-22ecf21704c5", "value": "1233214-AB"}, {"key": "6c0911ab-5860-412e-bdef-6437cd881df5", "value": "474747-22"}]}, {"key": "taxrates", "effective_from": "2022-01-01", "state": "GA", "requirements": [{"key": "e0ac2284-8d30-4100-ae23-f85f9574868b", "value": "0.05"}]}, {"key": "depositschedules", "effective_from": "2022-01-01", "state": "GA", "requirements": [{"key": "6ddfcbeb-94d3-4003-bfc2-8c6e1ca9f70c", "value": "Semi-weekly"}]}]}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}]}
     Basic:
       parameters:
         path:
@@ -8295,6 +8414,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"date_sent": "2024-06-10T00:00:00Z", "bank_name": "Chase", "amount_sent": "314500", "additional_notes": "Wire for 2024-06-15 payroll."}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     example:
       parameters:
         path:
@@ -8372,6 +8494,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"file_quarterly_forms": true, "file_yearly_forms": true, "reconcile_tax_method": "pay_taxes", "reason": "switching_provider", "leaving_for": "other"}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Company is shutting down:
       parameters:
         path:
@@ -8379,6 +8504,9 @@ examples:
         header: {}
       requestBody:
         application/json: {"file_quarterly_forms": true, "file_yearly_forms": true, "reconcile_tax_method": "pay_taxes", "reason": "shutting_down"}
+      responses:
+        "422":
+          application/json: {"errors": [{"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}, {"error_key": "<value>", "category": "<value>"}]}
     Basic:
       parameters:
         path:
@@ -8409,5 +8537,14 @@ examples:
       responses:
         "422":
           application/json: {"errors": [{"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "72ae4617-daa9-4ed7-85e0-18ed5d0ee835"}}, {"error_key": "contractor_payments", "category": "nested_errors", "metadata": {"contractor_uuid": "2d7bf62c-babf-4a12-8292-340e2d9cab28"}}]}
+  get-information-requests:
+    Example:
+      parameters:
+        path:
+          company_uuid: "<id>"
+        header: {}
+      responses:
+        "200":
+          application/json: [{"uuid": "e83d273e-4ae9-4b61-9c71-4030c2f73093", "company_uuid": "c5e3e3e9-732f-4762-849e-20b5cec9036f", "type": "company_onboarding", "status": "pending_response", "blocking_payroll": true}]
 examplesVersion: 1.0.0
 generatedTests: {}

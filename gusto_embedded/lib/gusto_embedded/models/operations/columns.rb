@@ -29,6 +29,7 @@ module GustoEmbedded
         EMPLOYEE_COMPENSATION = new('employee_compensation')
         EMPLOYEE_DEDUCTIONS = new('employee_deductions')
         EMPLOYEE_DEPARTMENT = new('employee_department')
+        EMPLOYEE_DONATIONS = new('employee_donations')
         EMPLOYEE_EMAIL = new('employee_email')
         EMPLOYEE_FEDERAL_INCOME_TAX = new('employee_federal_income_tax')
         EMPLOYEE_FIRST_NAME = new('employee_first_name')

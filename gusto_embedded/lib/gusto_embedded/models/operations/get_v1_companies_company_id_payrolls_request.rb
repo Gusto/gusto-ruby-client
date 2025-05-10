@@ -15,7 +15,7 @@ module GustoEmbedded
       field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
       # Return payrolls whose pay period is before the end date. If left empty, defaults to today's date.
       field :end_date, T.nilable(::String), { 'query_param': { 'field_name': 'end_date', 'style': 'form', 'explode': true } }
-      # Include the requested attribute in the response. The risk_blockers option will include submission_blockers and credit_blockers if applicable. In v2023-04-01 totals are no longer included by default. For multiple attributes comma separate the values, i.e. `?include=totals,payroll_status_meta`
+      # Include the requested attribute in the response. The risk_blockers option will include submission_blockers and credit_blockers if applicable. The reversals option will include reversal payroll UUIDs if applicable. In v2023-04-01 totals are no longer included by default. For multiple attributes comma separate the values, i.e. `?include=totals,payroll_status_meta`
       field :include, T.nilable(T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsQueryParamInclude]), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
       # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
       field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
