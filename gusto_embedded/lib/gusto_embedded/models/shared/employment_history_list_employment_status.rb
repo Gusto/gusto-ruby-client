@@ -14,8 +14,7 @@ module GustoEmbedded
         FULL_TIME = new('full_time')
         PART_TIME_ELIGIBLE = new('part_time_eligible')
         VARIABLE = new('variable')
-        SEASONAL = new('seasonal')
-        NOT_SET = new('not_set')
+        SEASONAL_NOT_SET = new('seasonal - not_set')
       end
     end
   end

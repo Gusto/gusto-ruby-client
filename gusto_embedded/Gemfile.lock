@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gusto_embedded_client (0.2.10)
+    gusto_embedded_client (0.2.11)
       faraday
       faraday-multipart
       rack

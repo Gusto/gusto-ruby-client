@@ -13,6 +13,7 @@ module GustoEmbedded
         TOTALS = new('totals')
         PAYROLL_STATUS_META = new('payroll_status_meta')
         RISK_BLOCKERS = new('risk_blockers')
+        REVERSALS = new('reversals')
       end
     end
   end

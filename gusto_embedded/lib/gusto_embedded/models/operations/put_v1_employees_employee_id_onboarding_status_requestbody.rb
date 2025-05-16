@@ -11,11 +11,11 @@ module GustoEmbedded
     class PutV1EmployeesEmployeeIdOnboardingStatusRequestBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The updated onboarding status for the employee
-      field :onboarding_status, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status') } }
+      # Onboarding status value
+      field :onboarding_status, ::GustoEmbedded::Operations::OnboardingStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::OnboardingStatus, false) } }
 
 
-      sig { params(onboarding_status: ::String).void }
+      sig { params(onboarding_status: ::GustoEmbedded::Operations::OnboardingStatus).void }
       def initialize(onboarding_status: nil)
         @onboarding_status = onboarding_status
       end

@@ -16,12 +16,13 @@ module GustoEmbedded
       # Include the requested attribute(s) in each employee response, multiple options are comma separated. Available options:
       # - all_compensations: Include all effective dated compensations for each job instead of only the current compensation
       # - custom_fields: Include employees' custom fields
+      # 
       field :include, T.nilable(T::Array[::GustoEmbedded::Operations::QueryParamInclude]), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::GetV1EmployeesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(employee_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::QueryParamInclude]), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      sig { params(employee_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::QueryParamInclude]), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1EmployeesHeaderXGustoAPIVersion)).void }
       def initialize(employee_id: nil, include: nil, x_gusto_api_version: nil)
         @employee_id = employee_id
         @include = include

@@ -7,15 +7,15 @@
 module GustoEmbedded
   module Operations
   
-    # Update an employee.
+
     class PutV1EmployeesRequestBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
       field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
       field :date_of_birth, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth') } }
-      # The employee's personal email address.
+
       field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
 
       field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }

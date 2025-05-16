@@ -801,12 +801,13 @@ module GustoEmbedded
     end
 
 
-    sig { params(payroll_id: ::String, employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubResponse) }
+    sig { params(payroll_id: ::String, employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubResponse) }
     def get_pay_stub(payroll_id, employee_id, x_gusto_api_version = nil)
       # get_pay_stub - Get an employee pay stub (pdf)
       # Get an employee's pay stub for the specified payroll. By default, an application/pdf response will be returned. No other content types are currently supported, but may be supported in the future.
       # 
       # scope: `pay_stubs:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubRequest.new(
         
         payroll_id: payroll_id,
@@ -822,7 +823,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers['Accept'] = '*/*'
+      headers['Accept'] = 'application/pdf'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       r = @sdk_configuration.client.get(url) do |req|
@@ -838,18 +839,20 @@ module GustoEmbedded
       )
       if r.status == 200
       elsif r.status == 404
+        res.body = r.env.response_body if Utils.match_content_type(content_type, 'application/pdf')
       end
 
       res
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeUuidPayStubsResponse) }
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1EmployeesEmployeeUuidPayStubsHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeUuidPayStubsResponse) }
     def get_pay_stubs(employee_id, x_gusto_api_version = nil)
       # get_pay_stubs - Get an employee's pay stubs
       # Get an employee's pay stubs
       # 
       # scope: `pay_stubs:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1EmployeesEmployeeUuidPayStubsRequest.new(
         
         employee_id: employee_id,
@@ -880,10 +883,14 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeePayStub])
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeePayStubsList])
           res.employee_pay_stubs_list = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res

@@ -15,10 +15,10 @@ module GustoEmbedded
       extend T::Sig
 
 
-      field :errors, T.nilable(T::Array[::GustoEmbedded::Shared::EntityErrorObject]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('errors') } }
+      field :errors, T::Array[::GustoEmbedded::Shared::EntityErrorObject], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('errors') } }
 
 
-      sig { params(errors: T.nilable(T::Array[::GustoEmbedded::Shared::EntityErrorObject])).void }
+      sig { params(errors: T::Array[::GustoEmbedded::Shared::EntityErrorObject]).void }
       def initialize(errors: nil)
         @errors = errors
       end
