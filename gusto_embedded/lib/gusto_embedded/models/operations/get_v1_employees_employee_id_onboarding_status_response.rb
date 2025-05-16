@@ -17,7 +17,7 @@ module GustoEmbedded
       field :raw_response, ::Faraday::Response
       # HTTP response status code for this operation
       field :status_code, ::Integer
-      # Example response.
+      # successful
       field :employee_onboarding_status, T.nilable(::GustoEmbedded::Shared::EmployeeOnboardingStatus)
 
 

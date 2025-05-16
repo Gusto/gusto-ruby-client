@@ -16,6 +16,7 @@ module GustoEmbedded
       # Include the requested attribute(s) in each employee response, multiple options are comma separated. Available options:
       # - all_compensations: Include all effective dated compensations for each job instead of only the current compensation
       # - custom_fields: Include employees' custom fields
+      # 
       field :include, T.nilable(T::Array[::GustoEmbedded::Operations::Include]), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
       # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
       field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
@@ -26,10 +27,10 @@ module GustoEmbedded
       # Filters employees by the provided boolean
       field :terminated, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'terminated', 'style': 'form', 'explode': true } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(company_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::Include]), page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), terminated: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      sig { params(company_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::Include]), page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), terminated: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion)).void }
       def initialize(company_id: nil, include: nil, page: nil, per: nil, search_term: nil, terminated: nil, x_gusto_api_version: nil)
         @company_id = company_id
         @include = include

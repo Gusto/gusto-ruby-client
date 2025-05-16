@@ -331,11 +331,11 @@ end
 
 ### [employees](docs/sdks/employees/README.md)
 
-* [create](docs/sdks/employees/README.md#create) - Create an employee
 * [list](docs/sdks/employees/README.md#list) - Get employees of a company
+* [create](docs/sdks/employees/README.md#create) - Create an employee
 * [create_historical](docs/sdks/employees/README.md#create_historical) - Create a historical employee
 * [get](docs/sdks/employees/README.md#get) - Get an employee
-* [update](docs/sdks/employees/README.md#update) - Update an employee
+* [update](docs/sdks/employees/README.md#update) - Update an employee.
 * [delete](docs/sdks/employees/README.md#delete) - Delete an onboarding employee
 * [get_custom_fields](docs/sdks/employees/README.md#get_custom_fields) - Get an employee's custom fields
 * [update_onboarding_documents_config](docs/sdks/employees/README.md#update_onboarding_documents_config) - Update an employee's onboarding documents config
@@ -408,6 +408,10 @@ end
 
 * [get](docs/sdks/industryselection/README.md#get) - Get a company industry selection
 * [update](docs/sdks/industryselection/README.md#update) - Update a company industry selection
+
+### [information_requests](docs/sdks/informationrequests/README.md)
+
+* [get_information_requests](docs/sdks/informationrequests/README.md#get_information_requests) - Get all information requests for a company
 
 ### [introspection](docs/sdks/introspection/README.md)
 

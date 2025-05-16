@@ -19,74 +19,13 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1EmployeesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostV1EmployeesResponse) }
-    def create(company_id, request_body, x_gusto_api_version = nil)
-      # create - Create an employee
-      # Create an employee.
-      # 
-      # scope: `employees:manage`
-      request = ::GustoEmbedded::Operations::PostV1EmployeesRequest.new(
-        
-        company_id: company_id,
-        request_body: request_body,
-        x_gusto_api_version: x_gusto_api_version
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        ::GustoEmbedded::Operations::PostV1EmployeesRequest,
-        base_url,
-        '/v1/companies/{company_id}/employees',
-        request
-      )
-      headers = Utils.get_headers(request)
-      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
-      headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
-      headers['Accept'] = 'application/json'
-      headers['user-agent'] = @sdk_configuration.user_agent
-
-      r = @sdk_configuration.client.post(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-        if form
-          req.body = Utils.encode_form(form)
-        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-          req.body = URI.encode_www_form(data)
-        else
-          req.body = data
-        end
-      end
-
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
-
-      res = ::GustoEmbedded::Operations::PostV1EmployeesResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
-      )
-      if r.status == 201
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::Employee)
-          res.employee = out
-        end
-      elsif r.status == 404
-      elsif r.status == 422
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
-          res.unprocessable_entity_error_object = out
-        end
-      end
-
-      res
-    end
-
-
     sig { params(request: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesRequest)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesResponse) }
     def list(request)
       # list - Get employees of a company
       # Get all of the employees, onboarding, active and terminated, for a given company.
       # 
       # scope: `employees:read`
+      # 
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
@@ -115,9 +54,74 @@ module GustoEmbedded
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::Employee])
-          res.employee_list = out
+          res.employees = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
+      end
+
+      res
+    end
+
+
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PostV1EmployeesHeaderXGustoAPIVersion), request_body: T.nilable(::GustoEmbedded::Operations::PostV1EmployeesRequestBody)).returns(::GustoEmbedded::Operations::PostV1EmployeesResponse) }
+    def create(company_id, x_gusto_api_version = nil, request_body = nil)
+      # create - Create an employee
+      #         Create an employee.
+      # 
+      #         scope: `employees:manage`
+      # 
+      request = ::GustoEmbedded::Operations::PostV1EmployeesRequest.new(
+        
+        company_id: company_id,
+        x_gusto_api_version: x_gusto_api_version,
+        request_body: request_body
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::PostV1EmployeesRequest,
+        base_url,
+        '/v1/companies/{company_id}/employees',
+        request
+      )
+      headers = Utils.get_headers(request)
+      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers['content-type'] = req_content_type
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.post(url) do |req|
+        req.headers = headers
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+        if form
+          req.body = Utils.encode_form(form)
+        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+          req.body = URI.encode_www_form(data)
+        else
+          req.body = data
+        end
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::PostV1EmployeesResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 201
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::Employee)
+          res.employee = out
+        end
+      elsif [404, 422].include?(r.status)
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
@@ -186,8 +190,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::QueryParamInclude]), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesResponse) }
-    def get(employee_id, include = nil, x_gusto_api_version = nil)
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1EmployeesHeaderXGustoAPIVersion), include: T.nilable(T::Array[::GustoEmbedded::Operations::QueryParamInclude])).returns(::GustoEmbedded::Operations::GetV1EmployeesResponse) }
+    def get(employee_id, x_gusto_api_version = nil, include = nil)
       # get - Get an employee
       # Get an employee.
       # 
@@ -196,8 +200,8 @@ module GustoEmbedded
       request = ::GustoEmbedded::Operations::GetV1EmployeesRequest.new(
         
         employee_id: employee_id,
-        include: include,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        include: include
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -236,12 +240,13 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1EmployeesResponse) }
+    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesRequestBody, x_gusto_api_version: T.nilable(::String)).returns(::GustoEmbedded::Operations::PutV1EmployeesResponse) }
     def update(employee_id, request_body, x_gusto_api_version = nil)
-      # update - Update an employee
+      # update - Update an employee.
       # Update an employee.
       # 
       # scope: `employees:write`
+      # 
       request = ::GustoEmbedded::Operations::PutV1EmployeesRequest.new(
         
         employee_id: employee_id,
@@ -286,8 +291,7 @@ module GustoEmbedded
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::Employee)
           res.employee = out
         end
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 409, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
@@ -298,7 +302,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::DeleteV1EmployeeResponse) }
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::DeleteV1EmployeeHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::DeleteV1EmployeeResponse) }
     def delete(employee_id, x_gusto_api_version = nil)
       # delete - Delete an onboarding employee
       # Use this endpoint to delete an employee who is in onboarding. Deleting
@@ -306,6 +310,7 @@ module GustoEmbedded
       # if you need to terminate an onboarded employee.
       # 
       # scope: `employees:manage`
+      # 
       request = ::GustoEmbedded::Operations::DeleteV1EmployeeRequest.new(
         
         employee_id: employee_id,
@@ -320,7 +325,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers['Accept'] = 'application/json'
+      headers['Accept'] = '*/*'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       r = @sdk_configuration.client.delete(url) do |req|
@@ -335,12 +340,7 @@ module GustoEmbedded
         status_code: r.status, content_type: content_type, raw_response: r
       )
       if r.status == 204
-      elsif r.status == 404
-      elsif r.status == 422
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
-          res.unprocessable_entity_error_object = out
-        end
+      elsif [404, 422].include?(r.status)
       end
 
       res
@@ -454,7 +454,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdOnboardingStatusResponse) }
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdOnboardingStatusHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdOnboardingStatusResponse) }
     def get_onboarding_status(employee_id, x_gusto_api_version = nil)
       # get_onboarding_status - Get the employee's onboarding status
       # # Description
@@ -496,6 +496,7 @@ module GustoEmbedded
       # | `employee_form_signing` | Employee forms (e.g., W4, direct deposit authorization) are generated & signed. |
       # | `file_new_hire_report` | File a new hire report for this employee. |
       # | `admin_review` | Admin reviews & confirms employee details (only required for Employee self-onboarding) |
+      # 
       request = ::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdOnboardingStatusRequest.new(
         
         employee_id: employee_id,
@@ -536,21 +537,22 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingStatusResponse) }
+    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingStatusHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingStatusResponse) }
     def update_onboarding_status(employee_id, request_body, x_gusto_api_version = nil)
       # update_onboarding_status - Update the employee's onboarding status
-      # scope: `employees:manage`
+      #         scope: `employees:manage`
       # 
-      # Updates an employee's onboarding status.
-      # Below is a list of valid onboarding status changes depending on the intended action to be performed on behalf of the employee.
+      #         Updates an employee's onboarding status.
+      #         Below is a list of valid onboarding status changes depending on the intended action to be performed on behalf of the employee.
       # 
-      # | Action | current onboarding_status | new onboarding_status |
-      # |:------------------|:------------:|----------:|
-      # | Mark an employee as self-onboarding | `admin_onboarding_incomplete` | `self_onboarding_pending_invite` |
-      # | Invite an employee to self-onboard | `admin_onboarding_incomplete` or `self_onboarding_pending_invite` | `self_onboarding_invited` |
-      # | Cancel an employee's self-onboarding | `self_onboarding_invited` or `self_onboarding_pending_invite` | `admin_onboarding_incomplete` |
-      # | Review an employee's self-onboarded info | `self_onboarding_completed_by_employee` | `self_onboarding_awaiting_admin_review` |
-      # | Finish an employee's onboarding | `admin_onboarding_incomplete` or `self_onboarding_awaiting_admin_review` | `onboarding_completed` |
+      #         | Action | current onboarding_status | new onboarding_status |
+      #         |:------------------|:------------:|----------:|
+      #         | Mark an employee as self-onboarding | `admin_onboarding_incomplete` | `self_onboarding_pending_invite` |
+      #         | Invite an employee to self-onboard | `admin_onboarding_incomplete` or `self_onboarding_pending_invite` | `self_onboarding_invited` |
+      #         | Cancel an employee's self-onboarding | `self_onboarding_invited` or `self_onboarding_pending_invite` | `admin_onboarding_incomplete` |
+      #         | Review an employee's self-onboarded info | `self_onboarding_completed_by_employee` | `self_onboarding_awaiting_admin_review` |
+      #         | Finish an employee's onboarding | `admin_onboarding_incomplete` or `self_onboarding_awaiting_admin_review` | `onboarding_completed` |
+      # 
       request = ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequest.new(
         
         employee_id: employee_id,
@@ -595,8 +597,7 @@ module GustoEmbedded
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::EmployeeOnboardingStatus)
           res.employee_onboarding_status = out
         end
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out

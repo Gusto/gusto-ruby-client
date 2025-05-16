@@ -22,10 +22,10 @@ module GustoEmbedded
 
       field :metadata, T.nilable(::GustoEmbedded::Shared::TaxRequirementMetadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
       # The "answer"
-      field :value, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
 
-      sig { params(applicable_if: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableIf]), description: T.nilable(::String), key: T.nilable(::String), label: T.nilable(::String), metadata: T.nilable(::GustoEmbedded::Shared::TaxRequirementMetadata), value: T.nilable(::String)).void }
+      sig { params(applicable_if: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableIf]), description: T.nilable(::String), key: T.nilable(::String), label: T.nilable(::String), metadata: T.nilable(::GustoEmbedded::Shared::TaxRequirementMetadata), value: T.nilable(::Object)).void }
       def initialize(applicable_if: nil, description: nil, key: nil, label: nil, metadata: nil, value: nil)
         @applicable_if = applicable_if
         @description = description

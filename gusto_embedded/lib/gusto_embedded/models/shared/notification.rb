@@ -29,12 +29,16 @@ module GustoEmbedded
       field :published_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('published_at') } }
       # An array of entities relevant to the notification
       field :resources, T.nilable(T::Array[::GustoEmbedded::Shared::Resources]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resources') } }
+      # Represents the notification's status as managed by our system. It is updated based on observable system events and internal business logic, and does not reflect resolution steps taken outside our system. This field is read-only and cannot be modified via the API.
+      field :status, T.nilable(::GustoEmbedded::Shared::NotificationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::NotificationStatus, true) } }
+      # An object containing template variables used to render the notification. The structure of this object depends on the notification category. Each category defines a fixed set of variable names (keys), which are always present. The values of these variables can vary depending on the specific notification instance.
+      field :template_variables, T.nilable(T::Hash[Symbol, ::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('template_variables') } }
       # The title of the notification. This highlights the actionable component of the notification.
       field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
 
 
-      sig { params(uuid: ::String, actionable: T.nilable(T::Boolean), can_block_payroll: T.nilable(T::Boolean), category: T.nilable(::String), company_uuid: T.nilable(::String), due_at: T.nilable(::String), message: T.nilable(::String), published_at: T.nilable(::String), resources: T.nilable(T::Array[::GustoEmbedded::Shared::Resources]), title: T.nilable(::String)).void }
-      def initialize(uuid: nil, actionable: nil, can_block_payroll: nil, category: nil, company_uuid: nil, due_at: nil, message: nil, published_at: nil, resources: nil, title: nil)
+      sig { params(uuid: ::String, actionable: T.nilable(T::Boolean), can_block_payroll: T.nilable(T::Boolean), category: T.nilable(::String), company_uuid: T.nilable(::String), due_at: T.nilable(::String), message: T.nilable(::String), published_at: T.nilable(::String), resources: T.nilable(T::Array[::GustoEmbedded::Shared::Resources]), status: T.nilable(::GustoEmbedded::Shared::NotificationStatus), template_variables: T.nilable(T::Hash[Symbol, ::String]), title: T.nilable(::String)).void }
+      def initialize(uuid: nil, actionable: nil, can_block_payroll: nil, category: nil, company_uuid: nil, due_at: nil, message: nil, published_at: nil, resources: nil, status: nil, template_variables: nil, title: nil)
         @uuid = uuid
         @actionable = actionable
         @can_block_payroll = can_block_payroll
@@ -44,6 +48,8 @@ module GustoEmbedded
         @message = message
         @published_at = published_at
         @resources = resources
+        @status = status
+        @template_variables = template_variables
         @title = title
       end
     end

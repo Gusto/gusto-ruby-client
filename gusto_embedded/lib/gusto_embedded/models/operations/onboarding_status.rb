@@ -7,9 +7,11 @@
 module GustoEmbedded
   module Operations
   
-    # OnboardingStatus - The updated onboarding status for the contractor
+    # OnboardingStatus - Onboarding status value
     class OnboardingStatus < T::Enum
       enums do
+        SELF_ONBOARDING_INVITED = new('self_onboarding_invited')
+        ADMIN_ONBOARDING_INCOMPLETE = new('admin_onboarding_incomplete')
         ONBOARDING_COMPLETED = new('onboarding_completed')
       end
     end

@@ -17,16 +17,19 @@ module GustoEmbedded
       field :raw_response, ::Faraday::Response
       # HTTP response status code for this operation
       field :status_code, ::Integer
-      # Example response
-      field :employee_pay_stubs_list, T.nilable(T::Array[::GustoEmbedded::Shared::EmployeePayStub])
+      # successful
+      field :employee_pay_stubs_list, T.nilable(T::Array[::GustoEmbedded::Shared::EmployeePayStubsList])
+      # not found
+      field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, employee_pay_stubs_list: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeePayStub])).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, employee_pay_stubs_list: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, employee_pay_stubs_list: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeePayStubsList]), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, employee_pay_stubs_list: nil, unprocessable_entity_error_object: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
         @employee_pay_stubs_list = employee_pay_stubs_list
+        @unprocessable_entity_error_object = unprocessable_entity_error_object
       end
     end
   end

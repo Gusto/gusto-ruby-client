@@ -25,18 +25,22 @@ module GustoEmbedded
       field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
       # The number of employees enrolled in the benefit, only returned when enrollment_count query param is set to true.
       field :enrollment_count, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('enrollment_count') } }
+      # The partner name of the partner that created the company benefit. For example, "XYZ Corp".
+      field :partner_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_name') } }
       # Whether the employer is subject to file W-2 forms for an employee on leave. Only applicable to third party sick pay benefits.
       field :responsible_for_employee_w2, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('responsible_for_employee_w2') } }
       # Whether the employer is subject to pay employer taxes when an employee is on leave. Only applicable to third party sick pay benefits.
       field :responsible_for_employer_taxes, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('responsible_for_employer_taxes') } }
+      # The source of the company benefit. This can be "internal", "external", or "partnered". Company benefits created via the API default to "external". Certain partners can create company benefits with a source of "partnered".
+      field :source, T.nilable(::GustoEmbedded::Shared::Source), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('source'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Source, true) } }
       # Whether employee deductions and company contributions can be set as percentages of payroll for an individual employee. This is determined by the type of benefit and is not configurable by the company.
       field :supports_percentage_amounts, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('supports_percentage_amounts') } }
       # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
       field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
 
-      sig { params(uuid: ::String, active: T.nilable(T::Boolean), benefit_type: T.nilable(::Integer), company_uuid: T.nilable(::String), deletable: T.nilable(T::Boolean), description: T.nilable(::String), enrollment_count: T.nilable(::Integer), responsible_for_employee_w2: T.nilable(T::Boolean), responsible_for_employer_taxes: T.nilable(T::Boolean), supports_percentage_amounts: T.nilable(T::Boolean), version: T.nilable(::String)).void }
-      def initialize(uuid: nil, active: nil, benefit_type: nil, company_uuid: nil, deletable: nil, description: nil, enrollment_count: nil, responsible_for_employee_w2: nil, responsible_for_employer_taxes: nil, supports_percentage_amounts: nil, version: nil)
+      sig { params(uuid: ::String, active: T.nilable(T::Boolean), benefit_type: T.nilable(::Integer), company_uuid: T.nilable(::String), deletable: T.nilable(T::Boolean), description: T.nilable(::String), enrollment_count: T.nilable(::Integer), partner_name: T.nilable(::String), responsible_for_employee_w2: T.nilable(T::Boolean), responsible_for_employer_taxes: T.nilable(T::Boolean), source: T.nilable(::GustoEmbedded::Shared::Source), supports_percentage_amounts: T.nilable(T::Boolean), version: T.nilable(::String)).void }
+      def initialize(uuid: nil, active: nil, benefit_type: nil, company_uuid: nil, deletable: nil, description: nil, enrollment_count: nil, partner_name: nil, responsible_for_employee_w2: nil, responsible_for_employer_taxes: nil, source: nil, supports_percentage_amounts: nil, version: nil)
         @uuid = uuid
         @active = active
         @benefit_type = benefit_type
@@ -44,8 +48,10 @@ module GustoEmbedded
         @deletable = deletable
         @description = description
         @enrollment_count = enrollment_count
+        @partner_name = partner_name
         @responsible_for_employee_w2 = responsible_for_employee_w2
         @responsible_for_employer_taxes = responsible_for_employer_taxes
+        @source = source
         @supports_percentage_amounts = supports_percentage_amounts
         @version = version
       end

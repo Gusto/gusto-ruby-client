@@ -8,7 +8,7 @@ module GustoEmbedded
   module Shared
   
     # The representation of an employee pay stub information.
-    class EmployeePayStub < ::Crystalline::FieldAugmented
+    class EmployeePayStubsList < ::Crystalline::FieldAugmented
       extend T::Sig
 
       # The UUID of the employee pay stub.

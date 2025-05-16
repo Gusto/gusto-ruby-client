@@ -12,10 +12,10 @@ module GustoEmbedded
       extend T::Sig
 
       # The updated onboarding status for the contractor
-      field :onboarding_status, ::GustoEmbedded::Operations::OnboardingStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::OnboardingStatus, false) } }
+      field :onboarding_status, ::GustoEmbedded::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus, false) } }
 
 
-      sig { params(onboarding_status: ::GustoEmbedded::Operations::OnboardingStatus).void }
+      sig { params(onboarding_status: ::GustoEmbedded::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus).void }
       def initialize(onboarding_status: nil)
         @onboarding_status = onboarding_status
       end

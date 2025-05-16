@@ -49,6 +49,8 @@ module GustoEmbedded
       field :payroll_status_meta, T.nilable(::GustoEmbedded::Shared::PayrollPayrollStatusMetaType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_status_meta') } }
       # The date at which the payroll was processed. Null if the payroll isn't processed yet.
       field :processed_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processed_date') } }
+      # Array of reversal payroll UUIDs, if applicable.
+      field :reversal_payroll_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reversal_payroll_uuids') } }
       # Block regular deductions and contributions for this payroll.  Only included for off-cycle payrolls.
       field :skip_regular_deductions, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skip_regular_deductions') } }
       # Only included for processed or calculated payrolls
@@ -59,8 +61,8 @@ module GustoEmbedded
       field :withholding_pay_period, T.nilable(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('withholding_pay_period'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType, true) } }
 
 
-      sig { params(company_uuid: ::String, payroll_uuid: ::String, processed: T::Boolean, uuid: ::String, auto_pilot: T.nilable(T::Boolean), calculated_at: T.nilable(::String), check_date: T.nilable(::String), created_at: T.nilable(::DateTime), credit_blockers: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollCreditBlockersType]), external: T.nilable(T::Boolean), final_termination_payroll: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), off_cycle: T.nilable(T::Boolean), off_cycle_reason: T.nilable(::GustoEmbedded::Shared::OffCycleReasonType), pay_period: T.nilable(::GustoEmbedded::Shared::PayrollPayPeriodType), payment_speed_changed: T.nilable(::GustoEmbedded::Shared::PayrollPaymentSpeedChangedType), payroll_deadline: T.nilable(::DateTime), payroll_status_meta: T.nilable(::GustoEmbedded::Shared::PayrollPayrollStatusMetaType), processed_date: T.nilable(::String), skip_regular_deductions: T.nilable(T::Boolean), submission_blockers: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollSubmissionBlockersType]), totals: T.nilable(::GustoEmbedded::Shared::PayrollTotalsType), withholding_pay_period: T.nilable(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType)).void }
-      def initialize(company_uuid: nil, payroll_uuid: nil, processed: nil, uuid: nil, auto_pilot: nil, calculated_at: nil, check_date: nil, created_at: nil, credit_blockers: nil, external: nil, final_termination_payroll: nil, fixed_withholding_rate: nil, off_cycle: nil, off_cycle_reason: nil, pay_period: nil, payment_speed_changed: nil, payroll_deadline: nil, payroll_status_meta: nil, processed_date: nil, skip_regular_deductions: nil, submission_blockers: nil, totals: nil, withholding_pay_period: nil)
+      sig { params(company_uuid: ::String, payroll_uuid: ::String, processed: T::Boolean, uuid: ::String, auto_pilot: T.nilable(T::Boolean), calculated_at: T.nilable(::String), check_date: T.nilable(::String), created_at: T.nilable(::DateTime), credit_blockers: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollCreditBlockersType]), external: T.nilable(T::Boolean), final_termination_payroll: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), off_cycle: T.nilable(T::Boolean), off_cycle_reason: T.nilable(::GustoEmbedded::Shared::OffCycleReasonType), pay_period: T.nilable(::GustoEmbedded::Shared::PayrollPayPeriodType), payment_speed_changed: T.nilable(::GustoEmbedded::Shared::PayrollPaymentSpeedChangedType), payroll_deadline: T.nilable(::DateTime), payroll_status_meta: T.nilable(::GustoEmbedded::Shared::PayrollPayrollStatusMetaType), processed_date: T.nilable(::String), reversal_payroll_uuids: T.nilable(T::Array[::String]), skip_regular_deductions: T.nilable(T::Boolean), submission_blockers: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollSubmissionBlockersType]), totals: T.nilable(::GustoEmbedded::Shared::PayrollTotalsType), withholding_pay_period: T.nilable(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType)).void }
+      def initialize(company_uuid: nil, payroll_uuid: nil, processed: nil, uuid: nil, auto_pilot: nil, calculated_at: nil, check_date: nil, created_at: nil, credit_blockers: nil, external: nil, final_termination_payroll: nil, fixed_withholding_rate: nil, off_cycle: nil, off_cycle_reason: nil, pay_period: nil, payment_speed_changed: nil, payroll_deadline: nil, payroll_status_meta: nil, processed_date: nil, reversal_payroll_uuids: nil, skip_regular_deductions: nil, submission_blockers: nil, totals: nil, withholding_pay_period: nil)
         @company_uuid = company_uuid
         @payroll_uuid = payroll_uuid
         @processed = processed
@@ -80,6 +82,7 @@ module GustoEmbedded
         @payroll_deadline = payroll_deadline
         @payroll_status_meta = payroll_status_meta
         @processed_date = processed_date
+        @reversal_payroll_uuids = reversal_payroll_uuids
         @skip_regular_deductions = skip_regular_deductions
         @submission_blockers = submission_blockers
         @totals = totals

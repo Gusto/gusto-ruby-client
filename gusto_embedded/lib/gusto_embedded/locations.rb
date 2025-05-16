@@ -135,12 +135,13 @@ module GustoEmbedded
     end
 
 
-    sig { params(location_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1LocationsLocationIdResponse) }
+    sig { params(location_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::XGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1LocationsLocationIdResponse) }
     def retrieve(location_id, x_gusto_api_version = nil)
       # retrieve - Get a location
       # Get a location.
       # 
       # scope: `companies:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1LocationsLocationIdRequest.new(
         
         location_id: location_id,
@@ -175,18 +176,23 @@ module GustoEmbedded
           res.location = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
     end
 
 
-    sig { params(location_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1LocationsLocationIdRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1LocationsLocationIdResponse) }
+    sig { params(location_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1LocationsLocationIdRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::HeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PutV1LocationsLocationIdResponse) }
     def update(location_id, request_body, x_gusto_api_version = nil)
       # update - Update a location
       # Update a location.
       # 
       # scope: `companies.write`
+      # 
       request = ::GustoEmbedded::Operations::PutV1LocationsLocationIdRequest.new(
         
         location_id: location_id,
@@ -231,8 +237,7 @@ module GustoEmbedded
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::Location)
           res.location = out
         end
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 409, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
@@ -243,17 +248,18 @@ module GustoEmbedded
     end
 
 
-    sig { params(location_uuid: ::String, effective_date: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesResponse) }
-    def get_minimum_wages(location_uuid, effective_date = nil, x_gusto_api_version = nil)
+    sig { params(location_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesHeaderXGustoAPIVersion), effective_date: T.nilable(::String)).returns(::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesResponse) }
+    def get_minimum_wages(location_uuid, x_gusto_api_version = nil, effective_date = nil)
       # get_minimum_wages - Get minimum wages for a location
       # Get minimum wages for a location
       # 
       # scope: `companies:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesRequest.new(
         
         location_uuid: location_uuid,
-        effective_date: effective_date,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        effective_date: effective_date
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -286,6 +292,10 @@ module GustoEmbedded
           res.minimum_wage_list = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res

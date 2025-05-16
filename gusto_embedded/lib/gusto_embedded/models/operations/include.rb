@@ -10,8 +10,9 @@ module GustoEmbedded
 
     class Include < T::Enum
       enums do
-        ALL_COMPENSATIONS = new('all_compensations')
         CUSTOM_FIELDS = new('custom_fields')
+        ALL_COMPENSATIONS = new('all_compensations')
+        COMPANY_NAME = new('company_name')
       end
     end
   end

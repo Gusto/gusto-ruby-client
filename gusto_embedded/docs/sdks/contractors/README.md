@@ -320,7 +320,7 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.contractors.update_onboarding_status(contractor_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1ContractorsContractorUuidOnboardingStatusRequestBody.new(
-  onboarding_status: ::GustoEmbedded::Operations::OnboardingStatus::ONBOARDING_COMPLETED,
+  onboarding_status: ::GustoEmbedded::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus::ONBOARDING_COMPLETED,
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor_onboarding_status.nil?

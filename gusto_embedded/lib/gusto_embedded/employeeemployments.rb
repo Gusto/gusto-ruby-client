@@ -459,12 +459,13 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryResponse) }
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryResponse) }
     def get_history(employee_id, x_gusto_api_version = nil)
       # get_history - Get employment history for an employee
       # Retrieve the employment history for a given employee, which includes termination and rehire.
       # 
       # scope: `employments:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryRequest.new(
         
         employee_id: employee_id,
@@ -499,6 +500,10 @@ module GustoEmbedded
           res.employment_history_list = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res

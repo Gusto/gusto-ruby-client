@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Shared
   
-    # Example response
+    # The representation of an employee's individual employements.
     class EmploymentHistoryList < ::Crystalline::FieldAugmented
       extend T::Sig
 
