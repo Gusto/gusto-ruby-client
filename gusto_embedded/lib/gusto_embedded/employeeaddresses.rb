@@ -290,13 +290,14 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdWorkAddressesResponse) }
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdWorkAddressesResponse) }
     def get_work_addresses(employee_id, x_gusto_api_version = nil)
       # get_work_addresses - Get an employee's work addresses
-      # Returns a list of an employee's work addresses. Each address includes its effective date and a boolean
-      # signifying if it is the currently active work address.
+      # Returns a list of an employee's work addresses. Each address includes its effective
+      # date and a boolean signifying if it is the currently active work address.
       # 
       # scope: `employees:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdWorkAddressesRequest.new(
         
         employee_id: employee_id,
@@ -328,21 +329,26 @@ module GustoEmbedded
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeeWorkAddress])
-          res.employee_work_address_list = out
+          res.employee_work_addresses_list = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
     end
 
 
-    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesResponse) }
+    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesResponse) }
     def create_work_address(employee_id, request_body, x_gusto_api_version = nil)
       # create_work_address - Create an employee work address
       # The work address of an employee describes when an employee began working at an associated company location.
       # 
       # scope: `employees:manage`
+      # 
       request = ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequest.new(
         
         employee_id: employee_id,
@@ -387,8 +393,7 @@ module GustoEmbedded
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::EmployeeWorkAddress)
           res.employee_work_address = out
         end
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
@@ -399,12 +404,13 @@ module GustoEmbedded
     end
 
 
-    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1WorkAddressesWorkAddressUuidResponse) }
+    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1WorkAddressesWorkAddressUuidResponse) }
     def retrieve_work_address(work_address_uuid, x_gusto_api_version = nil)
       # retrieve_work_address - Get an employee work address
       # The work address of an employee is used for payroll tax purposes.
       # 
       # scope: `employees:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1WorkAddressesWorkAddressUuidRequest.new(
         
         work_address_uuid: work_address_uuid,
@@ -439,18 +445,23 @@ module GustoEmbedded
           res.employee_work_address = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
     end
 
 
-    sig { params(work_address_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidResponse) }
+    sig { params(work_address_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidResponse) }
     def update_work_address(work_address_uuid, request_body, x_gusto_api_version = nil)
       # update_work_address - Update an employee work address
       # The work address of an employee is used for payroll tax purposes.
       # 
       # scope: `employees:manage`
+      # 
       request = ::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidRequest.new(
         
         work_address_uuid: work_address_uuid,
@@ -495,8 +506,7 @@ module GustoEmbedded
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::EmployeeWorkAddress)
           res.employee_work_address = out
         end
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
@@ -507,12 +517,13 @@ module GustoEmbedded
     end
 
 
-    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::DeleteV1WorkAddressesWorkAddressUuidResponse) }
+    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::DeleteV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::DeleteV1WorkAddressesWorkAddressUuidResponse) }
     def delete_work_address(work_address_uuid, x_gusto_api_version = nil)
       # delete_work_address - Delete an employee's work address
-      # Used for deleting an employee's work address.  Cannot delete the employee's active work address.
+      # Used for deleting an employee's work address. Cannot delete the employee's active work address.
       # 
       # scope: `employees:manage`
+      # 
       request = ::GustoEmbedded::Operations::DeleteV1WorkAddressesWorkAddressUuidRequest.new(
         
         work_address_uuid: work_address_uuid,
@@ -542,8 +553,7 @@ module GustoEmbedded
         status_code: r.status, content_type: content_type, raw_response: r
       )
       if r.status == 204
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
