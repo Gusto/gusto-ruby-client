@@ -17,6 +17,8 @@ module GustoEmbedded
       field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
       # The UUID of the employee in Gusto.
       field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+
+      field :applicable_tax_ids, T.nilable(T::Array[::Float]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_tax_ids') } }
       # The UUID of the company the employee is employed by.
       field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
       # The current employment status of the employee. Full-time employees work 30+ hours per week. Part-time employees are split into two groups: those that work 20-29 hours a week, and those that work under 20 hours a week. Variable employees have hours that vary each week. Seasonal employees are hired for 6 months of the year or less.
@@ -27,14 +29,26 @@ module GustoEmbedded
       field :date_of_birth, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth') } }
       # The employee's department in the company.
       field :department, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department') } }
+      # The UUID of the department the employee is under
+      field :department_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuid') } }
 
       field :eligible_paid_time_off, T.nilable(T::Array[::GustoEmbedded::Shared::PaidTimeOff]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('eligible_paid_time_off') } }
       # The personal email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
       field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+      # The short format code of the employee
+      field :employee_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_code') } }
+      # The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. 
+      field :flsa_status, T.nilable(::GustoEmbedded::Shared::FlsaStatusType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::FlsaStatusType, true) } }
 
       field :garnishments, T.nilable(T::Array[::GustoEmbedded::Shared::Garnishment]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('garnishments') } }
       # Indicates whether the employee has an SSN in Gusto.
       field :has_ssn, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ssn') } }
+
+      field :hidden_ssn, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hidden_ssn') } }
+      # The date when the employee was hired to the company
+      field :hired_at, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hired_at'), 'decoder': Utils.date_from_iso_format(true) } }
+
+      field :historical, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('historical') } }
 
       field :jobs, T.nilable(T::Array[::GustoEmbedded::Shared::Job]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('jobs') } }
       # The UUID of the employee's manager.
@@ -59,6 +73,8 @@ module GustoEmbedded
       field :terminated, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('terminated') } }
 
       field :terminations, T.nilable(T::Array[::GustoEmbedded::Shared::Termination]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('terminations') } }
+
+      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
       # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
       field :two_percent_shareholder, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
       # The current version of the employee. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
@@ -67,20 +83,27 @@ module GustoEmbedded
       field :work_email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_email') } }
 
 
-      sig { params(first_name: ::String, last_name: ::String, uuid: ::String, company_uuid: T.nilable(::String), current_employment_status: T.nilable(::GustoEmbedded::Shared::CurrentEmploymentStatus), custom_fields: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCustomField]), date_of_birth: T.nilable(::String), department: T.nilable(::String), eligible_paid_time_off: T.nilable(T::Array[::GustoEmbedded::Shared::PaidTimeOff]), email: T.nilable(::String), garnishments: T.nilable(T::Array[::GustoEmbedded::Shared::Garnishment]), has_ssn: T.nilable(T::Boolean), jobs: T.nilable(T::Array[::GustoEmbedded::Shared::Job]), manager_uuid: T.nilable(::String), middle_initial: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_documents_config: T.nilable(::GustoEmbedded::Shared::OnboardingDocumentsConfig), onboarding_status: T.nilable(::GustoEmbedded::Shared::OnboardingStatus), payment_method: T.nilable(::GustoEmbedded::Shared::PaymentMethod), phone: T.nilable(::String), preferred_first_name: T.nilable(::String), ssn: T.nilable(::String), terminated: T.nilable(T::Boolean), terminations: T.nilable(T::Array[::GustoEmbedded::Shared::Termination]), two_percent_shareholder: T.nilable(T::Boolean), version: T.nilable(::String), work_email: T.nilable(::String)).void }
-      def initialize(first_name: nil, last_name: nil, uuid: nil, company_uuid: nil, current_employment_status: nil, custom_fields: nil, date_of_birth: nil, department: nil, eligible_paid_time_off: nil, email: nil, garnishments: nil, has_ssn: nil, jobs: nil, manager_uuid: nil, middle_initial: nil, onboarded: nil, onboarding_documents_config: nil, onboarding_status: nil, payment_method: nil, phone: nil, preferred_first_name: nil, ssn: nil, terminated: nil, terminations: nil, two_percent_shareholder: nil, version: nil, work_email: nil)
+      sig { params(first_name: ::String, last_name: ::String, uuid: ::String, applicable_tax_ids: T.nilable(T::Array[::Float]), company_uuid: T.nilable(::String), current_employment_status: T.nilable(::GustoEmbedded::Shared::CurrentEmploymentStatus), custom_fields: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCustomField]), date_of_birth: T.nilable(::String), department: T.nilable(::String), department_uuid: T.nilable(::String), eligible_paid_time_off: T.nilable(T::Array[::GustoEmbedded::Shared::PaidTimeOff]), email: T.nilable(::String), employee_code: T.nilable(::String), flsa_status: T.nilable(::GustoEmbedded::Shared::FlsaStatusType), garnishments: T.nilable(T::Array[::GustoEmbedded::Shared::Garnishment]), has_ssn: T.nilable(T::Boolean), hidden_ssn: T.nilable(::String), hired_at: T.nilable(::Date), historical: T.nilable(T::Boolean), jobs: T.nilable(T::Array[::GustoEmbedded::Shared::Job]), manager_uuid: T.nilable(::String), middle_initial: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_documents_config: T.nilable(::GustoEmbedded::Shared::OnboardingDocumentsConfig), onboarding_status: T.nilable(::GustoEmbedded::Shared::OnboardingStatus), payment_method: T.nilable(::GustoEmbedded::Shared::PaymentMethod), phone: T.nilable(::String), preferred_first_name: T.nilable(::String), ssn: T.nilable(::String), terminated: T.nilable(T::Boolean), terminations: T.nilable(T::Array[::GustoEmbedded::Shared::Termination]), title: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), version: T.nilable(::String), work_email: T.nilable(::String)).void }
+      def initialize(first_name: nil, last_name: nil, uuid: nil, applicable_tax_ids: nil, company_uuid: nil, current_employment_status: nil, custom_fields: nil, date_of_birth: nil, department: nil, department_uuid: nil, eligible_paid_time_off: nil, email: nil, employee_code: nil, flsa_status: nil, garnishments: nil, has_ssn: nil, hidden_ssn: nil, hired_at: nil, historical: nil, jobs: nil, manager_uuid: nil, middle_initial: nil, onboarded: nil, onboarding_documents_config: nil, onboarding_status: nil, payment_method: nil, phone: nil, preferred_first_name: nil, ssn: nil, terminated: nil, terminations: nil, title: nil, two_percent_shareholder: nil, version: nil, work_email: nil)
         @first_name = first_name
         @last_name = last_name
         @uuid = uuid
+        @applicable_tax_ids = applicable_tax_ids
         @company_uuid = company_uuid
         @current_employment_status = current_employment_status
         @custom_fields = custom_fields
         @date_of_birth = date_of_birth
         @department = department
+        @department_uuid = department_uuid
         @eligible_paid_time_off = eligible_paid_time_off
         @email = email
+        @employee_code = employee_code
+        @flsa_status = flsa_status
         @garnishments = garnishments
         @has_ssn = has_ssn
+        @hidden_ssn = hidden_ssn
+        @hired_at = hired_at
+        @historical = historical
         @jobs = jobs
         @manager_uuid = manager_uuid
         @middle_initial = middle_initial
@@ -93,6 +116,7 @@ module GustoEmbedded
         @ssn = ssn
         @terminated = terminated
         @terminations = terminations
+        @title = title
         @two_percent_shareholder = two_percent_shareholder
         @version = version
         @work_email = work_email
