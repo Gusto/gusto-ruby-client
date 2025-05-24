@@ -220,10 +220,11 @@ end
 
 ## get_work_addresses
 
-Returns a list of an employee's work addresses. Each address includes its effective date and a boolean
-signifying if it is the currently active work address.
+Returns a list of an employee's work addresses. Each address includes its effective
+date and a boolean signifying if it is the currently active work address.
 
 scope: `employees:read`
+
 
 ### Example Usage
 
@@ -236,9 +237,9 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_addresses.get_work_addresses(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_addresses.get_work_addresses(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
-if ! res.employee_work_address_list.nil?
+if ! res.employee_work_addresses_list.nil?
   # handle response
 end
 
@@ -249,7 +250,7 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion)](../../models/operations/getv1employeesemployeeidworkaddressesheaderxgustoapiversion.md)                                | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
@@ -263,6 +264,7 @@ The work address of an employee describes when an employee began working at an a
 
 scope: `employees:manage`
 
+
 ### Example Usage
 
 ```ruby
@@ -274,7 +276,10 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_addresses.create_work_address(employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_addresses.create_work_address(employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody.new(
+  location_uuid: "6a119be7-b4b0-4e27-aaa0-89d5f2524635",
+  effective_date: Date.parse("2023-05-15"),
+), x_gusto_api_version=::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_work_address.nil?
   # handle response
@@ -288,7 +293,7 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
 | `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody](../../models/operations/postv1employeesemployeeidworkaddressesrequestbody.md)                                                               | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion)](../../models/operations/postv1employeesemployeeidworkaddressesheaderxgustoapiversion.md)                              | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
@@ -302,6 +307,7 @@ The work address of an employee is used for payroll tax purposes.
 
 scope: `employees:read`
 
+
 ### Example Usage
 
 ```ruby
@@ -313,7 +319,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_addresses.retrieve_work_address(work_address_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_addresses.retrieve_work_address(work_address_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_work_address.nil?
   # handle response
@@ -326,7 +332,7 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `work_address_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the work address                                                                                                                                                                                                 |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::GetV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion)](../../models/operations/getv1workaddressesworkaddressuuidheaderxgustoapiversion.md)                                        | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
@@ -339,6 +345,7 @@ end
 The work address of an employee is used for payroll tax purposes.
 
 scope: `employees:manage`
+
 
 ### Example Usage
 
@@ -353,7 +360,9 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.employee_addresses.update_work_address(work_address_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+  location_uuid: "6a119be7-b4b0-4e27-aaa0-89d5f2524635",
+  effective_date: Date.parse("2023-05-15"),
+), x_gusto_api_version=::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_work_address.nil?
   # handle response
@@ -367,7 +376,7 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `work_address_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the work address                                                                                                                                                                                                 |
 | `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody](../../models/operations/putv1workaddressesworkaddressuuidrequestbody.md)                                                                         | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion)](../../models/operations/putv1workaddressesworkaddressuuidheaderxgustoapiversion.md)                                        | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
@@ -377,9 +386,10 @@ end
 
 ## delete_work_address
 
-Used for deleting an employee's work address.  Cannot delete the employee's active work address.
+Used for deleting an employee's work address. Cannot delete the employee's active work address.
 
 scope: `employees:manage`
+
 
 ### Example Usage
 
@@ -392,7 +402,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_addresses.delete_work_address(work_address_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_addresses.delete_work_address(work_address_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Operations::DeleteV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if res.status_code == 200
   # handle response
@@ -405,7 +415,7 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `work_address_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the work address                                                                                                                                                                                                 |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::DeleteV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion)](../../models/operations/deletev1workaddressesworkaddressuuidheaderxgustoapiversion.md)                                  | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 

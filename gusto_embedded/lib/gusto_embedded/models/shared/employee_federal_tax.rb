@@ -33,14 +33,16 @@ module GustoEmbedded
       # The version of w4 form.
       field :w4_data_type, ::GustoEmbedded::Shared::W4DataType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('w4_data_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::W4DataType, false) } }
       # *does not apply to rev_2020_w4 form*
-      field :additional_withholding, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_withholding') } }
+      # 
+      # An additional withholding dollar amount
+      field :additional_withholding, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_withholding') } }
       # *does not apply to rev_2020_w4 form*
       # 
       # An exemption from paying a certain amount of income tax.
       field :federal_withholding_allowance, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_withholding_allowance') } }
 
 
-      sig { params(deductions: ::String, dependents_amount: ::String, extra_withholding: ::String, filing_status: ::String, other_income: ::String, two_jobs: T::Boolean, version: ::String, w4_data_type: ::GustoEmbedded::Shared::W4DataType, additional_withholding: T.nilable(T::Boolean), federal_withholding_allowance: T.nilable(::Float)).void }
+      sig { params(deductions: ::String, dependents_amount: ::String, extra_withholding: ::String, filing_status: ::String, other_income: ::String, two_jobs: T::Boolean, version: ::String, w4_data_type: ::GustoEmbedded::Shared::W4DataType, additional_withholding: T.nilable(::String), federal_withholding_allowance: T.nilable(::Float)).void }
       def initialize(deductions: nil, dependents_amount: nil, extra_withholding: nil, filing_status: nil, other_income: nil, two_jobs: nil, version: nil, w4_data_type: nil, additional_withholding: nil, federal_withholding_allowance: nil)
         @deductions = deductions
         @dependents_amount = dependents_amount
