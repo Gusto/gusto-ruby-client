@@ -26,18 +26,21 @@ module GustoEmbedded
       field :search_term, T.nilable(::String), { 'query_param': { 'field_name': 'search_term', 'style': 'form', 'explode': true } }
       # Filters employees by the provided boolean
       field :terminated, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'terminated', 'style': 'form', 'explode': true } }
+
+      field :uuids, T.nilable(T::Array[::String]), { 'query_param': { 'field_name': 'uuids', 'style': 'form', 'explode': true } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(company_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::Include]), page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), terminated: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion)).void }
-      def initialize(company_id: nil, include: nil, page: nil, per: nil, search_term: nil, terminated: nil, x_gusto_api_version: nil)
+      sig { params(company_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::Include]), page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), terminated: T.nilable(T::Boolean), uuids: T.nilable(T::Array[::String]), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion)).void }
+      def initialize(company_id: nil, include: nil, page: nil, per: nil, search_term: nil, terminated: nil, uuids: nil, x_gusto_api_version: nil)
         @company_id = company_id
         @include = include
         @page = page
         @per = per
         @search_term = search_term
         @terminated = terminated
+        @uuids = uuids
         @x_gusto_api_version = x_gusto_api_version
       end
     end

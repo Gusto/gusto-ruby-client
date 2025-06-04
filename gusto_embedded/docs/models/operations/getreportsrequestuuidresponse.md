@@ -1,4 +1,4 @@
-# GetReportsReportUuidResponse
+# GetReportsRequestUuidResponse
 
 
 ## Fields

@@ -21,6 +21,10 @@ module GustoEmbedded
       field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
       # The date when the employee was hired or rehired for the job.
       field :hire_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hire_date') } }
+      # The representation of an address in Gusto.
+      field :location, T.nilable(::GustoEmbedded::Shared::Location), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location') } }
+      # The uuid of the employee's work location.
+      field :location_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
       # The payment unit of the current compensation for the job.
       field :payment_unit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_unit') } }
       # Whether this is the employee's primary job. The value will be set to true unless an existing job exists for the employee.
@@ -39,13 +43,15 @@ module GustoEmbedded
       field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
 
-      sig { params(uuid: ::String, compensations: T.nilable(T::Array[::GustoEmbedded::Shared::Compensation]), current_compensation_uuid: T.nilable(::String), employee_uuid: T.nilable(::String), hire_date: T.nilable(::String), payment_unit: T.nilable(::String), primary: T.nilable(T::Boolean), rate: T.nilable(::String), state_wc_class_code: T.nilable(::String), state_wc_covered: T.nilable(T::Boolean), title: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), version: T.nilable(::String)).void }
-      def initialize(uuid: nil, compensations: nil, current_compensation_uuid: nil, employee_uuid: nil, hire_date: nil, payment_unit: nil, primary: nil, rate: nil, state_wc_class_code: nil, state_wc_covered: nil, title: nil, two_percent_shareholder: nil, version: nil)
+      sig { params(uuid: ::String, compensations: T.nilable(T::Array[::GustoEmbedded::Shared::Compensation]), current_compensation_uuid: T.nilable(::String), employee_uuid: T.nilable(::String), hire_date: T.nilable(::String), location: T.nilable(::GustoEmbedded::Shared::Location), location_uuid: T.nilable(::String), payment_unit: T.nilable(::String), primary: T.nilable(T::Boolean), rate: T.nilable(::String), state_wc_class_code: T.nilable(::String), state_wc_covered: T.nilable(T::Boolean), title: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), version: T.nilable(::String)).void }
+      def initialize(uuid: nil, compensations: nil, current_compensation_uuid: nil, employee_uuid: nil, hire_date: nil, location: nil, location_uuid: nil, payment_unit: nil, primary: nil, rate: nil, state_wc_class_code: nil, state_wc_covered: nil, title: nil, two_percent_shareholder: nil, version: nil)
         @uuid = uuid
         @compensations = compensations
         @current_compensation_uuid = current_compensation_uuid
         @employee_uuid = employee_uuid
         @hire_date = hire_date
+        @location = location
+        @location_uuid = location_uuid
         @payment_unit = payment_unit
         @primary = primary
         @rate = rate

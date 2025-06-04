@@ -358,8 +358,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareResponse) }
-    def prepare(company_id, payroll_id, x_gusto_api_version = nil)
+    sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader), request_body: T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody)).returns(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareResponse) }
+    def prepare(company_id, payroll_id, x_gusto_api_version = nil, request_body = nil)
       # prepare - Prepare a payroll for update
       # This endpoint will build the payroll and get it ready for making updates. This includes adding/removing eligible employees from the Payroll and updating the check_date, payroll_deadline, and payroll_status_meta dates & times.
       # 
@@ -372,7 +372,8 @@ module GustoEmbedded
         
         company_id: company_id,
         payroll_id: payroll_id,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        request_body: request_body
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -383,6 +384,8 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
+      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers['content-type'] = req_content_type
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -390,6 +393,13 @@ module GustoEmbedded
         req.headers = headers
         security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
         Utils.configure_request_security(req, security) if !security.nil?
+        if form
+          req.body = Utils.encode_form(form)
+        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+          req.body = URI.encode_www_form(data)
+        else
+          req.body = data
+        end
       end
 
       content_type = r.headers.fetch('Content-Type', 'application/octet-stream')

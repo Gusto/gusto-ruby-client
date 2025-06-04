@@ -1,6 +1,6 @@
-# PaymentUuid
+# PaymentType
 
-Unique identifier of the payment
+Type of payment for the wire in
 
 
 ## Values

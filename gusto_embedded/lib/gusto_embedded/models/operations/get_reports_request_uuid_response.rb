@@ -8,7 +8,7 @@ module GustoEmbedded
   module Operations
   
 
-    class GetReportsReportUuidResponse < ::Crystalline::FieldAugmented
+    class GetReportsRequestUuidResponse < ::Crystalline::FieldAugmented
       extend T::Sig
 
       # HTTP response content type for this operation

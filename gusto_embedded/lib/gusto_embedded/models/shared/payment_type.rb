@@ -7,8 +7,8 @@
 module GustoEmbedded
   module Shared
   
-    # PaymentUuid - Unique identifier of the payment
-    class PaymentUuid < T::Enum
+    # PaymentType - Type of payment for the wire in
+    class PaymentType < T::Enum
       enums do
         PAYROLL = new('payroll')
       end

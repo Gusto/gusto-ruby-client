@@ -11,12 +11,10 @@ module GustoEmbedded
     class PutV1HomeAddressesHomeAddressUuidRequestBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
       field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
       field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
-
-      field :courtesy_withholding, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('courtesy_withholding') } }
 
       field :effective_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
 
@@ -29,11 +27,10 @@ module GustoEmbedded
       field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
 
 
-      sig { params(version: ::String, city: T.nilable(::String), courtesy_withholding: T.nilable(T::Boolean), effective_date: T.nilable(::Date), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(version: nil, city: nil, courtesy_withholding: nil, effective_date: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
+      sig { params(version: ::String, city: T.nilable(::String), effective_date: T.nilable(::Date), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
+      def initialize(version: nil, city: nil, effective_date: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
         @version = version
         @city = city
-        @courtesy_withholding = courtesy_withholding
         @effective_date = effective_date
         @state = state
         @street_1 = street_1
