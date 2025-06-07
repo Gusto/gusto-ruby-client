@@ -11,17 +11,17 @@ module GustoEmbedded
     class EmployeePaymentMethod < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the last split amount must be nil to capture the remainder.
-      field :split_by, T.nilable(::GustoEmbedded::Shared::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::SplitBy, true) } }
+      # Describes how the payment will be split. If `split_by` is Percentage, then the split amounts must add up to exactly 100. If `split_by` is Amount, then the last split `amount` must be `null` to capture the remainder.
+      field :split_by, T.nilable(::GustoEmbedded::Shared::EmployeePaymentMethodSplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::EmployeePaymentMethodSplitBy, true) } }
 
       field :splits, T.nilable(T::Array[::GustoEmbedded::Shared::PaymentMethodBankAccount]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
-      # The payment method type. If type is Check, then split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
+      # The payment method type. If type is Check, then `split_by` and `splits` do not need to be populated. If type is Direct Deposit, `split_by` and `splits` are required.
       field :type, T.nilable(::GustoEmbedded::Shared::EmployeePaymentMethodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::EmployeePaymentMethodType, true) } }
       # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
       field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
 
-      sig { params(split_by: T.nilable(::GustoEmbedded::Shared::SplitBy), splits: T.nilable(T::Array[::GustoEmbedded::Shared::PaymentMethodBankAccount]), type: T.nilable(::GustoEmbedded::Shared::EmployeePaymentMethodType), version: T.nilable(::String)).void }
+      sig { params(split_by: T.nilable(::GustoEmbedded::Shared::EmployeePaymentMethodSplitBy), splits: T.nilable(T::Array[::GustoEmbedded::Shared::PaymentMethodBankAccount]), type: T.nilable(::GustoEmbedded::Shared::EmployeePaymentMethodType), version: T.nilable(::String)).void }
       def initialize(split_by: nil, splits: nil, type: nil, version: nil)
         @split_by = split_by
         @splits = splits

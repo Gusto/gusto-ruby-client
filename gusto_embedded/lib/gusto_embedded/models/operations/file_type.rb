@@ -12,6 +12,7 @@ module GustoEmbedded
       enums do
         CSV = new('csv')
         JSON = new('json')
+        PDF = new('pdf')
       end
     end
   end

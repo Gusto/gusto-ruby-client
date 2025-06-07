@@ -25,6 +25,8 @@ module GustoEmbedded
       field :created_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('created_at') } }
       # Specifies if the location is the company's filing address. Only included if the location belongs to a company.
       field :filing_address, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_address') } }
+      # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
+      field :inactive, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('inactive') } }
       # Specifies if the location is the company's mailing address. Only included if the location belongs to a company.
       field :mailing_address, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mailing_address') } }
       # The phone number for the location. Required for company locations. Optional for employee locations.
@@ -43,8 +45,8 @@ module GustoEmbedded
       field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
 
 
-      sig { params(uuid: ::String, active: T.nilable(T::Boolean), city: T.nilable(::String), company_uuid: T.nilable(::String), country: T.nilable(::String), created_at: T.nilable(::String), filing_address: T.nilable(T::Boolean), mailing_address: T.nilable(T::Boolean), phone_number: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), updated_at: T.nilable(::String), version: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(uuid: nil, active: nil, city: nil, company_uuid: nil, country: nil, created_at: nil, filing_address: nil, mailing_address: nil, phone_number: nil, state: nil, street_1: nil, street_2: nil, updated_at: nil, version: nil, zip: nil)
+      sig { params(uuid: ::String, active: T.nilable(T::Boolean), city: T.nilable(::String), company_uuid: T.nilable(::String), country: T.nilable(::String), created_at: T.nilable(::String), filing_address: T.nilable(T::Boolean), inactive: T.nilable(T::Boolean), mailing_address: T.nilable(T::Boolean), phone_number: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), updated_at: T.nilable(::String), version: T.nilable(::String), zip: T.nilable(::String)).void }
+      def initialize(uuid: nil, active: nil, city: nil, company_uuid: nil, country: nil, created_at: nil, filing_address: nil, inactive: nil, mailing_address: nil, phone_number: nil, state: nil, street_1: nil, street_2: nil, updated_at: nil, version: nil, zip: nil)
         @uuid = uuid
         @active = active
         @city = city
@@ -52,6 +54,7 @@ module GustoEmbedded
         @country = country
         @created_at = created_at
         @filing_address = filing_address
+        @inactive = inactive
         @mailing_address = mailing_address
         @phone_number = phone_number
         @state = state

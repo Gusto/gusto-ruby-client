@@ -249,6 +249,7 @@ end
 * [update_onboarding_status](docs/sdks/contractors/README.md#update_onboarding_status) - Change the contractor's onboarding status
 * [get_address](docs/sdks/contractors/README.md#get_address) - Get a contractor address
 * [update_address](docs/sdks/contractors/README.md#update_address) - Update a contractor's address
+* [get_v1_companies_company_id_contractors_payment_details](docs/sdks/contractors/README.md#get_v1_companies_company_id_contractors_payment_details) - List contractor payment details
 
 ### [departments](docs/sdks/departments/README.md)
 
@@ -333,6 +334,7 @@ end
 
 * [list](docs/sdks/employees/README.md#list) - Get employees of a company
 * [create](docs/sdks/employees/README.md#create) - Create an employee
+* [get_v1_companies_company_id_employees_payment_details](docs/sdks/employees/README.md#get_v1_companies_company_id_employees_payment_details) - Get employee payment details for a company
 * [create_historical](docs/sdks/employees/README.md#create_historical) - Create a historical employee
 * [get](docs/sdks/employees/README.md#get) - Get an employee
 * [update](docs/sdks/employees/README.md#update) - Update an employee.
@@ -446,6 +448,7 @@ end
 ### [notifications](docs/sdks/notifications/README.md)
 
 * [get_details](docs/sdks/notifications/README.md#get_details) - Get a notification's details
+* [get_company_notifications](docs/sdks/notifications/README.md#get_company_notifications) - Get notifications for company
 
 ### [pay_schedules](docs/sdks/payschedules/README.md)
 
@@ -493,7 +496,8 @@ end
 ### [reports](docs/sdks/reports/README.md)
 
 * [create_custom](docs/sdks/reports/README.md#create_custom) - Create a custom report
-* [get](docs/sdks/reports/README.md#get) - Get a report
+* [post_payrolls_payroll_uuid_reports_general_ledger](docs/sdks/reports/README.md#post_payrolls_payroll_uuid_reports_general_ledger) - Create a general ledger report
+* [get_reports_request_uuid](docs/sdks/reports/README.md#get_reports_request_uuid) - Get a report
 * [get_template](docs/sdks/reports/README.md#get_template) - Get a report template
 
 ### [signatories](docs/sdks/signatories/README.md)
