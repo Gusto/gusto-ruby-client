@@ -11,13 +11,22 @@ module GustoEmbedded
     class PutV1EmployeesEmployeeIdStateTaxesRequestBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
+      # The payment method type. If type is Check, then split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
+      field :type, ::GustoEmbedded::Operations::Type, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::Type, false) } }
+      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+      # Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the last split amount must be nil to capture the remainder.
+      field :split_by, T.nilable(::GustoEmbedded::Operations::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::SplitBy, true) } }
 
-      field :states, T::Array[::GustoEmbedded::Operations::States], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('states') } }
+      field :splits, T.nilable(T::Array[::GustoEmbedded::Operations::Splits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
 
 
-      sig { params(states: T::Array[::GustoEmbedded::Operations::States]).void }
-      def initialize(states: nil)
-        @states = states
+      sig { params(type: ::GustoEmbedded::Operations::Type, version: ::String, split_by: T.nilable(::GustoEmbedded::Operations::SplitBy), splits: T.nilable(T::Array[::GustoEmbedded::Operations::Splits])).void }
+      def initialize(type: nil, version: nil, split_by: nil, splits: nil)
+        @type = type
+        @version = version
+        @split_by = split_by
+        @splits = splits
       end
     end
   end

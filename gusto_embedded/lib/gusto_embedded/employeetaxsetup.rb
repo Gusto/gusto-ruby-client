@@ -127,7 +127,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdStateTaxesResponse) }
+    sig { params(employee_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdStateTaxesHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdStateTaxesResponse) }
     def get_state_taxes(employee_uuid, x_gusto_api_version = nil)
       # get_state_taxes - Get an employee's state taxes
       # Get attributes relevant for an employee's state taxes.
@@ -175,17 +175,21 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeeStateTax])
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeeStateTaxesList])
           res.employee_state_taxes_list = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
     end
 
 
-    sig { params(employee_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesResponse) }
+    sig { params(employee_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesResponse) }
     def update_state_taxes(employee_uuid, request_body, x_gusto_api_version = nil)
       # update_state_taxes - Update an employee's state taxes
       # Update attributes relevant for an employee's state taxes.
@@ -193,6 +197,7 @@ module GustoEmbedded
       # As described for the GET endpoint, the answers must be supplied in the effective-dated format, but currently only a single answer will be accepted - `valid_from` and `valid_up_to` must be `"2010-01-01"` and `null` respectively.
       # 
       # scope: `employee_state_taxes:write`
+      # 
       request = ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesRequest.new(
         
         employee_uuid: employee_uuid,
@@ -234,11 +239,10 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeeStateTax])
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeeStateTaxesList])
           res.employee_state_taxes_list = out
         end
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out

@@ -128,6 +128,56 @@ module GustoEmbedded
     end
 
 
+    sig { params(request: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsRequest)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsResponse) }
+    def get_v1_companies_company_id_employees_payment_details(request)
+      # get_v1_companies_company_id_employees_payment_details - Get employee payment details for a company
+      # Fetches payment details for employees in a given company. Results are paginated.
+      # 
+      # Use the `employee_uuid` query parameter to filter for a single employee.
+      # Use the `payroll_uuid` query parameter to filter for employees on a specific payroll.
+      # Providing both `employee_uuid` and `payroll_uuid` will result in a 400 error.
+      # An empty array is returned if the company has no employees or if no employees match the filter criteria.
+      # 
+      # The `encrypted_account_number` in the `splits` array is only visible if the `employee_payment_methods:read:account_number` scope is present.
+      # 
+      # Base scope: `employee_payment_methods:read`
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsRequest,
+        base_url,
+        '/v1/companies/{company_id}/employees/payment_details',
+        request
+      )
+      headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsRequest, request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        req.params = query_params
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeePaymentDetail])
+          res.employee_payment_details_list = out
+        end
+      elsif r.status == 404
+      end
+
+      res
+    end
+
+
     sig { params(company_uuid: ::String, historical_employee_body: ::GustoEmbedded::Shared::HistoricalEmployeeBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostV1HistoricalEmployeesResponse) }
     def create_historical(company_uuid, historical_employee_body, x_gusto_api_version = nil)
       # create_historical - Create a historical employee

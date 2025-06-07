@@ -1,0 +1,13 @@
+# ContractorPaymentDetailsList
+
+
+## Fields
+
+| Field                                                                      | Type                                                                       | Required                                                                   | Description                                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `contractor_uuid`                                                          | *::String*                                                                 | :heavy_check_mark:                                                         | N/A                                                                        |
+| `payment_method`                                                           | *::String*                                                                 | :heavy_check_mark:                                                         | N/A                                                                        |
+| `first_name`                                                               | *T.nilable(::String)*                                                      | :heavy_minus_sign:                                                         | N/A                                                                        |
+| `last_name`                                                                | *T.nilable(::String)*                                                      | :heavy_minus_sign:                                                         | N/A                                                                        |
+| `split_by`                                                                 | *T.nilable(::String)*                                                      | :heavy_minus_sign:                                                         | N/A                                                                        |
+| `splits`                                                                   | T::Array<[::GustoEmbedded::Shared::Splits](../../models/shared/splits.md)> | :heavy_minus_sign:                                                         | N/A                                                                        |

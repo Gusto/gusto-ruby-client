@@ -202,7 +202,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.employee_payment_method.update(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdPaymentMethodRequestBody.new(
   version: "<value>",
-  type: ::GustoEmbedded::Operations::Type::CHECK,
+  type: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdPaymentMethodType::CHECK,
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_payment_method.nil?
