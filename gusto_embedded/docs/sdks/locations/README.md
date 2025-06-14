@@ -158,7 +158,12 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.locations.update(location_id="<id>", request_body=::GustoEmbedded::Operations::PutV1LocationsLocationIdRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
+  phone_number: "8009360383",
+  street_1: "300 3rd Street",
+  street_2: "Apartment 318",
+  city: "San Francisco",
+  zip: "94107",
 ), x_gusto_api_version=::GustoEmbedded::Operations::HeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.location.nil?

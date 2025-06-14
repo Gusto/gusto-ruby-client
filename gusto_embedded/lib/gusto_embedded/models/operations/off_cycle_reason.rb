@@ -12,6 +12,7 @@ module GustoEmbedded
       enums do
         BONUS = new('Bonus')
         CORRECTION = new('Correction')
+        ADHOC = new('Adhoc')
         DISMISSED_EMPLOYEE = new('Dismissed employee')
         TRANSITION_FROM_OLD_PAY_SCHEDULE = new('Transition from old pay schedule')
       end

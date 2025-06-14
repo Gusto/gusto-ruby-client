@@ -10,8 +10,11 @@ module GustoEmbedded
 
     class GetV1CompaniesCompanyIdPayrollsQueryParamInclude < T::Enum
       enums do
-        TOTALS = new('totals')
+        BENEFITS = new('benefits')
+        DEDUCTIONS = new('deductions')
+        TAXES = new('taxes')
         PAYROLL_STATUS_META = new('payroll_status_meta')
+        TOTALS = new('totals')
         RISK_BLOCKERS = new('risk_blockers')
         REVERSALS = new('reversals')
       end

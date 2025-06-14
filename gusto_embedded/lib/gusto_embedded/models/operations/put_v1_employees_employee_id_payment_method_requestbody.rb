@@ -11,11 +11,11 @@ module GustoEmbedded
     class PutV1EmployeesEmployeeIdPaymentMethodRequestBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The payment method type. If type is Check, then split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
+      # The payment method type. If type is Check, then `split_by` and `splits` do not need to be populated. If type is Direct Deposit, `split_by` and `splits` are required.
       field :type, ::GustoEmbedded::Operations::Type, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::Type, false) } }
       # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
       field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the last split amount must be nil to capture the remainder.
+      # Describes how the payment will be split. If `split_by` is Percentage, then the `split` amounts must add up to exactly 100. If `split_by` is Amount, then the last `split` amount must be `null` to capture the remainder.
       field :split_by, T.nilable(::GustoEmbedded::Operations::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::SplitBy, true) } }
 
       field :splits, T.nilable(T::Array[::GustoEmbedded::Operations::Splits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }

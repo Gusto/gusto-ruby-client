@@ -19,75 +19,6 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsResponse) }
-    def create_off_cycle(company_id, request_body, x_gusto_api_version = nil)
-      # create_off_cycle - Create an off-cycle payroll
-      # Creates a new, unprocessed, off-cycle payroll.
-      # 
-      # ## `off_cycle_reason`
-      # By default:
-      # - External benefits and deductions will be included when the `off_cycle_reason` is set to `Correction`.
-      # - All benefits and deductions are blocked when the `off_cycle_reason` is set to `Bonus`.
-      # 
-      # These elections can be overridden with the `skip_regular_deductions` boolean.
-      # 
-      # scope: `payrolls:run`
-      request = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequest.new(
-        
-        company_id: company_id,
-        request_body: request_body,
-        x_gusto_api_version: x_gusto_api_version
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequest,
-        base_url,
-        '/v1/companies/{company_id}/payrolls',
-        request
-      )
-      headers = Utils.get_headers(request)
-      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
-      headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
-      headers['Accept'] = 'application/json'
-      headers['user-agent'] = @sdk_configuration.user_agent
-
-      r = @sdk_configuration.client.post(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-        if form
-          req.body = Utils.encode_form(form)
-        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-          req.body = URI.encode_www_form(data)
-        else
-          req.body = data
-        end
-      end
-
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
-
-      res = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
-      )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::PayrollPrepared)
-          res.payroll_prepared = out
-        end
-      elsif r.status == 404
-      elsif r.status == 422
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
-          res.unprocessable_entity_error_object = out
-        end
-      end
-
-      res
-    end
-
-
     sig { params(request: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsRequest)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsResponse) }
     def list(request)
       # list - Get all payrolls for a company
@@ -100,6 +31,7 @@ module GustoEmbedded
       # * end_date can be at most 3 months in the future and start_date and end_date can't be more than 1 year apart.
       # 
       # scope: `payrolls:read`
+      # 
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
@@ -127,10 +59,82 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::PayrollMinimal])
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::Payroll])
           res.payroll_list = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
+      end
+
+      res
+    end
+
+
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion), request_body: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequestBody)).returns(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsResponse) }
+    def create_off_cycle(company_id, x_gusto_api_version = nil, request_body = nil)
+      # create_off_cycle - Create an off-cycle payroll
+      # Creates a new, unprocessed, off-cycle payroll.
+      # 
+      # ## `off_cycle_reason`
+      # By default:
+      # - External benefits and deductions will be included when the `off_cycle_reason` is set to `Correction`.
+      # - All benefits and deductions are blocked when the `off_cycle_reason` is set to `Bonus`.
+      # 
+      # These elections can be overridden with the `skip_regular_deductions` boolean.
+      # 
+      # scope: `payrolls:run`
+      # 
+      request = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequest.new(
+        
+        company_id: company_id,
+        x_gusto_api_version: x_gusto_api_version,
+        request_body: request_body
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequest,
+        base_url,
+        '/v1/companies/{company_id}/payrolls',
+        request
+      )
+      headers = Utils.get_headers(request)
+      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers['content-type'] = req_content_type
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.post(url) do |req|
+        req.headers = headers
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+        if form
+          req.body = Utils.encode_form(form)
+        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+          req.body = URI.encode_www_form(data)
+        else
+          req.body = data
+        end
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::PayrollPrepared)
+          res.payroll_prepared = out
+        end
+      elsif [404, 422].include?(r.status)
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
@@ -358,8 +362,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareResponse) }
-    def prepare(company_id, payroll_id, x_gusto_api_version = nil)
+    sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader), request_body: T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody)).returns(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareResponse) }
+    def prepare(company_id, payroll_id, x_gusto_api_version = nil, request_body = nil)
       # prepare - Prepare a payroll for update
       # This endpoint will build the payroll and get it ready for making updates. This includes adding/removing eligible employees from the Payroll and updating the check_date, payroll_deadline, and payroll_status_meta dates & times.
       # 
@@ -372,7 +376,8 @@ module GustoEmbedded
         
         company_id: company_id,
         payroll_id: payroll_id,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        request_body: request_body
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -383,6 +388,8 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
+      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers['content-type'] = req_content_type
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -390,6 +397,13 @@ module GustoEmbedded
         req.headers = headers
         security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
         Utils.configure_request_security(req, security) if !security.nil?
+        if form
+          req.body = Utils.encode_form(form)
+        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+          req.body = URI.encode_www_form(data)
+        else
+          req.body = data
+        end
       end
 
       content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
@@ -409,7 +423,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(payroll_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidResponse) }
+    sig { params(payroll_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidResponse) }
     def get_receipt(payroll_uuid, x_gusto_api_version = nil)
       # get_receipt - Get a single payroll receipt
       # Returns a payroll receipt.
@@ -420,6 +434,7 @@ module GustoEmbedded
       # * If no data has yet be inserted for a given field, it defaults to “0.00” (for fixed amounts).
       # 
       # scope: `payrolls:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidRequest.new(
         
         payroll_uuid: payroll_uuid,
@@ -454,6 +469,10 @@ module GustoEmbedded
           res.payroll_receipt = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
