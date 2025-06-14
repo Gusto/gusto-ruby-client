@@ -7,5 +7,5 @@ The employee's compensation payment method.
 
 | Name             | Value            |
 | ---------------- | ---------------- |
-| `CHECK`          | Check            |
 | `DIRECT_DEPOSIT` | Direct Deposit   |
+| `CHECK`          | Check            |

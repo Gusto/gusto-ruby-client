@@ -72,5 +72,48 @@ module GustoEmbedded
 
       res
     end
+
+
+    sig { params(request: T.nilable(::GustoEmbedded::Operations::GetCompanyNotificationsRequest)).returns(::GustoEmbedded::Operations::GetCompanyNotificationsResponse) }
+    def get_company_notifications(request)
+      # get_company_notifications - Get notifications for company
+      # Returns all notifications relevant for the given company.
+      # 
+      # scope: `notifications:read`
+      # 
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::GetCompanyNotificationsRequest,
+        base_url,
+        '/v1/companies/{company_uuid}/notifications',
+        request
+      )
+      headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetCompanyNotificationsRequest, request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        req.params = query_params
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::GetCompanyNotificationsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::Notification])
+          res.notifications_list = out
+        end
+      end
+
+      res
+    end
   end
 end

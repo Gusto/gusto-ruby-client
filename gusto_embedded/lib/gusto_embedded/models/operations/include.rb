@@ -13,6 +13,8 @@ module GustoEmbedded
         CUSTOM_FIELDS = new('custom_fields')
         ALL_COMPENSATIONS = new('all_compensations')
         COMPANY_NAME = new('company_name')
+        CURRENT_HOME_ADDRESS = new('current_home_address')
+        ALL_HOME_ADDRESSES = new('all_home_addresses')
       end
     end
   end
