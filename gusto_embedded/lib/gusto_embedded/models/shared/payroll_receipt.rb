@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Shared
   
-    # Example response
+
     class PayrollReceipt < ::Crystalline::FieldAugmented
       extend T::Sig
 

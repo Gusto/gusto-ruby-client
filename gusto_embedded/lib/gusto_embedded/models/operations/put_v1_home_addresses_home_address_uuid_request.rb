@@ -16,10 +16,10 @@ module GustoEmbedded
 
       field :request_body, ::GustoEmbedded::Operations::PutV1HomeAddressesHomeAddressUuidRequestBody, { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::PutV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(home_address_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1HomeAddressesHomeAddressUuidRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      sig { params(home_address_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1HomeAddressesHomeAddressUuidRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PutV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion)).void }
       def initialize(home_address_uuid: nil, request_body: nil, x_gusto_api_version: nil)
         @home_address_uuid = home_address_uuid
         @request_body = request_body

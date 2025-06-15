@@ -21,8 +21,8 @@ module GustoEmbedded
       field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
       # The employee's net pay. Net pay paid by check is available for reference but is not included in the `["totals"]["net_pay_debit"]` amount.
       field :net_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
-      # The employee's compensation payment method.\n\n`Check` `Direct Deposit`
-      field :payment_method, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method') } }
+      # The employee's compensation payment method.
+      field :payment_method, T.nilable(::GustoEmbedded::Shared::PayrollReceiptPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollReceiptPaymentMethod, true) } }
       # The total garnishments for the pay period.
       field :total_garnishments, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_garnishments') } }
       # The total reimbursement for the pay period.
@@ -31,7 +31,7 @@ module GustoEmbedded
       field :total_tax, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_tax') } }
 
 
-      sig { params(child_support_garnishment: T.nilable(::String), employee_first_name: T.nilable(::String), employee_last_name: T.nilable(::String), employee_uuid: T.nilable(::String), net_pay: T.nilable(::String), payment_method: T.nilable(::String), total_garnishments: T.nilable(::String), total_reimbursement: T.nilable(::String), total_tax: T.nilable(::String)).void }
+      sig { params(child_support_garnishment: T.nilable(::String), employee_first_name: T.nilable(::String), employee_last_name: T.nilable(::String), employee_uuid: T.nilable(::String), net_pay: T.nilable(::String), payment_method: T.nilable(::GustoEmbedded::Shared::PayrollReceiptPaymentMethod), total_garnishments: T.nilable(::String), total_reimbursement: T.nilable(::String), total_tax: T.nilable(::String)).void }
       def initialize(child_support_garnishment: nil, employee_first_name: nil, employee_last_name: nil, employee_uuid: nil, net_pay: nil, payment_method: nil, total_garnishments: nil, total_reimbursement: nil, total_tax: nil)
         @child_support_garnishment = child_support_garnishment
         @employee_first_name = employee_first_name

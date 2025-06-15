@@ -26,16 +26,14 @@ module GustoEmbedded
       # The UUID of the contractor.
       field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
       # The payment method.
-      # 
-      # `Direct Deposit` `Check` `Historical Payment` `Correction Payment`
-      field :payment_method, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method') } }
+      field :payment_method, T.nilable(::GustoEmbedded::Shared::ContractorPaymentReceiptPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorPaymentReceiptPaymentMethod, true) } }
       # The reimbursement amount in the payment.
       field :reimbursement, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
       # The fixed wage of the payment, regardless of hours worked.
       field :wage, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
 
 
-      sig { params(bonus: T.nilable(::String), contractor_business_name: T.nilable(::String), contractor_first_name: T.nilable(::String), contractor_last_name: T.nilable(::String), contractor_type: T.nilable(::String), contractor_uuid: T.nilable(::String), payment_method: T.nilable(::String), reimbursement: T.nilable(::String), wage: T.nilable(::String)).void }
+      sig { params(bonus: T.nilable(::String), contractor_business_name: T.nilable(::String), contractor_first_name: T.nilable(::String), contractor_last_name: T.nilable(::String), contractor_type: T.nilable(::String), contractor_uuid: T.nilable(::String), payment_method: T.nilable(::GustoEmbedded::Shared::ContractorPaymentReceiptPaymentMethod), reimbursement: T.nilable(::String), wage: T.nilable(::String)).void }
       def initialize(bonus: nil, contractor_business_name: nil, contractor_first_name: nil, contractor_last_name: nil, contractor_type: nil, contractor_uuid: nil, payment_method: nil, reimbursement: nil, wage: nil)
         @bonus = bonus
         @contractor_business_name = contractor_business_name
