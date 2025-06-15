@@ -5,8 +5,8 @@
 
 ### Available Operations
 
-* [create_off_cycle](#create_off_cycle) - Create an off-cycle payroll
 * [list](#list) - Get all payrolls for a company
+* [create_off_cycle](#create_off_cycle) - Create an off-cycle payroll
 * [get_approved_reversals](#get_approved_reversals) - Get approved payroll reversals
 * [get](#get) - Get a single payroll
 * [update](#update) - Update a payroll by ID
@@ -23,57 +23,6 @@
 * [get_pay_stubs](#get_pay_stubs) - Get an employee's pay stubs
 * [generate_printable_checks](#generate_printable_checks) - Generate printable payroll checks (pdf)
 
-## create_off_cycle
-
-Creates a new, unprocessed, off-cycle payroll.
-
-## `off_cycle_reason`
-By default:
-- External benefits and deductions will be included when the `off_cycle_reason` is set to `Correction`.
-- All benefits and deductions are blocked when the `off_cycle_reason` is set to `Bonus`.
-
-These elections can be overridden with the `skip_regular_deductions` boolean.
-
-scope: `payrolls:run`
-
-### Example Usage
-
-```ruby
-require 'gusto_embedded_client'
-
-s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-      ),
-    )
-
-res = s.payrolls.create_off_cycle(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequestBody.new(
-  off_cycle: false,
-  off_cycle_reason: ::GustoEmbedded::Operations::OffCycleReason::CORRECTION,
-  start_date: "<value>",
-  end_date: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
-
-if ! res.payroll_prepared.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequestBody](../../models/operations/postv1companiescompanyidpayrollsrequestbody.md)                                                                           | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsResponse)](../../models/operations/postv1companiescompanyidpayrollsresponse.md)**
-
-
-
 ## list
 
 Returns a list of payrolls for a company. You can change the payrolls returned by updating the processing_status, payroll_types, start_date, & end_date params.
@@ -85,6 +34,7 @@ Notes:
 * end_date can be at most 3 months in the future and start_date and end_date can't be more than 1 year apart.
 
 scope: `payrolls:read`
+
 
 ### Example Usage
 
@@ -99,7 +49,9 @@ s = ::GustoEmbedded::Client.new(
 
 req = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsRequest.new(
   company_id: "<id>",
-  sort_order: ::GustoEmbedded::Shared::SortOrder::ASC,
+  start_date: "2020-01-31",
+  end_date: "2020-01-31",
+  sort_order: ::GustoEmbedded::Operations::SortOrder::ASC,
 )
 
 res = s.payrolls.list(req)
@@ -119,6 +71,58 @@ end
 ### Response
 
 **[T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsResponse)](../../models/operations/getv1companiescompanyidpayrollsresponse.md)**
+
+
+
+## create_off_cycle
+
+Creates a new, unprocessed, off-cycle payroll.
+
+## `off_cycle_reason`
+By default:
+- External benefits and deductions will be included when the `off_cycle_reason` is set to `Correction`.
+- All benefits and deductions are blocked when the `off_cycle_reason` is set to `Bonus`.
+
+These elections can be overridden with the `skip_regular_deductions` boolean.
+
+scope: `payrolls:run`
+
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded_client'
+
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
+
+res = s.payrolls.create_off_cycle(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequestBody.new(
+  off_cycle: false,
+  off_cycle_reason: ::GustoEmbedded::Operations::OffCycleReason::CORRECTION,
+  start_date: Date.parse("2025-03-25"),
+  end_date: Date.parse("2024-05-02"),
+))
+
+if ! res.payroll_prepared.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion)](../../models/operations/postv1companiescompanyidpayrollsheaderxgustoapiversion.md)                                          | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsRequestBody)](../../models/operations/postv1companiescompanyidpayrollsrequestbody.md)                                                                | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+
+### Response
+
+**[T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdPayrollsResponse)](../../models/operations/postv1companiescompanyidpayrollsresponse.md)**
 
 
 
@@ -321,7 +325,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.payrolls.prepare(company_id="<id>", payroll_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.payrolls.prepare(company_id="<id>", payroll_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody.new())
 
 if ! res.payroll_prepared.nil?
   # handle response
@@ -336,6 +340,7 @@ end
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
 | `payroll_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the payroll                                                                                                                                                                                                      |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody)](../../models/operations/putv1companiescompanyidpayrollspayrollidpreparerequestbody.md)                                  | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
@@ -354,6 +359,7 @@ Notes:
 
 scope: `payrolls:read`
 
+
 ### Example Usage
 
 ```ruby
@@ -365,7 +371,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.payrolls.get_receipt(payroll_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.payrolls.get_receipt(payroll_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.payroll_receipt.nil?
   # handle response
@@ -378,7 +384,7 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `payroll_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the payroll                                                                                                                                                                                                      |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidHeaderXGustoAPIVersion)](../../models/operations/getv1paymentreceiptspayrollspayrolluuidheaderxgustoapiversion.md)                            | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 

@@ -42,8 +42,8 @@ module GustoEmbedded
       # [for `account_number`] A value that precedes the value to be collected - useful for display, but should not be submitted as part of the value. E.g. some tax agencies use an account number that is a company's federal ein plus two digits. In that case the mask would be `##` and the prefix `XXXXX1234`.
       field :prefix, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('prefix') } }
       # [for `workers_compensation_rate`] The type of rate being collected. Either:
-      #  - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1%
-      #  - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr
+      #   - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1%
+      #   - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr
       # 
       field :rate_type, T.nilable(::GustoEmbedded::Shared::RateType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rate_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::RateType, true) } }
       # [for `workers_compensation_rate`] The industry risk class code for the rate being requested

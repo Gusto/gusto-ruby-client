@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Shared
   
-    # List of employee work addresses
+
     class EmployeeWorkAddress < ::Crystalline::FieldAugmented
       extend T::Sig
 

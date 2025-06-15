@@ -10,8 +10,8 @@ module GustoEmbedded
     # PayrollEmployeeCompensationsTypePaymentMethod - The employee's compensation payment method.
     class PayrollEmployeeCompensationsTypePaymentMethod < T::Enum
       enums do
-        CHECK = new('Check')
         DIRECT_DEPOSIT = new('Direct Deposit')
+        CHECK = new('Check')
       end
     end
   end

@@ -7,6 +7,7 @@
 
 * [list](#list) - Get employees of a company
 * [create](#create) - Create an employee
+* [get_v1_companies_company_id_employees_payment_details](#get_v1_companies_company_id_employees_payment_details) - Get employee payment details for a company
 * [create_historical](#create_historical) - Create a historical employee
 * [get](#get) - Get an employee
 * [update](#update) - Update an employee.
@@ -102,6 +103,54 @@ end
 
 
 
+## get_v1_companies_company_id_employees_payment_details
+
+Fetches payment details for employees in a given company. Results are paginated.
+
+Use the `employee_uuid` query parameter to filter for a single employee.
+Use the `payroll_uuid` query parameter to filter for employees on a specific payroll.
+Providing both `employee_uuid` and `payroll_uuid` will result in a 400 error.
+An empty array is returned if the company has no employees or if no employees match the filter criteria.
+
+The `encrypted_account_number` in the `splits` array is only visible if the `employee_payment_methods:read:account_number` scope is present.
+
+Base scope: `employee_payment_methods:read`
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded_client'
+
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
+
+req = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsRequest.new(
+  company_id: "<id>",
+)
+
+res = s.employees.get_v1_companies_company_id_employees_payment_details(req)
+
+if ! res.employee_payment_details_list.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                              | Type                                                                                                                                                                   | Required                                                                                                                                                               | Description                                                                                                                                                            |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                              | [::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsRequest](../../models/operations/getv1companiescompanyidemployeespaymentdetailsrequest.md) | :heavy_check_mark:                                                                                                                                                     | The request object to use for the request.                                                                                                                             |
+
+### Response
+
+**[T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsResponse)](../../models/operations/getv1companiescompanyidemployeespaymentdetailsresponse.md)**
+
+
+
 ## create_historical
 
 Create a historical employee, an employee that was previously dismissed from the company in the current year.
@@ -122,7 +171,7 @@ s = ::GustoEmbedded::Client.new(
 res = s.employees.create_historical(company_uuid="<id>", historical_employee_body=::GustoEmbedded::Shared::HistoricalEmployeeBody.new(
   first_name: "Cortez",
   last_name: "Dickens",
-  date_of_birth: "1996-02-11",
+  date_of_birth: "1996-03-12",
   ssn: "<value>",
   work_address: ::GustoEmbedded::Shared::WorkAddress.new(),
   home_address: ::GustoEmbedded::Shared::HistoricalEmployeeBodyHomeAddress.new(
@@ -174,7 +223,7 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.employees.get(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1EmployeesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, include=[
-  ::GustoEmbedded::Operations::QueryParamInclude::COMPANY_NAME,
+  ::GustoEmbedded::Operations::QueryParamInclude::CURRENT_HOME_ADDRESS,
 ])
 
 if ! res.employee.nil?
@@ -216,7 +265,14 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.employees.update(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
+  first_name: "Weezy",
+  middle_initial: "F",
+  last_name: "Baby",
+  email: "tunechi@cashmoneyrecords.com",
+  date_of_birth: "1991-01-31",
+  ssn: "824920233",
+  work_email: "new.partner.work@example.com",
 ), x_gusto_api_version="<value>")
 
 if ! res.employee.nil?
@@ -462,7 +518,7 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.employees.update_onboarding_status(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingStatusRequestBody.new(
-  onboarding_status: ::GustoEmbedded::Operations::OnboardingStatus::ADMIN_ONBOARDING_INCOMPLETE,
+  onboarding_status: ::GustoEmbedded::Operations::OnboardingStatus::SELF_ONBOARDING_INVITED_STARTED,
 ), x_gusto_api_version=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingStatusHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_onboarding_status.nil?
