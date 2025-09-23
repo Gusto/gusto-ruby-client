@@ -3,7 +3,9 @@
 
 ## Fields
 
-| Field                 | Type                  | Required              | Description           |
-| --------------------- | --------------------- | --------------------- | --------------------- |
-| `name`                | *T.nilable(::String)* | :heavy_minus_sign:    | N/A                   |
-| `amount`              | *T.nilable(::Float)*  | :heavy_minus_sign:    | N/A                   |
+| Field                                                                               | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `name`                                                                              | *T.nilable(::String)*                                                               | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `amount`                                                                            | *T.nilable(::Float)*                                                                | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `amount_type`                                                                       | [T.nilable(::GustoEmbedded::Shared::AmountType)](../../models/shared/amounttype.md) | :heavy_minus_sign:                                                                  | N/A                                                                                 |
+| `uuid`                                                                              | *T.nilable(::String)*                                                               | :heavy_minus_sign:                                                                  | N/A                                                                                 |

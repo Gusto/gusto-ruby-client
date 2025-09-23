@@ -25,10 +25,10 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.historical_employees.update(company_uuid="<id>", historical_employee_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1HistoricalEmployeesRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
   first_name: "Ruthe",
   last_name: "Hegmann",
-  date_of_birth: "2006-10-31",
+  date_of_birth: "2007-03-10",
   ssn: "<value>",
   work_address: ::GustoEmbedded::Operations::WorkAddress.new(),
   home_address: ::GustoEmbedded::Operations::PutV1HistoricalEmployeesHomeAddress.new(

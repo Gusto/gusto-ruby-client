@@ -11,51 +11,51 @@ module GustoEmbedded
     class PayrollEmployeeCompensationsType < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # An array of employee benefits for the pay period. Benefits are only included for processed payroll when the include parameter is present.
-      field :benefits, T.nilable(T::Array[::GustoEmbedded::Shared::Benefits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
       # The employee's check amount, equal to net_pay + reimbursements. This value is only available for processed payrolls.
       field :check_amount, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
-      # An array of employee deductions for the pay period. Deductions are only included for processed payroll when the include parameter is present.
-      field :deductions, T.nilable(T::Array[::GustoEmbedded::Shared::Deductions]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deductions') } }
       # The UUID of the employee.
       field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
       # This employee will be excluded (skipped) from payroll calculation and will not be paid for the payroll. Cancelling a payroll would reset all employees' excluded back to false.
       field :excluded, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('excluded') } }
+      # The first name of the employee.
+      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
       # An array of fixed compensations for the employee. Fixed compensations include tips, bonuses, and one time reimbursements. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned.
       field :fixed_compensations, T.nilable(T::Array[::GustoEmbedded::Shared::FixedCompensations]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_compensations') } }
       # The employee's gross pay, equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income. This value is only available for processed payrolls.
       field :gross_pay, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
       # An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned.
       field :hourly_compensations, T.nilable(T::Array[::GustoEmbedded::Shared::HourlyCompensations]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_compensations') } }
+      # The last name of the employee.
+      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
       # Custom text that will be printed as a personal note to the employee on a paystub.
       field :memo, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('memo') } }
       # The employee's net pay, equal to gross_pay - employee taxes - employee deductions or garnishments - cash tips. This value is only available for processed payrolls.
       field :net_pay, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
       # An array of all paid time off the employee is eligible for this pay period.
       field :paid_time_off, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollEmployeeCompensationsTypePaidTimeOff]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_time_off') } }
-      # The employee's compensation payment method.
+      # The employee's compensation payment method. Is *only* `Historical` when retrieving external payrolls initially run outside of Gusto, then put into Gusto.
       field :payment_method, T.nilable(::GustoEmbedded::Shared::PayrollEmployeeCompensationsTypePaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollEmployeeCompensationsTypePaymentMethod, true) } }
-      # An array of employer and employee taxes for the pay period. Only included for processed or calculated payrolls when `taxes` is present in the `include` parameter.
-      field :taxes, T.nilable(T::Array[::GustoEmbedded::Shared::Taxes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
+      # The preferred first name of the employee.
+      field :preferred_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
       # The current version of this employee compensation. This field is only available for prepared payrolls. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
       field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
 
-      sig { params(benefits: T.nilable(T::Array[::GustoEmbedded::Shared::Benefits]), check_amount: T.nilable(::Float), deductions: T.nilable(T::Array[::GustoEmbedded::Shared::Deductions]), employee_uuid: T.nilable(::String), excluded: T.nilable(T::Boolean), fixed_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::FixedCompensations]), gross_pay: T.nilable(::Float), hourly_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::HourlyCompensations]), memo: T.nilable(::String), net_pay: T.nilable(::Float), paid_time_off: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollEmployeeCompensationsTypePaidTimeOff]), payment_method: T.nilable(::GustoEmbedded::Shared::PayrollEmployeeCompensationsTypePaymentMethod), taxes: T.nilable(T::Array[::GustoEmbedded::Shared::Taxes]), version: T.nilable(::String)).void }
-      def initialize(benefits: nil, check_amount: nil, deductions: nil, employee_uuid: nil, excluded: nil, fixed_compensations: nil, gross_pay: nil, hourly_compensations: nil, memo: nil, net_pay: nil, paid_time_off: nil, payment_method: nil, taxes: nil, version: nil)
-        @benefits = benefits
+      sig { params(check_amount: T.nilable(::Float), employee_uuid: T.nilable(::String), excluded: T.nilable(T::Boolean), first_name: T.nilable(::String), fixed_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::FixedCompensations]), gross_pay: T.nilable(::Float), hourly_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::HourlyCompensations]), last_name: T.nilable(::String), memo: T.nilable(::String), net_pay: T.nilable(::Float), paid_time_off: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollEmployeeCompensationsTypePaidTimeOff]), payment_method: T.nilable(::GustoEmbedded::Shared::PayrollEmployeeCompensationsTypePaymentMethod), preferred_first_name: T.nilable(::String), version: T.nilable(::String)).void }
+      def initialize(check_amount: nil, employee_uuid: nil, excluded: nil, first_name: nil, fixed_compensations: nil, gross_pay: nil, hourly_compensations: nil, last_name: nil, memo: nil, net_pay: nil, paid_time_off: nil, payment_method: nil, preferred_first_name: nil, version: nil)
         @check_amount = check_amount
-        @deductions = deductions
         @employee_uuid = employee_uuid
         @excluded = excluded
+        @first_name = first_name
         @fixed_compensations = fixed_compensations
         @gross_pay = gross_pay
         @hourly_compensations = hourly_compensations
+        @last_name = last_name
         @memo = memo
         @net_pay = net_pay
         @paid_time_off = paid_time_off
         @payment_method = payment_method
-        @taxes = taxes
+        @preferred_first_name = preferred_first_name
         @version = version
       end
     end

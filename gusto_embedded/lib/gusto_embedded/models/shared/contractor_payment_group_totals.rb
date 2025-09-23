@@ -13,6 +13,8 @@ module GustoEmbedded
 
       # The total amount for the group of contractor payments.
       field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+      # The total check amount for the group of contractor payments.
+      field :check_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
       # The total debit amount for the group of contractor payments. Sum of wage & reimbursement amount.
       field :debit_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('debit_amount') } }
       # The total reimbursement amount for the group of contractor payments.
@@ -21,9 +23,10 @@ module GustoEmbedded
       field :wage_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_amount') } }
 
 
-      sig { params(amount: T.nilable(::String), debit_amount: T.nilable(::String), reimbursement_amount: T.nilable(::String), wage_amount: T.nilable(::String)).void }
-      def initialize(amount: nil, debit_amount: nil, reimbursement_amount: nil, wage_amount: nil)
+      sig { params(amount: T.nilable(::String), check_amount: T.nilable(::String), debit_amount: T.nilable(::String), reimbursement_amount: T.nilable(::String), wage_amount: T.nilable(::String)).void }
+      def initialize(amount: nil, check_amount: nil, debit_amount: nil, reimbursement_amount: nil, wage_amount: nil)
         @amount = amount
+        @check_amount = check_amount
         @debit_amount = debit_amount
         @reimbursement_amount = reimbursement_amount
         @wage_amount = wage_amount

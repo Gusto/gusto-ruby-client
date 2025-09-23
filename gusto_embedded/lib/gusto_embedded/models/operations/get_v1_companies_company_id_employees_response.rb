@@ -18,17 +18,17 @@ module GustoEmbedded
       # HTTP response status code for this operation
       field :status_code, ::Integer
       # successful
-      field :employees, T.nilable(T::Array[::GustoEmbedded::Shared::Employee])
+      field :show_employees, T.nilable(T::Array[T::Hash[Symbol, ::Object]])
       # not found
       field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, employees: T.nilable(T::Array[::GustoEmbedded::Shared::Employee]), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, employees: nil, unprocessable_entity_error_object: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, show_employees: T.nilable(T::Array[T::Hash[Symbol, ::Object]]), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, show_employees: nil, unprocessable_entity_error_object: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
-        @employees = employees
+        @show_employees = show_employees
         @unprocessable_entity_error_object = unprocessable_entity_error_object
       end
     end

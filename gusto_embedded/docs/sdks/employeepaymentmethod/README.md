@@ -34,7 +34,7 @@ res = s.employee_payment_method.create(employee_id="<id>", request_body=::GustoE
   name: "<value>",
   routing_number: "<value>",
   account_number: "<value>",
-  account_type: ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdBankAccountsAccountType::CHECKING,
+  account_type: ::GustoEmbedded::Operations::AccountType::CHECKING,
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.employee_bank_account.nil?

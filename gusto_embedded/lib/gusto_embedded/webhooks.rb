@@ -395,5 +395,44 @@ module GustoEmbedded
 
       res
     end
+
+
+    sig { params(security: ::GustoEmbedded::Operations::GetV1WebhooksHealthCheckSecurity, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1WebhooksHealthCheckHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1WebhooksHealthCheckResponse) }
+    def get_v1_webhooks_health_check(security, x_gusto_api_version = nil)
+      # get_v1_webhooks_health_check - Get the webhooks health status
+      # Returns the health status (`healthy`, `unhealthy`, or `unknown`) of the webhooks system based on the last ten minutes of activity.
+      # 
+      # scope: `webhook_subscriptions:read`
+      # 
+      request = ::GustoEmbedded::Operations::GetV1WebhooksHealthCheckRequest.new(
+        
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = "#{base_url}/v1/webhooks/health_check"
+      headers = Utils.get_headers(request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        Utils.configure_request_security(req, security) if !security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::GetV1WebhooksHealthCheckResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::WebhooksHealthCheckStatus)
+          res.webhooks_health_check_status = out
+        end
+      end
+
+      res
+    end
   end
 end

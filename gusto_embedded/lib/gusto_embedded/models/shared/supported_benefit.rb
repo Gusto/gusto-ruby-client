@@ -29,12 +29,14 @@ module GustoEmbedded
       field :pretax, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pretax') } }
       # Whether the benefit is associated with retirement planning.
       field :retirement, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('retirement') } }
+      # Whether this benefit can be written (created, updated, or destroyed). Returns true if the benefit type is permitted for the application, false otherwise.
+      field :writable_by_application, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('writable_by_application') } }
       # Whether the benefit has a government mandated yearly limit. If the benefit has a government mandated yearly limit, employees cannot be added to more than one benefit of this type.
       field :yearly_limit, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('yearly_limit') } }
 
 
-      sig { params(benefit_type: T.nilable(::Integer), category: T.nilable(::String), description: T.nilable(::String), healthcare: T.nilable(T::Boolean), imputed: T.nilable(T::Boolean), name: T.nilable(::String), posttax: T.nilable(T::Boolean), pretax: T.nilable(T::Boolean), retirement: T.nilable(T::Boolean), yearly_limit: T.nilable(T::Boolean)).void }
-      def initialize(benefit_type: nil, category: nil, description: nil, healthcare: nil, imputed: nil, name: nil, posttax: nil, pretax: nil, retirement: nil, yearly_limit: nil)
+      sig { params(benefit_type: T.nilable(::Integer), category: T.nilable(::String), description: T.nilable(::String), healthcare: T.nilable(T::Boolean), imputed: T.nilable(T::Boolean), name: T.nilable(::String), posttax: T.nilable(T::Boolean), pretax: T.nilable(T::Boolean), retirement: T.nilable(T::Boolean), writable_by_application: T.nilable(T::Boolean), yearly_limit: T.nilable(T::Boolean)).void }
+      def initialize(benefit_type: nil, category: nil, description: nil, healthcare: nil, imputed: nil, name: nil, posttax: nil, pretax: nil, retirement: nil, writable_by_application: nil, yearly_limit: nil)
         @benefit_type = benefit_type
         @category = category
         @description = description
@@ -44,6 +46,7 @@ module GustoEmbedded
         @posttax = posttax
         @pretax = pretax
         @retirement = retirement
+        @writable_by_application = writable_by_application
         @yearly_limit = yearly_limit
       end
     end

@@ -17,17 +17,20 @@ module GustoEmbedded
       field :description, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
 
       field :input_question_format, ::GustoEmbedded::Shared::EmployeeStateTaxInputQuestionFormat, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('input_question_format') } }
+
+      field :is_question_for_admin_only, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('is_question_for_admin_only') } }
       # A unique identifier of the question (for the given state) - used for updating the answer.
       field :key, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
       # A short title for the question
       field :label, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
 
 
-      sig { params(answers: T::Array[::GustoEmbedded::Shared::EmployeeStateTaxAnswer], description: ::String, input_question_format: ::GustoEmbedded::Shared::EmployeeStateTaxInputQuestionFormat, key: ::String, label: ::String).void }
-      def initialize(answers: nil, description: nil, input_question_format: nil, key: nil, label: nil)
+      sig { params(answers: T::Array[::GustoEmbedded::Shared::EmployeeStateTaxAnswer], description: ::String, input_question_format: ::GustoEmbedded::Shared::EmployeeStateTaxInputQuestionFormat, is_question_for_admin_only: T::Boolean, key: ::String, label: ::String).void }
+      def initialize(answers: nil, description: nil, input_question_format: nil, is_question_for_admin_only: nil, key: nil, label: nil)
         @answers = answers
         @description = description
         @input_question_format = input_question_format
+        @is_question_for_admin_only = is_question_for_admin_only
         @key = key
         @label = label
       end

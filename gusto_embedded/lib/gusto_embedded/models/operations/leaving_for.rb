@@ -7,15 +7,21 @@
 module GustoEmbedded
   module Operations
   
-    # LeavingFor - Which competitor the company is joining instead. Required if `reason` is `'switching_provider'`.
+    # LeavingFor - The competitor the company is switching to. Required if `reason` is `'switching_provider'`.
+    # 
+    # > 🚧 Switching to Gusto requires Customer Support
+    # > If `'gusto_com'` is selected, this change must be completed by Gusto Customer Support and cannot be performed via the API. This endpoint will return a 422 error in that case.
+    # 
     class LeavingFor < T::Enum
       enums do
-        APD = new('apd')
-        ADP_TOTAL_SOURCE = new('adp_total_source')
         ACCOUNTANT = new('accountant')
+        ADP = new('adp')
+        ADP_TOTAL_SOURCE = new('adp_total_source')
         BAMBOO_HR = new('bamboo_hr')
         BANK_OR_FINANCIAL_INSTITUTION = new('bank_or_financial_institution')
         CHECK = new('check')
+        GUSTO_COM = new('gusto_com')
+        HOMEBASE = new('homebase')
         INSPERITY = new('insperity')
         INTUIT_OR_QUICKBOOKS = new('intuit_or_quickbooks')
         JUSTWORKS = new('justworks')
@@ -24,6 +30,7 @@ module GustoEmbedded
         ONPAY = new('onpay')
         OTHER = new('other')
         PATRIOT = new('patriot')
+        PAYCHEX = new('paychex')
         PAYCOM = new('paycom')
         PAYLOCITY = new('paylocity')
         RIPPLING = new('rippling')

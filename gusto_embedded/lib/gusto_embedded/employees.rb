@@ -53,8 +53,8 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::Employee])
-          res.employees = out
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[T::Hash[Symbol, ::Object]])
+          res.show_employees = out
         end
       elsif r.status == 404
         if Utils.match_content_type(content_type, 'application/json')
@@ -122,6 +122,56 @@ module GustoEmbedded
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
         end
+      end
+
+      res
+    end
+
+
+    sig { params(request: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsRequest)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsResponse) }
+    def get_v1_companies_company_id_employees_payment_details(request)
+      # get_v1_companies_company_id_employees_payment_details - Get employee payment details for a company
+      # Fetches payment details for employees in a given company. Results are paginated.
+      # 
+      # Use the `employee_uuid` query parameter to filter for a single employee.
+      # Use the `payroll_uuid` query parameter to filter for employees on a specific payroll.
+      # Providing both `employee_uuid` and `payroll_uuid` will result in a 400 error.
+      # An empty array is returned if the company has no employees or if no employees match the filter criteria.
+      # 
+      # The `encrypted_account_number` in the `splits` array is only visible if the `employee_payment_methods:read:account_number` scope is present.
+      # 
+      # Base scope: `employee_payment_methods:read`
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsRequest,
+        base_url,
+        '/v1/companies/{company_id}/employees/payment_details',
+        request
+      )
+      headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsRequest, request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        req.params = query_params
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesPaymentDetailsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::EmployeePaymentDetail])
+          res.employee_payment_details_list = out
+        end
+      elsif r.status == 404
       end
 
       res
@@ -234,13 +284,17 @@ module GustoEmbedded
           res.employee = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
     end
 
 
-    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesRequestBody, x_gusto_api_version: T.nilable(::String)).returns(::GustoEmbedded::Operations::PutV1EmployeesResponse) }
+    sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PutV1EmployeesHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PutV1EmployeesResponse) }
     def update(employee_id, request_body, x_gusto_api_version = nil)
       # update - Update an employee.
       # Update an employee.
@@ -531,6 +585,10 @@ module GustoEmbedded
           res.employee_onboarding_status = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res

@@ -13,31 +13,37 @@ module GustoEmbedded
 
       # The UUID of the company
       field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
-      # Include the requested attribute(s) in each employee response, multiple options are comma separated. Available options:
-      # - all_compensations: Include all effective dated compensations for each job instead of only the current compensation
-      # - custom_fields: Include employees' custom fields
-      # 
+      # Include the requested attribute(s) in each employee response. Multiple options are comma separated.
       field :include, T.nilable(T::Array[::GustoEmbedded::Operations::Include]), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
+      # Filters employees by those who have completed onboarding
+      field :onboarded, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'onboarded', 'style': 'form', 'explode': true } }
       # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
       field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
       # Number of objects per page. For majority of endpoints will default to 25
       field :per, T.nilable(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
       # A string to search for in the object's names
       field :search_term, T.nilable(::String), { 'query_param': { 'field_name': 'search_term', 'style': 'form', 'explode': true } }
-      # Filters employees by the provided boolean
+      # Filters employees by those who have been or are scheduled to be terminated
       field :terminated, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'terminated', 'style': 'form', 'explode': true } }
+      # Filters employees by those who have been terminated and whose termination is in effect today (excludes active and scheduled to be terminated)
+      field :terminated_today, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'terminated_today', 'style': 'form', 'explode': true } }
+      # Optional subset of employees to fetch.
+      field :uuids, T.nilable(T::Array[::String]), { 'query_param': { 'field_name': 'uuids', 'style': 'form', 'explode': false } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(company_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::Include]), page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), terminated: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion)).void }
-      def initialize(company_id: nil, include: nil, page: nil, per: nil, search_term: nil, terminated: nil, x_gusto_api_version: nil)
+      sig { params(company_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::Include]), onboarded: T.nilable(T::Boolean), page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), terminated: T.nilable(T::Boolean), terminated_today: T.nilable(T::Boolean), uuids: T.nilable(T::Array[::String]), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion)).void }
+      def initialize(company_id: nil, include: nil, onboarded: nil, page: nil, per: nil, search_term: nil, terminated: nil, terminated_today: nil, uuids: nil, x_gusto_api_version: nil)
         @company_id = company_id
         @include = include
+        @onboarded = onboarded
         @page = page
         @per = per
         @search_term = search_term
         @terminated = terminated
+        @terminated_today = terminated_today
+        @uuids = uuids
         @x_gusto_api_version = x_gusto_api_version
       end
     end

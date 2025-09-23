@@ -13,18 +13,24 @@ module GustoEmbedded
 
       # Company uuid
       field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+      # Blockers preventing the company from earning fast ACH payments
+      field :earned_fast_ach_blockers, T.nilable(T::Array[::GustoEmbedded::Shared::EarnedFastAchBlockers]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earned_fast_ach_blockers') } }
       # Payment limit for 1-day or 2-day payroll
       field :fast_payment_limit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fast_payment_limit') } }
+      # Whether the company is configured to use the partner-owned disbursement payment rail
+      field :partner_owned_disbursement, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
       # Partner uuid
       field :partner_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_uuid') } }
       # Payment speed for 1-day, 2-day, 4-day
       field :payment_speed, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_speed') } }
 
 
-      sig { params(company_uuid: T.nilable(::String), fast_payment_limit: T.nilable(::String), partner_uuid: T.nilable(::String), payment_speed: T.nilable(::String)).void }
-      def initialize(company_uuid: nil, fast_payment_limit: nil, partner_uuid: nil, payment_speed: nil)
+      sig { params(company_uuid: T.nilable(::String), earned_fast_ach_blockers: T.nilable(T::Array[::GustoEmbedded::Shared::EarnedFastAchBlockers]), fast_payment_limit: T.nilable(::String), partner_owned_disbursement: T.nilable(T::Boolean), partner_uuid: T.nilable(::String), payment_speed: T.nilable(::String)).void }
+      def initialize(company_uuid: nil, earned_fast_ach_blockers: nil, fast_payment_limit: nil, partner_owned_disbursement: nil, partner_uuid: nil, payment_speed: nil)
         @company_uuid = company_uuid
+        @earned_fast_ach_blockers = earned_fast_ach_blockers
         @fast_payment_limit = fast_payment_limit
+        @partner_owned_disbursement = partner_owned_disbursement
         @partner_uuid = partner_uuid
         @payment_speed = payment_speed
       end

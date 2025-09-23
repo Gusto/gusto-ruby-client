@@ -17,12 +17,9 @@ module GustoEmbedded
       field :raw_response, ::Faraday::Response
       # HTTP response status code for this operation
       field :status_code, ::Integer
-      # A prepared payroll
+      # successful
       field :payroll_prepared, T.nilable(::GustoEmbedded::Shared::PayrollPrepared)
-      # Unprocessable Entity 
-      #   
-      # This may happen when the body of your request contains errors such as `invalid_attribute_value`, or the request fails due to an `invalid_operation`. See the [Errors Categories](https://docs.gusto.com/embedded-payroll/docs/error-categories) guide for more details.
-      # 
+      # not found
       field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
 
 
