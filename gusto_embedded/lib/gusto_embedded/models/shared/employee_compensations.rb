@@ -11,37 +11,61 @@ module GustoEmbedded
     class EmployeeCompensations < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The total child support garnishment for the pay period.
-      field :child_support_garnishment, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support_garnishment') } }
-      # The first name of the employee.
-      field :employee_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_first_name') } }
-      # The last name of the employee.
-      field :employee_last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_last_name') } }
+      # An array of employee benefits for the pay period. Benefits are only included for processed payroll when the include parameter is present.
+      field :benefits, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowBenefits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
+      # The employee's check amount, equal to net_pay + reimbursements. This value is only available for processed payrolls.
+      field :check_amount, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
+      # An array of employee deductions for the pay period.
+      field :deductions, T.nilable(T::Array[::GustoEmbedded::Shared::Deductions]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deductions') } }
       # The UUID of the employee.
       field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-      # The employee's net pay. Net pay paid by check is available for reference but is not included in the `["totals"]["net_pay_debit"]` amount.
-      field :net_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
-      # The employee's compensation payment method.\n\n`Check` `Direct Deposit`
-      field :payment_method, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method') } }
-      # The total garnishments for the pay period.
-      field :total_garnishments, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_garnishments') } }
-      # The total reimbursement for the pay period.
-      field :total_reimbursement, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_reimbursement') } }
-      # The total of employer and employee taxes for the pay period.
-      field :total_tax, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_tax') } }
+      # This employee will be excluded (skipped) from payroll calculation and will not be paid for the payroll. Cancelling a payroll would reset all employees' excluded back to false.
+      field :excluded, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('excluded') } }
+      # The first name of the employee.
+      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+      # An array of fixed compensations for the employee. Fixed compensations include tips, bonuses, and one time reimbursements. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned.
+      field :fixed_compensations, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowFixedCompensations]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_compensations') } }
+      # The employee's gross pay, equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income. This value is only available for processed payrolls.
+      field :gross_pay, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
+      # An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned.
+      field :hourly_compensations, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowHourlyCompensations]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_compensations') } }
+      # The last name of the employee.
+      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+      # Custom text that will be printed as a personal note to the employee on a paystub.
+      field :memo, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('memo') } }
+      # The employee's net pay, equal to gross_pay - employee taxes - employee deductions or garnishments - cash tips. This value is only available for processed payrolls.
+      field :net_pay, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
+      # An array of all paid time off the employee is eligible for this pay period.
+      field :paid_time_off, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowPaidTimeOff]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_time_off') } }
+      # The employee's compensation payment method. Is *only* `Historical` when retrieving external payrolls initially run outside of Gusto, then put into Gusto.
+      field :payment_method, T.nilable(::GustoEmbedded::Shared::PayrollShowPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollShowPaymentMethod, true) } }
+      # The preferred first name of the employee.
+      field :preferred_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
+      # An array of employer and employee taxes for the pay period. Only included for processed or calculated payrolls when `taxes` is present in the `include` parameter.
+      field :taxes, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowTaxes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
+      # The current version of this employee compensation. This field is only available for prepared payrolls. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
 
-      sig { params(child_support_garnishment: T.nilable(::String), employee_first_name: T.nilable(::String), employee_last_name: T.nilable(::String), employee_uuid: T.nilable(::String), net_pay: T.nilable(::String), payment_method: T.nilable(::String), total_garnishments: T.nilable(::String), total_reimbursement: T.nilable(::String), total_tax: T.nilable(::String)).void }
-      def initialize(child_support_garnishment: nil, employee_first_name: nil, employee_last_name: nil, employee_uuid: nil, net_pay: nil, payment_method: nil, total_garnishments: nil, total_reimbursement: nil, total_tax: nil)
-        @child_support_garnishment = child_support_garnishment
-        @employee_first_name = employee_first_name
-        @employee_last_name = employee_last_name
+      sig { params(benefits: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowBenefits]), check_amount: T.nilable(::Float), deductions: T.nilable(T::Array[::GustoEmbedded::Shared::Deductions]), employee_uuid: T.nilable(::String), excluded: T.nilable(T::Boolean), first_name: T.nilable(::String), fixed_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowFixedCompensations]), gross_pay: T.nilable(::Float), hourly_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowHourlyCompensations]), last_name: T.nilable(::String), memo: T.nilable(::String), net_pay: T.nilable(::Float), paid_time_off: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowPaidTimeOff]), payment_method: T.nilable(::GustoEmbedded::Shared::PayrollShowPaymentMethod), preferred_first_name: T.nilable(::String), taxes: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollShowTaxes]), version: T.nilable(::String)).void }
+      def initialize(benefits: nil, check_amount: nil, deductions: nil, employee_uuid: nil, excluded: nil, first_name: nil, fixed_compensations: nil, gross_pay: nil, hourly_compensations: nil, last_name: nil, memo: nil, net_pay: nil, paid_time_off: nil, payment_method: nil, preferred_first_name: nil, taxes: nil, version: nil)
+        @benefits = benefits
+        @check_amount = check_amount
+        @deductions = deductions
         @employee_uuid = employee_uuid
+        @excluded = excluded
+        @first_name = first_name
+        @fixed_compensations = fixed_compensations
+        @gross_pay = gross_pay
+        @hourly_compensations = hourly_compensations
+        @last_name = last_name
+        @memo = memo
         @net_pay = net_pay
+        @paid_time_off = paid_time_off
         @payment_method = payment_method
-        @total_garnishments = total_garnishments
-        @total_reimbursement = total_reimbursement
-        @total_tax = total_tax
+        @preferred_first_name = preferred_first_name
+        @taxes = taxes
+        @version = version
       end
     end
   end

@@ -13,7 +13,6 @@ module GustoEmbedded
         AWAITING_FUNDS = new('awaiting_funds')
         PENDING_REVIEW = new('pending_review')
         APPROVED = new('approved')
-        RFI = new('rfi')
         CANCELED = new('canceled')
       end
     end

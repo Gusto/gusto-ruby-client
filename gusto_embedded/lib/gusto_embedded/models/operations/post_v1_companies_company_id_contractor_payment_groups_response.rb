@@ -19,8 +19,8 @@ module GustoEmbedded
       field :status_code, ::Integer
       # Full contractor payment group object
       field :contractor_payment_group, T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroup)
-      # Unprocessable Entity 
-      #   
+      # Unprocessable Entity
+      # 
       # This may happen when the body of your request contains errors such as `invalid_attribute_value`, or the request fails due to an `invalid_operation`. See the [Errors Categories](https://docs.gusto.com/embedded-payroll/docs/error-categories) guide for more details.
       # 
       field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)

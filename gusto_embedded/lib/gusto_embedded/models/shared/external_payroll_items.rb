@@ -12,7 +12,7 @@ module GustoEmbedded
       extend T::Sig
 
 
-      field :benefits, T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollBenefits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
+      field :benefits, T.nilable(T::Array[::GustoEmbedded::Shared::Benefits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
 
       field :earnings, T.nilable(T::Array[::GustoEmbedded::Shared::Earnings]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earnings') } }
 
@@ -21,7 +21,7 @@ module GustoEmbedded
       field :taxes, T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollTaxes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
 
 
-      sig { params(benefits: T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollBenefits]), earnings: T.nilable(T::Array[::GustoEmbedded::Shared::Earnings]), employee_uuid: T.nilable(::String), taxes: T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollTaxes])).void }
+      sig { params(benefits: T.nilable(T::Array[::GustoEmbedded::Shared::Benefits]), earnings: T.nilable(T::Array[::GustoEmbedded::Shared::Earnings]), employee_uuid: T.nilable(::String), taxes: T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollTaxes])).void }
       def initialize(benefits: nil, earnings: nil, employee_uuid: nil, taxes: nil)
         @benefits = benefits
         @earnings = earnings

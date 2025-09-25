@@ -14,6 +14,7 @@
 * [update_onboarding_status](#update_onboarding_status) - Change the contractor's onboarding status
 * [get_address](#get_address) - Get a contractor address
 * [update_address](#update_address) - Update a contractor's address
+* [get_v1_companies_company_id_contractors_payment_details](#get_v1_companies_company_id_contractors_payment_details) - List contractor payment details
 
 ## create
 
@@ -160,7 +161,7 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.contractors.update(contractor_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1ContractorsContractorUuidRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
   start_date: "2020-01-11",
   hourly_rate: "40.0",
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
@@ -399,7 +400,7 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.contractors.update_address(contractor_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1ContractorsContractorUuidAddressRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
 if ! res.contractor_address.nil?
@@ -419,4 +420,51 @@ end
 ### Response
 
 **[T.nilable(::GustoEmbedded::Operations::PutV1ContractorsContractorUuidAddressResponse)](../../models/operations/putv1contractorscontractoruuidaddressresponse.md)**
+
+
+
+## get_v1_companies_company_id_contractors_payment_details
+
+Get payment details for contractors in a company. This endpoint returns a list of all contractors associated with the specified company, including their payment methods and bank account details if they are paid via direct deposit.
+
+For contractors paid by direct deposit, the response includes their bank account information.
+
+For contractors paid by check, only the basic payment method information is returned.
+
+`encrypted_account_number` is available only with the additional scope `contractor_payment_methods:read:account_numbers`.
+
+scope: `contractor_payment_methods:read`
+
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded_client'
+
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
+
+res = s.contractors.get_v1_companies_company_id_contractors_payment_details(company_id="<id>", contractor_uuid="<id>", contractor_payment_group_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+
+if ! res.contractor_payment_details_list.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company. This identifies the company whose contractor payment details you want to retrieve.                                                                                                                  |
+| `contractor_uuid`                                                                                                                                                                                                            | *T.nilable(::String)*                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                           | Optional filter to get payment details for a specific contractor. When provided, the response will only include payment details for this contractor.                                                                         |
+| `contractor_payment_group_uuid`                                                                                                                                                                                              | *T.nilable(::String)*                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                           | Optional filter to get payment details for contractors in a specific payment group. When provided, the response will only include payment details for contractors in this group.                                             |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyidcontractorspaymentdetailsheaderxgustoapiversion.md)          | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsResponse)](../../models/operations/getv1companiescompanyidcontractorspaymentdetailsresponse.md)**
 

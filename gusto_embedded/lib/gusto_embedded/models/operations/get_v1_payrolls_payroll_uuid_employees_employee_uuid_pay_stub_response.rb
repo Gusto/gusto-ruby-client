@@ -19,14 +19,17 @@ module GustoEmbedded
       field :status_code, ::Integer
 
       field :body, T.nilable(::String)
+      # successful
+      field :bytes, T.nilable(::String)
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, body: T.nilable(::String)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, body: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, body: T.nilable(::String), bytes: T.nilable(::String)).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, body: nil, bytes: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
         @body = body
+        @bytes = bytes
       end
     end
   end

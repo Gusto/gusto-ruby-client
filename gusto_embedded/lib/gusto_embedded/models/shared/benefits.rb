@@ -12,21 +12,18 @@ module GustoEmbedded
       extend T::Sig
 
 
-      field :company_contribution, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution') } }
+      field :benefit_id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_id') } }
 
-      field :employee_deduction, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
+      field :company_contribution_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution_amount') } }
 
-      field :imputed, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('imputed') } }
-
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+      field :employee_deduction_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction_amount') } }
 
 
-      sig { params(company_contribution: T.nilable(::Float), employee_deduction: T.nilable(::Float), imputed: T.nilable(T::Boolean), name: T.nilable(::String)).void }
-      def initialize(company_contribution: nil, employee_deduction: nil, imputed: nil, name: nil)
-        @company_contribution = company_contribution
-        @employee_deduction = employee_deduction
-        @imputed = imputed
-        @name = name
+      sig { params(benefit_id: T.nilable(::Integer), company_contribution_amount: T.nilable(::String), employee_deduction_amount: T.nilable(::String)).void }
+      def initialize(benefit_id: nil, company_contribution_amount: nil, employee_deduction_amount: nil)
+        @benefit_id = benefit_id
+        @company_contribution_amount = company_contribution_amount
+        @employee_deduction_amount = employee_deduction_amount
       end
     end
   end

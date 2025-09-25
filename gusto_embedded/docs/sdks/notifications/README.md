@@ -6,6 +6,7 @@
 ### Available Operations
 
 * [get_details](#get_details) - Get a notification's details
+* [get_company_notifications](#get_company_notifications) - Get notifications for company
 
 ## get_details
 
@@ -46,4 +47,46 @@ end
 ### Response
 
 **[T.nilable(::GustoEmbedded::Operations::GetNotificationsNotificationUuidResponse)](../../models/operations/getnotificationsnotificationuuidresponse.md)**
+
+
+
+## get_company_notifications
+
+Returns all notifications relevant for the given company.
+
+scope: `notifications:read`
+
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded_client'
+
+s = ::GustoEmbedded::Client.new(
+      security: ::GustoEmbedded::Shared::Security.new(
+        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      ),
+    )
+
+req = ::GustoEmbedded::Operations::GetCompanyNotificationsRequest.new(
+  company_uuid: "<id>",
+)
+
+res = s.notifications.get_company_notifications(req)
+
+if ! res.notifications_list.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                | [::GustoEmbedded::Operations::GetCompanyNotificationsRequest](../../models/operations/getcompanynotificationsrequest.md) | :heavy_check_mark:                                                                                                       | The request object to use for the request.                                                                               |
+
+### Response
+
+**[T.nilable(::GustoEmbedded::Operations::GetCompanyNotificationsResponse)](../../models/operations/getcompanynotificationsresponse.md)**
 

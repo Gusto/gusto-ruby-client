@@ -7,9 +7,7 @@
 module GustoEmbedded
   module Shared
   
-    # Describes the taxes which are refundable to the company for this suspension. These may be refunded, or paid
-    # by Gusto, depending on the value in `reconcile_tax_method`.
-    # 
+
     class TaxRefunds < ::Crystalline::FieldAugmented
       extend T::Sig
 

@@ -11,12 +11,12 @@ module GustoEmbedded
     class CompanyAddress < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
 
       field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
 
       field :country, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
+      # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
+      field :inactive, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('inactive') } }
 
       field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
 
@@ -27,11 +27,11 @@ module GustoEmbedded
       field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
 
 
-      sig { params(active: T.nilable(T::Boolean), city: T.nilable(::String), country: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(active: nil, city: nil, country: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
-        @active = active
+      sig { params(city: T.nilable(::String), country: T.nilable(::String), inactive: T.nilable(T::Boolean), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
+      def initialize(city: nil, country: nil, inactive: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
         @city = city
         @country = country
+        @inactive = inactive
         @state = state
         @street_1 = street_1
         @street_2 = street_2
