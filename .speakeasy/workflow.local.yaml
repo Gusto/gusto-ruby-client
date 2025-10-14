@@ -1,0 +1,19 @@
+sources:
+  GustoEmbedded-local:
+    inputs:
+      - location: ../Gusto-Partner-API/generated/embedded/api.v2024-04-01.embedded.yaml
+    overlays:
+      - location: ../Gusto-Partner-API/.speakeasy/speakeasy-modifications-overlay.yaml
+    registry:
+      location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-local
+targets:
+  local:
+    target: ruby
+    source: GustoEmbedded-local
+    output: ./gusto_embedded
+    codeSamples:
+      registry:
+          location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas-code-samples
+      labelOverride:
+          fixedValue: Ruby (SDK)
+      blocking: false
