@@ -22,7 +22,9 @@ module GustoEmbedded
     sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsResponse) }
     def create(employee_id, request_body, x_gusto_api_version = nil)
       # create - Create an employee benefit
-      # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
+      # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee's enrollment.
+      # 
+      # When the application has the `employee_benefits:write:benefit_type_limited` data scope, the application can only create employee benefits for benefit types that are permitted for the application.
       # 
       # scope: `employee_benefits:write`
       request = ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequest.new(
@@ -186,7 +188,9 @@ module GustoEmbedded
     sig { params(employee_benefit_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdResponse) }
     def update(employee_benefit_id, request_body, x_gusto_api_version = nil)
       # update - Update an employee benefit
-      # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
+      # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee's enrollment.
+      # 
+      # When the application has the `employee_benefits:write:benefit_type_limited` data scope, the application can only update employee benefits for benefit types that are permitted for the application.
       # 
       # scope: `employee_benefits:write`
       request = ::GustoEmbedded::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequest.new(
@@ -248,7 +252,9 @@ module GustoEmbedded
     sig { params(employee_benefit_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::DeleteV1EmployeeBenefitsEmployeeBenefitIdResponse) }
     def delete(employee_benefit_id, x_gusto_api_version = nil)
       # delete - Delete an employee benefit
-      # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
+      # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee's enrollment.
+      # 
+      # When the application has the `employee_benefits:write:benefit_type_limited` data scope, the application can only delete employee benefits for benefit types that are permitted for the application.
       # 
       # scope: `employee_benefits:write`
       request = ::GustoEmbedded::Operations::DeleteV1EmployeeBenefitsEmployeeBenefitIdRequest.new(

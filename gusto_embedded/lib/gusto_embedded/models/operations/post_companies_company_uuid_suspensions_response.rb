@@ -17,22 +17,22 @@ module GustoEmbedded
       field :raw_response, ::Faraday::Response
       # HTTP response status code for this operation
       field :status_code, ::Integer
-      # Example response
+      # Successful response
       field :company_suspension, T.nilable(::GustoEmbedded::Shared::CompanySuspension)
-      # Unprocessable Entity 
-      #   
+      # Unprocessable Entity
+      # 
       # This may happen when the body of your request contains errors such as `invalid_attribute_value`, or the request fails due to an `invalid_operation`. See the [Errors Categories](https://docs.gusto.com/embedded-payroll/docs/error-categories) guide for more details.
       # 
-      field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+      field :company_suspension_creation_errors, T.nilable(::GustoEmbedded::Shared::CompanySuspensionCreationErrors)
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, company_suspension: T.nilable(::GustoEmbedded::Shared::CompanySuspension), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, company_suspension: nil, unprocessable_entity_error_object: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, company_suspension: T.nilable(::GustoEmbedded::Shared::CompanySuspension), company_suspension_creation_errors: T.nilable(::GustoEmbedded::Shared::CompanySuspensionCreationErrors)).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, company_suspension: nil, company_suspension_creation_errors: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
         @company_suspension = company_suspension
-        @unprocessable_entity_error_object = unprocessable_entity_error_object
+        @company_suspension_creation_errors = company_suspension_creation_errors
       end
     end
   end

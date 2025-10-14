@@ -16,10 +16,10 @@ module GustoEmbedded
 
       field :request_body, ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdHomeAddressesRequestBody, { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdHomeAddressesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdHomeAddressesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdHomeAddressesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdHomeAddressesHeaderXGustoAPIVersion)).void }
       def initialize(employee_id: nil, request_body: nil, x_gusto_api_version: nil)
         @employee_id = employee_id
         @request_body = request_body

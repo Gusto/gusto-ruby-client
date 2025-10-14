@@ -18,14 +18,18 @@ module GustoEmbedded
       # Explanation for why the company is suspending their account.
       # 
       # > 🚧 FEIN or entity type changes require Customer Support
-      # >
       # > If a company is switching FEIN or changing their entity type, this change must be performed by Gusto Customer Support and cannot be performed via the API at this time.
+      # 
       field :reason, ::GustoEmbedded::Operations::Reason, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reason'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::Reason, false) } }
       # How Gusto will handle taxes already collected.
       field :reconcile_tax_method, ::GustoEmbedded::Operations::ReconcileTaxMethod, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reconcile_tax_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::ReconcileTaxMethod, false) } }
-      # User-supplied comments describing why they are suspending their account.
+      # User-supplied comments describing why they are suspending their account. Required if the user is leaving for another provider and selects "other" instead of a defined provider.
       field :comments, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('comments') } }
-      # Which competitor the company is joining instead. Required if `reason` is `'switching_provider'`.
+      # The competitor the company is switching to. Required if `reason` is `'switching_provider'`.
+      # 
+      # > 🚧 Switching to Gusto requires Customer Support
+      # > If `'gusto_com'` is selected, this change must be completed by Gusto Customer Support and cannot be performed via the API. This endpoint will return a 422 error in that case.
+      # 
       field :leaving_for, T.nilable(::GustoEmbedded::Operations::LeavingFor), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('leaving_for'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::LeavingFor, true) } }
 
 

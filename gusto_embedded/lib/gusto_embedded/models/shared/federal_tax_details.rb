@@ -17,7 +17,9 @@ module GustoEmbedded
       field :deposit_schedule, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deposit_schedule') } }
       # The date that these details took effect.
       field :effective_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
-      # Whether the EIN was able to be verified as a valid EIN with the IRS. 
+      # Information about the status of verifying the company's Employer Identification Number (EIN)
+      field :ein_verification, T.nilable(::GustoEmbedded::Shared::EinVerification), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein_verification') } }
+      # Whether the EIN has been successfully verified as a valid EIN with the IRS.
       field :ein_verified, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein_verified') } }
       # The form used by the company for federal tax filing. One of:
       # - 941 (Quarterly federal tax return form)
@@ -50,10 +52,11 @@ module GustoEmbedded
       field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
 
-      sig { params(deposit_schedule: T.nilable(::String), effective_date: T.nilable(::String), ein_verified: T.nilable(T::Boolean), filing_form: T.nilable(::String), has_ein: T.nilable(T::Boolean), legal_name: T.nilable(::String), tax_payer_type: T.nilable(::String), taxable_as_scorp: T.nilable(T::Boolean), version: T.nilable(::String)).void }
-      def initialize(deposit_schedule: nil, effective_date: nil, ein_verified: nil, filing_form: nil, has_ein: nil, legal_name: nil, tax_payer_type: nil, taxable_as_scorp: nil, version: nil)
+      sig { params(deposit_schedule: T.nilable(::String), effective_date: T.nilable(::String), ein_verification: T.nilable(::GustoEmbedded::Shared::EinVerification), ein_verified: T.nilable(T::Boolean), filing_form: T.nilable(::String), has_ein: T.nilable(T::Boolean), legal_name: T.nilable(::String), tax_payer_type: T.nilable(::String), taxable_as_scorp: T.nilable(T::Boolean), version: T.nilable(::String)).void }
+      def initialize(deposit_schedule: nil, effective_date: nil, ein_verification: nil, ein_verified: nil, filing_form: nil, has_ein: nil, legal_name: nil, tax_payer_type: nil, taxable_as_scorp: nil, version: nil)
         @deposit_schedule = deposit_schedule
         @effective_date = effective_date
+        @ein_verification = ein_verification
         @ein_verified = ein_verified
         @filing_form = filing_form
         @has_ein = has_ein

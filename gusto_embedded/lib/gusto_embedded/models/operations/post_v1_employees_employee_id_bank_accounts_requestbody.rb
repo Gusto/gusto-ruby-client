@@ -14,14 +14,14 @@ module GustoEmbedded
 
       field :account_number, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_number') } }
 
-      field :account_type, ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdBankAccountsAccountType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdBankAccountsAccountType, false) } }
+      field :account_type, ::GustoEmbedded::Operations::AccountType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::AccountType, false) } }
 
       field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
 
       field :routing_number, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('routing_number') } }
 
 
-      sig { params(account_number: ::String, account_type: ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdBankAccountsAccountType, name: ::String, routing_number: ::String).void }
+      sig { params(account_number: ::String, account_type: ::GustoEmbedded::Operations::AccountType, name: ::String, routing_number: ::String).void }
       def initialize(account_number: nil, account_type: nil, name: nil, routing_number: nil)
         @account_number = account_number
         @account_type = account_type

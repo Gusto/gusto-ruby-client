@@ -13,7 +13,7 @@ module GustoEmbedded
 
       # The unique id of the admin.
       field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The email of the admin for Gusto's system. If the email matches an existing user, this will create an admin account for them.
+      # The email of the admin for Gusto's system.
       field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
       # The first name of the admin.
       field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }

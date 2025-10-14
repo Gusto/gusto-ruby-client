@@ -7,20 +7,26 @@
 module GustoEmbedded
   module Shared
   
-
+    # An array of deductions for the employee.
     class Deductions < ::Crystalline::FieldAugmented
       extend T::Sig
 
-
+      # The amount of the deduction for the pay period.
       field :amount, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-
+      # The amount type of the deduction for the pay period.
+      field :amount_type, T.nilable(::GustoEmbedded::Shared::AmountType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::AmountType, true) } }
+      # The name of the deduction.
       field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+      # The UUID of the deduction. This parameter is optional and can be provided in order to update an existing deduction.
+      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
 
 
-      sig { params(amount: T.nilable(::Float), name: T.nilable(::String)).void }
-      def initialize(amount: nil, name: nil)
+      sig { params(amount: T.nilable(::Float), amount_type: T.nilable(::GustoEmbedded::Shared::AmountType), name: T.nilable(::String), uuid: T.nilable(::String)).void }
+      def initialize(amount: nil, amount_type: nil, name: nil, uuid: nil)
         @amount = amount
+        @amount_type = amount_type
         @name = name
+        @uuid = uuid
       end
     end
   end

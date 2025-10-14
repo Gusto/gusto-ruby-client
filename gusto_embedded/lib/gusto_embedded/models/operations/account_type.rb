@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Operations
   
-    # AccountType - The bank account type
+
     class AccountType < T::Enum
       enums do
         CHECKING = new('Checking')

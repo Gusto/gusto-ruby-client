@@ -12,15 +12,15 @@ module GustoEmbedded
       extend T::Sig
 
       # Pay period end date.
-      field :end_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
+      field :end_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date'), 'decoder': Utils.date_from_iso_format(false) } }
       # Whether it is an off cycle payroll.
       field :off_cycle, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle') } }
       # An off cycle payroll reason. Select one from the following list.
       field :off_cycle_reason, ::GustoEmbedded::Operations::OffCycleReason, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle_reason'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::OffCycleReason, false) } }
       # Pay period start date.
-      field :start_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+      field :start_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date'), 'decoder': Utils.date_from_iso_format(false) } }
       # Payment date.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+      field :check_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), 'decoder': Utils.date_from_iso_format(true) } }
       # A list of employee uuids to include on the payroll.
       field :employee_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
       # Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages.
@@ -33,7 +33,7 @@ module GustoEmbedded
       field :withholding_pay_period, T.nilable(::GustoEmbedded::Operations::WithholdingPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('withholding_pay_period'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::WithholdingPayPeriod, true) } }
 
 
-      sig { params(end_date: ::String, off_cycle: T::Boolean, off_cycle_reason: ::GustoEmbedded::Operations::OffCycleReason, start_date: ::String, check_date: T.nilable(::String), employee_uuids: T.nilable(T::Array[::String]), fixed_withholding_rate: T.nilable(T::Boolean), pay_schedule_uuid: T.nilable(::String), skip_regular_deductions: T.nilable(T::Boolean), withholding_pay_period: T.nilable(::GustoEmbedded::Operations::WithholdingPayPeriod)).void }
+      sig { params(end_date: ::Date, off_cycle: T::Boolean, off_cycle_reason: ::GustoEmbedded::Operations::OffCycleReason, start_date: ::Date, check_date: T.nilable(::Date), employee_uuids: T.nilable(T::Array[::String]), fixed_withholding_rate: T.nilable(T::Boolean), pay_schedule_uuid: T.nilable(::String), skip_regular_deductions: T.nilable(T::Boolean), withholding_pay_period: T.nilable(::GustoEmbedded::Operations::WithholdingPayPeriod)).void }
       def initialize(end_date: nil, off_cycle: nil, off_cycle_reason: nil, start_date: nil, check_date: nil, employee_uuids: nil, fixed_withholding_rate: nil, pay_schedule_uuid: nil, skip_regular_deductions: nil, withholding_pay_period: nil)
         @end_date = end_date
         @off_cycle = off_cycle

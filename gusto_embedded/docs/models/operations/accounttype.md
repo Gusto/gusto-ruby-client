@@ -1,7 +1,5 @@
 # AccountType
 
-The bank account type
-
 
 ## Values
 

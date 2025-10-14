@@ -17,16 +17,22 @@ module GustoEmbedded
       field :raw_response, ::Faraday::Response
       # HTTP response status code for this operation
       field :status_code, ::Integer
-      # Example response
+      # Successful response
       field :company_suspension_list, T.nilable(T::Array[::GustoEmbedded::Shared::CompanySuspension])
+      # Not Found
+      # 
+      # The requested resource does not exist. Make sure the provided UUID is valid.
+      # 
+      field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, company_suspension_list: T.nilable(T::Array[::GustoEmbedded::Shared::CompanySuspension])).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, company_suspension_list: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, company_suspension_list: T.nilable(T::Array[::GustoEmbedded::Shared::CompanySuspension]), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, company_suspension_list: nil, unprocessable_entity_error_object: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
         @company_suspension_list = company_suspension_list
+        @unprocessable_entity_error_object = unprocessable_entity_error_object
       end
     end
   end

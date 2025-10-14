@@ -11,18 +11,16 @@ module GustoEmbedded
     class CompanySuspension < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # User-supplied comments describing why then are suspending their account.
+      # User-supplied comments describing why they are suspending their account.
       field :comments, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('comments') } }
       # Unique identifier for the company which is suspended.
       field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
       # Date that the suspension took effect.
       field :effective_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
-      # Should Gusto file quarterly tax forms on behalf of the company? The correct answer can depend on why the company
-      # is suspending their account, and how taxes are being reconciled.
+      # Should Gusto file quarterly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled.
       # 
       field :file_quarterly_forms, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_quarterly_forms') } }
-      # Should Gusto file yearly tax forms on behalf of the company? The correct answer can depend on why the company
-      # is suspending their account, and how taxes are being reconciled.
+      # Should Gusto file yearly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled.
       # 
       field :file_yearly_forms, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_yearly_forms') } }
       # Which competitor the company is joining instead. Only required if `reason` is `'switching_provider'`.
@@ -31,15 +29,14 @@ module GustoEmbedded
       field :reason, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reason') } }
       # How Gusto will handle taxes already collected.
       field :reconcile_tax_method, T.nilable(::GustoEmbedded::Shared::ReconcileTaxMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reconcile_tax_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ReconcileTaxMethod, true) } }
-      # Describes the taxes which are refundable to the company for this suspension. These may be refunded, or paid
-      # by Gusto, depending on the value in `reconcile_tax_method`.
+      # Describes the taxes which are refundable to the company for this suspension. These may be refunded or paid by Gusto depending on the value in `reconcile_tax_method`.
       # 
-      field :tax_refunds, T.nilable(::GustoEmbedded::Shared::TaxRefunds), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_refunds') } }
+      field :tax_refunds, T.nilable(T::Array[::GustoEmbedded::Shared::TaxRefunds]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_refunds') } }
       # Unique identifier for this suspension.
       field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
 
 
-      sig { params(comments: T.nilable(::String), company_uuid: T.nilable(::String), effective_date: T.nilable(::String), file_quarterly_forms: T.nilable(T::Boolean), file_yearly_forms: T.nilable(T::Boolean), leaving_for: T.nilable(::String), reason: T.nilable(::String), reconcile_tax_method: T.nilable(::GustoEmbedded::Shared::ReconcileTaxMethod), tax_refunds: T.nilable(::GustoEmbedded::Shared::TaxRefunds), uuid: T.nilable(::String)).void }
+      sig { params(comments: T.nilable(::String), company_uuid: T.nilable(::String), effective_date: T.nilable(::String), file_quarterly_forms: T.nilable(T::Boolean), file_yearly_forms: T.nilable(T::Boolean), leaving_for: T.nilable(::String), reason: T.nilable(::String), reconcile_tax_method: T.nilable(::GustoEmbedded::Shared::ReconcileTaxMethod), tax_refunds: T.nilable(T::Array[::GustoEmbedded::Shared::TaxRefunds]), uuid: T.nilable(::String)).void }
       def initialize(comments: nil, company_uuid: nil, effective_date: nil, file_quarterly_forms: nil, file_yearly_forms: nil, leaving_for: nil, reason: nil, reconcile_tax_method: nil, tax_refunds: nil, uuid: nil)
         @comments = comments
         @company_uuid = company_uuid

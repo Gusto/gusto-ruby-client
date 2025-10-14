@@ -27,10 +27,12 @@ module GustoEmbedded
       field :self_onboarding, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('self_onboarding') } }
 
       field :ssn, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
+      # The employee's work email address.
+      field :work_email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_email') } }
 
 
-      sig { params(first_name: ::String, last_name: ::String, date_of_birth: T.nilable(::Date), email: T.nilable(::String), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), self_onboarding: T.nilable(T::Boolean), ssn: T.nilable(::String)).void }
-      def initialize(first_name: nil, last_name: nil, date_of_birth: nil, email: nil, middle_initial: nil, preferred_first_name: nil, self_onboarding: nil, ssn: nil)
+      sig { params(first_name: ::String, last_name: ::String, date_of_birth: T.nilable(::Date), email: T.nilable(::String), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), self_onboarding: T.nilable(T::Boolean), ssn: T.nilable(::String), work_email: T.nilable(::String)).void }
+      def initialize(first_name: nil, last_name: nil, date_of_birth: nil, email: nil, middle_initial: nil, preferred_first_name: nil, self_onboarding: nil, ssn: nil, work_email: nil)
         @first_name = first_name
         @last_name = last_name
         @date_of_birth = date_of_birth
@@ -39,6 +41,7 @@ module GustoEmbedded
         @preferred_first_name = preferred_first_name
         @self_onboarding = self_onboarding
         @ssn = ssn
+        @work_email = work_email
       end
     end
   end
