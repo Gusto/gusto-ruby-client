@@ -15,7 +15,7 @@ module GustoEmbedded
       field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
       # Whether the employee benefit is active.
       field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
-      # Whether the employee should use a benefit’s "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50.
+      # Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50.
       field :catch_up, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('catch_up') } }
       # The UUID of the company benefit.
       field :company_benefit_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_uuid') } }
@@ -33,7 +33,7 @@ module GustoEmbedded
       field :contribution, T.nilable(::GustoEmbedded::Shared::Contribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
       # The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set.
       field :coverage_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_amount') } }
-      # The coverage amount as a multiple of the employee’s salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
+      # The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
       field :coverage_salary_multiplier, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_salary_multiplier') } }
       # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
       field :deduct_as_percentage, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }

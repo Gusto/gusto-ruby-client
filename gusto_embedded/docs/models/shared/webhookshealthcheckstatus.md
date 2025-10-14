@@ -1,0 +1,11 @@
+# WebhooksHealthCheckStatus
+
+The representation of a webhooks health check response
+
+
+## Fields
+
+| Field                                                                                                                         | Type                                                                                                                          | Required                                                                                                                      | Description                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `status`                                                                                                                      | [T.nilable(::GustoEmbedded::Shared::WebhooksHealthCheckStatusStatus)](../../models/shared/webhookshealthcheckstatusstatus.md) | :heavy_minus_sign:                                                                                                            | Latest health status of the webhooks system                                                                                   |
+| `last_checked_at`                                                                                                             | [Date](https://ruby-doc.org/stdlib-2.6.1/libdoc/date/rdoc/Date.html)                                                          | :heavy_minus_sign:                                                                                                            | ISO8601 timestamp of the last successful health check with millisecond precision                                              |

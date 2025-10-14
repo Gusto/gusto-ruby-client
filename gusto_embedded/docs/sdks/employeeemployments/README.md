@@ -156,7 +156,7 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.employee_employments.update_termination(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1TerminationsEmployeeIdRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
   effective_date: "<value>",
 ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
 
@@ -241,7 +241,7 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.employee_employments.rehire(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdRehireRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
   effective_date: "<value>",
   file_new_hire_report: false,
   work_location_uuid: "<id>",

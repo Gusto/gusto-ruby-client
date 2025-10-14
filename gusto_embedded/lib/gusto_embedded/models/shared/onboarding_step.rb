@@ -13,11 +13,13 @@ module GustoEmbedded
 
       # The boolean flag indicating whether the step is completed or not.
       field :completed, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('completed') } }
+      # The ISO 8601 timestamp indicating when the onboarding step was completed. Returns null for incomplete steps.
+      field :completed_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('completed_at') } }
       # The string identifier for each onboarding step
       field :id, T.nilable(::GustoEmbedded::Shared::Id), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Id, true) } }
       # The boolean flag indicating whether the step is required or optional
       field :required, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
-      # A list of onboarding step that are required to be completed in order to proceed with the current onboarding step.
+      # A list of onboarding steps that are required to be completed in order to proceed with the current onboarding step.
       field :requirements, T.nilable(T::Array[::GustoEmbedded::Shared::Requirements]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirements') } }
       # The boolean flag indicating whether the step can be skipped or not.
       field :skippable, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skippable') } }
@@ -25,9 +27,10 @@ module GustoEmbedded
       field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
 
 
-      sig { params(completed: T.nilable(T::Boolean), id: T.nilable(::GustoEmbedded::Shared::Id), required: T.nilable(T::Boolean), requirements: T.nilable(T::Array[::GustoEmbedded::Shared::Requirements]), skippable: T.nilable(T::Boolean), title: T.nilable(::String)).void }
-      def initialize(completed: nil, id: nil, required: nil, requirements: nil, skippable: nil, title: nil)
+      sig { params(completed: T.nilable(T::Boolean), completed_at: T.nilable(::String), id: T.nilable(::GustoEmbedded::Shared::Id), required: T.nilable(T::Boolean), requirements: T.nilable(T::Array[::GustoEmbedded::Shared::Requirements]), skippable: T.nilable(T::Boolean), title: T.nilable(::String)).void }
+      def initialize(completed: nil, completed_at: nil, id: nil, required: nil, requirements: nil, skippable: nil, title: nil)
         @completed = completed
+        @completed_at = completed_at
         @id = id
         @required = required
         @requirements = requirements

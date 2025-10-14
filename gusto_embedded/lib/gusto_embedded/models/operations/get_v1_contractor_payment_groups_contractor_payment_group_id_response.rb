@@ -17,16 +17,22 @@ module GustoEmbedded
       field :raw_response, ::Faraday::Response
       # HTTP response status code for this operation
       field :status_code, ::Integer
-      # Full contractor payment group object
+      # Successful response
       field :contractor_payment_group, T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroup)
+      # Not Found
+      # 
+      # The requested contractor payment group does not exist. Make sure the provided UUID is valid.
+      # 
+      field :not_found_error_object, T.nilable(::GustoEmbedded::Shared::NotFoundErrorObject)
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, contractor_payment_group: T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroup)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, contractor_payment_group: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, contractor_payment_group: T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroup), not_found_error_object: T.nilable(::GustoEmbedded::Shared::NotFoundErrorObject)).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, contractor_payment_group: nil, not_found_error_object: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
         @contractor_payment_group = contractor_payment_group
+        @not_found_error_object = not_found_error_object
       end
     end
   end

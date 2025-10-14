@@ -11,19 +11,16 @@ module GustoEmbedded
     class PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequestBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The payment check date
-      field :check_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), 'decoder': Utils.date_from_iso_format(false) } }
 
       field :contractor_payments, T::Array[::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
-      # Optional token used to make contractor payment group creation idempotent.  If provided, string must be unique for each group you intend to create.
-      field :creation_token, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('creation_token') } }
+      # Date when payments should be processed
+      field :check_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), 'decoder': Utils.date_from_iso_format(true) } }
 
 
-      sig { params(check_date: ::Date, contractor_payments: T::Array[::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments], creation_token: T.nilable(::String)).void }
-      def initialize(check_date: nil, contractor_payments: nil, creation_token: nil)
-        @check_date = check_date
+      sig { params(contractor_payments: T::Array[::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments], check_date: T.nilable(::Date)).void }
+      def initialize(contractor_payments: nil, check_date: nil)
         @contractor_payments = contractor_payments
-        @creation_token = creation_token
+        @check_date = check_date
       end
     end
   end

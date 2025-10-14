@@ -11,25 +11,19 @@ module GustoEmbedded
     class PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # If the contractor is on an hourly wage, this is the bonus the contractor earned
-      field :bonus, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
-      # The contractor receiving the payment
+      # UUID of the contractor
       field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
-      # If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment
-      field :hours, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
-
+      # Payment method
       field :payment_method, T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod, true) } }
-      # Reimbursed wages for the contractor
+      # Reimbursement amount
       field :reimbursement, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
-      # If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked
+      # Wage amount
       field :wage, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
 
 
-      sig { params(bonus: T.nilable(::Float), contractor_uuid: T.nilable(::String), hours: T.nilable(::Float), payment_method: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod), reimbursement: T.nilable(::Float), wage: T.nilable(::Float)).void }
-      def initialize(bonus: nil, contractor_uuid: nil, hours: nil, payment_method: nil, reimbursement: nil, wage: nil)
-        @bonus = bonus
+      sig { params(contractor_uuid: T.nilable(::String), payment_method: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod), reimbursement: T.nilable(::Float), wage: T.nilable(::Float)).void }
+      def initialize(contractor_uuid: nil, payment_method: nil, reimbursement: nil, wage: nil)
         @contractor_uuid = contractor_uuid
-        @hours = hours
         @payment_method = payment_method
         @reimbursement = reimbursement
         @wage = wage

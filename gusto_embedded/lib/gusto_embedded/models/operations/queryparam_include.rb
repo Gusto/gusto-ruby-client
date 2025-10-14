@@ -10,9 +10,12 @@ module GustoEmbedded
 
     class QueryParamInclude < T::Enum
       enums do
-        CUSTOM_FIELDS = new('custom_fields')
         ALL_COMPENSATIONS = new('all_compensations')
+        ALL_HOME_ADDRESSES = new('all_home_addresses')
         COMPANY_NAME = new('company_name')
+        CURRENT_HOME_ADDRESS = new('current_home_address')
+        CUSTOM_FIELDS = new('custom_fields')
+        PORTAL_INVITATIONS = new('portal_invitations')
       end
     end
   end

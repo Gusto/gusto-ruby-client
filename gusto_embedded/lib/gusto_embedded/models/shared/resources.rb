@@ -11,8 +11,8 @@ module GustoEmbedded
     class Resources < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The type of entity being described, could be “Contractor”, “Employee”, “BankAccount”, “Payroll”, “ContractorPayment”, “RecoveryCase”, or “Signatory”
-      field :entity_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type') } }
+      # The type of entity being described.
+      field :entity_type, ::GustoEmbedded::Shared::NotificationEntityType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::NotificationEntityType, false) } }
       # Unique identifier of the entity
       field :entity_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid') } }
       # Optional. The type of a resource that is related to the one described by entity_type and entity_uuid. For instance, if the entity_type is “BankAccount”, the reference_type could be the “Employee” or “Contractor” to whom the bank account belongs.
@@ -21,7 +21,7 @@ module GustoEmbedded
       field :reference_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reference_uuid') } }
 
 
-      sig { params(entity_type: ::String, entity_uuid: ::String, reference_type: T.nilable(::String), reference_uuid: T.nilable(::String)).void }
+      sig { params(entity_type: ::GustoEmbedded::Shared::NotificationEntityType, entity_uuid: ::String, reference_type: T.nilable(::String), reference_uuid: T.nilable(::String)).void }
       def initialize(entity_type: nil, entity_uuid: nil, reference_type: nil, reference_uuid: nil)
         @entity_type = entity_type
         @entity_uuid = entity_uuid

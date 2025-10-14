@@ -10,8 +10,8 @@ module GustoEmbedded
 
     class ProcessingStatuses < T::Enum
       enums do
-        UNPROCESSED = new('unprocessed')
         PROCESSED = new('processed')
+        UNPROCESSED = new('unprocessed')
       end
     end
   end

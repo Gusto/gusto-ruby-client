@@ -15,14 +15,23 @@ module GustoEmbedded
       field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
       # The UUID of the payroll
       field :payroll_id, ::String, { 'path_param': { 'field_name': 'payroll_id', 'style': 'simple', 'explode': false } }
+      # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
+      field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
+      # Number of objects per page. For majority of endpoints will default to 25
+      field :per, T.nilable(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
+
+      field :request_body, T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody), { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_id: nil, payroll_id: nil, x_gusto_api_version: nil)
+      sig { params(company_id: ::String, payroll_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), request_body: T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      def initialize(company_id: nil, payroll_id: nil, page: nil, per: nil, request_body: nil, x_gusto_api_version: nil)
         @company_id = company_id
         @payroll_id = payroll_id
+        @page = page
+        @per = per
+        @request_body = request_body
         @x_gusto_api_version = x_gusto_api_version
       end
     end

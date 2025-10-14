@@ -11,6 +11,10 @@ module GustoEmbedded
     class EmployeeAddress < ::Crystalline::FieldAugmented
       extend T::Sig
 
+      # The UUID of the employee address
+      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
       # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
       field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
 
@@ -29,16 +33,14 @@ module GustoEmbedded
       field :street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
 
       field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
-      # The UUID of the employee address
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
       field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
 
 
-      sig { params(active: T.nilable(T::Boolean), city: T.nilable(::String), country: T.nilable(::String), courtesy_withholding: T.nilable(T::Boolean), effective_date: T.nilable(::Date), employee_uuid: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), uuid: T.nilable(::String), version: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(active: nil, city: nil, country: nil, courtesy_withholding: nil, effective_date: nil, employee_uuid: nil, state: nil, street_1: nil, street_2: nil, uuid: nil, version: nil, zip: nil)
+      sig { params(uuid: ::String, version: ::String, active: T.nilable(T::Boolean), city: T.nilable(::String), country: T.nilable(::String), courtesy_withholding: T.nilable(T::Boolean), effective_date: T.nilable(::Date), employee_uuid: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
+      def initialize(uuid: nil, version: nil, active: nil, city: nil, country: nil, courtesy_withholding: nil, effective_date: nil, employee_uuid: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
+        @uuid = uuid
+        @version = version
         @active = active
         @city = city
         @country = country
@@ -48,8 +50,6 @@ module GustoEmbedded
         @state = state
         @street_1 = street_1
         @street_2 = street_2
-        @uuid = uuid
-        @version = version
         @zip = zip
       end
     end

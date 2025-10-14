@@ -14,6 +14,10 @@ module GustoEmbedded
         DEDUCTIONS = new('deductions')
         TAXES = new('taxes')
         PAYROLL_STATUS_META = new('payroll_status_meta')
+        TOTALS = new('totals')
+        RISK_BLOCKERS = new('risk_blockers')
+        REVERSALS = new('reversals')
+        PAYROLL_TAXES = new('payroll_taxes')
       end
     end
   end

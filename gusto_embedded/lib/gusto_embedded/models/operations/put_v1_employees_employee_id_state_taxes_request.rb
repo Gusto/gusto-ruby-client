@@ -14,15 +14,15 @@ module GustoEmbedded
       # The UUID of the employee
       field :employee_uuid, ::String, { 'path_param': { 'field_name': 'employee_uuid', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody, { 'request': { 'media_type': 'application/json' } }
+      field :employee_state_taxes_request, ::GustoEmbedded::Shared::EmployeeStateTaxesRequest, { 'request': { 'media_type': 'application/json' } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(employee_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(employee_uuid: nil, request_body: nil, x_gusto_api_version: nil)
+      sig { params(employee_uuid: ::String, employee_state_taxes_request: ::GustoEmbedded::Shared::EmployeeStateTaxesRequest, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesHeaderXGustoAPIVersion)).void }
+      def initialize(employee_uuid: nil, employee_state_taxes_request: nil, x_gusto_api_version: nil)
         @employee_uuid = employee_uuid
-        @request_body = request_body
+        @employee_state_taxes_request = employee_state_taxes_request
         @x_gusto_api_version = x_gusto_api_version
       end
     end

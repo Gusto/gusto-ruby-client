@@ -11,7 +11,7 @@ module GustoEmbedded
     class PutV1ContractorDocumentSignRequest < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The ID or UUID of the document
+      # The UUID of the document
       field :document_uuid, ::String, { 'path_param': { 'field_name': 'document_uuid', 'style': 'simple', 'explode': false } }
 
       field :request_body, ::GustoEmbedded::Operations::PutV1ContractorDocumentSignRequestBody, { 'request': { 'media_type': 'application/json' } }
