@@ -533,5 +533,84 @@ module GustoEmbedded
 
       res
     end
+
+
+    sig { params(company_id: ::String, contractor_uuid: T.nilable(::String), contractor_payment_group_uuid: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsResponse) }
+    def get_v1_companies_company_id_contractors_payment_details(company_id, contractor_uuid = nil, contractor_payment_group_uuid = nil, x_gusto_api_version = nil)
+      # get_v1_companies_company_id_contractors_payment_details - List contractor payment details
+      # Get payment details for contractors in a company. This endpoint returns a list of all contractors
+      # associated with the specified company, including their payment methods and bank account details
+      # if they are paid via direct deposit.
+      # 
+      # For contractors paid by direct deposit, the response includes their bank account information
+      # with sensitive data masked for security. The payment details also include information about
+      # how their payments are split if they have multiple bank accounts configured.
+      # 
+      # For contractors paid by check, only the basic payment method information is returned.
+      # 
+      # ### Response Details
+      # - For direct deposit contractors:
+      #   - Bank account details (masked)
+      #   - Payment splits configuration
+      #   - Routing numbers
+      #   - Account types
+      # - For check payments:
+      #   - Basic payment method designation
+      # 
+      # ### Common Use Cases
+      # - Fetching contractor payment information for payroll processing
+      # - Verifying contractor payment methods
+      # - Reviewing payment split configurations
+      # 
+      # `encrypted_account_number` is available only with the additional scope `contractor_payment_methods:read:account_numbers`.
+      # 
+      # scope: `contractor_payment_methods:read`
+      # 
+      request = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsRequest.new(
+        
+        company_id: company_id,
+        contractor_uuid: contractor_uuid,
+        contractor_payment_group_uuid: contractor_payment_group_uuid,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsRequest,
+        base_url,
+        '/v1/companies/{company_id}/contractors/payment_details',
+        request
+      )
+      headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsRequest, request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        req.params = query_params
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::ContractorPaymentDetailsList])
+          res.contractor_payment_details_list = out
+        end
+      elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
+      end
+
+      res
+    end
   end
 end

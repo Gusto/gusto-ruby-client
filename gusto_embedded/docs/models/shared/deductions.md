@@ -1,9 +1,13 @@
 # Deductions
 
+An array of deductions for the employee.
+
 
 ## Fields
 
-| Field                 | Type                  | Required              | Description           |
-| --------------------- | --------------------- | --------------------- | --------------------- |
-| `name`                | *T.nilable(::String)* | :heavy_minus_sign:    | N/A                   |
-| `amount`              | *T.nilable(::Float)*  | :heavy_minus_sign:    | N/A                   |
+| Field                                                                                                               | Type                                                                                                                | Required                                                                                                            | Description                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `name`                                                                                                              | *T.nilable(::String)*                                                                                               | :heavy_minus_sign:                                                                                                  | The name of the deduction.                                                                                          |
+| `amount`                                                                                                            | *T.nilable(::Float)*                                                                                                | :heavy_minus_sign:                                                                                                  | The amount of the deduction for the pay period.                                                                     |
+| `amount_type`                                                                                                       | [T.nilable(::GustoEmbedded::Shared::AmountType)](../../models/shared/amounttype.md)                                 | :heavy_minus_sign:                                                                                                  | The amount type of the deduction for the pay period.                                                                |
+| `uuid`                                                                                                              | *T.nilable(::String)*                                                                                               | :heavy_minus_sign:                                                                                                  | The UUID of the deduction. This parameter is optional and can be provided in order to update an existing deduction. |

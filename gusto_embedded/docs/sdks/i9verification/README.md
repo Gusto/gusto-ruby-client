@@ -32,7 +32,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.i9_verification.get_authorization(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.i9_verification.get_authorization(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.i9_authorization.nil?
   # handle response
@@ -90,7 +90,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.i9_verification.update(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdI9AuthorizationRequestBody.new(
   authorization_status: ::GustoEmbedded::Operations::AuthorizationStatus::ALIEN,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.i9_authorization.nil?
   # handle response
@@ -129,7 +129,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.i9_verification.get_document_options(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.i9_verification.get_document_options(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.i9_authorization_document_options_object.nil?
   # handle response
@@ -167,7 +167,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.i9_verification.get_documents(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.i9_verification.get_documents(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.i9_authorization_documents_object.nil?
   # handle response
@@ -220,7 +220,7 @@ res = s.i9_verification.create_documents(employee_id="<id>", request_body=::Gust
       issuing_authority: "<value>",
     ),
   ],
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.i9_authorization_documents_object.nil?
   # handle response
@@ -259,7 +259,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.i9_verification.delete_document(employee_id="<id>", document_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.i9_verification.delete_document(employee_id="<id>", document_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -302,7 +302,7 @@ res = s.i9_verification.employer_sign(employee_id="<id>", request_body=::GustoEm
   signature_text: "<value>",
   signer_title: "<value>",
   agree: false,
-), x_gusto_client_ip="<value>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_client_ip="<value>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.i9_authorization.nil?
   # handle response

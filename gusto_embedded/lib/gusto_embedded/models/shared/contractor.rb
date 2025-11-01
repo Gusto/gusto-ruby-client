@@ -19,8 +19,12 @@ module GustoEmbedded
       field :business_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('business_name') } }
       # The UUID of the company the contractor is employed by.
       field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+      # The contractor's department in the company.
+      field :department, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department') } }
       # The UUID of the department the contractor is under
       field :department_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuid') } }
+      # The contractor's dismissal date.
+      field :dismissal_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dismissal_date') } }
       # The Federal Employer Identification Number of the contractor business. This attribute is optional for “Business” contractors and will be ignored for “Individual” contractors.
       field :ein, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein') } }
       # The contractor’s email address. This attribute is optional for “Individual” contractors and will be ignored for “Business” contractors. 
@@ -60,13 +64,15 @@ module GustoEmbedded
       field :work_state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_state') } }
 
 
-      sig { params(uuid: ::String, address: T.nilable(::GustoEmbedded::Shared::Address), business_name: T.nilable(::String), company_uuid: T.nilable(::String), department_uuid: T.nilable(::String), ein: T.nilable(::String), email: T.nilable(::String), file_new_hire_report: T.nilable(T::Boolean), first_name: T.nilable(::String), has_ein: T.nilable(T::Boolean), has_ssn: T.nilable(T::Boolean), hourly_rate: T.nilable(::String), is_active: T.nilable(T::Boolean), last_name: T.nilable(::String), middle_initial: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_status: T.nilable(::GustoEmbedded::Shared::ContractorOnboardingStatus1), payment_method: T.nilable(::GustoEmbedded::Shared::ContractorPaymentMethod1), start_date: T.nilable(::String), type: T.nilable(::GustoEmbedded::Shared::ContractorType), version: T.nilable(::String), wage_type: T.nilable(::GustoEmbedded::Shared::WageType), work_state: T.nilable(::String)).void }
-      def initialize(uuid: nil, address: nil, business_name: nil, company_uuid: nil, department_uuid: nil, ein: nil, email: nil, file_new_hire_report: nil, first_name: nil, has_ein: nil, has_ssn: nil, hourly_rate: nil, is_active: nil, last_name: nil, middle_initial: nil, onboarded: nil, onboarding_status: nil, payment_method: nil, start_date: nil, type: nil, version: nil, wage_type: nil, work_state: nil)
+      sig { params(uuid: ::String, address: T.nilable(::GustoEmbedded::Shared::Address), business_name: T.nilable(::String), company_uuid: T.nilable(::String), department: T.nilable(::String), department_uuid: T.nilable(::String), dismissal_date: T.nilable(::String), ein: T.nilable(::String), email: T.nilable(::String), file_new_hire_report: T.nilable(T::Boolean), first_name: T.nilable(::String), has_ein: T.nilable(T::Boolean), has_ssn: T.nilable(T::Boolean), hourly_rate: T.nilable(::String), is_active: T.nilable(T::Boolean), last_name: T.nilable(::String), middle_initial: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_status: T.nilable(::GustoEmbedded::Shared::ContractorOnboardingStatus1), payment_method: T.nilable(::GustoEmbedded::Shared::ContractorPaymentMethod1), start_date: T.nilable(::String), type: T.nilable(::GustoEmbedded::Shared::ContractorType), version: T.nilable(::String), wage_type: T.nilable(::GustoEmbedded::Shared::WageType), work_state: T.nilable(::String)).void }
+      def initialize(uuid: nil, address: nil, business_name: nil, company_uuid: nil, department: nil, department_uuid: nil, dismissal_date: nil, ein: nil, email: nil, file_new_hire_report: nil, first_name: nil, has_ein: nil, has_ssn: nil, hourly_rate: nil, is_active: nil, last_name: nil, middle_initial: nil, onboarded: nil, onboarding_status: nil, payment_method: nil, start_date: nil, type: nil, version: nil, wage_type: nil, work_state: nil)
         @uuid = uuid
         @address = address
         @business_name = business_name
         @company_uuid = company_uuid
+        @department = department
         @department_uuid = department_uuid
+        @dismissal_date = dismissal_date
         @ein = ein
         @email = email
         @file_new_hire_report = file_new_hire_report

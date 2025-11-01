@@ -2,27 +2,27 @@ speakeasyVersion: 1.513.4
 sources:
     GustoEmbedded-OAS:
         sourceNamespace: gusto-embedded-oas
-        sourceRevisionDigest: sha256:b6231dbd5bfe779803fc89e53d1eb2a8f2410b4de85bd64d965fda1e3cc9507e
-        sourceBlobDigest: sha256:fd0ff3b53eea2bd9b89b0584cf31e1a8c25d405a55d4d0237624a49b7b6b064a
+        sourceRevisionDigest: sha256:e985be948d2e01626bd5a014f528a9838aca1422897f5a060c7b528efee7b2b2
+        sourceBlobDigest: sha256:6957bd62f1eaeef9efebc72b1ccd4b39358b1e6f2e988e21a56b902fa45a9313
         tags:
             - latest
-            - speakeasy-sdk-regen-1745022438
-            - "2024-04-01"
+            - speakeasy-sdk-regen-ar-update-speakeasy-version-to-latest-1760455071
+            - "2025-06-15"
 targets:
     gusto-embedded:
         source: GustoEmbedded-OAS
         sourceNamespace: gusto-embedded-oas
-        sourceRevisionDigest: sha256:b6231dbd5bfe779803fc89e53d1eb2a8f2410b4de85bd64d965fda1e3cc9507e
-        sourceBlobDigest: sha256:fd0ff3b53eea2bd9b89b0584cf31e1a8c25d405a55d4d0237624a49b7b6b064a
+        sourceRevisionDigest: sha256:e985be948d2e01626bd5a014f528a9838aca1422897f5a060c7b528efee7b2b2
+        sourceBlobDigest: sha256:6957bd62f1eaeef9efebc72b1ccd4b39358b1e6f2e988e21a56b902fa45a9313
         codeSamplesNamespace: gusto-embedded-oas-code-samples
-        codeSamplesRevisionDigest: sha256:868aac81d768a0cc0a0f2736edeed9a88b4ba23e77276079971b9cc8bd2c0151
+        codeSamplesRevisionDigest: sha256:9839735f8360257f3656a3ba3c1a97d2de9258937eeec94378f75df1a6c5c9e7
 workflow:
     workflowVersion: 1.0.0
-    speakeasyVersion: 1.513.4
+    speakeasyVersion: latest
     sources:
         GustoEmbedded-OAS:
             inputs:
-                - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/generated/embedded/api.v2024-04-01.embedded.yaml
+                - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/generated/embedded/api.v2025-06-15.embedded.yaml
                   authHeader: Authorization
                   authSecret: $openapi_doc_auth_token
             overlays:

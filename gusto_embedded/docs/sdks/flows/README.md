@@ -26,7 +26,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.flows.create(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostV1CompanyFlowsRequestBody.new(
   flow_type: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.flow.nil?
   # handle response

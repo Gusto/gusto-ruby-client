@@ -30,7 +30,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.holiday_pay_policies.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.holiday_pay_policies.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.holiday_pay_policy.nil?
   # handle response
@@ -68,7 +68,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.holiday_pay_policies.create(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostCompaniesCompanyUuidHolidayPayPolicyRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.holiday_pay_policies.create(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostCompaniesCompanyUuidHolidayPayPolicyRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.holiday_pay_policy.nil?
   # handle response
@@ -109,7 +109,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.holiday_pay_policies.update(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.holiday_pay_policy.nil?
   # handle response
@@ -148,7 +148,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.holiday_pay_policies.delete(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.holiday_pay_policies.delete(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -188,7 +188,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.holiday_pay_policies.add_employees(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.holiday_pay_policy.nil?
   # handle response
@@ -229,7 +229,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.holiday_pay_policies.remove_employees(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PutCompaniesCompanyUuidHolidayPayPolicyRemoveRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.holiday_pay_policy.nil?
   # handle response
@@ -268,7 +268,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.holiday_pay_policies.preview_paid_holidays(company_uuid="<id>", request_body=::GustoEmbedded::Operations::GetCompaniesCompanyUuidPaidHolidaysRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.holiday_pay_policies.preview_paid_holidays(company_uuid="<id>", request_body=::GustoEmbedded::Operations::GetCompaniesCompanyUuidPaidHolidaysRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.paid_holidays.nil?
   # handle response

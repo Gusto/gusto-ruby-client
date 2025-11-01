@@ -41,7 +41,7 @@ res = s.pay_schedules.create(company_id="<id>", request_body=::GustoEmbedded::Op
   frequency: ::GustoEmbedded::Operations::Frequency::EVERY_OTHER_WEEK,
   anchor_pay_date: "2020-05-15",
   anchor_end_of_pay_period: "2020-05-08",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.pay_schedule_create_update.nil?
   # handle response
@@ -80,7 +80,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.pay_schedules.get_all(company_id="<id>", page=461008, per=59215, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.pay_schedules.get_all(company_id="<id>", page=461008, per=59215, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.pay_schedule_list.nil?
   # handle response
@@ -164,7 +164,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.pay_schedules.get(company_id="<id>", pay_schedule_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.pay_schedules.get(company_id="<id>", pay_schedule_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.pay_schedule_object.nil?
   # handle response
@@ -207,7 +207,7 @@ res = s.pay_schedules.update(company_id="<id>", pay_schedule_id="<id>", request_
   version: "<value>",
   anchor_pay_date: "2020-05-15",
   anchor_end_of_pay_period: "2020-05-08",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.pay_schedule_create_update.nil?
   # handle response
@@ -296,7 +296,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.pay_schedules.get_unprocessed_termination_periods(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.pay_schedules.get_unprocessed_termination_periods(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.unprocessed_termination_pay_period_list.nil?
   # handle response
@@ -334,7 +334,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.pay_schedules.get_assignments(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.pay_schedules.get_assignments(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.pay_schedule_assignment.nil?
   # handle response
@@ -374,7 +374,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.pay_schedules.preview_assignment(company_id="<id>", pay_schedule_assignment_body=::GustoEmbedded::Shared::PayScheduleAssignmentBody.new(
   type: ::GustoEmbedded::Shared::PayScheduleAssignmentBodyType::HOURLY_SALARIED,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.pay_schedule_assignment_preview.nil?
   # handle response
@@ -416,7 +416,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.pay_schedules.assign(company_id="<id>", pay_schedule_assignment_body=::GustoEmbedded::Shared::PayScheduleAssignmentBody.new(
   type: ::GustoEmbedded::Shared::PayScheduleAssignmentBodyType::BY_DEPARTMENT,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response

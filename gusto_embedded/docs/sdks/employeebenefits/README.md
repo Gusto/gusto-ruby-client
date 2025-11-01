@@ -15,7 +15,9 @@
 
 ## create
 
-Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
+Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee's enrollment.
+
+When the application has the `employee_benefits:write:benefit_type_limited` data scope, the application can only create employee benefits for benefit types that are permitted for the application.
 
 scope: `employee_benefits:write`
 
@@ -32,7 +34,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.employee_benefits.create(employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsRequestBody.new(
   company_benefit_uuid: "<id>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_benefit.nil?
   # handle response
@@ -75,7 +77,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_benefits.get(employee_id="<id>", page=700347, per=558834, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_benefits.get(employee_id="<id>", page=700347, per=558834, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_benefit_list.nil?
   # handle response
@@ -117,7 +119,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_benefits.retrieve(employee_benefit_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_benefits.retrieve(employee_benefit_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_benefit.nil?
   # handle response
@@ -140,7 +142,9 @@ end
 
 ## update
 
-Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
+Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee's enrollment.
+
+When the application has the `employee_benefits:write:benefit_type_limited` data scope, the application can only update employee benefits for benefit types that are permitted for the application.
 
 scope: `employee_benefits:write`
 
@@ -157,7 +161,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.employee_benefits.update(employee_benefit_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeeBenefitsEmployeeBenefitIdRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_benefit.nil?
   # handle response
@@ -181,7 +185,9 @@ end
 
 ## delete
 
-Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
+Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee's enrollment.
+
+When the application has the `employee_benefits:write:benefit_type_limited` data scope, the application can only delete employee benefits for benefit types that are permitted for the application.
 
 scope: `employee_benefits:write`
 
@@ -196,7 +202,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_benefits.delete(employee_benefit_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_benefits.delete(employee_benefit_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -237,7 +243,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_benefits.get_ytd_benefit_amounts_from_different_company(employee_id="<id>", tax_year=2024, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_benefits.get_ytd_benefit_amounts_from_different_company(employee_id="<id>", tax_year=2024, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.ytd_benefit_amounts_from_different_company_list.nil?
   # handle response
@@ -282,7 +288,7 @@ res = s.employee_benefits.create_ytd_benefit_amounts_from_different_company(empl
   tax_year: 5621.31,
   ytd_employee_deduction_amount: "<value>",
   ytd_company_contribution_amount: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response

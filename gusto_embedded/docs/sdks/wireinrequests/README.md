@@ -26,7 +26,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.wire_in_requests.get(wire_in_request_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.wire_in_requests.get(wire_in_request_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.wire_in_request.nil?
   # handle response
@@ -68,7 +68,7 @@ res = s.wire_in_requests.submit(wire_in_request_uuid="<id>", request_body=::Gust
   date_sent: "<value>",
   bank_name: "<value>",
   amount_sent: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.wire_in_request.nil?
   # handle response
@@ -107,7 +107,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.wire_in_requests.list(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.wire_in_requests.list(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.wire_in_request_list.nil?
   # handle response

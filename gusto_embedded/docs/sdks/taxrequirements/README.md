@@ -66,7 +66,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.tax_requirements.get(company_uuid="<id>", state="Oklahoma", scheduling=false, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.tax_requirements.get(company_uuid="<id>", state="Oklahoma", scheduling=false, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.tax_requirements_state.nil?
   # handle response
@@ -106,7 +106,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.tax_requirements.update_state(company_uuid="<id>", state="Massachusetts", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.tax_requirements.update_state(company_uuid="<id>", state="Massachusetts", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -146,7 +146,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.tax_requirements.get_all(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.tax_requirements.get_all(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.response_bodies.nil?
   # handle response

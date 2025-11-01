@@ -10,7 +10,7 @@ module GustoEmbedded
 
     class VersionHeader < T::Enum
       enums do
-        TWO_THOUSAND_AND_TWENTY_FOUR_04_01 = new('2024-04-01')
+        TWO_THOUSAND_AND_TWENTY_FIVE_06_15 = new('2025-06-15')
       end
     end
   end

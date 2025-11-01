@@ -34,7 +34,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.employee_forms.generate_w2(request_body=::GustoEmbedded::Operations::PostV1SandboxGenerateW2RequestBody.new(
   employee_id: "<id>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form.nil?
   # handle response
@@ -72,7 +72,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_forms.list(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_forms.list(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form_list.nil?
   # handle response
@@ -110,7 +110,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_forms.get(employee_id="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_forms.get(employee_id="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form.nil?
   # handle response
@@ -149,7 +149,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_forms.get_pdf(employee_id="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_forms.get_pdf(employee_id="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form_pdf.nil?
   # handle response

@@ -13,34 +13,43 @@ module GustoEmbedded
 
       # The UUID of the company
       field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
+      # Specifies which date field to use when filtering payrolls with start_date and end_date. This field applies only to regular processed payrolls and defaults to pay period if not provided.
+      field :date_filter_by, T.nilable(::GustoEmbedded::Operations::DateFilterBy), { 'query_param': { 'field_name': 'date_filter_by', 'style': 'form', 'explode': true } }
       # Return payrolls whose pay period is before the end date. If left empty, defaults to today's date.
       field :end_date, T.nilable(::String), { 'query_param': { 'field_name': 'end_date', 'style': 'form', 'explode': true } }
-      # Include the requested attribute in the response. The risk_blockers option will include submission_blockers and credit_blockers if applicable. The reversals option will include reversal payroll UUIDs if applicable. In v2023-04-01 totals are no longer included by default. For multiple attributes comma separate the values, i.e. `?include=totals,payroll_status_meta`
+      # Include the requested attribute in the response. The risk_blockers option will include submission_blockers and credit_blockers if applicable. The reversals option will include reversal payroll UUIDs if applicable. In v2023-04-01 totals are no longer included by default. For multiple attributes comma separate the values, i.e. `?include=totals,payroll_status_meta`. Results are paginated, with a maximum page size of 100 payrolls.
       field :include, T.nilable(T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsQueryParamInclude]), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
+      # Whether to include off cycle payrolls in the response
+      field :include_off_cycle, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'include_off_cycle', 'style': 'form', 'explode': true } }
       # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
       field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
       # Whether to include regular and/or off_cycle payrolls in the response, defaults to regular, for multiple attributes comma separate the values, i.e. `?payroll_types=regular,off_cycle`
       field :payroll_types, T.nilable(T::Array[::GustoEmbedded::Operations::PayrollTypes]), { 'query_param': { 'field_name': 'payroll_types', 'style': 'form', 'explode': false } }
       # Number of objects per page. For majority of endpoints will default to 25
       field :per, T.nilable(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
+      # Whether to return processed or unprocessed payrolls
+      field :processed, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'processed', 'style': 'form', 'explode': true } }
       # Whether to include processed and/or unprocessed payrolls in the response, defaults to processed, for multiple attributes comma separate the values, i.e. `?processing_statuses=processed,unprocessed`
       field :processing_statuses, T.nilable(T::Array[::GustoEmbedded::Operations::ProcessingStatuses]), { 'query_param': { 'field_name': 'processing_statuses', 'style': 'form', 'explode': false } }
       # A string indicating whether to sort resulting events in ascending (asc) or descending (desc) chronological order. Events are sorted by their `timestamp`. Defaults to asc if left empty.
-      field :sort_order, T.nilable(::GustoEmbedded::Shared::SortOrder), { 'query_param': { 'field_name': 'sort_order', 'style': 'form', 'explode': true } }
+      field :sort_order, T.nilable(::GustoEmbedded::Operations::SortOrder), { 'query_param': { 'field_name': 'sort_order', 'style': 'form', 'explode': true } }
       # Return payrolls whose pay period is after the start date
       field :start_date, T.nilable(::String), { 'query_param': { 'field_name': 'start_date', 'style': 'form', 'explode': true } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(company_id: ::String, end_date: T.nilable(::String), include: T.nilable(T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsQueryParamInclude]), page: T.nilable(::Integer), payroll_types: T.nilable(T::Array[::GustoEmbedded::Operations::PayrollTypes]), per: T.nilable(::Integer), processing_statuses: T.nilable(T::Array[::GustoEmbedded::Operations::ProcessingStatuses]), sort_order: T.nilable(::GustoEmbedded::Shared::SortOrder), start_date: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_id: nil, end_date: nil, include: nil, page: nil, payroll_types: nil, per: nil, processing_statuses: nil, sort_order: nil, start_date: nil, x_gusto_api_version: nil)
+      sig { params(company_id: ::String, date_filter_by: T.nilable(::GustoEmbedded::Operations::DateFilterBy), end_date: T.nilable(::String), include: T.nilable(T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsQueryParamInclude]), include_off_cycle: T.nilable(T::Boolean), page: T.nilable(::Integer), payroll_types: T.nilable(T::Array[::GustoEmbedded::Operations::PayrollTypes]), per: T.nilable(::Integer), processed: T.nilable(T::Boolean), processing_statuses: T.nilable(T::Array[::GustoEmbedded::Operations::ProcessingStatuses]), sort_order: T.nilable(::GustoEmbedded::Operations::SortOrder), start_date: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion)).void }
+      def initialize(company_id: nil, date_filter_by: nil, end_date: nil, include: nil, include_off_cycle: nil, page: nil, payroll_types: nil, per: nil, processed: nil, processing_statuses: nil, sort_order: nil, start_date: nil, x_gusto_api_version: nil)
         @company_id = company_id
+        @date_filter_by = date_filter_by
         @end_date = end_date
         @include = include
+        @include_off_cycle = include_off_cycle
         @page = page
         @payroll_types = payroll_types
         @per = per
+        @processed = processed
         @processing_statuses = processing_statuses
         @sort_order = sort_order
         @start_date = start_date

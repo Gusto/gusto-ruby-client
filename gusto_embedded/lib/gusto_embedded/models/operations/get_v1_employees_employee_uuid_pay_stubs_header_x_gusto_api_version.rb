@@ -10,7 +10,7 @@ module GustoEmbedded
     # GetV1EmployeesEmployeeUuidPayStubsHeaderXGustoAPIVersion - Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
     class GetV1EmployeesEmployeeUuidPayStubsHeaderXGustoAPIVersion < T::Enum
       enums do
-        TWO_THOUSAND_AND_TWENTY_FOUR_04_01 = new('2024-04-01')
+        TWO_THOUSAND_AND_TWENTY_FIVE_06_15 = new('2025-06-15')
       end
     end
   end

@@ -25,7 +25,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.company_attachment.get_download_url(company_id="<id>", company_attachment_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_attachment.get_download_url(company_id="<id>", company_attachment_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.object.nil?
   # handle response

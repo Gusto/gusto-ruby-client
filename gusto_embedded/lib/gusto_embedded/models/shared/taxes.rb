@@ -11,18 +11,15 @@ module GustoEmbedded
     class Taxes < ::Crystalline::FieldAugmented
       extend T::Sig
 
-
-      field :amount, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-
-      field :employer, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer') } }
-
-      field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+      # The total amount paid by both employer and employee for this tax.
+      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+      # The amount paid for this tax.
+      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
 
 
-      sig { params(amount: ::Float, employer: T::Boolean, name: ::String).void }
-      def initialize(amount: nil, employer: nil, name: nil)
+      sig { params(amount: T.nilable(::String), name: T.nilable(::String)).void }
+      def initialize(amount: nil, name: nil)
         @amount = amount
-        @employer = employer
         @name = name
       end
     end

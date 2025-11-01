@@ -30,9 +30,11 @@ module GustoEmbedded
       # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
       field :two_percent_shareholder, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
 
+      field :work_email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_email') } }
 
-      sig { params(version: ::String, date_of_birth: T.nilable(::String), email: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), ssn: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean)).void }
-      def initialize(version: nil, date_of_birth: nil, email: nil, first_name: nil, last_name: nil, middle_initial: nil, preferred_first_name: nil, ssn: nil, two_percent_shareholder: nil)
+
+      sig { params(version: ::String, date_of_birth: T.nilable(::String), email: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), ssn: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), work_email: T.nilable(::String)).void }
+      def initialize(version: nil, date_of_birth: nil, email: nil, first_name: nil, last_name: nil, middle_initial: nil, preferred_first_name: nil, ssn: nil, two_percent_shareholder: nil, work_email: nil)
         @version = version
         @date_of_birth = date_of_birth
         @email = email
@@ -42,6 +44,7 @@ module GustoEmbedded
         @preferred_first_name = preferred_first_name
         @ssn = ssn
         @two_percent_shareholder = two_percent_shareholder
+        @work_email = work_email
       end
     end
   end

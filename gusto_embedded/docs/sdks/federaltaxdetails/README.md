@@ -25,7 +25,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.federal_tax_details.get(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.federal_tax_details.get(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.federal_tax_details.nil?
   # handle response
@@ -66,7 +66,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.federal_tax_details.update(company_id="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyIdFederalTaxDetailsRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.federal_tax_details.nil?
   # handle response

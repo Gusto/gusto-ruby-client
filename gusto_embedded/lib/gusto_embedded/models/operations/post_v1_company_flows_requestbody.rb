@@ -17,13 +17,16 @@ module GustoEmbedded
       field :entity_type, T.nilable(::GustoEmbedded::Operations::EntityType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::EntityType, true) } }
       # UUID of the target entity applicable to the flow. This field is optional for company flows, please refer to the flow_types table above for more details.
       field :entity_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid') } }
+      # Optional configuration object that varies based on the flow_type. This can contain arbitrary key-value pairs specific to the flow being generated (e.g., { "provider": "guideline" }).
+      field :options, T.nilable(T::Hash[Symbol, ::Object]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
 
 
-      sig { params(flow_type: ::String, entity_type: T.nilable(::GustoEmbedded::Operations::EntityType), entity_uuid: T.nilable(::String)).void }
-      def initialize(flow_type: nil, entity_type: nil, entity_uuid: nil)
+      sig { params(flow_type: ::String, entity_type: T.nilable(::GustoEmbedded::Operations::EntityType), entity_uuid: T.nilable(::String), options: T.nilable(T::Hash[Symbol, ::Object])).void }
+      def initialize(flow_type: nil, entity_type: nil, entity_uuid: nil, options: nil)
         @flow_type = flow_type
         @entity_type = entity_type
         @entity_uuid = entity_uuid
+        @options = options
       end
     end
   end

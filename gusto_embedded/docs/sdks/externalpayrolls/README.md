@@ -36,7 +36,7 @@ res = s.external_payrolls.create(company_uuid="<id>", request_body=::GustoEmbedd
   check_date: "<value>",
   payment_period_start_date: "<value>",
   payment_period_end_date: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.external_payroll.nil?
   # handle response
@@ -75,7 +75,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.external_payrolls.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.external_payrolls.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.external_payroll_list.nil?
   # handle response
@@ -113,7 +113,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.external_payrolls.retrieve(company_uuid="<id>", external_payroll_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.external_payrolls.retrieve(company_uuid="<id>", external_payroll_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.external_payroll.nil?
   # handle response
@@ -152,7 +152,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.external_payrolls.delete(company_uuid="<id>", external_payroll_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.external_payrolls.delete(company_uuid="<id>", external_payroll_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -191,7 +191,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.external_payrolls.update(company_uuid="<id>", external_payroll_id="<id>", request_body=::GustoEmbedded::Operations::PutV1ExternalPayrollRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.external_payrolls.update(company_uuid="<id>", external_payroll_id="<id>", request_body=::GustoEmbedded::Operations::PutV1ExternalPayrollRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.external_payroll.nil?
   # handle response
@@ -233,7 +233,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.external_payrolls.calculate_taxes(company_uuid="<id>", external_payroll_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.external_payrolls.calculate_taxes(company_uuid="<id>", external_payroll_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.external_payroll_tax_suggestions_list.nil?
   # handle response
@@ -272,7 +272,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.external_payrolls.list_tax_liabilities(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.external_payrolls.list_tax_liabilities(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.tax_liabilities_list.nil?
   # handle response
@@ -310,7 +310,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.external_payrolls.update_tax_liabilities(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1TaxLiabilitiesRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.external_payrolls.update_tax_liabilities(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1TaxLiabilitiesRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.tax_liabilities_list.nil?
   # handle response
@@ -349,7 +349,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.external_payrolls.finalize_tax_liabilities(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.external_payrolls.finalize_tax_liabilities(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response

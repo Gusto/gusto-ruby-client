@@ -12,6 +12,7 @@
 * [delete_subscription](#delete_subscription) - Delete a webhook subscription
 * [verify](#verify) - Verify the webhook subscription
 * [request_verification_token](#request_verification_token) - Request the webhook subscription verification_token
+* [get_v1_webhooks_health_check](#get_v1_webhooks_health_check) - Get the webhooks health status
 
 ## create_subscription
 
@@ -39,7 +40,7 @@ res = s.webhooks.create_subscription(security: ::GustoEmbedded::Operations::Post
   subscription_types: [
     ::GustoEmbedded::Operations::SubscriptionTypes::EMPLOYEE,
   ],
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.webhook_subscription.nil?
   # handle response
@@ -82,7 +83,7 @@ res = s.webhooks.list_subscriptions(security: ::GustoEmbedded::Operations::GetV1
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), ::GustoEmbedded::Operations::GetV1WebhookSubscriptionsSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+  ), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.webhook_subscriptions_list.nil?
   # handle response
@@ -129,7 +130,7 @@ res = s.webhooks.update_subscription(security: ::GustoEmbedded::Operations::PutV
   subscription_types: [
     ::GustoEmbedded::Operations::PutV1WebhookSubscriptionUuidSubscriptionTypes::PAY_SCHEDULE,
   ],
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.webhook_subscription.nil?
   # handle response
@@ -174,7 +175,7 @@ res = s.webhooks.get_subscription(security: ::GustoEmbedded::Operations::GetV1We
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), ::GustoEmbedded::Operations::GetV1WebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+  ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.webhook_subscription.nil?
   # handle response
@@ -218,7 +219,7 @@ res = s.webhooks.delete_subscription(security: ::GustoEmbedded::Operations::Dele
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), ::GustoEmbedded::Operations::DeleteV1WebhookSubscriptionUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+  ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -266,7 +267,7 @@ res = s.webhooks.verify(security: ::GustoEmbedded::Operations::PutV1VerifyWebhoo
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), webhook_subscription_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1VerifyWebhookSubscriptionUuidRequestBody.new(
   verification_token: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.webhook_subscription.nil?
   # handle response
@@ -311,7 +312,7 @@ res = s.webhooks.request_verification_token(security: ::GustoEmbedded::Operation
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
   ), ::GustoEmbedded::Operations::GetV1WebhookSubscriptionVerificationTokenUuidSecurity.new(
     system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+  ), webhook_subscription_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -330,4 +331,43 @@ end
 ### Response
 
 **[T.nilable(::GustoEmbedded::Operations::GetV1WebhookSubscriptionVerificationTokenUuidResponse)](../../models/operations/getv1webhooksubscriptionverificationtokenuuidresponse.md)**
+
+
+
+## get_v1_webhooks_health_check
+
+Returns the health status (`healthy`, `unhealthy`, or `unknown`) of the webhooks system based on the last ten minutes of activity.
+
+scope: `webhook_subscriptions:read`
+
+
+### Example Usage
+
+```ruby
+require 'gusto_embedded_client'
+
+s = ::GustoEmbedded::Client.new
+
+res = s.webhooks.get_v1_webhooks_health_check(security: ::GustoEmbedded::Operations::GetV1WebhooksHealthCheckSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), ::GustoEmbedded::Operations::GetV1WebhooksHealthCheckSecurity.new(
+    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+  ), x_gusto_api_version=::GustoEmbedded::Operations::GetV1WebhooksHealthCheckHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
+
+if ! res.webhooks_health_check_status.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `security`                                                                                                                                                                                                                   | [::GustoEmbedded::Operations::GetV1WebhooksHealthCheckSecurity](../../models/operations/getv1webhookshealthchecksecurity.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::GetV1WebhooksHealthCheckHeaderXGustoAPIVersion)](../../models/operations/getv1webhookshealthcheckheaderxgustoapiversion.md)                                                          | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(::GustoEmbedded::Operations::GetV1WebhooksHealthCheckResponse)](../../models/operations/getv1webhookshealthcheckresponse.md)**
 

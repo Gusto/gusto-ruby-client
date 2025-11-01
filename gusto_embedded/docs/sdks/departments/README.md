@@ -30,7 +30,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.departments.create(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostDepartmentsRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.departments.create(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostDepartmentsRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.department.nil?
   # handle response
@@ -69,7 +69,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.departments.get_all(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.departments.get_all(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.department_list.nil?
   # handle response
@@ -108,7 +108,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.departments.get(department_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.departments.get(department_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.department.nil?
   # handle response
@@ -148,7 +148,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.departments.update(department_uuid="<id>", request_body=::GustoEmbedded::Operations::PutDepartmentsRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.department.nil?
   # handle response
@@ -188,7 +188,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.departments.delete(department_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.departments.delete(department_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -227,7 +227,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.departments.add_people(department_uuid="<id>", request_body=::GustoEmbedded::Operations::PutAddPeopleToDepartmentRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.departments.add_people(department_uuid="<id>", request_body=::GustoEmbedded::Operations::PutAddPeopleToDepartmentRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.department.nil?
   # handle response
@@ -267,7 +267,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.departments.remove_people(department_uuid="<id>", request_body=::GustoEmbedded::Operations::PutRemovePeopleFromDepartmentRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.departments.remove_people(department_uuid="<id>", request_body=::GustoEmbedded::Operations::PutRemovePeopleFromDepartmentRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.department.nil?
   # handle response

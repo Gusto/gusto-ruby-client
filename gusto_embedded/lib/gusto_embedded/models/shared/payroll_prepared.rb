@@ -7,14 +7,14 @@
 module GustoEmbedded
   module Shared
   
-    # An off-cycle payroll
+
     class PayrollPrepared < ::Crystalline::FieldAugmented
       extend T::Sig
 
       # Indicates whether the payroll is an auto pilot payroll
       field :auto_pilot, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('auto_pilot') } }
       # A timestamp of the last valid payroll calculation. Null if there isn't a valid calculation.
-      field :calculated_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('calculated_at') } }
+      field :calculated_at, T.nilable(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('calculated_at'), 'decoder': Utils.datetime_from_iso_format(true) } }
       # The date on which employees will be paid for the payroll.
       field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
       # The UUID of the company for the payroll.
@@ -35,6 +35,8 @@ module GustoEmbedded
       field :off_cycle, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle') } }
       # The off-cycle reason. Only included for off-cycle payrolls.
       field :off_cycle_reason, T.nilable(::GustoEmbedded::Shared::OffCycleReasonType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle_reason'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::OffCycleReasonType, true) } }
+      # Will money movement for the payroll be performed by the partner rather than by Gusto?
+      field :partner_owned_disbursement, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
 
       field :pay_period, T.nilable(::GustoEmbedded::Shared::PayrollPayPeriodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_period') } }
       # Only applicable when a payroll is moved to four day processing instead of fast ach.
@@ -59,8 +61,8 @@ module GustoEmbedded
       field :withholding_pay_period, T.nilable(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('withholding_pay_period'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType, true) } }
 
 
-      sig { params(auto_pilot: T.nilable(T::Boolean), calculated_at: T.nilable(::String), check_date: T.nilable(::String), company_uuid: T.nilable(::String), created_at: T.nilable(::DateTime), employee_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollEmployeeCompensationsType]), external: T.nilable(T::Boolean), final_termination_payroll: T.nilable(T::Boolean), fixed_compensation_types: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollFixedCompensationTypesType]), fixed_withholding_rate: T.nilable(T::Boolean), off_cycle: T.nilable(T::Boolean), off_cycle_reason: T.nilable(::GustoEmbedded::Shared::OffCycleReasonType), pay_period: T.nilable(::GustoEmbedded::Shared::PayrollPayPeriodType), payment_speed_changed: T.nilable(::GustoEmbedded::Shared::PayrollPaymentSpeedChangedType), payroll_deadline: T.nilable(::DateTime), payroll_status_meta: T.nilable(::GustoEmbedded::Shared::PayrollPayrollStatusMetaType), payroll_uuid: T.nilable(::String), processed: T.nilable(T::Boolean), processed_date: T.nilable(::String), processing_request: T.nilable(::GustoEmbedded::Shared::PayrollProcessingRequest), skip_regular_deductions: T.nilable(T::Boolean), uuid: T.nilable(::String), withholding_pay_period: T.nilable(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType)).void }
-      def initialize(auto_pilot: nil, calculated_at: nil, check_date: nil, company_uuid: nil, created_at: nil, employee_compensations: nil, external: nil, final_termination_payroll: nil, fixed_compensation_types: nil, fixed_withholding_rate: nil, off_cycle: nil, off_cycle_reason: nil, pay_period: nil, payment_speed_changed: nil, payroll_deadline: nil, payroll_status_meta: nil, payroll_uuid: nil, processed: nil, processed_date: nil, processing_request: nil, skip_regular_deductions: nil, uuid: nil, withholding_pay_period: nil)
+      sig { params(auto_pilot: T.nilable(T::Boolean), calculated_at: T.nilable(::DateTime), check_date: T.nilable(::String), company_uuid: T.nilable(::String), created_at: T.nilable(::DateTime), employee_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollEmployeeCompensationsType]), external: T.nilable(T::Boolean), final_termination_payroll: T.nilable(T::Boolean), fixed_compensation_types: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollFixedCompensationTypesType]), fixed_withholding_rate: T.nilable(T::Boolean), off_cycle: T.nilable(T::Boolean), off_cycle_reason: T.nilable(::GustoEmbedded::Shared::OffCycleReasonType), partner_owned_disbursement: T.nilable(T::Boolean), pay_period: T.nilable(::GustoEmbedded::Shared::PayrollPayPeriodType), payment_speed_changed: T.nilable(::GustoEmbedded::Shared::PayrollPaymentSpeedChangedType), payroll_deadline: T.nilable(::DateTime), payroll_status_meta: T.nilable(::GustoEmbedded::Shared::PayrollPayrollStatusMetaType), payroll_uuid: T.nilable(::String), processed: T.nilable(T::Boolean), processed_date: T.nilable(::String), processing_request: T.nilable(::GustoEmbedded::Shared::PayrollProcessingRequest), skip_regular_deductions: T.nilable(T::Boolean), uuid: T.nilable(::String), withholding_pay_period: T.nilable(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType)).void }
+      def initialize(auto_pilot: nil, calculated_at: nil, check_date: nil, company_uuid: nil, created_at: nil, employee_compensations: nil, external: nil, final_termination_payroll: nil, fixed_compensation_types: nil, fixed_withholding_rate: nil, off_cycle: nil, off_cycle_reason: nil, partner_owned_disbursement: nil, pay_period: nil, payment_speed_changed: nil, payroll_deadline: nil, payroll_status_meta: nil, payroll_uuid: nil, processed: nil, processed_date: nil, processing_request: nil, skip_regular_deductions: nil, uuid: nil, withholding_pay_period: nil)
         @auto_pilot = auto_pilot
         @calculated_at = calculated_at
         @check_date = check_date
@@ -73,6 +75,7 @@ module GustoEmbedded
         @fixed_withholding_rate = fixed_withholding_rate
         @off_cycle = off_cycle
         @off_cycle_reason = off_cycle_reason
+        @partner_owned_disbursement = partner_owned_disbursement
         @pay_period = pay_period
         @payment_speed_changed = payment_speed_changed
         @payroll_deadline = payroll_deadline

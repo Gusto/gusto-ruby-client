@@ -27,7 +27,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_forms.list(contractor_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_forms.list(contractor_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form_1099s.nil?
   # handle response
@@ -65,7 +65,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_forms.get(contractor_uuid="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_forms.get(contractor_uuid="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form_1099.nil?
   # handle response
@@ -104,7 +104,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_forms.get_pdf(contractor_uuid="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_forms.get_pdf(contractor_uuid="<id>", form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form_pdf.nil?
   # handle response
@@ -149,7 +149,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.contractor_forms.generate1099(request_body=::GustoEmbedded::Operations::PostV1SandboxGenerate1099RequestBody.new(
   contractor_id: "<id>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form_1099.nil?
   # handle response

@@ -23,7 +23,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.object.nil?
   # handle response
@@ -67,7 +67,7 @@ res = s.introspection.refresh_token(request_body=::GustoEmbedded::Operations::Re
   client_secret: "<value>",
   refresh_token: "<value>",
   grant_type: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.authentication.nil?
   # handle response

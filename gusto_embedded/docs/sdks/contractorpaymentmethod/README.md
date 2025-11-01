@@ -26,7 +26,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_payment_method.get_bank_accounts(contractor_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_payment_method.get_bank_accounts(contractor_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.contractor_bank_account_list.nil?
   # handle response
@@ -66,7 +66,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_payment_method.get(contractor_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_payment_method.get(contractor_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.contractor_payment_method.nil?
   # handle response
@@ -106,9 +106,9 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.contractor_payment_method.update(contractor_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1ContractorsContractorIdPaymentMethodRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
   type: ::GustoEmbedded::Operations::PutV1ContractorsContractorIdPaymentMethodType::CHECK,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.contractor_payment_method.nil?
   # handle response

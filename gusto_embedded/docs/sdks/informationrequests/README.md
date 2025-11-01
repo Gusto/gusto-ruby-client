@@ -24,7 +24,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.information_requests.get_information_requests(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.information_requests.get_information_requests(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.information_request_list.nil?
   # handle response

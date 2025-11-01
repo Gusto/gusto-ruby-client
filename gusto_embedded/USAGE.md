@@ -8,7 +8,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.object.nil?
   # handle response

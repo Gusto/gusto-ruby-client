@@ -37,7 +37,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_payments.get_receipt(contractor_payment_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_payments.get_receipt(contractor_payment_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.contractor_payment_receipt.nil?
   # handle response
@@ -79,7 +79,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_payments.fund(contractor_payment_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_payments.fund(contractor_payment_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.contractor_payment.nil?
   # handle response
@@ -124,7 +124,7 @@ res = s.contractor_payments.create(company_id="<id>", request_body=::GustoEmbedd
   hours: 40.0,
   bonus: 500.0,
   reimbursement: 20.0,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.contractor_payment.nil?
   # handle response
@@ -205,7 +205,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_payments.get(company_id="<id>", contractor_payment_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_payments.get(company_id="<id>", contractor_payment_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.contractor_payment.nil?
   # handle response
@@ -244,7 +244,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.contractor_payments.delete(company_id="<id>", contractor_payment_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.contractor_payments.delete(company_id="<id>", contractor_payment_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -289,7 +289,7 @@ res = s.contractor_payments.preview(company_uuid="<id>", request_body=::GustoEmb
   contractor_payments: [
     ::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPayments.new(),
   ],
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.two_hundred_application_json_object.nil?
   # handle response

@@ -22,7 +22,7 @@ module GustoEmbedded
     sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompanyPaymentConfigsResponse) }
     def get(company_uuid, x_gusto_api_version = nil)
       # get - Get a company's payment configs
-      # Get payment speed for the company and fast payment limit (1-day is only applicable to partners that opt in).
+      # Get payment speed configurations for the company and fast payment limit (1-day is only applicable to partners that opt in).
       # 
       # scope: `company_payment_configs:read`
       request = ::GustoEmbedded::Operations::GetV1CompanyPaymentConfigsRequest.new(

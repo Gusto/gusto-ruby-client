@@ -11,7 +11,7 @@ module GustoEmbedded
     class GetV1ContractorDocumentPdfRequest < ::Crystalline::FieldAugmented
       extend T::Sig
 
-      # The ID or UUID of the document
+      # The UUID of the document
       field :document_uuid, ::String, { 'path_param': { 'field_name': 'document_uuid', 'style': 'simple', 'explode': false } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }

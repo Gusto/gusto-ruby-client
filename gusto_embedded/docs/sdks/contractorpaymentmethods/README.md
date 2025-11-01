@@ -31,7 +31,7 @@ res = s.contractor_payment_methods.create_bank_account(contractor_uuid="<id>", r
   routing_number: "<value>",
   account_number: "<value>",
   account_type: ::GustoEmbedded::Operations::PostV1ContractorsContractorUuidBankAccountsAccountType::CHECKING,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.contractor_bank_account.nil?
   # handle response

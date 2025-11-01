@@ -402,6 +402,7 @@ module GustoEmbedded
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::Rehire)
           res.rehire = out
         end
+      elsif r.status == 204
       elsif r.status == 404
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)

@@ -18,20 +18,26 @@ module GustoEmbedded
       # HTTP response status code for this operation
       field :status_code, ::Integer
       # Full contractor payment group object with null uuid
-      field :contractor_payment_group, T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroup)
-      # Unprocessable Entity 
-      #   
+      field :contractor_payment_group_preview, T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroupPreview)
+      # Not Found
+      # 
+      # The requested resource does not exist. Make sure the provided ID/UUID is valid.
+      # 
+      field :not_found_error_object, T.nilable(::GustoEmbedded::Shared::NotFoundErrorObject)
+      # Unprocessable Entity
+      # 
       # This may happen when the body of your request contains errors such as `invalid_attribute_value`, or the request fails due to an `invalid_operation`. See the [Errors Categories](https://docs.gusto.com/embedded-payroll/docs/error-categories) guide for more details.
       # 
       field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, contractor_payment_group: T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroup), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, contractor_payment_group: nil, unprocessable_entity_error_object: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, contractor_payment_group_preview: T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroupPreview), not_found_error_object: T.nilable(::GustoEmbedded::Shared::NotFoundErrorObject), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, contractor_payment_group_preview: nil, not_found_error_object: nil, unprocessable_entity_error_object: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
-        @contractor_payment_group = contractor_payment_group
+        @contractor_payment_group_preview = contractor_payment_group_preview
+        @not_found_error_object = not_found_error_object
         @unprocessable_entity_error_object = unprocessable_entity_error_object
       end
     end
