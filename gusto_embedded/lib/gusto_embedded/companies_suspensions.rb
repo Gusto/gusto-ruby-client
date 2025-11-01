@@ -19,16 +19,17 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetCompaniesCompanyUuidSuspensionsResponse) }
+    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetCompaniesCompanyUuidSuspensionsHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetCompaniesCompanyUuidSuspensionsResponse) }
     def get(company_uuid, x_gusto_api_version = nil)
       # get - Get suspensions for this company
-      # Get existing suspension records for this company. A company may have multiple suspension records if they have suspended their Gusto account more than once. 
+      # Get existing suspension records for this company. A company may have multiple suspension records if they have suspended their Gusto account more than once.
       # 
-      # > 📘 To check if company is already suspended
+      # >📘 To check if company is already suspended
       # >
       # > To determine if a company is _currently_ suspended, use the `is_suspended` and `company_status` fields in the [Get a company](https://docs.gusto.com/embedded-payroll/reference/get-v1-companies) endpoint.
       # 
       # scope: `company_suspensions:read`
+      # 
       request = ::GustoEmbedded::Operations::GetCompaniesCompanyUuidSuspensionsRequest.new(
         
         company_uuid: company_uuid,
@@ -63,18 +64,23 @@ module GustoEmbedded
           res.company_suspension_list = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res
     end
 
 
-    sig { params(company_uuid: ::String, request_body: ::GustoEmbedded::Operations::PostCompaniesCompanyUuidSuspensionsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostCompaniesCompanyUuidSuspensionsResponse) }
+    sig { params(company_uuid: ::String, request_body: ::GustoEmbedded::Operations::PostCompaniesCompanyUuidSuspensionsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PostCompaniesCompanyUuidSuspensionsHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PostCompaniesCompanyUuidSuspensionsResponse) }
     def suspend(company_uuid, request_body, x_gusto_api_version = nil)
       # suspend - Suspend a company's account
       # Use this endpoint to suspend a company. After suspension, company will no longer be able to run payroll but will retain access to their information, such as retrieving employee info or retrieving past payrolls.
       # 
       # scope: `company_suspensions:write`
+      # 
       request = ::GustoEmbedded::Operations::PostCompaniesCompanyUuidSuspensionsRequest.new(
         
         company_uuid: company_uuid,
@@ -121,8 +127,8 @@ module GustoEmbedded
         end
       elsif r.status == 422
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
-          res.unprocessable_entity_error_object = out
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::CompanySuspensionCreationErrors)
+          res.company_suspension_creation_errors = out
         end
       end
 

@@ -44,7 +44,7 @@ res = s.signatories.create(company_uuid="<id>", request_body=::GustoEmbedded::Op
     state: "North Carolina",
     zip: "05065",
   ),
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.signatory.nil?
   # handle response
@@ -83,7 +83,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.signatories.list(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.signatories.list(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.signatory_list.nil?
   # handle response
@@ -121,7 +121,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.signatories.invite(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody.new(
   email: "Maureen_Wyman@yahoo.com",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.signatory.nil?
   # handle response
@@ -160,7 +160,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.signatories.update(company_uuid="<id>", signatory_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.signatories.update(company_uuid="<id>", signatory_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.signatory.nil?
   # handle response
@@ -200,7 +200,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.signatories.delete(company_uuid="<id>", signatory_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.signatories.delete(company_uuid="<id>", signatory_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response

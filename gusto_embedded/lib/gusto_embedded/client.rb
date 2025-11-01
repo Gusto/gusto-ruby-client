@@ -13,7 +13,7 @@ module GustoEmbedded
   class Client
     extend T::Sig
 
-    attr_accessor :introspection, :companies, :invoices, :company_attachments, :company_attachment, :federal_tax_details, :industry_selection, :signatories, :flows, :locations, :bank_accounts, :external_payrolls, :payment_configs, :pay_schedules, :employees, :historical_employees, :departments, :employee_employments, :employee_addresses, :employee_tax_setup, :employee_payment_method, :employee_payment_methods, :jobs_and_compensations, :earning_types, :contractors, :contractor_payment_methods, :contractor_payment_method, :webhooks, :contractor_forms, :contractor_documents, :employee_forms, :payrolls, :time_off_policies, :contractor_payments, :contractor_payment_groups, :company_forms, :generated_documents, :reports, :company_benefits, :employee_benefits, :garnishments, :i9_verification, :tax_requirements, :companies_suspensions, :holiday_pay_policies, :notifications, :events, :information_requests, :recovery_cases, :ach_transactions, :wire_in_requests
+    attr_accessor :introspection, :companies, :invoices, :company_attachments, :company_attachment, :federal_tax_details, :industry_selection, :signatories, :flows, :locations, :bank_accounts, :external_payrolls, :payment_configs, :pay_schedules, :employees, :historical_employees, :departments, :employee_employments, :employee_addresses, :employee_tax_setup, :employee_payment_method, :employee_payment_methods, :jobs_and_compensations, :earning_types, :contractors, :contractor_payment_methods, :contractor_payment_method, :webhooks, :contractor_forms, :contractor_documents, :employee_forms, :payrolls, :time_off_policies, :contractor_payments, :contractor_payment_groups, :company_forms, :generated_documents, :reports, :company_benefits, :employee_benefits, :garnishments, :i9_verification, :tax_requirements, :companies_suspensions, :holiday_pay_policies, :notifications, :events, :information_requests, :recovery_cases, :ach_transactions, :wire_in_requests, :salary_estimates, :reimbursements
 
     sig do
       params(
@@ -113,6 +113,8 @@ module GustoEmbedded
       @recovery_cases = RecoveryCases.new(@sdk_configuration)
       @ach_transactions = AchTransactions.new(@sdk_configuration)
       @wire_in_requests = WireInRequests.new(@sdk_configuration)
+      @salary_estimates = SalaryEstimates.new(@sdk_configuration)
+      @reimbursements = Reimbursements.new(@sdk_configuration)
     end
   end
 end

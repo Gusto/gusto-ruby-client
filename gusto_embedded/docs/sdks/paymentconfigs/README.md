@@ -10,7 +10,7 @@
 
 ## get
 
-Get payment speed for the company and fast payment limit (1-day is only applicable to partners that opt in).
+Get payment speed configurations for the company and fast payment limit (1-day is only applicable to partners that opt in).
 
 scope: `company_payment_configs:read`
 
@@ -25,7 +25,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.payment_configs.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.payment_configs.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.payment_configs.nil?
   # handle response
@@ -63,7 +63,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.payment_configs.update(company_uuid="<id>", request_body="<value>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.payment_configs.update(company_uuid="<id>", request_body="<value>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.payment_configs.nil?
   # handle response

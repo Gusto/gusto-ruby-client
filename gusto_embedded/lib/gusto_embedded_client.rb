@@ -58,6 +58,8 @@ module GustoEmbedded
   autoload :RecoveryCases, 'gusto_embedded/recoverycases'
   autoload :AchTransactions, 'gusto_embedded/achtransactions'
   autoload :WireInRequests, 'gusto_embedded/wireinrequests'
+  autoload :SalaryEstimates, 'gusto_embedded/salary_estimates'
+  autoload :Reimbursements, 'gusto_embedded/reimbursements'
 end
 
 require_relative 'gusto_embedded/utils/utils'

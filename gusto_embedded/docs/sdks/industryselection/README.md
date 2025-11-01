@@ -25,7 +25,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.industry_selection.get(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.industry_selection.get(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.industry.nil?
   # handle response
@@ -65,7 +65,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.industry_selection.update(company_id="<id>", request_body=::GustoEmbedded::Operations::PutV1CompanyIndustryRequestBody.new(
   naics_code: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.industry.nil?
   # handle response

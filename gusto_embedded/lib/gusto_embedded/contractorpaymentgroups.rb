@@ -19,12 +19,61 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsResponse) }
+    sig { params(request: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsRequest)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsResponse) }
+    def get_list(request)
+      # get_list - Get contractor payment groups for a company
+      # Returns a list of minimal contractor payment groups within a given time period, including totals but not associated contractor payments.
+      # 
+      #  scope: `payrolls:read`
+      # 
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsRequest,
+        base_url,
+        '/v1/companies/{company_id}/contractor_payment_groups',
+        request
+      )
+      headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsRequest, request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        req.params = query_params
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::ContractorPaymentGroupWithBlockers])
+          res.contractor_payment_group_with_blockers = out
+        end
+      elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
+      end
+
+      res
+    end
+
+
+    sig { params(company_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsResponse) }
     def create(company_id, request_body, x_gusto_api_version = nil)
       # create - Create a contractor payment group
       # Pay a group of contractors. Information needed depends on the contractor's wage type (hourly vs fixed)
       # 
       # scope: `payrolls:run`
+      # 
       request = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsRequest.new(
         
         company_id: company_id,
@@ -64,13 +113,12 @@ module GustoEmbedded
       res = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsResponse.new(
         status_code: r.status, content_type: content_type, raw_response: r
       )
-      if r.status == 200
+      if r.status == 201
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPaymentGroup)
           res.contractor_payment_group = out
         end
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
@@ -81,55 +129,14 @@ module GustoEmbedded
     end
 
 
-    sig { params(request: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsRequest)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsResponse) }
-    def get_list(request)
-      # get_list - Get contractor payment groups for a company
-      # Returns a list of minimal contractor payment groups within a given time period, including totals but not associated contractor payments.
-      # 
-      # scope: `payrolls:read`
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsRequest,
-        base_url,
-        '/v1/companies/{company_id}/contractor_payment_groups',
-        request
-      )
-      headers = Utils.get_headers(request)
-      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsRequest, request)
-      headers['Accept'] = 'application/json'
-      headers['user-agent'] = @sdk_configuration.user_agent
-
-      r = @sdk_configuration.client.get(url) do |req|
-        req.headers = headers
-        req.params = query_params
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-      end
-
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
-
-      res = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentGroupsResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
-      )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::ContractorPaymentGroupMinimal])
-          res.contractor_payment_group_list = out
-        end
-      elsif r.status == 404
-      end
-
-      res
-    end
-
-
-    sig { params(company_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewResponse) }
+    sig { params(company_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewResponse) }
     def preview(company_id, request_body, x_gusto_api_version = nil)
       # preview - Preview a contractor payment group
       # Preview a group of contractor payments. Request will validate inputs and return preview of the contractor payment group including the expected debit_date.  Uuid will be null in the response.
+      # The returned creation_token is a required parameter in order to create the contractor payment group.
       # 
       # scope: `payrolls:read`
+      # 
       request = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequest.new(
         
         company_id: company_id,
@@ -171,10 +178,14 @@ module GustoEmbedded
       )
       if r.status == 200
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPaymentGroup)
-          res.contractor_payment_group = out
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPaymentGroupPreview)
+          res.contractor_payment_group_preview = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::NotFoundErrorObject)
+          res.not_found_error_object = out
+        end
       elsif r.status == 422
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
@@ -186,12 +197,13 @@ module GustoEmbedded
     end
 
 
-    sig { params(contractor_payment_group_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse) }
+    sig { params(contractor_payment_group_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsContractorPaymentGroupIdHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse) }
     def get(contractor_payment_group_uuid, x_gusto_api_version = nil)
-      # get - Fetch a contractor payment group
+      # get - Get a contractor payment group
       # Returns a contractor payment group with all associated contractor payments.
       # 
       # scope: `payrolls:read`
+      # 
       request = ::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsContractorPaymentGroupIdRequest.new(
         
         contractor_payment_group_uuid: contractor_payment_group_uuid,
@@ -226,18 +238,23 @@ module GustoEmbedded
           res.contractor_payment_group = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::NotFoundErrorObject)
+          res.not_found_error_object = out
+        end
       end
 
       res
     end
 
 
-    sig { params(contractor_payment_group_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse) }
+    sig { params(contractor_payment_group_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse) }
     def delete(contractor_payment_group_uuid, x_gusto_api_version = nil)
       # delete - Cancel a contractor payment group
       # Cancels a contractor payment group and all associated contractor payments. All contractor payments must be cancellable, unfunded.
       # 
       # scope: `payrolls:run`
+      # 
       request = ::GustoEmbedded::Operations::DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdRequest.new(
         
         contractor_payment_group_uuid: contractor_payment_group_uuid,
@@ -267,8 +284,7 @@ module GustoEmbedded
         status_code: r.status, content_type: content_type, raw_response: r
       )
       if r.status == 204
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif [404, 422].include?(r.status)
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
           res.unprocessable_entity_error_object = out
@@ -279,16 +295,16 @@ module GustoEmbedded
     end
 
 
-    sig { params(contractor_payment_group_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse) }
+    sig { params(contractor_payment_group_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse) }
     def fund(contractor_payment_group_uuid, x_gusto_api_version = nil)
       # fund - Fund a contractor payment group [DEMO]
       # > 🚧 Demo action
-      # >
       # > This action is only available in the Demo environment
       # 
       # Simulate funding a contractor payment group. Funding only occurs automatically in the production environment when bank transactions are generated. Use this action in the demo environment to transition a contractor payment group's `status` from `Unfunded` to `Funded`. A `Funded` status is required for generating a contractor payment receipt.
       # 
       # scope: `payrolls:run`
+      # 
       request = ::GustoEmbedded::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundRequest.new(
         
         contractor_payment_group_uuid: contractor_payment_group_uuid,
@@ -323,6 +339,127 @@ module GustoEmbedded
           res.contractor_payment_group = out
         end
       elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::NotFoundErrorObject)
+          res.not_found_error_object = out
+        end
+      elsif r.status == 422
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
+      end
+
+      res
+    end
+
+
+    sig { params(id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsIdPartnerDisbursementsHeaderXGustoAPIVersion)).returns(::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsIdPartnerDisbursementsResponse) }
+    def get_v1_contractor_payment_groups_id_partner_disbursements(id, x_gusto_api_version = nil)
+      # get_v1_contractor_payment_groups_id_partner_disbursements - Get partner disbursements for a contractor payment group
+      # Get partner disbursements for a specific contractor payment group.
+      # 
+      # scope: `partner_disbursements:read`
+      # 
+      request = ::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsIdPartnerDisbursementsRequest.new(
+        
+        id: id,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsIdPartnerDisbursementsRequest,
+        base_url,
+        '/v1/contractor_payment_groups/{id}/partner_disbursements',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::GetV1ContractorPaymentGroupsIdPartnerDisbursementsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPaymentGroupPartnerDisbursements)
+          res.contractor_payment_group_partner_disbursements = out
+        end
+      elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
+      end
+
+      res
+    end
+
+
+    sig { params(id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::PatchV1ContractorPaymentGroupsIdPartnerDisbursementsHeaderXGustoAPIVersion), request_body: T.nilable(::GustoEmbedded::Operations::PatchV1ContractorPaymentGroupsIdPartnerDisbursementsRequestBody)).returns(::GustoEmbedded::Operations::PatchV1ContractorPaymentGroupsIdPartnerDisbursementsResponse) }
+    def patch_v1_contractor_payment_groups_id_partner_disbursements(id, x_gusto_api_version = nil, request_body = nil)
+      # patch_v1_contractor_payment_groups_id_partner_disbursements - Update partner disbursements for a contractor payment group
+      # Update partner disbursements for a specific contractor payment group.
+      # 
+      # scope: `partner_disbursements:write`
+      # 
+      request = ::GustoEmbedded::Operations::PatchV1ContractorPaymentGroupsIdPartnerDisbursementsRequest.new(
+        
+        id: id,
+        x_gusto_api_version: x_gusto_api_version,
+        request_body: request_body
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::PatchV1ContractorPaymentGroupsIdPartnerDisbursementsRequest,
+        base_url,
+        '/v1/contractor_payment_groups/{id}/partner_disbursements',
+        request
+      )
+      headers = Utils.get_headers(request)
+      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers['content-type'] = req_content_type
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.patch(url) do |req|
+        req.headers = headers
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+        if form
+          req.body = Utils.encode_form(form)
+        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+          req.body = URI.encode_www_form(data)
+        else
+          req.body = data
+        end
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::PatchV1ContractorPaymentGroupsIdPartnerDisbursementsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPaymentGroupPartnerDisbursements)
+          res.contractor_payment_group_partner_disbursements = out
+        end
+      elsif r.status == 404
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::NotFoundErrorObject)
+          res.not_found_error_object = out
+        end
       elsif r.status == 422
         if Utils.match_content_type(content_type, 'application/json')
           out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)

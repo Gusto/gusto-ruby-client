@@ -31,7 +31,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.earning_types.create(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdEarningTypesRequestBody.new(
   name: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.earning_type.nil?
   # handle response
@@ -76,7 +76,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.earning_types.list(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.earning_types.list(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.earning_type_list.nil?
   # handle response
@@ -114,7 +114,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.earning_types.update(company_id="<id>", earning_type_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.earning_types.update(company_id="<id>", earning_type_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.earning_type.nil?
   # handle response
@@ -154,7 +154,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.earning_types.delete(company_id="<id>", earning_type_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.earning_types.delete(company_id="<id>", earning_type_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response

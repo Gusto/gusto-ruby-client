@@ -26,7 +26,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.company_attachments.get_details(company_id="<id>", company_attachment_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_attachments.get_details(company_id="<id>", company_attachment_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.company_attachment.nil?
   # handle response
@@ -65,7 +65,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.company_attachments.get_list(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_attachments.get_list(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.company_attachment_list.nil?
   # handle response
@@ -111,7 +111,7 @@ res = s.company_attachments.create(company_id="<id>", request_body=::GustoEmbedd
     content: "0xae921BE031".encode(),
   ),
   category: ::GustoEmbedded::Operations::Category::COMPLIANCE,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.company_attachment.nil?
   # handle response

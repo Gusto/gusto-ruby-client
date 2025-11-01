@@ -36,7 +36,7 @@ res = s.locations.create(company_id="<id>", request_body=::GustoEmbedded::Operat
   city: "Grand Island",
   state: "Illinois",
   zip: "22031",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.location.nil?
   # handle response
@@ -77,7 +77,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.locations.get(company_id="<id>", page=700347, per=558834, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.locations.get(company_id="<id>", page=700347, per=558834, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.location_list.nil?
   # handle response
@@ -118,7 +118,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.locations.retrieve(location_id="<id>", x_gusto_api_version=::GustoEmbedded::Operations::XGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.locations.retrieve(location_id="<id>", x_gusto_api_version=::GustoEmbedded::Operations::XGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.location.nil?
   # handle response
@@ -158,8 +158,13 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.locations.update(location_id="<id>", request_body=::GustoEmbedded::Operations::PutV1LocationsLocationIdRequestBody.new(
-  version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Operations::HeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
+  phone_number: "8009360383",
+  street_1: "300 3rd Street",
+  street_2: "Apartment 318",
+  city: "San Francisco",
+  zip: "94107",
+), x_gusto_api_version=::GustoEmbedded::Operations::HeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.location.nil?
   # handle response
@@ -199,7 +204,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.locations.get_minimum_wages(location_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01, effective_date="2020-01-31")
+res = s.locations.get_minimum_wages(location_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_06_15, effective_date="2020-01-31")
 
 if ! res.minimum_wage_list.nil?
   # handle response

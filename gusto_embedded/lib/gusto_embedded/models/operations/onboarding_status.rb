@@ -10,8 +10,13 @@ module GustoEmbedded
     # OnboardingStatus - Onboarding status value
     class OnboardingStatus < T::Enum
       enums do
-        SELF_ONBOARDING_INVITED = new('self_onboarding_invited')
         ADMIN_ONBOARDING_INCOMPLETE = new('admin_onboarding_incomplete')
+        SELF_ONBOARDING_PENDING_INVITE = new('self_onboarding_pending_invite')
+        SELF_ONBOARDING_INVITED = new('self_onboarding_invited')
+        SELF_ONBOARDING_INVITED_STARTED = new('self_onboarding_invited_started')
+        SELF_ONBOARDING_INVITED_OVERDUE = new('self_onboarding_invited_overdue')
+        SELF_ONBOARDING_COMPLETED_BY_EMPLOYEE = new('self_onboarding_completed_by_employee')
+        SELF_ONBOARDING_AWAITING_ADMIN_REVIEW = new('self_onboarding_awaiting_admin_review')
         ONBOARDING_COMPLETED = new('onboarding_completed')
       end
     end

@@ -40,7 +40,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.time_off_policies.calculate_accruing_time_off_hours(payroll_id="<id>", employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.time_off_policies.calculate_accruing_time_off_hours(payroll_id="<id>", employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.accruing_time_off_hour_object.nil?
   # handle response
@@ -80,7 +80,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.time_off_policies.get(time_off_policy_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.time_off_policies.get(time_off_policy_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.time_off_policy.nil?
   # handle response
@@ -118,7 +118,9 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.time_off_policies.update(time_off_policy_uuid="<id>", request_body=::GustoEmbedded::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.time_off_policies.update(time_off_policy_uuid="<id>", request_body=::GustoEmbedded::Operations::PutTimeOffPoliciesTimeOffPolicyUuidRequestBody.new(
+  version: "<value>",
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.time_off_policy.nil?
   # handle response
@@ -157,7 +159,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.time_off_policies.get_all(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.time_off_policies.get_all(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.time_off_policy_list.nil?
   # handle response
@@ -199,7 +201,7 @@ res = s.time_off_policies.create(company_uuid="<id>", request_body=::GustoEmbedd
   name: "<value>",
   policy_type: "<value>",
   accrual_method: ::GustoEmbedded::Operations::PostCompaniesCompanyUuidTimeOffPoliciesAccrualMethod::PER_ANNIVERSARY_YEAR,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.time_off_policy.nil?
   # handle response
@@ -238,7 +240,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.time_off_policies.add_employees(time_off_policy_uuid="<id>", request_body=::GustoEmbedded::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.time_off_policies.add_employees(time_off_policy_uuid="<id>", request_body=::GustoEmbedded::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.time_off_policy.nil?
   # handle response
@@ -277,7 +279,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.time_off_policies.remove_employees(time_off_policy_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.time_off_policies.remove_employees(time_off_policy_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidRemoveEmployeesRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.time_off_policy.nil?
   # handle response
@@ -316,7 +318,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.time_off_policies.update_balance(time_off_policy_uuid="<id>", request_body=::GustoEmbedded::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.time_off_policies.update_balance(time_off_policy_uuid="<id>", request_body=::GustoEmbedded::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.time_off_policy.nil?
   # handle response
@@ -355,7 +357,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.time_off_policies.deactivate(time_off_policy_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.time_off_policies.deactivate(time_off_policy_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.time_off_policy.nil?
   # handle response

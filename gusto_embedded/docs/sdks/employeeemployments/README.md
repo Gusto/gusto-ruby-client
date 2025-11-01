@@ -36,7 +36,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.employee_employments.create_termination(employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdTerminationsRequestBody.new(
   effective_date: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.termination.nil?
   # handle response
@@ -77,7 +77,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_employments.get_terminations(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_employments.get_terminations(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.termination_list.nil?
   # handle response
@@ -115,7 +115,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_employments.delete_termination(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_employments.delete_termination(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -156,9 +156,9 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.employee_employments.update_termination(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1TerminationsEmployeeIdRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
   effective_date: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.termination.nil?
   # handle response
@@ -201,7 +201,7 @@ res = s.employee_employments.create_rehire(employee_id="<id>", rehire_body=::Gus
   effective_date: "<value>",
   file_new_hire_report: false,
   work_location_uuid: "<id>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.rehire.nil?
   # handle response
@@ -241,11 +241,11 @@ s = ::GustoEmbedded::Client.new(
     )
 
 res = s.employee_employments.rehire(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdRehireRequestBody.new(
-  version: "<value>",
+  version: "56d00c178bc7393b2a206ed6a86afcb4",
   effective_date: "<value>",
   file_new_hire_report: false,
   work_location_uuid: "<id>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.rehire.nil?
   # handle response
@@ -284,7 +284,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_employments.get_rehire(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_employments.get_rehire(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.rehire.nil?
   # handle response
@@ -322,7 +322,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_employments.delete_rehire(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_employments.delete_rehire(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -361,7 +361,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_employments.get_history(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_employments.get_history(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdEmploymentHistoryHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employment_history_list.nil?
   # handle response

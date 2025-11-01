@@ -24,7 +24,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_payment_methods.get_bank_accounts(employee_id="<id>", page=791208, per=144106, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_payment_methods.get_bank_accounts(employee_id="<id>", page=791208, per=144106, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_bank_account_list.nil?
   # handle response

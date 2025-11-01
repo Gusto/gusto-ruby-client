@@ -13,10 +13,7 @@ module GustoEmbedded
 
       # The UUID of the employee
       field :employee_id, ::String, { 'path_param': { 'field_name': 'employee_id', 'style': 'simple', 'explode': false } }
-      # Include the requested attribute(s) in each employee response, multiple options are comma separated. Available options:
-      # - all_compensations: Include all effective dated compensations for each job instead of only the current compensation
-      # - custom_fields: Include employees' custom fields
-      # 
+      # Include the requested attribute(s) in each employee response. Multiple options are comma separated.
       field :include, T.nilable(T::Array[::GustoEmbedded::Operations::QueryParamInclude]), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
       field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::GetV1EmployeesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }

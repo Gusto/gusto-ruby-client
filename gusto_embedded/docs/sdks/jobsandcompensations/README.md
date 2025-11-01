@@ -36,7 +36,7 @@ s = ::GustoEmbedded::Client.new(
 res = s.jobs_and_compensations.create_job(employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1JobsJobIdRequestBody.new(
   title: "<value>",
   hire_date: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.job.nil?
   # handle response
@@ -116,7 +116,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.jobs_and_compensations.get_job(job_id="<id>", include=::GustoEmbedded::Operations::GetV1JobsJobIdQueryParamInclude::ALL_COMPENSATIONS, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.jobs_and_compensations.get_job(job_id="<id>", include=::GustoEmbedded::Operations::GetV1JobsJobIdQueryParamInclude::ALL_COMPENSATIONS, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.job.nil?
   # handle response
@@ -157,7 +157,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.jobs_and_compensations.update(job_id="<id>", request_body=::GustoEmbedded::Operations::PutV1JobsJobIdRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.job.nil?
   # handle response
@@ -196,7 +196,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.jobs_and_compensations.delete(job_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.jobs_and_compensations.delete(job_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -282,7 +282,7 @@ s = ::GustoEmbedded::Client.new(
 res = s.jobs_and_compensations.create_compensation(job_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompensationsCompensationIdRequestBody.new(
   payment_unit: ::GustoEmbedded::Operations::PaymentUnit::PAYCHECK,
   flsa_status: ::GustoEmbedded::Shared::FlsaStatusType::COMMISSION_ONLY_NONEXEMPT,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.compensation.nil?
   # handle response
@@ -322,7 +322,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.jobs_and_compensations.get_compensation(compensation_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.jobs_and_compensations.get_compensation(compensation_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.compensation.nil?
   # handle response
@@ -362,7 +362,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.jobs_and_compensations.update_compensation(compensation_id="<id>", request_body=::GustoEmbedded::Operations::PutV1CompensationsCompensationIdRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.compensation.nil?
   # handle response
@@ -402,7 +402,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.jobs_and_compensations.delete_compensation(compensation_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.jobs_and_compensations.delete_compensation(compensation_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response

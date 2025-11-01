@@ -14,10 +14,10 @@ module GustoEmbedded
       # The UUID of the payroll
       field :payroll_uuid, ::String, { 'path_param': { 'field_name': 'payroll_uuid', 'style': 'simple', 'explode': false } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(payroll_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      sig { params(payroll_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidHeaderXGustoAPIVersion)).void }
       def initialize(payroll_uuid: nil, x_gusto_api_version: nil)
         @payroll_uuid = payroll_uuid
         @x_gusto_api_version = x_gusto_api_version

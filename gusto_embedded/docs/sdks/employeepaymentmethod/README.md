@@ -34,8 +34,8 @@ res = s.employee_payment_method.create(employee_id="<id>", request_body=::GustoE
   name: "<value>",
   routing_number: "<value>",
   account_number: "<value>",
-  account_type: ::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdBankAccountsAccountType::CHECKING,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+  account_type: ::GustoEmbedded::Operations::AccountType::CHECKING,
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_bank_account.nil?
   # handle response
@@ -75,7 +75,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_payment_method.delete_bank_account(employee_id="<id>", bank_account_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_payment_method.delete_bank_account(employee_id="<id>", bank_account_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response
@@ -119,7 +119,7 @@ res = s.employee_payment_method.update_bank_account(employee_id="<id>", bank_acc
   routing_number: "<value>",
   account_number: "<value>",
   account_type: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdBankAccountsAccountType::CHECKING,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_bank_account.nil?
   # handle response
@@ -161,7 +161,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_payment_method.get(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_payment_method.get(employee_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_payment_method.nil?
   # handle response
@@ -203,7 +203,7 @@ s = ::GustoEmbedded::Client.new(
 res = s.employee_payment_method.update(employee_id="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdPaymentMethodRequestBody.new(
   version: "<value>",
   type: ::GustoEmbedded::Operations::Type::CHECK,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_payment_method.nil?
   # handle response

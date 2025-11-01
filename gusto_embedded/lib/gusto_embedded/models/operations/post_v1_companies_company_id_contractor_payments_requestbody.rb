@@ -20,14 +20,14 @@ module GustoEmbedded
       # If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment
       field :hours, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
 
-      field :payment_method, T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentsPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentsPaymentMethod, true) } }
+      field :payment_method, T.nilable(::GustoEmbedded::Operations::PaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PaymentMethod, true) } }
       # Reimbursed wages for the contractor
       field :reimbursement, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
       # If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked
       field :wage, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
 
 
-      sig { params(contractor_uuid: ::String, date: ::Date, bonus: T.nilable(::Float), hours: T.nilable(::Float), payment_method: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentsPaymentMethod), reimbursement: T.nilable(::Float), wage: T.nilable(::Float)).void }
+      sig { params(contractor_uuid: ::String, date: ::Date, bonus: T.nilable(::Float), hours: T.nilable(::Float), payment_method: T.nilable(::GustoEmbedded::Operations::PaymentMethod), reimbursement: T.nilable(::Float), wage: T.nilable(::Float)).void }
       def initialize(contractor_uuid: nil, date: nil, bonus: nil, hours: nil, payment_method: nil, reimbursement: nil, wage: nil)
         @contractor_uuid = contractor_uuid
         @date = date

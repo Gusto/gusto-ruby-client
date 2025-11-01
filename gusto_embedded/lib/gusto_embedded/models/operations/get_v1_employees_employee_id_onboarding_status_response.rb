@@ -19,14 +19,17 @@ module GustoEmbedded
       field :status_code, ::Integer
       # successful
       field :employee_onboarding_status, T.nilable(::GustoEmbedded::Shared::EmployeeOnboardingStatus)
+      # not found
+      field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
 
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, employee_onboarding_status: T.nilable(::GustoEmbedded::Shared::EmployeeOnboardingStatus)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, employee_onboarding_status: nil)
+      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, employee_onboarding_status: T.nilable(::GustoEmbedded::Shared::EmployeeOnboardingStatus), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
+      def initialize(content_type: nil, raw_response: nil, status_code: nil, employee_onboarding_status: nil, unprocessable_entity_error_object: nil)
         @content_type = content_type
         @raw_response = raw_response
         @status_code = status_code
         @employee_onboarding_status = employee_onboarding_status
+        @unprocessable_entity_error_object = unprocessable_entity_error_object
       end
     end
   end

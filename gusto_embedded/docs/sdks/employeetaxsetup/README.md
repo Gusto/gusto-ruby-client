@@ -27,7 +27,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_tax_setup.get_federal_taxes(employee_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_tax_setup.get_federal_taxes(employee_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_federal_tax.nil?
   # handle response
@@ -67,7 +67,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.employee_tax_setup.update_federal_taxes(employee_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdFederalTaxesRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_federal_tax.nil?
   # handle response
@@ -118,7 +118,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_tax_setup.get_state_taxes(employee_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.employee_tax_setup.get_state_taxes(employee_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdStateTaxesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_state_taxes_list.nil?
   # handle response
@@ -131,7 +131,7 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_uuid`                                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdStateTaxesHeaderXGustoAPIVersion)](../../models/operations/getv1employeesemployeeidstatetaxesheaderxgustoapiversion.md)                                      | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
@@ -147,6 +147,7 @@ As described for the GET endpoint, the answers must be supplied in the effective
 
 scope: `employee_state_taxes:write`
 
+
 ### Example Usage
 
 ```ruby
@@ -158,13 +159,13 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.employee_tax_setup.update_state_taxes(employee_uuid="<id>", request_body=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody.new(
+res = s.employee_tax_setup.update_state_taxes(employee_uuid="<id>", employee_state_taxes_request=::GustoEmbedded::Shared::EmployeeStateTaxesRequest.new(
   states: [
-    ::GustoEmbedded::Operations::States.new(
+    ::GustoEmbedded::Shared::States.new(
       state: "Maryland",
     ),
   ],
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.employee_state_taxes_list.nil?
   # handle response
@@ -177,8 +178,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_uuid`                                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
-| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesRequestBody](../../models/operations/putv1employeesemployeeidstatetaxesrequestbody.md)                                                                       | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `employee_state_taxes_request`                                                                                                                                                                                               | [::GustoEmbedded::Shared::EmployeeStateTaxesRequest](../../models/shared/employeestatetaxesrequest.md)                                                                                                                       | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdStateTaxesHeaderXGustoAPIVersion)](../../models/operations/putv1employeesemployeeidstatetaxesheaderxgustoapiversion.md)                                      | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 

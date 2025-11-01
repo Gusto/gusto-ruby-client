@@ -52,7 +52,7 @@ res = s.companies.create_partner_managed(security: ::GustoEmbedded::Operations::
   company: ::GustoEmbedded::Operations::Company.new(
     name: "<value>",
   ),
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.object.nil?
   # handle response
@@ -94,7 +94,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.companies.get(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.companies.get(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.company.nil?
   # handle response
@@ -134,7 +134,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.companies.update(company_id="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesRequestBody.new(
   contractor_only: false,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.company.nil?
   # handle response
@@ -179,7 +179,7 @@ res = s.companies.migrate(company_uuid="<id>", request_body=::GustoEmbedded::Ope
   email: "Benjamin_Kihn44@yahoo.com",
   ip_address: "198.52.136.51",
   external_user_id: "<id>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.object.nil?
   # handle response
@@ -223,7 +223,7 @@ res = s.companies.accept_terms_of_service(company_uuid="<id>", request_body=::Gu
   email: "Justine73@gmail.com",
   ip_address: "168.91.169.217",
   external_user_id: "<id>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.object.nil?
   # handle response
@@ -264,7 +264,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.companies.retrieve_terms_of_service(company_uuid="<id>", request_body=::GustoEmbedded::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceRequestBody.new(
   email: "Erika_Schuster@yahoo.com",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.object.nil?
   # handle response
@@ -308,7 +308,7 @@ res = s.companies.create_admin(company_id="<id>", request_body=::GustoEmbedded::
   first_name: "Guillermo",
   last_name: "Koch",
   email: "Justine_Gusikowski92@yahoo.com",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.admin.nil?
   # handle response
@@ -347,7 +347,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.companies.list_admins(company_id="<id>", page=620604, per=696322, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.companies.list_admins(company_id="<id>", page=620604, per=696322, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.admin_list.nil?
   # handle response
@@ -388,7 +388,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.companies.get_onboarding_status(company_uuid="<id>", additional_steps="external_payroll", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.companies.get_onboarding_status(company_uuid="<id>", additional_steps="external_payroll", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.company_onboarding_status.nil?
   # handle response
@@ -439,7 +439,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.companies.finish_onboarding(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.companies.finish_onboarding(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.company_onboarding_status.nil?
   # handle response
@@ -477,7 +477,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.companies.get_custom_fields(company_id="<id>", page=653170, per=309220, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.companies.get_custom_fields(company_id="<id>", page=653170, per=309220, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.company_custom_field_list.nil?
   # handle response

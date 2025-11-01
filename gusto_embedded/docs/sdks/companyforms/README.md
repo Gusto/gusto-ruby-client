@@ -27,7 +27,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.company_forms.get_all(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_forms.get_all(company_id="<id>", sort_by=::GustoEmbedded::Shared::CompanyFormsSortBy::QUARTER, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form_list.nil?
   # handle response
@@ -40,6 +40,7 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `sort_by`                                                                                                                                                                                                                    | [T.nilable(::GustoEmbedded::Shared::CompanyFormsSortBy)](../../models/shared/companyformssortby.md)                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                                                           | Sort company forms. Options: name, year, quarter, draft, document_content_type                                                                                                                                               |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
@@ -65,7 +66,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.company_forms.get(form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_forms.get(form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form.nil?
   # handle response
@@ -103,7 +104,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.company_forms.get_pdf(form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.company_forms.get_pdf(form_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form_pdf.nil?
   # handle response
@@ -144,7 +145,7 @@ s = ::GustoEmbedded::Client.new(
 res = s.company_forms.sign(form_id="<id>", request_body=::GustoEmbedded::Operations::PutV1CompanyFormSignRequestBody.new(
   signature_text: "<value>",
   agree: false,
-), x_gusto_client_ip="<value>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_client_ip="<value>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.form.nil?
   # handle response

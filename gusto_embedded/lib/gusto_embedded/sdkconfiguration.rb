@@ -45,10 +45,10 @@ module GustoEmbedded
         @security_source = -> { security }
       end
       @language = 'ruby'
-      @openapi_doc_version = '2024-04-01'
-      @sdk_version = '0.2.11'
+      @openapi_doc_version = '2025-06-15'
+      @sdk_version = '0.3.0'
       @gen_version = '2.545.4'
-      @user_agent = 'speakeasy-sdk/ruby 0.2.11 2.545.4 2024-04-01 gusto_embedded_client'
+      @user_agent = 'speakeasy-sdk/ruby 0.3.0 2.545.4 2025-06-15 gusto_embedded_client'
     end
 
     sig { returns([String, T::Hash[Symbol, String]]) }

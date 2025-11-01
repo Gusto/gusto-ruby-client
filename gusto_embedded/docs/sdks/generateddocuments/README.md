@@ -24,7 +24,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.generated_documents.get(document_type=::GustoEmbedded::Shared::DocumentType::PRINTABLE_PAYROLL_CHECKS, request_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.generated_documents.get(document_type=::GustoEmbedded::Shared::DocumentType::PRINTABLE_PAYROLL_CHECKS, request_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.generated_document.nil?
   # handle response

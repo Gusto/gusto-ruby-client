@@ -19,8 +19,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompanyFormsResponse) }
-    def get_all(company_id, x_gusto_api_version = nil)
+    sig { params(company_id: ::String, sort_by: T.nilable(::GustoEmbedded::Shared::CompanyFormsSortBy), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompanyFormsResponse) }
+    def get_all(company_id, sort_by = nil, x_gusto_api_version = nil)
       # get_all - Get all company forms
       # Get a list of all company's forms
       # 
@@ -28,6 +28,7 @@ module GustoEmbedded
       request = ::GustoEmbedded::Operations::GetV1CompanyFormsRequest.new(
         
         company_id: company_id,
+        sort_by: sort_by,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
@@ -39,11 +40,13 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
+      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetV1CompanyFormsRequest, request)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       r = @sdk_configuration.client.get(url) do |req|
         req.headers = headers
+        req.params = query_params
         security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
         Utils.configure_request_security(req, security) if !security.nil?
       end

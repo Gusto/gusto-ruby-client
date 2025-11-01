@@ -14,10 +14,10 @@ module GustoEmbedded
       # The UUID of the home address
       field :home_address_uuid, ::String, { 'path_param': { 'field_name': 'home_address_uuid', 'style': 'simple', 'explode': false } }
       # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::DeleteV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
 
-      sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
+      sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::DeleteV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion)).void }
       def initialize(home_address_uuid: nil, x_gusto_api_version: nil)
         @home_address_uuid = home_address_uuid
         @x_gusto_api_version = x_gusto_api_version

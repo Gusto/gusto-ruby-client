@@ -11,6 +11,8 @@ module GustoEmbedded
     class PutTimeOffPoliciesTimeOffPolicyUuidRequestBody < ::Crystalline::FieldAugmented
       extend T::Sig
 
+      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/api-fundamentals#optimistic-version-control) for information on how to use this field.
+      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
       # Accrual method of the time off policy
       field :accrual_method, T.nilable(::GustoEmbedded::Operations::AccrualMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::AccrualMethod, true) } }
       # The rate at which the time off hours will accrue for an employee on the policy. Represented as a float, e.g. "40.0".
@@ -31,8 +33,9 @@ module GustoEmbedded
       field :paid_out_on_termination, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_out_on_termination') } }
 
 
-      sig { params(accrual_method: T.nilable(::GustoEmbedded::Operations::AccrualMethod), accrual_rate: T.nilable(::String), accrual_rate_unit: T.nilable(::String), accrual_waiting_period_days: T.nilable(::Integer), carryover_limit_hours: T.nilable(::String), max_accrual_hours_per_year: T.nilable(::String), max_hours: T.nilable(::String), name: T.nilable(::String), paid_out_on_termination: T.nilable(T::Boolean)).void }
-      def initialize(accrual_method: nil, accrual_rate: nil, accrual_rate_unit: nil, accrual_waiting_period_days: nil, carryover_limit_hours: nil, max_accrual_hours_per_year: nil, max_hours: nil, name: nil, paid_out_on_termination: nil)
+      sig { params(version: ::String, accrual_method: T.nilable(::GustoEmbedded::Operations::AccrualMethod), accrual_rate: T.nilable(::String), accrual_rate_unit: T.nilable(::String), accrual_waiting_period_days: T.nilable(::Integer), carryover_limit_hours: T.nilable(::String), max_accrual_hours_per_year: T.nilable(::String), max_hours: T.nilable(::String), name: T.nilable(::String), paid_out_on_termination: T.nilable(T::Boolean)).void }
+      def initialize(version: nil, accrual_method: nil, accrual_rate: nil, accrual_rate_unit: nil, accrual_waiting_period_days: nil, carryover_limit_hours: nil, max_accrual_hours_per_year: nil, max_hours: nil, name: nil, paid_out_on_termination: nil)
+        @version = version
         @accrual_method = accrual_method
         @accrual_rate = accrual_rate
         @accrual_rate_unit = accrual_rate_unit

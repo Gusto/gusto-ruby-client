@@ -13,8 +13,7 @@ module GustoEmbedded
 
       # FIPS codes for state or county child support orders
       field :fips_codes, T.nilable(T::Array[::GustoEmbedded::Shared::FipsCodes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fips_codes') } }
-      # Specifies if remitting payment to the agency is required outside of Gusto. If true, Gusto includes garnishment amounts for this agency in payroll calculation, but does not debit for or remit payment to the agency automatically. As of September 2024, only garnishments for South Carolina Integrated Child Support Services require manual payment.
-      # 
+      # Specifies if remitting payment to the agency is required outside of Gusto. If true, Gusto includes garnishment amounts for this agency in payroll calculation, but does not debit for or remit payment to the agency automatically. As of September 2024, only garnishments for South Carolina Integrated Child Support Services require manual payment. 
       field :manual_payment_required, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('manual_payment_required') } }
       # Name of state child support agency
       field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }

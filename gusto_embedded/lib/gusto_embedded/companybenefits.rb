@@ -26,6 +26,8 @@ module GustoEmbedded
       # 
       # Note that company benefits can be deactivated only when no employees are enrolled.
       # 
+      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only create company benefits for benefit types that are permitted for the application.
+      # 
       # scope: `company_benefits:write`
       request = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequest.new(
         
@@ -197,6 +199,8 @@ module GustoEmbedded
       # 
       # Note that company benefits can be deactivated only when no employees are enrolled.
       # 
+      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only update company benefits for benefit types that are permitted for the application.
+      # 
       # scope: `company_benefits:write`
       request = ::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequest.new(
         
@@ -261,6 +265,8 @@ module GustoEmbedded
       #   - There are no employee benefits associated with the company benefit
       #   - There are no payroll items associated with the company benefit
       #   - The benefit is not managed by a Partner or by Gusto (type must be 'External')
+      # 
+      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only delete company benefits for benefit types that are permitted for the application.
       # 
       # scope: `company_benefits:write`
       request = ::GustoEmbedded::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdRequest.new(
@@ -496,11 +502,13 @@ module GustoEmbedded
     sig { params(company_benefit_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse) }
     def update_employee_benefits(company_benefit_id, request_body, x_gusto_api_version = nil)
       # update_employee_benefits - Bulk update employee benefits for a company benefit
-      # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee’s enrollment.
+      # Employee benefits represent an employee enrolled in a particular company benefit. It includes information specific to that employee's enrollment.
       # 
       # Create or update(if the employee is already enrolled in the company benefit previously) an employee benefit for the company benefit.
       # 
       # Benefits containing PHI are only visible to applications with the `employee_benefits:read:phi` scope.
+      # 
+      # When the application has the `employee_benefits:write:benefit_type_limited` data scope, the application can only create or update employee benefits for benefit types that are permitted for the application.
       # 
       # scope: `employee_benefits:write`
       request = ::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequest.new(
@@ -599,6 +607,118 @@ module GustoEmbedded
           res.benefit_type_requirements = out
         end
       elsif r.status == 404
+      end
+
+      res
+    end
+
+
+    sig { params(company_benefit_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompanyBenefitsCompanyBenefitIdContributionExclusionsResponse) }
+    def get_v1_company_benefits_company_benefit_id_contribution_exclusions(company_benefit_id, x_gusto_api_version = nil)
+      # get_v1_company_benefits_company_benefit_id_contribution_exclusions - Get contribution exclusions for a company benefit
+      # Returns all contributions for a given company benefit and whether they are excluded or not.
+      # 
+      # Currently this endpoint only works for 401-k and Roth 401-k benefit types.
+      # 
+      # scope: `company_benefits:read`
+      request = ::GustoEmbedded::Operations::GetV1CompanyBenefitsCompanyBenefitIdContributionExclusionsRequest.new(
+        
+        company_benefit_id: company_benefit_id,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::GetV1CompanyBenefitsCompanyBenefitIdContributionExclusionsRequest,
+        base_url,
+        '/v1/company_benefits/{company_benefit_id}/contribution_exclusions',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.get(url) do |req|
+        req.headers = headers
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::GetV1CompanyBenefitsCompanyBenefitIdContributionExclusionsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::ContributionExclusion])
+          res.contribution_exclusion_list = out
+        end
+      elsif r.status == 404
+      end
+
+      res
+    end
+
+
+    sig { params(company_benefit_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdContributionExclusionsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdContributionExclusionsResponse) }
+    def put_v1_company_benefits_company_benefit_id_contribution_exclusions(company_benefit_id, request_body, x_gusto_api_version = nil)
+      # put_v1_company_benefits_company_benefit_id_contribution_exclusions - Update contribution exclusions for a company benefit
+      # Updates contribution exclusions for a given company benefit.
+      # 
+      # Currently this endpoint only works for 401-k and Roth 401-k benefit types.
+      # 
+      # scope: `company_benefits:write`
+      request = ::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdContributionExclusionsRequest.new(
+        
+        company_benefit_id: company_benefit_id,
+        request_body: request_body,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        ::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdContributionExclusionsRequest,
+        base_url,
+        '/v1/company_benefits/{company_benefit_id}/contribution_exclusions',
+        request
+      )
+      headers = Utils.get_headers(request)
+      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      r = @sdk_configuration.client.put(url) do |req|
+        req.headers = headers
+        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
+        Utils.configure_request_security(req, security) if !security.nil?
+        if form
+          req.body = Utils.encode_form(form)
+        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+          req.body = URI.encode_www_form(data)
+        else
+          req.body = data
+        end
+      end
+
+      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+
+      res = ::GustoEmbedded::Operations::PutV1CompanyBenefitsCompanyBenefitIdContributionExclusionsResponse.new(
+        status_code: r.status, content_type: content_type, raw_response: r
+      )
+      if r.status == 200
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), T::Array[::GustoEmbedded::Shared::ContributionExclusion])
+          res.contribution_exclusion_list = out
+        end
+      elsif r.status == 404
+      elsif r.status == 422
+        if Utils.match_content_type(content_type, 'application/json')
+          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+          res.unprocessable_entity_error_object = out
+        end
       end
 
       res

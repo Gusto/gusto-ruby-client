@@ -31,7 +31,7 @@ s = ::GustoEmbedded::Client.new(
 res = s.garnishments.create(employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdGarnishmentsRequestBody.new(
   amount: "<value>",
   court_ordered: false,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.garnishment.nil?
   # handle response
@@ -70,7 +70,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.garnishments.list(employee_id="<id>", page=768578, per=547272, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.garnishments.list(employee_id="<id>", page=768578, per=547272, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.garnishment_list.nil?
   # handle response
@@ -110,7 +110,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.garnishments.get(garnishment_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.garnishments.get(garnishment_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.garnishment.nil?
   # handle response
@@ -150,7 +150,7 @@ s = ::GustoEmbedded::Client.new(
 
 res = s.garnishments.update(garnishment_id="<id>", request_body=::GustoEmbedded::Operations::PutV1GarnishmentsGarnishmentIdRequestBody.new(
   version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.garnishment.nil?
   # handle response
@@ -189,7 +189,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.garnishments.get_child_support_data(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.garnishments.get_child_support_data(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.child_support_data.nil?
   # handle response

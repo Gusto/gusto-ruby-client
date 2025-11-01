@@ -25,7 +25,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.recovery_cases.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.recovery_cases.get(company_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if ! res.recovery_case_list.nil?
   # handle response
@@ -67,7 +67,7 @@ s = ::GustoEmbedded::Client.new(
       ),
     )
 
-res = s.recovery_cases.redebit(recovery_case_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.recovery_cases.redebit(recovery_case_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_06_15)
 
 if res.status_code == 200
   # handle response

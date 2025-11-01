@@ -10,6 +10,7 @@ module GustoEmbedded
     # OffCycleReasonType - The off-cycle reason. Only included for off-cycle payrolls.
     class OffCycleReasonType < T::Enum
       enums do
+        ADHOC = new('Adhoc')
         BENEFIT_REVERSAL = new('Benefit reversal')
         BONUS = new('Bonus')
         CORRECTION = new('Correction')
