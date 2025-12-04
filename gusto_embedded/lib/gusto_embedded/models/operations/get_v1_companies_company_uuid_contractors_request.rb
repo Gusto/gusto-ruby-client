@@ -5,31 +5,48 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class GetV1CompaniesCompanyUuidContractorsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1CompaniesCompanyUuidContractorsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
-      # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
-      field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
-      # Number of objects per page. For majority of endpoints will default to 25
-      field :per, T.nilable(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
-      # A string to search for in the object's names
-      field :search_term, T.nilable(::String), { 'query_param': { 'field_name': 'search_term', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company
+        field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
+        # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
+        field :page, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
+        # Number of objects per page. For majority of endpoints will default to 25
+        field :per, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
+        # A string to search for in the object's names
+        field :search_term, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'search_term', 'style': 'form', 'explode': true } }
+        # Sort contractors. Options: type, onboarding_status, name, created_at
+        field :sort_by, Crystalline::Nilable.new(Models::Shared::ContractorsSortBy), { 'query_param': { 'field_name': 'sort_by', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_uuid: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), sort_by: T.nilable(Models::Shared::ContractorsSortBy), x_gusto_api_version: T.nilable(Models::Shared::VersionHeader)).void }
+        def initialize(company_uuid:, page: nil, per: nil, search_term: nil, sort_by: nil, x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_uuid = company_uuid
+          @page = page
+          @per = per
+          @search_term = search_term
+          @sort_by = sort_by
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(company_uuid: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), search_term: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_uuid: nil, page: nil, per: nil, search_term: nil, x_gusto_api_version: nil)
-        @company_uuid = company_uuid
-        @page = page
-        @per = per
-        @search_term = search_term
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @page == other.page
+          return false unless @per == other.per
+          return false unless @search_term == other.search_term
+          return false unless @sort_by == other.sort_by
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

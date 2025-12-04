@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Submit wages, benefits, taxes for each employee
-    class ExternalPayrollItems < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Submit wages, benefits, taxes for each employee
+      class ExternalPayrollItems
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The UUID of the employee.
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
 
-      field :benefits, T.nilable(T::Array[::GustoEmbedded::Operations::Benefits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
+        field :earnings, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Earnings)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earnings') } }
 
-      field :earnings, T.nilable(T::Array[::GustoEmbedded::Operations::Earnings]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earnings') } }
-      # The UUID of the employee.
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-      # An array of taxes for the employee. Depends on your company selections, taxes include federal income tax, social security, medicare, and more.
-      field :taxes, T.nilable(T::Array[::GustoEmbedded::Operations::Taxes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
+        field :benefits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Benefits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
+        # An array of taxes for the employee. Depends on your company selections, taxes include federal income tax, social security, medicare, and more.
+        field :taxes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Taxes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
 
+        sig { params(employee_uuid: T.nilable(::String), earnings: T.nilable(T::Array[Models::Operations::Earnings]), benefits: T.nilable(T::Array[Models::Operations::Benefits]), taxes: T.nilable(T::Array[Models::Operations::Taxes])).void }
+        def initialize(employee_uuid: nil, earnings: nil, benefits: nil, taxes: nil)
+          @employee_uuid = employee_uuid
+          @earnings = earnings
+          @benefits = benefits
+          @taxes = taxes
+        end
 
-      sig { params(benefits: T.nilable(T::Array[::GustoEmbedded::Operations::Benefits]), earnings: T.nilable(T::Array[::GustoEmbedded::Operations::Earnings]), employee_uuid: T.nilable(::String), taxes: T.nilable(T::Array[::GustoEmbedded::Operations::Taxes])).void }
-      def initialize(benefits: nil, earnings: nil, employee_uuid: nil, taxes: nil)
-        @benefits = benefits
-        @earnings = earnings
-        @employee_uuid = employee_uuid
-        @taxes = taxes
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @earnings == other.earnings
+          return false unless @benefits == other.benefits
+          return false unless @taxes == other.taxes
+          true
+        end
       end
     end
   end

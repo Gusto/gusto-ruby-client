@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Example response
-    class PutV1PartnerManagedCompaniesCompanyUuidMigrateResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Example response
+      class PutV1PartnerManagedCompaniesCompanyUuidMigrateResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The company UUID
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # The migration status. 'success' is the only valid return value.
-      field :migration_status, T.nilable(::GustoEmbedded::Operations::MigrationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('migration_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::MigrationStatus, true) } }
+        # The company UUID
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The migration status. 'success' is the only valid return value.
+        field :migration_status, Crystalline::Nilable.new(Models::Operations::MigrationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('migration_status'), 'decoder': Utils.enum_from_string(Models::Operations::MigrationStatus, true) } }
 
+        sig { params(company_uuid: T.nilable(::String), migration_status: T.nilable(Models::Operations::MigrationStatus)).void }
+        def initialize(company_uuid: nil, migration_status: nil)
+          @company_uuid = company_uuid
+          @migration_status = migration_status
+        end
 
-      sig { params(company_uuid: T.nilable(::String), migration_status: T.nilable(::GustoEmbedded::Operations::MigrationStatus)).void }
-      def initialize(company_uuid: nil, migration_status: nil)
-        @company_uuid = company_uuid
-        @migration_status = migration_status
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @migration_status == other.migration_status
+          true
+        end
       end
     end
   end

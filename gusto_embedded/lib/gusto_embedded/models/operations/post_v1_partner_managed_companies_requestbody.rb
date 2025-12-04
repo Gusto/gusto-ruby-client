@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1PartnerManagedCompaniesRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1PartnerManagedCompaniesRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # Information for the user who will be the primary payroll administrator for the new company.
+        field :user, Models::Operations::User, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('user'), required: true } }
 
-      field :company, ::GustoEmbedded::Operations::Company, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company') } }
-      # Information for the user who will be the primary payroll administrator for the new company.
-      field :user, ::GustoEmbedded::Operations::User, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('user') } }
+        field :company, Models::Operations::Company, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company'), required: true } }
 
+        sig { params(user: Models::Operations::User, company: Models::Operations::Company).void }
+        def initialize(user:, company:)
+          @user = user
+          @company = company
+        end
 
-      sig { params(company: ::GustoEmbedded::Operations::Company, user: ::GustoEmbedded::Operations::User).void }
-      def initialize(company: nil, user: nil)
-        @company = company
-        @user = user
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @user == other.user
+          return false unless @company == other.company
+          true
+        end
       end
     end
   end

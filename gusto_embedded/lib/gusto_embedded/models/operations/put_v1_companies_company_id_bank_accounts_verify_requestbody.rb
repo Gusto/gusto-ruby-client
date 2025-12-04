@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The dollar amount of the first micro-deposit
-      field :deposit_1, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deposit_1') } }
-      # The dollar amount of the second micro-deposit
-      field :deposit_2, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deposit_2') } }
+        # The dollar amount of the first micro-deposit
+        field :deposit_1, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deposit_1'), required: true } }
+        # The dollar amount of the second micro-deposit
+        field :deposit_2, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deposit_2'), required: true } }
 
+        sig { params(deposit_1: ::Float, deposit_2: ::Float).void }
+        def initialize(deposit_1:, deposit_2:)
+          @deposit_1 = deposit_1
+          @deposit_2 = deposit_2
+        end
 
-      sig { params(deposit_1: ::Float, deposit_2: ::Float).void }
-      def initialize(deposit_1: nil, deposit_2: nil)
-        @deposit_1 = deposit_1
-        @deposit_2 = deposit_2
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @deposit_1 == other.deposit_1
+          return false unless @deposit_2 == other.deposit_2
+          true
+        end
       end
     end
   end

@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-
-      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-
-      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+      class PostV1CompaniesCompanyUuidSignatoriesInviteRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(email: ::String, first_name: T.nilable(::String), last_name: T.nilable(::String), title: T.nilable(::String)).void }
-      def initialize(email: nil, first_name: nil, last_name: nil, title: nil)
-        @email = email
-        @first_name = first_name
-        @last_name = last_name
-        @title = title
+        field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email'), required: true } }
+
+        field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+
+        field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+
+        sig { params(email: ::String, first_name: T.nilable(::String), last_name: T.nilable(::String), title: T.nilable(::String)).void }
+        def initialize(email:, first_name: nil, last_name: nil, title: nil)
+          @email = email
+          @first_name = first_name
+          @last_name = last_name
+          @title = title
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @email == other.email
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @title == other.title
+          true
+        end
       end
     end
   end

@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The available company-wide compensation rates for the company.
-    class Compensations < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The available company-wide compensation rates for the company.
+      class Compensations
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The available fixed compensation rates for the company.
-      field :fixed, T.nilable(T::Array[::GustoEmbedded::Shared::Fixed]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed') } }
-      # The available hourly compensation rates for the company.
-      field :hourly, T.nilable(T::Array[::GustoEmbedded::Shared::Hourly]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly') } }
-      # The available types of paid time off for the company.
-      field :paid_time_off, T.nilable(T::Array[::GustoEmbedded::Shared::CompanyPaidTimeOff]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_time_off') } }
+        # The available hourly compensation rates for the company.
+        field :hourly, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Hourly)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly') } }
+        # The available fixed compensation rates for the company.
+        field :fixed, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Fixed)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed') } }
+        # The available types of paid time off for the company.
+        field :paid_time_off, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::CompanyPaidTimeOff)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_time_off') } }
 
+        sig { params(hourly: T.nilable(T::Array[Models::Shared::Hourly]), fixed: T.nilable(T::Array[Models::Shared::Fixed]), paid_time_off: T.nilable(T::Array[Models::Shared::CompanyPaidTimeOff])).void }
+        def initialize(hourly: nil, fixed: nil, paid_time_off: nil)
+          @hourly = hourly
+          @fixed = fixed
+          @paid_time_off = paid_time_off
+        end
 
-      sig { params(fixed: T.nilable(T::Array[::GustoEmbedded::Shared::Fixed]), hourly: T.nilable(T::Array[::GustoEmbedded::Shared::Hourly]), paid_time_off: T.nilable(T::Array[::GustoEmbedded::Shared::CompanyPaidTimeOff])).void }
-      def initialize(fixed: nil, hourly: nil, paid_time_off: nil)
-        @fixed = fixed
-        @hourly = hourly
-        @paid_time_off = paid_time_off
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @hourly == other.hourly
+          return false unless @fixed == other.fixed
+          return false unless @paid_time_off == other.paid_time_off
+          true
+        end
       end
     end
   end

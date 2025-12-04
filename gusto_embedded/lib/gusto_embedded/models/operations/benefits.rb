@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # An array of benefits for the employee. Depends on your company selections, benefits include 401k, health insurance and more.
-    class Benefits < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # An array of benefits for the employee. Depends on your company selections, benefits include 401k, health insurance and more.
+      class Benefits
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The ID of the benefit.
-      field :benefit_id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_id') } }
-      # Company contribution amount towards the benefit
-      field :company_contribution_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution_amount') } }
-      # Employee deduction amount towards the benefit
-      field :employee_deduction_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction_amount') } }
+        # Company contribution amount towards the benefit
+        field :company_contribution_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution_amount') } }
+        # Employee deduction amount towards the benefit
+        field :employee_deduction_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction_amount') } }
+        # The ID of the benefit.
+        field :benefit_id, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_id') } }
 
+        sig { params(company_contribution_amount: T.nilable(::String), employee_deduction_amount: T.nilable(::String), benefit_id: T.nilable(::Integer)).void }
+        def initialize(company_contribution_amount: nil, employee_deduction_amount: nil, benefit_id: nil)
+          @company_contribution_amount = company_contribution_amount
+          @employee_deduction_amount = employee_deduction_amount
+          @benefit_id = benefit_id
+        end
 
-      sig { params(benefit_id: T.nilable(::Integer), company_contribution_amount: T.nilable(::String), employee_deduction_amount: T.nilable(::String)).void }
-      def initialize(benefit_id: nil, company_contribution_amount: nil, employee_deduction_amount: nil)
-        @benefit_id = benefit_id
-        @company_contribution_amount = company_contribution_amount
-        @employee_deduction_amount = employee_deduction_amount
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_contribution_amount == other.company_contribution_amount
+          return false unless @employee_deduction_amount == other.employee_deduction_amount
+          return false unless @benefit_id == other.benefit_id
+          true
+        end
       end
     end
   end

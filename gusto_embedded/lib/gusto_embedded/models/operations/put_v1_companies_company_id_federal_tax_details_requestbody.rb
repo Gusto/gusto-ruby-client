@@ -5,36 +5,50 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Attributes related to federal tax details that can be updated via this endpoint include:
-    class PutV1CompaniesCompanyIdFederalTaxDetailsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Attributes related to federal tax details that can be updated via this endpoint include:
+      class PutV1CompaniesCompanyIdFederalTaxDetailsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # The EIN of of the company
-      field :ein, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein') } }
-      # The form used by the company for federal tax filing. One of:
-      # - 941 (Quarterly federal tax return)
-      # - 944 (Annual federal tax return)
-      field :filing_form, T.nilable(::GustoEmbedded::Operations::FilingForm), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_form'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::FilingForm, true) } }
-      # The legal name of the company
-      field :legal_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('legal_name') } }
-      # What type of tax entity the company is
-      field :tax_payer_type, T.nilable(::GustoEmbedded::Operations::TaxPayerType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_payer_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::TaxPayerType, true) } }
-      # Whether this company should be taxed as an S-Corporation
-      field :taxable_as_scorp, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxable_as_scorp') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The legal name of the company
+        field :legal_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('legal_name') } }
+        # The EIN of of the company
+        field :ein, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein') } }
+        # What type of tax entity the company is
+        field :tax_payer_type, Crystalline::Nilable.new(Models::Operations::TaxPayerType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_payer_type'), 'decoder': Utils.enum_from_string(Models::Operations::TaxPayerType, true) } }
+        # The form used by the company for federal tax filing. One of:
+        # - 941 (Quarterly federal tax return)
+        # - 944 (Annual federal tax return)
+        field :filing_form, Crystalline::Nilable.new(Models::Operations::FilingForm), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_form'), 'decoder': Utils.enum_from_string(Models::Operations::FilingForm, true) } }
+        # Whether this company should be taxed as an S-Corporation
+        field :taxable_as_scorp, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxable_as_scorp') } }
 
+        sig { params(version: ::String, legal_name: T.nilable(::String), ein: T.nilable(::String), tax_payer_type: T.nilable(Models::Operations::TaxPayerType), filing_form: T.nilable(Models::Operations::FilingForm), taxable_as_scorp: T.nilable(T::Boolean)).void }
+        def initialize(version:, legal_name: nil, ein: nil, tax_payer_type: nil, filing_form: nil, taxable_as_scorp: nil)
+          @version = version
+          @legal_name = legal_name
+          @ein = ein
+          @tax_payer_type = tax_payer_type
+          @filing_form = filing_form
+          @taxable_as_scorp = taxable_as_scorp
+        end
 
-      sig { params(version: ::String, ein: T.nilable(::String), filing_form: T.nilable(::GustoEmbedded::Operations::FilingForm), legal_name: T.nilable(::String), tax_payer_type: T.nilable(::GustoEmbedded::Operations::TaxPayerType), taxable_as_scorp: T.nilable(T::Boolean)).void }
-      def initialize(version: nil, ein: nil, filing_form: nil, legal_name: nil, tax_payer_type: nil, taxable_as_scorp: nil)
-        @version = version
-        @ein = ein
-        @filing_form = filing_form
-        @legal_name = legal_name
-        @tax_payer_type = tax_payer_type
-        @taxable_as_scorp = taxable_as_scorp
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @legal_name == other.legal_name
+          return false unless @ein == other.ein
+          return false unless @tax_payer_type == other.tax_payer_type
+          return false unless @filing_form == other.filing_form
+          return false unless @taxable_as_scorp == other.taxable_as_scorp
+          true
+        end
       end
     end
   end

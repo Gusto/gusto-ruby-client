@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # The temporary url to download a Company Attachment File
-    class GetV1CompaniesAttachmentUrlResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # The temporary url to download a Company Attachment File
+      class GetV1CompaniesAttachmentUrlResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # A full Url to download a Company Attachment File
-      field :url, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('url') } }
+        # A full Url to download a Company Attachment File
+        field :url, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('url'), required: true } }
 
+        sig { params(url: ::String).void }
+        def initialize(url:)
+          @url = url
+        end
 
-      sig { params(url: ::String).void }
-      def initialize(url: nil)
-        @url = url
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @url == other.url
+          true
+        end
       end
     end
   end

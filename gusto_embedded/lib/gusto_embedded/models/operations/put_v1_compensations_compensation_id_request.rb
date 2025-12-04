@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1CompensationsCompensationIdRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompensationsCompensationIdRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the compensation
-      field :compensation_id, ::String, { 'path_param': { 'field_name': 'compensation_id', 'style': 'simple', 'explode': false } }
+        # The UUID of the compensation
+        field :compensation_id, ::String, { 'path_param': { 'field_name': 'compensation_id', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PutV1CompensationsCompensationIdRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :request_body, Models::Operations::PutV1CompensationsCompensationIdRequestBody, { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(compensation_id: ::String, request_body: Models::Operations::PutV1CompensationsCompensationIdRequestBody, x_gusto_api_version: T.nilable(Models::Shared::VersionHeader)).void }
+        def initialize(compensation_id:, request_body:, x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @compensation_id = compensation_id
+          @request_body = request_body
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(compensation_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1CompensationsCompensationIdRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(compensation_id: nil, request_body: nil, x_gusto_api_version: nil)
-        @compensation_id = compensation_id
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @compensation_id == other.compensation_id
+          return false unless @request_body == other.request_body
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

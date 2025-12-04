@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # a list of contractor payments.
-    class GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # a list of contractor payments.
+      class GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :contractor_payments, T::Array[::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPayments], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
+        field :contractor_payments, Crystalline::Array.new(Models::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPayments), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments'), required: true } }
 
+        sig { params(contractor_payments: T::Array[Models::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPayments]).void }
+        def initialize(contractor_payments:)
+          @contractor_payments = contractor_payments
+        end
 
-      sig { params(contractor_payments: T::Array[::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPayments]).void }
-      def initialize(contractor_payments: nil)
-        @contractor_payments = contractor_payments
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @contractor_payments == other.contractor_payments
+          true
+        end
       end
     end
   end

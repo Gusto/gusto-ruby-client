@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PlaidStatus - The Plaid connection status of the bank account. Only applies when verification type is Plaid.
-    class PlaidStatus < T::Enum
-      enums do
-        CONNECTED = new('connected')
-        DISCONNECTED = new('disconnected')
+  module Models
+    module Shared
+    
+      # PlaidStatus - The Plaid connection status of the bank account. Only applies when verification type is Plaid.
+      class PlaidStatus < T::Enum
+
+
+        enums do
+          CONNECTED = new('connected')
+          DISCONNECTED = new('disconnected')
+        end
       end
     end
   end

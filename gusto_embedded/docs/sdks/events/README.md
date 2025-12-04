@@ -19,22 +19,22 @@ scope: `events:read`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-events" method="get" path="/v1/events" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new
 
-req = ::GustoEmbedded::Operations::GetEventsRequest.new(
-  sort_order: ::GustoEmbedded::Shared::SortOrder::ASC,
+req = Models::Operations::GetEventsRequest.new(
+  sort_order: Models::Shared::SortOrder::ASC,
 )
 
-res = s.events.get(security: ::GustoEmbedded::Operations::GetEventsSecurity.new(
-    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), req, ::GustoEmbedded::Operations::GetEventsSecurity.new(
-    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+res = s.events.get(request: req, security: Models::Operations::GetEventsSecurity.new(
+    system_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
   ))
 
-if ! res.event_list.nil?
+unless res.event_list.nil?
   # handle response
 end
 
@@ -42,12 +42,17 @@ end
 
 ### Parameters
 
-| Parameter                                                                                      | Type                                                                                           | Required                                                                                       | Description                                                                                    |
-| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `request`                                                                                      | [::GustoEmbedded::Operations::GetEventsRequest](../../models/operations/geteventsrequest.md)   | :heavy_check_mark:                                                                             | The request object to use for the request.                                                     |
-| `security`                                                                                     | [::GustoEmbedded::Operations::GetEventsSecurity](../../models/operations/geteventssecurity.md) | :heavy_check_mark:                                                                             | The security requirements to use for the request.                                              |
+| Parameter                                                                             | Type                                                                                  | Required                                                                              | Description                                                                           |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `request`                                                                             | [Models::Operations::GetEventsRequest](../../models/operations/geteventsrequest.md)   | :heavy_check_mark:                                                                    | The request object to use for the request.                                            |
+| `security`                                                                            | [Models::Operations::GetEventsSecurity](../../models/operations/geteventssecurity.md) | :heavy_check_mark:                                                                    | The security requirements to use for the request.                                     |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetEventsResponse)](../../models/operations/geteventsresponse.md)**
+**[T.nilable(Models::Operations::GetEventsResponse)](../../models/operations/geteventsresponse.md)**
 
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |

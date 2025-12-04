@@ -5,15 +5,19 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # InformationRequestType - The type of information request
-    class InformationRequestType < T::Enum
-      enums do
-        COMPANY_ONBOARDING = new('company_onboarding')
-        ACCOUNT_PROTECTION = new('account_protection')
-        PAYMENT_REQUEST = new('payment_request')
-        PAYMENT_ERROR = new('payment_error')
+  module Models
+    module Shared
+    
+      # InformationRequestType - The type of information request
+      class InformationRequestType < T::Enum
+
+
+        enums do
+          COMPANY_ONBOARDING = new('company_onboarding')
+          ACCOUNT_PROTECTION = new('account_protection')
+          PAYMENT_REQUEST = new('payment_request')
+          PAYMENT_ERROR = new('payment_error')
+        end
       end
     end
   end

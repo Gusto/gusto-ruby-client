@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class PayrollCheck < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class PayrollCheck
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # An array of mapping employee uuids to their check numbers
-      field :employee_check_number_mapping, T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCheckNumberMapping]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_check_number_mapping') } }
-      # A unique identifier of the payroll.
-      field :payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
-      # The format the checks will be printed.
-      field :printing_format, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('printing_format') } }
-      # A unique identifier of the Generated Document request
-      field :request_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('request_uuid') } }
-      # The starting check number for the checks being printed.
-      field :starting_check_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('starting_check_number') } }
-      # Current status of the Generated Document
-      field :status, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status') } }
+        # A unique identifier of the payroll.
+        field :payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+        # The format the checks will be printed.
+        field :printing_format, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('printing_format') } }
+        # A unique identifier of the Generated Document request
+        field :request_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('request_uuid') } }
+        # Current status of the Generated Document
+        field :status, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status') } }
+        # An array of mapping employee uuids to their check numbers
+        field :employee_check_number_mapping, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeCheckNumberMapping)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_check_number_mapping') } }
+        # The starting check number for the checks being printed.
+        field :starting_check_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('starting_check_number') } }
 
+        sig { params(payroll_uuid: T.nilable(::String), printing_format: T.nilable(::String), request_uuid: T.nilable(::String), status: T.nilable(::String), employee_check_number_mapping: T.nilable(T::Array[Models::Shared::EmployeeCheckNumberMapping]), starting_check_number: T.nilable(::String)).void }
+        def initialize(payroll_uuid: nil, printing_format: nil, request_uuid: nil, status: nil, employee_check_number_mapping: nil, starting_check_number: nil)
+          @payroll_uuid = payroll_uuid
+          @printing_format = printing_format
+          @request_uuid = request_uuid
+          @status = status
+          @employee_check_number_mapping = employee_check_number_mapping
+          @starting_check_number = starting_check_number
+        end
 
-      sig { params(employee_check_number_mapping: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCheckNumberMapping]), payroll_uuid: T.nilable(::String), printing_format: T.nilable(::String), request_uuid: T.nilable(::String), starting_check_number: T.nilable(::String), status: T.nilable(::String)).void }
-      def initialize(employee_check_number_mapping: nil, payroll_uuid: nil, printing_format: nil, request_uuid: nil, starting_check_number: nil, status: nil)
-        @employee_check_number_mapping = employee_check_number_mapping
-        @payroll_uuid = payroll_uuid
-        @printing_format = printing_format
-        @request_uuid = request_uuid
-        @starting_check_number = starting_check_number
-        @status = status
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @printing_format == other.printing_format
+          return false unless @request_uuid == other.request_uuid
+          return false unless @status == other.status
+          return false unless @employee_check_number_mapping == other.employee_check_number_mapping
+          return false unless @starting_check_number == other.starting_check_number
+          true
+        end
       end
     end
   end

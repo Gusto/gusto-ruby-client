@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of an information request
-    class InformationRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Representation of an information request
+      class InformationRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # If true, this information request is blocking payroll, and may require response or requires review from our Risk Ops team.
-      field :blocking_payroll, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blocking_payroll') } }
-      # Unique identifier of the company to which the information requests belongs
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # The status of the information request
-      field :status, T.nilable(::GustoEmbedded::Shared::InformationRequestStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::InformationRequestStatus, true) } }
-      # The type of information request
-      field :type, T.nilable(::GustoEmbedded::Shared::InformationRequestType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::InformationRequestType, true) } }
-      # Unique identifier of an information request
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # Unique identifier of an information request
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # Unique identifier of the company to which the information requests belongs
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The status of the information request
+        field :status, Crystalline::Nilable.new(Models::Shared::InformationRequestStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(Models::Shared::InformationRequestStatus, true) } }
+        # If true, this information request is blocking payroll, and may require response or requires review from our Risk Ops team.
+        field :blocking_payroll, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blocking_payroll') } }
+        # The type of information request
+        field :type, Crystalline::Nilable.new(Models::Shared::InformationRequestType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(Models::Shared::InformationRequestType, true) } }
 
+        sig { params(uuid: T.nilable(::String), company_uuid: T.nilable(::String), status: T.nilable(Models::Shared::InformationRequestStatus), blocking_payroll: T.nilable(T::Boolean), type: T.nilable(Models::Shared::InformationRequestType)).void }
+        def initialize(uuid: nil, company_uuid: nil, status: nil, blocking_payroll: nil, type: nil)
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @status = status
+          @blocking_payroll = blocking_payroll
+          @type = type
+        end
 
-      sig { params(blocking_payroll: T.nilable(T::Boolean), company_uuid: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::InformationRequestStatus), type: T.nilable(::GustoEmbedded::Shared::InformationRequestType), uuid: T.nilable(::String)).void }
-      def initialize(blocking_payroll: nil, company_uuid: nil, status: nil, type: nil, uuid: nil)
-        @blocking_payroll = blocking_payroll
-        @company_uuid = company_uuid
-        @status = status
-        @type = type
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @status == other.status
+          return false unless @blocking_payroll == other.blocking_payroll
+          return false unless @type == other.type
+          true
+        end
       end
     end
   end

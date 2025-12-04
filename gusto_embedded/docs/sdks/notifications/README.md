@@ -6,6 +6,7 @@
 ### Available Operations
 
 * [get_details](#get_details) - Get a notification's details
+* [get_company_notifications](#get_company_notifications) - Get notifications for company
 
 ## get_details
 
@@ -19,18 +20,20 @@ scope: `notifications:read`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-notifications-notification_uuid" method="get" path="/v1/notifications/{notification_uuid}" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.notifications.get_details(notification_uuid="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.notifications.get_details(notification_uuid: '<id>', x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.notification.nil?
+unless res.notification.nil?
   # handle response
 end
 
@@ -41,9 +44,63 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `notification_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The notification entity_uuid                                                                                                                                                                                                 |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetNotificationsNotificationUuidResponse)](../../models/operations/getnotificationsnotificationuuidresponse.md)**
+**[T.nilable(Models::Operations::GetNotificationsNotificationUuidResponse)](../../models/operations/getnotificationsnotificationuuidresponse.md)**
 
+### Errors
+
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 422                                            | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |
+
+## get_company_notifications
+
+Returns all notifications relevant for the given company.
+
+scope: `notifications:read`
+
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-company-notifications" method="get" path="/v1/companies/{company_uuid}/notifications" -->
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
+      ),
+    )
+
+req = Models::Operations::GetCompanyNotificationsRequest.new(
+  company_uuid: '<id>',
+)
+
+res = s.notifications.get_company_notifications(request: req)
+
+unless res.notifications_list.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                       | Type                                                                                                            | Required                                                                                                        | Description                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                       | [Models::Operations::GetCompanyNotificationsRequest](../../models/operations/getcompanynotificationsrequest.md) | :heavy_check_mark:                                                                                              | The request object to use for the request.                                                                      |
+
+### Response
+
+**[T.nilable(Models::Operations::GetCompanyNotificationsResponse)](../../models/operations/getcompanynotificationsresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |

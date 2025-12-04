@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class SortOrder < T::Enum
-      enums do
-        ASC = new('asc')
-        DESC = new('desc')
+      class SortOrder < T::Enum
+
+
+        enums do
+          ASC = new('asc')
+          DESC = new('desc')
+        end
       end
     end
   end

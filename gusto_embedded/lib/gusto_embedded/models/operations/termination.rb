@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class Termination < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Termination
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Date the employee was terminated from the company
-      field :effective_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
+        # Date the employee was terminated from the company
+        field :effective_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
 
+        sig { params(effective_date: T.nilable(::Date)).void }
+        def initialize(effective_date: nil)
+          @effective_date = effective_date
+        end
 
-      sig { params(effective_date: T.nilable(::Date)).void }
-      def initialize(effective_date: nil)
-        @effective_date = effective_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @effective_date == other.effective_date
+          true
+        end
       end
     end
   end

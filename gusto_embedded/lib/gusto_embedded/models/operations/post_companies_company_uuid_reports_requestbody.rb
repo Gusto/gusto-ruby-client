@@ -5,61 +5,84 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostCompaniesCompanyUuidReportsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostCompaniesCompanyUuidReportsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Columns to include in the report
-      field :columns, T::Array[::GustoEmbedded::Operations::Columns], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('columns') } }
-      # The type of file to generate
-      field :file_type, ::GustoEmbedded::Operations::FileType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::FileType, false) } }
-      # How to group the report
-      field :groupings, T::Array[::GustoEmbedded::Operations::Groupings], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('groupings') } }
-      # The title of the report
-      field :custom_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_name') } }
-      # Departments to filter by
-      field :department_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuids') } }
-      # Dismissed end date of employees to filter by
-      field :dismissed_end_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dismissed_end_date'), 'decoder': Utils.date_from_iso_format(true) } }
-      # Dismissed start date of employees to filter by
-      field :dismissed_start_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dismissed_start_date'), 'decoder': Utils.date_from_iso_format(true) } }
-      # Employees to filter by
-      field :employee_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
-      # Employee employment status to filter by
-      field :employment_status, T.nilable(::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsEmploymentStatus, true) } }
-      # Employee employment type to filter by
-      field :employment_type, T.nilable(::GustoEmbedded::Operations::EmploymentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::EmploymentType, true) } }
-      # End date of data to filter by
-      field :end_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date'), 'decoder': Utils.date_from_iso_format(true) } }
-      # Payment method to filter by
-      field :payment_method, T.nilable(::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsPaymentMethod, true) } }
-      # Start date of data to filter by
-      field :start_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date'), 'decoder': Utils.date_from_iso_format(true) } }
-      # Whether to include subtotals and grand totals in the report
-      field :with_totals, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('with_totals') } }
-      # Work addresses to filter by
-      field :work_address_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_address_uuids') } }
+        # Columns to include in the report
+        field :columns, Crystalline::Array.new(Models::Operations::Columns), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('columns'), required: true } }
+        # How to group the report
+        field :groupings, Crystalline::Array.new(Models::Operations::Groupings), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('groupings'), required: true } }
+        # The type of file to generate
+        field :file_type, Models::Operations::FileType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_type'), required: true, 'decoder': Utils.enum_from_string(Models::Operations::FileType, false) } }
+        # The title of the report
+        field :custom_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_name') } }
+        # Start date of data to filter by
+        field :start_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date'), 'decoder': Utils.date_from_iso_format(true) } }
+        # End date of data to filter by
+        field :end_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date'), 'decoder': Utils.date_from_iso_format(true) } }
+        # Dismissed start date of employees to filter by
+        field :dismissed_start_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dismissed_start_date'), 'decoder': Utils.date_from_iso_format(true) } }
+        # Dismissed end date of employees to filter by
+        field :dismissed_end_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dismissed_end_date'), 'decoder': Utils.date_from_iso_format(true) } }
+        # Payment method to filter by
+        field :payment_method, Crystalline::Nilable.new(Models::Operations::PostCompaniesCompanyUuidReportsPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(Models::Operations::PostCompaniesCompanyUuidReportsPaymentMethod, true) } }
+        # Employee employment type to filter by
+        field :employment_type, Crystalline::Nilable.new(Models::Operations::EmploymentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_type'), 'decoder': Utils.enum_from_string(Models::Operations::EmploymentType, true) } }
+        # Employee employment status to filter by
+        field :employment_status, Crystalline::Nilable.new(Models::Operations::PostCompaniesCompanyUuidReportsEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_status'), 'decoder': Utils.enum_from_string(Models::Operations::PostCompaniesCompanyUuidReportsEmploymentStatus, true) } }
+        # Employees to filter by
+        field :employee_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
+        # Departments to filter by
+        field :department_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuids') } }
+        # Work addresses to filter by
+        field :work_address_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_address_uuids') } }
+        # Whether to include subtotals and grand totals in the report
+        field :with_totals, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('with_totals') } }
 
+        sig { params(columns: T::Array[Models::Operations::Columns], groupings: T::Array[Models::Operations::Groupings], file_type: Models::Operations::FileType, custom_name: T.nilable(::String), start_date: T.nilable(::Date), end_date: T.nilable(::Date), dismissed_start_date: T.nilable(::Date), dismissed_end_date: T.nilable(::Date), payment_method: T.nilable(Models::Operations::PostCompaniesCompanyUuidReportsPaymentMethod), employment_type: T.nilable(Models::Operations::EmploymentType), employment_status: T.nilable(Models::Operations::PostCompaniesCompanyUuidReportsEmploymentStatus), employee_uuids: T.nilable(T::Array[::String]), department_uuids: T.nilable(T::Array[::String]), work_address_uuids: T.nilable(T::Array[::String]), with_totals: T.nilable(T::Boolean)).void }
+        def initialize(columns:, groupings:, file_type:, custom_name: nil, start_date: nil, end_date: nil, dismissed_start_date: nil, dismissed_end_date: nil, payment_method: nil, employment_type: nil, employment_status: nil, employee_uuids: nil, department_uuids: nil, work_address_uuids: nil, with_totals: false)
+          @columns = columns
+          @groupings = groupings
+          @file_type = file_type
+          @custom_name = custom_name
+          @start_date = start_date
+          @end_date = end_date
+          @dismissed_start_date = dismissed_start_date
+          @dismissed_end_date = dismissed_end_date
+          @payment_method = payment_method
+          @employment_type = employment_type
+          @employment_status = employment_status
+          @employee_uuids = employee_uuids
+          @department_uuids = department_uuids
+          @work_address_uuids = work_address_uuids
+          @with_totals = with_totals
+        end
 
-      sig { params(columns: T::Array[::GustoEmbedded::Operations::Columns], file_type: ::GustoEmbedded::Operations::FileType, groupings: T::Array[::GustoEmbedded::Operations::Groupings], custom_name: T.nilable(::String), department_uuids: T.nilable(T::Array[::String]), dismissed_end_date: T.nilable(::Date), dismissed_start_date: T.nilable(::Date), employee_uuids: T.nilable(T::Array[::String]), employment_status: T.nilable(::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsEmploymentStatus), employment_type: T.nilable(::GustoEmbedded::Operations::EmploymentType), end_date: T.nilable(::Date), payment_method: T.nilable(::GustoEmbedded::Operations::PostCompaniesCompanyUuidReportsPaymentMethod), start_date: T.nilable(::Date), with_totals: T.nilable(T::Boolean), work_address_uuids: T.nilable(T::Array[::String])).void }
-      def initialize(columns: nil, file_type: nil, groupings: nil, custom_name: nil, department_uuids: nil, dismissed_end_date: nil, dismissed_start_date: nil, employee_uuids: nil, employment_status: nil, employment_type: nil, end_date: nil, payment_method: nil, start_date: nil, with_totals: nil, work_address_uuids: nil)
-        @columns = columns
-        @file_type = file_type
-        @groupings = groupings
-        @custom_name = custom_name
-        @department_uuids = department_uuids
-        @dismissed_end_date = dismissed_end_date
-        @dismissed_start_date = dismissed_start_date
-        @employee_uuids = employee_uuids
-        @employment_status = employment_status
-        @employment_type = employment_type
-        @end_date = end_date
-        @payment_method = payment_method
-        @start_date = start_date
-        @with_totals = with_totals
-        @work_address_uuids = work_address_uuids
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @columns == other.columns
+          return false unless @groupings == other.groupings
+          return false unless @file_type == other.file_type
+          return false unless @custom_name == other.custom_name
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          return false unless @dismissed_start_date == other.dismissed_start_date
+          return false unless @dismissed_end_date == other.dismissed_end_date
+          return false unless @payment_method == other.payment_method
+          return false unless @employment_type == other.employment_type
+          return false unless @employment_status == other.employment_status
+          return false unless @employee_uuids == other.employee_uuids
+          return false unless @department_uuids == other.department_uuids
+          return false unless @work_address_uuids == other.work_address_uuids
+          return false unless @with_totals == other.with_totals
+          true
+        end
       end
     end
   end

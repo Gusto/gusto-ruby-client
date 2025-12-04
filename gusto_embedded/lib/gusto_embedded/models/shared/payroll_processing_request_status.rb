@@ -5,16 +5,20 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PayrollProcessingRequestStatus - The status of the payroll processing request
-    class PayrollProcessingRequestStatus < T::Enum
-      enums do
-        CALCULATING = new('calculating')
-        CALCULATE_SUCCESS = new('calculate_success')
-        SUBMITTING = new('submitting')
-        SUBMIT_SUCCESS = new('submit_success')
-        PROCESSING_FAILED = new('processing_failed')
+  module Models
+    module Shared
+    
+      # PayrollProcessingRequestStatus - The status of the payroll processing request
+      class PayrollProcessingRequestStatus < T::Enum
+
+
+        enums do
+          CALCULATING = new('calculating')
+          CALCULATE_SUCCESS = new('calculate_success')
+          SUBMITTING = new('submitting')
+          SUBMIT_SUCCESS = new('submit_success')
+          PROCESSING_FAILED = new('processing_failed')
+        end
       end
     end
   end

@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class TaxRequirement < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class TaxRequirement
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # An array of references to other requirements within the requirement set. This requirement is only applicable if all referenced requirements have values matching the corresponding `value`. The primary use-case is dynamically hiding and showing requirements as values change. E.g. Show Requirement-B when Requirement-A has been answered with `false`. To be explicit, an empty array means the requirement is applicable.
-      field :applicable_if, T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableIf]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_if') } }
-      # A more detailed customer facing description of the requirement
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # An identifier for an individual requirement. Uniqueness is guaranteed within a requirement set.
-      field :key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
-      # A customer facing description of the requirement
-      field :label, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
+        # An identifier for an individual requirement. Uniqueness is guaranteed within a requirement set.
+        field :key, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
+        # An array of references to other requirements within the requirement set. This requirement is only applicable if all referenced requirements have values matching the corresponding `value`. The primary use-case is dynamically hiding and showing requirements as values change. E.g. Show Requirement-B when Requirement-A has been answered with `false`. To be explicit, an empty array means the requirement is applicable.
+        field :applicable_if, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ApplicableIf)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_if') } }
+        # A customer facing description of the requirement
+        field :label, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
 
-      field :metadata, T.nilable(::GustoEmbedded::Shared::TaxRequirementMetadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
-      # The "answer"
-      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        field :metadata, Crystalline::Nilable.new(Models::Shared::TaxRequirementMetadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
+        # A more detailed customer facing description of the requirement
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # The "answer"
+        field :value, Crystalline::Nilable.new(Crystalline::Union.new(Crystalline::Boolean.new, ::String, ::Float)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
+        sig { params(key: T.nilable(::String), applicable_if: T.nilable(T::Array[Models::Shared::ApplicableIf]), label: T.nilable(::String), metadata: T.nilable(Models::Shared::TaxRequirementMetadata), description: T.nilable(::String), value: T.nilable(T.any(T::Boolean, ::String, ::Float))).void }
+        def initialize(key: nil, applicable_if: nil, label: nil, metadata: nil, description: nil, value: nil)
+          @key = key
+          @applicable_if = applicable_if
+          @label = label
+          @metadata = metadata
+          @description = description
+          @value = value
+        end
 
-      sig { params(applicable_if: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableIf]), description: T.nilable(::String), key: T.nilable(::String), label: T.nilable(::String), metadata: T.nilable(::GustoEmbedded::Shared::TaxRequirementMetadata), value: T.nilable(::Object)).void }
-      def initialize(applicable_if: nil, description: nil, key: nil, label: nil, metadata: nil, value: nil)
-        @applicable_if = applicable_if
-        @description = description
-        @key = key
-        @label = label
-        @metadata = metadata
-        @value = value
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @key == other.key
+          return false unless @applicable_if == other.applicable_if
+          return false unless @label == other.label
+          return false unless @metadata == other.metadata
+          return false unless @description == other.description
+          return false unless @value == other.value
+          true
+        end
       end
     end
   end

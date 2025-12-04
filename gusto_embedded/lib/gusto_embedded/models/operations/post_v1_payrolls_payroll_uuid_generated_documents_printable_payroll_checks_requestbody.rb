@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1PayrollsPayrollUuidGeneratedDocumentsPrintablePayrollChecksRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1PayrollsPayrollUuidGeneratedDocumentsPrintablePayrollChecksRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The type of check stock being printed. Check the "Types of check stock" section in this [link](https://support.gusto.com/article/999877761000000/Pay-your-team-by-check) for more info on check types
-      field :printing_format, ::GustoEmbedded::Operations::PrintingFormat, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('printing_format'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PrintingFormat, false) } }
-      # The starting check number we will start generating checks from. Use to override the sequence that will be used to generate check numbers.
-      field :starting_check_number, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('starting_check_number') } }
+        # The type of check stock being printed. Check the "Types of check stock" section in this [link](https://support.gusto.com/article/999877761000000/Pay-your-team-by-check) for more info on check types
+        field :printing_format, Models::Operations::PrintingFormat, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('printing_format'), required: true, 'decoder': Utils.enum_from_string(Models::Operations::PrintingFormat, false) } }
+        # The starting check number we will start generating checks from. Use to override the sequence that will be used to generate check numbers.
+        field :starting_check_number, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('starting_check_number') } }
 
+        sig { params(printing_format: Models::Operations::PrintingFormat, starting_check_number: T.nilable(::Integer)).void }
+        def initialize(printing_format:, starting_check_number: nil)
+          @printing_format = printing_format
+          @starting_check_number = starting_check_number
+        end
 
-      sig { params(printing_format: ::GustoEmbedded::Operations::PrintingFormat, starting_check_number: T.nilable(::Integer)).void }
-      def initialize(printing_format: nil, starting_check_number: nil)
-        @printing_format = printing_format
-        @starting_check_number = starting_check_number
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @printing_format == other.printing_format
+          return false unless @starting_check_number == other.starting_check_number
+          true
+        end
       end
     end
   end

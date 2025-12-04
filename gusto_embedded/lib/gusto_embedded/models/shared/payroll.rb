@@ -5,94 +5,132 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class Payroll < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
 
-      # Indicates whether the payroll is an auto pilot payroll
-      field :auto_pilot, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('auto_pilot') } }
-      # A timestamp of the last valid payroll calculation. Null if there isn't a valid calculation.
-      field :calculated_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('calculated_at') } }
-      # The date on which employees will be paid for the payroll.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # An array of taxes applicable to this payroll in addition to taxes included in `employee_compensations`. Only included for processed or calculated payrolls when `taxes` is present in the `include` parameter.
-      field :company_taxes, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollCompanyTaxesType]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_taxes') } }
-      # The UUID of the company for the payroll.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # Datetime for when the resource was created.
-      field :created_at, T.nilable(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('created_at'), 'decoder': Utils.datetime_from_iso_format(true) } }
-      # Only included for processed payrolls
-      field :credit_blockers, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollCreditBlockersType]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('credit_blockers') } }
+      class Payroll
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      field :employee_compensations, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollEmployeeCompensationsType]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_compensations') } }
-      # Indicates whether the payroll is an external payroll
-      field :external, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external') } }
-      # Indicates whether the payroll is the final payroll for a terminated employee. Only included for off-cycle payrolls.
-      field :final_termination_payroll, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('final_termination_payroll') } }
-      # Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages. Only included for off-cycle payrolls.
-      field :fixed_withholding_rate, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_withholding_rate') } }
-      # Indicates whether the payroll is an off-cycle payroll
-      field :off_cycle, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle') } }
-      # The off-cycle reason. Only included for off-cycle payrolls.
-      field :off_cycle_reason, T.nilable(::GustoEmbedded::Shared::OffCycleReasonType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle_reason'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::OffCycleReasonType, true) } }
+        # A timestamp that is the deadline for the payroll to be run in order for employees to be paid on time.  If payroll has not been run by the deadline, a prepare request will update both the check date and deadline to reflect the soonest employees can be paid and the deadline by which the payroll must be run in order for said check date to be met.
+        field :payroll_deadline, Crystalline::Nilable.new(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_deadline'), 'decoder': Utils.datetime_from_iso_format(true) } }
+        # The date on which employees will be paid for the payroll.
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # Whether or not the payroll has been successfully processed. Note that processed payrolls cannot be updated. Additionally, a payroll is not guaranteed to be processed just because the payroll deadline has passed. Late payrolls are not uncommon. Conversely, users may choose to run payroll before the payroll deadline.
+        field :processed, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processed') } }
+        # The UUID of the payroll.
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The UUID of the payroll.
+        field :payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+        # The UUID of the company for the payroll.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # Indicates whether the payroll is an off-cycle payroll
+        field :off_cycle, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle') } }
+        # Indicates whether the payroll is an auto pilot payroll
+        field :auto_pilot, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('auto_pilot') } }
+        # Indicates whether the payroll is an external payroll
+        field :external, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external') } }
+        # Indicates whether the payroll is the final payroll for a terminated employee. Only included for off-cycle payrolls.
+        field :final_termination_payroll, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('final_termination_payroll') } }
+        # The payment schedule tax rate the payroll is based on. Only included for off-cycle payrolls.
+        field :withholding_pay_period, Crystalline::Nilable.new(Models::Shared::PayrollWithholdingPayPeriodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('withholding_pay_period'), 'decoder': Utils.enum_from_string(Models::Shared::PayrollWithholdingPayPeriodType, true) } }
 
-      field :pay_period, T.nilable(::GustoEmbedded::Shared::PayrollPayPeriodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_period') } }
-      # Only applicable when a payroll is moved to four day processing instead of fast ach.
-      field :payment_speed_changed, T.nilable(::GustoEmbedded::Shared::PayrollPaymentSpeedChangedType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_speed_changed') } }
-      # A timestamp that is the deadline for the payroll to be run in order for employees to be paid on time.  If payroll has not been run by the deadline, a prepare request will update both the check date and deadline to reflect the soonest employees can be paid and the deadline by which the payroll must be run in order for said check date to be met.
-      field :payroll_deadline, T.nilable(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_deadline'), 'decoder': Utils.datetime_from_iso_format(true) } }
-      # Information about the payroll's status and expected dates
-      field :payroll_status_meta, T.nilable(::GustoEmbedded::Shared::PayrollPayrollStatusMetaType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_status_meta') } }
-      # The UUID of the payroll.
-      field :payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
-      # Whether or not the payroll has been successfully processed. Note that processed payrolls cannot be updated. Additionally, a payroll is not guaranteed to be processed just because the payroll deadline has passed. Late payrolls are not uncommon. Conversely, users may choose to run payroll before the payroll deadline.
-      field :processed, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processed') } }
-      # The date at which the payroll was processed. Null if the payroll isn't processed yet.
-      field :processed_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processed_date') } }
+        field :pay_period, Crystalline::Nilable.new(Models::Shared::PayrollPayPeriodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_period') } }
+        # Information about the payroll's status and expected dates
+        field :payroll_status_meta, Crystalline::Nilable.new(Models::Shared::PayrollPayrollStatusMetaType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_status_meta') } }
+        # The subtotals for the payroll.
+        field :totals, Crystalline::Nilable.new(Models::Shared::PayrollTotalsType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
+        # An array of taxes applicable to this payroll in addition to taxes included in `employee_compensations`. Only included for processed or calculated payrolls when `taxes` is present in the `include` parameter.
+        field :company_taxes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollCompanyTaxesType)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_taxes') } }
+        # An array of tax totals applicable to this payroll. Only included for processed or calculated payrolls when `payroll_taxes` is present in the `include` parameter.
+        field :payroll_taxes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollTaxesType)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_taxes') } }
+        # Only applicable when a payroll is moved to four day processing instead of fast ach.
+        field :payment_speed_changed, Crystalline::Nilable.new(Models::Shared::PayrollPaymentSpeedChangedType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_speed_changed') } }
+        # Datetime for when the resource was created.
+        field :created_at, Crystalline::Nilable.new(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('created_at'), 'decoder': Utils.datetime_from_iso_format(true) } }
+        # Only included for processed or calculated payrolls
+        field :submission_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollSubmissionBlockersType)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('submission_blockers') } }
+        # Only included for processed payrolls
+        field :credit_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollCreditBlockersType)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('credit_blockers') } }
+        # The date at which the payroll was processed. Null if the payroll isn't processed yet.
+        field :processed_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processed_date') } }
+        # A timestamp of the last valid payroll calculation. Null if there isn't a valid calculation.
+        field :calculated_at, Crystalline::Nilable.new(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('calculated_at'), 'decoder': Utils.datetime_from_iso_format(true) } }
+        # The off-cycle reason. Only included for off-cycle payrolls.
+        field :off_cycle_reason, Crystalline::Nilable.new(Models::Shared::OffCycleReasonType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle_reason'), 'decoder': Utils.enum_from_string(Models::Shared::OffCycleReasonType, true) } }
+        # Block regular deductions and contributions for this payroll.  Only included for off-cycle payrolls.
+        field :skip_regular_deductions, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skip_regular_deductions') } }
+        # Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages. Only included for off-cycle payrolls.
+        field :fixed_withholding_rate, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_withholding_rate') } }
 
-      field :processing_request, T.nilable(::GustoEmbedded::Shared::PayrollProcessingRequest), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processing_request') } }
-      # Block regular deductions and contributions for this payroll.  Only included for off-cycle payrolls.
-      field :skip_regular_deductions, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skip_regular_deductions') } }
-      # Only included for processed or calculated payrolls
-      field :submission_blockers, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollSubmissionBlockersType]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('submission_blockers') } }
-      # The subtotals for the payroll.
-      field :totals, T.nilable(::GustoEmbedded::Shared::PayrollTotalsType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
-      # The UUID of the payroll.
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The payment schedule tax rate the payroll is based on. Only included for off-cycle payrolls.
-      field :withholding_pay_period, T.nilable(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('withholding_pay_period'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType, true) } }
+        field :processing_request, Crystalline::Nilable.new(Models::Shared::PayrollProcessingRequest), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processing_request') } }
+        # Will money movement for the payroll be performed by the partner rather than by Gusto?
+        field :partner_owned_disbursement, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
 
+        sig { params(payroll_deadline: T.nilable(::DateTime), check_date: T.nilable(::String), processed: T.nilable(T::Boolean), uuid: T.nilable(::String), payroll_uuid: T.nilable(::String), company_uuid: T.nilable(::String), off_cycle: T.nilable(T::Boolean), auto_pilot: T.nilable(T::Boolean), external: T.nilable(T::Boolean), final_termination_payroll: T.nilable(T::Boolean), withholding_pay_period: T.nilable(Models::Shared::PayrollWithholdingPayPeriodType), pay_period: T.nilable(Models::Shared::PayrollPayPeriodType), payroll_status_meta: T.nilable(Models::Shared::PayrollPayrollStatusMetaType), totals: T.nilable(Models::Shared::PayrollTotalsType), company_taxes: T.nilable(T::Array[Models::Shared::PayrollCompanyTaxesType]), payroll_taxes: T.nilable(T::Array[Models::Shared::PayrollTaxesType]), payment_speed_changed: T.nilable(Models::Shared::PayrollPaymentSpeedChangedType), created_at: T.nilable(::DateTime), submission_blockers: T.nilable(T::Array[Models::Shared::PayrollSubmissionBlockersType]), credit_blockers: T.nilable(T::Array[Models::Shared::PayrollCreditBlockersType]), processed_date: T.nilable(::String), calculated_at: T.nilable(::DateTime), off_cycle_reason: T.nilable(Models::Shared::OffCycleReasonType), skip_regular_deductions: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), processing_request: T.nilable(Models::Shared::PayrollProcessingRequest), partner_owned_disbursement: T.nilable(T::Boolean)).void }
+        def initialize(payroll_deadline: nil, check_date: nil, processed: nil, uuid: nil, payroll_uuid: nil, company_uuid: nil, off_cycle: nil, auto_pilot: nil, external: nil, final_termination_payroll: nil, withholding_pay_period: nil, pay_period: nil, payroll_status_meta: nil, totals: nil, company_taxes: nil, payroll_taxes: nil, payment_speed_changed: nil, created_at: nil, submission_blockers: nil, credit_blockers: nil, processed_date: nil, calculated_at: nil, off_cycle_reason: nil, skip_regular_deductions: nil, fixed_withholding_rate: nil, processing_request: nil, partner_owned_disbursement: nil)
+          @payroll_deadline = payroll_deadline
+          @check_date = check_date
+          @processed = processed
+          @uuid = uuid
+          @payroll_uuid = payroll_uuid
+          @company_uuid = company_uuid
+          @off_cycle = off_cycle
+          @auto_pilot = auto_pilot
+          @external = external
+          @final_termination_payroll = final_termination_payroll
+          @withholding_pay_period = withholding_pay_period
+          @pay_period = pay_period
+          @payroll_status_meta = payroll_status_meta
+          @totals = totals
+          @company_taxes = company_taxes
+          @payroll_taxes = payroll_taxes
+          @payment_speed_changed = payment_speed_changed
+          @created_at = created_at
+          @submission_blockers = submission_blockers
+          @credit_blockers = credit_blockers
+          @processed_date = processed_date
+          @calculated_at = calculated_at
+          @off_cycle_reason = off_cycle_reason
+          @skip_regular_deductions = skip_regular_deductions
+          @fixed_withholding_rate = fixed_withholding_rate
+          @processing_request = processing_request
+          @partner_owned_disbursement = partner_owned_disbursement
+        end
 
-      sig { params(auto_pilot: T.nilable(T::Boolean), calculated_at: T.nilable(::String), check_date: T.nilable(::String), company_taxes: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollCompanyTaxesType]), company_uuid: T.nilable(::String), created_at: T.nilable(::DateTime), credit_blockers: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollCreditBlockersType]), employee_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollEmployeeCompensationsType]), external: T.nilable(T::Boolean), final_termination_payroll: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), off_cycle: T.nilable(T::Boolean), off_cycle_reason: T.nilable(::GustoEmbedded::Shared::OffCycleReasonType), pay_period: T.nilable(::GustoEmbedded::Shared::PayrollPayPeriodType), payment_speed_changed: T.nilable(::GustoEmbedded::Shared::PayrollPaymentSpeedChangedType), payroll_deadline: T.nilable(::DateTime), payroll_status_meta: T.nilable(::GustoEmbedded::Shared::PayrollPayrollStatusMetaType), payroll_uuid: T.nilable(::String), processed: T.nilable(T::Boolean), processed_date: T.nilable(::String), processing_request: T.nilable(::GustoEmbedded::Shared::PayrollProcessingRequest), skip_regular_deductions: T.nilable(T::Boolean), submission_blockers: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollSubmissionBlockersType]), totals: T.nilable(::GustoEmbedded::Shared::PayrollTotalsType), uuid: T.nilable(::String), withholding_pay_period: T.nilable(::GustoEmbedded::Shared::PayrollWithholdingPayPeriodType)).void }
-      def initialize(auto_pilot: nil, calculated_at: nil, check_date: nil, company_taxes: nil, company_uuid: nil, created_at: nil, credit_blockers: nil, employee_compensations: nil, external: nil, final_termination_payroll: nil, fixed_withholding_rate: nil, off_cycle: nil, off_cycle_reason: nil, pay_period: nil, payment_speed_changed: nil, payroll_deadline: nil, payroll_status_meta: nil, payroll_uuid: nil, processed: nil, processed_date: nil, processing_request: nil, skip_regular_deductions: nil, submission_blockers: nil, totals: nil, uuid: nil, withholding_pay_period: nil)
-        @auto_pilot = auto_pilot
-        @calculated_at = calculated_at
-        @check_date = check_date
-        @company_taxes = company_taxes
-        @company_uuid = company_uuid
-        @created_at = created_at
-        @credit_blockers = credit_blockers
-        @employee_compensations = employee_compensations
-        @external = external
-        @final_termination_payroll = final_termination_payroll
-        @fixed_withholding_rate = fixed_withholding_rate
-        @off_cycle = off_cycle
-        @off_cycle_reason = off_cycle_reason
-        @pay_period = pay_period
-        @payment_speed_changed = payment_speed_changed
-        @payroll_deadline = payroll_deadline
-        @payroll_status_meta = payroll_status_meta
-        @payroll_uuid = payroll_uuid
-        @processed = processed
-        @processed_date = processed_date
-        @processing_request = processing_request
-        @skip_regular_deductions = skip_regular_deductions
-        @submission_blockers = submission_blockers
-        @totals = totals
-        @uuid = uuid
-        @withholding_pay_period = withholding_pay_period
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @payroll_deadline == other.payroll_deadline
+          return false unless @check_date == other.check_date
+          return false unless @processed == other.processed
+          return false unless @uuid == other.uuid
+          return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @off_cycle == other.off_cycle
+          return false unless @auto_pilot == other.auto_pilot
+          return false unless @external == other.external
+          return false unless @final_termination_payroll == other.final_termination_payroll
+          return false unless @withholding_pay_period == other.withholding_pay_period
+          return false unless @pay_period == other.pay_period
+          return false unless @payroll_status_meta == other.payroll_status_meta
+          return false unless @totals == other.totals
+          return false unless @company_taxes == other.company_taxes
+          return false unless @payroll_taxes == other.payroll_taxes
+          return false unless @payment_speed_changed == other.payment_speed_changed
+          return false unless @created_at == other.created_at
+          return false unless @submission_blockers == other.submission_blockers
+          return false unless @credit_blockers == other.credit_blockers
+          return false unless @processed_date == other.processed_date
+          return false unless @calculated_at == other.calculated_at
+          return false unless @off_cycle_reason == other.off_cycle_reason
+          return false unless @skip_regular_deductions == other.skip_regular_deductions
+          return false unless @fixed_withholding_rate == other.fixed_withholding_rate
+          return false unless @processing_request == other.processing_request
+          return false unless @partner_owned_disbursement == other.partner_owned_disbursement
+          true
+        end
       end
     end
   end

@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class Contractors < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Contractors
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
 
+        sig { params(uuid: T.nilable(::String)).void }
+        def initialize(uuid: nil)
+          @uuid = uuid
+        end
 
-      sig { params(uuid: T.nilable(::String)).void }
-      def initialize(uuid: nil)
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          true
+        end
       end
     end
   end

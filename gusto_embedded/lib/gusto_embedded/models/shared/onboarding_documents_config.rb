@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Configuration for an employee onboarding documents during onboarding
-    class OnboardingDocumentsConfig < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Configuration for an employee onboarding documents during onboarding
+      class OnboardingDocumentsConfig
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Whether to include Form I-9 for an employee during onboarding
-      field :i9_document, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('i9_document') } }
-      # The UUID of the onboarding documents config
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # Whether to include Form I-9 for an employee during onboarding
+        field :i9_document, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('i9_document') } }
+        # The UUID of the onboarding documents config
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
 
+        sig { params(i9_document: T.nilable(T::Boolean), uuid: T.nilable(::String)).void }
+        def initialize(i9_document: nil, uuid: nil)
+          @i9_document = i9_document
+          @uuid = uuid
+        end
 
-      sig { params(i9_document: T.nilable(T::Boolean), uuid: T.nilable(::String)).void }
-      def initialize(i9_document: nil, uuid: nil)
-        @i9_document = i9_document
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @i9_document == other.i9_document
+          return false unless @uuid == other.uuid
+          true
+        end
       end
     end
   end

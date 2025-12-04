@@ -5,46 +5,68 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class SupportedBenefit < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class SupportedBenefit
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The benefit type in Gusto.
-      field :benefit_type, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
-      # Category where the benefit belongs to.
-      field :category, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
-      # The description of the benefit.
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # Whether the benefit is healthcare related.
-      field :healthcare, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('healthcare') } }
-      # Whether the benefit is considered imputed income.
-      field :imputed, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('imputed') } }
-      # The name of the benefit.
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # Whether the benefit is deducted after tax calculations.
-      field :posttax, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('posttax') } }
-      # Whether the benefit is deducted before tax calculations, thus reducing one’s taxable income
-      field :pretax, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pretax') } }
-      # Whether the benefit is associated with retirement planning.
-      field :retirement, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('retirement') } }
-      # Whether the benefit has a government mandated yearly limit. If the benefit has a government mandated yearly limit, employees cannot be added to more than one benefit of this type.
-      field :yearly_limit, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('yearly_limit') } }
+        # The benefit type in Gusto.
+        field :benefit_type, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
+        # The name of the benefit.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The description of the benefit.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # Whether the benefit is deducted before tax calculations, thus reducing one’s taxable income
+        field :pretax, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pretax') } }
+        # Whether the benefit is deducted after tax calculations.
+        field :posttax, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('posttax') } }
+        # Whether the benefit is considered imputed income.
+        field :imputed, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('imputed') } }
+        # Whether the benefit is healthcare related.
+        field :healthcare, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('healthcare') } }
+        # Whether the benefit is associated with retirement planning.
+        field :retirement, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('retirement') } }
+        # Whether the benefit has a government mandated yearly limit. If the benefit has a government mandated yearly limit, employees cannot be added to more than one benefit of this type.
+        field :yearly_limit, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('yearly_limit') } }
+        # Category where the benefit belongs to.
+        field :category, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
+        # Whether this benefit can be written (created, updated, or destroyed). Returns true if the benefit type is permitted for the application, false otherwise.
+        field :writable_by_application, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('writable_by_application') } }
 
+        sig { params(benefit_type: T.nilable(::Integer), name: T.nilable(::String), description: T.nilable(::String), pretax: T.nilable(T::Boolean), posttax: T.nilable(T::Boolean), imputed: T.nilable(T::Boolean), healthcare: T.nilable(T::Boolean), retirement: T.nilable(T::Boolean), yearly_limit: T.nilable(T::Boolean), category: T.nilable(::String), writable_by_application: T.nilable(T::Boolean)).void }
+        def initialize(benefit_type: nil, name: nil, description: nil, pretax: nil, posttax: nil, imputed: nil, healthcare: nil, retirement: nil, yearly_limit: nil, category: nil, writable_by_application: nil)
+          @benefit_type = benefit_type
+          @name = name
+          @description = description
+          @pretax = pretax
+          @posttax = posttax
+          @imputed = imputed
+          @healthcare = healthcare
+          @retirement = retirement
+          @yearly_limit = yearly_limit
+          @category = category
+          @writable_by_application = writable_by_application
+        end
 
-      sig { params(benefit_type: T.nilable(::Integer), category: T.nilable(::String), description: T.nilable(::String), healthcare: T.nilable(T::Boolean), imputed: T.nilable(T::Boolean), name: T.nilable(::String), posttax: T.nilable(T::Boolean), pretax: T.nilable(T::Boolean), retirement: T.nilable(T::Boolean), yearly_limit: T.nilable(T::Boolean)).void }
-      def initialize(benefit_type: nil, category: nil, description: nil, healthcare: nil, imputed: nil, name: nil, posttax: nil, pretax: nil, retirement: nil, yearly_limit: nil)
-        @benefit_type = benefit_type
-        @category = category
-        @description = description
-        @healthcare = healthcare
-        @imputed = imputed
-        @name = name
-        @posttax = posttax
-        @pretax = pretax
-        @retirement = retirement
-        @yearly_limit = yearly_limit
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @benefit_type == other.benefit_type
+          return false unless @name == other.name
+          return false unless @description == other.description
+          return false unless @pretax == other.pretax
+          return false unless @posttax == other.posttax
+          return false unless @imputed == other.imputed
+          return false unless @healthcare == other.healthcare
+          return false unless @retirement == other.retirement
+          return false unless @yearly_limit == other.yearly_limit
+          return false unless @category == other.category
+          return false unless @writable_by_application == other.writable_by_application
+          true
+        end
       end
     end
   end

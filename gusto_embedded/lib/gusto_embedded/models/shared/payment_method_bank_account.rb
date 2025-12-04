@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of a bank account item
-    class PaymentMethodBankAccount < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Representation of a bank account item
+      class PaymentMethodBankAccount
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The bank account ID
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Masked bank account number
-      field :hidden_account_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hidden_account_number') } }
-      # The bank account name
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential.
-      field :priority, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('priority') } }
-      # The cents amount allocated for each payment split
-      field :split_amount, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_amount') } }
+        # The bank account ID
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The bank account name
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # Masked bank account number
+        field :hidden_account_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hidden_account_number') } }
+        # The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential.
+        field :priority, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('priority') } }
+        # The cents amount allocated for each payment split
+        field :split_amount, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_amount') } }
 
+        sig { params(uuid: ::String, name: T.nilable(::String), hidden_account_number: T.nilable(::String), priority: T.nilable(::Integer), split_amount: T.nilable(::Integer)).void }
+        def initialize(uuid:, name: nil, hidden_account_number: nil, priority: nil, split_amount: nil)
+          @uuid = uuid
+          @name = name
+          @hidden_account_number = hidden_account_number
+          @priority = priority
+          @split_amount = split_amount
+        end
 
-      sig { params(uuid: ::String, hidden_account_number: T.nilable(::String), name: T.nilable(::String), priority: T.nilable(::Integer), split_amount: T.nilable(::Integer)).void }
-      def initialize(uuid: nil, hidden_account_number: nil, name: nil, priority: nil, split_amount: nil)
-        @uuid = uuid
-        @hidden_account_number = hidden_account_number
-        @name = name
-        @priority = priority
-        @split_amount = split_amount
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @name == other.name
+          return false unless @hidden_account_number == other.hidden_account_number
+          return false unless @priority == other.priority
+          return false unless @split_amount == other.split_amount
+          true
+        end
       end
     end
   end

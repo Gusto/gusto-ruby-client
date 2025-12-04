@@ -5,16 +5,19 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # WireInRequestStatus - Status of the wire in
-    class WireInRequestStatus < T::Enum
-      enums do
-        AWAITING_FUNDS = new('awaiting_funds')
-        PENDING_REVIEW = new('pending_review')
-        APPROVED = new('approved')
-        RFI = new('rfi')
-        CANCELED = new('canceled')
+  module Models
+    module Shared
+    
+      # WireInRequestStatus - Status of the wire in
+      class WireInRequestStatus < T::Enum
+
+
+        enums do
+          AWAITING_FUNDS = new('awaiting_funds')
+          PENDING_REVIEW = new('pending_review')
+          APPROVED = new('approved')
+          CANCELED = new('canceled')
+        end
       end
     end
   end

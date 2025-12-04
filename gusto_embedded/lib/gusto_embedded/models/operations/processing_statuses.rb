@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class ProcessingStatuses < T::Enum
-      enums do
-        UNPROCESSED = new('unprocessed')
-        PROCESSED = new('processed')
+      class ProcessingStatuses < T::Enum
+
+
+        enums do
+          PROCESSED = new('processed')
+          UNPROCESSED = new('unprocessed')
+        end
       end
     end
   end

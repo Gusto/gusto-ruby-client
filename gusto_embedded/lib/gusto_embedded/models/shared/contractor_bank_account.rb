@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class ContractorBankAccount < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class ContractorBankAccount
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # UUID of the bank account
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Bank account type
-      field :account_type, T.nilable(::GustoEmbedded::Shared::ContractorBankAccountAccountType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorBankAccountAccountType, true) } }
-      # UUID of the employee
-      field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
-      # Masked bank account number
-      field :hidden_account_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hidden_account_number') } }
-      # Name for the bank account
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # The bank account's routing number
-      field :routing_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('routing_number') } }
+        # UUID of the bank account
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # UUID of the employee
+        field :contractor_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
+        # Bank account type
+        field :account_type, Crystalline::Nilable.new(Models::Shared::ContractorBankAccountAccountType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_type'), 'decoder': Utils.enum_from_string(Models::Shared::ContractorBankAccountAccountType, true) } }
+        # Name for the bank account
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The bank account's routing number
+        field :routing_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('routing_number') } }
+        # Masked bank account number
+        field :hidden_account_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hidden_account_number') } }
 
+        sig { params(uuid: ::String, contractor_uuid: T.nilable(::String), account_type: T.nilable(Models::Shared::ContractorBankAccountAccountType), name: T.nilable(::String), routing_number: T.nilable(::String), hidden_account_number: T.nilable(::String)).void }
+        def initialize(uuid:, contractor_uuid: nil, account_type: nil, name: nil, routing_number: nil, hidden_account_number: nil)
+          @uuid = uuid
+          @contractor_uuid = contractor_uuid
+          @account_type = account_type
+          @name = name
+          @routing_number = routing_number
+          @hidden_account_number = hidden_account_number
+        end
 
-      sig { params(uuid: ::String, account_type: T.nilable(::GustoEmbedded::Shared::ContractorBankAccountAccountType), contractor_uuid: T.nilable(::String), hidden_account_number: T.nilable(::String), name: T.nilable(::String), routing_number: T.nilable(::String)).void }
-      def initialize(uuid: nil, account_type: nil, contractor_uuid: nil, hidden_account_number: nil, name: nil, routing_number: nil)
-        @uuid = uuid
-        @account_type = account_type
-        @contractor_uuid = contractor_uuid
-        @hidden_account_number = hidden_account_number
-        @name = name
-        @routing_number = routing_number
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @contractor_uuid == other.contractor_uuid
+          return false unless @account_type == other.account_type
+          return false unless @name == other.name
+          return false unless @routing_number == other.routing_number
+          return false unless @hidden_account_number == other.hidden_account_number
+          true
+        end
       end
     end
   end

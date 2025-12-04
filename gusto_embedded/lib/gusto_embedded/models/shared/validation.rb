@@ -5,30 +5,42 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # [for `tax_rate`] Describes the validation required for the tax rate
-    class Validation < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # [for `tax_rate`] Describes the validation required for the tax rate
+      class Validation
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Describes the type of tax_rate validation rule
-      field :type, ::GustoEmbedded::Shared::TaxRequirementMetadataValidationType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::TaxRequirementMetadataValidationType, false) } }
-      # [for `min_max`] The inclusive upper bound of the tax rate
-      field :max, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('max') } }
-      # [for `min_max`] The inclusive lower bound of the tax rate
-      field :min, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('min') } }
-      # [for `one_of`] The possible, unformatted tax rates for selection.
-      # - e.g. ["0.0", "0.001"] representing 0% and 0.1%
-      # 
-      field :rates, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rates') } }
+        # Describes the type of tax_rate validation rule
+        field :type, Models::Shared::TaxRequirementMetadataValidationType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': Utils.enum_from_string(Models::Shared::TaxRequirementMetadataValidationType, false) } }
+        # [for `min_max`] The inclusive lower bound of the tax rate
+        field :min, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('min') } }
+        # [for `min_max`] The inclusive upper bound of the tax rate
+        field :max, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('max') } }
+        # [for `one_of`] The possible, unformatted tax rates for selection.
+        # - e.g. ["0.0", "0.001"] representing 0% and 0.1%
+        # 
+        field :rates, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rates') } }
 
+        sig { params(type: Models::Shared::TaxRequirementMetadataValidationType, min: T.nilable(::String), max: T.nilable(::String), rates: T.nilable(T::Array[::String])).void }
+        def initialize(type:, min: nil, max: nil, rates: nil)
+          @type = type
+          @min = min
+          @max = max
+          @rates = rates
+        end
 
-      sig { params(type: ::GustoEmbedded::Shared::TaxRequirementMetadataValidationType, max: T.nilable(::String), min: T.nilable(::String), rates: T.nilable(T::Array[::String])).void }
-      def initialize(type: nil, max: nil, min: nil, rates: nil)
-        @type = type
-        @max = max
-        @min = min
-        @rates = rates
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @min == other.min
+          return false unless @max == other.max
+          return false unless @rates == other.rates
+          true
+        end
       end
     end
   end

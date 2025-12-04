@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class EmployeeStateTaxInputQuestionFormat < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class EmployeeStateTaxInputQuestionFormat
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Describes the type of question - Text, Number, Select, Currency, Date
-      field :type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type') } }
-      # For "Select" type questions, the allowed values and display labels.
-      field :options, T.nilable(T::Array[::GustoEmbedded::Shared::Options]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
+        # Describes the type of question - Text, Number, Select, Currency, Date
+        field :type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true } }
+        # For "Select" type questions, the allowed values and display labels.
+        field :options, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Options)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
 
+        sig { params(type: ::String, options: T.nilable(T::Array[Models::Shared::Options])).void }
+        def initialize(type:, options: nil)
+          @type = type
+          @options = options
+        end
 
-      sig { params(type: ::String, options: T.nilable(T::Array[::GustoEmbedded::Shared::Options])).void }
-      def initialize(type: nil, options: nil)
-        @type = type
-        @options = options
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @options == other.options
+          true
+        end
       end
     end
   end

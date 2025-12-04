@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Example response
-    class PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Example response
+      class PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Whether the latest terms have been accepted by the user.
-      field :latest_terms_accepted, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('latest_terms_accepted') } }
+        # Whether the latest terms have been accepted by the user.
+        field :latest_terms_accepted, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('latest_terms_accepted') } }
 
+        sig { params(latest_terms_accepted: T.nilable(T::Boolean)).void }
+        def initialize(latest_terms_accepted: nil)
+          @latest_terms_accepted = latest_terms_accepted
+        end
 
-      sig { params(latest_terms_accepted: T.nilable(T::Boolean)).void }
-      def initialize(latest_terms_accepted: nil)
-        @latest_terms_accepted = latest_terms_accepted
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @latest_terms_accepted == other.latest_terms_accepted
+          true
+        end
       end
     end
   end

@@ -19,21 +19,25 @@ scope: `garnishments:write`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="post-v1-employees-employee_id-garnishments" method="post" path="/v1/employees/{employee_id}/garnishments" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.garnishments.create(employee_id="<id>", request_body=::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdGarnishmentsRequestBody.new(
-  amount: "<value>",
-  court_ordered: false,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.garnishments.create(employee_id: '<id>', request_body: Models::Operations::PostV1EmployeesEmployeeIdGarnishmentsRequestBody.new(
+  amount: '150.00',
+  description: 'Back taxes',
+  court_ordered: true,
+  recurring: true,
+), x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.garnishment.nil?
+unless res.garnishment.nil?
   # handle response
 end
 
@@ -44,14 +48,19 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
-| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdGarnishmentsRequestBody](../../models/operations/postv1employeesemployeeidgarnishmentsrequestbody.md)                                                                 | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [Models::Operations::PostV1EmployeesEmployeeIdGarnishmentsRequestBody](../../models/operations/postv1employeesemployeeidgarnishmentsrequestbody.md)                                                                          | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdGarnishmentsResponse)](../../models/operations/postv1employeesemployeeidgarnishmentsresponse.md)**
+**[T.nilable(Models::Operations::PostV1EmployeesEmployeeIdGarnishmentsResponse)](../../models/operations/postv1employeesemployeeidgarnishmentsresponse.md)**
 
+### Errors
 
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 422                                            | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |
 
 ## list
 
@@ -61,18 +70,20 @@ scope: `garnishments:read`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-v1-employees-employee_id-garnishments" method="get" path="/v1/employees/{employee_id}/garnishments" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.garnishments.list(employee_id="<id>", page=768578, per=547272, x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.garnishments.list(employee_id: '<id>', x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.garnishment_list.nil?
+unless res.garnishment_list.nil?
   # handle response
 end
 
@@ -85,13 +96,17 @@ end
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
 | `page`                                                                                                                                                                                                                       | *T.nilable(::Integer)*                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.                                                                                                                       |
 | `per`                                                                                                                                                                                                                        | *T.nilable(::Integer)*                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Number of objects per page. For majority of endpoints will default to 25                                                                                                                                                     |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetV1EmployeesEmployeeIdGarnishmentsResponse)](../../models/operations/getv1employeesemployeeidgarnishmentsresponse.md)**
+**[T.nilable(Models::Operations::GetV1EmployeesEmployeeIdGarnishmentsResponse)](../../models/operations/getv1employeesemployeeidgarnishmentsresponse.md)**
 
+### Errors
 
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |
 
 ## get
 
@@ -101,18 +116,20 @@ scope: `garnishments:read`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-v1-garnishments-garnishment_id" method="get" path="/v1/garnishments/{garnishment_id}" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.garnishments.get(garnishment_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.garnishments.get(garnishment_id: '<id>', x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.garnishment.nil?
+unless res.garnishment.nil?
   # handle response
 end
 
@@ -123,13 +140,17 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `garnishment_id`                                                                                                                                                                                                             | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the garnishment                                                                                                                                                                                                  |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetV1GarnishmentsGarnishmentIdResponse)](../../models/operations/getv1garnishmentsgarnishmentidresponse.md)**
+**[T.nilable(Models::Operations::GetV1GarnishmentsGarnishmentIdResponse)](../../models/operations/getv1garnishmentsgarnishmentidresponse.md)**
 
+### Errors
 
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |
 
 ## update
 
@@ -139,20 +160,23 @@ scope: `garnishments:write`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="put-v1-garnishments-garnishment_id" method="put" path="/v1/garnishments/{garnishment_id}" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.garnishments.update(garnishment_id="<id>", request_body=::GustoEmbedded::Operations::PutV1GarnishmentsGarnishmentIdRequestBody.new(
-  version: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.garnishments.update(garnishment_id: '<id>', request_body: Models::Operations::PutV1GarnishmentsGarnishmentIdRequestBody.new(
+  active: false,
+  version: '52b7c567242cb7452e89ba2bc02cb476',
+), x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.garnishment.nil?
+unless res.garnishment.nil?
   # handle response
 end
 
@@ -163,14 +187,19 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `garnishment_id`                                                                                                                                                                                                             | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the garnishment                                                                                                                                                                                                  |
-| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PutV1GarnishmentsGarnishmentIdRequestBody](../../models/operations/putv1garnishmentsgarnishmentidrequestbody.md)                                                                               | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [Models::Operations::PutV1GarnishmentsGarnishmentIdRequestBody](../../models/operations/putv1garnishmentsgarnishmentidrequestbody.md)                                                                                        | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::PutV1GarnishmentsGarnishmentIdResponse)](../../models/operations/putv1garnishmentsgarnishmentidresponse.md)**
+**[T.nilable(Models::Operations::PutV1GarnishmentsGarnishmentIdResponse)](../../models/operations/putv1garnishmentsgarnishmentidresponse.md)**
 
+### Errors
 
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 422                                            | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |
 
 ## get_child_support_data
 
@@ -180,18 +209,20 @@ scope: `garnishments:read`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-v1-garnishments-child_support" method="get" path="/v1/garnishments/child_support" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.garnishments.get_child_support_data(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.garnishments.get_child_support_data(x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.child_support_data.nil?
+unless res.child_support_data.nil?
   # handle response
 end
 
@@ -201,9 +232,14 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetV1GarnishmentsChildSupportResponse)](../../models/operations/getv1garnishmentschildsupportresponse.md)**
+**[T.nilable(Models::Operations::GetV1GarnishmentsChildSupportResponse)](../../models/operations/getv1garnishmentschildsupportresponse.md)**
 
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |

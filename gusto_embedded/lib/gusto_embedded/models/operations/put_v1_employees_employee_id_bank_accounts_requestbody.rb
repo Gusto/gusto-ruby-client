@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1EmployeesEmployeeIdBankAccountsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :account_number, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_number') } }
-
-      field :account_type, ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdBankAccountsAccountType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdBankAccountsAccountType, false) } }
-
-      field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-
-      field :routing_number, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('routing_number') } }
+      class PutV1EmployeesEmployeeIdBankAccountsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(account_number: ::String, account_type: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdBankAccountsAccountType, name: ::String, routing_number: ::String).void }
-      def initialize(account_number: nil, account_type: nil, name: nil, routing_number: nil)
-        @account_number = account_number
-        @account_type = account_type
-        @name = name
-        @routing_number = routing_number
+        field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name'), required: true } }
+
+        field :routing_number, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('routing_number'), required: true } }
+
+        field :account_number, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_number'), required: true } }
+
+        field :account_type, Models::Operations::PutV1EmployeesEmployeeIdBankAccountsAccountType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_type'), required: true, 'decoder': Utils.enum_from_string(Models::Operations::PutV1EmployeesEmployeeIdBankAccountsAccountType, false) } }
+
+        sig { params(name: ::String, routing_number: ::String, account_number: ::String, account_type: Models::Operations::PutV1EmployeesEmployeeIdBankAccountsAccountType).void }
+        def initialize(name:, routing_number:, account_number:, account_type:)
+          @name = name
+          @routing_number = routing_number
+          @account_number = account_number
+          @account_type = account_type
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @routing_number == other.routing_number
+          return false unless @account_number == other.account_number
+          return false unless @account_type == other.account_type
+          true
+        end
       end
     end
   end

@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class RequiredAttributes < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class RequiredAttributes
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # A required attribute when creating a garnishment for this state agency. The current values are listed as an enum; though unlikely, values could be added if state agency requirements change in the future.
-      field :key, T.nilable(::GustoEmbedded::Shared::Key), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Key, true) } }
-      # A human readable name of the attribute, e.g. CSE Case Number
-      field :label, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
+        # A required attribute when creating a garnishment for this state agency. The current values are listed as an enum; though unlikely, values could be added if state agency requirements change in the future.
+        field :key, Crystalline::Nilable.new(Models::Shared::Key), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key'), 'decoder': Utils.enum_from_string(Models::Shared::Key, true) } }
+        # A human readable name of the attribute, e.g. CSE Case Number
+        field :label, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
 
+        sig { params(key: T.nilable(Models::Shared::Key), label: T.nilable(::String)).void }
+        def initialize(key: nil, label: nil)
+          @key = key
+          @label = label
+        end
 
-      sig { params(key: T.nilable(::GustoEmbedded::Shared::Key), label: T.nilable(::String)).void }
-      def initialize(key: nil, label: nil)
-        @key = key
-        @label = label
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @key == other.key
+          return false unless @label == other.label
+          true
+        end
       end
     end
   end

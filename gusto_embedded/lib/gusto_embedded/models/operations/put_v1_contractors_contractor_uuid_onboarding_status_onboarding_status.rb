@@ -5,12 +5,16 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus - The updated onboarding status for the contractor
-    class PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus < T::Enum
-      enums do
-        ONBOARDING_COMPLETED = new('onboarding_completed')
+  module Models
+    module Operations
+    
+      # PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus - The updated onboarding status for the contractor
+      class PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus < T::Enum
+
+
+        enums do
+          ONBOARDING_COMPLETED = new('onboarding_completed')
+        end
       end
     end
   end

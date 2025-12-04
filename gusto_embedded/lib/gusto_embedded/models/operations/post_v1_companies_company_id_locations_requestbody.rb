@@ -5,40 +5,56 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Create a company location.
-    class PostV1CompaniesCompanyIdLocationsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Create a company location.
+      class PostV1CompaniesCompanyIdLocationsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :city, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
+        field :phone_number, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone_number'), required: true } }
 
-      field :phone_number, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone_number') } }
+        field :street_1, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1'), required: true } }
 
-      field :state, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        field :city, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city'), required: true } }
 
-      field :street_1, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
+        field :state, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state'), required: true } }
 
-      field :zip, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
-      # Specify if this location is the company's filing address.
-      field :filing_address, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_address') } }
-      # Specify if this location is the company's mailing address.
-      field :mailing_address, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mailing_address') } }
+        field :zip, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip'), required: true } }
+        # Specify if this location is the company's mailing address.
+        field :mailing_address, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mailing_address') } }
+        # Specify if this location is the company's filing address.
+        field :filing_address, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_address') } }
 
-      field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
+        field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
 
+        sig { params(phone_number: ::String, street_1: ::String, city: ::String, state: ::String, zip: ::String, mailing_address: T.nilable(T::Boolean), filing_address: T.nilable(T::Boolean), street_2: T.nilable(::String)).void }
+        def initialize(phone_number:, street_1:, city:, state:, zip:, mailing_address: nil, filing_address: nil, street_2: nil)
+          @phone_number = phone_number
+          @street_1 = street_1
+          @city = city
+          @state = state
+          @zip = zip
+          @mailing_address = mailing_address
+          @filing_address = filing_address
+          @street_2 = street_2
+        end
 
-      sig { params(city: ::String, phone_number: ::String, state: ::String, street_1: ::String, zip: ::String, filing_address: T.nilable(T::Boolean), mailing_address: T.nilable(T::Boolean), street_2: T.nilable(::String)).void }
-      def initialize(city: nil, phone_number: nil, state: nil, street_1: nil, zip: nil, filing_address: nil, mailing_address: nil, street_2: nil)
-        @city = city
-        @phone_number = phone_number
-        @state = state
-        @street_1 = street_1
-        @zip = zip
-        @filing_address = filing_address
-        @mailing_address = mailing_address
-        @street_2 = street_2
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @phone_number == other.phone_number
+          return false unless @street_1 == other.street_1
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @zip == other.zip
+          return false unless @mailing_address == other.mailing_address
+          return false unless @filing_address == other.filing_address
+          return false unless @street_2 == other.street_2
+          true
+        end
       end
     end
   end

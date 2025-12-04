@@ -5,86 +5,125 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of a contractor (individual or business) in Gusto.
-    class Contractor < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of a contractor (individual or business) in Gusto.
+      class Contractor
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the contractor in Gusto.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The contractor’s home address.
-      field :address, T.nilable(::GustoEmbedded::Shared::Address), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('address') } }
-      # The name of the contractor business. This attribute is required for “Business” contractors and will be ignored for “Individual” contractors.
-      field :business_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('business_name') } }
-      # The UUID of the company the contractor is employed by.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # The UUID of the department the contractor is under
-      field :department_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuid') } }
-      # The Federal Employer Identification Number of the contractor business. This attribute is optional for “Business” contractors and will be ignored for “Individual” contractors.
-      field :ein, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein') } }
-      # The contractor’s email address. This attribute is optional for “Individual” contractors and will be ignored for “Business” contractors. 
-      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-      # The boolean flag indicating whether Gusto will file a new hire report for the contractor
-      field :file_new_hire_report, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_new_hire_report') } }
-      # The contractor’s first name. This attribute is required for “Individual” contractors and will be ignored for “Business” contractors.
-      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-      # Whether company's Employer Identification Number (EIN) is present
-      field :has_ein, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ein') } }
-      # Indicates whether the contractor has an SSN in Gusto.
-      field :has_ssn, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ssn') } }
-      # The contractor’s hourly rate. This attribute is required if the wage_type is “Hourly”.
-      field :hourly_rate, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_rate') } }
-      # The status of the contractor with the company.
-      field :is_active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('is_active') } }
-      # The contractor’s last name. This attribute is required for “Individual” contractors and will be ignored for “Business” contractors.
-      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-      # The contractor’s middle initial. This attribute is optional for “Individual” contractors and will be ignored for “Business” contractors.
-      field :middle_initial, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
-      # The updated onboarding status for the contractor
-      field :onboarded, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarded') } }
-      # One of the "onboarding_status" enum values.
-      field :onboarding_status, T.nilable(::GustoEmbedded::Shared::ContractorOnboardingStatus1), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorOnboardingStatus1, true) } }
-      # The contractor's payment method.
-      field :payment_method, T.nilable(::GustoEmbedded::Shared::ContractorPaymentMethod1), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorPaymentMethod1, true) } }
-      # The contractor's start date.
-      field :start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
-      # The contractor's type, either "Individual" or "Business". 
-      field :type, T.nilable(::GustoEmbedded::Shared::ContractorType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorType, true) } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # The contractor's wage type, either "Fixed" or "Hourly".
-      field :wage_type, T.nilable(::GustoEmbedded::Shared::WageType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::WageType, true) } }
-      # State where the contractor will be conducting the majority of their work for the company.
-      # This value is used when generating the new hire report.
-      field :work_state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_state') } }
+        # The UUID of the contractor in Gusto.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The UUID of the company the contractor is employed by.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The contractor's wage type, either "Fixed" or "Hourly".
+        field :wage_type, Crystalline::Nilable.new(Models::Shared::WageType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_type'), 'decoder': Utils.enum_from_string(Models::Shared::WageType, true) } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The contractor's type, either "Individual" or "Business". 
+        field :type, Crystalline::Nilable.new(Models::Shared::ContractorType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(Models::Shared::ContractorType, true) } }
+        # The contractor's start date.
+        field :start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # The contractor’s hourly rate. This attribute is required if the wage_type is “Hourly”.
+        field :hourly_rate, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_rate') } }
+        # The updated onboarding status for the contractor
+        field :onboarded, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarded') } }
+        # One of the "onboarding_status" enum values.
+        field :onboarding_status, Crystalline::Nilable.new(Models::Shared::ContractorOnboardingStatus1), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(Models::Shared::ContractorOnboardingStatus1, true) } }
+        # Indicates whether the contractor has an SSN in Gusto.
+        field :has_ssn, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ssn') } }
+        # The status of the contractor with the company.
+        field :is_active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('is_active') } }
+        # The contractor’s first name. This attribute is required for “Individual” contractors and will be ignored for “Business” contractors.
+        field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+        # The contractor’s last name. This attribute is required for “Individual” contractors and will be ignored for “Business” contractors.
+        field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        # The contractor’s middle initial. This attribute is optional for “Individual” contractors and will be ignored for “Business” contractors.
+        field :middle_initial, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
+        # The name of the contractor business. This attribute is required for “Business” contractors and will be ignored for “Individual” contractors.
+        field :business_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('business_name') } }
+        # The Federal Employer Identification Number of the contractor business. This attribute is optional for “Business” contractors and will be ignored for “Individual” contractors.
+        field :ein, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein') } }
+        # Whether company's Employer Identification Number (EIN) is present
+        field :has_ein, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ein') } }
+        # The contractor’s email address. This attribute is optional for “Individual” contractors and will be ignored for “Business” contractors. 
+        field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # The contractor’s home address.
+        field :address, Crystalline::Nilable.new(Models::Shared::Address), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('address') } }
+        # The boolean flag indicating whether Gusto will file a new hire report for the contractor
+        field :file_new_hire_report, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_new_hire_report') } }
+        # State where the contractor will be conducting the majority of their work for the company.
+        # This value is used when generating the new hire report.
+        field :work_state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_state') } }
+        # The contractor's payment method.
+        field :payment_method, Crystalline::Nilable.new(Models::Shared::ContractorPaymentMethod1), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(Models::Shared::ContractorPaymentMethod1, true) } }
+        # The UUID of the department the contractor is under
+        field :department_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuid') } }
+        # The contractor's department in the company.
+        field :department, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department') } }
+        # The contractor's dismissal date.
+        field :dismissal_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dismissal_date') } }
 
+        sig { params(uuid: ::String, company_uuid: T.nilable(::String), wage_type: T.nilable(Models::Shared::WageType), version: T.nilable(::String), type: T.nilable(Models::Shared::ContractorType), start_date: T.nilable(::String), hourly_rate: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_status: T.nilable(Models::Shared::ContractorOnboardingStatus1), has_ssn: T.nilable(T::Boolean), is_active: T.nilable(T::Boolean), first_name: T.nilable(::String), last_name: T.nilable(::String), middle_initial: T.nilable(::String), business_name: T.nilable(::String), ein: T.nilable(::String), has_ein: T.nilable(T::Boolean), email: T.nilable(::String), address: T.nilable(Models::Shared::Address), file_new_hire_report: T.nilable(T::Boolean), work_state: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentMethod1), department_uuid: T.nilable(::String), department: T.nilable(::String), dismissal_date: T.nilable(::String)).void }
+        def initialize(uuid:, company_uuid: nil, wage_type: nil, version: nil, type: nil, start_date: nil, hourly_rate: nil, onboarded: nil, onboarding_status: nil, has_ssn: nil, is_active: true, first_name: nil, last_name: nil, middle_initial: nil, business_name: nil, ein: nil, has_ein: nil, email: nil, address: nil, file_new_hire_report: nil, work_state: nil, payment_method: nil, department_uuid: nil, department: nil, dismissal_date: nil)
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @wage_type = wage_type
+          @version = version
+          @type = type
+          @start_date = start_date
+          @hourly_rate = hourly_rate
+          @onboarded = onboarded
+          @onboarding_status = onboarding_status
+          @has_ssn = has_ssn
+          @is_active = is_active
+          @first_name = first_name
+          @last_name = last_name
+          @middle_initial = middle_initial
+          @business_name = business_name
+          @ein = ein
+          @has_ein = has_ein
+          @email = email
+          @address = address
+          @file_new_hire_report = file_new_hire_report
+          @work_state = work_state
+          @payment_method = payment_method
+          @department_uuid = department_uuid
+          @department = department
+          @dismissal_date = dismissal_date
+        end
 
-      sig { params(uuid: ::String, address: T.nilable(::GustoEmbedded::Shared::Address), business_name: T.nilable(::String), company_uuid: T.nilable(::String), department_uuid: T.nilable(::String), ein: T.nilable(::String), email: T.nilable(::String), file_new_hire_report: T.nilable(T::Boolean), first_name: T.nilable(::String), has_ein: T.nilable(T::Boolean), has_ssn: T.nilable(T::Boolean), hourly_rate: T.nilable(::String), is_active: T.nilable(T::Boolean), last_name: T.nilable(::String), middle_initial: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_status: T.nilable(::GustoEmbedded::Shared::ContractorOnboardingStatus1), payment_method: T.nilable(::GustoEmbedded::Shared::ContractorPaymentMethod1), start_date: T.nilable(::String), type: T.nilable(::GustoEmbedded::Shared::ContractorType), version: T.nilable(::String), wage_type: T.nilable(::GustoEmbedded::Shared::WageType), work_state: T.nilable(::String)).void }
-      def initialize(uuid: nil, address: nil, business_name: nil, company_uuid: nil, department_uuid: nil, ein: nil, email: nil, file_new_hire_report: nil, first_name: nil, has_ein: nil, has_ssn: nil, hourly_rate: nil, is_active: nil, last_name: nil, middle_initial: nil, onboarded: nil, onboarding_status: nil, payment_method: nil, start_date: nil, type: nil, version: nil, wage_type: nil, work_state: nil)
-        @uuid = uuid
-        @address = address
-        @business_name = business_name
-        @company_uuid = company_uuid
-        @department_uuid = department_uuid
-        @ein = ein
-        @email = email
-        @file_new_hire_report = file_new_hire_report
-        @first_name = first_name
-        @has_ein = has_ein
-        @has_ssn = has_ssn
-        @hourly_rate = hourly_rate
-        @is_active = is_active
-        @last_name = last_name
-        @middle_initial = middle_initial
-        @onboarded = onboarded
-        @onboarding_status = onboarding_status
-        @payment_method = payment_method
-        @start_date = start_date
-        @type = type
-        @version = version
-        @wage_type = wage_type
-        @work_state = work_state
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @wage_type == other.wage_type
+          return false unless @version == other.version
+          return false unless @type == other.type
+          return false unless @start_date == other.start_date
+          return false unless @hourly_rate == other.hourly_rate
+          return false unless @onboarded == other.onboarded
+          return false unless @onboarding_status == other.onboarding_status
+          return false unless @has_ssn == other.has_ssn
+          return false unless @is_active == other.is_active
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @middle_initial == other.middle_initial
+          return false unless @business_name == other.business_name
+          return false unless @ein == other.ein
+          return false unless @has_ein == other.has_ein
+          return false unless @email == other.email
+          return false unless @address == other.address
+          return false unless @file_new_hire_report == other.file_new_hire_report
+          return false unless @work_state == other.work_state
+          return false unless @payment_method == other.payment_method
+          return false unless @department_uuid == other.department_uuid
+          return false unless @department == other.department
+          return false unless @dismissal_date == other.dismissal_date
+          true
+        end
       end
     end
   end

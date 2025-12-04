@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # W4DataType - The version of w4 form.
-    class W4DataType < T::Enum
-      enums do
-        PRE_2020_W4 = new('pre_2020_w4')
-        REV_2020_W4 = new('rev_2020_w4')
+  module Models
+    module Shared
+    
+      # W4DataType - The version of w4 form.
+      class W4DataType < T::Enum
+
+
+        enums do
+          PRE_2020_W4 = new('pre_2020_w4')
+          REV_2020_W4 = new('rev_2020_w4')
+        end
       end
     end
   end

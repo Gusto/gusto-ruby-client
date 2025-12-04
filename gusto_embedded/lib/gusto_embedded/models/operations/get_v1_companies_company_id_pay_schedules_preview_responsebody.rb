@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Pay schedule preview
-    class GetV1CompaniesCompanyIdPaySchedulesPreviewResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Pay schedule preview
+      class GetV1CompaniesCompanyIdPaySchedulesPreviewResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # A list of dates for bank closures
-      field :holidays, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('holidays') } }
-      # A list of pay periods for the previewed pay schedule
-      field :pay_periods, T.nilable(T::Array[::GustoEmbedded::Operations::PayPeriods]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_periods') } }
+        # A list of pay periods for the previewed pay schedule
+        field :pay_periods, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::PayPeriods)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_periods') } }
+        # A list of dates for bank closures
+        field :holidays, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('holidays') } }
 
+        sig { params(pay_periods: T.nilable(T::Array[Models::Operations::PayPeriods]), holidays: T.nilable(T::Array[::String])).void }
+        def initialize(pay_periods: nil, holidays: nil)
+          @pay_periods = pay_periods
+          @holidays = holidays
+        end
 
-      sig { params(holidays: T.nilable(T::Array[::String]), pay_periods: T.nilable(T::Array[::GustoEmbedded::Operations::PayPeriods])).void }
-      def initialize(holidays: nil, pay_periods: nil)
-        @holidays = holidays
-        @pay_periods = pay_periods
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @pay_periods == other.pay_periods
+          return false unless @holidays == other.holidays
+          true
+        end
       end
     end
   end

@@ -5,40 +5,56 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1HomeAddressesHomeAddressUuidRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1HomeAddressesHomeAddressUuidRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
 
-      field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
+        field :street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
 
-      field :courtesy_withholding, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('courtesy_withholding') } }
+        field :city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
 
-      field :effective_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
 
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        field :zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
 
-      field :street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
+        field :courtesy_withholding, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('courtesy_withholding') } }
 
-      field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
+        field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
 
-      field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+        field :effective_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
 
+        sig { params(version: ::String, street_1: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), courtesy_withholding: T.nilable(T::Boolean), street_2: T.nilable(::String), effective_date: T.nilable(::Date)).void }
+        def initialize(version:, street_1: nil, city: nil, state: nil, zip: nil, courtesy_withholding: nil, street_2: nil, effective_date: nil)
+          @version = version
+          @street_1 = street_1
+          @city = city
+          @state = state
+          @zip = zip
+          @courtesy_withholding = courtesy_withholding
+          @street_2 = street_2
+          @effective_date = effective_date
+        end
 
-      sig { params(version: ::String, city: T.nilable(::String), courtesy_withholding: T.nilable(T::Boolean), effective_date: T.nilable(::Date), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(version: nil, city: nil, courtesy_withholding: nil, effective_date: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
-        @version = version
-        @city = city
-        @courtesy_withholding = courtesy_withholding
-        @effective_date = effective_date
-        @state = state
-        @street_1 = street_1
-        @street_2 = street_2
-        @zip = zip
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @street_1 == other.street_1
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @zip == other.zip
+          return false unless @courtesy_withholding == other.courtesy_withholding
+          return false unless @street_2 == other.street_2
+          return false unless @effective_date == other.effective_date
+          true
+        end
       end
     end
   end

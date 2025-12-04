@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class GetCompaniesCompanyUuidPaidHolidaysRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetCompaniesCompanyUuidPaidHolidaysRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # If a year is passed, paid holidays for that year will be returned. Otherwise, paid holidays for the next three years will be returned.
-      field :year, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('year') } }
+        # If a year is passed, paid holidays for that year will be returned. Otherwise, paid holidays for the next three years will be returned.
+        field :year, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('year') } }
 
+        sig { params(year: T.nilable(::String)).void }
+        def initialize(year: nil)
+          @year = year
+        end
 
-      sig { params(year: T.nilable(::String)).void }
-      def initialize(year: nil)
-        @year = year
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @year == other.year
+          true
+        end
       end
     end
   end

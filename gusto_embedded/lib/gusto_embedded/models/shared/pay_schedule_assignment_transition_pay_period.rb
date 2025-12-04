@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Pay schedule assignment transition pay period information.
-    class PayScheduleAssignmentTransitionPayPeriod < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Pay schedule assignment transition pay period information.
+      class PayScheduleAssignmentTransitionPayPeriod
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Pay period end date.
-      field :end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
-      # Pay period start date.
-      field :start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # Pay period start date.
+        field :start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # Pay period end date.
+        field :end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
 
+        sig { params(start_date: T.nilable(::String), end_date: T.nilable(::String)).void }
+        def initialize(start_date: nil, end_date: nil)
+          @start_date = start_date
+          @end_date = end_date
+        end
 
-      sig { params(end_date: T.nilable(::String), start_date: T.nilable(::String)).void }
-      def initialize(end_date: nil, start_date: nil)
-        @end_date = end_date
-        @start_date = start_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          true
+        end
       end
     end
   end

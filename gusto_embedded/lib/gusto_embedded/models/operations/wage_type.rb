@@ -5,14 +5,18 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # WageType - The contractor’s wage type.
-    # 
-    class WageType < T::Enum
-      enums do
-        FIXED = new('Fixed')
-        HOURLY = new('Hourly')
+  module Models
+    module Operations
+    
+      # WageType - The contractor’s wage type.
+      # 
+      class WageType < T::Enum
+
+
+        enums do
+          FIXED = new('Fixed')
+          HOURLY = new('Hourly')
+        end
       end
     end
   end

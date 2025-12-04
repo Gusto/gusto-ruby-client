@@ -5,14 +5,18 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PutV1ContractorsContractorUuidWageType - The contractor’s wage type.
-    # 
-    class PutV1ContractorsContractorUuidWageType < T::Enum
-      enums do
-        FIXED = new('Fixed')
-        HOURLY = new('Hourly')
+  module Models
+    module Operations
+    
+      # PutV1ContractorsContractorUuidWageType - The contractor’s wage type.
+      # 
+      class PutV1ContractorsContractorUuidWageType < T::Enum
+
+
+        enums do
+          FIXED = new('Fixed')
+          HOURLY = new('Hourly')
+        end
       end
     end
   end

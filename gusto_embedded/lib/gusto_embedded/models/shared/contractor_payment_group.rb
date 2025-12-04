@@ -5,40 +5,68 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The full contractor payment group, including associated contractor payments.
-    class ContractorPaymentGroup < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The full contractor payment group, including associated contractor payments.
+      class ContractorPaymentGroup
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The check date of the contractor payment group.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # The UUID of the company.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The unique identifier of the contractor payment group.
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The UUID of the company.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The check date of the contractor payment group.
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # The debit date of the contractor payment group.
+        field :debit_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('debit_date') } }
+        # The status of the contractor payment group.  Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded.  A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method.
+        field :status, Crystalline::Nilable.new(Models::Shared::ContractorPaymentGroupStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(Models::Shared::ContractorPaymentGroupStatus, true) } }
+        # List of submission blockers for the contractor payment group.
+        field :submission_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Crystalline::Array.new(Models::Shared::PayrollSubmissionBlockersType))), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('submission_blockers') } }
+        # List of credit blockers for the contractor payment group.
+        field :credit_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Crystalline::Array.new(Models::Shared::PayrollCreditBlockersType))), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('credit_blockers') } }
 
-      field :contractor_payments, T.nilable(T::Array[::GustoEmbedded::Shared::ContractorPaymentForGroup]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
-      # Token used to make contractor payment group creation idempotent.  Will error if attempting to create a group with a duplicate token.
-      field :creation_token, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('creation_token') } }
-      # The debit date of the contractor payment group.
-      field :debit_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('debit_date') } }
-      # The status of the contractor payment group.  Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded.  A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method.
-      field :status, T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroupStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorPaymentGroupStatus, true) } }
+        field :totals, Crystalline::Nilable.new(Models::Shared::ContractorPaymentGroupTotals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
 
-      field :totals, T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroupTotals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
-      # The unique identifier of the contractor payment group.
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        field :contractor_payments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPaymentForGroup)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
+        # Token used to make contractor payment group creation idempotent.  Will error if attempting to create a group with a duplicate token.
+        field :creation_token, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('creation_token') } }
+        # Whether the disbursement is partner owned.
+        field :partner_owned_disbursement, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
 
+        sig { params(uuid: T.nilable(::String), company_uuid: T.nilable(::String), check_date: T.nilable(::String), debit_date: T.nilable(::String), status: T.nilable(Models::Shared::ContractorPaymentGroupStatus), submission_blockers: T.nilable(T::Array[T::Array[Models::Shared::PayrollSubmissionBlockersType]]), credit_blockers: T.nilable(T::Array[T::Array[Models::Shared::PayrollCreditBlockersType]]), totals: T.nilable(Models::Shared::ContractorPaymentGroupTotals), contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPaymentForGroup]), creation_token: T.nilable(::String), partner_owned_disbursement: T.nilable(T::Boolean)).void }
+        def initialize(uuid: nil, company_uuid: nil, check_date: nil, debit_date: nil, status: nil, submission_blockers: nil, credit_blockers: nil, totals: nil, contractor_payments: nil, creation_token: nil, partner_owned_disbursement: nil)
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @check_date = check_date
+          @debit_date = debit_date
+          @status = status
+          @submission_blockers = submission_blockers
+          @credit_blockers = credit_blockers
+          @totals = totals
+          @contractor_payments = contractor_payments
+          @creation_token = creation_token
+          @partner_owned_disbursement = partner_owned_disbursement
+        end
 
-      sig { params(check_date: T.nilable(::String), company_uuid: T.nilable(::String), contractor_payments: T.nilable(T::Array[::GustoEmbedded::Shared::ContractorPaymentForGroup]), creation_token: T.nilable(::String), debit_date: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroupStatus), totals: T.nilable(::GustoEmbedded::Shared::ContractorPaymentGroupTotals), uuid: T.nilable(::String)).void }
-      def initialize(check_date: nil, company_uuid: nil, contractor_payments: nil, creation_token: nil, debit_date: nil, status: nil, totals: nil, uuid: nil)
-        @check_date = check_date
-        @company_uuid = company_uuid
-        @contractor_payments = contractor_payments
-        @creation_token = creation_token
-        @debit_date = debit_date
-        @status = status
-        @totals = totals
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @check_date == other.check_date
+          return false unless @debit_date == other.debit_date
+          return false unless @status == other.status
+          return false unless @submission_blockers == other.submission_blockers
+          return false unless @credit_blockers == other.credit_blockers
+          return false unless @totals == other.totals
+          return false unless @contractor_payments == other.contractor_payments
+          return false unless @creation_token == other.creation_token
+          return false unless @partner_owned_disbursement == other.partner_owned_disbursement
+          true
+        end
       end
     end
   end

@@ -5,133 +5,180 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1EmployeeFormSignRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1EmployeeFormSignRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Whether you agree to sign electronically
-      field :agree, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('agree') } }
-      # The signature
-      field :signature_text, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signature_text') } }
-      # Whether there is a preparer
-      field :preparer, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer') } }
-      # Whether preparer agrees to sign electronically
-      field :preparer_agree, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_agree') } }
+        # The signature
+        field :signature_text, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signature_text'), required: true } }
+        # Whether you agree to sign electronically
+        field :agree, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('agree'), required: true } }
+        # The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead.
+        field :signed_by_ip_address, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_by_ip_address') } }
+        # Whether there is a preparer
+        field :preparer, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer') } }
 
-      field :preparer_city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_city') } }
+        field :preparer_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_first_name') } }
 
-      field :preparer_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_first_name') } }
+        field :preparer_last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_last_name') } }
 
-      field :preparer_last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_last_name') } }
+        field :preparer_street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_street_1') } }
 
-      field :preparer_state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_state') } }
+        field :preparer_street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_street_2') } }
 
-      field :preparer_street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_street_1') } }
+        field :preparer_city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_city') } }
 
-      field :preparer_street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_street_2') } }
+        field :preparer_state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_state') } }
 
-      field :preparer_zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_zip') } }
-      # Whether there is a 2nd preparer
-      field :preparer2, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2') } }
-      # Whether 2nd preparer agrees to sign electronically
-      field :preparer2_agree, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_agree') } }
+        field :preparer_zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_zip') } }
+        # Whether preparer agrees to sign electronically
+        field :preparer_agree, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer_agree') } }
+        # Whether there is a 2nd preparer
+        field :preparer2, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2') } }
 
-      field :preparer2_city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_city') } }
+        field :preparer2_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_first_name') } }
 
-      field :preparer2_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_first_name') } }
+        field :preparer2_last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_last_name') } }
 
-      field :preparer2_last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_last_name') } }
+        field :preparer2_street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_street_1') } }
 
-      field :preparer2_state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_state') } }
+        field :preparer2_street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_street_2') } }
 
-      field :preparer2_street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_street_1') } }
+        field :preparer2_city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_city') } }
 
-      field :preparer2_street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_street_2') } }
+        field :preparer2_state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_state') } }
 
-      field :preparer2_zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_zip') } }
-      # Whether there is a 3rd preparer
-      field :preparer3, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3') } }
-      # Whether 3rd preparer agrees to sign electronically
-      field :preparer3_agree, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_agree') } }
+        field :preparer2_zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_zip') } }
+        # Whether 2nd preparer agrees to sign electronically
+        field :preparer2_agree, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer2_agree') } }
+        # Whether there is a 3rd preparer
+        field :preparer3, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3') } }
 
-      field :preparer3_city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_city') } }
+        field :preparer3_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_first_name') } }
 
-      field :preparer3_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_first_name') } }
+        field :preparer3_last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_last_name') } }
 
-      field :preparer3_last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_last_name') } }
+        field :preparer3_street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_street_1') } }
 
-      field :preparer3_state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_state') } }
+        field :preparer3_street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_street_2') } }
 
-      field :preparer3_street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_street_1') } }
+        field :preparer3_city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_city') } }
 
-      field :preparer3_street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_street_2') } }
+        field :preparer3_state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_state') } }
 
-      field :preparer3_zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_zip') } }
-      # Whether there is a 4th preparer
-      field :preparer4, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4') } }
-      # Whether 4th preparer agrees to sign electronically
-      field :preparer4_agree, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_agree') } }
+        field :preparer3_zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_zip') } }
+        # Whether 3rd preparer agrees to sign electronically
+        field :preparer3_agree, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer3_agree') } }
+        # Whether there is a 4th preparer
+        field :preparer4, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4') } }
 
-      field :preparer4_city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_city') } }
+        field :preparer4_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_first_name') } }
 
-      field :preparer4_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_first_name') } }
+        field :preparer4_last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_last_name') } }
 
-      field :preparer4_last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_last_name') } }
+        field :preparer4_street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_street_1') } }
 
-      field :preparer4_state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_state') } }
+        field :preparer4_street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_street_2') } }
 
-      field :preparer4_street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_street_1') } }
+        field :preparer4_city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_city') } }
 
-      field :preparer4_street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_street_2') } }
+        field :preparer4_state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_state') } }
 
-      field :preparer4_zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_zip') } }
-      # The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead.
-      field :signed_by_ip_address, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_by_ip_address') } }
+        field :preparer4_zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_zip') } }
+        # Whether 4th preparer agrees to sign electronically
+        field :preparer4_agree, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preparer4_agree') } }
 
+        sig { params(signature_text: ::String, agree: T::Boolean, signed_by_ip_address: T.nilable(::String), preparer: T.nilable(T::Boolean), preparer_first_name: T.nilable(::String), preparer_last_name: T.nilable(::String), preparer_street_1: T.nilable(::String), preparer_street_2: T.nilable(::String), preparer_city: T.nilable(::String), preparer_state: T.nilable(::String), preparer_zip: T.nilable(::String), preparer_agree: T.nilable(::String), preparer2: T.nilable(T::Boolean), preparer2_first_name: T.nilable(::String), preparer2_last_name: T.nilable(::String), preparer2_street_1: T.nilable(::String), preparer2_street_2: T.nilable(::String), preparer2_city: T.nilable(::String), preparer2_state: T.nilable(::String), preparer2_zip: T.nilable(::String), preparer2_agree: T.nilable(::String), preparer3: T.nilable(T::Boolean), preparer3_first_name: T.nilable(::String), preparer3_last_name: T.nilable(::String), preparer3_street_1: T.nilable(::String), preparer3_street_2: T.nilable(::String), preparer3_city: T.nilable(::String), preparer3_state: T.nilable(::String), preparer3_zip: T.nilable(::String), preparer3_agree: T.nilable(::String), preparer4: T.nilable(T::Boolean), preparer4_first_name: T.nilable(::String), preparer4_last_name: T.nilable(::String), preparer4_street_1: T.nilable(::String), preparer4_street_2: T.nilable(::String), preparer4_city: T.nilable(::String), preparer4_state: T.nilable(::String), preparer4_zip: T.nilable(::String), preparer4_agree: T.nilable(::String)).void }
+        def initialize(signature_text:, agree:, signed_by_ip_address: nil, preparer: nil, preparer_first_name: nil, preparer_last_name: nil, preparer_street_1: nil, preparer_street_2: nil, preparer_city: nil, preparer_state: nil, preparer_zip: nil, preparer_agree: nil, preparer2: nil, preparer2_first_name: nil, preparer2_last_name: nil, preparer2_street_1: nil, preparer2_street_2: nil, preparer2_city: nil, preparer2_state: nil, preparer2_zip: nil, preparer2_agree: nil, preparer3: nil, preparer3_first_name: nil, preparer3_last_name: nil, preparer3_street_1: nil, preparer3_street_2: nil, preparer3_city: nil, preparer3_state: nil, preparer3_zip: nil, preparer3_agree: nil, preparer4: nil, preparer4_first_name: nil, preparer4_last_name: nil, preparer4_street_1: nil, preparer4_street_2: nil, preparer4_city: nil, preparer4_state: nil, preparer4_zip: nil, preparer4_agree: nil)
+          @signature_text = signature_text
+          @agree = agree
+          @signed_by_ip_address = signed_by_ip_address
+          @preparer = preparer
+          @preparer_first_name = preparer_first_name
+          @preparer_last_name = preparer_last_name
+          @preparer_street_1 = preparer_street_1
+          @preparer_street_2 = preparer_street_2
+          @preparer_city = preparer_city
+          @preparer_state = preparer_state
+          @preparer_zip = preparer_zip
+          @preparer_agree = preparer_agree
+          @preparer2 = preparer2
+          @preparer2_first_name = preparer2_first_name
+          @preparer2_last_name = preparer2_last_name
+          @preparer2_street_1 = preparer2_street_1
+          @preparer2_street_2 = preparer2_street_2
+          @preparer2_city = preparer2_city
+          @preparer2_state = preparer2_state
+          @preparer2_zip = preparer2_zip
+          @preparer2_agree = preparer2_agree
+          @preparer3 = preparer3
+          @preparer3_first_name = preparer3_first_name
+          @preparer3_last_name = preparer3_last_name
+          @preparer3_street_1 = preparer3_street_1
+          @preparer3_street_2 = preparer3_street_2
+          @preparer3_city = preparer3_city
+          @preparer3_state = preparer3_state
+          @preparer3_zip = preparer3_zip
+          @preparer3_agree = preparer3_agree
+          @preparer4 = preparer4
+          @preparer4_first_name = preparer4_first_name
+          @preparer4_last_name = preparer4_last_name
+          @preparer4_street_1 = preparer4_street_1
+          @preparer4_street_2 = preparer4_street_2
+          @preparer4_city = preparer4_city
+          @preparer4_state = preparer4_state
+          @preparer4_zip = preparer4_zip
+          @preparer4_agree = preparer4_agree
+        end
 
-      sig { params(agree: T::Boolean, signature_text: ::String, preparer: T.nilable(T::Boolean), preparer_agree: T.nilable(::String), preparer_city: T.nilable(::String), preparer_first_name: T.nilable(::String), preparer_last_name: T.nilable(::String), preparer_state: T.nilable(::String), preparer_street_1: T.nilable(::String), preparer_street_2: T.nilable(::String), preparer_zip: T.nilable(::String), preparer2: T.nilable(T::Boolean), preparer2_agree: T.nilable(::String), preparer2_city: T.nilable(::String), preparer2_first_name: T.nilable(::String), preparer2_last_name: T.nilable(::String), preparer2_state: T.nilable(::String), preparer2_street_1: T.nilable(::String), preparer2_street_2: T.nilable(::String), preparer2_zip: T.nilable(::String), preparer3: T.nilable(T::Boolean), preparer3_agree: T.nilable(::String), preparer3_city: T.nilable(::String), preparer3_first_name: T.nilable(::String), preparer3_last_name: T.nilable(::String), preparer3_state: T.nilable(::String), preparer3_street_1: T.nilable(::String), preparer3_street_2: T.nilable(::String), preparer3_zip: T.nilable(::String), preparer4: T.nilable(T::Boolean), preparer4_agree: T.nilable(::String), preparer4_city: T.nilable(::String), preparer4_first_name: T.nilable(::String), preparer4_last_name: T.nilable(::String), preparer4_state: T.nilable(::String), preparer4_street_1: T.nilable(::String), preparer4_street_2: T.nilable(::String), preparer4_zip: T.nilable(::String), signed_by_ip_address: T.nilable(::String)).void }
-      def initialize(agree: nil, signature_text: nil, preparer: nil, preparer_agree: nil, preparer_city: nil, preparer_first_name: nil, preparer_last_name: nil, preparer_state: nil, preparer_street_1: nil, preparer_street_2: nil, preparer_zip: nil, preparer2: nil, preparer2_agree: nil, preparer2_city: nil, preparer2_first_name: nil, preparer2_last_name: nil, preparer2_state: nil, preparer2_street_1: nil, preparer2_street_2: nil, preparer2_zip: nil, preparer3: nil, preparer3_agree: nil, preparer3_city: nil, preparer3_first_name: nil, preparer3_last_name: nil, preparer3_state: nil, preparer3_street_1: nil, preparer3_street_2: nil, preparer3_zip: nil, preparer4: nil, preparer4_agree: nil, preparer4_city: nil, preparer4_first_name: nil, preparer4_last_name: nil, preparer4_state: nil, preparer4_street_1: nil, preparer4_street_2: nil, preparer4_zip: nil, signed_by_ip_address: nil)
-        @agree = agree
-        @signature_text = signature_text
-        @preparer = preparer
-        @preparer_agree = preparer_agree
-        @preparer_city = preparer_city
-        @preparer_first_name = preparer_first_name
-        @preparer_last_name = preparer_last_name
-        @preparer_state = preparer_state
-        @preparer_street_1 = preparer_street_1
-        @preparer_street_2 = preparer_street_2
-        @preparer_zip = preparer_zip
-        @preparer2 = preparer2
-        @preparer2_agree = preparer2_agree
-        @preparer2_city = preparer2_city
-        @preparer2_first_name = preparer2_first_name
-        @preparer2_last_name = preparer2_last_name
-        @preparer2_state = preparer2_state
-        @preparer2_street_1 = preparer2_street_1
-        @preparer2_street_2 = preparer2_street_2
-        @preparer2_zip = preparer2_zip
-        @preparer3 = preparer3
-        @preparer3_agree = preparer3_agree
-        @preparer3_city = preparer3_city
-        @preparer3_first_name = preparer3_first_name
-        @preparer3_last_name = preparer3_last_name
-        @preparer3_state = preparer3_state
-        @preparer3_street_1 = preparer3_street_1
-        @preparer3_street_2 = preparer3_street_2
-        @preparer3_zip = preparer3_zip
-        @preparer4 = preparer4
-        @preparer4_agree = preparer4_agree
-        @preparer4_city = preparer4_city
-        @preparer4_first_name = preparer4_first_name
-        @preparer4_last_name = preparer4_last_name
-        @preparer4_state = preparer4_state
-        @preparer4_street_1 = preparer4_street_1
-        @preparer4_street_2 = preparer4_street_2
-        @preparer4_zip = preparer4_zip
-        @signed_by_ip_address = signed_by_ip_address
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @signature_text == other.signature_text
+          return false unless @agree == other.agree
+          return false unless @signed_by_ip_address == other.signed_by_ip_address
+          return false unless @preparer == other.preparer
+          return false unless @preparer_first_name == other.preparer_first_name
+          return false unless @preparer_last_name == other.preparer_last_name
+          return false unless @preparer_street_1 == other.preparer_street_1
+          return false unless @preparer_street_2 == other.preparer_street_2
+          return false unless @preparer_city == other.preparer_city
+          return false unless @preparer_state == other.preparer_state
+          return false unless @preparer_zip == other.preparer_zip
+          return false unless @preparer_agree == other.preparer_agree
+          return false unless @preparer2 == other.preparer2
+          return false unless @preparer2_first_name == other.preparer2_first_name
+          return false unless @preparer2_last_name == other.preparer2_last_name
+          return false unless @preparer2_street_1 == other.preparer2_street_1
+          return false unless @preparer2_street_2 == other.preparer2_street_2
+          return false unless @preparer2_city == other.preparer2_city
+          return false unless @preparer2_state == other.preparer2_state
+          return false unless @preparer2_zip == other.preparer2_zip
+          return false unless @preparer2_agree == other.preparer2_agree
+          return false unless @preparer3 == other.preparer3
+          return false unless @preparer3_first_name == other.preparer3_first_name
+          return false unless @preparer3_last_name == other.preparer3_last_name
+          return false unless @preparer3_street_1 == other.preparer3_street_1
+          return false unless @preparer3_street_2 == other.preparer3_street_2
+          return false unless @preparer3_city == other.preparer3_city
+          return false unless @preparer3_state == other.preparer3_state
+          return false unless @preparer3_zip == other.preparer3_zip
+          return false unless @preparer3_agree == other.preparer3_agree
+          return false unless @preparer4 == other.preparer4
+          return false unless @preparer4_first_name == other.preparer4_first_name
+          return false unless @preparer4_last_name == other.preparer4_last_name
+          return false unless @preparer4_street_1 == other.preparer4_street_1
+          return false unless @preparer4_street_2 == other.preparer4_street_2
+          return false unless @preparer4_city == other.preparer4_city
+          return false unless @preparer4_state == other.preparer4_state
+          return false unless @preparer4_zip == other.preparer4_zip
+          return false unless @preparer4_agree == other.preparer4_agree
+          true
+        end
       end
     end
   end

@@ -5,53 +5,73 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class EmployeeFederalTax < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class EmployeeFederalTax
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Deductions other than the standard deduction to reduce withholding.
-      field :deductions, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deductions') } }
-      # A dependent is a person other than the taxpayer or spouse who entitles the taxpayer to claim a dependency exemption.
-      field :dependents_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dependents_amount') } }
-      # An employee can request an additional amount to be withheld from each paycheck.
-      field :extra_withholding, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('extra_withholding') } }
-      # It determines which tax return form an individual will use and is an important factor in computing taxable income. One of:
-      # - Single
-      # - Married
-      # - Head of Household
-      # - Exempt from withholding
-      # - Married, but withhold as Single (does not apply to rev_2020_w4 form)
-      field :filing_status, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_status') } }
-      # Other income amount.
-      field :other_income, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('other_income') } }
-      # If there are only two jobs (i.e., you and your spouse each have a job, or you have two), you can set it to true.
-      field :two_jobs, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_jobs') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # The version of w4 form.
-      field :w4_data_type, ::GustoEmbedded::Shared::W4DataType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('w4_data_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::W4DataType, false) } }
-      # *does not apply to rev_2020_w4 form*
-      field :additional_withholding, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_withholding') } }
-      # *does not apply to rev_2020_w4 form*
-      # 
-      # An exemption from paying a certain amount of income tax.
-      field :federal_withholding_allowance, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_withholding_allowance') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The version of w4 form.
+        field :w4_data_type, Models::Shared::W4DataType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('w4_data_type'), required: true, 'decoder': Utils.enum_from_string(Models::Shared::W4DataType, false) } }
+        # It determines which tax return form an individual will use and is an important factor in computing taxable income. One of:
+        # - Single
+        # - Married
+        # - Head of Household
+        # - Exempt from withholding
+        # - Married, but withhold as Single (does not apply to rev_2020_w4 form)
+        field :filing_status, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_status'), required: true } }
+        # An employee can request an additional amount to be withheld from each paycheck.
+        field :extra_withholding, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('extra_withholding'), required: true } }
+        # If there are only two jobs (i.e., you and your spouse each have a job, or you have two), you can set it to true.
+        field :two_jobs, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_jobs'), required: true } }
+        # A dependent is a person other than the taxpayer or spouse who entitles the taxpayer to claim a dependency exemption.
+        field :dependents_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dependents_amount'), required: true } }
+        # Other income amount.
+        field :other_income, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('other_income'), required: true } }
+        # Deductions other than the standard deduction to reduce withholding.
+        field :deductions, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deductions'), required: true } }
+        # *does not apply to rev_2020_w4 form*
+        # 
+        # An exemption from paying a certain amount of income tax.
+        field :federal_withholding_allowance, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_withholding_allowance') } }
+        # *does not apply to rev_2020_w4 form*
+        # 
+        # An additional withholding dollar amount
+        field :additional_withholding, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_withholding') } }
 
+        sig { params(version: ::String, w4_data_type: Models::Shared::W4DataType, filing_status: T.nilable(::String), extra_withholding: T.nilable(::String), two_jobs: T.nilable(T::Boolean), dependents_amount: T.nilable(::String), other_income: T.nilable(::String), deductions: T.nilable(::String), federal_withholding_allowance: T.nilable(::Float), additional_withholding: T.nilable(::String)).void }
+        def initialize(version:, w4_data_type:, filing_status: nil, extra_withholding: nil, two_jobs: nil, dependents_amount: nil, other_income: nil, deductions: nil, federal_withholding_allowance: nil, additional_withholding: nil)
+          @version = version
+          @w4_data_type = w4_data_type
+          @filing_status = filing_status
+          @extra_withholding = extra_withholding
+          @two_jobs = two_jobs
+          @dependents_amount = dependents_amount
+          @other_income = other_income
+          @deductions = deductions
+          @federal_withholding_allowance = federal_withholding_allowance
+          @additional_withholding = additional_withholding
+        end
 
-      sig { params(deductions: ::String, dependents_amount: ::String, extra_withholding: ::String, filing_status: ::String, other_income: ::String, two_jobs: T::Boolean, version: ::String, w4_data_type: ::GustoEmbedded::Shared::W4DataType, additional_withholding: T.nilable(T::Boolean), federal_withholding_allowance: T.nilable(::Float)).void }
-      def initialize(deductions: nil, dependents_amount: nil, extra_withholding: nil, filing_status: nil, other_income: nil, two_jobs: nil, version: nil, w4_data_type: nil, additional_withholding: nil, federal_withholding_allowance: nil)
-        @deductions = deductions
-        @dependents_amount = dependents_amount
-        @extra_withholding = extra_withholding
-        @filing_status = filing_status
-        @other_income = other_income
-        @two_jobs = two_jobs
-        @version = version
-        @w4_data_type = w4_data_type
-        @additional_withholding = additional_withholding
-        @federal_withholding_allowance = federal_withholding_allowance
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @w4_data_type == other.w4_data_type
+          return false unless @filing_status == other.filing_status
+          return false unless @extra_withholding == other.extra_withholding
+          return false unless @two_jobs == other.two_jobs
+          return false unless @dependents_amount == other.dependents_amount
+          return false unless @other_income == other.other_income
+          return false unless @deductions == other.deductions
+          return false unless @federal_withholding_allowance == other.federal_withholding_allowance
+          return false unless @additional_withholding == other.additional_withholding
+          true
+        end
       end
     end
   end

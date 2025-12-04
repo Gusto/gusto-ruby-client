@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PayrollType - Whether it is regular pay period or transition pay period.
-    class PayrollType < T::Enum
-      enums do
-        REGULAR = new('regular')
-        TRANSITION = new('transition')
+  module Models
+    module Shared
+    
+      # PayrollType - Whether it is regular pay period or transition pay period.
+      class PayrollType < T::Enum
+
+
+        enums do
+          REGULAR = new('regular')
+          TRANSITION = new('transition')
+        end
       end
     end
   end

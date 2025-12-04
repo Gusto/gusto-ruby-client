@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1ContractorsContractorUuidBankAccountsAccountType < T::Enum
-      enums do
-        CHECKING = new('Checking')
-        SAVINGS = new('Savings')
+      class PostV1ContractorsContractorUuidBankAccountsAccountType < T::Enum
+
+
+        enums do
+          CHECKING = new('Checking')
+          SAVINGS = new('Savings')
+        end
       end
     end
   end

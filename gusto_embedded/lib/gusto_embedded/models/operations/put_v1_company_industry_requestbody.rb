@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1CompanyIndustryRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompanyIndustryRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # North American Industry Classification System (NAICS) is used to classify businesses with a six digit number based on the primary type of work the business performs
-      field :naics_code, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('naics_code') } }
-      # A list of Standard Industrial Classification (SIC) codes, which are four digit number that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with naics_code.
-      field :sic_codes, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('sic_codes') } }
-      # Industry title
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # North American Industry Classification System (NAICS) is used to classify businesses with a six digit number based on the primary type of work the business performs
+        field :naics_code, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('naics_code'), required: true } }
+        # Industry title
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # A list of Standard Industrial Classification (SIC) codes, which are four digit number that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with naics_code.
+        field :sic_codes, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('sic_codes') } }
 
+        sig { params(naics_code: ::String, title: T.nilable(::String), sic_codes: T.nilable(T::Array[::String])).void }
+        def initialize(naics_code:, title: nil, sic_codes: nil)
+          @naics_code = naics_code
+          @title = title
+          @sic_codes = sic_codes
+        end
 
-      sig { params(naics_code: ::String, sic_codes: T.nilable(T::Array[::String]), title: T.nilable(::String)).void }
-      def initialize(naics_code: nil, sic_codes: nil, title: nil)
-        @naics_code = naics_code
-        @sic_codes = sic_codes
-        @title = title
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @naics_code == other.naics_code
+          return false unless @title == other.title
+          return false unless @sic_codes == other.sic_codes
+          true
+        end
       end
     end
   end

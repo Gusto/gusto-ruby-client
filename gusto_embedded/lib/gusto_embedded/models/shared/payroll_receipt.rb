@@ -5,58 +5,80 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class PayrollReceipt < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
 
-      # A unique identifier of the company for the payroll.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # The debit or funding date for the payroll
-      field :debit_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('debit_date') } }
-      # An array of employee compensations and withholdings for this payroll
-      field :employee_compensations, T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCompensations]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_compensations') } }
+      class PayrollReceipt
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      field :liability_of_licensee, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('liability_of_licensee') } }
-      # Always the fixed string "ZenPayroll, Inc., dba Gusto is a licensed money transmitter. For more about Gusto’s licenses and your state-specific rights to request information, submit complaints, dispute errors, or cancel transactions, visit our license page."
-      field :license, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('license') } }
-      # URL for the license information for the licensed payroll processor. Always the fixed string "https://gusto.com/about/licenses"
-      field :license_uri, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('license_uri') } }
-      # The licensed payroll processor
-      field :licensee, T.nilable(::GustoEmbedded::Shared::Licensee), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('licensee') } }
-      # Always the fixed string "Payroll Recipients"
-      field :name_of_recipient, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name_of_recipient') } }
-      # The name of the company by whom the payroll was paid
-      field :name_of_sender, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name_of_sender') } }
-      # A unique identifier of the payroll receipt.
-      field :payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
-      # Always the fixed string "Payroll recipients include the employees listed below plus the tax agencies for the taxes listed below."
-      field :recipient_notice, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_notice') } }
+        # A unique identifier of the payroll receipt.
+        field :payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+        # A unique identifier of the company for the payroll.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The name of the company by whom the payroll was paid
+        field :name_of_sender, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name_of_sender') } }
+        # Always the fixed string "Payroll Recipients"
+        field :name_of_recipient, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name_of_recipient') } }
+        # Always the fixed string "Payroll recipients include the employees listed below plus the tax agencies for the taxes listed below."
+        field :recipient_notice, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_notice') } }
+        # The debit or funding date for the payroll
+        field :debit_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('debit_date') } }
+        # Always the fixed string "ZenPayroll, Inc., dba Gusto is a licensed money transmitter. For more about Gusto’s licenses and your state-specific rights to request information, submit complaints, dispute errors, or cancel transactions, visit our license page."
+        field :license, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('license') } }
+        # URL for the license information for the licensed payroll processor. Always the fixed string "https://gusto.com/about/licenses"
+        field :license_uri, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('license_uri') } }
 
-      field :right_to_refund, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('right_to_refund') } }
-      # An array of totaled employer and employee taxes for the pay period.
-      field :taxes, T.nilable(T::Array[::GustoEmbedded::Shared::PayrollReceiptTaxes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
-      # The subtotals for the payroll.
-      field :totals, T.nilable(::GustoEmbedded::Shared::Totals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
+        field :right_to_refund, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('right_to_refund') } }
 
+        field :liability_of_licensee, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('liability_of_licensee') } }
+        # The subtotals for the payroll.
+        field :totals, Crystalline::Nilable.new(Models::Shared::Totals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
+        # An array of totaled employer and employee taxes for the pay period.
+        field :taxes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Taxes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
+        # An array of employee compensations and withholdings for this payroll
+        field :employee_compensations, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollReceiptEmployeeCompensations)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_compensations') } }
+        # The licensed payroll processor
+        field :licensee, Crystalline::Nilable.new(Models::Shared::Licensee), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('licensee') } }
 
-      sig { params(company_uuid: T.nilable(::String), debit_date: T.nilable(::String), employee_compensations: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCompensations]), liability_of_licensee: T.nilable(::String), license: T.nilable(::String), license_uri: T.nilable(::String), licensee: T.nilable(::GustoEmbedded::Shared::Licensee), name_of_recipient: T.nilable(::String), name_of_sender: T.nilable(::String), payroll_uuid: T.nilable(::String), recipient_notice: T.nilable(::String), right_to_refund: T.nilable(::String), taxes: T.nilable(T::Array[::GustoEmbedded::Shared::PayrollReceiptTaxes]), totals: T.nilable(::GustoEmbedded::Shared::Totals)).void }
-      def initialize(company_uuid: nil, debit_date: nil, employee_compensations: nil, liability_of_licensee: nil, license: nil, license_uri: nil, licensee: nil, name_of_recipient: nil, name_of_sender: nil, payroll_uuid: nil, recipient_notice: nil, right_to_refund: nil, taxes: nil, totals: nil)
-        @company_uuid = company_uuid
-        @debit_date = debit_date
-        @employee_compensations = employee_compensations
-        @liability_of_licensee = liability_of_licensee
-        @license = license
-        @license_uri = license_uri
-        @licensee = licensee
-        @name_of_recipient = name_of_recipient
-        @name_of_sender = name_of_sender
-        @payroll_uuid = payroll_uuid
-        @recipient_notice = recipient_notice
-        @right_to_refund = right_to_refund
-        @taxes = taxes
-        @totals = totals
+        sig { params(payroll_uuid: T.nilable(::String), company_uuid: T.nilable(::String), name_of_sender: T.nilable(::String), name_of_recipient: T.nilable(::String), recipient_notice: T.nilable(::String), debit_date: T.nilable(::String), license: T.nilable(::String), license_uri: T.nilable(::String), right_to_refund: T.nilable(::String), liability_of_licensee: T.nilable(::String), totals: T.nilable(Models::Shared::Totals), taxes: T.nilable(T::Array[Models::Shared::Taxes]), employee_compensations: T.nilable(T::Array[Models::Shared::PayrollReceiptEmployeeCompensations]), licensee: T.nilable(Models::Shared::Licensee)).void }
+        def initialize(payroll_uuid: nil, company_uuid: nil, name_of_sender: nil, name_of_recipient: nil, recipient_notice: nil, debit_date: nil, license: nil, license_uri: nil, right_to_refund: nil, liability_of_licensee: nil, totals: nil, taxes: nil, employee_compensations: nil, licensee: nil)
+          @payroll_uuid = payroll_uuid
+          @company_uuid = company_uuid
+          @name_of_sender = name_of_sender
+          @name_of_recipient = name_of_recipient
+          @recipient_notice = recipient_notice
+          @debit_date = debit_date
+          @license = license
+          @license_uri = license_uri
+          @right_to_refund = right_to_refund
+          @liability_of_licensee = liability_of_licensee
+          @totals = totals
+          @taxes = taxes
+          @employee_compensations = employee_compensations
+          @licensee = licensee
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @name_of_sender == other.name_of_sender
+          return false unless @name_of_recipient == other.name_of_recipient
+          return false unless @recipient_notice == other.recipient_notice
+          return false unless @debit_date == other.debit_date
+          return false unless @license == other.license
+          return false unless @license_uri == other.license_uri
+          return false unless @right_to_refund == other.right_to_refund
+          return false unless @liability_of_licensee == other.liability_of_licensee
+          return false unless @totals == other.totals
+          return false unless @taxes == other.taxes
+          return false unless @employee_compensations == other.employee_compensations
+          return false unless @licensee == other.licensee
+          true
+        end
       end
     end
   end

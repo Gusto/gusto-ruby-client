@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class PayrollBlocker < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class PayrollBlocker
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The unique identifier of the reason
-      field :key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
-      # User-friendly message describing the payroll blocker.
-      field :message, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message') } }
+        # The unique identifier of the reason
+        field :key, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
+        # User-friendly message describing the payroll blocker.
+        field :message, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message') } }
 
+        sig { params(key: T.nilable(::String), message: T.nilable(::String)).void }
+        def initialize(key: nil, message: nil)
+          @key = key
+          @message = message
+        end
 
-      sig { params(key: T.nilable(::String), message: T.nilable(::String)).void }
-      def initialize(key: nil, message: nil)
-        @key = key
-        @message = message
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @key == other.key
+          return false unless @message == other.message
+          true
+        end
       end
     end
   end

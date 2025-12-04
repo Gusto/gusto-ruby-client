@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class ContractorPayments < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class ContractorPayments
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # If the contractor is on an hourly wage, this is the bonus the contractor earned
-      field :bonus, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
-      # The contractor receiving the payment
-      field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
-      # If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment
-      field :hours, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+        # The contractor receiving the payment
+        field :contractor_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
+        # If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked
+        field :wage, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+        # If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment
+        field :hours, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+        # If the contractor is on an hourly wage, this is the bonus the contractor earned
+        field :bonus, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
+        # Reimbursed wages for the contractor
+        field :reimbursement, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
 
-      field :payment_method, T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPaymentMethod, true) } }
-      # Reimbursed wages for the contractor
-      field :reimbursement, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
-      # If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked
-      field :wage, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+        field :payment_method, Crystalline::Nilable.new(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPaymentMethod, true) } }
 
+        sig { params(contractor_uuid: T.nilable(::String), wage: T.nilable(::Float), hours: T.nilable(::Float), bonus: T.nilable(::Float), reimbursement: T.nilable(::Float), payment_method: T.nilable(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPaymentMethod)).void }
+        def initialize(contractor_uuid: nil, wage: nil, hours: nil, bonus: nil, reimbursement: nil, payment_method: Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPaymentMethod::DIRECT_DEPOSIT)
+          @contractor_uuid = contractor_uuid
+          @wage = wage
+          @hours = hours
+          @bonus = bonus
+          @reimbursement = reimbursement
+          @payment_method = payment_method
+        end
 
-      sig { params(bonus: T.nilable(::Float), contractor_uuid: T.nilable(::String), hours: T.nilable(::Float), payment_method: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPaymentMethod), reimbursement: T.nilable(::Float), wage: T.nilable(::Float)).void }
-      def initialize(bonus: nil, contractor_uuid: nil, hours: nil, payment_method: nil, reimbursement: nil, wage: nil)
-        @bonus = bonus
-        @contractor_uuid = contractor_uuid
-        @hours = hours
-        @payment_method = payment_method
-        @reimbursement = reimbursement
-        @wage = wage
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @contractor_uuid == other.contractor_uuid
+          return false unless @wage == other.wage
+          return false unless @hours == other.hours
+          return false unless @bonus == other.bonus
+          return false unless @reimbursement == other.reimbursement
+          return false unless @payment_method == other.payment_method
+          true
+        end
       end
     end
   end

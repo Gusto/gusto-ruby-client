@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Information for the user who will be the primary payroll administrator for the new company.
-    class User < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Information for the user who will be the primary payroll administrator for the new company.
+      class User
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The email of the user who will be the primary payroll admin.
-      field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-      # The first name of the user who will be the primary payroll admin.
-      field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-      # The last name of the user who will be the primary payroll admin.
-      field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-      # The phone number of the user who will be the primary payroll admin.
-      field :phone, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
+        # The first name of the user who will be the primary payroll admin.
+        field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name'), required: true } }
+        # The last name of the user who will be the primary payroll admin.
+        field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name'), required: true } }
+        # The email of the user who will be the primary payroll admin.
+        field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email'), required: true } }
+        # The phone number of the user who will be the primary payroll admin.
+        field :phone, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
 
+        sig { params(first_name: ::String, last_name: ::String, email: ::String, phone: T.nilable(::String)).void }
+        def initialize(first_name:, last_name:, email:, phone: nil)
+          @first_name = first_name
+          @last_name = last_name
+          @email = email
+          @phone = phone
+        end
 
-      sig { params(email: ::String, first_name: ::String, last_name: ::String, phone: T.nilable(::String)).void }
-      def initialize(email: nil, first_name: nil, last_name: nil, phone: nil)
-        @email = email
-        @first_name = first_name
-        @last_name = last_name
-        @phone = phone
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @email == other.email
+          return false unless @phone == other.phone
+          true
+        end
       end
     end
   end

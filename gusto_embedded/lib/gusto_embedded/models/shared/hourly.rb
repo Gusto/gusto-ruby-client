@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class Hourly < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Hourly
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The amount multiplied by the base rate of a job to calculate compensation.
-      field :multiple, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('multiple') } }
-      # The name of the hourly compensation rate.
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The name of the hourly compensation rate.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The amount multiplied by the base rate of a job to calculate compensation.
+        field :multiple, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('multiple') } }
 
+        sig { params(name: T.nilable(::String), multiple: T.nilable(::Float)).void }
+        def initialize(name: nil, multiple: nil)
+          @name = name
+          @multiple = multiple
+        end
 
-      sig { params(multiple: T.nilable(::Float), name: T.nilable(::String)).void }
-      def initialize(multiple: nil, name: nil)
-        @multiple = multiple
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @multiple == other.multiple
+          true
+        end
       end
     end
   end

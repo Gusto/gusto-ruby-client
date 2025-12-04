@@ -5,55 +5,76 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of a single contractor payment.
-    class ContractorPayment < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of a single contractor payment.
+      class ContractorPayment
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The unique identifier of the contractor payment in Gusto.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The bonus amount in the payment.
-      field :bonus, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
-      # The UUID of the contractor.
-      field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
-      # The payment date.
-      field :date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date') } }
-      # The rate per hour worked for the payment.
-      field :hourly_rate, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_rate') } }
-      # The number of hours worked for the payment.
-      field :hours, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
-      # Determine if the contractor payment can be cancelled.
-      field :may_cancel, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('may_cancel') } }
-      # The payment method.
-      field :payment_method, T.nilable(::GustoEmbedded::Shared::ContractorPaymentPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorPaymentPaymentMethod, true) } }
-      # The reimbursement amount in the payment.
-      field :reimbursement, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
-      # Contractor payment status
-      field :status, T.nilable(::GustoEmbedded::Shared::ContractorPaymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorPaymentStatus, true) } }
-      # The fixed wage of the payment, regardless of hours worked.
-      field :wage, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
-      # (hours * hourly_rate) + wage + bonus
-      field :wage_total, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_total') } }
-      # The wage type for the payment.
-      field :wage_type, T.nilable(::GustoEmbedded::Shared::ContractorPaymentWageType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ContractorPaymentWageType, true) } }
+        # The unique identifier of the contractor payment in Gusto.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The UUID of the contractor.
+        field :contractor_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
+        # The bonus amount in the payment.
+        field :bonus, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
+        # The payment date.
+        field :date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date') } }
+        # The number of hours worked for the payment.
+        field :hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+        # The payment method.
+        field :payment_method, Crystalline::Nilable.new(Models::Shared::ContractorPaymentPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(Models::Shared::ContractorPaymentPaymentMethod, true) } }
+        # The reimbursement amount in the payment.
+        field :reimbursement, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
+        # Contractor payment status
+        field :status, Crystalline::Nilable.new(Models::Shared::ContractorPaymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(Models::Shared::ContractorPaymentStatus, true) } }
+        # The rate per hour worked for the payment.
+        field :hourly_rate, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_rate') } }
+        # Determine if the contractor payment can be cancelled.
+        field :may_cancel, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('may_cancel') } }
+        # The fixed wage of the payment, regardless of hours worked.
+        field :wage, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+        # The wage type for the payment.
+        field :wage_type, Crystalline::Nilable.new(Models::Shared::ContractorPaymentWageType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_type'), 'decoder': Utils.enum_from_string(Models::Shared::ContractorPaymentWageType, true) } }
+        # (hours * hourly_rate) + wage + bonus
+        field :wage_total, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_total') } }
 
+        sig { params(uuid: ::String, contractor_uuid: T.nilable(::String), bonus: T.nilable(::String), date: T.nilable(::String), hours: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentPaymentMethod), reimbursement: T.nilable(::String), status: T.nilable(Models::Shared::ContractorPaymentStatus), hourly_rate: T.nilable(::String), may_cancel: T.nilable(T::Boolean), wage: T.nilable(::String), wage_type: T.nilable(Models::Shared::ContractorPaymentWageType), wage_total: T.nilable(::String)).void }
+        def initialize(uuid:, contractor_uuid: nil, bonus: nil, date: nil, hours: nil, payment_method: nil, reimbursement: nil, status: nil, hourly_rate: nil, may_cancel: nil, wage: nil, wage_type: nil, wage_total: nil)
+          @uuid = uuid
+          @contractor_uuid = contractor_uuid
+          @bonus = bonus
+          @date = date
+          @hours = hours
+          @payment_method = payment_method
+          @reimbursement = reimbursement
+          @status = status
+          @hourly_rate = hourly_rate
+          @may_cancel = may_cancel
+          @wage = wage
+          @wage_type = wage_type
+          @wage_total = wage_total
+        end
 
-      sig { params(uuid: ::String, bonus: T.nilable(::String), contractor_uuid: T.nilable(::String), date: T.nilable(::String), hourly_rate: T.nilable(::String), hours: T.nilable(::String), may_cancel: T.nilable(T::Boolean), payment_method: T.nilable(::GustoEmbedded::Shared::ContractorPaymentPaymentMethod), reimbursement: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::ContractorPaymentStatus), wage: T.nilable(::String), wage_total: T.nilable(::String), wage_type: T.nilable(::GustoEmbedded::Shared::ContractorPaymentWageType)).void }
-      def initialize(uuid: nil, bonus: nil, contractor_uuid: nil, date: nil, hourly_rate: nil, hours: nil, may_cancel: nil, payment_method: nil, reimbursement: nil, status: nil, wage: nil, wage_total: nil, wage_type: nil)
-        @uuid = uuid
-        @bonus = bonus
-        @contractor_uuid = contractor_uuid
-        @date = date
-        @hourly_rate = hourly_rate
-        @hours = hours
-        @may_cancel = may_cancel
-        @payment_method = payment_method
-        @reimbursement = reimbursement
-        @status = status
-        @wage = wage
-        @wage_total = wage_total
-        @wage_type = wage_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @contractor_uuid == other.contractor_uuid
+          return false unless @bonus == other.bonus
+          return false unless @date == other.date
+          return false unless @hours == other.hours
+          return false unless @payment_method == other.payment_method
+          return false unless @reimbursement == other.reimbursement
+          return false unless @status == other.status
+          return false unless @hourly_rate == other.hourly_rate
+          return false unless @may_cancel == other.may_cancel
+          return false unless @wage == other.wage
+          return false unless @wage_type == other.wage_type
+          return false unless @wage_total == other.wage_total
+          true
+        end
       end
     end
   end

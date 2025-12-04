@@ -5,25 +5,23 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class PayrollCreditBlockersTypeUnblockOptions < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-      # The payment check date associated with the unblock option.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # Additional data associated with the unblock option.
-      field :metadata, T.nilable(::GustoEmbedded::Shared::PayrollCreditBlockersTypeMetadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
-      # The type of unblock option for the credit blocker.
-      field :unblock_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unblock_type') } }
+      class PayrollCreditBlockersTypeUnblockOptions
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(check_date: T.nilable(::String), metadata: T.nilable(::GustoEmbedded::Shared::PayrollCreditBlockersTypeMetadata), unblock_type: T.nilable(::String)).void }
-      def initialize(check_date: nil, metadata: nil, unblock_type: nil)
-        @check_date = check_date
-        @metadata = metadata
-        @unblock_type = unblock_type
+        
+        def initialize; end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          true
+        end
       end
     end
   end

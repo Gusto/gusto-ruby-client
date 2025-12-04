@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostDepartmentsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostDepartmentsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
 
+        sig { params(title: T.nilable(::String)).void }
+        def initialize(title: nil)
+          @title = title
+        end
 
-      sig { params(title: T.nilable(::String)).void }
-      def initialize(title: nil)
-        @title = title
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @title == other.title
+          true
+        end
       end
     end
   end

@@ -5,58 +5,11 @@
 
 ### Available Operations
 
-* [create](#create) - Create a company bank account
 * [get](#get) - Get all company bank accounts
+* [create](#create) - Create a company bank account
 * [verify](#verify) - Verify a company bank account
 * [create_from_plaid_token](#create_from_plaid_token) - Create a bank account from a plaid processor token
-
-## create
-
-This endpoint creates a new company bank account.
-
-Upon being created, two verification deposits are automatically sent to the bank account, and the bank account's verification_status is 'awaiting_deposits'. 
-
-When the deposits are successfully transferred, the verification_status changes to 'ready_for_verification', at which point the verify endpoint can be used to verify the bank account.
-After successful verification, the bank account's verification_status is 'verified'.
-
-scope: `company_bank_accounts:write`
-
-> 🚧 Warning
->
-> If a default bank account exists, it will be disabled and the new bank account will replace it as the company's default funding method.
-
-### Example Usage
-
-```ruby
-require 'gusto_embedded_client'
-
-s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-      ),
-    )
-
-res = s.bank_accounts.create(company_id="<id>", request_body=::GustoEmbedded::Operations::PostV1CompaniesCompanyIdBankAccountsRequestBody.new(), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
-
-if ! res.company_bank_account.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PostV1CompaniesCompanyIdBankAccountsRequestBody](../../models/operations/postv1companiescompanyidbankaccountsrequestbody.md)                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdBankAccountsResponse)](../../models/operations/postv1companiescompanyidbankaccountsresponse.md)**
-
-
+* [delete_v1_companies_company_id_bank_accounts_bank_account_id](#delete_v1_companies_company_id_bank_accounts_bank_account_id) - Delete a company bank account
 
 ## get
 
@@ -64,20 +17,23 @@ Returns company bank accounts. Currently, we only support a single default bank 
 
 scope: `company_bank_accounts:read`
 
+
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-bank-accounts" method="get" path="/v1/companies/{company_id}/bank_accounts" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.bank_accounts.get(company_id="<id>", x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.bank_accounts.get(company_id: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdBankAccountsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.company_bank_account_list.nil?
+unless res.company_bank_accounts.nil?
   # handle response
 end
 
@@ -88,13 +44,78 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyIdBankAccountsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyidbankaccountsheaderxgustoapiversion.md)                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdBankAccountsResponse)](../../models/operations/getv1companiescompanyidbankaccountsresponse.md)**
+**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdBankAccountsResponse)](../../models/operations/getv1companiescompanyidbankaccountsresponse.md)**
+
+### Errors
+
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 404                                            | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |
+
+## create
+
+This endpoint creates a new company bank account.
+
+Upon being created, two verification deposits are automatically sent to the bank account, and the bank account's verification_status is 'awaiting_deposits'.
+
+When the deposits are successfully transferred, the verification_status changes to 'ready_for_verification', at which point the verify endpoint can be used to verify the bank account.
+After successful verification, the bank account's verification_status is 'verified'.
+
+scope: `company_bank_accounts:write`
+
+>🚧 Warning
+>
+> If a default bank account exists, it will be disabled and the new bank account will replace it as the company's default funding method.
 
 
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="post-v1-companies-company_id-bank-accounts" method="post" path="/v1/companies/{company_id}/bank_accounts" -->
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
+      ),
+    )
+
+res = s.bank_accounts.create(company_id: '<id>', company_bank_account_request: Models::Shared::CompanyBankAccountRequest.new(
+  routing_number: '<value>',
+  account_number: '<value>',
+  account_type: Models::Shared::CompanyBankAccountRequestAccountType::SAVINGS,
+), x_gusto_api_version: Models::Operations::PostV1CompaniesCompanyIdBankAccountsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+
+unless res.company_bank_account.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `company_bank_account_request`                                                                                                                                                                                               | [Models::Shared::CompanyBankAccountRequest](../../models/shared/companybankaccountrequest.md)                                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1CompaniesCompanyIdBankAccountsHeaderXGustoAPIVersion)](../../models/operations/postv1companiescompanyidbankaccountsheaderxgustoapiversion.md)                                           | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::PostV1CompaniesCompanyIdBankAccountsResponse)](../../models/operations/postv1companiescompanyidbankaccountsresponse.md)**
+
+### Errors
+
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 404, 422                                       | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |
 
 ## verify
 
@@ -117,21 +138,23 @@ scope: `company_bank_accounts:write`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="put-v1-companies-company_id-bank-accounts-verify" method="put" path="/v1/companies/{company_id}/bank_accounts/{bank_account_uuid}/verify" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.bank_accounts.verify(bank_account_uuid="<id>", company_id="<id>", request_body=::GustoEmbedded::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody.new(
-  deposit_1: 7888.92,
-  deposit_2: 1895.95,
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.bank_accounts.verify(bank_account_uuid: '<id>', company_id: '<id>', request_body: Models::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody.new(
+  deposit_1: 0.02,
+  deposit_2: 0.42,
+), x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.company_bank_account.nil?
+unless res.company_bank_account.nil?
   # handle response
 end
 
@@ -143,14 +166,19 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `bank_account_uuid`                                                                                                                                                                                                          | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the bank account                                                                                                                                                                                                 |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody](../../models/operations/putv1companiescompanyidbankaccountsverifyrequestbody.md)                                                         | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [Models::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyRequestBody](../../models/operations/putv1companiescompanyidbankaccountsverifyrequestbody.md)                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyResponse)](../../models/operations/putv1companiescompanyidbankaccountsverifyresponse.md)**
+**[T.nilable(Models::Operations::PutV1CompaniesCompanyIdBankAccountsVerifyResponse)](../../models/operations/putv1companiescompanyidbankaccountsverifyresponse.md)**
 
+### Errors
 
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 422                                            | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |
 
 ## create_from_plaid_token
 
@@ -167,22 +195,24 @@ scope: `plaid_processor:write`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="post-v1-plaid-processor_token" method="post" path="/v1/plaid/processor_token" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.bank_accounts.create_from_plaid_token(request_body=::GustoEmbedded::Operations::PostV1PlaidProcessorTokenRequestBody.new(
-  owner_type: ::GustoEmbedded::Operations::OwnerType::COMPANY,
-  owner_id: "<id>",
-  processor_token: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.bank_accounts.create_from_plaid_token(request_body: Models::Operations::PostV1PlaidProcessorTokenRequestBody.new(
+  owner_type: Models::Operations::OwnerType::COMPANY,
+  owner_id: 'ef279fbd-0fc6-4cf1-a977-6939d621c429',
+  processor_token: 'processor-sandbox-0asd1-a92nc',
+), x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.one_of.nil?
+unless res.one_of.nil?
   # handle response
 end
 
@@ -192,10 +222,65 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::PostV1PlaidProcessorTokenRequestBody](../../models/operations/postv1plaidprocessortokenrequestbody.md)                                                                                         | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [Models::Operations::PostV1PlaidProcessorTokenRequestBody](../../models/operations/postv1plaidprocessortokenrequestbody.md)                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::PostV1PlaidProcessorTokenResponse)](../../models/operations/postv1plaidprocessortokenresponse.md)**
+**[T.nilable(Models::Operations::PostV1PlaidProcessorTokenResponse)](../../models/operations/postv1plaidprocessortokenresponse.md)**
 
+### Errors
+
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 422                                            | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |
+
+## delete_v1_companies_company_id_bank_accounts_bank_account_id
+
+This endpoint disables a company bank account.
+
+A bank account cannot be disabled if it is used for any unprocessed payments.
+
+scope: `company_bank_accounts:write`
+
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="delete-v1-companies-company_id-bank-accounts-bank_account_id" method="delete" path="/v1/companies/{company_id}/bank_accounts/{bank_account_id}" -->
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
+      ),
+    )
+
+res = s.bank_accounts.delete_v1_companies_company_id_bank_accounts_bank_account_id(company_id: '<id>', bank_account_id: '<id>', x_gusto_api_version: Models::Operations::DeleteV1CompaniesCompanyIdBankAccountsBankAccountIdHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+
+if res.status_code == 200
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `bank_account_id`                                                                                                                                                                                                            | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company bank account                                                                                                                                                                                         |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::DeleteV1CompaniesCompanyIdBankAccountsBankAccountIdHeaderXGustoAPIVersion)](../../models/operations/deletev1companiescompanyidbankaccountsbankaccountidheaderxgustoapiversion.md)             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::DeleteV1CompaniesCompanyIdBankAccountsBankAccountIdResponse)](../../models/operations/deletev1companiescompanyidbankaccountsbankaccountidresponse.md)**
+
+### Errors
+
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 404, 422                                       | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |

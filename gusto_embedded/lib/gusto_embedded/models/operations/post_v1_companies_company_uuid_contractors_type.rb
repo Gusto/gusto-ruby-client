@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PostV1CompaniesCompanyUuidContractorsType - The contractor type.
-    class PostV1CompaniesCompanyUuidContractorsType < T::Enum
-      enums do
-        INDIVIDUAL = new('Individual')
-        BUSINESS = new('Business')
+  module Models
+    module Operations
+    
+      # PostV1CompaniesCompanyUuidContractorsType - The contractor type.
+      class PostV1CompaniesCompanyUuidContractorsType < T::Enum
+
+
+        enums do
+          INDIVIDUAL = new('Individual')
+          BUSINESS = new('Business')
+        end
       end
     end
   end

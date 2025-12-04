@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class Taxes < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Taxes
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The amount of the tax.
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # The ID of the tax.
-      field :tax_id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_id') } }
+        # The amount of the tax.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        # The ID of the tax.
+        field :tax_id, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_id') } }
 
+        sig { params(amount: T.nilable(::String), tax_id: T.nilable(::Integer)).void }
+        def initialize(amount: nil, tax_id: nil)
+          @amount = amount
+          @tax_id = tax_id
+        end
 
-      sig { params(amount: T.nilable(::String), tax_id: T.nilable(::Integer)).void }
-      def initialize(amount: nil, tax_id: nil)
-        @amount = amount
-        @tax_id = tax_id
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @amount == other.amount
+          return false unless @tax_id == other.tax_id
+          true
+        end
       end
     end
   end

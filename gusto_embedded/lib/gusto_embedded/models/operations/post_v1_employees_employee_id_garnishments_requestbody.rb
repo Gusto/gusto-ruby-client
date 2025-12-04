@@ -5,52 +5,72 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1EmployeesEmployeeIdGarnishmentsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1EmployeesEmployeeIdGarnishmentsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00".
-      field :amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # Whether the garnishment is court ordered.
-      field :court_ordered, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('court_ordered') } }
-      # Whether or not this garnishment is currently active.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
-      # The maximum deduction per annum. A null value indicates no maximum. Represented as a float, e.g. "200.00".
-      field :annual_maximum, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('annual_maximum') } }
-      # Additional child support order details
-      field :child_support, T.nilable(::GustoEmbedded::Shared::GarnishmentChildSupport), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support') } }
-      # Whether the amount should be treated as a percentage to be deducted per pay period.
-      field :deduct_as_percentage, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
-      # The description of the garnishment.
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # The specific type of garnishment for court ordered garnishments.
-      field :garnishment_type, T.nilable(::GustoEmbedded::Operations::GarnishmentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('garnishment_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::GarnishmentType, true) } }
-      # The maximum deduction per pay period. A null value indicates no maximum. Represented as a float, e.g. "16.00".
-      field :pay_period_maximum, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_period_maximum') } }
-      # Whether the garnishment should recur indefinitely.
-      field :recurring, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recurring') } }
-      # The number of times to apply the garnishment. Ignored if recurring is true.
-      field :times, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('times') } }
-      # A maximum total deduction for the lifetime of this garnishment. A null value indicates no maximum.
-      field :total_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_amount') } }
+        # The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00".
+        field :amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount'), required: true } }
+        # Whether the garnishment is court ordered.
+        field :court_ordered, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('court_ordered'), required: true } }
+        # The description of the garnishment.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # Whether or not this garnishment is currently active.
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The specific type of garnishment for court ordered garnishments.
+        field :garnishment_type, Crystalline::Nilable.new(Models::Operations::GarnishmentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('garnishment_type'), 'decoder': Utils.enum_from_string(Models::Operations::GarnishmentType, true) } }
+        # Whether the garnishment should recur indefinitely.
+        field :recurring, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recurring') } }
+        # Whether the amount should be treated as a percentage to be deducted per pay period.
+        field :deduct_as_percentage, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
+        # A maximum total deduction for the lifetime of this garnishment. A null value indicates no maximum.
+        field :total_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_amount') } }
+        # Additional child support order details
+        field :child_support, Crystalline::Nilable.new(Models::Shared::GarnishmentChildSupport), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support') } }
+        # The number of times to apply the garnishment. Ignored if recurring is true.
+        field :times, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('times') } }
+        # The maximum deduction per annum. A null value indicates no maximum. Represented as a float, e.g. "200.00".
+        field :annual_maximum, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('annual_maximum') } }
+        # The maximum deduction per pay period. A null value indicates no maximum. Represented as a float, e.g. "16.00".
+        field :pay_period_maximum, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_period_maximum') } }
 
+        sig { params(amount: ::String, court_ordered: T::Boolean, description: T.nilable(::String), active: T.nilable(T::Boolean), garnishment_type: T.nilable(Models::Operations::GarnishmentType), recurring: T.nilable(T::Boolean), deduct_as_percentage: T.nilable(T::Boolean), total_amount: T.nilable(::String), child_support: T.nilable(Models::Shared::GarnishmentChildSupport), times: T.nilable(::Integer), annual_maximum: T.nilable(::String), pay_period_maximum: T.nilable(::String)).void }
+        def initialize(amount:, court_ordered:, description: nil, active: true, garnishment_type: nil, recurring: false, deduct_as_percentage: false, total_amount: nil, child_support: nil, times: nil, annual_maximum: nil, pay_period_maximum: nil)
+          @amount = amount
+          @court_ordered = court_ordered
+          @description = description
+          @active = active
+          @garnishment_type = garnishment_type
+          @recurring = recurring
+          @deduct_as_percentage = deduct_as_percentage
+          @total_amount = total_amount
+          @child_support = child_support
+          @times = times
+          @annual_maximum = annual_maximum
+          @pay_period_maximum = pay_period_maximum
+        end
 
-      sig { params(amount: ::String, court_ordered: T::Boolean, active: T.nilable(T::Boolean), annual_maximum: T.nilable(::String), child_support: T.nilable(::GustoEmbedded::Shared::GarnishmentChildSupport), deduct_as_percentage: T.nilable(T::Boolean), description: T.nilable(::String), garnishment_type: T.nilable(::GustoEmbedded::Operations::GarnishmentType), pay_period_maximum: T.nilable(::String), recurring: T.nilable(T::Boolean), times: T.nilable(::Integer), total_amount: T.nilable(::String)).void }
-      def initialize(amount: nil, court_ordered: nil, active: nil, annual_maximum: nil, child_support: nil, deduct_as_percentage: nil, description: nil, garnishment_type: nil, pay_period_maximum: nil, recurring: nil, times: nil, total_amount: nil)
-        @amount = amount
-        @court_ordered = court_ordered
-        @active = active
-        @annual_maximum = annual_maximum
-        @child_support = child_support
-        @deduct_as_percentage = deduct_as_percentage
-        @description = description
-        @garnishment_type = garnishment_type
-        @pay_period_maximum = pay_period_maximum
-        @recurring = recurring
-        @times = times
-        @total_amount = total_amount
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @amount == other.amount
+          return false unless @court_ordered == other.court_ordered
+          return false unless @description == other.description
+          return false unless @active == other.active
+          return false unless @garnishment_type == other.garnishment_type
+          return false unless @recurring == other.recurring
+          return false unless @deduct_as_percentage == other.deduct_as_percentage
+          return false unless @total_amount == other.total_amount
+          return false unless @child_support == other.child_support
+          return false unless @times == other.times
+          return false unless @annual_maximum == other.annual_maximum
+          return false unless @pay_period_maximum == other.pay_period_maximum
+          true
+        end
       end
     end
   end

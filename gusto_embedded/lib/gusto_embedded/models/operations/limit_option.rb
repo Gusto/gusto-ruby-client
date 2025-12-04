@@ -5,20 +5,24 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # LimitOption - Some benefits require additional information to determine
-    # their limit.
-    # 
-    # `Family` or `Individual`: Applicable to HSA benefit.
-    # 
-    # `Joint Filing or Single` or `Married and Filing Separately`: Applicable to Dependent Care FSA benefit.
-    class LimitOption < T::Enum
-      enums do
-        FAMILY = new('Family')
-        INDIVIDUAL = new('Individual')
-        JOINT_FILING_OR_SINGLE = new('Joint Filing or Single')
-        MARRIED_AND_FILING_SEPARATELY = new('Married and Filing Separately')
+  module Models
+    module Operations
+    
+      # LimitOption - Some benefits require additional information to determine
+      # their limit.
+      # 
+      # `Family` or `Individual`: Applicable to HSA benefit.
+      # 
+      # `Joint Filing or Single` or `Married and Filing Separately`: Applicable to Dependent Care FSA benefit.
+      class LimitOption < T::Enum
+
+
+        enums do
+          FAMILY = new('Family')
+          INDIVIDUAL = new('Individual')
+          JOINT_FILING_OR_SINGLE = new('Joint Filing or Single')
+          MARRIED_AND_FILING_SEPARATELY = new('Married and Filing Separately')
+        end
       end
     end
   end

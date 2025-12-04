@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class Schema < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Schema
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # the holiday's end date (YYYY-MM-DD)
-      field :end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
-      # the holiday's identifier
-      field :holiday_key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('holiday_key') } }
-      # the holiday's official name
-      field :holiday_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('holiday_name') } }
-      # the holiday's start date (YYYY-MM-DD)
-      field :start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # the holiday's identifier
+        field :holiday_key, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('holiday_key') } }
+        # the holiday's official name
+        field :holiday_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('holiday_name') } }
+        # the holiday's start date (YYYY-MM-DD)
+        field :start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # the holiday's end date (YYYY-MM-DD)
+        field :end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
 
+        sig { params(holiday_key: T.nilable(::String), holiday_name: T.nilable(::String), start_date: T.nilable(::String), end_date: T.nilable(::String)).void }
+        def initialize(holiday_key: nil, holiday_name: nil, start_date: nil, end_date: nil)
+          @holiday_key = holiday_key
+          @holiday_name = holiday_name
+          @start_date = start_date
+          @end_date = end_date
+        end
 
-      sig { params(end_date: T.nilable(::String), holiday_key: T.nilable(::String), holiday_name: T.nilable(::String), start_date: T.nilable(::String)).void }
-      def initialize(end_date: nil, holiday_key: nil, holiday_name: nil, start_date: nil)
-        @end_date = end_date
-        @holiday_key = holiday_key
-        @holiday_name = holiday_name
-        @start_date = start_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @holiday_key == other.holiday_key
+          return false unless @holiday_name == other.holiday_name
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          true
+        end
       end
     end
   end

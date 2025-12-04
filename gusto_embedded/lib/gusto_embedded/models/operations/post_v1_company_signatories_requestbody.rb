@@ -5,43 +5,60 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1CompanySignatoriesRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :birthday, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('birthday') } }
-
-      field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-
-      field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-      # The signatory's home address
-      field :home_address, ::GustoEmbedded::Operations::HomeAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
-
-      field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-
-      field :phone, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
-
-      field :ssn, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
-
-      field :title, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
-
-      field :middle_initial, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
+      class PostV1CompanySignatoriesRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(birthday: ::String, email: ::String, first_name: ::String, home_address: ::GustoEmbedded::Operations::HomeAddress, last_name: ::String, phone: ::String, ssn: ::String, title: ::String, middle_initial: T.nilable(::String)).void }
-      def initialize(birthday: nil, email: nil, first_name: nil, home_address: nil, last_name: nil, phone: nil, ssn: nil, title: nil, middle_initial: nil)
-        @birthday = birthday
-        @email = email
-        @first_name = first_name
-        @home_address = home_address
-        @last_name = last_name
-        @phone = phone
-        @ssn = ssn
-        @title = title
-        @middle_initial = middle_initial
+        field :ssn, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn'), required: true } }
+
+        field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name'), required: true } }
+
+        field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name'), required: true } }
+
+        field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email'), required: true } }
+
+        field :title, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title'), required: true } }
+
+        field :phone, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone'), required: true } }
+
+        field :birthday, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('birthday'), required: true } }
+        # The signatory's home address
+        field :home_address, Models::Operations::HomeAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address'), required: true } }
+
+        field :middle_initial, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
+
+        sig { params(ssn: ::String, first_name: ::String, last_name: ::String, email: ::String, title: ::String, phone: ::String, birthday: ::String, home_address: Models::Operations::HomeAddress, middle_initial: T.nilable(::String)).void }
+        def initialize(ssn:, first_name:, last_name:, email:, title:, phone:, birthday:, home_address:, middle_initial: nil)
+          @ssn = ssn
+          @first_name = first_name
+          @last_name = last_name
+          @email = email
+          @title = title
+          @phone = phone
+          @birthday = birthday
+          @home_address = home_address
+          @middle_initial = middle_initial
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @ssn == other.ssn
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @email == other.email
+          return false unless @title == other.title
+          return false unless @phone == other.phone
+          return false unless @birthday == other.birthday
+          return false unless @home_address == other.home_address
+          return false unless @middle_initial == other.middle_initial
+          true
+        end
       end
     end
   end

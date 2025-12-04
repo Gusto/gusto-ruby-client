@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutWireInRequestsWireInRequestUuidRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutWireInRequestsWireInRequestUuidRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Amount of money sent
-      field :amount_sent, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_sent') } }
-      # Name of the bank sending the wire
-      field :bank_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bank_name') } }
-      # The date the wire was sent
-      field :date_sent, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_sent') } }
-      # Additional notes
-      field :additional_notes, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_notes') } }
+        # The date the wire was sent
+        field :date_sent, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_sent'), required: true } }
+        # Name of the bank sending the wire
+        field :bank_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bank_name'), required: true } }
+        # Amount of money sent
+        field :amount_sent, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_sent'), required: true } }
+        # Additional notes
+        field :additional_notes, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_notes') } }
 
+        sig { params(date_sent: ::String, bank_name: ::String, amount_sent: ::String, additional_notes: T.nilable(::String)).void }
+        def initialize(date_sent:, bank_name:, amount_sent:, additional_notes: nil)
+          @date_sent = date_sent
+          @bank_name = bank_name
+          @amount_sent = amount_sent
+          @additional_notes = additional_notes
+        end
 
-      sig { params(amount_sent: ::String, bank_name: ::String, date_sent: ::String, additional_notes: T.nilable(::String)).void }
-      def initialize(amount_sent: nil, bank_name: nil, date_sent: nil, additional_notes: nil)
-        @amount_sent = amount_sent
-        @bank_name = bank_name
-        @date_sent = date_sent
-        @additional_notes = additional_notes
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @date_sent == other.date_sent
+          return false unless @bank_name == other.bank_name
+          return false unless @amount_sent == other.amount_sent
+          return false unless @additional_notes == other.additional_notes
+          true
+        end
       end
     end
   end

@@ -5,49 +5,68 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # An object containing federal holiday objects, each containing a boolean selected property.
-    class FederalHolidays < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # An object containing federal holiday objects, each containing a boolean selected property.
+      class FederalHolidays
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :christmas_day, T.nilable(::GustoEmbedded::Operations::ChristmasDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('christmas_day') } }
+        field :new_years_day, Crystalline::Nilable.new(Models::Operations::NewYearsDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('new_years_day') } }
 
-      field :columbus_day, T.nilable(::GustoEmbedded::Operations::ColumbusDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('columbus_day') } }
+        field :mlk_day, Crystalline::Nilable.new(Models::Operations::MlkDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mlk_day') } }
 
-      field :independence_day, T.nilable(::GustoEmbedded::Operations::IndependenceDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('independence_day') } }
+        field :presidents_day, Crystalline::Nilable.new(Models::Operations::PresidentsDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('presidents_day') } }
 
-      field :juneteenth, T.nilable(::GustoEmbedded::Operations::Juneteenth), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('juneteenth') } }
+        field :memorial_day, Crystalline::Nilable.new(Models::Operations::MemorialDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('memorial_day') } }
 
-      field :labor_day, T.nilable(::GustoEmbedded::Operations::LaborDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('labor_day') } }
+        field :juneteenth, Crystalline::Nilable.new(Models::Operations::Juneteenth), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('juneteenth') } }
 
-      field :memorial_day, T.nilable(::GustoEmbedded::Operations::MemorialDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('memorial_day') } }
+        field :independence_day, Crystalline::Nilable.new(Models::Operations::IndependenceDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('independence_day') } }
 
-      field :mlk_day, T.nilable(::GustoEmbedded::Operations::MlkDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mlk_day') } }
+        field :labor_day, Crystalline::Nilable.new(Models::Operations::LaborDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('labor_day') } }
 
-      field :new_years_day, T.nilable(::GustoEmbedded::Operations::NewYearsDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('new_years_day') } }
+        field :columbus_day, Crystalline::Nilable.new(Models::Operations::ColumbusDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('columbus_day') } }
 
-      field :presidents_day, T.nilable(::GustoEmbedded::Operations::PresidentsDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('presidents_day') } }
+        field :veterans_day, Crystalline::Nilable.new(Models::Operations::VeteransDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('veterans_day') } }
 
-      field :thanksgiving, T.nilable(::GustoEmbedded::Operations::Thanksgiving), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('thanksgiving') } }
+        field :thanksgiving, Crystalline::Nilable.new(Models::Operations::Thanksgiving), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('thanksgiving') } }
 
-      field :veterans_day, T.nilable(::GustoEmbedded::Operations::VeteransDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('veterans_day') } }
+        field :christmas_day, Crystalline::Nilable.new(Models::Operations::ChristmasDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('christmas_day') } }
 
+        sig { params(new_years_day: T.nilable(Models::Operations::NewYearsDay), mlk_day: T.nilable(Models::Operations::MlkDay), presidents_day: T.nilable(Models::Operations::PresidentsDay), memorial_day: T.nilable(Models::Operations::MemorialDay), juneteenth: T.nilable(Models::Operations::Juneteenth), independence_day: T.nilable(Models::Operations::IndependenceDay), labor_day: T.nilable(Models::Operations::LaborDay), columbus_day: T.nilable(Models::Operations::ColumbusDay), veterans_day: T.nilable(Models::Operations::VeteransDay), thanksgiving: T.nilable(Models::Operations::Thanksgiving), christmas_day: T.nilable(Models::Operations::ChristmasDay)).void }
+        def initialize(new_years_day: nil, mlk_day: nil, presidents_day: nil, memorial_day: nil, juneteenth: nil, independence_day: nil, labor_day: nil, columbus_day: nil, veterans_day: nil, thanksgiving: nil, christmas_day: nil)
+          @new_years_day = new_years_day
+          @mlk_day = mlk_day
+          @presidents_day = presidents_day
+          @memorial_day = memorial_day
+          @juneteenth = juneteenth
+          @independence_day = independence_day
+          @labor_day = labor_day
+          @columbus_day = columbus_day
+          @veterans_day = veterans_day
+          @thanksgiving = thanksgiving
+          @christmas_day = christmas_day
+        end
 
-      sig { params(christmas_day: T.nilable(::GustoEmbedded::Operations::ChristmasDay), columbus_day: T.nilable(::GustoEmbedded::Operations::ColumbusDay), independence_day: T.nilable(::GustoEmbedded::Operations::IndependenceDay), juneteenth: T.nilable(::GustoEmbedded::Operations::Juneteenth), labor_day: T.nilable(::GustoEmbedded::Operations::LaborDay), memorial_day: T.nilable(::GustoEmbedded::Operations::MemorialDay), mlk_day: T.nilable(::GustoEmbedded::Operations::MlkDay), new_years_day: T.nilable(::GustoEmbedded::Operations::NewYearsDay), presidents_day: T.nilable(::GustoEmbedded::Operations::PresidentsDay), thanksgiving: T.nilable(::GustoEmbedded::Operations::Thanksgiving), veterans_day: T.nilable(::GustoEmbedded::Operations::VeteransDay)).void }
-      def initialize(christmas_day: nil, columbus_day: nil, independence_day: nil, juneteenth: nil, labor_day: nil, memorial_day: nil, mlk_day: nil, new_years_day: nil, presidents_day: nil, thanksgiving: nil, veterans_day: nil)
-        @christmas_day = christmas_day
-        @columbus_day = columbus_day
-        @independence_day = independence_day
-        @juneteenth = juneteenth
-        @labor_day = labor_day
-        @memorial_day = memorial_day
-        @mlk_day = mlk_day
-        @new_years_day = new_years_day
-        @presidents_day = presidents_day
-        @thanksgiving = thanksgiving
-        @veterans_day = veterans_day
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @new_years_day == other.new_years_day
+          return false unless @mlk_day == other.mlk_day
+          return false unless @presidents_day == other.presidents_day
+          return false unless @memorial_day == other.memorial_day
+          return false unless @juneteenth == other.juneteenth
+          return false unless @independence_day == other.independence_day
+          return false unless @labor_day == other.labor_day
+          return false unless @columbus_day == other.columbus_day
+          return false unless @veterans_day == other.veterans_day
+          return false unless @thanksgiving == other.thanksgiving
+          return false unless @christmas_day == other.christmas_day
+          true
+        end
       end
     end
   end

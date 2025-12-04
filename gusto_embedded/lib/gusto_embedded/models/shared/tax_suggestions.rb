@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class TaxSuggestions < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class TaxSuggestions
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Calculated tax amount.
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # The ID of the tax.
-      field :tax_id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_id') } }
+        # The ID of the tax.
+        field :tax_id, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_id') } }
+        # Calculated tax amount.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
 
+        sig { params(tax_id: T.nilable(::Integer), amount: T.nilable(::String)).void }
+        def initialize(tax_id: nil, amount: nil)
+          @tax_id = tax_id
+          @amount = amount
+        end
 
-      sig { params(amount: T.nilable(::String), tax_id: T.nilable(::Integer)).void }
-      def initialize(amount: nil, tax_id: nil)
-        @amount = amount
-        @tax_id = tax_id
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @tax_id == other.tax_id
+          return false unless @amount == other.amount
+          true
+        end
       end
     end
   end

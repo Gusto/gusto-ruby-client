@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PaymentMethod - The employee's payment method
-    class PaymentMethod < T::Enum
-      enums do
-        DIRECT_DEPOSIT = new('Direct Deposit')
-        CHECK = new('Check')
+  module Models
+    module Shared
+    
+      # PaymentMethod - The employee's payment method
+      class PaymentMethod < T::Enum
+
+
+        enums do
+          DIRECT_DEPOSIT = new('Direct Deposit')
+          CHECK = new('Check')
+        end
       end
     end
   end

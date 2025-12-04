@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class Document < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :content, ::String, { 'multipart_form': { 'content': true } }
-
-      field :file_name, ::String, { 'multipart_form': { 'field_name': 'fileName' } }
+      class Document
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(content: ::String, file_name: ::String).void }
-      def initialize(content: nil, file_name: nil)
-        @content = content
-        @file_name = file_name
+        field :file_name, ::String, { 'multipart_form': { 'field_name': 'fileName' } }
+
+        field :content, ::String, { 'multipart_form': { 'content': true } }
+
+        sig { params(file_name: ::String, content: ::String).void }
+        def initialize(file_name:, content:)
+          @file_name = file_name
+          @content = content
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @file_name == other.file_name
+          return false unless @content == other.content
+          true
+        end
       end
     end
   end

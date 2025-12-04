@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PolicyType - Type of the time off policy
-    class PolicyType < T::Enum
-      enums do
-        VACATION = new('vacation')
-        SICK = new('sick')
+  module Models
+    module Shared
+    
+      # PolicyType - Type of the time off policy
+      class PolicyType < T::Enum
+
+
+        enums do
+          VACATION = new('vacation')
+          SICK = new('sick')
+        end
       end
     end
   end

@@ -5,24 +5,34 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class ResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class ResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # If all requirements for the state have been satisfied such that the company can complete
-      # onboarding, the company is `setup_complete` in the state. A company must be `setup_complete` in
-      # all relevant states to complete the `state_setup` company onboarding step.
-      field :setup_complete, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('setup_complete') } }
-      # One of the two-letter state abbreviations for the fifty United States and the District of Columbia (DC)
-      field :state, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        # One of the two-letter state abbreviations for the fifty United States and the District of Columbia (DC)
+        field :state, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state'), required: true } }
+        # If all requirements for the state have been satisfied such that the company can complete
+        # onboarding, the company is `setup_complete` in the state. A company must be `setup_complete` in
+        # all relevant states to complete the `state_setup` company onboarding step.
+        field :setup_complete, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('setup_complete'), required: true } }
 
+        sig { params(state: ::String, setup_complete: T::Boolean).void }
+        def initialize(state:, setup_complete:)
+          @state = state
+          @setup_complete = setup_complete
+        end
 
-      sig { params(setup_complete: T::Boolean, state: ::String).void }
-      def initialize(setup_complete: nil, state: nil)
-        @setup_complete = setup_complete
-        @state = state
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @state == other.state
+          return false unless @setup_complete == other.setup_complete
+          true
+        end
       end
     end
   end

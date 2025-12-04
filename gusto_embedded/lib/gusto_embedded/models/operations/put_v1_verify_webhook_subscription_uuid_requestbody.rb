@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1VerifyWebhookSubscriptionUuidRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1VerifyWebhookSubscriptionUuidRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The token POSTed to the Subscription URL.
-      field :verification_token, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('verification_token') } }
+        # The token POSTed to the Subscription URL.
+        field :verification_token, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('verification_token'), required: true } }
 
+        sig { params(verification_token: ::String).void }
+        def initialize(verification_token:)
+          @verification_token = verification_token
+        end
 
-      sig { params(verification_token: ::String).void }
-      def initialize(verification_token: nil)
-        @verification_token = verification_token
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @verification_token == other.verification_token
+          true
+        end
       end
     end
   end

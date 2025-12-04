@@ -5,10 +5,9 @@
 
 module GustoEmbedded
   autoload :Client, 'gusto_embedded/client'
-  autoload :Shared, 'gusto_embedded/models/shared'
-  autoload :Operations, 'gusto_embedded/models/operations'
   autoload :Introspection, 'gusto_embedded/introspection'
   autoload :Companies, 'gusto_embedded/companies'
+  autoload :Suspensions, 'gusto_embedded/suspensions'
   autoload :Invoices, 'gusto_embedded/invoices'
   autoload :CompanyAttachments, 'gusto_embedded/companyattachments'
   autoload :CompanyAttachment, 'gusto_embedded/companyattachment'
@@ -50,7 +49,6 @@ module GustoEmbedded
   autoload :Garnishments, 'gusto_embedded/garnishments'
   autoload :I9Verification, 'gusto_embedded/i9verification'
   autoload :TaxRequirements, 'gusto_embedded/taxrequirements'
-  autoload :CompaniesSuspensions, 'gusto_embedded/companies_suspensions'
   autoload :HolidayPayPolicies, 'gusto_embedded/holidaypaypolicies'
   autoload :Notifications, 'gusto_embedded/notifications'
   autoload :Events, 'gusto_embedded/events'
@@ -58,8 +56,22 @@ module GustoEmbedded
   autoload :RecoveryCases, 'gusto_embedded/recoverycases'
   autoload :AchTransactions, 'gusto_embedded/achtransactions'
   autoload :WireInRequests, 'gusto_embedded/wireinrequests'
+  autoload :SalaryEstimates, 'gusto_embedded/salary_estimates'
+  autoload :Reimbursements, 'gusto_embedded/reimbursements'
+  module Models
+    autoload :Shared, 'gusto_embedded/models/shared'
+    autoload :Operations, 'gusto_embedded/models/operations'
+    autoload :Errors, 'gusto_embedded/models/errors'
+    autoload :Callbacks, 'gusto_embedded/models/callbacks'
+  end
 end
 
 require_relative 'gusto_embedded/utils/utils'
+require_relative 'gusto_embedded/utils/request_bodies'
+require_relative 'gusto_embedded/utils/query_params'
+require_relative 'gusto_embedded/utils/forms'
+require_relative 'gusto_embedded/utils/headers'
+require_relative 'gusto_embedded/utils/url'
+require_relative 'gusto_embedded/utils/security'
 require_relative 'crystalline'
 require_relative 'gusto_embedded/sdkconfiguration'

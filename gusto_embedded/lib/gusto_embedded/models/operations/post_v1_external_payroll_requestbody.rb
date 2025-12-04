@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1ExternalPayrollRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1ExternalPayrollRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # External payroll's check date.
-      field :check_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # External payroll's pay period end date.
-      field :payment_period_end_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_end_date') } }
-      # External payroll's pay period start date.
-      field :payment_period_start_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_start_date') } }
+        # External payroll's check date.
+        field :check_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), required: true } }
+        # External payroll's pay period start date.
+        field :payment_period_start_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_start_date'), required: true } }
+        # External payroll's pay period end date.
+        field :payment_period_end_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_end_date'), required: true } }
 
+        sig { params(check_date: ::String, payment_period_start_date: ::String, payment_period_end_date: ::String).void }
+        def initialize(check_date:, payment_period_start_date:, payment_period_end_date:)
+          @check_date = check_date
+          @payment_period_start_date = payment_period_start_date
+          @payment_period_end_date = payment_period_end_date
+        end
 
-      sig { params(check_date: ::String, payment_period_end_date: ::String, payment_period_start_date: ::String).void }
-      def initialize(check_date: nil, payment_period_end_date: nil, payment_period_start_date: nil)
-        @check_date = check_date
-        @payment_period_end_date = payment_period_end_date
-        @payment_period_start_date = payment_period_start_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @check_date == other.check_date
+          return false unless @payment_period_start_date == other.payment_period_start_date
+          return false unless @payment_period_end_date == other.payment_period_end_date
+          true
+        end
       end
     end
   end

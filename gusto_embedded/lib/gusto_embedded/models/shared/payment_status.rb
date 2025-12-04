@@ -5,15 +5,19 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PaymentStatus - The status of the ACH transaction
-    class PaymentStatus < T::Enum
-      enums do
-        UNSUBMITTED = new('unsubmitted')
-        SUBMITTED = new('submitted')
-        SUCCESSFUL = new('successful')
-        FAILED = new('failed')
+  module Models
+    module Shared
+    
+      # PaymentStatus - The status of the ACH transaction
+      class PaymentStatus < T::Enum
+
+
+        enums do
+          UNSUBMITTED = new('unsubmitted')
+          SUBMITTED = new('submitted')
+          SUCCESSFUL = new('successful')
+          FAILED = new('failed')
+        end
       end
     end
   end

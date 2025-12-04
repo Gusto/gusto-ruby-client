@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PayrollSubmissionBlockersTypeStatus - The status of the submission blocker.
-    class PayrollSubmissionBlockersTypeStatus < T::Enum
-      enums do
-        UNRESOLVED = new('unresolved')
-        RESOLVED = new('resolved')
+  module Models
+    module Shared
+    
+      # PayrollSubmissionBlockersTypeStatus - The status of the submission blocker.
+      class PayrollSubmissionBlockersTypeStatus < T::Enum
+
+
+        enums do
+          UNRESOLVED = new('unresolved')
+          RESOLVED = new('resolved')
+        end
       end
     end
   end

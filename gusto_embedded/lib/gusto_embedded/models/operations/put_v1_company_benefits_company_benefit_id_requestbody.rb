@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1CompanyBenefitsCompanyBenefitIdRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompanyBenefitsCompanyBenefitIdRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # Whether this benefit is active for employee participation. Company benefits may only be deactivated if no employees are actively participating.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
-      # The description of the company benefit. For example, a company may offer multiple benefits with an ID of 1 (for Medical Insurance). The description would show something more specific like “Kaiser Permanente” or “Blue Cross/ Blue Shield”.
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # Whether this benefit is active for employee participation. Company benefits may only be deactivated if no employees are actively participating.
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The description of the company benefit. For example, a company may offer multiple benefits with an ID of 1 (for Medical Insurance). The description would show something more specific like “Kaiser Permanente” or “Blue Cross/ Blue Shield”.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
 
+        sig { params(version: ::String, active: T.nilable(T::Boolean), description: T.nilable(::String)).void }
+        def initialize(version:, active: nil, description: nil)
+          @version = version
+          @active = active
+          @description = description
+        end
 
-      sig { params(version: ::String, active: T.nilable(T::Boolean), description: T.nilable(::String)).void }
-      def initialize(version: nil, active: nil, description: nil)
-        @version = version
-        @active = active
-        @description = description
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @active == other.active
+          return false unless @description == other.description
+          true
+        end
       end
     end
   end

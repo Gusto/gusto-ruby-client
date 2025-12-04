@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The company attachment
-    class CompanyAttachment < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The company attachment
+      class CompanyAttachment
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The category of the company attachment
-      field :category, T.nilable(::GustoEmbedded::Shared::Category), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Category, true) } }
-      # name of the file uploaded
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # The ISO 8601 timestamp of when an attachment was uploaded
-      field :upload_time, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('upload_time') } }
-      # UUID of the company attachment
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # UUID of the company attachment
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # name of the file uploaded
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The category of the company attachment
+        field :category, Crystalline::Nilable.new(Models::Shared::Category), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), 'decoder': Utils.enum_from_string(Models::Shared::Category, true) } }
+        # The ISO 8601 timestamp of when an attachment was uploaded
+        field :upload_time, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('upload_time') } }
 
+        sig { params(uuid: T.nilable(::String), name: T.nilable(::String), category: T.nilable(Models::Shared::Category), upload_time: T.nilable(::String)).void }
+        def initialize(uuid: nil, name: nil, category: nil, upload_time: nil)
+          @uuid = uuid
+          @name = name
+          @category = category
+          @upload_time = upload_time
+        end
 
-      sig { params(category: T.nilable(::GustoEmbedded::Shared::Category), name: T.nilable(::String), upload_time: T.nilable(::String), uuid: T.nilable(::String)).void }
-      def initialize(category: nil, name: nil, upload_time: nil, uuid: nil)
-        @category = category
-        @name = name
-        @upload_time = upload_time
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @name == other.name
+          return false unless @category == other.category
+          return false unless @upload_time == other.upload_time
+          true
+        end
       end
     end
   end

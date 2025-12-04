@@ -5,14 +5,18 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # DocumentSignedRecipientType - The type of recipient associated with the document (will be `Contractor` for Contractor Documents)
-    class DocumentSignedRecipientType < T::Enum
-      enums do
-        COMPANY = new('Company')
-        EMPLOYEE = new('Employee')
-        CONTRACTOR = new('Contractor')
+  module Models
+    module Shared
+    
+      # DocumentSignedRecipientType - The type of recipient associated with the document (will be `Contractor` for Contractor Documents)
+      class DocumentSignedRecipientType < T::Enum
+
+
+        enums do
+          COMPANY = new('Company')
+          EMPLOYEE = new('Employee')
+          CONTRACTOR = new('Contractor')
+        end
       end
     end
   end

@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class AccruingTimeOffHourObject < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class AccruingTimeOffHourObject
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :hours_earned, T::Array[::GustoEmbedded::Shared::AccruingTimeOffHour], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours_earned') } }
+        field :hours_earned, Crystalline::Array.new(Models::Shared::AccruingTimeOffHour), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours_earned'), required: true } }
 
+        sig { params(hours_earned: T::Array[Models::Shared::AccruingTimeOffHour]).void }
+        def initialize(hours_earned:)
+          @hours_earned = hours_earned
+        end
 
-      sig { params(hours_earned: T::Array[::GustoEmbedded::Shared::AccruingTimeOffHour]).void }
-      def initialize(hours_earned: nil)
-        @hours_earned = hours_earned
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @hours_earned == other.hours_earned
+          true
+        end
       end
     end
   end

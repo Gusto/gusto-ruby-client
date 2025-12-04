@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of a pay schedule assignment.
-    class PayScheduleAssignment < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of a pay schedule assignment.
+      class PayScheduleAssignment
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Default pay schedule for employees.
-      field :default_pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default_pay_schedule_uuid') } }
-      # List of departments and their pay schedules.
-      field :departments, T.nilable(T::Array[::GustoEmbedded::Shared::PayScheduleAssignmentDepartment]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('departments') } }
-      # List of employees and their pay schedules.
-      field :employees, T.nilable(T::Array[::GustoEmbedded::Shared::PayScheduleAssignmentEmployee]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
-      # Pay schedule for hourly employees.
-      field :hourly_pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_pay_schedule_uuid') } }
-      # Pay schedule for salaried employees.
-      field :salaried_pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('salaried_pay_schedule_uuid') } }
-      # The pay schedule assignment type.
-      field :type, T.nilable(::GustoEmbedded::Shared::Type), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Type, true) } }
+        # The pay schedule assignment type.
+        field :type, Crystalline::Nilable.new(Models::Shared::Type), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(Models::Shared::Type, true) } }
+        # Pay schedule for hourly employees.
+        field :hourly_pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_pay_schedule_uuid') } }
+        # Pay schedule for salaried employees.
+        field :salaried_pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('salaried_pay_schedule_uuid') } }
+        # Default pay schedule for employees.
+        field :default_pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default_pay_schedule_uuid') } }
+        # List of employees and their pay schedules.
+        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleAssignmentEmployee)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
+        # List of departments and their pay schedules.
+        field :departments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleAssignmentDepartment)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('departments') } }
 
+        sig { params(type: T.nilable(Models::Shared::Type), hourly_pay_schedule_uuid: T.nilable(::String), salaried_pay_schedule_uuid: T.nilable(::String), default_pay_schedule_uuid: T.nilable(::String), employees: T.nilable(T::Array[Models::Shared::PayScheduleAssignmentEmployee]), departments: T.nilable(T::Array[Models::Shared::PayScheduleAssignmentDepartment])).void }
+        def initialize(type: nil, hourly_pay_schedule_uuid: nil, salaried_pay_schedule_uuid: nil, default_pay_schedule_uuid: nil, employees: nil, departments: nil)
+          @type = type
+          @hourly_pay_schedule_uuid = hourly_pay_schedule_uuid
+          @salaried_pay_schedule_uuid = salaried_pay_schedule_uuid
+          @default_pay_schedule_uuid = default_pay_schedule_uuid
+          @employees = employees
+          @departments = departments
+        end
 
-      sig { params(default_pay_schedule_uuid: T.nilable(::String), departments: T.nilable(T::Array[::GustoEmbedded::Shared::PayScheduleAssignmentDepartment]), employees: T.nilable(T::Array[::GustoEmbedded::Shared::PayScheduleAssignmentEmployee]), hourly_pay_schedule_uuid: T.nilable(::String), salaried_pay_schedule_uuid: T.nilable(::String), type: T.nilable(::GustoEmbedded::Shared::Type)).void }
-      def initialize(default_pay_schedule_uuid: nil, departments: nil, employees: nil, hourly_pay_schedule_uuid: nil, salaried_pay_schedule_uuid: nil, type: nil)
-        @default_pay_schedule_uuid = default_pay_schedule_uuid
-        @departments = departments
-        @employees = employees
-        @hourly_pay_schedule_uuid = hourly_pay_schedule_uuid
-        @salaried_pay_schedule_uuid = salaried_pay_schedule_uuid
-        @type = type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @hourly_pay_schedule_uuid == other.hourly_pay_schedule_uuid
+          return false unless @salaried_pay_schedule_uuid == other.salaried_pay_schedule_uuid
+          return false unless @default_pay_schedule_uuid == other.default_pay_schedule_uuid
+          return false unless @employees == other.employees
+          return false unless @departments == other.departments
+          true
+        end
       end
     end
   end

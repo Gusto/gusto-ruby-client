@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Category - The category of a company attachment.
-    class Category < T::Enum
-      enums do
-        GEP_NOTICE = new('gep_notice')
-        COMPLIANCE = new('compliance')
+  module Models
+    module Operations
+    
+      # Category - The category of a company attachment.
+      class Category < T::Enum
+
+
+        enums do
+          GEP_NOTICE = new('gep_notice')
+          COMPLIANCE = new('compliance')
+        end
       end
     end
   end

@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # ContractorPaymentStatus - Contractor payment status
-    class ContractorPaymentStatus < T::Enum
-      enums do
-        FUNDED = new('Funded')
-        UNFUNDED = new('Unfunded')
+  module Models
+    module Shared
+    
+      # ContractorPaymentStatus - Contractor payment status
+      class ContractorPaymentStatus < T::Enum
+
+
+        enums do
+          FUNDED = new('Funded')
+          UNFUNDED = new('Unfunded')
+        end
       end
     end
   end

@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutDepartmentsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutDepartmentsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
 
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
 
+        sig { params(version: ::String, title: T.nilable(::String)).void }
+        def initialize(version:, title: nil)
+          @version = version
+          @title = title
+        end
 
-      sig { params(version: ::String, title: T.nilable(::String)).void }
-      def initialize(version: nil, title: nil)
-        @version = version
-        @title = title
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @title == other.title
+          true
+        end
       end
     end
   end

@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The user's email address on Gusto. You can retrieve the user's email via company's `/admins`, `/employees`, `/signatories`, and `/contractors` endpoints.
-      field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-      # The user ID on your platform.
-      field :external_user_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_user_id') } }
-      # The IP address of the user who viewed and accepted the Terms of Service.
-      field :ip_address, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ip_address') } }
+        # The user's email address on Gusto. You can retrieve the user's email via company's `/admins`, `/employees`, `/signatories`, and `/contractors` endpoints.
+        field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email'), required: true } }
+        # The IP address of the user who viewed and accepted the Terms of Service.
+        field :ip_address, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ip_address'), required: true } }
+        # The user ID on your platform.
+        field :external_user_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_user_id'), required: true } }
 
+        sig { params(email: ::String, ip_address: ::String, external_user_id: ::String).void }
+        def initialize(email:, ip_address:, external_user_id:)
+          @email = email
+          @ip_address = ip_address
+          @external_user_id = external_user_id
+        end
 
-      sig { params(email: ::String, external_user_id: ::String, ip_address: ::String).void }
-      def initialize(email: nil, external_user_id: nil, ip_address: nil)
-        @email = email
-        @external_user_id = external_user_id
-        @ip_address = ip_address
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @email == other.email
+          return false unless @ip_address == other.ip_address
+          return false unless @external_user_id == other.external_user_id
+          true
+        end
       end
     end
   end

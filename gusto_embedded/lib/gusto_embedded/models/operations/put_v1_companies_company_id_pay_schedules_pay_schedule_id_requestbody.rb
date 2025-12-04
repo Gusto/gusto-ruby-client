@@ -5,40 +5,56 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # The last date of the first pay period. This can be the same date as the anchor pay date.
-      field :anchor_end_of_pay_period, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('anchor_end_of_pay_period') } }
-      # The first date that employees on this pay schedule are paid with Gusto.
-      field :anchor_pay_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('anchor_pay_date') } }
-      # With Autopilot® enabled, payroll will run automatically one day before your payroll deadlines.
-      field :auto_pilot, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('auto_pilot') } }
-      # A custom pay schedule name.
-      field :custom_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_name') } }
-      # An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the “Twice per month” and “Monthly” frequencies. It will be null for pay schedules with other frequencies.
-      field :day_1, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('day_1') } }
-      # An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, we will set the second pay date to the last day of the month. It will be null for pay schedules with other frequencies.
-      field :day_2, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('day_2') } }
-      # The frequency that employees on this pay schedule are paid with Gusto.
-      field :frequency, T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('frequency'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency, true) } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The frequency that employees on this pay schedule are paid with Gusto.
+        field :frequency, Crystalline::Nilable.new(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('frequency'), 'decoder': Utils.enum_from_string(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency, true) } }
+        # The first date that employees on this pay schedule are paid with Gusto.
+        field :anchor_pay_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('anchor_pay_date') } }
+        # The last date of the first pay period. This can be the same date as the anchor pay date.
+        field :anchor_end_of_pay_period, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('anchor_end_of_pay_period') } }
+        # A custom pay schedule name.
+        field :custom_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_name') } }
+        # With Autopilot® enabled, payroll will run automatically one day before your payroll deadlines.
+        field :auto_pilot, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('auto_pilot') } }
+        # An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the “Twice per month” and “Monthly” frequencies. It will be null for pay schedules with other frequencies.
+        field :day_1, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('day_1') } }
+        # An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, we will set the second pay date to the last day of the month. It will be null for pay schedules with other frequencies.
+        field :day_2, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('day_2') } }
 
+        sig { params(version: ::String, frequency: T.nilable(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency), anchor_pay_date: T.nilable(::String), anchor_end_of_pay_period: T.nilable(::String), custom_name: T.nilable(::String), auto_pilot: T.nilable(T::Boolean), day_1: T.nilable(::Integer), day_2: T.nilable(::Integer)).void }
+        def initialize(version:, frequency: nil, anchor_pay_date: nil, anchor_end_of_pay_period: nil, custom_name: nil, auto_pilot: nil, day_1: nil, day_2: nil)
+          @version = version
+          @frequency = frequency
+          @anchor_pay_date = anchor_pay_date
+          @anchor_end_of_pay_period = anchor_end_of_pay_period
+          @custom_name = custom_name
+          @auto_pilot = auto_pilot
+          @day_1 = day_1
+          @day_2 = day_2
+        end
 
-      sig { params(version: ::String, anchor_end_of_pay_period: T.nilable(::String), anchor_pay_date: T.nilable(::String), auto_pilot: T.nilable(T::Boolean), custom_name: T.nilable(::String), day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), frequency: T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency)).void }
-      def initialize(version: nil, anchor_end_of_pay_period: nil, anchor_pay_date: nil, auto_pilot: nil, custom_name: nil, day_1: nil, day_2: nil, frequency: nil)
-        @version = version
-        @anchor_end_of_pay_period = anchor_end_of_pay_period
-        @anchor_pay_date = anchor_pay_date
-        @auto_pilot = auto_pilot
-        @custom_name = custom_name
-        @day_1 = day_1
-        @day_2 = day_2
-        @frequency = frequency
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @frequency == other.frequency
+          return false unless @anchor_pay_date == other.anchor_pay_date
+          return false unless @anchor_end_of_pay_period == other.anchor_end_of_pay_period
+          return false unless @custom_name == other.custom_name
+          return false unless @auto_pilot == other.auto_pilot
+          return false unless @day_1 == other.day_1
+          return false unless @day_2 == other.day_2
+          true
+        end
       end
     end
   end

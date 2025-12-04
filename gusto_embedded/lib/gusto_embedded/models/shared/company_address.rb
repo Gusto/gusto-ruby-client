@@ -5,37 +5,52 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of a company's address in Gusto.
-    class CompanyAddress < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-      # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
-
-      field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
-
-      field :country, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
-
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
-
-      field :street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
-
-      field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
-
-      field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+  module Models
+    module Shared
+    
+      # The representation of a company's address in Gusto.
+      class CompanyAddress
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(active: T.nilable(T::Boolean), city: T.nilable(::String), country: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(active: nil, city: nil, country: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
-        @active = active
-        @city = city
-        @country = country
-        @state = state
-        @street_1 = street_1
-        @street_2 = street_2
-        @zip = zip
+        field :street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
+
+        field :city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
+
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+
+        field :zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+        # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
+        field :inactive, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('inactive') } }
+
+        field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
+
+        field :country, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
+
+        sig { params(street_1: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), inactive: T.nilable(T::Boolean), street_2: T.nilable(::String), country: T.nilable(::String)).void }
+        def initialize(street_1: nil, city: nil, state: nil, zip: nil, inactive: nil, street_2: nil, country: 'USA')
+          @street_1 = street_1
+          @city = city
+          @state = state
+          @zip = zip
+          @inactive = inactive
+          @street_2 = street_2
+          @country = country
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @street_1 == other.street_1
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @zip == other.zip
+          return false unless @inactive == other.inactive
+          return false unless @street_2 == other.street_2
+          return false unless @country == other.country
+          true
+        end
       end
     end
   end

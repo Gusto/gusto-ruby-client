@@ -5,15 +5,19 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency - The frequency that employees on this pay schedule are paid with Gusto.
-    class PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency < T::Enum
-      enums do
-        EVERY_WEEK = new('Every week')
-        EVERY_OTHER_WEEK = new('Every other week')
-        TWICE_PER_MONTH = new('Twice per month')
-        MONTHLY = new('Monthly')
+  module Models
+    module Operations
+    
+      # PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency - The frequency that employees on this pay schedule are paid with Gusto.
+      class PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdFrequency < T::Enum
+
+
+        enums do
+          EVERY_WEEK = new('Every week')
+          EVERY_OTHER_WEEK = new('Every other week')
+          TWICE_PER_MONTH = new('Twice per month')
+          MONTHLY = new('Monthly')
+        end
       end
     end
   end

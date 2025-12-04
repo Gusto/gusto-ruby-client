@@ -5,19 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class TimeOffPolicyEmployees < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class TimeOffPolicyEmployees
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # Employee's current time off balance. Represented as a float, e.g. "40.0".
+        field :balance, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance') } }
 
+        sig { params(uuid: T.nilable(::String), balance: T.nilable(::String)).void }
+        def initialize(uuid: nil, balance: nil)
+          @uuid = uuid
+          @balance = balance
+        end
 
-      sig { params(uuid: T.nilable(::String)).void }
-      def initialize(uuid: nil)
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @balance == other.balance
+          true
+        end
       end
     end
   end

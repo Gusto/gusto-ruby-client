@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # OK
-    class GetV1EmployeesEmployeeIdCustomFieldsResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # OK
+      class GetV1EmployeesEmployeeIdCustomFieldsResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :custom_fields, T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCustomField]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_fields') } }
+        field :custom_fields, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeCustomField)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_fields') } }
 
+        sig { params(custom_fields: T.nilable(T::Array[Models::Shared::EmployeeCustomField])).void }
+        def initialize(custom_fields: nil)
+          @custom_fields = custom_fields
+        end
 
-      sig { params(custom_fields: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCustomField])).void }
-      def initialize(custom_fields: nil)
-        @custom_fields = custom_fields
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @custom_fields == other.custom_fields
+          true
+        end
       end
     end
   end

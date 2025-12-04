@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class Industry < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class Industry
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Company uuid
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # North American Industry Classification System (NAICS) is used to classify businesses with a six digit number based on the primary type of work the business performs.
-      field :naics_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('naics_code') } }
-      # A list of Standard Industrial Classification (SIC) codes, which are four digit number that categorize the industries that companies belong to based on their business activities.
-      field :sic_codes, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('sic_codes') } }
-      # Industry title
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # Company uuid
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # A list of Standard Industrial Classification (SIC) codes, which are four digit number that categorize the industries that companies belong to based on their business activities.
+        field :sic_codes, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('sic_codes') } }
+        # North American Industry Classification System (NAICS) is used to classify businesses with a six digit number based on the primary type of work the business performs.
+        field :naics_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('naics_code') } }
+        # Industry title
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
 
+        sig { params(company_uuid: T.nilable(::String), sic_codes: T.nilable(T::Array[::String]), naics_code: T.nilable(::String), title: T.nilable(::String)).void }
+        def initialize(company_uuid: nil, sic_codes: nil, naics_code: nil, title: nil)
+          @company_uuid = company_uuid
+          @sic_codes = sic_codes
+          @naics_code = naics_code
+          @title = title
+        end
 
-      sig { params(company_uuid: T.nilable(::String), naics_code: T.nilable(::String), sic_codes: T.nilable(T::Array[::String]), title: T.nilable(::String)).void }
-      def initialize(company_uuid: nil, naics_code: nil, sic_codes: nil, title: nil)
-        @company_uuid = company_uuid
-        @naics_code = naics_code
-        @sic_codes = sic_codes
-        @title = title
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @sic_codes == other.sic_codes
+          return false unless @naics_code == other.naics_code
+          return false unless @title == other.title
+          true
+        end
       end
     end
   end

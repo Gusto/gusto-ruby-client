@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Ytd Benefit Amounts From Different Company
-    class YtdBenefitAmountsFromDifferentCompany < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Ytd Benefit Amounts From Different Company
+      class YtdBenefitAmountsFromDifferentCompany
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The benefit type supported by Gusto. See [Benefit Types](https://docs.gusto.com/embedded-payroll/reference/get-v1-benefits) for more information.
-      field :benefit_type, ::Integer, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
-      # The unique identifier for this benefit amount record.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The year-to-date company contribution made outside the current company.
-      field :ytd_company_contribution_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_company_contribution_amount') } }
-      # The year-to-date employee deduction made outside the current company.
-      field :ytd_employee_deduction_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_employee_deduction_amount') } }
+        # The unique identifier for this benefit amount record.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The benefit type supported by Gusto. See [Benefit Types](https://docs.gusto.com/embedded-payroll/reference/get-v1-benefits) for more information.
+        field :benefit_type, ::Integer, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type'), required: true } }
+        # The year-to-date employee deduction made outside the current company.
+        field :ytd_employee_deduction_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_employee_deduction_amount'), required: true } }
+        # The year-to-date company contribution made outside the current company.
+        field :ytd_company_contribution_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_company_contribution_amount'), required: true } }
 
+        sig { params(uuid: ::String, benefit_type: ::Integer, ytd_employee_deduction_amount: ::String, ytd_company_contribution_amount: ::String).void }
+        def initialize(uuid:, benefit_type:, ytd_employee_deduction_amount:, ytd_company_contribution_amount:)
+          @uuid = uuid
+          @benefit_type = benefit_type
+          @ytd_employee_deduction_amount = ytd_employee_deduction_amount
+          @ytd_company_contribution_amount = ytd_company_contribution_amount
+        end
 
-      sig { params(benefit_type: ::Integer, uuid: ::String, ytd_company_contribution_amount: ::String, ytd_employee_deduction_amount: ::String).void }
-      def initialize(benefit_type: nil, uuid: nil, ytd_company_contribution_amount: nil, ytd_employee_deduction_amount: nil)
-        @benefit_type = benefit_type
-        @uuid = uuid
-        @ytd_company_contribution_amount = ytd_company_contribution_amount
-        @ytd_employee_deduction_amount = ytd_employee_deduction_amount
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @benefit_type == other.benefit_type
+          return false unless @ytd_employee_deduction_amount == other.ytd_employee_deduction_amount
+          return false unless @ytd_company_contribution_amount == other.ytd_company_contribution_amount
+          true
+        end
       end
     end
   end

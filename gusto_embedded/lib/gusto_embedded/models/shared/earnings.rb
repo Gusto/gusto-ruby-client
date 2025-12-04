@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class Earnings < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-
-      field :earning_id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_id') } }
-
-      field :earning_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_type') } }
-
-      field :hours, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+      class Earnings
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(amount: T.nilable(::String), earning_id: T.nilable(::Integer), earning_type: T.nilable(::String), hours: T.nilable(::String)).void }
-      def initialize(amount: nil, earning_id: nil, earning_type: nil, hours: nil)
-        @amount = amount
-        @earning_id = earning_id
-        @earning_type = earning_type
-        @hours = hours
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+
+        field :hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+
+        field :earning_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_type') } }
+
+        field :earning_id, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_id') } }
+
+        sig { params(amount: T.nilable(::String), hours: T.nilable(::String), earning_type: T.nilable(::String), earning_id: T.nilable(::Integer)).void }
+        def initialize(amount: nil, hours: nil, earning_type: nil, earning_id: nil)
+          @amount = amount
+          @hours = hours
+          @earning_type = earning_type
+          @earning_id = earning_id
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @amount == other.amount
+          return false unless @hours == other.hours
+          return false unless @earning_type == other.earning_type
+          return false unless @earning_id == other.earning_id
+          true
+        end
       end
     end
   end

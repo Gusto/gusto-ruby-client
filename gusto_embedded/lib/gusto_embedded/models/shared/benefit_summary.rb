@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Benefit summary response
-    class BenefitSummary < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Benefit summary response
+      class BenefitSummary
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The aggregate of company contribution for all employees given the period of time and the specific company benefit.
-      field :company_benefit_contribution, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_contribution') } }
-      # The aggregate of employee deduction for all employees given the period of time and the specific company benefit.
-      field :company_benefit_deduction, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_deduction') } }
-      # Description of the benefit.
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # The start date of benefit summary.
+        field :start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # The end date of benefit summary.
+        field :end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
+        # Description of the benefit.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # The aggregate of employee deduction for all employees given the period of time and the specific company benefit.
+        field :company_benefit_deduction, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_deduction') } }
+        # The aggregate of company contribution for all employees given the period of time and the specific company benefit.
+        field :company_benefit_contribution, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_contribution') } }
 
-      field :employees, T.nilable(::GustoEmbedded::Shared::BenefitSummaryEmployees), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
-      # The end date of benefit summary.
-      field :end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
-      # The start date of benefit summary.
-      field :start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        field :employees, Crystalline::Nilable.new(Models::Shared::BenefitSummaryEmployees), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
 
+        sig { params(start_date: T.nilable(::String), end_date: T.nilable(::String), description: T.nilable(::String), company_benefit_deduction: T.nilable(::String), company_benefit_contribution: T.nilable(::String), employees: T.nilable(Models::Shared::BenefitSummaryEmployees)).void }
+        def initialize(start_date: nil, end_date: nil, description: nil, company_benefit_deduction: nil, company_benefit_contribution: nil, employees: nil)
+          @start_date = start_date
+          @end_date = end_date
+          @description = description
+          @company_benefit_deduction = company_benefit_deduction
+          @company_benefit_contribution = company_benefit_contribution
+          @employees = employees
+        end
 
-      sig { params(company_benefit_contribution: T.nilable(::String), company_benefit_deduction: T.nilable(::String), description: T.nilable(::String), employees: T.nilable(::GustoEmbedded::Shared::BenefitSummaryEmployees), end_date: T.nilable(::String), start_date: T.nilable(::String)).void }
-      def initialize(company_benefit_contribution: nil, company_benefit_deduction: nil, description: nil, employees: nil, end_date: nil, start_date: nil)
-        @company_benefit_contribution = company_benefit_contribution
-        @company_benefit_deduction = company_benefit_deduction
-        @description = description
-        @employees = employees
-        @end_date = end_date
-        @start_date = start_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          return false unless @description == other.description
+          return false unless @company_benefit_deduction == other.company_benefit_deduction
+          return false unless @company_benefit_contribution == other.company_benefit_contribution
+          return false unless @employees == other.employees
+          true
+        end
       end
     end
   end

@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Information about the token resource.
-    class Resource < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Information about the token resource.
+      class Resource
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Type of object
-      field :type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type') } }
-      # UUID of object
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # Type of object
+        field :type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true } }
+        # UUID of object
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
 
+        sig { params(type: ::String, uuid: ::String).void }
+        def initialize(type:, uuid:)
+          @type = type
+          @uuid = uuid
+        end
 
-      sig { params(type: ::String, uuid: ::String).void }
-      def initialize(type: nil, uuid: nil)
-        @type = type
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @uuid == other.uuid
+          true
+        end
       end
     end
   end

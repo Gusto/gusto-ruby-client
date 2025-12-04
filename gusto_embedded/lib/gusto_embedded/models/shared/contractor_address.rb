@@ -5,43 +5,60 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class ContractorAddress < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class ContractorAddress
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The UUID of the contractor
+        field :contractor_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
 
-      field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
-      # The UUID of the contractor
-      field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
+        field :street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
 
-      field :country, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
+        field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
 
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        field :city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
 
-      field :street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
 
-      field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        field :zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
 
-      field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+        field :country, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
 
+        sig { params(version: T.nilable(::String), active: T.nilable(T::Boolean), contractor_uuid: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), country: T.nilable(::String)).void }
+        def initialize(version: nil, active: nil, contractor_uuid: nil, street_1: nil, street_2: nil, city: nil, state: nil, zip: nil, country: 'USA')
+          @version = version
+          @active = active
+          @contractor_uuid = contractor_uuid
+          @street_1 = street_1
+          @street_2 = street_2
+          @city = city
+          @state = state
+          @zip = zip
+          @country = country
+        end
 
-      sig { params(active: T.nilable(T::Boolean), city: T.nilable(::String), contractor_uuid: T.nilable(::String), country: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), version: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(active: nil, city: nil, contractor_uuid: nil, country: nil, state: nil, street_1: nil, street_2: nil, version: nil, zip: nil)
-        @active = active
-        @city = city
-        @contractor_uuid = contractor_uuid
-        @country = country
-        @state = state
-        @street_1 = street_1
-        @street_2 = street_2
-        @version = version
-        @zip = zip
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @active == other.active
+          return false unless @contractor_uuid == other.contractor_uuid
+          return false unless @street_1 == other.street_1
+          return false unless @street_2 == other.street_2
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @zip == other.zip
+          return false unless @country == other.country
+          true
+        end
       end
     end
   end

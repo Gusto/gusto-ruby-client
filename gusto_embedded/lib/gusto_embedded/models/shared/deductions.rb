@@ -5,22 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
+      # An array of deductions for the employee.
+      class Deductions
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-    class Deductions < ::Crystalline::FieldAugmented
-      extend T::Sig
+        # The name of the deduction.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The amount of the deduction for the pay period.
+        field :amount, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        # The amount type of the deduction for the pay period.
+        field :amount_type, Crystalline::Nilable.new(Models::Shared::AmountType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_type'), 'decoder': Utils.enum_from_string(Models::Shared::AmountType, true) } }
+        # The UUID of the deduction. This parameter is optional and can be provided in order to update an existing deduction.
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
 
+        sig { params(name: T.nilable(::String), amount: T.nilable(::Float), amount_type: T.nilable(Models::Shared::AmountType), uuid: T.nilable(::String)).void }
+        def initialize(name: nil, amount: nil, amount_type: nil, uuid: nil)
+          @name = name
+          @amount = amount
+          @amount_type = amount_type
+          @uuid = uuid
+        end
 
-      field :amount, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-
-
-      sig { params(amount: T.nilable(::Float), name: T.nilable(::String)).void }
-      def initialize(amount: nil, name: nil)
-        @amount = amount
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @amount == other.amount
+          return false unless @amount_type == other.amount_type
+          return false unless @uuid == other.uuid
+          true
+        end
       end
     end
   end

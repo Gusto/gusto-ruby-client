@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class Company < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Company
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The legal name of the company.
-      field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # Whether the company only supports contractors. Should be set to true if the company has no W-2 employees. If not passed, will default to false (i.e. the company will support both contractors and employees).
-      field :contractor_only, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_only') } }
-      # The employer identification number (EIN) of the company.
-      field :ein, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein') } }
-      # The name of the company.
-      field :trade_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('trade_name') } }
+        # The legal name of the company.
+        field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name'), required: true } }
+        # The name of the company.
+        field :trade_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('trade_name') } }
+        # The employer identification number (EIN) of the company.
+        field :ein, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein') } }
+        # Whether the company only supports contractors. Should be set to true if the company has no W-2 employees. If not passed, will default to false (i.e. the company will support both contractors and employees).
+        field :contractor_only, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_only') } }
 
+        sig { params(name: ::String, trade_name: T.nilable(::String), ein: T.nilable(::String), contractor_only: T.nilable(T::Boolean)).void }
+        def initialize(name:, trade_name: nil, ein: nil, contractor_only: nil)
+          @name = name
+          @trade_name = trade_name
+          @ein = ein
+          @contractor_only = contractor_only
+        end
 
-      sig { params(name: ::String, contractor_only: T.nilable(T::Boolean), ein: T.nilable(::String), trade_name: T.nilable(::String)).void }
-      def initialize(name: nil, contractor_only: nil, ein: nil, trade_name: nil)
-        @name = name
-        @contractor_only = contractor_only
-        @ein = ein
-        @trade_name = trade_name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @trade_name == other.trade_name
+          return false unless @ein == other.ein
+          return false unless @contractor_only == other.contractor_only
+          true
+        end
       end
     end
   end

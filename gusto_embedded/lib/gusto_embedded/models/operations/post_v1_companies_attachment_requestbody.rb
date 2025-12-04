@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # The binary payload of the file and the company attachment category.
-    class PostV1CompaniesAttachmentRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # The binary payload of the file and the company attachment category.
+      class PostV1CompaniesAttachmentRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The category of a company attachment.
-      field :category, ::GustoEmbedded::Operations::Category, { 'multipart_form': { 'field_name': 'category' } }
-      # The binary payload of the file to be uploaded.
-      field :document, ::GustoEmbedded::Operations::Document, { 'multipart_form': { 'file': true, 'field_name': 'document' } }
+        # The binary payload of the file to be uploaded.
+        field :document, Models::Operations::Document, { 'multipart_form': { 'file': true, 'field_name': 'document' } }
+        # The category of a company attachment.
+        field :category, Models::Operations::Category, { 'multipart_form': { 'field_name': 'category' } }
 
+        sig { params(document: Models::Operations::Document, category: Models::Operations::Category).void }
+        def initialize(document:, category:)
+          @document = document
+          @category = category
+        end
 
-      sig { params(category: ::GustoEmbedded::Operations::Category, document: ::GustoEmbedded::Operations::Document).void }
-      def initialize(category: nil, document: nil)
-        @category = category
-        @document = document
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @document == other.document
+          return false unless @category == other.category
+          true
+        end
       end
     end
   end

@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class PayrollSubmissionBlockersType < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayrollSubmissionBlockersType
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The name of the submission blocker.
-      field :blocker_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blocker_name') } }
-      # The type of blocker that's blocking the payment submission.
-      field :blocker_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blocker_type') } }
-      # The unblock option that's been selected to resolve the submission blocker.
-      field :selected_option, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selected_option') } }
-      # The status of the submission blocker.
-      field :status, T.nilable(::GustoEmbedded::Shared::PayrollSubmissionBlockersTypeStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollSubmissionBlockersTypeStatus, true) } }
-      # The available options to unblock a submission blocker.
-      field :unblock_options, T.nilable(T::Array[::GustoEmbedded::Shared::UnblockOptions]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unblock_options') } }
+        # The type of blocker that's blocking the payment submission.
+        field :blocker_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blocker_type') } }
+        # The name of the submission blocker.
+        field :blocker_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blocker_name') } }
+        # The available options to unblock a submission blocker.
+        field :unblock_options, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::UnblockOptions)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unblock_options') } }
+        # The status of the submission blocker.
+        field :status, Crystalline::Nilable.new(Models::Shared::PayrollSubmissionBlockersTypeStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(Models::Shared::PayrollSubmissionBlockersTypeStatus, true) } }
+        # The unblock option that's been selected to resolve the submission blocker.
+        field :selected_option, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selected_option') } }
 
+        sig { params(blocker_type: T.nilable(::String), blocker_name: T.nilable(::String), unblock_options: T.nilable(T::Array[Models::Shared::UnblockOptions]), status: T.nilable(Models::Shared::PayrollSubmissionBlockersTypeStatus), selected_option: T.nilable(::String)).void }
+        def initialize(blocker_type: nil, blocker_name: nil, unblock_options: nil, status: nil, selected_option: nil)
+          @blocker_type = blocker_type
+          @blocker_name = blocker_name
+          @unblock_options = unblock_options
+          @status = status
+          @selected_option = selected_option
+        end
 
-      sig { params(blocker_name: T.nilable(::String), blocker_type: T.nilable(::String), selected_option: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::PayrollSubmissionBlockersTypeStatus), unblock_options: T.nilable(T::Array[::GustoEmbedded::Shared::UnblockOptions])).void }
-      def initialize(blocker_name: nil, blocker_type: nil, selected_option: nil, status: nil, unblock_options: nil)
-        @blocker_name = blocker_name
-        @blocker_type = blocker_type
-        @selected_option = selected_option
-        @status = status
-        @unblock_options = unblock_options
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @blocker_type == other.blocker_type
+          return false unless @blocker_name == other.blocker_name
+          return false unless @unblock_options == other.unblock_options
+          return false unless @status == other.status
+          return false unless @selected_option == other.selected_option
+          true
+        end
       end
     end
   end

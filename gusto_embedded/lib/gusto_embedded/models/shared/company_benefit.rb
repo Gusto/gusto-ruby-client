@@ -5,55 +5,76 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of a company benefit.
-    class CompanyBenefit < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of a company benefit.
+      class CompanyBenefit
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company benefit.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Whether this benefit is active for employee participation. Company benefits may only be deactivated if no employees are actively participating.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
-      # The type of the benefit to which the company benefit belongs.
-      field :benefit_type, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
-      # The UUID of the company.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # Whether this company benefit can be deleted. Deletable will be set to true if the benefit has not been used in payroll, has no employee benefits associated, and the benefit is not owned by Gusto or a Partner
-      field :deletable, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deletable') } }
-      # The description of the company benefit. For example, a company may offer multiple benefits with an ID of 1 (for Medical Insurance). The description would show something more specific like “Kaiser Permanente” or “Blue Cross/ Blue Shield”.
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # The number of employees enrolled in the benefit, only returned when enrollment_count query param is set to true.
-      field :enrollment_count, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('enrollment_count') } }
-      # The partner name of the partner that created the company benefit. For example, "XYZ Corp".
-      field :partner_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_name') } }
-      # Whether the employer is subject to file W-2 forms for an employee on leave. Only applicable to third party sick pay benefits.
-      field :responsible_for_employee_w2, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('responsible_for_employee_w2') } }
-      # Whether the employer is subject to pay employer taxes when an employee is on leave. Only applicable to third party sick pay benefits.
-      field :responsible_for_employer_taxes, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('responsible_for_employer_taxes') } }
-      # The source of the company benefit. This can be "internal", "external", or "partnered". Company benefits created via the API default to "external". Certain partners can create company benefits with a source of "partnered".
-      field :source, T.nilable(::GustoEmbedded::Shared::Source), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('source'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Source, true) } }
-      # Whether employee deductions and company contributions can be set as percentages of payroll for an individual employee. This is determined by the type of benefit and is not configurable by the company.
-      field :supports_percentage_amounts, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('supports_percentage_amounts') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The UUID of the company benefit.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The number of employees enrolled in the benefit, only returned when enrollment_count query param is set to true.
+        field :enrollment_count, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('enrollment_count') } }
+        # The UUID of the company.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The type of the benefit to which the company benefit belongs.
+        field :benefit_type, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
+        # The description of the company benefit. For example, a company may offer multiple benefits with an ID of 1 (for Medical Insurance). The description would show something more specific like “Kaiser Permanente” or “Blue Cross/ Blue Shield”.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # The source of the company benefit. This can be "internal", "external", or "partnered". Company benefits created via the API default to "external". Certain partners can create company benefits with a source of "partnered".
+        field :source, Crystalline::Nilable.new(Models::Shared::Source), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('source'), 'decoder': Utils.enum_from_string(Models::Shared::Source, true) } }
+        # Whether this company benefit can be deleted. Deletable will be set to true if the benefit has not been used in payroll, has no employee benefits associated, and the benefit is not owned by Gusto or a Partner
+        field :deletable, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deletable') } }
+        # Whether employee deductions and company contributions can be set as percentages of payroll for an individual employee. This is determined by the type of benefit and is not configurable by the company.
+        field :supports_percentage_amounts, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('supports_percentage_amounts') } }
+        # Whether the employer is subject to pay employer taxes when an employee is on leave. Only applicable to third party sick pay benefits.
+        field :responsible_for_employer_taxes, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('responsible_for_employer_taxes') } }
+        # Whether the employer is subject to file W-2 forms for an employee on leave. Only applicable to third party sick pay benefits.
+        field :responsible_for_employee_w2, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('responsible_for_employee_w2') } }
+        # Whether this benefit is active for employee participation. Company benefits may only be deactivated if no employees are actively participating.
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The partner name of the partner that created the company benefit. For example, "XYZ Corp".
+        field :partner_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_name') } }
 
+        sig { params(uuid: ::String, version: T.nilable(::String), enrollment_count: T.nilable(::Integer), company_uuid: T.nilable(::String), benefit_type: T.nilable(::Integer), description: T.nilable(::String), source: T.nilable(Models::Shared::Source), deletable: T.nilable(T::Boolean), supports_percentage_amounts: T.nilable(T::Boolean), responsible_for_employer_taxes: T.nilable(T::Boolean), responsible_for_employee_w2: T.nilable(T::Boolean), active: T.nilable(T::Boolean), partner_name: T.nilable(::String)).void }
+        def initialize(uuid:, version: nil, enrollment_count: nil, company_uuid: nil, benefit_type: nil, description: nil, source: nil, deletable: nil, supports_percentage_amounts: nil, responsible_for_employer_taxes: nil, responsible_for_employee_w2: nil, active: true, partner_name: nil)
+          @uuid = uuid
+          @version = version
+          @enrollment_count = enrollment_count
+          @company_uuid = company_uuid
+          @benefit_type = benefit_type
+          @description = description
+          @source = source
+          @deletable = deletable
+          @supports_percentage_amounts = supports_percentage_amounts
+          @responsible_for_employer_taxes = responsible_for_employer_taxes
+          @responsible_for_employee_w2 = responsible_for_employee_w2
+          @active = active
+          @partner_name = partner_name
+        end
 
-      sig { params(uuid: ::String, active: T.nilable(T::Boolean), benefit_type: T.nilable(::Integer), company_uuid: T.nilable(::String), deletable: T.nilable(T::Boolean), description: T.nilable(::String), enrollment_count: T.nilable(::Integer), partner_name: T.nilable(::String), responsible_for_employee_w2: T.nilable(T::Boolean), responsible_for_employer_taxes: T.nilable(T::Boolean), source: T.nilable(::GustoEmbedded::Shared::Source), supports_percentage_amounts: T.nilable(T::Boolean), version: T.nilable(::String)).void }
-      def initialize(uuid: nil, active: nil, benefit_type: nil, company_uuid: nil, deletable: nil, description: nil, enrollment_count: nil, partner_name: nil, responsible_for_employee_w2: nil, responsible_for_employer_taxes: nil, source: nil, supports_percentage_amounts: nil, version: nil)
-        @uuid = uuid
-        @active = active
-        @benefit_type = benefit_type
-        @company_uuid = company_uuid
-        @deletable = deletable
-        @description = description
-        @enrollment_count = enrollment_count
-        @partner_name = partner_name
-        @responsible_for_employee_w2 = responsible_for_employee_w2
-        @responsible_for_employer_taxes = responsible_for_employer_taxes
-        @source = source
-        @supports_percentage_amounts = supports_percentage_amounts
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @version == other.version
+          return false unless @enrollment_count == other.enrollment_count
+          return false unless @company_uuid == other.company_uuid
+          return false unless @benefit_type == other.benefit_type
+          return false unless @description == other.description
+          return false unless @source == other.source
+          return false unless @deletable == other.deletable
+          return false unless @supports_percentage_amounts == other.supports_percentage_amounts
+          return false unless @responsible_for_employer_taxes == other.responsible_for_employer_taxes
+          return false unless @responsible_for_employee_w2 == other.responsible_for_employee_w2
+          return false unless @active == other.active
+          return false unless @partner_name == other.partner_name
+          true
+        end
       end
     end
   end

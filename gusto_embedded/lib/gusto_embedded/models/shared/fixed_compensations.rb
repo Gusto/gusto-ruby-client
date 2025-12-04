@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class FixedCompensations < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class FixedCompensations
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The amount of the compensation for the pay period.
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # The UUID of the job for the compensation.
-      field :job_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job_uuid') } }
-      # The name of the compensation. This also serves as the unique, immutable identifier for this compensation.
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The name of the compensation. This also serves as the unique, immutable identifier for this compensation.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The amount of the compensation for the pay period.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        # The UUID of the job for the compensation.
+        field :job_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job_uuid') } }
 
+        sig { params(name: T.nilable(::String), amount: T.nilable(::String), job_uuid: T.nilable(::String)).void }
+        def initialize(name: nil, amount: nil, job_uuid: nil)
+          @name = name
+          @amount = amount
+          @job_uuid = job_uuid
+        end
 
-      sig { params(amount: T.nilable(::String), job_uuid: T.nilable(::String), name: T.nilable(::String)).void }
-      def initialize(amount: nil, job_uuid: nil, name: nil)
-        @amount = amount
-        @job_uuid = job_uuid
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @amount == other.amount
+          return false unless @job_uuid == other.job_uuid
+          true
+        end
       end
     end
   end

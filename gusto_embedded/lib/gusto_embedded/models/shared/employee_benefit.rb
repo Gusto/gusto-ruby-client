@@ -5,81 +5,108 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of an employee benefit.
-    class EmployeeBenefit < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of an employee benefit.
+      class EmployeeBenefit
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the employee benefit.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Whether the employee benefit is active.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
-      # Whether the employee should use a benefit’s "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50.
-      field :catch_up, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('catch_up') } }
-      # The UUID of the company benefit.
-      field :company_benefit_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_uuid') } }
-      # The amount to be paid, per pay period, by the company. This field will not appear for tiered contribution types.
-      # 
-      # @deprecated  true: This will be removed in a future release, please migrate away from it as soon as possible.
-      field :company_contribution, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution') } }
-      # The maximum company contribution amount per year. A null value signifies no limit.
-      field :company_contribution_annual_maximum, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution_annual_maximum') } }
-      # Whether the company_contribution value should be treated as a percentage to be added to each payroll. This field will not appear for tiered contribution types.
-      # 
-      # @deprecated  true: This will be removed in a future release, please migrate away from it as soon as possible.
-      field :contribute_as_percentage, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribute_as_percentage') } }
-      # An object representing the type and value of the company contribution.
-      field :contribution, T.nilable(::GustoEmbedded::Shared::Contribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
-      # The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set.
-      field :coverage_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_amount') } }
-      # The coverage amount as a multiple of the employee’s salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
-      field :coverage_salary_multiplier, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_salary_multiplier') } }
-      # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
-      field :deduct_as_percentage, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
-      # Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored.
-      field :deduction_reduces_taxable_income, T.nilable(::GustoEmbedded::Shared::DeductionReducesTaxableIncome), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduction_reduces_taxable_income'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::DeductionReducesTaxableIncome, true) } }
-      # Whether the company contribution is elective (aka matching). For "tiered" contribution types, this is always true.
-      field :elective, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('elective') } }
-      # The amount to be deducted, per pay period, from the employee's pay.
-      field :employee_deduction, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
-      # The maximum employee deduction amount per year. A null value signifies no limit.
-      field :employee_deduction_annual_maximum, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction_annual_maximum') } }
-      # The UUID of the employee to which the benefit belongs.
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-      # Some benefits require additional information to determine their limit.
-      # 
-      # `Family` and `Individual` are applicable to HSA benefit.
-      # 
-      # `Joint Filing or Single` and `Married and Filing Separately` are applicable to Dependent Care FSA benefit.
-      field :limit_option, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('limit_option') } }
-      # Identifier for a 401(k) loan assigned by the 401(k) provider
-      field :retirement_loan_identifier, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('retirement_loan_identifier') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The UUID of the employee benefit.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # An object representing the type and value of the company contribution.
+        field :contribution, Crystalline::Nilable.new(Models::Shared::Contribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
+        # Identifier for a 401(k) loan assigned by the 401(k) provider
+        field :retirement_loan_identifier, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('retirement_loan_identifier') } }
+        # The UUID of the employee to which the benefit belongs.
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # The UUID of the company benefit.
+        field :company_benefit_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_uuid') } }
+        # Whether the employee benefit is active.
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The amount to be deducted, per pay period, from the employee's pay.
+        field :employee_deduction, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
+        # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
+        field :deduct_as_percentage, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
+        # The maximum employee deduction amount per year. A null value signifies no limit.
+        field :employee_deduction_annual_maximum, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction_annual_maximum') } }
+        # Whether the company contribution is elective (aka matching). For "tiered" contribution types, this is always true.
+        field :elective, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('elective') } }
+        # The maximum company contribution amount per year. A null value signifies no limit.
+        field :company_contribution_annual_maximum, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution_annual_maximum') } }
+        # Some benefits require additional information to determine their limit.
+        # 
+        # `Family` and `Individual` are applicable to HSA benefit.
+        # 
+        # `Joint Filing or Single` and `Married and Filing Separately` are applicable to Dependent Care FSA benefit.
+        field :limit_option, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('limit_option') } }
+        # The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set.
+        field :coverage_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_amount') } }
+        # The amount to be paid, per pay period, by the company. This field will not appear for tiered contribution types.
+        # 
+        # @deprecated  true: This will be removed in a future release, please migrate away from it as soon as possible.
+        field :company_contribution, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution') } }
+        # Whether the company_contribution value should be treated as a percentage to be added to each payroll. This field will not appear for tiered contribution types.
+        # 
+        # @deprecated  true: This will be removed in a future release, please migrate away from it as soon as possible.
+        field :contribute_as_percentage, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribute_as_percentage') } }
+        # Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50.
+        field :catch_up, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('catch_up') } }
+        # Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored.
+        field :deduction_reduces_taxable_income, Crystalline::Nilable.new(Models::Shared::DeductionReducesTaxableIncome), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduction_reduces_taxable_income'), 'decoder': Utils.enum_from_string(Models::Shared::DeductionReducesTaxableIncome, true) } }
+        # The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
+        field :coverage_salary_multiplier, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_salary_multiplier') } }
 
+        sig { params(uuid: ::String, version: T.nilable(::String), contribution: T.nilable(Models::Shared::Contribution), retirement_loan_identifier: T.nilable(::String), employee_uuid: T.nilable(::String), company_benefit_uuid: T.nilable(::String), active: T.nilable(T::Boolean), employee_deduction: T.nilable(::String), deduct_as_percentage: T.nilable(T::Boolean), employee_deduction_annual_maximum: T.nilable(::String), elective: T.nilable(T::Boolean), company_contribution_annual_maximum: T.nilable(::String), limit_option: T.nilable(::String), coverage_amount: T.nilable(::String), company_contribution: T.nilable(::String), contribute_as_percentage: T.nilable(T::Boolean), catch_up: T.nilable(T::Boolean), deduction_reduces_taxable_income: T.nilable(Models::Shared::DeductionReducesTaxableIncome), coverage_salary_multiplier: T.nilable(::String)).void }
+        def initialize(uuid:, version: nil, contribution: nil, retirement_loan_identifier: nil, employee_uuid: nil, company_benefit_uuid: nil, active: true, employee_deduction: '0.00', deduct_as_percentage: false, employee_deduction_annual_maximum: nil, elective: false, company_contribution_annual_maximum: nil, limit_option: nil, coverage_amount: nil, company_contribution: '0.00', contribute_as_percentage: false, catch_up: false, deduction_reduces_taxable_income: Models::Shared::DeductionReducesTaxableIncome::UNSET, coverage_salary_multiplier: '0.00')
+          @uuid = uuid
+          @version = version
+          @contribution = contribution
+          @retirement_loan_identifier = retirement_loan_identifier
+          @employee_uuid = employee_uuid
+          @company_benefit_uuid = company_benefit_uuid
+          @active = active
+          @employee_deduction = employee_deduction
+          @deduct_as_percentage = deduct_as_percentage
+          @employee_deduction_annual_maximum = employee_deduction_annual_maximum
+          @elective = elective
+          @company_contribution_annual_maximum = company_contribution_annual_maximum
+          @limit_option = limit_option
+          @coverage_amount = coverage_amount
+          @company_contribution = company_contribution
+          @contribute_as_percentage = contribute_as_percentage
+          @catch_up = catch_up
+          @deduction_reduces_taxable_income = deduction_reduces_taxable_income
+          @coverage_salary_multiplier = coverage_salary_multiplier
+        end
 
-      sig { params(uuid: ::String, active: T.nilable(T::Boolean), catch_up: T.nilable(T::Boolean), company_benefit_uuid: T.nilable(::String), company_contribution: T.nilable(::String), company_contribution_annual_maximum: T.nilable(::String), contribute_as_percentage: T.nilable(T::Boolean), contribution: T.nilable(::GustoEmbedded::Shared::Contribution), coverage_amount: T.nilable(::String), coverage_salary_multiplier: T.nilable(::String), deduct_as_percentage: T.nilable(T::Boolean), deduction_reduces_taxable_income: T.nilable(::GustoEmbedded::Shared::DeductionReducesTaxableIncome), elective: T.nilable(T::Boolean), employee_deduction: T.nilable(::String), employee_deduction_annual_maximum: T.nilable(::String), employee_uuid: T.nilable(::String), limit_option: T.nilable(::String), retirement_loan_identifier: T.nilable(::String), version: T.nilable(::String)).void }
-      def initialize(uuid: nil, active: nil, catch_up: nil, company_benefit_uuid: nil, company_contribution: nil, company_contribution_annual_maximum: nil, contribute_as_percentage: nil, contribution: nil, coverage_amount: nil, coverage_salary_multiplier: nil, deduct_as_percentage: nil, deduction_reduces_taxable_income: nil, elective: nil, employee_deduction: nil, employee_deduction_annual_maximum: nil, employee_uuid: nil, limit_option: nil, retirement_loan_identifier: nil, version: nil)
-        @uuid = uuid
-        @active = active
-        @catch_up = catch_up
-        @company_benefit_uuid = company_benefit_uuid
-        @company_contribution = company_contribution
-        @company_contribution_annual_maximum = company_contribution_annual_maximum
-        @contribute_as_percentage = contribute_as_percentage
-        @contribution = contribution
-        @coverage_amount = coverage_amount
-        @coverage_salary_multiplier = coverage_salary_multiplier
-        @deduct_as_percentage = deduct_as_percentage
-        @deduction_reduces_taxable_income = deduction_reduces_taxable_income
-        @elective = elective
-        @employee_deduction = employee_deduction
-        @employee_deduction_annual_maximum = employee_deduction_annual_maximum
-        @employee_uuid = employee_uuid
-        @limit_option = limit_option
-        @retirement_loan_identifier = retirement_loan_identifier
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @version == other.version
+          return false unless @contribution == other.contribution
+          return false unless @retirement_loan_identifier == other.retirement_loan_identifier
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @company_benefit_uuid == other.company_benefit_uuid
+          return false unless @active == other.active
+          return false unless @employee_deduction == other.employee_deduction
+          return false unless @deduct_as_percentage == other.deduct_as_percentage
+          return false unless @employee_deduction_annual_maximum == other.employee_deduction_annual_maximum
+          return false unless @elective == other.elective
+          return false unless @company_contribution_annual_maximum == other.company_contribution_annual_maximum
+          return false unless @limit_option == other.limit_option
+          return false unless @coverage_amount == other.coverage_amount
+          return false unless @company_contribution == other.company_contribution
+          return false unless @contribute_as_percentage == other.contribute_as_percentage
+          return false unless @catch_up == other.catch_up
+          return false unless @deduction_reduces_taxable_income == other.deduction_reduces_taxable_income
+          return false unless @coverage_salary_multiplier == other.coverage_salary_multiplier
+          true
+        end
       end
     end
   end

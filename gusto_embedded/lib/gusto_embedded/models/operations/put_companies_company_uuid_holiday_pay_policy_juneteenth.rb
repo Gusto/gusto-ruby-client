@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutCompaniesCompanyUuidHolidayPayPolicyJuneteenth < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutCompaniesCompanyUuidHolidayPayPolicyJuneteenth
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :selected, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selected') } }
+        field :selected, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selected') } }
 
+        sig { params(selected: T.nilable(T::Boolean)).void }
+        def initialize(selected: nil)
+          @selected = selected
+        end
 
-      sig { params(selected: T.nilable(T::Boolean)).void }
-      def initialize(selected: nil)
-        @selected = selected
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @selected == other.selected
+          true
+        end
       end
     end
   end

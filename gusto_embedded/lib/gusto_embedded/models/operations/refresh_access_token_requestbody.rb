@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class RefreshAccessTokenRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class RefreshAccessTokenRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Your client id
-      field :client_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('client_id') } }
-      # Your client secret
-      field :client_secret, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('client_secret') } }
-      # this should be the literal string 'refresh_token'
-      field :grant_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('grant_type') } }
-      # The `refresh_token` being exchanged for an access token code
-      field :refresh_token, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('refresh_token') } }
-      # The redirect URI you set up via the Developer Portal
-      field :redirect_uri, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('redirect_uri') } }
+        # Your client id
+        field :client_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('client_id'), required: true } }
+        # Your client secret
+        field :client_secret, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('client_secret'), required: true } }
+        # The `refresh_token` being exchanged for an access token code
+        field :refresh_token, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('refresh_token'), required: true } }
+        # this should be the literal string 'refresh_token'
+        field :grant_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('grant_type'), required: true } }
+        # The redirect URI you set up via the Developer Portal
+        field :redirect_uri, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('redirect_uri') } }
 
+        sig { params(client_id: ::String, client_secret: ::String, refresh_token: ::String, grant_type: ::String, redirect_uri: T.nilable(::String)).void }
+        def initialize(client_id:, client_secret:, refresh_token:, grant_type:, redirect_uri: nil)
+          @client_id = client_id
+          @client_secret = client_secret
+          @refresh_token = refresh_token
+          @grant_type = grant_type
+          @redirect_uri = redirect_uri
+        end
 
-      sig { params(client_id: ::String, client_secret: ::String, grant_type: ::String, refresh_token: ::String, redirect_uri: T.nilable(::String)).void }
-      def initialize(client_id: nil, client_secret: nil, grant_type: nil, refresh_token: nil, redirect_uri: nil)
-        @client_id = client_id
-        @client_secret = client_secret
-        @grant_type = grant_type
-        @refresh_token = refresh_token
-        @redirect_uri = redirect_uri
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @client_id == other.client_id
+          return false unless @client_secret == other.client_secret
+          return false unless @refresh_token == other.refresh_token
+          return false unless @grant_type == other.grant_type
+          return false unless @redirect_uri == other.redirect_uri
+          true
+        end
       end
     end
   end

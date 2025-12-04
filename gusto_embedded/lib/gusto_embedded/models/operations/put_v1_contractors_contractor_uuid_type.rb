@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PutV1ContractorsContractorUuidType - The contractor type.
-    class PutV1ContractorsContractorUuidType < T::Enum
-      enums do
-        INDIVIDUAL = new('Individual')
-        BUSINESS = new('Business')
+  module Models
+    module Operations
+    
+      # PutV1ContractorsContractorUuidType - The contractor type.
+      class PutV1ContractorsContractorUuidType < T::Enum
+
+
+        enums do
+          INDIVIDUAL = new('Individual')
+          BUSINESS = new('Business')
+        end
       end
     end
   end

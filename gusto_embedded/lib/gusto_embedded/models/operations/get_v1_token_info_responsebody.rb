@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Example response
-    class GetV1TokenInfoResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Example response
+      class GetV1TokenInfoResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Information about the token resource.
-      field :resource, ::GustoEmbedded::Operations::Resource, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resource') } }
-      # Information about the token owner
-      field :resource_owner, ::GustoEmbedded::Operations::ResourceOwner, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resource_owner') } }
-      # Space delimited string of accessible scopes.
-      field :scope, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('scope') } }
+        # Space delimited string of accessible scopes.
+        field :scope, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('scope'), required: true } }
+        # Information about the token resource.
+        field :resource, Crystalline::Nilable.new(Models::Operations::Resource), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resource'), required: true } }
+        # Information about the token owner
+        field :resource_owner, Crystalline::Nilable.new(Models::Operations::ResourceOwner), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resource_owner'), required: true } }
 
+        sig { params(scope: ::String, resource: T.nilable(Models::Operations::Resource), resource_owner: T.nilable(Models::Operations::ResourceOwner)).void }
+        def initialize(scope:, resource: nil, resource_owner: nil)
+          @scope = scope
+          @resource = resource
+          @resource_owner = resource_owner
+        end
 
-      sig { params(resource: ::GustoEmbedded::Operations::Resource, resource_owner: ::GustoEmbedded::Operations::ResourceOwner, scope: ::String).void }
-      def initialize(resource: nil, resource_owner: nil, scope: nil)
-        @resource = resource
-        @resource_owner = resource_owner
-        @scope = scope
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @scope == other.scope
+          return false unless @resource == other.resource
+          return false unless @resource_owner == other.resource_owner
+          true
+        end
       end
     end
   end

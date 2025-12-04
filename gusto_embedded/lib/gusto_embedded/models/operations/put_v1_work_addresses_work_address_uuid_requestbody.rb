@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1WorkAddressesWorkAddressUuidRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1WorkAddressesWorkAddressUuidRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # Reference to a company location
+        field :location_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
 
-      field :effective_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
-      # Reference to a company location
-      field :location_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
+        field :effective_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
 
+        sig { params(version: ::String, location_uuid: T.nilable(::String), effective_date: T.nilable(::Date)).void }
+        def initialize(version:, location_uuid: nil, effective_date: nil)
+          @version = version
+          @location_uuid = location_uuid
+          @effective_date = effective_date
+        end
 
-      sig { params(version: ::String, effective_date: T.nilable(::Date), location_uuid: T.nilable(::String)).void }
-      def initialize(version: nil, effective_date: nil, location_uuid: nil)
-        @version = version
-        @effective_date = effective_date
-        @location_uuid = location_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @location_uuid == other.location_uuid
+          return false unless @effective_date == other.effective_date
+          true
+        end
       end
     end
   end

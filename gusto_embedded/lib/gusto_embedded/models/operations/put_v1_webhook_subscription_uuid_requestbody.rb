@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1WebhookSubscriptionUuidRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1WebhookSubscriptionUuidRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :subscription_types, T::Array[::GustoEmbedded::Operations::PutV1WebhookSubscriptionUuidSubscriptionTypes], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('subscription_types') } }
+        field :subscription_types, Crystalline::Array.new(Models::Operations::PutV1WebhookSubscriptionUuidSubscriptionTypes), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('subscription_types'), required: true } }
 
+        sig { params(subscription_types: T::Array[Models::Operations::PutV1WebhookSubscriptionUuidSubscriptionTypes]).void }
+        def initialize(subscription_types:)
+          @subscription_types = subscription_types
+        end
 
-      sig { params(subscription_types: T::Array[::GustoEmbedded::Operations::PutV1WebhookSubscriptionUuidSubscriptionTypes]).void }
-      def initialize(subscription_types: nil)
-        @subscription_types = subscription_types
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @subscription_types == other.subscription_types
+          true
+        end
       end
     end
   end

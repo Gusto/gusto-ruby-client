@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1EmployeesEmployeeIdWorkAddressesRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1EmployeesEmployeeIdWorkAddressesRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Date the employee began working at the company location
-      field :effective_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
-      # Reference to a company location
-      field :location_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
+        # Reference to a company location
+        field :location_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
+        # Date the employee began working at the company location
+        field :effective_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
 
+        sig { params(location_uuid: T.nilable(::String), effective_date: T.nilable(::Date)).void }
+        def initialize(location_uuid: nil, effective_date: nil)
+          @location_uuid = location_uuid
+          @effective_date = effective_date
+        end
 
-      sig { params(effective_date: T.nilable(::Date), location_uuid: T.nilable(::String)).void }
-      def initialize(effective_date: nil, location_uuid: nil)
-        @effective_date = effective_date
-        @location_uuid = location_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @location_uuid == other.location_uuid
+          return false unless @effective_date == other.effective_date
+          true
+        end
       end
     end
   end

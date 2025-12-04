@@ -5,15 +5,19 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # FilingForm - The form used by the company for federal tax filing. One of:
-    # - 941 (Quarterly federal tax return)
-    # - 944 (Annual federal tax return)
-    class FilingForm < T::Enum
-      enums do
-        NINE_HUNDRED_AND_FORTY_ONE = new('941')
-        NINE_HUNDRED_AND_FORTY_FOUR = new('944')
+  module Models
+    module Operations
+    
+      # FilingForm - The form used by the company for federal tax filing. One of:
+      # - 941 (Quarterly federal tax return)
+      # - 944 (Annual federal tax return)
+      class FilingForm < T::Enum
+
+
+        enums do
+          NINE_HUNDRED_AND_FORTY_ONE = new('941')
+          NINE_HUNDRED_AND_FORTY_FOUR = new('944')
+        end
       end
     end
   end

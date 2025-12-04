@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class PayrollFixedCompensationTypesType < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayrollFixedCompensationTypesType
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The name of an available type of fixed compensation.
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The name of an available type of fixed compensation.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
 
+        sig { params(name: T.nilable(::String)).void }
+        def initialize(name: nil)
+          @name = name
+        end
 
-      sig { params(name: T.nilable(::String)).void }
-      def initialize(name: nil)
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          true
+        end
       end
     end
   end

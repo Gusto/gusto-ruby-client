@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Configuration for an employee onboarding documents during onboarding
-    class EmployeeOnboardingDocument < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Configuration for an employee onboarding documents during onboarding
+      class EmployeeOnboardingDocument
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Whether to include Form I-9 for an employee during onboarding
-      field :i9_document, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('i9_document') } }
+        # Whether to include Form I-9 for an employee during onboarding
+        field :i9_document, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('i9_document') } }
 
+        sig { params(i9_document: T.nilable(::String)).void }
+        def initialize(i9_document: nil)
+          @i9_document = i9_document
+        end
 
-      sig { params(i9_document: T.nilable(::String)).void }
-      def initialize(i9_document: nil)
-        @i9_document = i9_document
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @i9_document == other.i9_document
+          true
+        end
       end
     end
   end

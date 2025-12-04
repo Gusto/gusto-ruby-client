@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Update a job.
-    class PutV1JobsJobIdRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Update a job.
+      class PutV1JobsJobIdRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # The date when the employee was hired or rehired for the job.
-      field :hire_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hire_date') } }
-      # The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more.
-      field :state_wc_class_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state_wc_class_code') } }
-      # Whether this job is eligible for workers' compensation coverage in the state of Washington (WA).
-      field :state_wc_covered, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state_wc_covered') } }
-      # The job title
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
-      # Whether the employee owns at least 2% of the company.
-      field :two_percent_shareholder, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The job title
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # The date when the employee was hired or rehired for the job.
+        field :hire_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hire_date') } }
+        # Whether the employee owns at least 2% of the company.
+        field :two_percent_shareholder, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
+        # Whether this job is eligible for workers' compensation coverage in the state of Washington (WA).
+        field :state_wc_covered, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state_wc_covered') } }
+        # The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more.
+        field :state_wc_class_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state_wc_class_code') } }
 
+        sig { params(version: ::String, title: T.nilable(::String), hire_date: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), state_wc_covered: T.nilable(T::Boolean), state_wc_class_code: T.nilable(::String)).void }
+        def initialize(version:, title: nil, hire_date: nil, two_percent_shareholder: nil, state_wc_covered: nil, state_wc_class_code: nil)
+          @version = version
+          @title = title
+          @hire_date = hire_date
+          @two_percent_shareholder = two_percent_shareholder
+          @state_wc_covered = state_wc_covered
+          @state_wc_class_code = state_wc_class_code
+        end
 
-      sig { params(version: ::String, hire_date: T.nilable(::String), state_wc_class_code: T.nilable(::String), state_wc_covered: T.nilable(T::Boolean), title: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean)).void }
-      def initialize(version: nil, hire_date: nil, state_wc_class_code: nil, state_wc_covered: nil, title: nil, two_percent_shareholder: nil)
-        @version = version
-        @hire_date = hire_date
-        @state_wc_class_code = state_wc_class_code
-        @state_wc_covered = state_wc_covered
-        @title = title
-        @two_percent_shareholder = two_percent_shareholder
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @title == other.title
+          return false unless @hire_date == other.hire_date
+          return false unless @two_percent_shareholder == other.two_percent_shareholder
+          return false unless @state_wc_covered == other.state_wc_covered
+          return false unless @state_wc_class_code == other.state_wc_class_code
+          true
+        end
       end
     end
   end

@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class ApplicableIf < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class ApplicableIf
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # An identifier for an individual requirement. Uniqueness is guaranteed within a requirement set.
-      field :key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
-      # The required value of the requirement identified by `key`
-      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        # An identifier for an individual requirement. Uniqueness is guaranteed within a requirement set.
+        field :key, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
+        # The required value of the requirement identified by `key`
+        field :value, Crystalline::Nilable.new(Crystalline::Union.new(Crystalline::Boolean.new, ::String, ::Float)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
+        sig { params(key: T.nilable(::String), value: T.nilable(T.any(T::Boolean, ::String, ::Float))).void }
+        def initialize(key: nil, value: nil)
+          @key = key
+          @value = value
+        end
 
-      sig { params(key: T.nilable(::String), value: T.nilable(::Object)).void }
-      def initialize(key: nil, value: nil)
-        @key = key
-        @value = value
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @key == other.key
+          return false unless @value == other.value
+          true
+        end
       end
     end
   end

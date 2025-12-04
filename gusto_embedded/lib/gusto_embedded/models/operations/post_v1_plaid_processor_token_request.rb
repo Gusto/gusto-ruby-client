@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1PlaidProcessorTokenRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :request_body, ::GustoEmbedded::Operations::PostV1PlaidProcessorTokenRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+      class PostV1PlaidProcessorTokenRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(request_body: ::GustoEmbedded::Operations::PostV1PlaidProcessorTokenRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(request_body: nil, x_gusto_api_version: nil)
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
+        field :request_body, Models::Operations::PostV1PlaidProcessorTokenRequestBody, { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+
+        sig { params(request_body: Models::Operations::PostV1PlaidProcessorTokenRequestBody, x_gusto_api_version: T.nilable(Models::Shared::VersionHeader)).void }
+        def initialize(request_body:, x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @request_body = request_body
+          @x_gusto_api_version = x_gusto_api_version
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @request_body == other.request_body
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class Pages < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Pages
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Image URL for the page
-      field :image_url, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('image_url') } }
-      # Page number
-      field :page_number, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('page_number') } }
+        # Image URL for the page
+        field :image_url, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('image_url') } }
+        # Page number
+        field :page_number, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('page_number') } }
 
+        sig { params(image_url: T.nilable(::String), page_number: T.nilable(::Integer)).void }
+        def initialize(image_url: nil, page_number: nil)
+          @image_url = image_url
+          @page_number = page_number
+        end
 
-      sig { params(image_url: T.nilable(::String), page_number: T.nilable(::Integer)).void }
-      def initialize(image_url: nil, page_number: nil)
-        @image_url = image_url
-        @page_number = page_number
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @image_url == other.image_url
+          return false unless @page_number == other.page_number
+          true
+        end
       end
     end
   end

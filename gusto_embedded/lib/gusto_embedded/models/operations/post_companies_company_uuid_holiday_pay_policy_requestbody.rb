@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostCompaniesCompanyUuidHolidayPayPolicyRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostCompaniesCompanyUuidHolidayPayPolicyRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # An object containing federal holiday objects, each containing a boolean selected property.
-      field :federal_holidays, T.nilable(::GustoEmbedded::Operations::FederalHolidays), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_holidays') } }
+        # An object containing federal holiday objects, each containing a boolean selected property.
+        field :federal_holidays, Crystalline::Nilable.new(Models::Operations::FederalHolidays), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_holidays') } }
 
+        sig { params(federal_holidays: T.nilable(Models::Operations::FederalHolidays)).void }
+        def initialize(federal_holidays: nil)
+          @federal_holidays = federal_holidays
+        end
 
-      sig { params(federal_holidays: T.nilable(::GustoEmbedded::Operations::FederalHolidays)).void }
-      def initialize(federal_holidays: nil)
-        @federal_holidays = federal_holidays
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @federal_holidays == other.federal_holidays
+          true
+        end
       end
     end
   end

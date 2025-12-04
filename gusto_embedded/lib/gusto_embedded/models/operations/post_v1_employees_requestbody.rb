@@ -5,40 +5,60 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1EmployeesRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-
-      field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-
-      field :date_of_birth, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth'), 'decoder': Utils.date_from_iso_format(true) } }
-      # The employee's personal email address.
-      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-
-      field :middle_initial, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
-
-      field :preferred_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
-      # If true, employee is expected to self-onboard. If false, payroll admin is expected to enter in the employee's onboarding information
-      field :self_onboarding, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('self_onboarding') } }
-
-      field :ssn, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
+      class PostV1EmployeesRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(first_name: ::String, last_name: ::String, date_of_birth: T.nilable(::Date), email: T.nilable(::String), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), self_onboarding: T.nilable(T::Boolean), ssn: T.nilable(::String)).void }
-      def initialize(first_name: nil, last_name: nil, date_of_birth: nil, email: nil, middle_initial: nil, preferred_first_name: nil, self_onboarding: nil, ssn: nil)
-        @first_name = first_name
-        @last_name = last_name
-        @date_of_birth = date_of_birth
-        @email = email
-        @middle_initial = middle_initial
-        @preferred_first_name = preferred_first_name
-        @self_onboarding = self_onboarding
-        @ssn = ssn
+        field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name'), required: true } }
+
+        field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name'), required: true } }
+
+        field :middle_initial, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
+        # The employee's personal email address.
+        field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # The employee's work email address.
+        field :work_email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_email') } }
+
+        field :date_of_birth, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth'), 'decoder': Utils.date_from_iso_format(true) } }
+
+        field :ssn, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
+
+        field :preferred_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
+        # If true, employee is expected to self-onboard. If false, payroll admin is expected to enter in the employee's onboarding information
+        field :self_onboarding, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('self_onboarding') } }
+
+        sig { params(first_name: ::String, last_name: ::String, middle_initial: T.nilable(::String), email: T.nilable(::String), work_email: T.nilable(::String), date_of_birth: T.nilable(::Date), ssn: T.nilable(::String), preferred_first_name: T.nilable(::String), self_onboarding: T.nilable(T::Boolean)).void }
+        def initialize(first_name:, last_name:, middle_initial: nil, email: nil, work_email: nil, date_of_birth: nil, ssn: nil, preferred_first_name: nil, self_onboarding: nil)
+          @first_name = first_name
+          @last_name = last_name
+          @middle_initial = middle_initial
+          @email = email
+          @work_email = work_email
+          @date_of_birth = date_of_birth
+          @ssn = ssn
+          @preferred_first_name = preferred_first_name
+          @self_onboarding = self_onboarding
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @middle_initial == other.middle_initial
+          return false unless @email == other.email
+          return false unless @work_email == other.work_email
+          return false unless @date_of_birth == other.date_of_birth
+          return false unless @ssn == other.ssn
+          return false unless @preferred_first_name == other.preferred_first_name
+          return false unless @self_onboarding == other.self_onboarding
+          true
+        end
       end
     end
   end

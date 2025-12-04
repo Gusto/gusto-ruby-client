@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PaymentDirection - The direction of the payment
-    class PaymentDirection < T::Enum
-      enums do
-        CREDIT = new('credit')
-        DEBIT = new('debit')
+  module Models
+    module Shared
+    
+      # PaymentDirection - The direction of the payment
+      class PaymentDirection < T::Enum
+
+
+        enums do
+          CREDIT = new('credit')
+          DEBIT = new('debit')
+        end
       end
     end
   end

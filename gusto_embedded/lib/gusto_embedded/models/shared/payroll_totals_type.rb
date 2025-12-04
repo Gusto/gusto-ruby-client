@@ -5,82 +5,112 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The subtotals for the payroll.
-    class PayrollTotalsType < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The subtotals for the payroll.
+      class PayrollTotalsType
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The total additional earnings amount for the payroll.
-      field :additional_earnings, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_earnings') } }
-      # The total amount of company contributed benefits for the payroll.
-      field :benefits, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
-      # The total check amount for the payroll.
-      field :check_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
-      # The total child support debit for the payroll.
-      field :child_support_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support_debit') } }
-      # The total company debit for the payroll.
-      field :company_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_debit') } }
-      # The total amount of payroll taxes deferred for the payroll, such as allowed by the CARES act.
-      field :deferred_payroll_taxes, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deferred_payroll_taxes') } }
-      # The total amount of employee deducted benefits for the payroll.
-      field :employee_benefits_deductions, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_benefits_deductions') } }
-      # The total employee bonuses amount for the payroll.
-      field :employee_bonuses, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_bonuses') } }
-      # The total employee cash tips amount for the payroll.
-      field :employee_cash_tips, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_cash_tips') } }
-      # The total employee commissions amount for the payroll.
-      field :employee_commissions, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_commissions') } }
-      # The total employee paycheck tips amount for the payroll.
-      field :employee_paycheck_tips, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_paycheck_tips') } }
-      # The total amount of employee paid taxes for the payroll.
-      field :employee_taxes, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_taxes') } }
-      # The total amount of employer paid taxes for the payroll.
-      field :employer_taxes, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer_taxes') } }
-      # The gross pay amount for the payroll.
-      field :gross_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
-      # The total amount of imputed pay for the payroll.
-      field :imputed_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('imputed_pay') } }
-      # The net pay amount for the payroll.
-      field :net_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
-      # The total company net pay for the payroll.
-      field :net_pay_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay_debit') } }
-      # The total amount of deductions for the payroll.
-      field :other_deductions, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('other_deductions') } }
-      # The total owner's draw for the payroll.
-      field :owners_draw, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('owners_draw') } }
-      # The total reimbursement debit for the payroll.
-      field :reimbursement_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement_debit') } }
-      # The total reimbursements for the payroll.
-      field :reimbursements, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursements') } }
-      # The total tax debit for the payroll.
-      field :tax_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_debit') } }
+        # The total company debit for the payroll.
+        field :company_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_debit') } }
+        # The total company net pay for the payroll.
+        field :net_pay_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay_debit') } }
+        # The total tax debit for the payroll.
+        field :tax_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_debit') } }
+        # The total reimbursement debit for the payroll.
+        field :reimbursement_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement_debit') } }
+        # The total child support debit for the payroll.
+        field :child_support_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support_debit') } }
+        # The total reimbursements for the payroll.
+        field :reimbursements, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursements') } }
+        # The net pay amount for the payroll.
+        field :net_pay, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
+        # The gross pay amount for the payroll.
+        field :gross_pay, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
+        # The total employee bonuses amount for the payroll.
+        field :employee_bonuses, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_bonuses') } }
+        # The total employee commissions amount for the payroll.
+        field :employee_commissions, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_commissions') } }
+        # The total employee cash tips amount for the payroll.
+        field :employee_cash_tips, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_cash_tips') } }
+        # The total employee paycheck tips amount for the payroll.
+        field :employee_paycheck_tips, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_paycheck_tips') } }
+        # The total additional earnings amount for the payroll.
+        field :additional_earnings, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_earnings') } }
+        # The total owner's draw for the payroll.
+        field :owners_draw, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('owners_draw') } }
+        # The total check amount for the payroll.
+        field :check_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
+        # The total amount of employer paid taxes for the payroll.
+        field :employer_taxes, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer_taxes') } }
+        # The total amount of employee paid taxes for the payroll.
+        field :employee_taxes, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_taxes') } }
+        # The total amount of company contributed benefits for the payroll.
+        field :benefits, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
+        # The total amount of employee deducted benefits for the payroll.
+        field :employee_benefits_deductions, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_benefits_deductions') } }
+        # The total amount of imputed pay for the payroll.
+        field :imputed_pay, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('imputed_pay') } }
+        # The total amount of payroll taxes deferred for the payroll, such as allowed by the CARES act.
+        field :deferred_payroll_taxes, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deferred_payroll_taxes') } }
+        # The total amount of deductions for the payroll.
+        field :other_deductions, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('other_deductions') } }
 
+        sig { params(company_debit: T.nilable(::String), net_pay_debit: T.nilable(::String), tax_debit: T.nilable(::String), reimbursement_debit: T.nilable(::String), child_support_debit: T.nilable(::String), reimbursements: T.nilable(::String), net_pay: T.nilable(::String), gross_pay: T.nilable(::String), employee_bonuses: T.nilable(::String), employee_commissions: T.nilable(::String), employee_cash_tips: T.nilable(::String), employee_paycheck_tips: T.nilable(::String), additional_earnings: T.nilable(::String), owners_draw: T.nilable(::String), check_amount: T.nilable(::String), employer_taxes: T.nilable(::String), employee_taxes: T.nilable(::String), benefits: T.nilable(::String), employee_benefits_deductions: T.nilable(::String), imputed_pay: T.nilable(::String), deferred_payroll_taxes: T.nilable(::String), other_deductions: T.nilable(::String)).void }
+        def initialize(company_debit: nil, net_pay_debit: nil, tax_debit: nil, reimbursement_debit: nil, child_support_debit: nil, reimbursements: nil, net_pay: nil, gross_pay: nil, employee_bonuses: nil, employee_commissions: nil, employee_cash_tips: nil, employee_paycheck_tips: nil, additional_earnings: nil, owners_draw: nil, check_amount: nil, employer_taxes: nil, employee_taxes: nil, benefits: nil, employee_benefits_deductions: nil, imputed_pay: nil, deferred_payroll_taxes: nil, other_deductions: nil)
+          @company_debit = company_debit
+          @net_pay_debit = net_pay_debit
+          @tax_debit = tax_debit
+          @reimbursement_debit = reimbursement_debit
+          @child_support_debit = child_support_debit
+          @reimbursements = reimbursements
+          @net_pay = net_pay
+          @gross_pay = gross_pay
+          @employee_bonuses = employee_bonuses
+          @employee_commissions = employee_commissions
+          @employee_cash_tips = employee_cash_tips
+          @employee_paycheck_tips = employee_paycheck_tips
+          @additional_earnings = additional_earnings
+          @owners_draw = owners_draw
+          @check_amount = check_amount
+          @employer_taxes = employer_taxes
+          @employee_taxes = employee_taxes
+          @benefits = benefits
+          @employee_benefits_deductions = employee_benefits_deductions
+          @imputed_pay = imputed_pay
+          @deferred_payroll_taxes = deferred_payroll_taxes
+          @other_deductions = other_deductions
+        end
 
-      sig { params(additional_earnings: T.nilable(::String), benefits: T.nilable(::String), check_amount: T.nilable(::String), child_support_debit: T.nilable(::String), company_debit: T.nilable(::String), deferred_payroll_taxes: T.nilable(::String), employee_benefits_deductions: T.nilable(::String), employee_bonuses: T.nilable(::String), employee_cash_tips: T.nilable(::String), employee_commissions: T.nilable(::String), employee_paycheck_tips: T.nilable(::String), employee_taxes: T.nilable(::String), employer_taxes: T.nilable(::String), gross_pay: T.nilable(::String), imputed_pay: T.nilable(::String), net_pay: T.nilable(::String), net_pay_debit: T.nilable(::String), other_deductions: T.nilable(::String), owners_draw: T.nilable(::String), reimbursement_debit: T.nilable(::String), reimbursements: T.nilable(::String), tax_debit: T.nilable(::String)).void }
-      def initialize(additional_earnings: nil, benefits: nil, check_amount: nil, child_support_debit: nil, company_debit: nil, deferred_payroll_taxes: nil, employee_benefits_deductions: nil, employee_bonuses: nil, employee_cash_tips: nil, employee_commissions: nil, employee_paycheck_tips: nil, employee_taxes: nil, employer_taxes: nil, gross_pay: nil, imputed_pay: nil, net_pay: nil, net_pay_debit: nil, other_deductions: nil, owners_draw: nil, reimbursement_debit: nil, reimbursements: nil, tax_debit: nil)
-        @additional_earnings = additional_earnings
-        @benefits = benefits
-        @check_amount = check_amount
-        @child_support_debit = child_support_debit
-        @company_debit = company_debit
-        @deferred_payroll_taxes = deferred_payroll_taxes
-        @employee_benefits_deductions = employee_benefits_deductions
-        @employee_bonuses = employee_bonuses
-        @employee_cash_tips = employee_cash_tips
-        @employee_commissions = employee_commissions
-        @employee_paycheck_tips = employee_paycheck_tips
-        @employee_taxes = employee_taxes
-        @employer_taxes = employer_taxes
-        @gross_pay = gross_pay
-        @imputed_pay = imputed_pay
-        @net_pay = net_pay
-        @net_pay_debit = net_pay_debit
-        @other_deductions = other_deductions
-        @owners_draw = owners_draw
-        @reimbursement_debit = reimbursement_debit
-        @reimbursements = reimbursements
-        @tax_debit = tax_debit
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_debit == other.company_debit
+          return false unless @net_pay_debit == other.net_pay_debit
+          return false unless @tax_debit == other.tax_debit
+          return false unless @reimbursement_debit == other.reimbursement_debit
+          return false unless @child_support_debit == other.child_support_debit
+          return false unless @reimbursements == other.reimbursements
+          return false unless @net_pay == other.net_pay
+          return false unless @gross_pay == other.gross_pay
+          return false unless @employee_bonuses == other.employee_bonuses
+          return false unless @employee_commissions == other.employee_commissions
+          return false unless @employee_cash_tips == other.employee_cash_tips
+          return false unless @employee_paycheck_tips == other.employee_paycheck_tips
+          return false unless @additional_earnings == other.additional_earnings
+          return false unless @owners_draw == other.owners_draw
+          return false unless @check_amount == other.check_amount
+          return false unless @employer_taxes == other.employer_taxes
+          return false unless @employee_taxes == other.employee_taxes
+          return false unless @benefits == other.benefits
+          return false unless @employee_benefits_deductions == other.employee_benefits_deductions
+          return false unless @imputed_pay == other.imputed_pay
+          return false unless @deferred_payroll_taxes == other.deferred_payroll_taxes
+          return false unless @other_deductions == other.other_deductions
+          true
+        end
       end
     end
   end

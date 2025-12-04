@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # An employee's I-9 verification document option based on the authorization status
-    class I9AuthorizationDocumentOption < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # An employee's I-9 verification document option based on the authorization status
+      class I9AuthorizationDocumentOption
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Whether the document is a common choice for I-9 verification
-      field :common_choice, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('common_choice') } }
-      # The document option's description
-      field :description, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # The document option's document titles
-      field :document_title, T::Array[::String], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_title') } }
-      # The document option's document type
-      field :document_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_type') } }
-      # The document option's section in the list of acceptable documents on the Form I-9
-      field :section, ::GustoEmbedded::Shared::Section, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('section'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Section, false) } }
+        # The document option's section in the list of acceptable documents on the Form I-9
+        field :section, Models::Shared::Section, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('section'), required: true, 'decoder': Utils.enum_from_string(Models::Shared::Section, false) } }
+        # The document option's description
+        field :description, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description'), required: true } }
+        # The document option's document type
+        field :document_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_type'), required: true } }
+        # The document option's document titles
+        field :document_title, Crystalline::Array.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_title'), required: true } }
+        # Whether the document is a common choice for I-9 verification
+        field :common_choice, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('common_choice'), required: true } }
 
+        sig { params(section: Models::Shared::Section, description: ::String, document_type: ::String, document_title: T::Array[::String], common_choice: T::Boolean).void }
+        def initialize(section:, description:, document_type:, document_title:, common_choice:)
+          @section = section
+          @description = description
+          @document_type = document_type
+          @document_title = document_title
+          @common_choice = common_choice
+        end
 
-      sig { params(common_choice: T::Boolean, description: ::String, document_title: T::Array[::String], document_type: ::String, section: ::GustoEmbedded::Shared::Section).void }
-      def initialize(common_choice: nil, description: nil, document_title: nil, document_type: nil, section: nil)
-        @common_choice = common_choice
-        @description = description
-        @document_title = document_title
-        @document_type = document_type
-        @section = section
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @section == other.section
+          return false unless @description == other.description
+          return false unless @document_type == other.document_type
+          return false unless @document_title == other.document_title
+          return false unless @common_choice == other.common_choice
+          true
+        end
       end
     end
   end

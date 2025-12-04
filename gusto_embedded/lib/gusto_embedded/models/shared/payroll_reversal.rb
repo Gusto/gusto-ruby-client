@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class PayrollReversal < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class PayrollReversal
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Timestamp of when the reversal was approved.
-      field :approved_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('approved_at') } }
-      # Category chosen by the admin who requested the reversal.
-      field :category, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
-      # A reason provided by the admin who created the reversal.
-      field :reason, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reason') } }
-      # The UUID of the payroll where the reversal was applied.
-      field :reversal_payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reversal_payroll_uuid') } }
-      # Array of affected employee UUIDs.
-      field :reversed_employee_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reversed_employee_uuids') } }
-      # The UUID for the payroll run being reversed.
-      field :reversed_payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reversed_payroll_uuid') } }
+        # The UUID for the payroll run being reversed.
+        field :reversed_payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reversed_payroll_uuid') } }
+        # The UUID of the payroll where the reversal was applied.
+        field :reversal_payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reversal_payroll_uuid') } }
+        # A reason provided by the admin who created the reversal.
+        field :reason, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reason') } }
+        # Category chosen by the admin who requested the reversal.
+        field :category, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
+        # Array of affected employee UUIDs.
+        field :reversed_employee_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reversed_employee_uuids') } }
+        # Timestamp of when the reversal was approved.
+        field :approved_at, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('approved_at') } }
 
+        sig { params(reversed_payroll_uuid: T.nilable(::String), reversal_payroll_uuid: T.nilable(::String), reason: T.nilable(::String), category: T.nilable(::String), reversed_employee_uuids: T.nilable(T::Array[::String]), approved_at: T.nilable(::String)).void }
+        def initialize(reversed_payroll_uuid: nil, reversal_payroll_uuid: nil, reason: nil, category: nil, reversed_employee_uuids: nil, approved_at: nil)
+          @reversed_payroll_uuid = reversed_payroll_uuid
+          @reversal_payroll_uuid = reversal_payroll_uuid
+          @reason = reason
+          @category = category
+          @reversed_employee_uuids = reversed_employee_uuids
+          @approved_at = approved_at
+        end
 
-      sig { params(approved_at: T.nilable(::String), category: T.nilable(::String), reason: T.nilable(::String), reversal_payroll_uuid: T.nilable(::String), reversed_employee_uuids: T.nilable(T::Array[::String]), reversed_payroll_uuid: T.nilable(::String)).void }
-      def initialize(approved_at: nil, category: nil, reason: nil, reversal_payroll_uuid: nil, reversed_employee_uuids: nil, reversed_payroll_uuid: nil)
-        @approved_at = approved_at
-        @category = category
-        @reason = reason
-        @reversal_payroll_uuid = reversal_payroll_uuid
-        @reversed_employee_uuids = reversed_employee_uuids
-        @reversed_payroll_uuid = reversed_payroll_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @reversed_payroll_uuid == other.reversed_payroll_uuid
+          return false unless @reversal_payroll_uuid == other.reversal_payroll_uuid
+          return false unless @reason == other.reason
+          return false unless @category == other.category
+          return false unless @reversed_employee_uuids == other.reversed_employee_uuids
+          return false unless @approved_at == other.approved_at
+          true
+        end
       end
     end
   end

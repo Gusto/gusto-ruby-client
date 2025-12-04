@@ -3,9 +3,8 @@
 
 ## Fields
 
-| Field                   | Type                    | Required                | Description             |
-| ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| `name`                  | *T.nilable(::String)*   | :heavy_minus_sign:      | N/A                     |
-| `employee_deduction`    | *T.nilable(::Float)*    | :heavy_minus_sign:      | N/A                     |
-| `company_contribution`  | *T.nilable(::Float)*    | :heavy_minus_sign:      | N/A                     |
-| `imputed`               | *T.nilable(T::Boolean)* | :heavy_minus_sign:      | N/A                     |
+| Field                         | Type                          | Required                      | Description                   |
+| ----------------------------- | ----------------------------- | ----------------------------- | ----------------------------- |
+| `benefit_id`                  | *T.nilable(::Integer)*        | :heavy_minus_sign:            | N/A                           |
+| `company_contribution_amount` | *T.nilable(::String)*         | :heavy_minus_sign:            | N/A                           |
+| `employee_deduction_amount`   | *T.nilable(::String)*         | :heavy_minus_sign:            | N/A                           |

@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Information about the token owner
-    class ResourceOwner < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Information about the token owner
+      class ResourceOwner
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :type, ::GustoEmbedded::Operations::GetV1TokenInfoType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::GetV1TokenInfoType, false) } }
-      # UUID of resource owner
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        field :type, Models::Operations::GetV1TokenInfoType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': Utils.enum_from_string(Models::Operations::GetV1TokenInfoType, false) } }
+        # UUID of resource owner
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
 
+        sig { params(type: Models::Operations::GetV1TokenInfoType, uuid: ::String).void }
+        def initialize(type:, uuid:)
+          @type = type
+          @uuid = uuid
+        end
 
-      sig { params(type: ::GustoEmbedded::Operations::GetV1TokenInfoType, uuid: ::String).void }
-      def initialize(type: nil, uuid: nil)
-        @type = type
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @uuid == other.uuid
+          true
+        end
       end
     end
   end

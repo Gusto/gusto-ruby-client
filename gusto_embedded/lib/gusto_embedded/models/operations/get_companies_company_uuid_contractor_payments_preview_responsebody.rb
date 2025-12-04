@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # OK
-    class GetCompaniesCompanyUuidContractorPaymentsPreviewResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # OK
+      class GetCompaniesCompanyUuidContractorPaymentsPreviewResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The calculated debit date. If the payment method is Direct Deposit, the debit date will account for the company's ACH speed. If the payment method is Check, the debit date will be the same as the check date.
-      field :expected_debit_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expected_debit_date') } }
+        # The calculated debit date. If the payment method is Direct Deposit, the debit date will account for the company's ACH speed. If the payment method is Check, the debit date will be the same as the check date.
+        field :expected_debit_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expected_debit_date') } }
 
+        sig { params(expected_debit_date: T.nilable(::String)).void }
+        def initialize(expected_debit_date: nil)
+          @expected_debit_date = expected_debit_date
+        end
 
-      sig { params(expected_debit_date: T.nilable(::String)).void }
-      def initialize(expected_debit_date: nil)
-        @expected_debit_date = expected_debit_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @expected_debit_date == other.expected_debit_date
+          true
+        end
       end
     end
   end

@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1TaxLiabilitiesRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1TaxLiabilitiesRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :liability_selections, T.nilable(T::Array[::GustoEmbedded::Operations::LiabilitySelections]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('liability_selections') } }
+        field :liability_selections, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::LiabilitySelections)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('liability_selections') } }
 
+        sig { params(liability_selections: T.nilable(T::Array[Models::Operations::LiabilitySelections])).void }
+        def initialize(liability_selections: nil)
+          @liability_selections = liability_selections
+        end
 
-      sig { params(liability_selections: T.nilable(T::Array[::GustoEmbedded::Operations::LiabilitySelections])).void }
-      def initialize(liability_selections: nil)
-        @liability_selections = liability_selections
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @liability_selections == other.liability_selections
+          true
+        end
       end
     end
   end

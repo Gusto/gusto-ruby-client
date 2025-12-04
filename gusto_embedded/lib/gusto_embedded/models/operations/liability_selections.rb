@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class LiabilitySelections < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class LiabilitySelections
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the last unpaid external payroll uuid. It should be null when the full amount of tax liability has been paid.
-      field :last_unpaid_external_payroll_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_unpaid_external_payroll_uuid') } }
-      # The ID of the tax.
-      field :tax_id, ::Integer, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_id') } }
-      # A selection of unpaid liability amount.
-      field :unpaid_liability_amount, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unpaid_liability_amount') } }
+        # The ID of the tax.
+        field :tax_id, ::Integer, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_id'), required: true } }
+        # A selection of unpaid liability amount.
+        field :unpaid_liability_amount, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unpaid_liability_amount'), required: true } }
+        # The UUID of the last unpaid external payroll uuid. It should be null when the full amount of tax liability has been paid.
+        field :last_unpaid_external_payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_unpaid_external_payroll_uuid'), required: true } }
 
+        sig { params(tax_id: ::Integer, unpaid_liability_amount: ::Float, last_unpaid_external_payroll_uuid: T.nilable(::String)).void }
+        def initialize(tax_id:, unpaid_liability_amount:, last_unpaid_external_payroll_uuid: nil)
+          @tax_id = tax_id
+          @unpaid_liability_amount = unpaid_liability_amount
+          @last_unpaid_external_payroll_uuid = last_unpaid_external_payroll_uuid
+        end
 
-      sig { params(last_unpaid_external_payroll_uuid: ::String, tax_id: ::Integer, unpaid_liability_amount: ::Float).void }
-      def initialize(last_unpaid_external_payroll_uuid: nil, tax_id: nil, unpaid_liability_amount: nil)
-        @last_unpaid_external_payroll_uuid = last_unpaid_external_payroll_uuid
-        @tax_id = tax_id
-        @unpaid_liability_amount = unpaid_liability_amount
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @tax_id == other.tax_id
+          return false unless @unpaid_liability_amount == other.unpaid_liability_amount
+          return false unless @last_unpaid_external_payroll_uuid == other.last_unpaid_external_payroll_uuid
+          true
+        end
       end
     end
   end

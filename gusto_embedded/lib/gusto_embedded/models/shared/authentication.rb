@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class Authentication < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class Authentication
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # A new access token that can be used for subsequent authenticated requests
-      field :access_token, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('access_token') } }
-      # Datetime for when the new access token is created.
-      field :created_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('created_at') } }
-      # The TTL of this token. After this amount of time, you must hit the refresh token endpoint to continue making authenticated requests.
-      field :expires_in, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expires_in') } }
-      # A token that must be passed to the refresh token endpoint to get a new authenticated token.
-      field :refresh_token, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('refresh_token') } }
-      # All of the scopes for which the access token provides access.
-      field :scope, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('scope') } }
-      # The literal string 'bearer'
-      field :token_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('token_type') } }
+        # A new access token that can be used for subsequent authenticated requests
+        field :access_token, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('access_token') } }
+        # A token that must be passed to the refresh token endpoint to get a new authenticated token.
+        field :refresh_token, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('refresh_token') } }
+        # Datetime for when the new access token is created.
+        field :created_at, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('created_at') } }
+        # All of the scopes for which the access token provides access.
+        field :scope, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('scope') } }
+        # The literal string 'bearer'
+        field :token_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('token_type') } }
+        # The TTL of this token. After this amount of time, you must hit the refresh token endpoint to continue making authenticated requests.
+        field :expires_in, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expires_in') } }
 
+        sig { params(access_token: T.nilable(::String), refresh_token: T.nilable(::String), created_at: T.nilable(::String), scope: T.nilable(::String), token_type: T.nilable(::String), expires_in: T.nilable(::Float)).void }
+        def initialize(access_token: nil, refresh_token: nil, created_at: nil, scope: nil, token_type: 'bearer', expires_in: 7200.0)
+          @access_token = access_token
+          @refresh_token = refresh_token
+          @created_at = created_at
+          @scope = scope
+          @token_type = token_type
+          @expires_in = expires_in
+        end
 
-      sig { params(access_token: T.nilable(::String), created_at: T.nilable(::String), expires_in: T.nilable(::Float), refresh_token: T.nilable(::String), scope: T.nilable(::String), token_type: T.nilable(::String)).void }
-      def initialize(access_token: nil, created_at: nil, expires_in: nil, refresh_token: nil, scope: nil, token_type: nil)
-        @access_token = access_token
-        @created_at = created_at
-        @expires_in = expires_in
-        @refresh_token = refresh_token
-        @scope = scope
-        @token_type = token_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @access_token == other.access_token
+          return false unless @refresh_token == other.refresh_token
+          return false unless @created_at == other.created_at
+          return false unless @scope == other.scope
+          return false unless @token_type == other.token_type
+          return false unless @expires_in == other.expires_in
+          true
+        end
       end
     end
   end

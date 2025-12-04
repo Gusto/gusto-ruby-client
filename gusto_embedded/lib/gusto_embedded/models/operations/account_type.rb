@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # AccountType - The bank account type
-    class AccountType < T::Enum
-      enums do
-        CHECKING = new('Checking')
-        SAVINGS = new('Savings')
+  module Models
+    module Operations
+    
+
+      class AccountType < T::Enum
+
+
+        enums do
+          CHECKING = new('Checking')
+          SAVINGS = new('Savings')
+        end
       end
     end
   end

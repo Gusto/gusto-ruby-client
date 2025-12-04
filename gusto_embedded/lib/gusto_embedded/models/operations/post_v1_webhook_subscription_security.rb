@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1WebhookSubscriptionSecurity < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1WebhookSubscriptionSecurity
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :system_access_auth, ::String, { 'security': { 'scheme': true, 'type': 'http', 'sub_type': 'bearer', 'field_name': 'Authorization' } }
+        field :system_access_auth, ::String, { 'security': { 'scheme': true, 'type': 'http', 'sub_type': 'bearer', 'field_name': 'Authorization' } }
 
+        sig { params(system_access_auth: ::String).void }
+        def initialize(system_access_auth:)
+          @system_access_auth = system_access_auth
+        end
 
-      sig { params(system_access_auth: ::String).void }
-      def initialize(system_access_auth: nil)
-        @system_access_auth = system_access_auth
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @system_access_auth == other.system_access_auth
+          true
+        end
       end
     end
   end

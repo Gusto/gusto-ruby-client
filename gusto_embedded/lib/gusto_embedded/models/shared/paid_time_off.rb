@@ -5,46 +5,64 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of paid time off in Gusto.
-    class PaidTimeOff < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of paid time off in Gusto.
+      class PaidTimeOff
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The number of accrual units accrued.
-      field :accrual_balance, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_balance') } }
-      # The accrual method of the time off policy
-      field :accrual_method, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_method') } }
-      # The frequency at which the PTO type is accrued.
-      field :accrual_period, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_period') } }
-      # The number of accrual units accrued per accrual period.
-      field :accrual_rate, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_rate') } }
-      # The unit the PTO type is accrued in.
-      field :accrual_unit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_unit') } }
-      # The maximum number of accrual units allowed. A null value signifies no maximum.
-      field :maximum_accrual_balance, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('maximum_accrual_balance') } }
-      # The name of the paid time off type.
-      field :name, T.nilable(::GustoEmbedded::Shared::Name), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Name, true) } }
-      # Whether the accrual balance is paid to the employee upon termination.
-      field :paid_at_termination, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_at_termination') } }
-      # The name of the time off policy.
-      field :policy_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('policy_name') } }
-      # The UUID of the time off policy.
-      field :policy_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('policy_uuid') } }
+        # Whether the accrual balance is paid to the employee upon termination.
+        field :paid_at_termination, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_at_termination') } }
+        # The name of the paid time off type.
+        field :name, Crystalline::Nilable.new(Models::Shared::Name), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name'), 'decoder': Utils.enum_from_string(Models::Shared::Name, true) } }
+        # The name of the time off policy.
+        field :policy_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('policy_name') } }
+        # The UUID of the time off policy.
+        field :policy_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('policy_uuid') } }
+        # The unit the PTO type is accrued in.
+        field :accrual_unit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_unit') } }
+        # The number of accrual units accrued per accrual period.
+        field :accrual_rate, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_rate') } }
+        # The accrual method of the time off policy
+        field :accrual_method, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_method') } }
+        # The frequency at which the PTO type is accrued.
+        field :accrual_period, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_period') } }
+        # The number of accrual units accrued.
+        field :accrual_balance, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('accrual_balance') } }
+        # The maximum number of accrual units allowed. A null value signifies no maximum.
+        field :maximum_accrual_balance, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('maximum_accrual_balance') } }
 
+        sig { params(paid_at_termination: T.nilable(T::Boolean), name: T.nilable(Models::Shared::Name), policy_name: T.nilable(::String), policy_uuid: T.nilable(::String), accrual_unit: T.nilable(::String), accrual_rate: T.nilable(::String), accrual_method: T.nilable(::String), accrual_period: T.nilable(::String), accrual_balance: T.nilable(::String), maximum_accrual_balance: T.nilable(::String)).void }
+        def initialize(paid_at_termination: nil, name: nil, policy_name: nil, policy_uuid: nil, accrual_unit: nil, accrual_rate: nil, accrual_method: nil, accrual_period: nil, accrual_balance: nil, maximum_accrual_balance: nil)
+          @paid_at_termination = paid_at_termination
+          @name = name
+          @policy_name = policy_name
+          @policy_uuid = policy_uuid
+          @accrual_unit = accrual_unit
+          @accrual_rate = accrual_rate
+          @accrual_method = accrual_method
+          @accrual_period = accrual_period
+          @accrual_balance = accrual_balance
+          @maximum_accrual_balance = maximum_accrual_balance
+        end
 
-      sig { params(accrual_balance: T.nilable(::String), accrual_method: T.nilable(::String), accrual_period: T.nilable(::String), accrual_rate: T.nilable(::String), accrual_unit: T.nilable(::String), maximum_accrual_balance: T.nilable(::String), name: T.nilable(::GustoEmbedded::Shared::Name), paid_at_termination: T.nilable(T::Boolean), policy_name: T.nilable(::String), policy_uuid: T.nilable(::String)).void }
-      def initialize(accrual_balance: nil, accrual_method: nil, accrual_period: nil, accrual_rate: nil, accrual_unit: nil, maximum_accrual_balance: nil, name: nil, paid_at_termination: nil, policy_name: nil, policy_uuid: nil)
-        @accrual_balance = accrual_balance
-        @accrual_method = accrual_method
-        @accrual_period = accrual_period
-        @accrual_rate = accrual_rate
-        @accrual_unit = accrual_unit
-        @maximum_accrual_balance = maximum_accrual_balance
-        @name = name
-        @paid_at_termination = paid_at_termination
-        @policy_name = policy_name
-        @policy_uuid = policy_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @paid_at_termination == other.paid_at_termination
+          return false unless @name == other.name
+          return false unless @policy_name == other.policy_name
+          return false unless @policy_uuid == other.policy_uuid
+          return false unless @accrual_unit == other.accrual_unit
+          return false unless @accrual_rate == other.accrual_rate
+          return false unless @accrual_method == other.accrual_method
+          return false unless @accrual_period == other.accrual_period
+          return false unless @accrual_balance == other.accrual_balance
+          return false unless @maximum_accrual_balance == other.maximum_accrual_balance
+          true
+        end
       end
     end
   end

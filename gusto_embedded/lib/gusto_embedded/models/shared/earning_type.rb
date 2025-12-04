@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class EarningType < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class EarningType
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The ID of the earning type.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The name of the earning type.
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The ID of the earning type.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The name of the earning type.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
 
+        sig { params(uuid: ::String, name: T.nilable(::String)).void }
+        def initialize(uuid:, name: nil)
+          @uuid = uuid
+          @name = name
+        end
 
-      sig { params(uuid: ::String, name: T.nilable(::String)).void }
-      def initialize(uuid: nil, name: nil)
-        @uuid = uuid
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @name == other.name
+          true
+        end
       end
     end
   end

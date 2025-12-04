@@ -5,12 +5,16 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # OwnerType - The owner type of the bank account
-    class OwnerType < T::Enum
-      enums do
-        COMPANY = new('Company')
+  module Models
+    module Operations
+    
+      # OwnerType - The owner type of the bank account
+      class OwnerType < T::Enum
+
+
+        enums do
+          COMPANY = new('Company')
+        end
       end
     end
   end

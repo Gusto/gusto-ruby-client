@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The user's email address on Gusto. You can retrieve the user's email via company's `/admins`, `/employees`, `/signatories`, and `/contractors` endpoints.
-      field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # The user's email address on Gusto. You can retrieve the user's email via company's `/admins`, `/employees`, `/signatories`, and `/contractors` endpoints.
+        field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email'), required: true } }
 
+        sig { params(email: ::String).void }
+        def initialize(email:)
+          @email = email
+        end
 
-      sig { params(email: ::String).void }
-      def initialize(email: nil)
-        @email = email
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @email == other.email
+          true
+        end
       end
     end
   end

@@ -5,40 +5,56 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPayments < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :bonus, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
-
-      field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
-
-      field :date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date') } }
-
-      field :hourly_rate, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_rate') } }
-
-      field :hours, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
-
-      field :payment_method, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method') } }
-
-      field :reimbursement, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
-
-      field :wage, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+      class GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPayments
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(bonus: T.nilable(::Integer), contractor_uuid: T.nilable(::String), date: T.nilable(::String), hourly_rate: T.nilable(::Integer), hours: T.nilable(::Integer), payment_method: T.nilable(::String), reimbursement: T.nilable(::Integer), wage: T.nilable(::Integer)).void }
-      def initialize(bonus: nil, contractor_uuid: nil, date: nil, hourly_rate: nil, hours: nil, payment_method: nil, reimbursement: nil, wage: nil)
-        @bonus = bonus
-        @contractor_uuid = contractor_uuid
-        @date = date
-        @hourly_rate = hourly_rate
-        @hours = hours
-        @payment_method = payment_method
-        @reimbursement = reimbursement
-        @wage = wage
+        field :bonus, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
+
+        field :contractor_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
+
+        field :date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date') } }
+
+        field :hourly_rate, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_rate') } }
+
+        field :hours, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+
+        field :payment_method, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method') } }
+
+        field :reimbursement, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
+
+        field :wage, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+
+        sig { params(bonus: T.nilable(::Integer), contractor_uuid: T.nilable(::String), date: T.nilable(::String), hourly_rate: T.nilable(::Integer), hours: T.nilable(::Integer), payment_method: T.nilable(::String), reimbursement: T.nilable(::Integer), wage: T.nilable(::Integer)).void }
+        def initialize(bonus: nil, contractor_uuid: nil, date: nil, hourly_rate: nil, hours: nil, payment_method: nil, reimbursement: nil, wage: nil)
+          @bonus = bonus
+          @contractor_uuid = contractor_uuid
+          @date = date
+          @hourly_rate = hourly_rate
+          @hours = hours
+          @payment_method = payment_method
+          @reimbursement = reimbursement
+          @wage = wage
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @bonus == other.bonus
+          return false unless @contractor_uuid == other.contractor_uuid
+          return false unless @date == other.date
+          return false unless @hourly_rate == other.hourly_rate
+          return false unless @hours == other.hours
+          return false unless @payment_method == other.payment_method
+          return false unless @reimbursement == other.reimbursement
+          return false unless @wage == other.wage
+          true
+        end
       end
     end
   end

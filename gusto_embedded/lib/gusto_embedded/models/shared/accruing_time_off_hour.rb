@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of an unprocessed termination pay period.
-    class AccruingTimeOffHour < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of an unprocessed termination pay period.
+      class AccruingTimeOffHour
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Hours accrued during this pay period.
-      field :hours, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
-      # A unique identifier of the time off policy.
-      field :time_off_policy_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('time_off_policy_uuid') } }
+        # A unique identifier of the time off policy.
+        field :time_off_policy_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('time_off_policy_uuid') } }
+        # Hours accrued during this pay period.
+        field :hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
 
+        sig { params(time_off_policy_uuid: T.nilable(::String), hours: T.nilable(::String)).void }
+        def initialize(time_off_policy_uuid: nil, hours: nil)
+          @time_off_policy_uuid = time_off_policy_uuid
+          @hours = hours
+        end
 
-      sig { params(hours: T.nilable(::String), time_off_policy_uuid: T.nilable(::String)).void }
-      def initialize(hours: nil, time_off_policy_uuid: nil)
-        @hours = hours
-        @time_off_policy_uuid = time_off_policy_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @time_off_policy_uuid == other.time_off_policy_uuid
+          return false unless @hours == other.hours
+          true
+        end
       end
     end
   end

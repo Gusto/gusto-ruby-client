@@ -19,22 +19,22 @@ scope: `invoices:read`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-invoices-invoice-period" method="get" path="/v1/invoices/{invoice_period}" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new
 
-req = ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodRequest.new(
-  invoice_period: "2020-01",
+req = Models::Operations::GetInvoicesInvoicePeriodRequest.new(
+  invoice_period: '2020-01',
 )
 
-res = s.invoices.get(security: ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodSecurity.new(
-    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), req, ::GustoEmbedded::Operations::GetInvoicesInvoicePeriodSecurity.new(
-    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+res = s.invoices.get(request: req, security: Models::Operations::GetInvoicesInvoicePeriodSecurity.new(
+    system_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
   ))
 
-if ! res.invoice_data.nil?
+unless res.invoice_data.nil?
   # handle response
 end
 
@@ -42,12 +42,18 @@ end
 
 ### Parameters
 
-| Parameter                                                                                                                    | Type                                                                                                                         | Required                                                                                                                     | Description                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                    | [::GustoEmbedded::Operations::GetInvoicesInvoicePeriodRequest](../../models/operations/getinvoicesinvoiceperiodrequest.md)   | :heavy_check_mark:                                                                                                           | The request object to use for the request.                                                                                   |
-| `security`                                                                                                                   | [::GustoEmbedded::Operations::GetInvoicesInvoicePeriodSecurity](../../models/operations/getinvoicesinvoiceperiodsecurity.md) | :heavy_check_mark:                                                                                                           | The security requirements to use for the request.                                                                            |
+| Parameter                                                                                                           | Type                                                                                                                | Required                                                                                                            | Description                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                           | [Models::Operations::GetInvoicesInvoicePeriodRequest](../../models/operations/getinvoicesinvoiceperiodrequest.md)   | :heavy_check_mark:                                                                                                  | The request object to use for the request.                                                                          |
+| `security`                                                                                                          | [Models::Operations::GetInvoicesInvoicePeriodSecurity](../../models/operations/getinvoicesinvoiceperiodsecurity.md) | :heavy_check_mark:                                                                                                  | The security requirements to use for the request.                                                                   |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetInvoicesInvoicePeriodResponse)](../../models/operations/getinvoicesinvoiceperiodresponse.md)**
+**[T.nilable(Models::Operations::GetInvoicesInvoicePeriodResponse)](../../models/operations/getinvoicesinvoiceperiodresponse.md)**
 
+### Errors
+
+| Error Type                                     | Status Code                                    | Content Type                                   |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 422                                            | application/json                               |
+| Errors::APIError                               | 4XX, 5XX                                       | \*/\*                                          |

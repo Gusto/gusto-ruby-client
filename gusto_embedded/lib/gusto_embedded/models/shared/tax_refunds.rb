@@ -5,24 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Describes the taxes which are refundable to the company for this suspension. These may be refunded, or paid
-    # by Gusto, depending on the value in `reconcile_tax_method`.
-    # 
-    class TaxRefunds < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
 
-      # Dollar amount.
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # What kind of tax this is.
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+      class TaxRefunds
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # Dollar amount.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        # What kind of tax this is.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
 
-      sig { params(amount: T.nilable(::String), description: T.nilable(::String)).void }
-      def initialize(amount: nil, description: nil)
-        @amount = amount
-        @description = description
+        sig { params(amount: T.nilable(::String), description: T.nilable(::String)).void }
+        def initialize(amount: nil, description: nil)
+          @amount = amount
+          @description = description
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @amount == other.amount
+          return false unless @description == other.description
+          true
+        end
       end
     end
   end

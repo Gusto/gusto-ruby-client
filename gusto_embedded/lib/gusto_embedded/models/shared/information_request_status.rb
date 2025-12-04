@@ -5,14 +5,18 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # InformationRequestStatus - The status of the information request
-    class InformationRequestStatus < T::Enum
-      enums do
-        PENDING_RESPONSE = new('pending_response')
-        PENDING_REVIEW = new('pending_review')
-        APPROVED = new('approved')
+  module Models
+    module Shared
+    
+      # InformationRequestStatus - The status of the information request
+      class InformationRequestStatus < T::Enum
+
+
+        enums do
+          PENDING_RESPONSE = new('pending_response')
+          PENDING_REVIEW = new('pending_review')
+          APPROVED = new('approved')
+        end
       end
     end
   end

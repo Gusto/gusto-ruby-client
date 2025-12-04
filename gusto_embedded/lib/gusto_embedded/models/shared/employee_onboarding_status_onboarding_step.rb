@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class EmployeeOnboardingStatusOnboardingStep < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class EmployeeOnboardingStatusOnboardingStep
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # When true, this step has been completed.
-      field :completed, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('completed') } }
-      # String identifier for the onboarding step.
-      field :id, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id') } }
-      # When true, this step is required.
-      field :required, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
-      # A list of onboarding steps required to begin this step.
-      field :requirements, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirements') } }
-      # User-friendly description of the onboarding step.
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # User-friendly description of the onboarding step.
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # String identifier for the onboarding step.
+        field :id, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id') } }
+        # When true, this step is required.
+        field :required, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
+        # When true, this step has been completed.
+        field :completed, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('completed') } }
+        # A list of onboarding steps required to begin this step.
+        field :requirements, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirements') } }
 
+        sig { params(title: T.nilable(::String), id: T.nilable(::String), required: T.nilable(T::Boolean), completed: T.nilable(T::Boolean), requirements: T.nilable(T::Array[::String])).void }
+        def initialize(title: nil, id: nil, required: nil, completed: nil, requirements: nil)
+          @title = title
+          @id = id
+          @required = required
+          @completed = completed
+          @requirements = requirements
+        end
 
-      sig { params(completed: T.nilable(T::Boolean), id: T.nilable(::String), required: T.nilable(T::Boolean), requirements: T.nilable(T::Array[::String]), title: T.nilable(::String)).void }
-      def initialize(completed: nil, id: nil, required: nil, requirements: nil, title: nil)
-        @completed = completed
-        @id = id
-        @required = required
-        @requirements = requirements
-        @title = title
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @title == other.title
+          return false unless @id == other.id
+          return false unless @required == other.required
+          return false unless @completed == other.completed
+          return false unless @requirements == other.requirements
+          true
+        end
       end
     end
   end

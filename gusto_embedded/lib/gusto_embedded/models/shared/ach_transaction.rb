@@ -5,58 +5,80 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of an ACH transaction
-    class AchTransaction < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Representation of an ACH transaction
+      class AchTransaction
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Unique identifier of an ACH transaction
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The amount of money moved by the ACH transaction. This amount is always non-negative.
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # Unique identifier of the company to which the ACH transaction belongs
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # The description of the ACH transaction. Can be used to identify the ACH transaction on the recipient's bank statement.
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # The error code associated with the ACH transaction, if any. If there is no error on the ACH transaction, this field will be nil. See [this article](https://engineering.gusto.com/how-ach-works-a-developer-perspective-part-2/) for a complete list of ACH return codes.
-      field :error_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('error_code') } }
-      # The date of the payment associated with the ACH transaction
-      field :payment_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_date') } }
-      # The direction of the payment
-      field :payment_direction, T.nilable(::GustoEmbedded::Shared::PaymentDirection), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_direction'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PaymentDirection, true) } }
-      # The date of the payment event check associated with the ACH transaction
-      field :payment_event_check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_event_check_date') } }
-      # The type of payment event associated with the ACH transaction
-      field :payment_event_type, T.nilable(::GustoEmbedded::Shared::PaymentEventType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_event_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PaymentEventType, true) } }
-      # Unique identifier for the payment event associated with the ACH transaction
-      field :payment_event_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_event_uuid') } }
-      # The status of the ACH transaction
-      field :payment_status, T.nilable(::GustoEmbedded::Shared::PaymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PaymentStatus, true) } }
-      # The type of recipient associated with the ACH transaction
-      field :recipient_type, T.nilable(::GustoEmbedded::Shared::AchTransactionRecipientType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::AchTransactionRecipientType, true) } }
-      # Unique identifier for the recipient associated with the ACH transaction
-      field :recipient_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_uuid') } }
-      # The type of transaction associated with the ACH transaction
-      field :transaction_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('transaction_type') } }
+        # Unique identifier of an ACH transaction
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # Unique identifier of the company to which the ACH transaction belongs
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The type of payment event associated with the ACH transaction
+        field :payment_event_type, Crystalline::Nilable.new(Models::Shared::PaymentEventType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_event_type'), 'decoder': Utils.enum_from_string(Models::Shared::PaymentEventType, true) } }
+        # Unique identifier for the payment event associated with the ACH transaction
+        field :payment_event_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_event_uuid') } }
+        # Unique identifier for the recipient associated with the ACH transaction
+        field :recipient_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_uuid') } }
+        # The error code associated with the ACH transaction, if any. If there is no error on the ACH transaction, this field will be nil. See [this article](https://engineering.gusto.com/how-ach-works-a-developer-perspective-part-2/) for a complete list of ACH return codes.
+        field :error_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('error_code') } }
+        # The type of transaction associated with the ACH transaction
+        field :transaction_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('transaction_type') } }
+        # The status of the ACH transaction
+        field :payment_status, Crystalline::Nilable.new(Models::Shared::PaymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_status'), 'decoder': Utils.enum_from_string(Models::Shared::PaymentStatus, true) } }
+        # The direction of the payment
+        field :payment_direction, Crystalline::Nilable.new(Models::Shared::PaymentDirection), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_direction'), 'decoder': Utils.enum_from_string(Models::Shared::PaymentDirection, true) } }
+        # The date of the payment event check associated with the ACH transaction
+        field :payment_event_check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_event_check_date') } }
+        # The date of the payment associated with the ACH transaction
+        field :payment_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_date') } }
+        # The amount of money moved by the ACH transaction. This amount is always non-negative.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        # The description of the ACH transaction. Can be used to identify the ACH transaction on the recipient's bank statement.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # The type of recipient associated with the ACH transaction
+        field :recipient_type, Crystalline::Nilable.new(Models::Shared::AchTransactionRecipientType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_type'), 'decoder': Utils.enum_from_string(Models::Shared::AchTransactionRecipientType, true) } }
 
+        sig { params(uuid: ::String, company_uuid: T.nilable(::String), payment_event_type: T.nilable(Models::Shared::PaymentEventType), payment_event_uuid: T.nilable(::String), recipient_uuid: T.nilable(::String), error_code: T.nilable(::String), transaction_type: T.nilable(::String), payment_status: T.nilable(Models::Shared::PaymentStatus), payment_direction: T.nilable(Models::Shared::PaymentDirection), payment_event_check_date: T.nilable(::String), payment_date: T.nilable(::String), amount: T.nilable(::String), description: T.nilable(::String), recipient_type: T.nilable(Models::Shared::AchTransactionRecipientType)).void }
+        def initialize(uuid:, company_uuid: nil, payment_event_type: nil, payment_event_uuid: nil, recipient_uuid: nil, error_code: nil, transaction_type: nil, payment_status: nil, payment_direction: nil, payment_event_check_date: nil, payment_date: nil, amount: nil, description: nil, recipient_type: nil)
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @payment_event_type = payment_event_type
+          @payment_event_uuid = payment_event_uuid
+          @recipient_uuid = recipient_uuid
+          @error_code = error_code
+          @transaction_type = transaction_type
+          @payment_status = payment_status
+          @payment_direction = payment_direction
+          @payment_event_check_date = payment_event_check_date
+          @payment_date = payment_date
+          @amount = amount
+          @description = description
+          @recipient_type = recipient_type
+        end
 
-      sig { params(uuid: ::String, amount: T.nilable(::String), company_uuid: T.nilable(::String), description: T.nilable(::String), error_code: T.nilable(::String), payment_date: T.nilable(::String), payment_direction: T.nilable(::GustoEmbedded::Shared::PaymentDirection), payment_event_check_date: T.nilable(::String), payment_event_type: T.nilable(::GustoEmbedded::Shared::PaymentEventType), payment_event_uuid: T.nilable(::String), payment_status: T.nilable(::GustoEmbedded::Shared::PaymentStatus), recipient_type: T.nilable(::GustoEmbedded::Shared::AchTransactionRecipientType), recipient_uuid: T.nilable(::String), transaction_type: T.nilable(::String)).void }
-      def initialize(uuid: nil, amount: nil, company_uuid: nil, description: nil, error_code: nil, payment_date: nil, payment_direction: nil, payment_event_check_date: nil, payment_event_type: nil, payment_event_uuid: nil, payment_status: nil, recipient_type: nil, recipient_uuid: nil, transaction_type: nil)
-        @uuid = uuid
-        @amount = amount
-        @company_uuid = company_uuid
-        @description = description
-        @error_code = error_code
-        @payment_date = payment_date
-        @payment_direction = payment_direction
-        @payment_event_check_date = payment_event_check_date
-        @payment_event_type = payment_event_type
-        @payment_event_uuid = payment_event_uuid
-        @payment_status = payment_status
-        @recipient_type = recipient_type
-        @recipient_uuid = recipient_uuid
-        @transaction_type = transaction_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @payment_event_type == other.payment_event_type
+          return false unless @payment_event_uuid == other.payment_event_uuid
+          return false unless @recipient_uuid == other.recipient_uuid
+          return false unless @error_code == other.error_code
+          return false unless @transaction_type == other.transaction_type
+          return false unless @payment_status == other.payment_status
+          return false unless @payment_direction == other.payment_direction
+          return false unless @payment_event_check_date == other.payment_event_check_date
+          return false unless @payment_date == other.payment_date
+          return false unless @amount == other.amount
+          return false unless @description == other.description
+          return false unless @recipient_type == other.recipient_type
+          true
+        end
       end
     end
   end

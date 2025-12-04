@@ -5,38 +5,56 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostCompaniesCompanyUuidSuspensionsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostCompaniesCompanyUuidSuspensionsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Should Gusto file quarterly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled.
-      field :file_quarterly_forms, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_quarterly_forms') } }
-      # Should Gusto file yearly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled.
-      field :file_yearly_forms, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_yearly_forms') } }
-      # Explanation for why the company is suspending their account.
-      # 
-      # > 🚧 FEIN or entity type changes require Customer Support
-      # >
-      # > If a company is switching FEIN or changing their entity type, this change must be performed by Gusto Customer Support and cannot be performed via the API at this time.
-      field :reason, ::GustoEmbedded::Operations::Reason, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reason'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::Reason, false) } }
-      # How Gusto will handle taxes already collected.
-      field :reconcile_tax_method, ::GustoEmbedded::Operations::ReconcileTaxMethod, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reconcile_tax_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::ReconcileTaxMethod, false) } }
-      # User-supplied comments describing why they are suspending their account.
-      field :comments, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('comments') } }
-      # Which competitor the company is joining instead. Required if `reason` is `'switching_provider'`.
-      field :leaving_for, T.nilable(::GustoEmbedded::Operations::LeavingFor), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('leaving_for'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::LeavingFor, true) } }
+        # Should Gusto file quarterly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled.
+        field :file_quarterly_forms, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_quarterly_forms'), required: true } }
+        # Should Gusto file yearly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled.
+        field :file_yearly_forms, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_yearly_forms'), required: true } }
+        # How Gusto will handle taxes already collected.
+        field :reconcile_tax_method, Models::Operations::ReconcileTaxMethod, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reconcile_tax_method'), required: true, 'decoder': Utils.enum_from_string(Models::Operations::ReconcileTaxMethod, false) } }
+        # Explanation for why the company is suspending their account.
+        # 
+        # > 🚧 FEIN or entity type changes require Customer Support
+        # > If a company is switching FEIN or changing their entity type, this change must be performed by Gusto Customer Support and cannot be performed via the API at this time.
+        # 
+        field :reason, Models::Operations::Reason, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reason'), required: true, 'decoder': Utils.enum_from_string(Models::Operations::Reason, false) } }
+        # User-supplied comments describing why they are suspending their account. Required if the user is leaving for another provider and selects "other" instead of a defined provider.
+        field :comments, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('comments') } }
+        # The competitor the company is switching to. Required if `reason` is `'switching_provider'`.
+        # 
+        # > 🚧 Switching to Gusto requires Customer Support
+        # > If `'gusto_com'` is selected, this change must be completed by Gusto Customer Support and cannot be performed via the API. This endpoint will return a 422 error in that case.
+        # 
+        field :leaving_for, Crystalline::Nilable.new(Models::Operations::LeavingFor), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('leaving_for'), 'decoder': Utils.enum_from_string(Models::Operations::LeavingFor, true) } }
 
+        sig { params(file_quarterly_forms: T::Boolean, file_yearly_forms: T::Boolean, reconcile_tax_method: Models::Operations::ReconcileTaxMethod, reason: Models::Operations::Reason, comments: T.nilable(::String), leaving_for: T.nilable(Models::Operations::LeavingFor)).void }
+        def initialize(file_quarterly_forms:, file_yearly_forms:, reconcile_tax_method:, reason:, comments: nil, leaving_for: nil)
+          @file_quarterly_forms = file_quarterly_forms
+          @file_yearly_forms = file_yearly_forms
+          @reconcile_tax_method = reconcile_tax_method
+          @reason = reason
+          @comments = comments
+          @leaving_for = leaving_for
+        end
 
-      sig { params(file_quarterly_forms: T::Boolean, file_yearly_forms: T::Boolean, reason: ::GustoEmbedded::Operations::Reason, reconcile_tax_method: ::GustoEmbedded::Operations::ReconcileTaxMethod, comments: T.nilable(::String), leaving_for: T.nilable(::GustoEmbedded::Operations::LeavingFor)).void }
-      def initialize(file_quarterly_forms: nil, file_yearly_forms: nil, reason: nil, reconcile_tax_method: nil, comments: nil, leaving_for: nil)
-        @file_quarterly_forms = file_quarterly_forms
-        @file_yearly_forms = file_yearly_forms
-        @reason = reason
-        @reconcile_tax_method = reconcile_tax_method
-        @comments = comments
-        @leaving_for = leaving_for
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @file_quarterly_forms == other.file_quarterly_forms
+          return false unless @file_yearly_forms == other.file_yearly_forms
+          return false unless @reconcile_tax_method == other.reconcile_tax_method
+          return false unless @reason == other.reason
+          return false unless @comments == other.comments
+          return false unless @leaving_for == other.leaving_for
+          true
+        end
       end
     end
   end

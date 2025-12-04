@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class ReportTemplate < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class ReportTemplate
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # List of columns recommended
-      field :columns, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('columns') } }
-      # Company UUID
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # List of groupings recommended
-      field :groupings, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('groupings') } }
-      # Type of report template
-      field :report_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('report_type') } }
+        # List of columns recommended
+        field :columns, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('columns') } }
+        # List of groupings recommended
+        field :groupings, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('groupings') } }
+        # Company UUID
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # Type of report template
+        field :report_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('report_type') } }
 
+        sig { params(columns: T.nilable(T::Array[::String]), groupings: T.nilable(T::Array[::String]), company_uuid: T.nilable(::String), report_type: T.nilable(::String)).void }
+        def initialize(columns: nil, groupings: nil, company_uuid: nil, report_type: nil)
+          @columns = columns
+          @groupings = groupings
+          @company_uuid = company_uuid
+          @report_type = report_type
+        end
 
-      sig { params(columns: T.nilable(T::Array[::String]), company_uuid: T.nilable(::String), groupings: T.nilable(T::Array[::String]), report_type: T.nilable(::String)).void }
-      def initialize(columns: nil, company_uuid: nil, groupings: nil, report_type: nil)
-        @columns = columns
-        @company_uuid = company_uuid
-        @groupings = groupings
-        @report_type = report_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @columns == other.columns
+          return false unless @groupings == other.groupings
+          return false unless @company_uuid == other.company_uuid
+          return false unless @report_type == other.report_type
+          true
+        end
       end
     end
   end

@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesEmployees < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :balance, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance') } }
-
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+      class PutVersionTimeOffPoliciesTimeOffPolicyUuidAddEmployeesEmployees
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(balance: T.nilable(::String), uuid: T.nilable(::String)).void }
-      def initialize(balance: nil, uuid: nil)
-        @balance = balance
-        @uuid = uuid
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+
+        field :balance, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance') } }
+
+        sig { params(uuid: T.nilable(::String), balance: T.nilable(::String)).void }
+        def initialize(uuid: nil, balance: nil)
+          @uuid = uuid
+          @balance = balance
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @balance == other.balance
+          true
+        end
       end
     end
   end

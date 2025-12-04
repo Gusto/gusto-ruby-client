@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The subtotals for the payroll.
-    class Totals < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The subtotals for the payroll.
+      class Totals
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The total child support debit for the payroll.
-      field :child_support_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support_debit') } }
-      # The total company debit for the payroll.
-      field :company_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_debit') } }
-      # The total company net pay for the payroll.
-      field :net_pay_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay_debit') } }
-      # The total reimbursements for the payroll.
-      field :reimbursement_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement_debit') } }
-      # The total tax debit for the payroll.
-      field :tax_debit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_debit') } }
+        # The total company debit for the payroll.
+        field :company_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_debit') } }
+        # The total company net pay for the payroll.
+        field :net_pay_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay_debit') } }
+        # The total child support debit for the payroll.
+        field :child_support_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support_debit') } }
+        # The total reimbursements for the payroll.
+        field :reimbursement_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement_debit') } }
+        # The total tax debit for the payroll.
+        field :tax_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_debit') } }
 
+        sig { params(company_debit: T.nilable(::String), net_pay_debit: T.nilable(::String), child_support_debit: T.nilable(::String), reimbursement_debit: T.nilable(::String), tax_debit: T.nilable(::String)).void }
+        def initialize(company_debit: nil, net_pay_debit: nil, child_support_debit: nil, reimbursement_debit: nil, tax_debit: nil)
+          @company_debit = company_debit
+          @net_pay_debit = net_pay_debit
+          @child_support_debit = child_support_debit
+          @reimbursement_debit = reimbursement_debit
+          @tax_debit = tax_debit
+        end
 
-      sig { params(child_support_debit: T.nilable(::String), company_debit: T.nilable(::String), net_pay_debit: T.nilable(::String), reimbursement_debit: T.nilable(::String), tax_debit: T.nilable(::String)).void }
-      def initialize(child_support_debit: nil, company_debit: nil, net_pay_debit: nil, reimbursement_debit: nil, tax_debit: nil)
-        @child_support_debit = child_support_debit
-        @company_debit = company_debit
-        @net_pay_debit = net_pay_debit
-        @reimbursement_debit = reimbursement_debit
-        @tax_debit = tax_debit
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_debit == other.company_debit
+          return false unless @net_pay_debit == other.net_pay_debit
+          return false unless @child_support_debit == other.child_support_debit
+          return false unless @reimbursement_debit == other.reimbursement_debit
+          return false unless @tax_debit == other.tax_debit
+          true
+        end
       end
     end
   end

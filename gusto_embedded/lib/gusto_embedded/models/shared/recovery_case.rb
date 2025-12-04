@@ -5,46 +5,64 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of a recovery case
-    class RecoveryCase < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Representation of a recovery case
+      class RecoveryCase
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Unique identifier of an recovery case
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Amount outstanding for the recovery case
-      field :amount_outstanding, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_outstanding') } }
-      # Check date for the associated payroll or contractor payments
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # Unique identifier of the company to which the recovery case belongs
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # The uuids of the associated contractor payments for which the recovery case was created. If the recovery case was created for a payroll, this field will be null.
-      field :contractor_payment_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payment_uuids') } }
-      # Total amount to be debited from the payroll or contractor payments
-      field :event_total_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('event_total_amount') } }
-      # The latest bank error code for the recovery case. See [this doc](https://docs.gusto.com/embedded-payroll/docs/ach-codes-and-transaction-types) for a list of common ACH return codes.
-      field :latest_error_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('latest_error_code') } }
-      # Date when funds were originally debited from the company's bank account
-      field :original_debit_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('original_debit_date') } }
-      # The uuid of the associated payroll for which the recovery case was created. If the recovery case was created for a contractor payment, this field will be null.
-      field :payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
-      # Status of the recovery case
-      field :status, T.nilable(::GustoEmbedded::Shared::RecoveryCaseStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::RecoveryCaseStatus, true) } }
+        # Unique identifier of an recovery case
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # Unique identifier of the company to which the recovery case belongs
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # Status of the recovery case
+        field :status, Crystalline::Nilable.new(Models::Shared::RecoveryCaseStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(Models::Shared::RecoveryCaseStatus, true) } }
+        # The latest bank error code for the recovery case. See [this doc](https://docs.gusto.com/embedded-payroll/docs/ach-codes-and-transaction-types) for a list of common ACH return codes.
+        field :latest_error_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('latest_error_code') } }
+        # Date when funds were originally debited from the company's bank account
+        field :original_debit_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('original_debit_date') } }
+        # Check date for the associated payroll or contractor payments
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # The uuid of the associated payroll for which the recovery case was created. If the recovery case was created for a contractor payment, this field will be null.
+        field :payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+        # Amount outstanding for the recovery case
+        field :amount_outstanding, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_outstanding') } }
+        # Total amount to be debited from the payroll or contractor payments
+        field :event_total_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('event_total_amount') } }
+        # The uuids of the associated contractor payments for which the recovery case was created. If the recovery case was created for a payroll, this field will be null.
+        field :contractor_payment_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payment_uuids') } }
 
+        sig { params(uuid: ::String, company_uuid: T.nilable(::String), status: T.nilable(Models::Shared::RecoveryCaseStatus), latest_error_code: T.nilable(::String), original_debit_date: T.nilable(::String), check_date: T.nilable(::String), payroll_uuid: T.nilable(::String), amount_outstanding: T.nilable(::String), event_total_amount: T.nilable(::String), contractor_payment_uuids: T.nilable(T::Array[::String])).void }
+        def initialize(uuid:, company_uuid: nil, status: nil, latest_error_code: nil, original_debit_date: nil, check_date: nil, payroll_uuid: nil, amount_outstanding: nil, event_total_amount: nil, contractor_payment_uuids: nil)
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @status = status
+          @latest_error_code = latest_error_code
+          @original_debit_date = original_debit_date
+          @check_date = check_date
+          @payroll_uuid = payroll_uuid
+          @amount_outstanding = amount_outstanding
+          @event_total_amount = event_total_amount
+          @contractor_payment_uuids = contractor_payment_uuids
+        end
 
-      sig { params(uuid: ::String, amount_outstanding: T.nilable(::String), check_date: T.nilable(::String), company_uuid: T.nilable(::String), contractor_payment_uuids: T.nilable(T::Array[::String]), event_total_amount: T.nilable(::String), latest_error_code: T.nilable(::String), original_debit_date: T.nilable(::String), payroll_uuid: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::RecoveryCaseStatus)).void }
-      def initialize(uuid: nil, amount_outstanding: nil, check_date: nil, company_uuid: nil, contractor_payment_uuids: nil, event_total_amount: nil, latest_error_code: nil, original_debit_date: nil, payroll_uuid: nil, status: nil)
-        @uuid = uuid
-        @amount_outstanding = amount_outstanding
-        @check_date = check_date
-        @company_uuid = company_uuid
-        @contractor_payment_uuids = contractor_payment_uuids
-        @event_total_amount = event_total_amount
-        @latest_error_code = latest_error_code
-        @original_debit_date = original_debit_date
-        @payroll_uuid = payroll_uuid
-        @status = status
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @status == other.status
+          return false unless @latest_error_code == other.latest_error_code
+          return false unless @original_debit_date == other.original_debit_date
+          return false unless @check_date == other.check_date
+          return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @amount_outstanding == other.amount_outstanding
+          return false unless @event_total_amount == other.event_total_amount
+          return false unless @contractor_payment_uuids == other.contractor_payment_uuids
+          true
+        end
       end
     end
   end

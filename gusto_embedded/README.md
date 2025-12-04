@@ -28,6 +28,7 @@ Gusto API: Welcome to Gusto's Embedded Payroll API documentation!
   * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
+  * [Error Handling](#error-handling)
   * [Server Selection](#server-selection)
 * [Development](#development)
   * [Maturity](#maturity)
@@ -53,15 +54,16 @@ gem install gusto_embedded_client
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.object.nil?
+unless res.object.nil?
   # handle response
 end
 
@@ -83,15 +85,16 @@ You can set the security parameters through the `security` optional parameter wh
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.object.nil?
+unless res.object.nil?
   # handle response
 end
 
@@ -103,24 +106,27 @@ Some operations in this SDK require the security scheme to be specified at the r
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new
 
-res = s.companies.create_partner_managed(security: ::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesSecurity.new(
-    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), ::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesSecurity.new(
-    system_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-  ), request_body=::GustoEmbedded::Operations::PostV1PartnerManagedCompaniesRequestBody.new(
-  user: ::GustoEmbedded::Operations::User.new(
-    first_name: "Gail",
-    last_name: "Stracke",
-    email: "Emanuel.McClure@gmail.com",
+res = s.companies.create_partner_managed(security: Models::Operations::PostV1PartnerManagedCompaniesSecurity.new(
+    system_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
+  ), request_body: Models::Operations::PostV1PartnerManagedCompaniesRequestBody.new(
+  user: Models::Operations::User.new(
+    first_name: 'Frank',
+    last_name: 'Ocean',
+    email: 'frank@example.com',
+    phone: '2345558899',
   ),
-  company: ::GustoEmbedded::Operations::Company.new(
-    name: "<value>",
+  company: Models::Operations::Company.new(
+    name: 'Frank\'s Ocean, LLC',
+    trade_name: 'Frank’s Ocean',
+    ein: '123456789',
+    contractor_only: false,
   ),
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+), x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.object.nil?
+unless res.object.nil?
   # handle response
 end
 
@@ -139,11 +145,11 @@ end
 
 ### [bank_accounts](docs/sdks/bankaccounts/README.md)
 
-* [create](docs/sdks/bankaccounts/README.md#create) - Create a company bank account
 * [get](docs/sdks/bankaccounts/README.md#get) - Get all company bank accounts
+* [create](docs/sdks/bankaccounts/README.md#create) - Create a company bank account
 * [verify](docs/sdks/bankaccounts/README.md#verify) - Verify a company bank account
 * [create_from_plaid_token](docs/sdks/bankaccounts/README.md#create_from_plaid_token) - Create a bank account from a plaid processor token
-
+* [delete_v1_companies_company_id_bank_accounts_bank_account_id](docs/sdks/bankaccounts/README.md#delete_v1_companies_company_id_bank_accounts_bank_account_id) - Delete a company bank account
 
 ### [companies](docs/sdks/companies/README.md)
 
@@ -159,10 +165,10 @@ end
 * [finish_onboarding](docs/sdks/companies/README.md#finish_onboarding) - Finish company onboarding
 * [get_custom_fields](docs/sdks/companies/README.md#get_custom_fields) - Get the custom fields of a company
 
-### [companies_suspensions](docs/sdks/companiessuspensions/README.md)
+#### [companies.suspensions](docs/sdks/suspensions/README.md)
 
-* [get](docs/sdks/companiessuspensions/README.md#get) - Get suspensions for this company
-* [suspend](docs/sdks/companiessuspensions/README.md#suspend) - Suspend a company's account
+* [get](docs/sdks/suspensions/README.md#get) - Get suspensions for this company
+* [suspend](docs/sdks/suspensions/README.md#suspend) - Suspend a company's account
 
 ### [company_attachment](docs/sdks/companyattachment/README.md)
 
@@ -187,6 +193,8 @@ end
 * [get_employee_benefits](docs/sdks/companybenefits/README.md#get_employee_benefits) - Get all employee benefits for a company benefit
 * [update_employee_benefits](docs/sdks/companybenefits/README.md#update_employee_benefits) - Bulk update employee benefits for a company benefit
 * [get_requirements](docs/sdks/companybenefits/README.md#get_requirements) - Get benefit fields requirements by ID
+* [get_v1_company_benefits_company_benefit_id_contribution_exclusions](docs/sdks/companybenefits/README.md#get_v1_company_benefits_company_benefit_id_contribution_exclusions) - Get contribution exclusions for a company benefit
+* [put_v1_company_benefits_company_benefit_id_contribution_exclusions](docs/sdks/companybenefits/README.md#put_v1_company_benefits_company_benefit_id_contribution_exclusions) - Update contribution exclusions for a company benefit
 
 ### [company_forms](docs/sdks/companyforms/README.md)
 
@@ -211,12 +219,14 @@ end
 
 ### [contractor_payment_groups](docs/sdks/contractorpaymentgroups/README.md)
 
-* [create](docs/sdks/contractorpaymentgroups/README.md#create) - Create a contractor payment group
 * [get_list](docs/sdks/contractorpaymentgroups/README.md#get_list) - Get contractor payment groups for a company
+* [create](docs/sdks/contractorpaymentgroups/README.md#create) - Create a contractor payment group
 * [preview](docs/sdks/contractorpaymentgroups/README.md#preview) - Preview a contractor payment group
-* [get](docs/sdks/contractorpaymentgroups/README.md#get) - Fetch a contractor payment group
+* [get](docs/sdks/contractorpaymentgroups/README.md#get) - Get a contractor payment group
 * [delete](docs/sdks/contractorpaymentgroups/README.md#delete) - Cancel a contractor payment group
 * [fund](docs/sdks/contractorpaymentgroups/README.md#fund) - Fund a contractor payment group [DEMO]
+* [get_v1_contractor_payment_groups_id_partner_disbursements](docs/sdks/contractorpaymentgroups/README.md#get_v1_contractor_payment_groups_id_partner_disbursements) - Get partner disbursements for a contractor payment group
+* [patch_v1_contractor_payment_groups_id_partner_disbursements](docs/sdks/contractorpaymentgroups/README.md#patch_v1_contractor_payment_groups_id_partner_disbursements) - Update partner disbursements for a contractor payment group
 
 ### [contractor_payment_method](docs/sdks/contractorpaymentmethod/README.md)
 
@@ -248,7 +258,8 @@ end
 * [get_onboarding_status](docs/sdks/contractors/README.md#get_onboarding_status) - Get the contractor's onboarding status
 * [update_onboarding_status](docs/sdks/contractors/README.md#update_onboarding_status) - Change the contractor's onboarding status
 * [get_address](docs/sdks/contractors/README.md#get_address) - Get a contractor address
-* [update_address](docs/sdks/contractors/README.md#update_address) - Update a contractor's address
+* [update_address](docs/sdks/contractors/README.md#update_address) - Create or update a contractor's address
+* [get_v1_companies_company_id_contractors_payment_details](docs/sdks/contractors/README.md#get_v1_companies_company_id_contractors_payment_details) - List contractor payment details
 
 ### [departments](docs/sdks/departments/README.md)
 
@@ -333,6 +344,7 @@ end
 
 * [list](docs/sdks/employees/README.md#list) - Get employees of a company
 * [create](docs/sdks/employees/README.md#create) - Create an employee
+* [get_v1_companies_company_id_employees_payment_details](docs/sdks/employees/README.md#get_v1_companies_company_id_employees_payment_details) - Get employee payment details for a company
 * [create_historical](docs/sdks/employees/README.md#create_historical) - Create a historical employee
 * [get](docs/sdks/employees/README.md#get) - Get an employee
 * [update](docs/sdks/employees/README.md#update) - Update an employee.
@@ -446,6 +458,7 @@ end
 ### [notifications](docs/sdks/notifications/README.md)
 
 * [get_details](docs/sdks/notifications/README.md#get_details) - Get a notification's details
+* [get_company_notifications](docs/sdks/notifications/README.md#get_company_notifications) - Get notifications for company
 
 ### [pay_schedules](docs/sdks/payschedules/README.md)
 
@@ -467,8 +480,8 @@ end
 
 ### [payrolls](docs/sdks/payrolls/README.md)
 
-* [create_off_cycle](docs/sdks/payrolls/README.md#create_off_cycle) - Create an off-cycle payroll
 * [list](docs/sdks/payrolls/README.md#list) - Get all payrolls for a company
+* [create_off_cycle](docs/sdks/payrolls/README.md#create_off_cycle) - Create an off-cycle payroll
 * [get_approved_reversals](docs/sdks/payrolls/README.md#get_approved_reversals) - Get approved payroll reversals
 * [get](docs/sdks/payrolls/README.md#get) - Get a single payroll
 * [update](docs/sdks/payrolls/README.md#update) - Update a payroll by ID
@@ -476,25 +489,40 @@ end
 * [prepare](docs/sdks/payrolls/README.md#prepare) - Prepare a payroll for update
 * [get_receipt](docs/sdks/payrolls/README.md#get_receipt) - Get a single payroll receipt
 * [get_blockers](docs/sdks/payrolls/README.md#get_blockers) - Get all payroll blockers for a company
-* [skip](docs/sdks/payrolls/README.md#skip) - Skip a payroll
-* [calculate_gross_up](docs/sdks/payrolls/README.md#calculate_gross_up) - Calculate gross up
-* [calculate](docs/sdks/payrolls/README.md#calculate) - Calculate a payroll
-* [submit](docs/sdks/payrolls/README.md#submit) - Submit payroll
 * [cancel](docs/sdks/payrolls/README.md#cancel) - Cancel a payroll
 * [get_pay_stub](docs/sdks/payrolls/README.md#get_pay_stub) - Get an employee pay stub (pdf)
 * [get_pay_stubs](docs/sdks/payrolls/README.md#get_pay_stubs) - Get an employee's pay stubs
 * [generate_printable_checks](docs/sdks/payrolls/README.md#generate_printable_checks) - Generate printable payroll checks (pdf)
+* [get_v1_companies_company_id_payrolls_id_partner_disbursements](docs/sdks/payrolls/README.md#get_v1_companies_company_id_payrolls_id_partner_disbursements) - Get partner disbursements for a payroll
+* [patch_v1_companies_company_id_payrolls_id_partner_disbursements](docs/sdks/payrolls/README.md#patch_v1_companies_company_id_payrolls_id_partner_disbursements) - Update partner disbursements for a payroll
 
 ### [recovery_cases](docs/sdks/recoverycases/README.md)
 
 * [get](docs/sdks/recoverycases/README.md#get) - Get all recovery cases for a company
 * [redebit](docs/sdks/recoverycases/README.md#redebit) - Initiate a redebit for a recovery case
 
+### [reimbursements](docs/sdks/reimbursements/README.md)
+
+* [get_v1_employees_employee_id_recurring_reimbursements](docs/sdks/reimbursements/README.md#get_v1_employees_employee_id_recurring_reimbursements) - Get recurring reimbursements for an employee
+* [post_v1_employees_employee_id_recurring_reimbursements](docs/sdks/reimbursements/README.md#post_v1_employees_employee_id_recurring_reimbursements) - Create a recurring reimbursement
+* [get_v1_recurring_reimbursements](docs/sdks/reimbursements/README.md#get_v1_recurring_reimbursements) - Get a recurring reimbursement
+* [put_v1_recurring_reimbursements](docs/sdks/reimbursements/README.md#put_v1_recurring_reimbursements) - Update a recurring reimbursement
+* [delete_v1_recurring_reimbursements](docs/sdks/reimbursements/README.md#delete_v1_recurring_reimbursements) - Delete a recurring reimbursement
+
 ### [reports](docs/sdks/reports/README.md)
 
 * [create_custom](docs/sdks/reports/README.md#create_custom) - Create a custom report
-* [get](docs/sdks/reports/README.md#get) - Get a report
+* [post_payrolls_payroll_uuid_reports_general_ledger](docs/sdks/reports/README.md#post_payrolls_payroll_uuid_reports_general_ledger) - Create a general ledger report
+* [get_reports_request_uuid](docs/sdks/reports/README.md#get_reports_request_uuid) - Get a report
 * [get_template](docs/sdks/reports/README.md#get_template) - Get a report template
+
+### [salary_estimates](docs/sdks/salaryestimates/README.md)
+
+* [post_v1_employees_employee_id_salary_estimates](docs/sdks/salaryestimates/README.md#post_v1_employees_employee_id_salary_estimates) - Create a salary estimate for an employee
+* [get_v1_salary_estimates_id](docs/sdks/salaryestimates/README.md#get_v1_salary_estimates_id) - Get a salary estimate
+* [put_v1_salary_estimates_id](docs/sdks/salaryestimates/README.md#put_v1_salary_estimates_id) - Update a salary estimate
+* [post_v1_salary_estimates_uuid_accept](docs/sdks/salaryestimates/README.md#post_v1_salary_estimates_uuid_accept) - Accept a salary estimate
+* [get_v1_salary_estimates_occupations](docs/sdks/salaryestimates/README.md#get_v1_salary_estimates_occupations) - Search for BLS occupations
 
 ### [signatories](docs/sdks/signatories/README.md)
 
@@ -531,6 +559,7 @@ end
 * [delete_subscription](docs/sdks/webhooks/README.md#delete_subscription) - Delete a webhook subscription
 * [verify](docs/sdks/webhooks/README.md#verify) - Verify the webhook subscription
 * [request_verification_token](docs/sdks/webhooks/README.md#request_verification_token) - Request the webhook subscription verification_token
+* [get_v1_webhooks_health_check](docs/sdks/webhooks/README.md#get_v1_webhooks_health_check) - Get the webhooks health status
 
 ### [wire_in_requests](docs/sdks/wireinrequests/README.md)
 
@@ -540,6 +569,67 @@ end
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
+
+<!-- Start Error Handling [errors] -->
+## Error Handling
+
+Handling errors in this SDK should largely match your expectations. All operations return a response object or raise an error.
+
+By default an API error will raise a `Errors::APIError`, which has the following properties:
+
+| Property       | Type                                    | Description           |
+|----------------|-----------------------------------------|-----------------------|
+| `message`     | *string*                                 | The error message     |
+| `status_code`  | *int*                                   | The HTTP status code  |
+| `raw_response` | *Faraday::Response*                     | The raw HTTP response |
+| `body`        | *string*                                 | The response content  |
+
+When custom error responses are specified for an operation, the SDK may also throw their associated exception. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `create_partner_managed` method throws the following exceptions:
+
+| Error Type                                     | Status Code | Content Type     |
+| ---------------------------------------------- | ----------- | ---------------- |
+| Models::Errors::UnprocessableEntityErrorObject | 422         | application/json |
+| Errors::APIError                               | 4XX, 5XX    | \*/\*            |
+
+### Example
+
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new
+
+begin
+    res = s.companies.create_partner_managed(security: Models::Operations::PostV1PartnerManagedCompaniesSecurity.new(
+        system_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
+      ), request_body: Models::Operations::PostV1PartnerManagedCompaniesRequestBody.new(
+      user: Models::Operations::User.new(
+        first_name: 'Frank',
+        last_name: 'Ocean',
+        email: 'frank@example.com',
+        phone: '2345558899',
+      ),
+      company: Models::Operations::Company.new(
+        name: 'Frank\'s Ocean, LLC',
+        trade_name: 'Frank’s Ocean',
+        ein: '123456789',
+        contractor_only: false,
+      ),
+    ), x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+
+    unless res.object.nil?
+      # handle response
+    end
+rescue Models::Errors::UnprocessableEntityErrorObject => e
+  # handle e.container data
+  raise e
+rescue Errors::APIError => e
+  # handle default exception
+  raise e
+end
+
+```
+<!-- End Error Handling [errors] -->
 
 <!-- Start Server Selection [server] -->
 ## Server Selection
@@ -558,16 +648,17 @@ You can override the default server globally by passing a server name to the `se
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      server: "prod",
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      server: "demo",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.object.nil?
+unless res.object.nil?
   # handle response
 end
 
@@ -579,16 +670,17 @@ The default server can also be overridden globally by passing a URL to the `serv
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      server_url: "https://api.gusto-demo.com",
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      server_url: 'https://api.gusto-demo.com',
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
+res = s.introspection.get_info(x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-if ! res.object.nil?
+unless res.object.nil?
   # handle response
 end
 

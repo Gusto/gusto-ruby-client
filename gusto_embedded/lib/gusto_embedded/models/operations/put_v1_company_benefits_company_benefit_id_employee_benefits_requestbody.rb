@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The list of employee benefits to create or update
-      field :employee_benefits, T::Array[::GustoEmbedded::Shared::EmployeeBenefitForCompanyBenefit], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_benefits') } }
+        # The list of employee benefits to create or update
+        field :employee_benefits, Crystalline::Array.new(Models::Shared::EmployeeBenefitForCompanyBenefit), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_benefits'), required: true } }
 
+        sig { params(employee_benefits: T::Array[Models::Shared::EmployeeBenefitForCompanyBenefit]).void }
+        def initialize(employee_benefits:)
+          @employee_benefits = employee_benefits
+        end
 
-      sig { params(employee_benefits: T::Array[::GustoEmbedded::Shared::EmployeeBenefitForCompanyBenefit]).void }
-      def initialize(employee_benefits: nil)
-        @employee_benefits = employee_benefits
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_benefits == other.employee_benefits
+          true
+        end
       end
     end
   end

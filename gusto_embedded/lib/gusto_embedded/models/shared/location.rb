@@ -5,61 +5,88 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of an address in Gusto.
-    class Location < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of an address in Gusto.
+      class Location
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the location object.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The UUID of the location object.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The UUID for the company to which the location belongs. Only included if the location belongs to a company.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The phone number for the location. Required for company locations. Optional for employee locations.
+        field :phone_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone_number') } }
 
-      field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
-      # The UUID for the company to which the location belongs. Only included if the location belongs to a company.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        field :street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
 
-      field :country, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
-      # Datetime for when location is created
-      field :created_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('created_at') } }
-      # Specifies if the location is the company's filing address. Only included if the location belongs to a company.
-      field :filing_address, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_address') } }
-      # Specifies if the location is the company's mailing address. Only included if the location belongs to a company.
-      field :mailing_address, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mailing_address') } }
-      # The phone number for the location. Required for company locations. Optional for employee locations.
-      field :phone_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone_number') } }
+        field :city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
 
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
 
-      field :street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
+        field :zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+        # Specifies if the location is the company's mailing address. Only included if the location belongs to a company.
+        field :mailing_address, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mailing_address') } }
+        # Specifies if the location is the company's filing address. Only included if the location belongs to a company.
+        field :filing_address, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_address') } }
+        # Datetime for when location is created
+        field :created_at, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('created_at') } }
+        # Datetime for when location is updated
+        field :updated_at, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('updated_at') } }
+        # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
+        field :inactive, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('inactive') } }
 
-      field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
-      # Datetime for when location is updated
-      field :updated_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('updated_at') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
 
-      field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+        field :country, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
 
+        sig { params(uuid: ::String, version: T.nilable(::String), company_uuid: T.nilable(::String), phone_number: T.nilable(::String), street_1: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), mailing_address: T.nilable(T::Boolean), filing_address: T.nilable(T::Boolean), created_at: T.nilable(::String), updated_at: T.nilable(::String), active: T.nilable(T::Boolean), inactive: T.nilable(T::Boolean), street_2: T.nilable(::String), country: T.nilable(::String)).void }
+        def initialize(uuid:, version: nil, company_uuid: nil, phone_number: nil, street_1: nil, city: nil, state: nil, zip: nil, mailing_address: nil, filing_address: nil, created_at: nil, updated_at: nil, active: nil, inactive: nil, street_2: nil, country: 'USA')
+          @uuid = uuid
+          @version = version
+          @company_uuid = company_uuid
+          @phone_number = phone_number
+          @street_1 = street_1
+          @city = city
+          @state = state
+          @zip = zip
+          @mailing_address = mailing_address
+          @filing_address = filing_address
+          @created_at = created_at
+          @updated_at = updated_at
+          @active = active
+          @inactive = inactive
+          @street_2 = street_2
+          @country = country
+        end
 
-      sig { params(uuid: ::String, active: T.nilable(T::Boolean), city: T.nilable(::String), company_uuid: T.nilable(::String), country: T.nilable(::String), created_at: T.nilable(::String), filing_address: T.nilable(T::Boolean), mailing_address: T.nilable(T::Boolean), phone_number: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), updated_at: T.nilable(::String), version: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(uuid: nil, active: nil, city: nil, company_uuid: nil, country: nil, created_at: nil, filing_address: nil, mailing_address: nil, phone_number: nil, state: nil, street_1: nil, street_2: nil, updated_at: nil, version: nil, zip: nil)
-        @uuid = uuid
-        @active = active
-        @city = city
-        @company_uuid = company_uuid
-        @country = country
-        @created_at = created_at
-        @filing_address = filing_address
-        @mailing_address = mailing_address
-        @phone_number = phone_number
-        @state = state
-        @street_1 = street_1
-        @street_2 = street_2
-        @updated_at = updated_at
-        @version = version
-        @zip = zip
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @version == other.version
+          return false unless @company_uuid == other.company_uuid
+          return false unless @phone_number == other.phone_number
+          return false unless @street_1 == other.street_1
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @zip == other.zip
+          return false unless @mailing_address == other.mailing_address
+          return false unless @filing_address == other.filing_address
+          return false unless @created_at == other.created_at
+          return false unless @updated_at == other.updated_at
+          return false unless @active == other.active
+          return false unless @inactive == other.inactive
+          return false unless @street_2 == other.street_2
+          return false unless @country == other.country
+          true
+        end
       end
     end
   end

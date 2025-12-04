@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of a flow in Gusto white-label UI.
-    class Flow < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of a flow in Gusto white-label UI.
+      class Flow
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :url, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('url') } }
+        field :url, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('url') } }
 
+        sig { params(url: T.nilable(::String)).void }
+        def initialize(url: nil)
+          @url = url
+        end
 
-      sig { params(url: T.nilable(::String)).void }
-      def initialize(url: nil)
-        @url = url
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @url == other.url
+          true
+        end
       end
     end
   end

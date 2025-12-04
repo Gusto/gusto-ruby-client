@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutCompaniesCompanyUuidHolidayPayPolicyRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutCompaniesCompanyUuidHolidayPayPolicyRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # An object containing federal holiday objects, each containing a boolean selected property.
-      field :federal_holidays, T.nilable(::GustoEmbedded::Operations::PutCompaniesCompanyUuidHolidayPayPolicyFederalHolidays), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_holidays') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # An object containing federal holiday objects, each containing a boolean selected property.
+        field :federal_holidays, Crystalline::Nilable.new(Models::Operations::PutCompaniesCompanyUuidHolidayPayPolicyFederalHolidays), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_holidays') } }
 
+        sig { params(version: ::String, federal_holidays: T.nilable(Models::Operations::PutCompaniesCompanyUuidHolidayPayPolicyFederalHolidays)).void }
+        def initialize(version:, federal_holidays: nil)
+          @version = version
+          @federal_holidays = federal_holidays
+        end
 
-      sig { params(version: ::String, federal_holidays: T.nilable(::GustoEmbedded::Operations::PutCompaniesCompanyUuidHolidayPayPolicyFederalHolidays)).void }
-      def initialize(version: nil, federal_holidays: nil)
-        @version = version
-        @federal_holidays = federal_holidays
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @federal_holidays == other.federal_holidays
+          true
+        end
       end
     end
   end

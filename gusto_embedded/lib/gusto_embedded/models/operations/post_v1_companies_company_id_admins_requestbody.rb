@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1CompaniesCompanyIdAdminsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1CompaniesCompanyIdAdminsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The email of the admin for Gusto's system. If the email matches an existing user, this will create an admin account for them.
-      field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-      # The first name of the admin.
-      field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-      # The last name of the admin.
-      field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        # The first name of the admin.
+        field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name'), required: true } }
+        # The last name of the admin.
+        field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name'), required: true } }
+        # The email of the admin for Gusto's system. If the email matches an existing user, this will create an admin account for them.
+        field :email, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email'), required: true } }
 
+        sig { params(first_name: ::String, last_name: ::String, email: ::String).void }
+        def initialize(first_name:, last_name:, email:)
+          @first_name = first_name
+          @last_name = last_name
+          @email = email
+        end
 
-      sig { params(email: ::String, first_name: ::String, last_name: ::String).void }
-      def initialize(email: nil, first_name: nil, last_name: nil)
-        @email = email
-        @first_name = first_name
-        @last_name = last_name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @email == other.email
+          true
+        end
       end
     end
   end

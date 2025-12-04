@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of a Holiday Pay Policy
-    class HolidayPayPolicy < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Representation of a Holiday Pay Policy
+      class HolidayPayPolicy
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # A unique identifier for the company owning the holiday pay policy
-      field :company_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # List of employee uuids under a time off policy
-      field :employees, T::Array[::GustoEmbedded::Shared::HolidayPayPolicyEmployees], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
-      # List of the eleven supported federal holidays and their details
-      field :federal_holidays, T::Array[::GustoEmbedded::Shared::FederalHolidays], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_holidays') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # A unique identifier for the company owning the holiday pay policy
+        field :company_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid'), required: true } }
+        # List of the eleven supported federal holidays and their details
+        field :federal_holidays, Crystalline::Array.new(Models::Shared::FederalHolidays), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('federal_holidays'), required: true } }
+        # List of employee uuids under a time off policy
+        field :employees, Crystalline::Array.new(Models::Shared::HolidayPayPolicyEmployees), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees'), required: true } }
 
+        sig { params(version: ::String, company_uuid: ::String, federal_holidays: T::Array[Models::Shared::FederalHolidays], employees: T::Array[Models::Shared::HolidayPayPolicyEmployees]).void }
+        def initialize(version:, company_uuid:, federal_holidays:, employees:)
+          @version = version
+          @company_uuid = company_uuid
+          @federal_holidays = federal_holidays
+          @employees = employees
+        end
 
-      sig { params(company_uuid: ::String, employees: T::Array[::GustoEmbedded::Shared::HolidayPayPolicyEmployees], federal_holidays: T::Array[::GustoEmbedded::Shared::FederalHolidays], version: ::String).void }
-      def initialize(company_uuid: nil, employees: nil, federal_holidays: nil, version: nil)
-        @company_uuid = company_uuid
-        @employees = employees
-        @federal_holidays = federal_holidays
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @company_uuid == other.company_uuid
+          return false unless @federal_holidays == other.federal_holidays
+          return false unless @employees == other.employees
+          true
+        end
       end
     end
   end

@@ -5,13 +5,18 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PaymentMethod - The employee's compensation payment method. Invalid values will be ignored.
-    class PaymentMethod < T::Enum
-      enums do
-        DIRECT_DEPOSIT = new('Direct Deposit')
-        CHECK = new('Check')
+  module Models
+    module Operations
+    
+
+      class PaymentMethod < T::Enum
+
+
+        enums do
+          DIRECT_DEPOSIT = new('Direct Deposit')
+          CHECK = new('Check')
+          HISTORICAL_PAYMENT = new('Historical Payment')
+        end
       end
     end
   end

@@ -5,28 +5,52 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class GetV1CompaniesCompanyIdPayrollsPayrollIdRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1CompaniesCompanyIdPayrollsPayrollIdRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
-      # The UUID of the payroll
-      field :payroll_id, ::String, { 'path_param': { 'field_name': 'payroll_id', 'style': 'simple', 'explode': false } }
-      # Include the requested attribute in the response, for multiple attributes comma separate the values, i.e. `?include=benefits,deductions,taxes`
-      field :include, T.nilable(T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdQueryParamInclude]), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company
+        field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
+        # The UUID of the payroll
+        field :payroll_id, ::String, { 'path_param': { 'field_name': 'payroll_id', 'style': 'simple', 'explode': false } }
+        # Include the requested attribute in the response, for multiple attributes comma separate the values, i.e. `?include=benefits,deductions,taxes`
+        field :include, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdQueryParamInclude)), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
+        # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
+        field :page, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
+        # Number of objects per page. For majority of endpoints will default to 25
+        field :per, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
+        # Field to sort employee compensations by
+        field :sort_by, Crystalline::Nilable.new(Models::Operations::SortBy), { 'query_param': { 'field_name': 'sort_by', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_id: ::String, payroll_id: ::String, include: T.nilable(T::Array[Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdQueryParamInclude]), page: T.nilable(::Integer), per: T.nilable(::Integer), sort_by: T.nilable(Models::Operations::SortBy), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdHeaderXGustoAPIVersion)).void }
+        def initialize(company_id:, payroll_id:, include: nil, page: nil, per: nil, sort_by: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_id = company_id
+          @payroll_id = payroll_id
+          @include = include
+          @page = page
+          @per = per
+          @sort_by = sort_by
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(company_id: ::String, payroll_id: ::String, include: T.nilable(T::Array[::GustoEmbedded::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdQueryParamInclude]), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_id: nil, payroll_id: nil, include: nil, x_gusto_api_version: nil)
-        @company_id = company_id
-        @payroll_id = payroll_id
-        @include = include
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_id == other.company_id
+          return false unless @payroll_id == other.payroll_id
+          return false unless @include == other.include
+          return false unless @page == other.page
+          return false unless @per == other.per
+          return false unless @sort_by == other.sort_by
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

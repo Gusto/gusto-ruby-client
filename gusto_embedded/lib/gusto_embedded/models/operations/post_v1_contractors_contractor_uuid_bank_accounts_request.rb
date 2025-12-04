@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1ContractorsContractorUuidBankAccountsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1ContractorsContractorUuidBankAccountsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the contractor
-      field :contractor_uuid, ::String, { 'path_param': { 'field_name': 'contractor_uuid', 'style': 'simple', 'explode': false } }
+        # The UUID of the contractor
+        field :contractor_uuid, ::String, { 'path_param': { 'field_name': 'contractor_uuid', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PostV1ContractorsContractorUuidBankAccountsRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :request_body, Models::Operations::PostV1ContractorsContractorUuidBankAccountsRequestBody, { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(contractor_uuid: ::String, request_body: Models::Operations::PostV1ContractorsContractorUuidBankAccountsRequestBody, x_gusto_api_version: T.nilable(Models::Shared::VersionHeader)).void }
+        def initialize(contractor_uuid:, request_body:, x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @contractor_uuid = contractor_uuid
+          @request_body = request_body
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(contractor_uuid: ::String, request_body: ::GustoEmbedded::Operations::PostV1ContractorsContractorUuidBankAccountsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(contractor_uuid: nil, request_body: nil, x_gusto_api_version: nil)
-        @contractor_uuid = contractor_uuid
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @contractor_uuid == other.contractor_uuid
+          return false unless @request_body == other.request_body
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

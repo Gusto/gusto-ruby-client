@@ -5,14 +5,18 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PayrollTypes < T::Enum
-      enums do
-        REGULAR = new('regular')
-        OFF_CYCLE = new('off_cycle')
-        EXTERNAL = new('external')
+      class PayrollTypes < T::Enum
+
+
+        enums do
+          REGULAR = new('regular')
+          OFF_CYCLE = new('off_cycle')
+          EXTERNAL = new('external')
+        end
       end
     end
   end

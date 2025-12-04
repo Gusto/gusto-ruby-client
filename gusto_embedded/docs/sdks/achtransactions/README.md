@@ -15,22 +15,24 @@ scope: `ach_transactions:read`
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-ach-transactions" method="get" path="/v1/companies/{company_uuid}/ach_transactions" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
+      security: Models::Shared::Security.new(
+        company_access_auth: '<YOUR_BEARER_TOKEN_HERE>',
       ),
     )
 
-req = ::GustoEmbedded::Operations::GetAchTransactionsRequest.new(
-  company_uuid: "<id>",
+req = Models::Operations::GetAchTransactionsRequest.new(
+  company_uuid: '<id>',
 )
 
-res = s.ach_transactions.get_all(req)
+res = s.ach_transactions.get_all(request: req)
 
-if ! res.ach_transaction_list.nil?
+unless res.ach_transaction_list.nil?
   # handle response
 end
 
@@ -38,11 +40,16 @@ end
 
 ### Parameters
 
-| Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
-| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                      | [::GustoEmbedded::Operations::GetAchTransactionsRequest](../../models/operations/getachtransactionsrequest.md) | :heavy_check_mark:                                                                                             | The request object to use for the request.                                                                     |
+| Parameter                                                                                             | Type                                                                                                  | Required                                                                                              | Description                                                                                           |
+| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `request`                                                                                             | [Models::Operations::GetAchTransactionsRequest](../../models/operations/getachtransactionsrequest.md) | :heavy_check_mark:                                                                                    | The request object to use for the request.                                                            |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetAchTransactionsResponse)](../../models/operations/getachtransactionsresponse.md)**
+**[T.nilable(Models::Operations::GetAchTransactionsResponse)](../../models/operations/getachtransactionsresponse.md)**
 
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |

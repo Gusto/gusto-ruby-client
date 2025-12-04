@@ -5,12 +5,16 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # MigrationStatus - The migration status. 'success' is the only valid return value.
-    class MigrationStatus < T::Enum
-      enums do
-        SUCCESS = new('success')
+  module Models
+    module Operations
+    
+      # MigrationStatus - The migration status. 'success' is the only valid return value.
+      class MigrationStatus < T::Enum
+
+
+        enums do
+          SUCCESS = new('success')
+        end
       end
     end
   end

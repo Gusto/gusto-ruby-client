@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1WebhookSubscriptionRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :subscription_types, T::Array[::GustoEmbedded::Operations::SubscriptionTypes], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('subscription_types') } }
-
-      field :url, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('url') } }
+      class PostV1WebhookSubscriptionRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(subscription_types: T::Array[::GustoEmbedded::Operations::SubscriptionTypes], url: ::String).void }
-      def initialize(subscription_types: nil, url: nil)
-        @subscription_types = subscription_types
-        @url = url
+        field :url, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('url'), required: true } }
+
+        field :subscription_types, Crystalline::Array.new(Models::Operations::SubscriptionTypes), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('subscription_types'), required: true } }
+
+        sig { params(url: ::String, subscription_types: T::Array[Models::Operations::SubscriptionTypes]).void }
+        def initialize(url:, subscription_types:)
+          @url = url
+          @subscription_types = subscription_types
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @url == other.url
+          return false unless @subscription_types == other.subscription_types
+          true
+        end
       end
     end
   end

@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Whether to include Form I-9 for an employee during onboarding
-      field :i9_document, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('i9_document') } }
+        # Whether to include Form I-9 for an employee during onboarding
+        field :i9_document, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('i9_document') } }
 
+        sig { params(i9_document: T.nilable(T::Boolean)).void }
+        def initialize(i9_document: nil)
+          @i9_document = i9_document
+        end
 
-      sig { params(i9_document: T.nilable(T::Boolean)).void }
-      def initialize(i9_document: nil)
-        @i9_document = i9_document
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @i9_document == other.i9_document
+          true
+        end
       end
     end
   end

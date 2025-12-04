@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # TimeOffType - Type of the time off activity
-    class TimeOffType < T::Enum
-      enums do
-        VACATION = new('vacation')
-        SICK = new('sick')
+  module Models
+    module Shared
+    
+      # TimeOffType - Type of the time off activity
+      class TimeOffType < T::Enum
+
+
+        enums do
+          VACATION = new('vacation')
+          SICK = new('sick')
+        end
       end
     end
   end

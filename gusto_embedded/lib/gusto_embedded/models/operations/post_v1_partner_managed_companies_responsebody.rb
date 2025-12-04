@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Object returned when creating a partner managed company
-    class PostV1PartnerManagedCompaniesResponseBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Object returned when creating a partner managed company
+      class PostV1PartnerManagedCompaniesResponseBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Access token that can be used for OAuth access to the account. Access tokens expire 2 hours after they are issued.
-      field :access_token, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('access_token') } }
-      # Gusto’s UUID for the company
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # Time of access_token expiration in seconds
-      field :expires_in, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expires_in') } }
-      # Refresh token that can be exchanged for a new access token.
-      field :refresh_token, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('refresh_token') } }
+        # Access token that can be used for OAuth access to the account. Access tokens expire 2 hours after they are issued.
+        field :access_token, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('access_token') } }
+        # Refresh token that can be exchanged for a new access token.
+        field :refresh_token, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('refresh_token') } }
+        # Gusto’s UUID for the company
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # Time of access_token expiration in seconds
+        field :expires_in, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expires_in') } }
 
+        sig { params(access_token: T.nilable(::String), refresh_token: T.nilable(::String), company_uuid: T.nilable(::String), expires_in: T.nilable(::Integer)).void }
+        def initialize(access_token: nil, refresh_token: nil, company_uuid: nil, expires_in: nil)
+          @access_token = access_token
+          @refresh_token = refresh_token
+          @company_uuid = company_uuid
+          @expires_in = expires_in
+        end
 
-      sig { params(access_token: T.nilable(::String), company_uuid: T.nilable(::String), expires_in: T.nilable(::Integer), refresh_token: T.nilable(::String)).void }
-      def initialize(access_token: nil, company_uuid: nil, expires_in: nil, refresh_token: nil)
-        @access_token = access_token
-        @company_uuid = company_uuid
-        @expires_in = expires_in
-        @refresh_token = refresh_token
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @access_token == other.access_token
+          return false unless @refresh_token == other.refresh_token
+          return false unless @company_uuid == other.company_uuid
+          return false unless @expires_in == other.expires_in
+          true
+        end
       end
     end
   end

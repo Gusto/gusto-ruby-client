@@ -5,25 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1CompanyFlowsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1CompanyFlowsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # flow type
-      field :flow_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flow_type') } }
-      # the type of target entity applicable to the flow. This field is optional for company flows, please refer to the flow_types table above for more details.
-      field :entity_type, T.nilable(::GustoEmbedded::Operations::EntityType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::EntityType, true) } }
-      # UUID of the target entity applicable to the flow. This field is optional for company flows, please refer to the flow_types table above for more details.
-      field :entity_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid') } }
+        # flow type
+        field :flow_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flow_type'), required: true } }
+        # UUID of the target entity applicable to the flow. This field is optional for company flows, please refer to the flow_types table above for more details.
+        field :entity_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid') } }
+        # the type of target entity applicable to the flow. This field is optional for company flows, please refer to the flow_types table above for more details.
+        field :entity_type, Crystalline::Nilable.new(Models::Operations::EntityType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type'), 'decoder': Utils.enum_from_string(Models::Operations::EntityType, true) } }
+        # Optional configuration object that varies based on the flow_type. This can contain arbitrary key-value pairs specific to the flow being generated (e.g., { "provider": "guideline" }).
+        field :options, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
 
+        sig { params(flow_type: ::String, entity_uuid: T.nilable(::String), entity_type: T.nilable(Models::Operations::EntityType), options: T.nilable(T::Hash[Symbol, ::Object])).void }
+        def initialize(flow_type:, entity_uuid: nil, entity_type: nil, options: nil)
+          @flow_type = flow_type
+          @entity_uuid = entity_uuid
+          @entity_type = entity_type
+          @options = options
+        end
 
-      sig { params(flow_type: ::String, entity_type: T.nilable(::GustoEmbedded::Operations::EntityType), entity_uuid: T.nilable(::String)).void }
-      def initialize(flow_type: nil, entity_type: nil, entity_uuid: nil)
-        @flow_type = flow_type
-        @entity_type = entity_type
-        @entity_uuid = entity_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @flow_type == other.flow_type
+          return false unless @entity_uuid == other.entity_uuid
+          return false unless @entity_type == other.entity_type
+          return false unless @options == other.options
+          true
+        end
       end
     end
   end

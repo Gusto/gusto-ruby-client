@@ -5,14 +5,22 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # ContractorOnboardingStatusOnboardingStatus - One of the "onboarding_status" enum values.
-    class ContractorOnboardingStatusOnboardingStatus < T::Enum
-      enums do
-        ONBOARDING_COMPLETED = new('onboarding_completed')
-        ADMIN_ONBOARDING_REVIEW = new('admin_onboarding_review')
-        ADMIN_ONBOARDING_INCOMPLETE = new('admin_onboarding_incomplete')
+  module Models
+    module Shared
+    
+      # ContractorOnboardingStatusOnboardingStatus - One of the "onboarding_status" enum values.
+      class ContractorOnboardingStatusOnboardingStatus < T::Enum
+
+
+        enums do
+          ONBOARDING_COMPLETED = new('onboarding_completed')
+          ADMIN_ONBOARDING_REVIEW = new('admin_onboarding_review')
+          ADMIN_ONBOARDING_INCOMPLETE = new('admin_onboarding_incomplete')
+          SELF_ONBOARDING_NOT_INVITED = new('self_onboarding_not_invited')
+          SELF_ONBOARDING_INVITED = new('self_onboarding_invited')
+          SELF_ONBOARDING_STARTED = new('self_onboarding_started')
+          SELF_ONBOARDING_REVIEW = new('self_onboarding_review')
+        end
       end
     end
   end

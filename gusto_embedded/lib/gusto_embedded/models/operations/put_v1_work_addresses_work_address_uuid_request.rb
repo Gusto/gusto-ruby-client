@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1WorkAddressesWorkAddressUuidRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1WorkAddressesWorkAddressUuidRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The UUID of the work address
+        field :work_address_uuid, ::String, { 'path_param': { 'field_name': 'work_address_uuid', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # The UUID of the work address
-      field :work_address_uuid, ::String, { 'path_param': { 'field_name': 'work_address_uuid', 'style': 'simple', 'explode': false } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :request_body, Models::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::PutV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(work_address_uuid: ::String, request_body: Models::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, x_gusto_api_version: T.nilable(Models::Operations::PutV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion)).void }
+        def initialize(work_address_uuid:, request_body:, x_gusto_api_version: Models::Operations::PutV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @work_address_uuid = work_address_uuid
+          @request_body = request_body
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(request_body: ::GustoEmbedded::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, work_address_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(request_body: nil, work_address_uuid: nil, x_gusto_api_version: nil)
-        @request_body = request_body
-        @work_address_uuid = work_address_uuid
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @work_address_uuid == other.work_address_uuid
+          return false unless @request_body == other.request_body
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

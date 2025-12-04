@@ -5,40 +5,56 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1EmployeesEmployeeIdFederalTaxesRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1EmployeesEmployeeIdFederalTaxesRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
 
-      field :deductions, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deductions') } }
+        field :filing_status, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_status') } }
 
-      field :dependents_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dependents_amount') } }
+        field :two_jobs, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_jobs') } }
 
-      field :extra_withholding, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('extra_withholding') } }
+        field :dependents_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('dependents_amount') } }
 
-      field :filing_status, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_status') } }
+        field :other_income, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('other_income') } }
 
-      field :other_income, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('other_income') } }
+        field :deductions, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deductions') } }
 
-      field :two_jobs, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_jobs') } }
+        field :w4_data_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('w4_data_type') } }
 
-      field :w4_data_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('w4_data_type') } }
+        field :extra_withholding, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('extra_withholding') } }
 
+        sig { params(version: ::String, filing_status: T.nilable(::String), two_jobs: T.nilable(T::Boolean), dependents_amount: T.nilable(::String), other_income: T.nilable(::String), deductions: T.nilable(::String), w4_data_type: T.nilable(::String), extra_withholding: T.nilable(::String)).void }
+        def initialize(version:, filing_status: nil, two_jobs: nil, dependents_amount: nil, other_income: nil, deductions: nil, w4_data_type: nil, extra_withholding: nil)
+          @version = version
+          @filing_status = filing_status
+          @two_jobs = two_jobs
+          @dependents_amount = dependents_amount
+          @other_income = other_income
+          @deductions = deductions
+          @w4_data_type = w4_data_type
+          @extra_withholding = extra_withholding
+        end
 
-      sig { params(version: ::String, deductions: T.nilable(::String), dependents_amount: T.nilable(::String), extra_withholding: T.nilable(::String), filing_status: T.nilable(::String), other_income: T.nilable(::String), two_jobs: T.nilable(T::Boolean), w4_data_type: T.nilable(::String)).void }
-      def initialize(version: nil, deductions: nil, dependents_amount: nil, extra_withholding: nil, filing_status: nil, other_income: nil, two_jobs: nil, w4_data_type: nil)
-        @version = version
-        @deductions = deductions
-        @dependents_amount = dependents_amount
-        @extra_withholding = extra_withholding
-        @filing_status = filing_status
-        @other_income = other_income
-        @two_jobs = two_jobs
-        @w4_data_type = w4_data_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @filing_status == other.filing_status
+          return false unless @two_jobs == other.two_jobs
+          return false unless @dependents_amount == other.dependents_amount
+          return false unless @other_income == other.other_income
+          return false unless @deductions == other.deductions
+          return false unless @w4_data_type == other.w4_data_type
+          return false unless @extra_withholding == other.extra_withholding
+          true
+        end
       end
     end
   end

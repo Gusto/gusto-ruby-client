@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # A list of employee objects containing the employee uuid and time off hours balance
-    class PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # A list of employee objects containing the employee uuid and time off hours balance
+      class PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :employees, T.nilable(T::Array[::GustoEmbedded::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceEmployees]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
+        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceEmployees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
 
+        sig { params(employees: T.nilable(T::Array[Models::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceEmployees])).void }
+        def initialize(employees: nil)
+          @employees = employees
+        end
 
-      sig { params(employees: T.nilable(T::Array[::GustoEmbedded::Operations::PutVersionTimeOffPoliciesTimeOffPolicyUuidBalanceEmployees])).void }
-      def initialize(employees: nil)
-        @employees = employees
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employees == other.employees
+          true
+        end
       end
     end
   end

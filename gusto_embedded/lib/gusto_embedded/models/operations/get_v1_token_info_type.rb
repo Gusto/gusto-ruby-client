@@ -5,14 +5,18 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class GetV1TokenInfoType < T::Enum
-      enums do
-        COMPANY_ADMIN = new('CompanyAdmin')
-        EMPLOYEE = new('Employee')
-        CONTRACTOR = new('Contractor')
+      class GetV1TokenInfoType < T::Enum
+
+
+        enums do
+          COMPANY_ADMIN = new('CompanyAdmin')
+          EMPLOYEE = new('Employee')
+          CONTRACTOR = new('Contractor')
+        end
       end
     end
   end

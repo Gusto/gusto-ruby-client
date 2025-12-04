@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of a company's paid holidays as descibed by their Holiday Pay Policy
-    class PaidHolidays < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Representation of a company's paid holidays as descibed by their Holiday Pay Policy
+      class PaidHolidays
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :schema, T.nilable(::GustoEmbedded::Shared::Schema), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('schema') } }
+        field :schema, Crystalline::Nilable.new(Models::Shared::Schema), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('schema') } }
 
+        sig { params(schema: T.nilable(Models::Shared::Schema)).void }
+        def initialize(schema: nil)
+          @schema = schema
+        end
 
-      sig { params(schema: T.nilable(::GustoEmbedded::Shared::Schema)).void }
-      def initialize(schema: nil)
-        @schema = schema
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @schema == other.schema
+          true
+        end
       end
     end
   end

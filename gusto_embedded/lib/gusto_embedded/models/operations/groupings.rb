@@ -5,15 +5,19 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class Groupings < T::Enum
-      enums do
-        PAYROLL = new('payroll')
-        EMPLOYEE = new('employee')
-        WORK_ADDRESS = new('work_address')
-        WORK_ADDRESS_STATE = new('work_address_state')
+      class Groupings < T::Enum
+
+
+        enums do
+          PAYROLL = new('payroll')
+          EMPLOYEE = new('employee')
+          WORK_ADDRESS = new('work_address')
+          WORK_ADDRESS_STATE = new('work_address_state')
+        end
       end
     end
   end

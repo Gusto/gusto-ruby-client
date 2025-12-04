@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1CompensationsCompensationIdRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompensationsCompensationIdRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # Determines whether the compensation should be adjusted for minimum wage. Only applies to Nonexempt employees.
-      field :adjust_for_minimum_wage, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('adjust_for_minimum_wage') } }
-      # The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. 
-      field :flsa_status, T.nilable(::GustoEmbedded::Shared::FlsaStatusType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::FlsaStatusType, true) } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The dollar amount paid per payment unit.
+        field :rate, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rate') } }
+        # The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'.
+        field :payment_unit, Crystalline::Nilable.new(Models::Operations::PutV1CompensationsCompensationIdPaymentUnit), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_unit'), 'decoder': Utils.enum_from_string(Models::Operations::PutV1CompensationsCompensationIdPaymentUnit, true) } }
+        # The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. 
+        field :flsa_status, Crystalline::Nilable.new(Models::Shared::FlsaStatusType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status'), 'decoder': Utils.enum_from_string(Models::Shared::FlsaStatusType, true) } }
+        # Determines whether the compensation should be adjusted for minimum wage. Only applies to Nonexempt employees.
+        field :adjust_for_minimum_wage, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('adjust_for_minimum_wage') } }
 
-      field :minimum_wages, T.nilable(T::Array[::GustoEmbedded::Operations::PutV1CompensationsCompensationIdMinimumWages]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('minimum_wages') } }
-      # The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'.
-      field :payment_unit, T.nilable(::GustoEmbedded::Operations::PutV1CompensationsCompensationIdPaymentUnit), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_unit'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PutV1CompensationsCompensationIdPaymentUnit, true) } }
-      # The dollar amount paid per payment unit.
-      field :rate, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rate') } }
+        field :minimum_wages, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::PutV1CompensationsCompensationIdMinimumWages)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('minimum_wages') } }
 
+        sig { params(version: ::String, rate: T.nilable(::String), payment_unit: T.nilable(Models::Operations::PutV1CompensationsCompensationIdPaymentUnit), flsa_status: T.nilable(Models::Shared::FlsaStatusType), adjust_for_minimum_wage: T.nilable(T::Boolean), minimum_wages: T.nilable(T::Array[Models::Operations::PutV1CompensationsCompensationIdMinimumWages])).void }
+        def initialize(version:, rate: nil, payment_unit: nil, flsa_status: nil, adjust_for_minimum_wage: nil, minimum_wages: nil)
+          @version = version
+          @rate = rate
+          @payment_unit = payment_unit
+          @flsa_status = flsa_status
+          @adjust_for_minimum_wage = adjust_for_minimum_wage
+          @minimum_wages = minimum_wages
+        end
 
-      sig { params(version: ::String, adjust_for_minimum_wage: T.nilable(T::Boolean), flsa_status: T.nilable(::GustoEmbedded::Shared::FlsaStatusType), minimum_wages: T.nilable(T::Array[::GustoEmbedded::Operations::PutV1CompensationsCompensationIdMinimumWages]), payment_unit: T.nilable(::GustoEmbedded::Operations::PutV1CompensationsCompensationIdPaymentUnit), rate: T.nilable(::String)).void }
-      def initialize(version: nil, adjust_for_minimum_wage: nil, flsa_status: nil, minimum_wages: nil, payment_unit: nil, rate: nil)
-        @version = version
-        @adjust_for_minimum_wage = adjust_for_minimum_wage
-        @flsa_status = flsa_status
-        @minimum_wages = minimum_wages
-        @payment_unit = payment_unit
-        @rate = rate
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @rate == other.rate
+          return false unless @payment_unit == other.payment_unit
+          return false unless @flsa_status == other.flsa_status
+          return false unless @adjust_for_minimum_wage == other.adjust_for_minimum_wage
+          return false unless @minimum_wages == other.minimum_wages
+          true
+        end
       end
     end
   end

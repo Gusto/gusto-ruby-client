@@ -5,14 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
+      # PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod - Payment method
+      class PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod < T::Enum
 
-    class PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod < T::Enum
-      enums do
-        DIRECT_DEPOSIT = new('Direct Deposit')
-        CHECK = new('Check')
-        HISTORICAL_PAYMENT = new('Historical Payment')
+
+        enums do
+          DIRECT_DEPOSIT = new('Direct Deposit')
+          CHECK = new('Check')
+        end
       end
     end
   end

@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class HourlyCompensations < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class HourlyCompensations
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The amount of the compensation. This field is only available after the payroll is calculated and cannot be used for updating hourly compensations.
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # The amount multiplied by the base rate to calculate total compensation per hour worked.
-      field :compensation_multiplier, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('compensation_multiplier') } }
-      # The FLSA Status of the employee's primary job compensation
-      field :flsa_status, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status') } }
-      # The number of hours to be compensated for this pay period.
-      field :hours, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
-      # The UUID of the job for the compensation.
-      field :job_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job_uuid') } }
-      # The name of the compensation. This also serves as the unique, immutable identifier for this compensation.
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The name of the compensation. This also serves as the unique, immutable identifier for this compensation.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The number of hours to be compensated for this pay period.
+        field :hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+        # The amount of the compensation. This field is only available after the payroll is calculated and cannot be used for updating hourly compensations.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        # The UUID of the job for the compensation.
+        field :job_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job_uuid') } }
+        # The amount multiplied by the base rate to calculate total compensation per hour worked.
+        field :compensation_multiplier, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('compensation_multiplier') } }
+        # The FLSA Status of the employee's primary job compensation
+        field :flsa_status, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status') } }
 
+        sig { params(name: T.nilable(::String), hours: T.nilable(::String), amount: T.nilable(::String), job_uuid: T.nilable(::String), compensation_multiplier: T.nilable(::Float), flsa_status: T.nilable(::String)).void }
+        def initialize(name: nil, hours: nil, amount: nil, job_uuid: nil, compensation_multiplier: nil, flsa_status: nil)
+          @name = name
+          @hours = hours
+          @amount = amount
+          @job_uuid = job_uuid
+          @compensation_multiplier = compensation_multiplier
+          @flsa_status = flsa_status
+        end
 
-      sig { params(amount: T.nilable(::String), compensation_multiplier: T.nilable(::Float), flsa_status: T.nilable(::String), hours: T.nilable(::String), job_uuid: T.nilable(::String), name: T.nilable(::String)).void }
-      def initialize(amount: nil, compensation_multiplier: nil, flsa_status: nil, hours: nil, job_uuid: nil, name: nil)
-        @amount = amount
-        @compensation_multiplier = compensation_multiplier
-        @flsa_status = flsa_status
-        @hours = hours
-        @job_uuid = job_uuid
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @hours == other.hours
+          return false unless @amount == other.amount
+          return false unless @job_uuid == other.job_uuid
+          return false unless @compensation_multiplier == other.compensation_multiplier
+          return false unless @flsa_status == other.flsa_status
+          true
+        end
       end
     end
   end

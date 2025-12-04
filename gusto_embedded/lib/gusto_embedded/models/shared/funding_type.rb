@@ -5,15 +5,19 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # FundingType - Company's default funding type
-    class FundingType < T::Enum
-      enums do
-        ACH = new('ach')
-        REVERSE_WIRE = new('reverse_wire')
-        WIRE_IN = new('wire_in')
-        BREX = new('brex')
+  module Models
+    module Shared
+    
+      # FundingType - Company's default funding type
+      class FundingType < T::Enum
+
+
+        enums do
+          ACH = new('ach')
+          REVERSE_WIRE = new('reverse_wire')
+          WIRE_IN = new('wire_in')
+          BREX = new('brex')
+        end
       end
     end
   end

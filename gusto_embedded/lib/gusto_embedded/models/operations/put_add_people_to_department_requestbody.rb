@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutAddPeopleToDepartmentRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutAddPeopleToDepartmentRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Array of contractors to add to the department
-      field :contractors, T.nilable(T::Array[::GustoEmbedded::Operations::Contractors]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractors') } }
-      # Array of employees to add to the department
-      field :employees, T.nilable(T::Array[::GustoEmbedded::Operations::Employees]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # Array of employees to add to the department
+        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Employees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
+        # Array of contractors to add to the department
+        field :contractors, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Contractors)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractors') } }
 
+        sig { params(version: T.nilable(::String), employees: T.nilable(T::Array[Models::Operations::Employees]), contractors: T.nilable(T::Array[Models::Operations::Contractors])).void }
+        def initialize(version: nil, employees: nil, contractors: nil)
+          @version = version
+          @employees = employees
+          @contractors = contractors
+        end
 
-      sig { params(contractors: T.nilable(T::Array[::GustoEmbedded::Operations::Contractors]), employees: T.nilable(T::Array[::GustoEmbedded::Operations::Employees]), version: T.nilable(::String)).void }
-      def initialize(contractors: nil, employees: nil, version: nil)
-        @contractors = contractors
-        @employees = employees
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @employees == other.employees
+          return false unless @contractors == other.contractors
+          true
+        end
       end
     end
   end

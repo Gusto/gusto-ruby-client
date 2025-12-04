@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class EmployeePaymentMethod < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class EmployeePaymentMethod
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the last split amount must be nil to capture the remainder.
-      field :split_by, T.nilable(::GustoEmbedded::Shared::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::SplitBy, true) } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The payment method type. If type is Check, then `split_by` and `splits` do not need to be populated. If type is Direct Deposit, `split_by` and `splits` are required.
+        field :type, Crystalline::Nilable.new(Models::Shared::EmployeePaymentMethodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(Models::Shared::EmployeePaymentMethodType, true) } }
+        # Describes how the payment will be split. If `split_by` is Percentage, then the split amounts must add up to exactly 100. If `split_by` is Amount, then the last split `amount` must be `null` to capture the remainder.
+        field :split_by, Crystalline::Nilable.new(Models::Shared::EmployeePaymentMethodSplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': Utils.enum_from_string(Models::Shared::EmployeePaymentMethodSplitBy, true) } }
 
-      field :splits, T.nilable(T::Array[::GustoEmbedded::Shared::PaymentMethodBankAccount]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
-      # The payment method type. If type is Check, then split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
-      field :type, T.nilable(::GustoEmbedded::Shared::EmployeePaymentMethodType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::EmployeePaymentMethodType, true) } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        field :splits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PaymentMethodBankAccount)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
 
+        sig { params(version: T.nilable(::String), type: T.nilable(Models::Shared::EmployeePaymentMethodType), split_by: T.nilable(Models::Shared::EmployeePaymentMethodSplitBy), splits: T.nilable(T::Array[Models::Shared::PaymentMethodBankAccount])).void }
+        def initialize(version: nil, type: nil, split_by: nil, splits: nil)
+          @version = version
+          @type = type
+          @split_by = split_by
+          @splits = splits
+        end
 
-      sig { params(split_by: T.nilable(::GustoEmbedded::Shared::SplitBy), splits: T.nilable(T::Array[::GustoEmbedded::Shared::PaymentMethodBankAccount]), type: T.nilable(::GustoEmbedded::Shared::EmployeePaymentMethodType), version: T.nilable(::String)).void }
-      def initialize(split_by: nil, splits: nil, type: nil, version: nil)
-        @split_by = split_by
-        @splits = splits
-        @type = type
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @type == other.type
+          return false unless @split_by == other.split_by
+          return false unless @splits == other.splits
+          true
+        end
       end
     end
   end

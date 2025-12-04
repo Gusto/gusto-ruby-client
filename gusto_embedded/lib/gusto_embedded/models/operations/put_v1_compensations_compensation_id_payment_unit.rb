@@ -5,16 +5,20 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PutV1CompensationsCompensationIdPaymentUnit - The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'.
-    class PutV1CompensationsCompensationIdPaymentUnit < T::Enum
-      enums do
-        HOUR = new('Hour')
-        WEEK = new('Week')
-        MONTH = new('Month')
-        YEAR = new('Year')
-        PAYCHECK = new('Paycheck')
+  module Models
+    module Operations
+    
+      # PutV1CompensationsCompensationIdPaymentUnit - The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'.
+      class PutV1CompensationsCompensationIdPaymentUnit < T::Enum
+
+
+        enums do
+          HOUR = new('Hour')
+          WEEK = new('Week')
+          MONTH = new('Month')
+          YEAR = new('Year')
+          PAYCHECK = new('Paycheck')
+        end
       end
     end
   end

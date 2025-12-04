@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PostCompaniesCompanyUuidReportsPaymentMethod - Payment method to filter by
-    class PostCompaniesCompanyUuidReportsPaymentMethod < T::Enum
-      enums do
-        CHECK = new('check')
-        DIRECT_DEPOSIT = new('direct_deposit')
+  module Models
+    module Operations
+    
+      # PostCompaniesCompanyUuidReportsPaymentMethod - Payment method to filter by
+      class PostCompaniesCompanyUuidReportsPaymentMethod < T::Enum
+
+
+        enums do
+          CHECK = new('check')
+          DIRECT_DEPOSIT = new('direct_deposit')
+        end
       end
     end
   end

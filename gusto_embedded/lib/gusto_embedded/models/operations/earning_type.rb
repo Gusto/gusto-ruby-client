@@ -5,13 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # EarningType - The earning type for the compensation.
-    class EarningType < T::Enum
-      enums do
-        COMPANY_PAY_TYPE = new('CompanyPayType')
-        COMPANY_EARNING_TYPE = new('CompanyEarningType')
+  module Models
+    module Operations
+    
+      # EarningType - The earning type for the compensation.
+      class EarningType < T::Enum
+
+
+        enums do
+          COMPANY_PAY_TYPE = new('CompanyPayType')
+          COMPANY_EARNING_TYPE = new('CompanyEarningType')
+        end
       end
     end
   end

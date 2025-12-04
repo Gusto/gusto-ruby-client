@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class WorkAddress < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class WorkAddress
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Reference to a company location
-      field :location_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
+        # Reference to a company location
+        field :location_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
 
+        sig { params(location_uuid: T.nilable(::String)).void }
+        def initialize(location_uuid: nil)
+          @location_uuid = location_uuid
+        end
 
-      sig { params(location_uuid: T.nilable(::String)).void }
-      def initialize(location_uuid: nil)
-        @location_uuid = location_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @location_uuid == other.location_uuid
+          true
+        end
       end
     end
   end

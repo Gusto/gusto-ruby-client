@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1PlaidProcessorTokenRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1PlaidProcessorTokenRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The owner UUID of the bank account
-      field :owner_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('owner_id') } }
-      # The owner type of the bank account
-      field :owner_type, ::GustoEmbedded::Operations::OwnerType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('owner_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::OwnerType, false) } }
-      # The Plaid processor token
-      field :processor_token, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processor_token') } }
+        # The owner type of the bank account
+        field :owner_type, Models::Operations::OwnerType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('owner_type'), required: true, 'decoder': Utils.enum_from_string(Models::Operations::OwnerType, false) } }
+        # The owner UUID of the bank account
+        field :owner_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('owner_id'), required: true } }
+        # The Plaid processor token
+        field :processor_token, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processor_token'), required: true } }
 
+        sig { params(owner_type: Models::Operations::OwnerType, owner_id: ::String, processor_token: ::String).void }
+        def initialize(owner_type:, owner_id:, processor_token:)
+          @owner_type = owner_type
+          @owner_id = owner_id
+          @processor_token = processor_token
+        end
 
-      sig { params(owner_id: ::String, owner_type: ::GustoEmbedded::Operations::OwnerType, processor_token: ::String).void }
-      def initialize(owner_id: nil, owner_type: nil, processor_token: nil)
-        @owner_id = owner_id
-        @owner_type = owner_type
-        @processor_token = processor_token
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @owner_type == other.owner_type
+          return false unless @owner_id == other.owner_id
+          return false unless @processor_token == other.processor_token
+          true
+        end
       end
     end
   end

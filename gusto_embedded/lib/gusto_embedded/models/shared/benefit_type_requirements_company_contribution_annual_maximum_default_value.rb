@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class BenefitTypeRequirementsCompanyContributionAnnualMaximumDefaultValue < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type') } }
-
-      field :value, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+      class BenefitTypeRequirementsCompanyContributionAnnualMaximumDefaultValue
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(type: T.nilable(::String), value: T.nilable(::String)).void }
-      def initialize(type: nil, value: nil)
-        @type = type
-        @value = value
+        field :value, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+
+        field :type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type') } }
+
+        sig { params(value: T.nilable(::String), type: T.nilable(::String)).void }
+        def initialize(value: nil, type: nil)
+          @value = value
+          @type = type
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @value == other.value
+          return false unless @type == other.type
+          true
+        end
       end
     end
   end

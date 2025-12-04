@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PayPeriods < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayPeriods
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The payment date, "Check date", for the pay period
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # The last day of the pay period.
-      field :end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
-      # The deadline to run payroll for direct deposit on the check date
-      field :run_payroll_by, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('run_payroll_by') } }
-      # The first day of the pay period
-      field :start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # The payment date, "Check date", for the pay period
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # The deadline to run payroll for direct deposit on the check date
+        field :run_payroll_by, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('run_payroll_by') } }
+        # The first day of the pay period
+        field :start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # The last day of the pay period.
+        field :end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
 
+        sig { params(check_date: T.nilable(::String), run_payroll_by: T.nilable(::String), start_date: T.nilable(::String), end_date: T.nilable(::String)).void }
+        def initialize(check_date: nil, run_payroll_by: nil, start_date: nil, end_date: nil)
+          @check_date = check_date
+          @run_payroll_by = run_payroll_by
+          @start_date = start_date
+          @end_date = end_date
+        end
 
-      sig { params(check_date: T.nilable(::String), end_date: T.nilable(::String), run_payroll_by: T.nilable(::String), start_date: T.nilable(::String)).void }
-      def initialize(check_date: nil, end_date: nil, run_payroll_by: nil, start_date: nil)
-        @check_date = check_date
-        @end_date = end_date
-        @run_payroll_by = run_payroll_by
-        @start_date = start_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @check_date == other.check_date
+          return false unless @run_payroll_by == other.run_payroll_by
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          true
+        end
       end
     end
   end

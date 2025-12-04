@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class RehireBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class RehireBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The day when the employee returns to work.
-      field :effective_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
-      # The boolean flag indicating whether Gusto will file a new hire report for the employee.
-      field :file_new_hire_report, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_new_hire_report') } }
-      # The uuid of the employee's work location.
-      field :work_location_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_location_uuid') } }
-      # The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*.
-      field :employment_status, T.nilable(::GustoEmbedded::Shared::EmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::EmploymentStatus, true) } }
-      # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
-      field :two_percent_shareholder, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
+        # The day when the employee returns to work.
+        field :effective_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), required: true } }
+        # The boolean flag indicating whether Gusto will file a new hire report for the employee.
+        field :file_new_hire_report, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_new_hire_report'), required: true } }
+        # The uuid of the employee's work location.
+        field :work_location_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_location_uuid'), required: true } }
+        # The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*.
+        field :employment_status, Crystalline::Nilable.new(Models::Shared::EmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_status'), 'decoder': Utils.enum_from_string(Models::Shared::EmploymentStatus, true) } }
+        # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
+        field :two_percent_shareholder, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
 
+        sig { params(effective_date: ::String, file_new_hire_report: T::Boolean, work_location_uuid: ::String, employment_status: T.nilable(Models::Shared::EmploymentStatus), two_percent_shareholder: T.nilable(T::Boolean)).void }
+        def initialize(effective_date:, file_new_hire_report:, work_location_uuid:, employment_status: nil, two_percent_shareholder: nil)
+          @effective_date = effective_date
+          @file_new_hire_report = file_new_hire_report
+          @work_location_uuid = work_location_uuid
+          @employment_status = employment_status
+          @two_percent_shareholder = two_percent_shareholder
+        end
 
-      sig { params(effective_date: ::String, file_new_hire_report: T::Boolean, work_location_uuid: ::String, employment_status: T.nilable(::GustoEmbedded::Shared::EmploymentStatus), two_percent_shareholder: T.nilable(T::Boolean)).void }
-      def initialize(effective_date: nil, file_new_hire_report: nil, work_location_uuid: nil, employment_status: nil, two_percent_shareholder: nil)
-        @effective_date = effective_date
-        @file_new_hire_report = file_new_hire_report
-        @work_location_uuid = work_location_uuid
-        @employment_status = employment_status
-        @two_percent_shareholder = two_percent_shareholder
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @effective_date == other.effective_date
+          return false unless @file_new_hire_report == other.file_new_hire_report
+          return false unless @work_location_uuid == other.work_location_uuid
+          return false unless @employment_status == other.employment_status
+          return false unless @two_percent_shareholder == other.two_percent_shareholder
+          true
+        end
       end
     end
   end

@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class PayrollProcessingRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayrollProcessingRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Errors that occurred during async payroll processing
-      field :errors, T.nilable(T::Array[::GustoEmbedded::Shared::EntityErrorObject]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('errors') } }
-      # The status of the payroll processing request
-      field :status, T.nilable(::GustoEmbedded::Shared::PayrollProcessingRequestStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollProcessingRequestStatus, true) } }
+        # The status of the payroll processing request
+        field :status, Crystalline::Nilable.new(Models::Shared::PayrollProcessingRequestStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(Models::Shared::PayrollProcessingRequestStatus, true) } }
+        # Errors that occurred during async payroll processing
+        field :errors, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EntityErrorObject)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('errors') } }
 
+        sig { params(status: T.nilable(Models::Shared::PayrollProcessingRequestStatus), errors: T.nilable(T::Array[Models::Shared::EntityErrorObject])).void }
+        def initialize(status: nil, errors: nil)
+          @status = status
+          @errors = errors
+        end
 
-      sig { params(errors: T.nilable(T::Array[::GustoEmbedded::Shared::EntityErrorObject]), status: T.nilable(::GustoEmbedded::Shared::PayrollProcessingRequestStatus)).void }
-      def initialize(errors: nil, status: nil)
-        @errors = errors
-        @status = status
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @status == other.status
+          return false unless @errors == other.errors
+          true
+        end
       end
     end
   end

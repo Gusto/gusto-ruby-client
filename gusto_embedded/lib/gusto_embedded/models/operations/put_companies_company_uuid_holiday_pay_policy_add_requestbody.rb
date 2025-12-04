@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutCompaniesCompanyUuidHolidayPayPolicyAddRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutCompaniesCompanyUuidHolidayPayPolicyAddRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # An array of employee objects, each containing an employee_uuid.
-      field :employees, T.nilable(T::Array[::GustoEmbedded::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddEmployees]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # An array of employee objects, each containing an employee_uuid.
+        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddEmployees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
 
+        sig { params(version: ::String, employees: T.nilable(T::Array[Models::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddEmployees])).void }
+        def initialize(version:, employees: nil)
+          @version = version
+          @employees = employees
+        end
 
-      sig { params(version: ::String, employees: T.nilable(T::Array[::GustoEmbedded::Operations::PutCompaniesCompanyUuidHolidayPayPolicyAddEmployees])).void }
-      def initialize(version: nil, employees: nil)
-        @version = version
-        @employees = employees
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @employees == other.employees
+          true
+        end
       end
     end
   end

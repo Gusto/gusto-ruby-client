@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # The minimum wage record you want to apply to the compensation
-    class PutV1CompensationsCompensationIdMinimumWages < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # The minimum wage record you want to apply to the compensation
+      class PutV1CompensationsCompensationIdMinimumWages
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the minimum wage record. Required if adjust_for_minimum_wage set to true
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The UUID of the minimum wage record. Required if adjust_for_minimum_wage set to true
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
 
+        sig { params(uuid: T.nilable(::String)).void }
+        def initialize(uuid: nil)
+          @uuid = uuid
+        end
 
-      sig { params(uuid: T.nilable(::String)).void }
-      def initialize(uuid: nil)
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          true
+        end
       end
     end
   end

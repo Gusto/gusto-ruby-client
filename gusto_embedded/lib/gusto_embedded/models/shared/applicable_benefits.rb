@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class ApplicableBenefits < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
-
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-
-      field :id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id') } }
+      class ApplicableBenefits
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(active: T.nilable(T::Boolean), description: T.nilable(::String), id: T.nilable(::Integer)).void }
-      def initialize(active: nil, description: nil, id: nil)
-        @active = active
-        @description = description
-        @id = id
+        field :id, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id') } }
+
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+
+        sig { params(id: T.nilable(::Integer), description: T.nilable(::String), active: T.nilable(T::Boolean)).void }
+        def initialize(id: nil, description: nil, active: nil)
+          @id = id
+          @description = description
+          @active = active
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @id == other.id
+          return false unless @description == other.description
+          return false unless @active == other.active
+          true
+        end
       end
     end
   end

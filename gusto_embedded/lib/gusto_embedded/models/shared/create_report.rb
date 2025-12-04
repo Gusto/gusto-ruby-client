@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class CreateReport < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # Example response
+      class CreateReport
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Company UUID
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # Title of the report
-      field :custom_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_name') } }
-      # File type
-      field :file_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_type') } }
-      # A unique identifier of the report request
-      field :request_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('request_uuid') } }
+        # A unique identifier of the report request
+        field :request_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('request_uuid') } }
+        # Company UUID
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # File type
+        field :file_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_type') } }
+        # Title of the report
+        field :custom_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_name') } }
 
+        sig { params(request_uuid: T.nilable(::String), company_uuid: T.nilable(::String), file_type: T.nilable(::String), custom_name: T.nilable(::String)).void }
+        def initialize(request_uuid: nil, company_uuid: nil, file_type: nil, custom_name: nil)
+          @request_uuid = request_uuid
+          @company_uuid = company_uuid
+          @file_type = file_type
+          @custom_name = custom_name
+        end
 
-      sig { params(company_uuid: T.nilable(::String), custom_name: T.nilable(::String), file_type: T.nilable(::String), request_uuid: T.nilable(::String)).void }
-      def initialize(company_uuid: nil, custom_name: nil, file_type: nil, request_uuid: nil)
-        @company_uuid = company_uuid
-        @custom_name = custom_name
-        @file_type = file_type
-        @request_uuid = request_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @request_uuid == other.request_uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @file_type == other.file_type
+          return false unless @custom_name == other.custom_name
+          true
+        end
       end
     end
   end

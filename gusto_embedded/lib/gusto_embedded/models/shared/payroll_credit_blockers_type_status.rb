@@ -5,15 +5,19 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PayrollCreditBlockersTypeStatus - The status of the credit blocker
-    class PayrollCreditBlockersTypeStatus < T::Enum
-      enums do
-        UNRESOLVED = new('unresolved')
-        PENDING_REVIEW = new('pending_review')
-        RESOLVED = new('resolved')
-        FAILED = new('failed')
+  module Models
+    module Shared
+    
+      # PayrollCreditBlockersTypeStatus - The status of the credit blocker
+      class PayrollCreditBlockersTypeStatus < T::Enum
+
+
+        enums do
+          UNRESOLVED = new('unresolved')
+          PENDING_REVIEW = new('pending_review')
+          RESOLVED = new('resolved')
+          FAILED = new('failed')
+        end
       end
     end
   end

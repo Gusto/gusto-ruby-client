@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class HistoricalEmployeeBodyHomeAddress < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :city, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
-
-      field :state, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
-
-      field :street_1, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
-
-      field :zip, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
-
-      field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
+      class HistoricalEmployeeBodyHomeAddress
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(city: ::String, state: ::String, street_1: ::String, zip: ::String, street_2: T.nilable(::String)).void }
-      def initialize(city: nil, state: nil, street_1: nil, zip: nil, street_2: nil)
-        @city = city
-        @state = state
-        @street_1 = street_1
-        @zip = zip
-        @street_2 = street_2
+        field :street_1, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1'), required: true } }
+
+        field :city, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city'), required: true } }
+
+        field :state, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state'), required: true } }
+
+        field :zip, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip'), required: true } }
+
+        field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
+
+        sig { params(street_1: ::String, city: ::String, state: ::String, zip: ::String, street_2: T.nilable(::String)).void }
+        def initialize(street_1:, city:, state:, zip:, street_2: nil)
+          @street_1 = street_1
+          @city = city
+          @state = state
+          @zip = zip
+          @street_2 = street_2
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @street_1 == other.street_1
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @zip == other.zip
+          return false unless @street_2 == other.street_2
+          true
+        end
       end
     end
   end

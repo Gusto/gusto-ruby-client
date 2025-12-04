@@ -5,30 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # An object representing the company contribution type and value.
-    class Contribution < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # An object representing the company contribution type and value.
+      class Contribution
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The company contribution scheme.
-      # 
-      # `amount`: The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar.
-      # 
-      # `percentage`: The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar.
-      # 
-      # `tiered`: The size of the company contribution corresponds to the size of the employee deduction relative to a tiered matching scheme.
-      field :type, T.nilable(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsType, true) } }
-      # For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage.
-      # 
-      # For the `tiered` contribution type, an array of tiers.
-      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        # The company contribution scheme.
+        # 
+        # `amount`: The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar.
+        # 
+        # `percentage`: The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar.
+        # 
+        # `tiered`: The size of the company contribution corresponds to the size of the employee deduction relative to a tiered matching scheme.
+        field :type, Crystalline::Nilable.new(Models::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(Models::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsType, true) } }
+        # For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage.
+        # 
+        # For the `tiered` contribution type, an array of tiers.
+        field :value, Crystalline::Nilable.new(Crystalline::Union.new(::String, Crystalline::Array.new(Models::Operations::Two))), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
+        sig { params(type: T.nilable(Models::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsType), value: T.nilable(T.any(::String, T::Array[Models::Operations::Two]))).void }
+        def initialize(type: nil, value: nil)
+          @type = type
+          @value = value
+        end
 
-      sig { params(type: T.nilable(::GustoEmbedded::Operations::PostV1EmployeesEmployeeIdEmployeeBenefitsType), value: T.nilable(::Object)).void }
-      def initialize(type: nil, value: nil)
-        @type = type
-        @value = value
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @value == other.value
+          true
+        end
       end
     end
   end

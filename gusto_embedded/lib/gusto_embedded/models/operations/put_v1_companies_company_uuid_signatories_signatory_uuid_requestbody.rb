@@ -5,43 +5,60 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The current version of the object. See the versioning guide for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
-      field :birthday, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('birthday') } }
+        field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
 
-      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+        field :middle_initial, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
 
-      field :home_address, T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidHomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
+        field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
 
-      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
 
-      field :middle_initial, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
+        field :phone, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
 
-      field :phone, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
+        field :birthday, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('birthday') } }
 
-      field :ssn, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
+        field :ssn, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
 
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
-      # The current version of the object. See the versioning guide for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        field :home_address, Crystalline::Nilable.new(Models::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidHomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
 
+        sig { params(version: T.nilable(::String), first_name: T.nilable(::String), middle_initial: T.nilable(::String), last_name: T.nilable(::String), title: T.nilable(::String), phone: T.nilable(::String), birthday: T.nilable(::String), ssn: T.nilable(::String), home_address: T.nilable(Models::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidHomeAddress)).void }
+        def initialize(version: nil, first_name: nil, middle_initial: nil, last_name: nil, title: nil, phone: nil, birthday: nil, ssn: nil, home_address: nil)
+          @version = version
+          @first_name = first_name
+          @middle_initial = middle_initial
+          @last_name = last_name
+          @title = title
+          @phone = phone
+          @birthday = birthday
+          @ssn = ssn
+          @home_address = home_address
+        end
 
-      sig { params(birthday: T.nilable(::String), first_name: T.nilable(::String), home_address: T.nilable(::GustoEmbedded::Operations::PutV1CompaniesCompanyUuidSignatoriesSignatoryUuidHomeAddress), last_name: T.nilable(::String), middle_initial: T.nilable(::String), phone: T.nilable(::String), ssn: T.nilable(::String), title: T.nilable(::String), version: T.nilable(::String)).void }
-      def initialize(birthday: nil, first_name: nil, home_address: nil, last_name: nil, middle_initial: nil, phone: nil, ssn: nil, title: nil, version: nil)
-        @birthday = birthday
-        @first_name = first_name
-        @home_address = home_address
-        @last_name = last_name
-        @middle_initial = middle_initial
-        @phone = phone
-        @ssn = ssn
-        @title = title
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @first_name == other.first_name
+          return false unless @middle_initial == other.middle_initial
+          return false unless @last_name == other.last_name
+          return false unless @title == other.title
+          return false unless @phone == other.phone
+          return false unless @birthday == other.birthday
+          return false unless @ssn == other.ssn
+          return false unless @home_address == other.home_address
+          true
+        end
       end
     end
   end

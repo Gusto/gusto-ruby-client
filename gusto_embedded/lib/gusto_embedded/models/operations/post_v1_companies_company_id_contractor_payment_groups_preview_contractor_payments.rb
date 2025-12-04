@@ -5,34 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # If the contractor is on an hourly wage, this is the bonus the contractor earned
-      field :bonus, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
-      # The contractor receiving the payment
-      field :contractor_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
-      # If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment
-      field :hours, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+        # UUID of the contractor
+        field :contractor_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
+        # Payment method
+        field :payment_method, Crystalline::Nilable.new(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod, true) } }
+        # Wage amount
+        field :wage, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+        # Reimbursement amount
+        field :reimbursement, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
 
-      field :payment_method, T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod, true) } }
-      # Reimbursed wages for the contractor
-      field :reimbursement, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
-      # If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked
-      field :wage, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+        sig { params(contractor_uuid: T.nilable(::String), payment_method: T.nilable(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod), wage: T.nilable(::Float), reimbursement: T.nilable(::Float)).void }
+        def initialize(contractor_uuid: nil, payment_method: nil, wage: nil, reimbursement: nil)
+          @contractor_uuid = contractor_uuid
+          @payment_method = payment_method
+          @wage = wage
+          @reimbursement = reimbursement
+        end
 
-
-      sig { params(bonus: T.nilable(::Float), contractor_uuid: T.nilable(::String), hours: T.nilable(::Float), payment_method: T.nilable(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod), reimbursement: T.nilable(::Float), wage: T.nilable(::Float)).void }
-      def initialize(bonus: nil, contractor_uuid: nil, hours: nil, payment_method: nil, reimbursement: nil, wage: nil)
-        @bonus = bonus
-        @contractor_uuid = contractor_uuid
-        @hours = hours
-        @payment_method = payment_method
-        @reimbursement = reimbursement
-        @wage = wage
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @contractor_uuid == other.contractor_uuid
+          return false unless @payment_method == other.payment_method
+          return false unless @wage == other.wage
+          return false unless @reimbursement == other.reimbursement
+          true
+        end
       end
     end
   end

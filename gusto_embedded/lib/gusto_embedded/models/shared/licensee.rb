@@ -5,34 +5,48 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The licensed payroll processor
-    class Licensee < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The licensed payroll processor
+      class Licensee
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Always the fixed string "525 20th St"
-      field :address, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('address') } }
-      # Always the fixed string "San Francisco"
-      field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
-      # Always the fixed string "Gusto, Zenpayroll Inc."
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # Always the fixed string "4157778888"
-      field :phone_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone_number') } }
-      # Always the fixed string "94107"
-      field :postal_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('postal_code') } }
-      # Always the fixed string "CA"
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        # Always the fixed string "Gusto, Zenpayroll Inc."
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # Always the fixed string "525 20th St"
+        field :address, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('address') } }
+        # Always the fixed string "San Francisco"
+        field :city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
+        # Always the fixed string "CA"
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        # Always the fixed string "94107"
+        field :postal_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('postal_code') } }
+        # Always the fixed string "4157778888"
+        field :phone_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone_number') } }
 
+        sig { params(name: T.nilable(::String), address: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), postal_code: T.nilable(::String), phone_number: T.nilable(::String)).void }
+        def initialize(name: nil, address: nil, city: nil, state: nil, postal_code: nil, phone_number: nil)
+          @name = name
+          @address = address
+          @city = city
+          @state = state
+          @postal_code = postal_code
+          @phone_number = phone_number
+        end
 
-      sig { params(address: T.nilable(::String), city: T.nilable(::String), name: T.nilable(::String), phone_number: T.nilable(::String), postal_code: T.nilable(::String), state: T.nilable(::String)).void }
-      def initialize(address: nil, city: nil, name: nil, phone_number: nil, postal_code: nil, state: nil)
-        @address = address
-        @city = city
-        @name = name
-        @phone_number = phone_number
-        @postal_code = postal_code
-        @state = state
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @address == other.address
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @postal_code == other.postal_code
+          return false unless @phone_number == other.phone_number
+          true
+        end
       end
     end
   end

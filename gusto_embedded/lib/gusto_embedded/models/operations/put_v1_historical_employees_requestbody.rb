@@ -5,55 +5,76 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # Update a historical employee.
-    class PutV1HistoricalEmployeesRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # Update a historical employee.
+      class PutV1HistoricalEmployeesRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
 
-      field :date_of_birth, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth') } }
+        field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name'), required: true } }
 
-      field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+        field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name'), required: true } }
 
-      field :home_address, ::GustoEmbedded::Operations::PutV1HistoricalEmployeesHomeAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
+        field :date_of_birth, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth'), required: true } }
 
-      field :job, ::GustoEmbedded::Operations::Job, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job') } }
+        field :ssn, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn'), required: true } }
 
-      field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        field :work_address, Models::Operations::WorkAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_address'), required: true } }
 
-      field :ssn, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
+        field :home_address, Models::Operations::PutV1HistoricalEmployeesHomeAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address'), required: true } }
 
-      field :termination, ::GustoEmbedded::Operations::Termination, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('termination') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        field :termination, Models::Operations::Termination, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('termination'), required: true } }
 
-      field :work_address, ::GustoEmbedded::Operations::WorkAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_address') } }
-      # Optional. If provided, the email address will be saved to the employee.
-      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        field :job, Models::Operations::Job, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job'), required: true } }
 
-      field :employee_state_taxes, T.nilable(::GustoEmbedded::Operations::EmployeeStateTaxes), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_state_taxes') } }
+        field :middle_initial, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
 
-      field :middle_initial, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
+        field :preferred_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
+        # Optional. If provided, the email address will be saved to the employee.
+        field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
 
-      field :preferred_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
+        field :employee_state_taxes, Crystalline::Nilable.new(Models::Operations::EmployeeStateTaxes), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_state_taxes') } }
 
+        sig { params(version: ::String, first_name: ::String, last_name: ::String, date_of_birth: ::String, ssn: ::String, work_address: Models::Operations::WorkAddress, home_address: Models::Operations::PutV1HistoricalEmployeesHomeAddress, termination: Models::Operations::Termination, job: Models::Operations::Job, middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), email: T.nilable(::String), employee_state_taxes: T.nilable(Models::Operations::EmployeeStateTaxes)).void }
+        def initialize(version:, first_name:, last_name:, date_of_birth:, ssn:, work_address:, home_address:, termination:, job:, middle_initial: nil, preferred_first_name: nil, email: nil, employee_state_taxes: nil)
+          @version = version
+          @first_name = first_name
+          @last_name = last_name
+          @date_of_birth = date_of_birth
+          @ssn = ssn
+          @work_address = work_address
+          @home_address = home_address
+          @termination = termination
+          @job = job
+          @middle_initial = middle_initial
+          @preferred_first_name = preferred_first_name
+          @email = email
+          @employee_state_taxes = employee_state_taxes
+        end
 
-      sig { params(date_of_birth: ::String, first_name: ::String, home_address: ::GustoEmbedded::Operations::PutV1HistoricalEmployeesHomeAddress, job: ::GustoEmbedded::Operations::Job, last_name: ::String, ssn: ::String, termination: ::GustoEmbedded::Operations::Termination, version: ::String, work_address: ::GustoEmbedded::Operations::WorkAddress, email: T.nilable(::String), employee_state_taxes: T.nilable(::GustoEmbedded::Operations::EmployeeStateTaxes), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String)).void }
-      def initialize(date_of_birth: nil, first_name: nil, home_address: nil, job: nil, last_name: nil, ssn: nil, termination: nil, version: nil, work_address: nil, email: nil, employee_state_taxes: nil, middle_initial: nil, preferred_first_name: nil)
-        @date_of_birth = date_of_birth
-        @first_name = first_name
-        @home_address = home_address
-        @job = job
-        @last_name = last_name
-        @ssn = ssn
-        @termination = termination
-        @version = version
-        @work_address = work_address
-        @email = email
-        @employee_state_taxes = employee_state_taxes
-        @middle_initial = middle_initial
-        @preferred_first_name = preferred_first_name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @date_of_birth == other.date_of_birth
+          return false unless @ssn == other.ssn
+          return false unless @work_address == other.work_address
+          return false unless @home_address == other.home_address
+          return false unless @termination == other.termination
+          return false unless @job == other.job
+          return false unless @middle_initial == other.middle_initial
+          return false unless @preferred_first_name == other.preferred_first_name
+          return false unless @email == other.email
+          return false unless @employee_state_taxes == other.employee_state_taxes
+          true
+        end
       end
     end
   end

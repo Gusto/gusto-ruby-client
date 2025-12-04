@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1ContractorsContractorUuidOnboardingStatusRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1ContractorsContractorUuidOnboardingStatusRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The updated onboarding status for the contractor
-      field :onboarding_status, ::GustoEmbedded::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus, false) } }
+        # The updated onboarding status for the contractor
+        field :onboarding_status, Crystalline::Nilable.new(Models::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(Models::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus, true) } }
 
+        sig { params(onboarding_status: T.nilable(Models::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus)).void }
+        def initialize(onboarding_status: Models::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus::ONBOARDING_COMPLETED)
+          @onboarding_status = onboarding_status
+        end
 
-      sig { params(onboarding_status: ::GustoEmbedded::Operations::PutV1ContractorsContractorUuidOnboardingStatusOnboardingStatus).void }
-      def initialize(onboarding_status: nil)
-        @onboarding_status = onboarding_status
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @onboarding_status == other.onboarding_status
+          true
+        end
       end
     end
   end

@@ -5,16 +5,20 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # CustomFieldType - Input type for the custom field.
-    class CustomFieldType < T::Enum
-      enums do
-        TEXT = new('text')
-        CURRENCY = new('currency')
-        NUMBER = new('number')
-        DATE = new('date')
-        RADIO = new('radio')
+  module Models
+    module Shared
+    
+      # CustomFieldType - Input type for the custom field.
+      class CustomFieldType < T::Enum
+
+
+        enums do
+          TEXT = new('text')
+          CURRENCY = new('currency')
+          NUMBER = new('number')
+          DATE = new('date')
+          RADIO = new('radio')
+        end
       end
     end
   end

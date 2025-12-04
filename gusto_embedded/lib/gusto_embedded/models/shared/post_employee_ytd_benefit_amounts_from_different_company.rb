@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class PostEmployeeYtdBenefitAmountsFromDifferentCompany < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostEmployeeYtdBenefitAmountsFromDifferentCompany
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The tax year for which this amount applies.
-      field :tax_year, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_year') } }
-      # The year-to-date company contribution made outside the current company.
-      field :ytd_company_contribution_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_company_contribution_amount') } }
-      # The year-to-date employee deduction made outside the current company.
-      field :ytd_employee_deduction_amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_employee_deduction_amount') } }
-      # The benefit type supported by Gusto.
-      field :benefit_type, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
+        # The tax year for which this amount applies.
+        field :tax_year, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_year'), required: true } }
+        # The benefit type supported by Gusto.
+        field :benefit_type, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefit_type') } }
+        # The year-to-date employee deduction made outside the current company.
+        field :ytd_employee_deduction_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_employee_deduction_amount') } }
+        # The year-to-date company contribution made outside the current company.
+        field :ytd_company_contribution_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ytd_company_contribution_amount') } }
 
+        sig { params(tax_year: ::Float, benefit_type: T.nilable(::Integer), ytd_employee_deduction_amount: T.nilable(::String), ytd_company_contribution_amount: T.nilable(::String)).void }
+        def initialize(tax_year:, benefit_type: nil, ytd_employee_deduction_amount: '0.00', ytd_company_contribution_amount: '0.00')
+          @tax_year = tax_year
+          @benefit_type = benefit_type
+          @ytd_employee_deduction_amount = ytd_employee_deduction_amount
+          @ytd_company_contribution_amount = ytd_company_contribution_amount
+        end
 
-      sig { params(tax_year: ::Float, ytd_company_contribution_amount: ::String, ytd_employee_deduction_amount: ::String, benefit_type: T.nilable(::Integer)).void }
-      def initialize(tax_year: nil, ytd_company_contribution_amount: nil, ytd_employee_deduction_amount: nil, benefit_type: nil)
-        @tax_year = tax_year
-        @ytd_company_contribution_amount = ytd_company_contribution_amount
-        @ytd_employee_deduction_amount = ytd_employee_deduction_amount
-        @benefit_type = benefit_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @tax_year == other.tax_year
+          return false unless @benefit_type == other.benefit_type
+          return false unless @ytd_employee_deduction_amount == other.ytd_employee_deduction_amount
+          return false unless @ytd_company_contribution_amount == other.ytd_company_contribution_amount
+          true
+        end
       end
     end
   end

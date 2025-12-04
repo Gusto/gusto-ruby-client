@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # A custom field on a company
-    class CompanyCustomField < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # A custom field on a company
+      class CompanyCustomField
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Name of the company custom field
-      field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # Input type for the custom field.
-      field :type, ::GustoEmbedded::Shared::CustomFieldType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::CustomFieldType, false) } }
-      # UUID of the company custom field
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Description of the company custom field
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # An array of options for fields of type radio. Otherwise, null.
-      field :selection_options, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selection_options') } }
+        # UUID of the company custom field
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # Name of the company custom field
+        field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name'), required: true } }
+        # Input type for the custom field.
+        field :type, Models::Shared::CustomFieldType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': Utils.enum_from_string(Models::Shared::CustomFieldType, false) } }
+        # Description of the company custom field
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # An array of options for fields of type radio. Otherwise, null.
+        field :selection_options, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selection_options') } }
 
+        sig { params(uuid: ::String, name: ::String, type: Models::Shared::CustomFieldType, description: T.nilable(::String), selection_options: T.nilable(T::Array[::String])).void }
+        def initialize(uuid:, name:, type:, description: nil, selection_options: nil)
+          @uuid = uuid
+          @name = name
+          @type = type
+          @description = description
+          @selection_options = selection_options
+        end
 
-      sig { params(name: ::String, type: ::GustoEmbedded::Shared::CustomFieldType, uuid: ::String, description: T.nilable(::String), selection_options: T.nilable(T::Array[::String])).void }
-      def initialize(name: nil, type: nil, uuid: nil, description: nil, selection_options: nil)
-        @name = name
-        @type = type
-        @uuid = uuid
-        @description = description
-        @selection_options = selection_options
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @name == other.name
+          return false unless @type == other.type
+          return false unless @description == other.description
+          return false unless @selection_options == other.selection_options
+          true
+        end
       end
     end
   end

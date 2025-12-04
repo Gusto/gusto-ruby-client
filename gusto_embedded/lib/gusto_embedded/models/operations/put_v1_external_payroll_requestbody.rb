@@ -5,22 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1ExternalPayrollRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1ExternalPayrollRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # Patch update external payroll items when set to true, otherwise it will overwrite the previous changes.
+        field :replace_fields, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('replace_fields') } }
 
-      field :external_payroll_items, T.nilable(T::Array[::GustoEmbedded::Operations::ExternalPayrollItems]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_payroll_items') } }
-      # Patch update external payroll items when set to true, otherwise it will overwrite the previous changes.
-      field :replace_fields, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('replace_fields') } }
+        field :external_payroll_items, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::ExternalPayrollItems)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_payroll_items') } }
 
+        sig { params(replace_fields: T.nilable(T::Boolean), external_payroll_items: T.nilable(T::Array[Models::Operations::ExternalPayrollItems])).void }
+        def initialize(replace_fields: nil, external_payroll_items: nil)
+          @replace_fields = replace_fields
+          @external_payroll_items = external_payroll_items
+        end
 
-      sig { params(external_payroll_items: T.nilable(T::Array[::GustoEmbedded::Operations::ExternalPayrollItems]), replace_fields: T.nilable(T::Boolean)).void }
-      def initialize(external_payroll_items: nil, replace_fields: nil)
-        @external_payroll_items = external_payroll_items
-        @replace_fields = replace_fields
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @replace_fields == other.replace_fields
+          return false unless @external_payroll_items == other.external_payroll_items
+          true
+        end
       end
     end
   end

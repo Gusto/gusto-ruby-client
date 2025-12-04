@@ -5,52 +5,72 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # List of employee work addresses
-    class EmployeeWorkAddress < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
 
-      # The unique identifier of this work address.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # Signifies if this address is the active work address for the current date
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+      class EmployeeWorkAddress
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
+        # The unique identifier of this work address.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The date the employee began working at this location.
+        field :effective_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
+        # Signifies if this address is the active work address for the current date
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # UUID reference to the company location for this work address.
+        field :location_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
+        # UUID reference to the employee for this work address.
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
 
-      field :country, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
-      # The date the employee began working at this location.
-      field :effective_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
-      # UUID reference to the employee for this work address.
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-      # UUID reference to the company location for this work address.
-      field :location_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
+        field :street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
 
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        field :city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
 
-      field :street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
 
-      field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
+        field :zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
 
-      field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+        field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
 
+        field :country, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
 
-      sig { params(uuid: ::String, version: ::String, active: T.nilable(T::Boolean), city: T.nilable(::String), country: T.nilable(::String), effective_date: T.nilable(::String), employee_uuid: T.nilable(::String), location_uuid: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(uuid: nil, version: nil, active: nil, city: nil, country: nil, effective_date: nil, employee_uuid: nil, location_uuid: nil, state: nil, street_1: nil, street_2: nil, zip: nil)
-        @uuid = uuid
-        @version = version
-        @active = active
-        @city = city
-        @country = country
-        @effective_date = effective_date
-        @employee_uuid = employee_uuid
-        @location_uuid = location_uuid
-        @state = state
-        @street_1 = street_1
-        @street_2 = street_2
-        @zip = zip
+        sig { params(uuid: ::String, version: ::String, effective_date: T.nilable(::String), active: T.nilable(T::Boolean), location_uuid: T.nilable(::String), employee_uuid: T.nilable(::String), street_1: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), street_2: T.nilable(::String), country: T.nilable(::String)).void }
+        def initialize(uuid:, version:, effective_date: nil, active: nil, location_uuid: nil, employee_uuid: nil, street_1: nil, city: nil, state: nil, zip: nil, street_2: nil, country: 'USA')
+          @uuid = uuid
+          @version = version
+          @effective_date = effective_date
+          @active = active
+          @location_uuid = location_uuid
+          @employee_uuid = employee_uuid
+          @street_1 = street_1
+          @city = city
+          @state = state
+          @zip = zip
+          @street_2 = street_2
+          @country = country
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @version == other.version
+          return false unless @effective_date == other.effective_date
+          return false unless @active == other.active
+          return false unless @location_uuid == other.location_uuid
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @street_1 == other.street_1
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @zip == other.zip
+          return false unless @street_2 == other.street_2
+          return false unless @country == other.country
+          true
+        end
       end
     end
   end

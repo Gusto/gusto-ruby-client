@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class EmployeeStateTaxAnswer < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class EmployeeStateTaxAnswer
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The effective date of the answer - currently always “2010-01-01”.
-      field :valid_from, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('valid_from') } }
-      # The effective end date of the answer - currently always null.
-      field :valid_up_to, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('valid_up_to') } }
-      # The answer to the corresponding question - this may be a string, number, boolean, or null.
-      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        # The effective date of the answer - currently always “2010-01-01”.
+        field :valid_from, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('valid_from') } }
+        # The answer to the corresponding question - this may be a string, number, boolean, or null.
+        field :value, Crystalline::Nilable.new(Crystalline::Union.new(::String, ::Float, Crystalline::Boolean.new)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        # The effective end date of the answer - currently always null.
+        field :valid_up_to, Crystalline::Nilable.new(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('valid_up_to') } }
 
+        sig { params(valid_from: T.nilable(::String), value: T.nilable(T.any(::String, ::Float, T::Boolean)), valid_up_to: T.nilable(::Object)).void }
+        def initialize(valid_from: nil, value: nil, valid_up_to: nil)
+          @valid_from = valid_from
+          @value = value
+          @valid_up_to = valid_up_to
+        end
 
-      sig { params(valid_from: T.nilable(::String), valid_up_to: T.nilable(::Object), value: T.nilable(::Object)).void }
-      def initialize(valid_from: nil, valid_up_to: nil, value: nil)
-        @valid_from = valid_from
-        @valid_up_to = valid_up_to
-        @value = value
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @valid_from == other.valid_from
+          return false unless @value == other.value
+          return false unless @valid_up_to == other.valid_up_to
+          true
+        end
       end
     end
   end

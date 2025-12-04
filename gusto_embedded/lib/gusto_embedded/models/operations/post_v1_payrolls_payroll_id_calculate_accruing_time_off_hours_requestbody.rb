@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # double overtime hours worked in this pay period
-      field :double_overtime_hours_worked, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('double_overtime_hours_worked') } }
-      # overtime hours worked in this pay period
-      field :overtime_hours_worked, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('overtime_hours_worked') } }
-      # paid time off hours used in this pay period
-      field :pto_hours_used, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pto_hours_used') } }
-      # regular hours worked in this pay period
-      field :regular_hours_worked, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('regular_hours_worked') } }
-      # sick hours used in this pay period
-      field :sick_hours_used, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('sick_hours_used') } }
+        # regular hours worked in this pay period
+        field :regular_hours_worked, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('regular_hours_worked') } }
+        # overtime hours worked in this pay period
+        field :overtime_hours_worked, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('overtime_hours_worked') } }
+        # double overtime hours worked in this pay period
+        field :double_overtime_hours_worked, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('double_overtime_hours_worked') } }
+        # paid time off hours used in this pay period
+        field :pto_hours_used, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pto_hours_used') } }
+        # sick hours used in this pay period
+        field :sick_hours_used, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('sick_hours_used') } }
 
+        sig { params(regular_hours_worked: T.nilable(::Float), overtime_hours_worked: T.nilable(::Float), double_overtime_hours_worked: T.nilable(::Float), pto_hours_used: T.nilable(::Float), sick_hours_used: T.nilable(::Float)).void }
+        def initialize(regular_hours_worked: nil, overtime_hours_worked: nil, double_overtime_hours_worked: nil, pto_hours_used: nil, sick_hours_used: nil)
+          @regular_hours_worked = regular_hours_worked
+          @overtime_hours_worked = overtime_hours_worked
+          @double_overtime_hours_worked = double_overtime_hours_worked
+          @pto_hours_used = pto_hours_used
+          @sick_hours_used = sick_hours_used
+        end
 
-      sig { params(double_overtime_hours_worked: T.nilable(::Float), overtime_hours_worked: T.nilable(::Float), pto_hours_used: T.nilable(::Float), regular_hours_worked: T.nilable(::Float), sick_hours_used: T.nilable(::Float)).void }
-      def initialize(double_overtime_hours_worked: nil, overtime_hours_worked: nil, pto_hours_used: nil, regular_hours_worked: nil, sick_hours_used: nil)
-        @double_overtime_hours_worked = double_overtime_hours_worked
-        @overtime_hours_worked = overtime_hours_worked
-        @pto_hours_used = pto_hours_used
-        @regular_hours_worked = regular_hours_worked
-        @sick_hours_used = sick_hours_used
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @regular_hours_worked == other.regular_hours_worked
+          return false unless @overtime_hours_worked == other.overtime_hours_worked
+          return false unless @double_overtime_hours_worked == other.double_overtime_hours_worked
+          return false unless @pto_hours_used == other.pto_hours_used
+          return false unless @sick_hours_used == other.sick_hours_used
+          true
+        end
       end
     end
   end

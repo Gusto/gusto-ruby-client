@@ -5,19 +5,28 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1EmployeesEmployeeIdI9AuthorizationDocumentsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # An array of I-9 verification documents
-      field :documents, T::Array[::GustoEmbedded::Operations::Documents], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('documents') } }
+        # An array of I-9 verification documents
+        field :documents, Crystalline::Array.new(Models::Operations::Documents), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('documents'), required: true } }
 
+        sig { params(documents: T::Array[Models::Operations::Documents]).void }
+        def initialize(documents:)
+          @documents = documents
+        end
 
-      sig { params(documents: T::Array[::GustoEmbedded::Operations::Documents]).void }
-      def initialize(documents: nil)
-        @documents = documents
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @documents == other.documents
+          true
+        end
       end
     end
   end

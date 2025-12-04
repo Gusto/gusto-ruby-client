@@ -5,37 +5,52 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+    
 
-    class GetV1CompaniesCompanyIdPaySchedulesPreviewRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1CompaniesCompanyIdPaySchedulesPreviewRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The last date of the first pay period. This can be the same date as the anchor pay date.
-      field :anchor_end_of_pay_period, ::String, { 'query_param': { 'field_name': 'anchor_end_of_pay_period', 'style': 'form', 'explode': true } }
-      # The first date that employees on this pay schedule are paid with Gusto.
-      field :anchor_pay_date, ::String, { 'query_param': { 'field_name': 'anchor_pay_date', 'style': 'form', 'explode': true } }
-      # The UUID of the company
-      field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
-      # The frequency that employees on this pay schedule are paid with Gusto.
-      field :frequency, ::GustoEmbedded::Operations::QueryParamFrequency, { 'query_param': { 'field_name': 'frequency', 'style': 'form', 'explode': true } }
-      # An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the “Twice per month” and “Monthly” frequencies. It will be null for pay schedules with other frequencies.
-      field :day_1, T.nilable(::Integer), { 'query_param': { 'field_name': 'day_1', 'style': 'form', 'explode': true } }
-      # An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, we will set the second pay date to the last day of the month. It will be null for pay schedules with other frequencies.
-      field :day_2, T.nilable(::Integer), { 'query_param': { 'field_name': 'day_2', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company
+        field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
+        # The frequency that employees on this pay schedule are paid with Gusto.
+        field :frequency, Models::Operations::QueryParamFrequency, { 'query_param': { 'field_name': 'frequency', 'style': 'form', 'explode': true } }
+        # The first date that employees on this pay schedule are paid with Gusto.
+        field :anchor_pay_date, ::String, { 'query_param': { 'field_name': 'anchor_pay_date', 'style': 'form', 'explode': true } }
+        # The last date of the first pay period. This can be the same date as the anchor pay date.
+        field :anchor_end_of_pay_period, ::String, { 'query_param': { 'field_name': 'anchor_end_of_pay_period', 'style': 'form', 'explode': true } }
+        # An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the “Twice per month” and “Monthly” frequencies. It will be null for pay schedules with other frequencies.
+        field :day_1, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'day_1', 'style': 'form', 'explode': true } }
+        # An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, we will set the second pay date to the last day of the month. It will be null for pay schedules with other frequencies.
+        field :day_2, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'day_2', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_id: ::String, frequency: Models::Operations::QueryParamFrequency, anchor_pay_date: ::String, anchor_end_of_pay_period: ::String, day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Shared::VersionHeader)).void }
+        def initialize(company_id:, frequency:, anchor_pay_date:, anchor_end_of_pay_period:, day_1: nil, day_2: nil, x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_id = company_id
+          @frequency = frequency
+          @anchor_pay_date = anchor_pay_date
+          @anchor_end_of_pay_period = anchor_end_of_pay_period
+          @day_1 = day_1
+          @day_2 = day_2
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(anchor_end_of_pay_period: ::String, anchor_pay_date: ::String, company_id: ::String, frequency: ::GustoEmbedded::Operations::QueryParamFrequency, day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(anchor_end_of_pay_period: nil, anchor_pay_date: nil, company_id: nil, frequency: nil, day_1: nil, day_2: nil, x_gusto_api_version: nil)
-        @anchor_end_of_pay_period = anchor_end_of_pay_period
-        @anchor_pay_date = anchor_pay_date
-        @company_id = company_id
-        @frequency = frequency
-        @day_1 = day_1
-        @day_2 = day_2
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_id == other.company_id
+          return false unless @frequency == other.frequency
+          return false unless @anchor_pay_date == other.anchor_pay_date
+          return false unless @anchor_end_of_pay_period == other.anchor_end_of_pay_period
+          return false unless @day_1 == other.day_1
+          return false unless @day_2 == other.day_2
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

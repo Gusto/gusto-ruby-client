@@ -5,25 +5,36 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class UnblockOptions < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class UnblockOptions
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The payment check date associated with the unblock option.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # Additional data associated with the unblock option.
-      field :metadata, T.nilable(::GustoEmbedded::Shared::PayrollSubmissionBlockersTypeMetadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
-      # The type of unblock option for the submission blocker.
-      field :unblock_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unblock_type') } }
+        # The type of unblock option for the submission blocker.
+        field :unblock_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unblock_type') } }
+        # The payment check date associated with the unblock option.
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # Additional data associated with the unblock option.
+        field :metadata, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
 
+        sig { params(unblock_type: T.nilable(::String), check_date: T.nilable(::String), metadata: T.nilable(T::Hash[Symbol, ::Object])).void }
+        def initialize(unblock_type: nil, check_date: nil, metadata: nil)
+          @unblock_type = unblock_type
+          @check_date = check_date
+          @metadata = metadata
+        end
 
-      sig { params(check_date: T.nilable(::String), metadata: T.nilable(::GustoEmbedded::Shared::PayrollSubmissionBlockersTypeMetadata), unblock_type: T.nilable(::String)).void }
-      def initialize(check_date: nil, metadata: nil, unblock_type: nil)
-        @check_date = check_date
-        @metadata = metadata
-        @unblock_type = unblock_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @unblock_type == other.unblock_type
+          return false unless @check_date == other.check_date
+          return false unless @metadata == other.metadata
+          true
+        end
       end
     end
   end

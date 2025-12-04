@@ -5,31 +5,44 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+    
 
-    class ApplicableEarnings < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :category, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
-
-      field :earning_id, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_id') } }
-
-      field :earning_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_type') } }
-
-      field :input_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('input_type') } }
-
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+      class ApplicableEarnings
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(category: T.nilable(::String), earning_id: T.nilable(::Float), earning_type: T.nilable(::String), input_type: T.nilable(::String), name: T.nilable(::String)).void }
-      def initialize(category: nil, earning_id: nil, earning_type: nil, input_type: nil, name: nil)
-        @category = category
-        @earning_id = earning_id
-        @earning_type = earning_type
-        @input_type = input_type
-        @name = name
+        field :earning_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_type') } }
+
+        field :earning_id, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_id') } }
+
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+
+        field :input_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('input_type') } }
+
+        field :category, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
+
+        sig { params(earning_type: T.nilable(::String), earning_id: T.nilable(::Float), name: T.nilable(::String), input_type: T.nilable(::String), category: T.nilable(::String)).void }
+        def initialize(earning_type: nil, earning_id: nil, name: nil, input_type: nil, category: nil)
+          @earning_type = earning_type
+          @earning_id = earning_id
+          @name = name
+          @input_type = input_type
+          @category = category
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @earning_type == other.earning_type
+          return false unless @earning_id == other.earning_id
+          return false unless @name == other.name
+          return false unless @input_type == other.input_type
+          return false unless @category == other.category
+          true
+        end
       end
     end
   end

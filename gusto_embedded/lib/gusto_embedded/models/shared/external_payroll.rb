@@ -5,49 +5,68 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of an external payroll.
-    class ExternalPayroll < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+    
+      # The representation of an external payroll.
+      class ExternalPayroll
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the external payroll.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Applicable benefits based on company provisioning.
-      field :applicable_benefits, T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableBenefits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_benefits') } }
-      # Applicable earnings based on company provisioning.
-      field :applicable_earnings, T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableEarnings]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_earnings') } }
-      # Applicable taxes based on company provisioning.
-      field :applicable_taxes, T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableTaxes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_taxes') } }
-      # External payroll's check date.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # The UUID of the company.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # External payroll items for employees
-      field :external_payroll_items, T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollItems]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_payroll_items') } }
-      # Stores metadata of the external payroll.
-      field :metadata, T.nilable(::GustoEmbedded::Shared::Metadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
-      # External payroll's pay period end date.
-      field :payment_period_end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_end_date') } }
-      # External payroll's pay period start date.
-      field :payment_period_start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_start_date') } }
-      # The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized.  Once in the `processed` status all actions that can edit an external payroll will be disabled.
-      field :status, T.nilable(::GustoEmbedded::Shared::Status), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Status, true) } }
+        # The UUID of the external payroll.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The UUID of the company.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # External payroll's check date.
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # External payroll's pay period start date.
+        field :payment_period_start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_start_date') } }
+        # External payroll's pay period end date.
+        field :payment_period_end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_end_date') } }
+        # The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized.  Once in the `processed` status all actions that can edit an external payroll will be disabled.
+        field :status, Crystalline::Nilable.new(Models::Shared::Status), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(Models::Shared::Status, true) } }
+        # External payroll items for employees
+        field :external_payroll_items, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ExternalPayrollItems)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_payroll_items') } }
+        # Applicable earnings based on company provisioning.
+        field :applicable_earnings, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ApplicableEarnings)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_earnings') } }
+        # Applicable taxes based on company provisioning.
+        field :applicable_taxes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ApplicableTaxes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_taxes') } }
+        # Stores metadata of the external payroll.
+        field :metadata, Crystalline::Nilable.new(Models::Shared::ExternalPayrollMetadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
+        # Applicable benefits based on company provisioning.
+        field :applicable_benefits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ApplicableBenefits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_benefits') } }
 
+        sig { params(uuid: ::String, company_uuid: T.nilable(::String), check_date: T.nilable(::String), payment_period_start_date: T.nilable(::String), payment_period_end_date: T.nilable(::String), status: T.nilable(Models::Shared::Status), external_payroll_items: T.nilable(T::Array[Models::Shared::ExternalPayrollItems]), applicable_earnings: T.nilable(T::Array[Models::Shared::ApplicableEarnings]), applicable_taxes: T.nilable(T::Array[Models::Shared::ApplicableTaxes]), metadata: T.nilable(Models::Shared::ExternalPayrollMetadata), applicable_benefits: T.nilable(T::Array[Models::Shared::ApplicableBenefits])).void }
+        def initialize(uuid:, company_uuid: nil, check_date: nil, payment_period_start_date: nil, payment_period_end_date: nil, status: nil, external_payroll_items: nil, applicable_earnings: nil, applicable_taxes: nil, metadata: nil, applicable_benefits: nil)
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @check_date = check_date
+          @payment_period_start_date = payment_period_start_date
+          @payment_period_end_date = payment_period_end_date
+          @status = status
+          @external_payroll_items = external_payroll_items
+          @applicable_earnings = applicable_earnings
+          @applicable_taxes = applicable_taxes
+          @metadata = metadata
+          @applicable_benefits = applicable_benefits
+        end
 
-      sig { params(uuid: ::String, applicable_benefits: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableBenefits]), applicable_earnings: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableEarnings]), applicable_taxes: T.nilable(T::Array[::GustoEmbedded::Shared::ApplicableTaxes]), check_date: T.nilable(::String), company_uuid: T.nilable(::String), external_payroll_items: T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollItems]), metadata: T.nilable(::GustoEmbedded::Shared::Metadata), payment_period_end_date: T.nilable(::String), payment_period_start_date: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::Status)).void }
-      def initialize(uuid: nil, applicable_benefits: nil, applicable_earnings: nil, applicable_taxes: nil, check_date: nil, company_uuid: nil, external_payroll_items: nil, metadata: nil, payment_period_end_date: nil, payment_period_start_date: nil, status: nil)
-        @uuid = uuid
-        @applicable_benefits = applicable_benefits
-        @applicable_earnings = applicable_earnings
-        @applicable_taxes = applicable_taxes
-        @check_date = check_date
-        @company_uuid = company_uuid
-        @external_payroll_items = external_payroll_items
-        @metadata = metadata
-        @payment_period_end_date = payment_period_end_date
-        @payment_period_start_date = payment_period_start_date
-        @status = status
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @check_date == other.check_date
+          return false unless @payment_period_start_date == other.payment_period_start_date
+          return false unless @payment_period_end_date == other.payment_period_end_date
+          return false unless @status == other.status
+          return false unless @external_payroll_items == other.external_payroll_items
+          return false unless @applicable_earnings == other.applicable_earnings
+          return false unless @applicable_taxes == other.applicable_taxes
+          return false unless @metadata == other.metadata
+          return false unless @applicable_benefits == other.applicable_benefits
+          true
+        end
       end
     end
   end

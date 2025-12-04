@@ -5,28 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # An array of earnings for the employee. Depends on your company selections, earnings includes wages, hours, bonuses, tips, commission and more.
-    class Earnings < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Operations
+    
+      # An array of earnings for the employee. Depends on your company selections, earnings includes wages, hours, bonuses, tips, commission and more.
+      class Earnings
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The amount of the earning.
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # The ID of the earning.
-      field :earning_id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_id') } }
-      # The earning type for the compensation.
-      field :earning_type, T.nilable(::GustoEmbedded::Operations::EarningType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::EarningType, true) } }
-      # The hour of the compensation for the pay period.
-      field :hours, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+        # The hour of the compensation for the pay period.
+        field :hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+        # The amount of the earning.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        # The ID of the earning.
+        field :earning_id, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_id') } }
+        # The earning type for the compensation.
+        field :earning_type, Crystalline::Nilable.new(Models::Operations::EarningType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earning_type'), 'decoder': Utils.enum_from_string(Models::Operations::EarningType, true) } }
 
+        sig { params(hours: T.nilable(::String), amount: T.nilable(::String), earning_id: T.nilable(::Integer), earning_type: T.nilable(Models::Operations::EarningType)).void }
+        def initialize(hours: nil, amount: nil, earning_id: nil, earning_type: nil)
+          @hours = hours
+          @amount = amount
+          @earning_id = earning_id
+          @earning_type = earning_type
+        end
 
-      sig { params(amount: T.nilable(::String), earning_id: T.nilable(::Integer), earning_type: T.nilable(::GustoEmbedded::Operations::EarningType), hours: T.nilable(::String)).void }
-      def initialize(amount: nil, earning_id: nil, earning_type: nil, hours: nil)
-        @amount = amount
-        @earning_id = earning_id
-        @earning_type = earning_type
-        @hours = hours
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @hours == other.hours
+          return false unless @amount == other.amount
+          return false unless @earning_id == other.earning_id
+          return false unless @earning_type == other.earning_type
+          true
+        end
       end
     end
   end

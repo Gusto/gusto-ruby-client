@@ -5,13 +5,18 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # FileType - The type of file to generate
-    class FileType < T::Enum
-      enums do
-        CSV = new('csv')
-        JSON = new('json')
+  module Models
+    module Operations
+    
+      # FileType - The type of file to generate
+      class FileType < T::Enum
+
+
+        enums do
+          CSV = new('csv')
+          JSON = new('json')
+          PDF = new('pdf')
+        end
       end
     end
   end
