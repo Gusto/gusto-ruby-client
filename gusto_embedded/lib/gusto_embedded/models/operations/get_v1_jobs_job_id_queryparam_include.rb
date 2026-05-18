@@ -5,13 +5,15 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # GetV1JobsJobIdQueryParamInclude - Available options:
-    # - all_compensations: Include all effective dated compensations for the job instead of only the current compensation
-    class GetV1JobsJobIdQueryParamInclude < T::Enum
-      enums do
-        ALL_COMPENSATIONS = new('all_compensations')
+  module Models
+    module Operations
+      # GetV1JobsJobIdQueryParamInclude - Available options:
+      # - all_compensations: Include all effective dated compensations for each job instead of only the current compensation
+      #
+      class GetV1JobsJobIdQueryParamInclude < T::Enum
+        enums do
+          ALL_COMPENSATIONS = new('all_compensations')
+        end
       end
     end
   end

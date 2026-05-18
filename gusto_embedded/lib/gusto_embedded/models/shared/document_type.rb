@@ -5,12 +5,15 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class DocumentType < T::Enum
-      enums do
-        PRINTABLE_PAYROLL_CHECKS = new('printable_payroll_checks')
+      class DocumentType < T::Enum
+        enums do
+          USCIS_ALIEN_REGISTRATION_NUMBER = new('uscis_alien_registration_number')
+          FORM_I94 = new('form_i94')
+          FOREIGN_PASSPORT = new('foreign_passport')
+        end
       end
     end
   end

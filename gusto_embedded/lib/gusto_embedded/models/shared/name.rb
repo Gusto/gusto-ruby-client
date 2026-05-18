@@ -5,14 +5,15 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Name - The name of the paid time off type.
-    class Name < T::Enum
-      enums do
-        VACATION_HOURS = new('Vacation Hours')
-        SICK_HOURS = new('Sick Hours')
-        HOLIDAY_HOURS = new('Holiday Hours')
+  module Models
+    module Shared
+      # Name - The name of the paid time off type.
+      class Name < T::Enum
+        enums do
+          VACATION_HOURS = new('Vacation Hours')
+          SICK_HOURS = new('Sick Hours')
+          HOLIDAY_HOURS = new('Holiday Hours')
+        end
       end
     end
   end

@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PostPayrollsGrossUpPayrollUuidRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostPayrollsGrossUpPayrollUuidRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the payroll
-      field :payroll_uuid, ::String, { 'path_param': { 'field_name': 'payroll_uuid', 'style': 'simple', 'explode': false } }
+        # The UUID of the payroll
+        field :payroll_uuid, ::String, { 'path_param': { 'field_name': 'payroll_uuid', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PostPayrollsGrossUpPayrollUuidRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :payroll_gross_up_request, Models::Shared::PayrollGrossUpRequest, { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::PostPayrollsGrossUpPayrollUuidHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(payroll_uuid: ::String, payroll_gross_up_request: Models::Shared::PayrollGrossUpRequest, x_gusto_api_version: T.nilable(Models::Operations::PostPayrollsGrossUpPayrollUuidHeaderXGustoAPIVersion)).void }
+        def initialize(payroll_uuid:, payroll_gross_up_request:, x_gusto_api_version: Models::Operations::PostPayrollsGrossUpPayrollUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @payroll_uuid = payroll_uuid
+          @payroll_gross_up_request = payroll_gross_up_request
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(payroll_uuid: ::String, request_body: ::GustoEmbedded::Operations::PostPayrollsGrossUpPayrollUuidRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(payroll_uuid: nil, request_body: nil, x_gusto_api_version: nil)
-        @payroll_uuid = payroll_uuid
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @payroll_gross_up_request == other.payroll_gross_up_request
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1EmployeesEmployeeIdPaymentMethodRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1EmployeesEmployeeIdPaymentMethodRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The payment method type. If type is Check, then split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
-      field :type, ::GustoEmbedded::Operations::Type, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::Type, false) } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the last split amount must be nil to capture the remainder.
-      field :split_by, T.nilable(::GustoEmbedded::Operations::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::SplitBy, true) } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The payment method type. If type is Check, split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
+        field :type, Models::Operations::Type, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::Type, false) } }
+        # How the payment will be split. If Percentage, split amounts must add up to exactly 100. If Amount, values are in cents and the last split amount must be null to capture the remainder.
+        field :split_by, Crystalline::Nilable.new(Models::Operations::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::SplitBy, true) } }
+        # Array of payment splits. Required when type is Direct Deposit.
+        field :splits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Splits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
 
-      field :splits, T.nilable(T::Array[::GustoEmbedded::Operations::Splits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
+        sig { params(version: ::String, type: Models::Operations::Type, split_by: T.nilable(Models::Operations::SplitBy), splits: T.nilable(T::Array[Models::Operations::Splits])).void }
+        def initialize(version:, type:, split_by: nil, splits: nil)
+          @version = version
+          @type = type
+          @split_by = split_by
+          @splits = splits
+        end
 
-
-      sig { params(type: ::GustoEmbedded::Operations::Type, version: ::String, split_by: T.nilable(::GustoEmbedded::Operations::SplitBy), splits: T.nilable(T::Array[::GustoEmbedded::Operations::Splits])).void }
-      def initialize(type: nil, version: nil, split_by: nil, splits: nil)
-        @type = type
-        @version = version
-        @split_by = split_by
-        @splits = splits
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @type == other.type
+          return false unless @split_by == other.split_by
+          return false unless @splits == other.splits
+          true
+        end
       end
     end
   end

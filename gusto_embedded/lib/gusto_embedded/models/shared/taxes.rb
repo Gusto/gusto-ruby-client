@@ -5,25 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class Taxes < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Taxes
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The amount paid for this tax.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The total amount paid by both employer and employee for this tax.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
 
-      field :amount, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        sig { params(name: T.nilable(::String), amount: T.nilable(::String)).void }
+        def initialize(name: nil, amount: nil)
+          @name = name
+          @amount = amount
+        end
 
-      field :employer, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer') } }
-
-      field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-
-
-      sig { params(amount: ::Float, employer: T::Boolean, name: ::String).void }
-      def initialize(amount: nil, employer: nil, name: nil)
-        @amount = amount
-        @employer = employer
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @amount == other.amount
+          true
+        end
       end
     end
   end

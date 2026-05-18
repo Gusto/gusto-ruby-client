@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1HistoricalEmployeesRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1HistoricalEmployeesRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
-      # The UUID of the historical employee
-      field :historical_employee_uuid, ::String, { 'path_param': { 'field_name': 'historical_employee_uuid', 'style': 'simple', 'explode': false } }
-      # Update a historical employee.
-      field :request_body, ::GustoEmbedded::Operations::PutV1HistoricalEmployeesRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company that will employ this historical record.
+        field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
+        # The UUID of the historical employee returned from create or list responses.
+        field :historical_employee_uuid, ::String, { 'path_param': { 'field_name': 'historical_employee_uuid', 'style': 'simple', 'explode': false } }
 
+        field :request_body, Models::Operations::PutV1HistoricalEmployeesRequestBody, { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::PutV1HistoricalEmployeesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-      sig { params(company_uuid: ::String, historical_employee_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1HistoricalEmployeesRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_uuid: nil, historical_employee_uuid: nil, request_body: nil, x_gusto_api_version: nil)
-        @company_uuid = company_uuid
-        @historical_employee_uuid = historical_employee_uuid
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(company_uuid: ::String, historical_employee_uuid: ::String, request_body: Models::Operations::PutV1HistoricalEmployeesRequestBody, x_gusto_api_version: T.nilable(Models::Operations::PutV1HistoricalEmployeesHeaderXGustoAPIVersion)).void }
+        def initialize(company_uuid:, historical_employee_uuid:, request_body:, x_gusto_api_version: Models::Operations::PutV1HistoricalEmployeesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_uuid = company_uuid
+          @historical_employee_uuid = historical_employee_uuid
+          @request_body = request_body
+          @x_gusto_api_version = x_gusto_api_version
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @historical_employee_uuid == other.historical_employee_uuid
+          return false unless @request_body == other.request_body
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

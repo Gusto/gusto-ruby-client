@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class PayScheduleAssignmentDepartment < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayScheduleAssignmentDepartment
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the department.
-      field :department_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuid') } }
-      # The department's pay schedule UUID.
-      field :pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
+        # The UUID of the department.
+        field :department_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuid') } }
+        # The department's pay schedule UUID.
+        field :pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
 
+        sig { params(department_uuid: T.nilable(::String), pay_schedule_uuid: T.nilable(::String)).void }
+        def initialize(department_uuid: nil, pay_schedule_uuid: nil)
+          @department_uuid = department_uuid
+          @pay_schedule_uuid = pay_schedule_uuid
+        end
 
-      sig { params(department_uuid: T.nilable(::String), pay_schedule_uuid: T.nilable(::String)).void }
-      def initialize(department_uuid: nil, pay_schedule_uuid: nil)
-        @department_uuid = department_uuid
-        @pay_schedule_uuid = pay_schedule_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @department_uuid == other.department_uuid
+          return false unless @pay_schedule_uuid == other.pay_schedule_uuid
+          true
+        end
       end
     end
   end

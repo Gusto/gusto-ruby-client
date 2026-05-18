@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1GarnishmentsGarnishmentIdRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1GarnishmentsGarnishmentIdRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the garnishment
-      field :garnishment_id, ::String, { 'path_param': { 'field_name': 'garnishment_id', 'style': 'simple', 'explode': false } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the garnishment
+        field :garnishment_id, ::String, { 'path_param': { 'field_name': 'garnishment_id', 'style': 'simple', 'explode': false } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1GarnishmentsGarnishmentIdHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(garnishment_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1GarnishmentsGarnishmentIdHeaderXGustoAPIVersion)).void }
+        def initialize(garnishment_id:, x_gusto_api_version: Models::Operations::GetV1GarnishmentsGarnishmentIdHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @garnishment_id = garnishment_id
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(garnishment_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(garnishment_id: nil, x_gusto_api_version: nil)
-        @garnishment_id = garnishment_id
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @garnishment_id == other.garnishment_id
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

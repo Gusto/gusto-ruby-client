@@ -5,31 +5,43 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # An employee's I-9 verification document
-    class I9AuthorizationDocument < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # An employee's I-9 verification document
+      class I9AuthorizationDocument
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The document's document title
-      field :document_title, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_title') } }
-      # The document's document type
-      field :document_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_type') } }
-      # The document's issuing authority
-      field :issuing_authority, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('issuing_authority') } }
-      # The UUID of the I-9 verification document
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The document's expiration date
-      field :expiration_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expiration_date') } }
+        # The UUID of the I-9 verification document
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The document's document type
+        field :document_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_type'), required: true } }
+        # The document's document title
+        field :document_title, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_title'), required: true } }
+        # The document's issuing authority
+        field :issuing_authority, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('issuing_authority'), required: true } }
+        # The document's expiration date
+        field :expiration_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expiration_date') } }
 
+        sig { params(uuid: ::String, document_type: ::String, document_title: ::String, issuing_authority: ::String, expiration_date: T.nilable(::String)).void }
+        def initialize(uuid:, document_type:, document_title:, issuing_authority:, expiration_date: nil)
+          @uuid = uuid
+          @document_type = document_type
+          @document_title = document_title
+          @issuing_authority = issuing_authority
+          @expiration_date = expiration_date
+        end
 
-      sig { params(document_title: ::String, document_type: ::String, issuing_authority: ::String, uuid: ::String, expiration_date: T.nilable(::String)).void }
-      def initialize(document_title: nil, document_type: nil, issuing_authority: nil, uuid: nil, expiration_date: nil)
-        @document_title = document_title
-        @document_type = document_type
-        @issuing_authority = issuing_authority
-        @uuid = uuid
-        @expiration_date = expiration_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @document_type == other.document_type
+          return false unless @document_title == other.document_title
+          return false unless @issuing_authority == other.issuing_authority
+          return false unless @expiration_date == other.expiration_date
+          true
+        end
       end
     end
   end

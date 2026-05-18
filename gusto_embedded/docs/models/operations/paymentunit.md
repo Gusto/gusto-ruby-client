@@ -1,6 +1,14 @@
 # PaymentUnit
 
-The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'.
+The unit accompanying the compensation rate. If the employee is an owner, rate should be `Paycheck`.
+
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = PaymentUnit::HOUR
+```
 
 
 ## Values

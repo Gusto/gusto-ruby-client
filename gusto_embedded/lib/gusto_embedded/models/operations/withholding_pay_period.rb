@@ -5,18 +5,19 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # WithholdingPayPeriod - The payment schedule tax rate the payroll is based on.
-    class WithholdingPayPeriod < T::Enum
-      enums do
-        EVERY_WEEK = new('Every week')
-        EVERY_OTHER_WEEK = new('Every other week')
-        TWICE_PER_MONTH = new('Twice per month')
-        MONTHLY = new('Monthly')
-        QUARTERLY = new('Quarterly')
-        SEMIANNUALLY = new('Semiannually')
-        ANNUALLY = new('Annually')
+  module Models
+    module Operations
+      # WithholdingPayPeriod - The payment schedule tax rate the payroll is based on.
+      class WithholdingPayPeriod < T::Enum
+        enums do
+          EVERY_WEEK = new('Every week')
+          EVERY_OTHER_WEEK = new('Every other week')
+          TWICE_PER_MONTH = new('Twice per month')
+          MONTHLY = new('Monthly')
+          QUARTERLY = new('Quarterly')
+          SEMIANNUALLY = new('Semiannually')
+          ANNUALLY = new('Annually')
+        end
       end
     end
   end

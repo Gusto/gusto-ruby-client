@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class EarningTypeList < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # Lists of default and custom earning types for a company.
+      class EarningTypeList
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The custom earning types for the company.
-      field :custom, T.nilable(T::Array[::GustoEmbedded::Shared::EarningType]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom') } }
-      # The default earning types for the company.
-      field :default, T.nilable(T::Array[::GustoEmbedded::Shared::EarningType]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default') } }
+        # The default earning types for the company.
+        field :default, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EarningType)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default') } }
+        # The custom earning types for the company.
+        field :custom, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EarningType)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom') } }
 
+        sig { params(default: T.nilable(T::Array[Models::Shared::EarningType]), custom: T.nilable(T::Array[Models::Shared::EarningType])).void }
+        def initialize(default: nil, custom: nil)
+          @default = default
+          @custom = custom
+        end
 
-      sig { params(custom: T.nilable(T::Array[::GustoEmbedded::Shared::EarningType]), default: T.nilable(T::Array[::GustoEmbedded::Shared::EarningType])).void }
-      def initialize(custom: nil, default: nil)
-        @custom = custom
-        @default = default
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @default == other.default
+          return false unless @custom == other.custom
+          true
+        end
       end
     end
   end

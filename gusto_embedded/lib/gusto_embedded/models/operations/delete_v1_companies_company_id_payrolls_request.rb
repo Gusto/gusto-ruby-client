@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class DeleteV1CompaniesCompanyIdPayrollsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class DeleteV1CompaniesCompanyIdPayrollsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
-      # The UUID of the payroll
-      field :payroll_id, ::String, { 'path_param': { 'field_name': 'payroll_id', 'style': 'simple', 'explode': false } }
-      # When true, request an asynchronous delete of the payroll.
-      field :async, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'async', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company
+        field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
+        # The UUID of the payroll
+        field :payroll_id, ::String, { 'path_param': { 'field_name': 'payroll_id', 'style': 'simple', 'explode': false } }
+        # When true, request an asynchronous delete of the payroll.
+        field :async, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'query_param': { 'field_name': 'async', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::DeleteV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_id: ::String, payroll_id: ::String, async: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(Models::Operations::DeleteV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion)).void }
+        def initialize(company_id:, payroll_id:, async: nil, x_gusto_api_version: Models::Operations::DeleteV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_id = company_id
+          @payroll_id = payroll_id
+          @async = async
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(company_id: ::String, payroll_id: ::String, async: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_id: nil, payroll_id: nil, async: nil, x_gusto_api_version: nil)
-        @company_id = company_id
-        @payroll_id = payroll_id
-        @async = async
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_id == other.company_id
+          return false unless @payroll_id == other.payroll_id
+          return false unless @async == other.async
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

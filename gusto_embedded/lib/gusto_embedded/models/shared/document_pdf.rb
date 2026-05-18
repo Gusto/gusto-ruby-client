@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class DocumentPdf < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class DocumentPdf
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # the URL of the document
-      field :document_url, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_url') } }
-      # the UUID of the document
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # the UUID of the document
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # the URL of the document
+        field :document_url, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_url') } }
 
+        sig { params(uuid: T.nilable(::String), document_url: T.nilable(::String)).void }
+        def initialize(uuid: nil, document_url: nil)
+          @uuid = uuid
+          @document_url = document_url
+        end
 
-      sig { params(document_url: T.nilable(::String), uuid: T.nilable(::String)).void }
-      def initialize(document_url: nil, uuid: nil)
-        @document_url = document_url
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @document_url == other.document_url
+          true
+        end
       end
     end
   end

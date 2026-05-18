@@ -2,6 +2,14 @@
 
 The status of the webhook subscription.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = WebhookSubscriptionStatus::PENDING
+```
+
 
 ## Values
 

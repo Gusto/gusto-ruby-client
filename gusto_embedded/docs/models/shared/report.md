@@ -1,7 +1,5 @@
 # Report
 
-Example response
-
 
 ## Fields
 

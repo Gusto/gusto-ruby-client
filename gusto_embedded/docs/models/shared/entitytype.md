@@ -2,6 +2,14 @@
 
 The tax payer type of the company.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = EntityType::C_CORPORATION
+```
+
 
 ## Values
 

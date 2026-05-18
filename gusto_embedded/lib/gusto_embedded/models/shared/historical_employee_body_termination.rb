@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+      # End of the historical employment period.
+      class HistoricalEmployeeBodyTermination
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-    class HistoricalEmployeeBodyTermination < ::Crystalline::FieldAugmented
-      extend T::Sig
+        # Last day of employment (termination date). This is recorded on the employment; use the calendar date the person stopped working for the company.
+        field :effective_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), required: true, 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(false) } }
 
-      # Date the employee was terminated from the company
-      field :effective_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
+        sig { params(effective_date: ::Date).void }
+        def initialize(effective_date:)
+          @effective_date = effective_date
+        end
 
-
-      sig { params(effective_date: T.nilable(::Date)).void }
-      def initialize(effective_date: nil)
-        @effective_date = effective_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @effective_date == other.effective_date
+          true
+        end
       end
     end
   end

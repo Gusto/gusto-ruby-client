@@ -5,13 +5,14 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # ContractorPaymentMethodType - The payment method type. If type is Check, then split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
-    class ContractorPaymentMethodType < T::Enum
-      enums do
-        DIRECT_DEPOSIT = new('Direct Deposit')
-        CHECK = new('Check')
+  module Models
+    module Shared
+
+      class ContractorPaymentMethodType < T::Enum
+        enums do
+          DIRECT_DEPOSIT = new('Direct Deposit')
+          CHECK = new('Check')
+        end
       end
     end
   end

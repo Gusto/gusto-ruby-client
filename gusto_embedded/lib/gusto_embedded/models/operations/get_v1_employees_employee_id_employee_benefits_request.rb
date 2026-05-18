@@ -5,28 +5,44 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1EmployeesEmployeeIdEmployeeBenefitsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1EmployeesEmployeeIdEmployeeBenefitsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the employee
-      field :employee_id, ::String, { 'path_param': { 'field_name': 'employee_id', 'style': 'simple', 'explode': false } }
-      # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
-      field :page, T.nilable(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
-      # Number of objects per page. For majority of endpoints will default to 25
-      field :per, T.nilable(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the employee
+        field :employee_id, ::String, { 'path_param': { 'field_name': 'employee_id', 'style': 'simple', 'explode': false } }
+        # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
+        field :page, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
+        # Number of objects per page. For majority of endpoints will default to 25
+        field :per, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
+        # Available options:
+        # - all_benefits: Include all effective dated benefits for each employee instead of only the current benefits.
+        field :include, Crystalline::Nilable.new(Models::Operations::GetV1EmployeesEmployeeIdEmployeeBenefitsQueryParamInclude), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1EmployeesEmployeeIdEmployeeBenefitsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(employee_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), include: T.nilable(Models::Operations::GetV1EmployeesEmployeeIdEmployeeBenefitsQueryParamInclude), x_gusto_api_version: T.nilable(Models::Operations::GetV1EmployeesEmployeeIdEmployeeBenefitsHeaderXGustoAPIVersion)).void }
+        def initialize(employee_id:, page: nil, per: nil, include: nil, x_gusto_api_version: Models::Operations::GetV1EmployeesEmployeeIdEmployeeBenefitsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @employee_id = employee_id
+          @page = page
+          @per = per
+          @include = include
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(employee_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(employee_id: nil, page: nil, per: nil, x_gusto_api_version: nil)
-        @employee_id = employee_id
-        @page = page
-        @per = per
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_id == other.employee_id
+          return false unless @page == other.page
+          return false unless @per == other.per
+          return false unless @include == other.include
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

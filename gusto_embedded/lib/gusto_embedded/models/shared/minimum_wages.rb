@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class MinimumWages < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class MinimumWages
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The effective date of the minimum wage.
-      field :effective_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
-      # The UUID of the minimum wage.
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The wage amount.
-      field :wage, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+        # The UUID of the minimum wage.
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The wage amount.
+        field :wage, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+        # The effective date of the minimum wage.
+        field :effective_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
 
+        sig { params(uuid: T.nilable(::String), wage: T.nilable(::String), effective_date: T.nilable(::String)).void }
+        def initialize(uuid: nil, wage: nil, effective_date: nil)
+          @uuid = uuid
+          @wage = wage
+          @effective_date = effective_date
+        end
 
-      sig { params(effective_date: T.nilable(::String), uuid: T.nilable(::String), wage: T.nilable(::String)).void }
-      def initialize(effective_date: nil, uuid: nil, wage: nil)
-        @effective_date = effective_date
-        @uuid = uuid
-        @wage = wage
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @wage == other.wage
+          return false unless @effective_date == other.effective_date
+          true
+        end
       end
     end
   end

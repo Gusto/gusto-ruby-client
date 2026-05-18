@@ -5,52 +5,71 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # An employee's I-9 authorization
-    class I9Authorization < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # An employee's I-9 authorization
+      class I9Authorization
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The employee's authorization status
-      field :authorization_status, ::GustoEmbedded::Shared::AuthorizationStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('authorization_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::AuthorizationStatus, false) } }
-      # Whether the employee has signed the Form I-9
-      field :employee_signed, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_signed') } }
-      # Whether the employer has signed the Form I-9
-      field :employer_signed, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer_signed') } }
-      # The UUID of the I-9 authorization
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # Any additional notes
-      field :additional_info, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_info') } }
-      # Whether an alternative procedure authorized by DHS to examine documents was used
-      field :alt_procedure, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('alt_procedure') } }
-      # The document's country of issuance
-      field :country, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
-      # The document's document type
-      field :document_type, T.nilable(::GustoEmbedded::Shared::I9AuthorizationDocumentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::I9AuthorizationDocumentType, true) } }
-      # The document's expiration date
-      field :expiration_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expiration_date') } }
-      # The UUID of the Form associated with this I-9 authorization. Use this with "Employee Forms" API endpoints.
-      field :form_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('form_uuid') } }
-      # Whether or not a `document_number` exists for this document.
-      field :has_document_number, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_document_number') } }
+        # The UUID of the I-9 authorization
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The employee's authorization status
+        field :authorization_status, Models::Shared::AuthorizationStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('authorization_status'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::AuthorizationStatus, false) } }
+        # Whether the employer has signed the Form I-9
+        field :employer_signed, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer_signed'), required: true } }
+        # Whether the employee has signed the Form I-9
+        field :employee_signed, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_signed'), required: true } }
+        # The UUID of the Form associated with this I-9 authorization. Use this with "Employee Forms" API endpoints.
+        field :form_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('form_uuid') } }
+        # The document's document type
+        field :document_type, Crystalline::Nilable.new(Models::Shared::DocumentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::DocumentType, true) } }
+        # Whether or not a `document_number` exists for this document.
+        field :has_document_number, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_document_number') } }
+        # The document's expiration date
+        field :expiration_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expiration_date') } }
+        # The document's country of issuance
+        field :country, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
+        # Any additional notes
+        field :additional_info, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_info') } }
+        # Whether an alternative procedure authorized by DHS to examine documents was used
+        field :alt_procedure, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('alt_procedure') } }
 
+        sig { params(uuid: ::String, version: ::String, authorization_status: Models::Shared::AuthorizationStatus, employer_signed: T::Boolean, employee_signed: T::Boolean, form_uuid: T.nilable(::String), document_type: T.nilable(Models::Shared::DocumentType), has_document_number: T.nilable(T::Boolean), expiration_date: T.nilable(::String), country: T.nilable(::String), additional_info: T.nilable(::String), alt_procedure: T.nilable(T::Boolean)).void }
+        def initialize(uuid:, version:, authorization_status:, employer_signed:, employee_signed:, form_uuid: nil, document_type: nil, has_document_number: nil, expiration_date: nil, country: nil, additional_info: nil, alt_procedure: nil)
+          @uuid = uuid
+          @version = version
+          @authorization_status = authorization_status
+          @employer_signed = employer_signed
+          @employee_signed = employee_signed
+          @form_uuid = form_uuid
+          @document_type = document_type
+          @has_document_number = has_document_number
+          @expiration_date = expiration_date
+          @country = country
+          @additional_info = additional_info
+          @alt_procedure = alt_procedure
+        end
 
-      sig { params(authorization_status: ::GustoEmbedded::Shared::AuthorizationStatus, employee_signed: T::Boolean, employer_signed: T::Boolean, uuid: ::String, version: ::String, additional_info: T.nilable(::String), alt_procedure: T.nilable(T::Boolean), country: T.nilable(::String), document_type: T.nilable(::GustoEmbedded::Shared::I9AuthorizationDocumentType), expiration_date: T.nilable(::String), form_uuid: T.nilable(::String), has_document_number: T.nilable(T::Boolean)).void }
-      def initialize(authorization_status: nil, employee_signed: nil, employer_signed: nil, uuid: nil, version: nil, additional_info: nil, alt_procedure: nil, country: nil, document_type: nil, expiration_date: nil, form_uuid: nil, has_document_number: nil)
-        @authorization_status = authorization_status
-        @employee_signed = employee_signed
-        @employer_signed = employer_signed
-        @uuid = uuid
-        @version = version
-        @additional_info = additional_info
-        @alt_procedure = alt_procedure
-        @country = country
-        @document_type = document_type
-        @expiration_date = expiration_date
-        @form_uuid = form_uuid
-        @has_document_number = has_document_number
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @version == other.version
+          return false unless @authorization_status == other.authorization_status
+          return false unless @employer_signed == other.employer_signed
+          return false unless @employee_signed == other.employee_signed
+          return false unless @form_uuid == other.form_uuid
+          return false unless @document_type == other.document_type
+          return false unless @has_document_number == other.has_document_number
+          return false unless @expiration_date == other.expiration_date
+          return false unless @country == other.country
+          return false unless @additional_info == other.additional_info
+          return false unless @alt_procedure == other.alt_procedure
+          true
+        end
       end
     end
   end

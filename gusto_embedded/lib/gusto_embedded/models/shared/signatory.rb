@@ -5,58 +5,77 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of a company's signatory
-    class Signatory < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of a company's signatory
+      class Signatory
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
 
-      field :birthday, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('birthday') } }
+        field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # Whether or not the signatory is also the payroll admin of the company.
+        field :is_admin, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('is_admin') } }
+        # Indicates whether the signatory has an SSN in Gusto.
+        field :has_ssn, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ssn') } }
+        # The current version of the signatory. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
 
-      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
 
-      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-      # Indicates whether the signatory has an SSN in Gusto.
-      field :has_ssn, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ssn') } }
+        field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
 
-      field :home_address, T.nilable(::GustoEmbedded::Shared::HomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
-      # |   |   |
-      # |---|---|
-      # |__Status__| __Description__ |
-      # | Pass | Signatory can sign all forms |
-      # | Fail | Signatory cannot sign forms |
-      # | Skipped | Signatory cannot sign Form 8655 until the form is manually uploaded as wet-signed |
-      # | null | Identity verification process has not been completed |
-      field :identity_verification_status, T.nilable(::GustoEmbedded::Shared::IdentityVerificationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('identity_verification_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::IdentityVerificationStatus, true) } }
-      # Whether or not the signatory is also the payroll admin of the company.
-      field :is_admin, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('is_admin') } }
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
 
-      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        field :phone, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
 
-      field :phone, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
+        field :birthday, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('birthday') } }
+        # |   |   |
+        # |---|---|
+        # |__Status__| __Description__ |
+        # | Pass | Signatory can sign all forms |
+        # | Fail | Signatory cannot sign forms |
+        # | Skipped | Signatory cannot sign Form 8655 until the form is manually uploaded as wet-signed |
+        # | null | Identity verification process has not been completed |
+        field :identity_verification_status, Crystalline::Nilable.new(Models::Shared::IdentityVerificationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('identity_verification_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::IdentityVerificationStatus, true) } }
 
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
-      # The current version of the signatory. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        field :home_address, Crystalline::Nilable.new(Models::Shared::HomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
 
+        sig { params(uuid: ::String, email: T.nilable(::String), is_admin: T.nilable(T::Boolean), has_ssn: T.nilable(T::Boolean), version: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), title: T.nilable(::String), phone: T.nilable(::String), birthday: T.nilable(::String), identity_verification_status: T.nilable(Models::Shared::IdentityVerificationStatus), home_address: T.nilable(Models::Shared::HomeAddress)).void }
+        def initialize(uuid:, email: nil, is_admin: nil, has_ssn: nil, version: nil, first_name: nil, last_name: nil, title: nil, phone: nil, birthday: nil, identity_verification_status: nil, home_address: nil)
+          @uuid = uuid
+          @email = email
+          @is_admin = is_admin
+          @has_ssn = has_ssn
+          @version = version
+          @first_name = first_name
+          @last_name = last_name
+          @title = title
+          @phone = phone
+          @birthday = birthday
+          @identity_verification_status = identity_verification_status
+          @home_address = home_address
+        end
 
-      sig { params(uuid: ::String, birthday: T.nilable(::String), email: T.nilable(::String), first_name: T.nilable(::String), has_ssn: T.nilable(T::Boolean), home_address: T.nilable(::GustoEmbedded::Shared::HomeAddress), identity_verification_status: T.nilable(::GustoEmbedded::Shared::IdentityVerificationStatus), is_admin: T.nilable(T::Boolean), last_name: T.nilable(::String), phone: T.nilable(::String), title: T.nilable(::String), version: T.nilable(::String)).void }
-      def initialize(uuid: nil, birthday: nil, email: nil, first_name: nil, has_ssn: nil, home_address: nil, identity_verification_status: nil, is_admin: nil, last_name: nil, phone: nil, title: nil, version: nil)
-        @uuid = uuid
-        @birthday = birthday
-        @email = email
-        @first_name = first_name
-        @has_ssn = has_ssn
-        @home_address = home_address
-        @identity_verification_status = identity_verification_status
-        @is_admin = is_admin
-        @last_name = last_name
-        @phone = phone
-        @title = title
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @email == other.email
+          return false unless @is_admin == other.is_admin
+          return false unless @has_ssn == other.has_ssn
+          return false unless @version == other.version
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @title == other.title
+          return false unless @phone == other.phone
+          return false unless @birthday == other.birthday
+          return false unless @identity_verification_status == other.identity_verification_status
+          return false unless @home_address == other.home_address
+          true
+        end
       end
     end
   end

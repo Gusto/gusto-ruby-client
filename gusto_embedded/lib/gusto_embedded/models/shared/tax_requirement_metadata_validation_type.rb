@@ -5,13 +5,14 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # TaxRequirementMetadataValidationType - Describes the type of tax_rate validation rule
-    class TaxRequirementMetadataValidationType < T::Enum
-      enums do
-        ONE_OF = new('one_of')
-        MIN_MAX = new('min_max')
+  module Models
+    module Shared
+      # TaxRequirementMetadataValidationType - Describes the type of tax_rate validation rule
+      class TaxRequirementMetadataValidationType < T::Enum
+        enums do
+          ONE_OF = new('one_of')
+          MIN_MAX = new('min_max')
+        end
       end
     end
   end

@@ -5,18 +5,19 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # GarnishmentType - The specific type of garnishment for court ordered garnishments.
-    class GarnishmentType < T::Enum
-      enums do
-        CHILD_SUPPORT = new('child_support')
-        FEDERAL_TAX_LIEN = new('federal_tax_lien')
-        STATE_TAX_LIEN = new('state_tax_lien')
-        STUDENT_LOAN = new('student_loan')
-        CREDITOR_GARNISHMENT = new('creditor_garnishment')
-        FEDERAL_LOAN = new('federal_loan')
-        OTHER_GARNISHMENT = new('other_garnishment')
+  module Models
+    module Shared
+
+      class GarnishmentType < T::Enum
+        enums do
+          CHILD_SUPPORT = new('child_support')
+          FEDERAL_TAX_LIEN = new('federal_tax_lien')
+          STATE_TAX_LIEN = new('state_tax_lien')
+          STUDENT_LOAN = new('student_loan')
+          CREDITOR_GARNISHMENT = new('creditor_garnishment')
+          FEDERAL_LOAN = new('federal_loan')
+          OTHER_GARNISHMENT = new('other_garnishment')
+        end
       end
     end
   end

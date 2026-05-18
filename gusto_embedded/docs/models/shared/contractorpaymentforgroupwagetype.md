@@ -2,6 +2,14 @@
 
 The wage type for the payment.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = ContractorPaymentForGroupWageType::HOURLY
+```
+
 
 ## Values
 

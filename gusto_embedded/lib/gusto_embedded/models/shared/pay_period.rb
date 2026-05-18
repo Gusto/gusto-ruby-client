@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of a pay period.
-    class PayPeriod < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of a pay period.
+      class PayPeriod
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The end date, inclusive, of the pay period.
-      field :end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
-      # A unique identifier of the pay schedule to which the pay period belongs.
-      field :pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
-      # Information about the payroll for the pay period.
-      field :payroll, T.nilable(::GustoEmbedded::Shared::PayPeriodPayroll), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll') } }
-      # The start date, inclusive, of the pay period.
-      field :start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # The start date, inclusive, of the pay period.
+        field :start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # The end date, inclusive, of the pay period.
+        field :end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
+        # A unique identifier of the pay schedule to which the pay period belongs.
+        field :pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
+        # Information about the payroll for the pay period.
+        field :payroll, Crystalline::Nilable.new(Models::Shared::PayPeriodPayroll), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll') } }
 
+        sig { params(start_date: T.nilable(::String), end_date: T.nilable(::String), pay_schedule_uuid: T.nilable(::String), payroll: T.nilable(Models::Shared::PayPeriodPayroll)).void }
+        def initialize(start_date: nil, end_date: nil, pay_schedule_uuid: nil, payroll: nil)
+          @start_date = start_date
+          @end_date = end_date
+          @pay_schedule_uuid = pay_schedule_uuid
+          @payroll = payroll
+        end
 
-      sig { params(end_date: T.nilable(::String), pay_schedule_uuid: T.nilable(::String), payroll: T.nilable(::GustoEmbedded::Shared::PayPeriodPayroll), start_date: T.nilable(::String)).void }
-      def initialize(end_date: nil, pay_schedule_uuid: nil, payroll: nil, start_date: nil)
-        @end_date = end_date
-        @pay_schedule_uuid = pay_schedule_uuid
-        @payroll = payroll
-        @start_date = start_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          return false unless @pay_schedule_uuid == other.pay_schedule_uuid
+          return false unless @payroll == other.payroll
+          true
+        end
       end
     end
   end
