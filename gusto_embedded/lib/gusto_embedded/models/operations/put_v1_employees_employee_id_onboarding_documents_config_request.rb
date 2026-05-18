@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the employee
-      field :employee_id, ::String, { 'path_param': { 'field_name': 'employee_id', 'style': 'simple', 'explode': false } }
+        # The UUID of the employee
+        field :employee_id, ::String, { 'path_param': { 'field_name': 'employee_id', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :employee_onboarding_documents_config_request, Crystalline::Nilable.new(Models::Shared::EmployeeOnboardingDocumentsConfigRequest), { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(employee_id: ::String, employee_onboarding_documents_config_request: T.nilable(Models::Shared::EmployeeOnboardingDocumentsConfigRequest), x_gusto_api_version: T.nilable(Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigHeaderXGustoAPIVersion)).void }
+        def initialize(employee_id:, employee_onboarding_documents_config_request: nil, x_gusto_api_version: Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @employee_id = employee_id
+          @employee_onboarding_documents_config_request = employee_onboarding_documents_config_request
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(employee_id: ::String, request_body: ::GustoEmbedded::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(employee_id: nil, request_body: nil, x_gusto_api_version: nil)
-        @employee_id = employee_id
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_id == other.employee_id
+          return false unless @employee_onboarding_documents_config_request == other.employee_onboarding_documents_config_request
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

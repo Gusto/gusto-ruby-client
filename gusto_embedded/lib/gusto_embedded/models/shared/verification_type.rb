@@ -5,17 +5,18 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # VerificationType - The verification type of the bank account.
-    # 
-    # 'bank_deposits' means the bank account is connected by entering routing and accounting numbers and verifying through micro-deposits.
-    # 'plaid' means the bank account is connected through Plaid.
-    class VerificationType < T::Enum
-      enums do
-        BANK_DEPOSITS = new('bank_deposits')
-        PLAID = new('plaid')
-        PLAID_EXTERNAL = new('plaid_external')
+  module Models
+    module Shared
+      # VerificationType - The verification type of the bank account.
+      #
+      # 'bank_deposits' means the bank account is connected by entering routing and accounting numbers and verifying through micro-deposits.
+      # 'plaid' means the bank account is connected through Plaid.
+      class VerificationType < T::Enum
+        enums do
+          BANK_DEPOSITS = new('bank_deposits')
+          PLAID = new('plaid')
+          PLAID_EXTERNAL = new('plaid_external')
+        end
       end
     end
   end

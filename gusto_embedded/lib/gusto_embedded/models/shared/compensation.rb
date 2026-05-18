@@ -5,46 +5,67 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of compensation in Gusto.
-    class Compensation < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of compensation in Gusto.
+      class Compensation
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the compensation in Gusto.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Indicates if the compensation could be adjusted to minimum wage during payroll calculation.
-      field :adjust_for_minimum_wage, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('adjust_for_minimum_wage') } }
-      # The effective date for this compensation. For the first compensation, this defaults to the job's hire date.
-      field :effective_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
-      # The UUID of the employee to which the compensation belongs.
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-      # The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. 
-      field :flsa_status, T.nilable(::GustoEmbedded::Shared::FlsaStatusType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::FlsaStatusType, true) } }
-      # The UUID of the job to which the compensation belongs.
-      field :job_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job_uuid') } }
-      # The minimum wages associated with the compensation.
-      field :minimum_wages, T.nilable(T::Array[::GustoEmbedded::Shared::MinimumWages]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('minimum_wages') } }
-      # The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'.
-      field :payment_unit, T.nilable(::GustoEmbedded::Shared::PaymentUnit), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_unit'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PaymentUnit, true) } }
-      # The dollar amount paid per payment unit.
-      field :rate, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rate') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The UUID of the compensation in Gusto.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The UUID of the job to which the compensation belongs.
+        field :job_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job_uuid') } }
+        # The UUID of the employee to which the compensation belongs.
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # The dollar amount paid per payment unit.
+        field :rate, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rate') } }
+        # The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'.
+        field :payment_unit, Crystalline::Nilable.new(Models::Shared::PaymentUnit), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_unit'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PaymentUnit, true) } }
+        # The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. 
+        field :flsa_status, Crystalline::Nilable.new(Models::Shared::FlsaStatusType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::FlsaStatusType, true) } }
+        # The job title for this compensation.
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # The effective date for this compensation. For the first compensation, this defaults to the job's hire date.
+        field :effective_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
+        # Indicates if the compensation could be adjusted to minimum wage during payroll calculation.
+        field :adjust_for_minimum_wage, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('adjust_for_minimum_wage') } }
+        # The minimum wages associated with the compensation.
+        field :minimum_wages, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::MinimumWages)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('minimum_wages') } }
 
+        sig { params(uuid: ::String, version: T.nilable(::String), job_uuid: T.nilable(::String), employee_uuid: T.nilable(::String), rate: T.nilable(::String), payment_unit: T.nilable(Models::Shared::PaymentUnit), flsa_status: T.nilable(Models::Shared::FlsaStatusType), title: T.nilable(::String), effective_date: T.nilable(::String), adjust_for_minimum_wage: T.nilable(T::Boolean), minimum_wages: T.nilable(T::Array[Models::Shared::MinimumWages])).void }
+        def initialize(uuid:, version: nil, job_uuid: nil, employee_uuid: nil, rate: nil, payment_unit: nil, flsa_status: nil, title: nil, effective_date: nil, adjust_for_minimum_wage: nil, minimum_wages: nil)
+          @uuid = uuid
+          @version = version
+          @job_uuid = job_uuid
+          @employee_uuid = employee_uuid
+          @rate = rate
+          @payment_unit = payment_unit
+          @flsa_status = flsa_status
+          @title = title
+          @effective_date = effective_date
+          @adjust_for_minimum_wage = adjust_for_minimum_wage
+          @minimum_wages = minimum_wages
+        end
 
-      sig { params(uuid: ::String, adjust_for_minimum_wage: T.nilable(T::Boolean), effective_date: T.nilable(::String), employee_uuid: T.nilable(::String), flsa_status: T.nilable(::GustoEmbedded::Shared::FlsaStatusType), job_uuid: T.nilable(::String), minimum_wages: T.nilable(T::Array[::GustoEmbedded::Shared::MinimumWages]), payment_unit: T.nilable(::GustoEmbedded::Shared::PaymentUnit), rate: T.nilable(::String), version: T.nilable(::String)).void }
-      def initialize(uuid: nil, adjust_for_minimum_wage: nil, effective_date: nil, employee_uuid: nil, flsa_status: nil, job_uuid: nil, minimum_wages: nil, payment_unit: nil, rate: nil, version: nil)
-        @uuid = uuid
-        @adjust_for_minimum_wage = adjust_for_minimum_wage
-        @effective_date = effective_date
-        @employee_uuid = employee_uuid
-        @flsa_status = flsa_status
-        @job_uuid = job_uuid
-        @minimum_wages = minimum_wages
-        @payment_unit = payment_unit
-        @rate = rate
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @version == other.version
+          return false unless @job_uuid == other.job_uuid
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @rate == other.rate
+          return false unless @payment_unit == other.payment_unit
+          return false unless @flsa_status == other.flsa_status
+          return false unless @title == other.title
+          return false unless @effective_date == other.effective_date
+          return false unless @adjust_for_minimum_wage == other.adjust_for_minimum_wage
+          return false unless @minimum_wages == other.minimum_wages
+          true
+        end
       end
     end
   end

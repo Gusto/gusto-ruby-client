@@ -5,12 +5,13 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PutV1EmployeesEmployeeIdOnboardingStatusHeaderXGustoAPIVersion - Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-    class PutV1EmployeesEmployeeIdOnboardingStatusHeaderXGustoAPIVersion < T::Enum
-      enums do
-        TWO_THOUSAND_AND_TWENTY_FOUR_04_01 = new('2024-04-01')
+  module Models
+    module Operations
+      # PutV1EmployeesEmployeeIdOnboardingStatusHeaderXGustoAPIVersion - Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+      class PutV1EmployeesEmployeeIdOnboardingStatusHeaderXGustoAPIVersion < T::Enum
+        enums do
+          TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15 = new('2025-06-15')
+        end
       end
     end
   end

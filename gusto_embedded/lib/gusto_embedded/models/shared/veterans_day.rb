@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class VeteransDay < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date') } }
-
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-
-      field :selected, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selected') } }
+      class VeteransDay
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(date: T.nilable(::String), name: T.nilable(::String), selected: T.nilable(T::Boolean)).void }
-      def initialize(date: nil, name: nil, selected: nil)
-        @date = date
-        @name = name
-        @selected = selected
+        field :selected, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selected') } }
+
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+
+        field :date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date') } }
+
+        sig { params(selected: T.nilable(T::Boolean), name: T.nilable(::String), date: T.nilable(::String)).void }
+        def initialize(selected: nil, name: nil, date: nil)
+          @selected = selected
+          @name = name
+          @date = date
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @selected == other.selected
+          return false unless @name == other.name
+          return false unless @date == other.date
+          true
+        end
       end
     end
   end

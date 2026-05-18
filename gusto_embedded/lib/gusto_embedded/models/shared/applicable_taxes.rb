@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class ApplicableTaxes < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-      # Some taxes may have an amount withheld from the employee and an amount withheld from the employer, e.g. Social Security. A `true` value indicates this is the employer's amount.
-      field :employer_tax, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer_tax') } }
-
-      field :id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id') } }
-
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # Some taxes may have different rates or reporting requirements depending on if the employee is a resident or non-resident of the tax jurisdiction.
-      field :resident_tax, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resident_tax') } }
+      class ApplicableTaxes
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(employer_tax: T.nilable(T::Boolean), id: T.nilable(::Integer), name: T.nilable(::String), resident_tax: T.nilable(T::Boolean)).void }
-      def initialize(employer_tax: nil, id: nil, name: nil, resident_tax: nil)
-        @employer_tax = employer_tax
-        @id = id
-        @name = name
-        @resident_tax = resident_tax
+        field :id, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id') } }
+
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # Some taxes may have an amount withheld from the employee and an amount withheld from the employer, e.g. Social Security. A `true` value indicates this is the employer's amount.
+        field :employer_tax, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer_tax') } }
+        # Some taxes may have different rates or reporting requirements depending on if the employee is a resident or non-resident of the tax jurisdiction.
+        field :resident_tax, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resident_tax') } }
+
+        sig { params(id: T.nilable(::Integer), name: T.nilable(::String), employer_tax: T.nilable(T::Boolean), resident_tax: T.nilable(T::Boolean)).void }
+        def initialize(id: nil, name: nil, employer_tax: nil, resident_tax: nil)
+          @id = id
+          @name = name
+          @employer_tax = employer_tax
+          @resident_tax = resident_tax
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @id == other.id
+          return false unless @name == other.name
+          return false unless @employer_tax == other.employer_tax
+          return false unless @resident_tax == other.resident_tax
+          true
+        end
       end
     end
   end

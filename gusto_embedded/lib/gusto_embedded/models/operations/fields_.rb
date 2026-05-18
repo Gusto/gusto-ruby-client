@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class Fields < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Fields
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Unique identifier of the field
-      field :key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
-      # Value for the field
-      field :value, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        # Unique identifier of the field
+        field :key, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
+        # Value for the field
+        field :value, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
+        sig { params(key: T.nilable(::String), value: T.nilable(::String)).void }
+        def initialize(key: nil, value: nil)
+          @key = key
+          @value = value
+        end
 
-      sig { params(key: T.nilable(::String), value: T.nilable(::String)).void }
-      def initialize(key: nil, value: nil)
-        @key = key
-        @value = value
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @key == other.key
+          return false unless @value == other.value
+          true
+        end
       end
     end
   end

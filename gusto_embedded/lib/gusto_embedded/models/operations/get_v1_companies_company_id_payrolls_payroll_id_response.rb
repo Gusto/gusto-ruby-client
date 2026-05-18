@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1CompaniesCompanyIdPayrollsPayrollIdResponse < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1CompaniesCompanyIdPayrollsPayrollIdResponse
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # HTTP response content type for this operation
-      field :content_type, ::String
-      # Raw HTTP response; suitable for custom response parsing
-      field :raw_response, ::Faraday::Response
-      # HTTP response status code for this operation
-      field :status_code, ::Integer
-      # Example response
-      field :payroll, T.nilable(::GustoEmbedded::Shared::Payroll)
+        # HTTP response content type for this operation
+        field :content_type, ::String
+        # HTTP response status code for this operation
+        field :status_code, ::Integer
+        # Raw HTTP response; suitable for custom response parsing
+        field :raw_response, ::Faraday::Response
+        # successful with wait_for_reverse_wire credit blocker
+        field :payroll_show, Crystalline::Nilable.new(Models::Shared::PayrollShow)
 
+        sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, payroll_show: T.nilable(Models::Shared::PayrollShow)).void }
+        def initialize(content_type:, status_code:, raw_response:, payroll_show: nil)
+          @content_type = content_type
+          @status_code = status_code
+          @raw_response = raw_response
+          @payroll_show = payroll_show
+        end
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, payroll: T.nilable(::GustoEmbedded::Shared::Payroll)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, payroll: nil)
-        @content_type = content_type
-        @raw_response = raw_response
-        @status_code = status_code
-        @payroll = payroll
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @content_type == other.content_type
+          return false unless @status_code == other.status_code
+          return false unless @raw_response == other.raw_response
+          return false unless @payroll_show == other.payroll_show
+          true
+        end
       end
     end
   end

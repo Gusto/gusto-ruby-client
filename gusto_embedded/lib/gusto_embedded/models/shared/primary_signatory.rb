@@ -5,37 +5,51 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The primary signatory of the company.
-    class PrimarySignatory < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The primary signatory of the company.
+      class PrimarySignatory
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The company's primary signatory's email address.
-      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-      # The company's primary signatory's first name.
-      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-      # The company's primary signatory's home address.
-      field :home_address, T.nilable(::GustoEmbedded::Shared::CompanyHomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
-      # The company's primary signatory's last name.
-      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-      # The company's primary signatory's middle initial.
-      field :middle_initial, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
-      # The company's primary signatory's phone number.
-      field :phone, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
-      # The UUID of the company's primary signatory.
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The UUID of the company's primary signatory.
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The company's primary signatory's first name.
+        field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+        # The company's primary signatory's last name.
+        field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        # The company's primary signatory's phone number.
+        field :phone, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
+        # The company's primary signatory's email address.
+        field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # The company's primary signatory's home address.
+        field :home_address, Crystalline::Nilable.new(Models::Shared::CompanyHomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
+        # The company's primary signatory's middle initial.
+        field :middle_initial, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
 
+        sig { params(uuid: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), phone: T.nilable(::String), email: T.nilable(::String), home_address: T.nilable(Models::Shared::CompanyHomeAddress), middle_initial: T.nilable(::String)).void }
+        def initialize(uuid: nil, first_name: nil, last_name: nil, phone: nil, email: nil, home_address: nil, middle_initial: nil)
+          @uuid = uuid
+          @first_name = first_name
+          @last_name = last_name
+          @phone = phone
+          @email = email
+          @home_address = home_address
+          @middle_initial = middle_initial
+        end
 
-      sig { params(email: T.nilable(::String), first_name: T.nilable(::String), home_address: T.nilable(::GustoEmbedded::Shared::CompanyHomeAddress), last_name: T.nilable(::String), middle_initial: T.nilable(::String), phone: T.nilable(::String), uuid: T.nilable(::String)).void }
-      def initialize(email: nil, first_name: nil, home_address: nil, last_name: nil, middle_initial: nil, phone: nil, uuid: nil)
-        @email = email
-        @first_name = first_name
-        @home_address = home_address
-        @last_name = last_name
-        @middle_initial = middle_initial
-        @phone = phone
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @phone == other.phone
+          return false unless @email == other.email
+          return false unless @home_address == other.home_address
+          return false unless @middle_initial == other.middle_initial
+          true
+        end
       end
     end
   end

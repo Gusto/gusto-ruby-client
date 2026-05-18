@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class EmployeeCheckNumberMapping < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class EmployeeCheckNumberMapping
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The check number for the relevant employee
-      field :check_number, T.nilable(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_number') } }
-      # The UUID for an employee
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # The UUID for an employee
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # The check number for the relevant employee
+        field :check_number, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_number') } }
 
+        sig { params(employee_uuid: T.nilable(::String), check_number: T.nilable(::Float)).void }
+        def initialize(employee_uuid: nil, check_number: nil)
+          @employee_uuid = employee_uuid
+          @check_number = check_number
+        end
 
-      sig { params(check_number: T.nilable(::Float), employee_uuid: T.nilable(::String)).void }
-      def initialize(check_number: nil, employee_uuid: nil)
-        @check_number = check_number
-        @employee_uuid = employee_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @check_number == other.check_number
+          true
+        end
       end
     end
   end

@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class BenefitSummaryPayPeriod < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class BenefitSummaryPayPeriod
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The end of the payroll's pay period.
-      field :end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
-      # The beginning of the payroll's pay period.
-      field :start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # The beginning of the payroll's pay period.
+        field :start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # The end of the payroll's pay period.
+        field :end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
 
+        sig { params(start_date: T.nilable(::String), end_date: T.nilable(::String)).void }
+        def initialize(start_date: nil, end_date: nil)
+          @start_date = start_date
+          @end_date = end_date
+        end
 
-      sig { params(end_date: T.nilable(::String), start_date: T.nilable(::String)).void }
-      def initialize(end_date: nil, start_date: nil)
-        @end_date = end_date
-        @start_date = start_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          true
+        end
       end
     end
   end

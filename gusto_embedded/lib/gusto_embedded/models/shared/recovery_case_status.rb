@@ -5,16 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # RecoveryCaseStatus - Status of the recovery case
-    class RecoveryCaseStatus < T::Enum
-      enums do
-        OPEN = new('open')
-        REDEBIT_INITIATED = new('redebit_initiated')
-        WIRE_INITIATED = new('wire_initiated')
-        RECOVERED = new('recovered')
-        LOST = new('lost')
+  module Models
+    module Shared
+      # RecoveryCaseStatus - Status of the recovery case
+      class RecoveryCaseStatus < T::Enum
+        enums do
+          OPEN = new('open')
+          REDEBIT_INITIATED = new('redebit_initiated')
+          WIRE_INITIATED = new('wire_initiated')
+          RECOVERED = new('recovered')
+          LOST = new('lost')
+        end
       end
     end
   end

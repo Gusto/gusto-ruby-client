@@ -5,14 +5,19 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Category - The category of the company attachment
-    class Category < T::Enum
-      enums do
-        GEP_NOTICE = new('gep_notice')
-        COMPLIANCE = new('compliance')
-        OTHER = new('other')
+  module Models
+    module Shared
+      # Category - The category of the company attachment.
+      # - `gep_notice`: A tax notice attachment
+      # - `compliance`: A compliance attachment
+      # - `other`: Any other attachment type
+      #
+      class Category < T::Enum
+        enums do
+          GEP_NOTICE = new('gep_notice')
+          COMPLIANCE = new('compliance')
+          OTHER = new('other')
+        end
       end
     end
   end

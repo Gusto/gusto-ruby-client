@@ -5,40 +5,55 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of a Time Off Activity
-    class TimeOffActivity < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # Representation of a Time Off Activity
+      class TimeOffActivity
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The time off balance at the time of the activity
-      field :balance, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance') } }
-      # The amount the time off balance changed as a result of the activity
-      field :balance_change, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance_change') } }
-      # The datetime of the time off activity
-      field :effective_time, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_time') } }
-      # A description for the time off event/activity
-      field :event_description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('event_description') } }
-      # The type of the time off event/activity
-      field :event_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('event_type') } }
-      # The name of the time off policy for this activity
-      field :policy_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('policy_name') } }
-      # unique identifier of a time off policy
-      field :policy_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('policy_uuid') } }
-      # Type of the time off activity
-      field :time_off_type, T.nilable(::GustoEmbedded::Shared::TimeOffType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('time_off_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::TimeOffType, true) } }
+        # Type of the time off activity
+        field :time_off_type, Crystalline::Nilable.new(Models::Shared::TimeOffType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('time_off_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::TimeOffType, true) } }
+        # The type of the time off event/activity
+        field :event_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('event_type') } }
+        # unique identifier of a time off policy
+        field :policy_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('policy_uuid') } }
+        # The name of the time off policy for this activity
+        field :policy_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('policy_name') } }
+        # A description for the time off event/activity
+        field :event_description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('event_description') } }
+        # The datetime of the time off activity
+        field :effective_time, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_time') } }
+        # The time off balance at the time of the activity
+        field :balance, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance') } }
+        # The amount the time off balance changed as a result of the activity
+        field :balance_change, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance_change') } }
 
+        sig { params(time_off_type: T.nilable(Models::Shared::TimeOffType), event_type: T.nilable(::String), policy_uuid: T.nilable(::String), policy_name: T.nilable(::String), event_description: T.nilable(::String), effective_time: T.nilable(::String), balance: T.nilable(::String), balance_change: T.nilable(::String)).void }
+        def initialize(time_off_type: nil, event_type: nil, policy_uuid: nil, policy_name: nil, event_description: nil, effective_time: nil, balance: nil, balance_change: nil)
+          @time_off_type = time_off_type
+          @event_type = event_type
+          @policy_uuid = policy_uuid
+          @policy_name = policy_name
+          @event_description = event_description
+          @effective_time = effective_time
+          @balance = balance
+          @balance_change = balance_change
+        end
 
-      sig { params(balance: T.nilable(::String), balance_change: T.nilable(::String), effective_time: T.nilable(::String), event_description: T.nilable(::String), event_type: T.nilable(::String), policy_name: T.nilable(::String), policy_uuid: T.nilable(::String), time_off_type: T.nilable(::GustoEmbedded::Shared::TimeOffType)).void }
-      def initialize(balance: nil, balance_change: nil, effective_time: nil, event_description: nil, event_type: nil, policy_name: nil, policy_uuid: nil, time_off_type: nil)
-        @balance = balance
-        @balance_change = balance_change
-        @effective_time = effective_time
-        @event_description = event_description
-        @event_type = event_type
-        @policy_name = policy_name
-        @policy_uuid = policy_uuid
-        @time_off_type = time_off_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @time_off_type == other.time_off_type
+          return false unless @event_type == other.event_type
+          return false unless @policy_uuid == other.policy_uuid
+          return false unless @policy_name == other.policy_name
+          return false unless @event_description == other.event_description
+          return false unless @effective_time == other.effective_time
+          return false unless @balance == other.balance
+          return false unless @balance_change == other.balance_change
+          true
+        end
       end
     end
   end

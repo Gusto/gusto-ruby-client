@@ -5,31 +5,43 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1BenefitsCompanyBenefitIdSummaryRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1BenefitsCompanyBenefitIdSummaryRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company benefit
-      field :company_benefit_id, ::String, { 'path_param': { 'field_name': 'company_benefit_id', 'style': 'simple', 'explode': false } }
-      # Display employee payroll item summary
-      field :detailed, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'detailed', 'style': 'form', 'explode': true } }
-      # The end date for which to retrieve company benefit summary. If left empty, defaults to today's date.
-      field :end_date, T.nilable(::String), { 'query_param': { 'field_name': 'end_date', 'style': 'form', 'explode': true } }
-      # The start date for which to retrieve company benefit summary
-      field :start_date, T.nilable(::String), { 'query_param': { 'field_name': 'start_date', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company benefit
+        field :company_benefit_id, ::String, { 'path_param': { 'field_name': 'company_benefit_id', 'style': 'simple', 'explode': false } }
+        # The start date for which to retrieve company benefit summary
+        field :start_date, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'start_date', 'style': 'form', 'explode': true } }
+        # The end date for which to retrieve company benefit summary. If left empty, defaults to today's date.
+        field :end_date, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'end_date', 'style': 'form', 'explode': true } }
+        # Display employee payroll item summary
+        field :detailed, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'query_param': { 'field_name': 'detailed', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_benefit_id: ::String, start_date: T.nilable(::String), end_date: T.nilable(::String), detailed: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryHeaderXGustoAPIVersion)).void }
+        def initialize(company_benefit_id:, start_date: nil, end_date: nil, detailed: nil, x_gusto_api_version: Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_benefit_id = company_benefit_id
+          @start_date = start_date
+          @end_date = end_date
+          @detailed = detailed
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(company_benefit_id: ::String, detailed: T.nilable(T::Boolean), end_date: T.nilable(::String), start_date: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_benefit_id: nil, detailed: nil, end_date: nil, start_date: nil, x_gusto_api_version: nil)
-        @company_benefit_id = company_benefit_id
-        @detailed = detailed
-        @end_date = end_date
-        @start_date = start_date
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_benefit_id == other.company_benefit_id
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          return false unless @detailed == other.detailed
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

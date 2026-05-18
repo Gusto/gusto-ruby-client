@@ -2,6 +2,14 @@
 
 The status of the payroll processing request
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = PayrollProcessingRequestStatus::CALCULATING
+```
+
 
 ## Values
 

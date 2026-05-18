@@ -1,0 +1,44 @@
+# typed: true
+# frozen_string_literal: true
+
+class GustoEmbedded::Models::Shared::Department
+  extend ::Crystalline::MetadataFields::ClassMethods
+end
+
+class GustoEmbedded::Models::Shared::Department
+  def version
+  end
+
+  def version=(str_)
+  end
+
+  def uuid
+  end
+
+  def uuid=(str_)
+  end
+
+  def company_uuid
+  end
+
+  def company_uuid=(str_)
+  end
+
+  def title
+  end
+
+  def title=(str_)
+  end
+
+  def employees
+  end
+
+  def employees=(str_)
+  end
+
+  def contractors
+  end
+
+  def contractors=(str_)
+  end
+end

@@ -5,15 +5,16 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PaymentPeriod - How often the agency collects the withholding amount. e.g. $500 monthly -> `Monthly`.
-    class PaymentPeriod < T::Enum
-      enums do
-        EVERY_WEEK = new('Every week')
-        EVERY_OTHER_WEEK = new('Every other week')
-        TWICE_PER_MONTH = new('Twice per month')
-        MONTHLY = new('Monthly')
+  module Models
+    module Shared
+      # PaymentPeriod - How often the agency collects the withholding amount. e.g. $500 monthly -> `Monthly`.
+      class PaymentPeriod < T::Enum
+        enums do
+          EVERY_WEEK = new('Every week')
+          EVERY_OTHER_WEEK = new('Every other week')
+          TWICE_PER_MONTH = new('Twice per month')
+          MONTHLY = new('Monthly')
+        end
       end
     end
   end

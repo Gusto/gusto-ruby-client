@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1LocationsLocationUuidMinimumWagesRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1LocationsLocationUuidMinimumWagesRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the location
-      field :location_uuid, ::String, { 'path_param': { 'field_name': 'location_uuid', 'style': 'simple', 'explode': false } }
+        # The UUID of the location
+        field :location_uuid, ::String, { 'path_param': { 'field_name': 'location_uuid', 'style': 'simple', 'explode': false } }
 
-      field :effective_date, T.nilable(::String), { 'query_param': { 'field_name': 'effective_date', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :effective_date, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'effective_date', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1LocationsLocationUuidMinimumWagesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(location_uuid: ::String, effective_date: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1LocationsLocationUuidMinimumWagesHeaderXGustoAPIVersion)).void }
+        def initialize(location_uuid:, effective_date: nil, x_gusto_api_version: Models::Operations::GetV1LocationsLocationUuidMinimumWagesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @location_uuid = location_uuid
+          @effective_date = effective_date
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(location_uuid: ::String, effective_date: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Operations::GetV1LocationsLocationUuidMinimumWagesHeaderXGustoAPIVersion)).void }
-      def initialize(location_uuid: nil, effective_date: nil, x_gusto_api_version: nil)
-        @location_uuid = location_uuid
-        @effective_date = effective_date
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @location_uuid == other.location_uuid
+          return false unless @effective_date == other.effective_date
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

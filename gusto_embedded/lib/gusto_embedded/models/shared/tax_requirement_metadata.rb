@@ -5,65 +5,80 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class TaxRequirementMetadata < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class TaxRequirementMetadata
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Describes the type of requirement - each type may have additional metadata properties to describe possible values, formats, etc.
-      # 
-      # - `text`: free-text input, no additional requirements
-      # - `currency`: a value representing a dollar amount, e.g. `374.55` representing `$374.55`
-      # - `radio`: choose one of options provided, see `options`
-      # - `select`: choose one of options provided, see `options`
-      # - `percent`: A decimal value representing a percentage, e.g. `0.034` representing `3.4%`
-      # - `account_number`: An account number for a tax agency, more information provided by `mask` and `prefix`
-      # - `tax_rate`: A decimal value representing a tax rate, e.g. `0.034` representing a tax rate of `3.4%`, see `validation` for additional validation guidance
-      # - `workers_compensation_rate`: A decimal value representing a percentage, see `risk_class_code`, `risk_class_description`, and `rate_type`
-      # 
-      field :type, ::GustoEmbedded::Shared::TaxRequirementMetadataType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::TaxRequirementMetadataType, false) } }
-      # [for `account_number`] A pattern describing the format of the account number
-      # 
-      # The mask is a sequence of characters representing the requirements of the actual account number. Each character in the mask represents a single character in the account number as follows:
-      # - `#`: a digit (`\d`)
-      # - `@`: a upper or lower case letter (`[a-zA-Z]`)
-      # - `^`: an uppercase letter (`[A-Z]`)
-      # - `%`: a digit or uppercase letter (`[0-9A-Z]`)
-      # - any other character represents the literal character
-      # 
-      # Examples:
-      # - mask: `WHT-######` represents `WHT-` followed by 5 digits, e.g. `WHT-33421`
-      # - mask: `%####-^^` supports values of `75544-AB` and `Z7654-HK`
-      # 
-      field :mask, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mask') } }
-      # [for `select` or `radio`] An array of objects describing the possible values.
-      field :options, T.nilable(T::Array[::GustoEmbedded::Shared::TaxRequirementMetadataOptions]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
-      # [for `account_number`] A value that precedes the value to be collected - useful for display, but should not be submitted as part of the value. E.g. some tax agencies use an account number that is a company's federal ein plus two digits. In that case the mask would be `##` and the prefix `XXXXX1234`.
-      field :prefix, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('prefix') } }
-      # [for `workers_compensation_rate`] The type of rate being collected. Either:
-      #  - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1%
-      #  - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr
-      # 
-      field :rate_type, T.nilable(::GustoEmbedded::Shared::RateType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rate_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::RateType, true) } }
-      # [for `workers_compensation_rate`] The industry risk class code for the rate being requested
-      field :risk_class_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('risk_class_code') } }
-      # [for `workers_compensation_rate`] A description of the industry risk class for the rate being requested
-      field :risk_class_description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('risk_class_description') } }
-      # [for `tax_rate`] Describes the validation required for the tax rate
-      field :validation, T.nilable(::GustoEmbedded::Shared::Validation), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('validation') } }
+        # Describes the type of requirement - each type may have additional metadata properties to describe possible values, formats, etc.
+        #
+        # - `text`: free-text input, no additional requirements
+        # - `currency`: a value representing a dollar amount, e.g. `374.55` representing `$374.55`
+        # - `radio`: choose one of options provided, see `options`
+        # - `select`: choose one of options provided, see `options`
+        # - `percent`: A decimal value representing a percentage, e.g. `0.034` representing `3.4%`
+        # - `account_number`: An account number for a tax agency, more information provided by `mask` and `prefix`
+        # - `tax_rate`: A decimal value representing a tax rate, e.g. `0.034` representing a tax rate of `3.4%`, see `validation` for additional validation guidance
+        # - `workers_compensation_rate`: A decimal value representing a percentage, see `risk_class_code`, `risk_class_description`, and `rate_type`
+        #
+        field :type, Models::Shared::TaxRequirementMetadataType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::TaxRequirementMetadataType, false) } }
+        # [for `select` or `radio`] An array of objects describing the possible values.
+        field :options, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::TaxRequirementMetadataOptions)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
+        # [for `workers_compensation_rate`] The industry risk class code for the rate being requested
+        field :risk_class_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('risk_class_code') } }
+        # [for `workers_compensation_rate`] A description of the industry risk class for the rate being requested
+        field :risk_class_description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('risk_class_description') } }
+        # [for `workers_compensation_rate`] The type of rate being collected. Either:
+        #   - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1%
+        #   - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr
+        #
+        field :rate_type, Crystalline::Nilable.new(Models::Shared::RateType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rate_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::RateType, true) } }
+        # [for `tax_rate`] Describes the validation required for the tax rate
+        field :validation, Crystalline::Nilable.new(Models::Shared::Validation), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('validation') } }
+        # [for `account_number`] A pattern describing the format of the account number
+        #
+        # The mask is a sequence of characters representing the requirements of the actual account number. Each character in the mask represents a single character in the account number as follows:
+        # - `#`: a digit (`\d`)
+        # - `@`: a upper or lower case letter (`[a-zA-Z]`)
+        # - `^`: an uppercase letter (`[A-Z]`)
+        # - `%`: a digit or uppercase letter (`[0-9A-Z]`)
+        # - any other character represents the literal character
+        #
+        # Examples:
+        # - mask: `WHT-######` represents `WHT-` followed by 5 digits, e.g. `WHT-33421`
+        # - mask: `%####-^^` supports values of `75544-AB` and `Z7654-HK`
+        #
+        field :mask, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('mask') } }
+        # [for `account_number`] A value that precedes the value to be collected - useful for display, but should not be submitted as part of the value. E.g. some tax agencies use an account number that is a company's federal ein plus two digits. In that case the mask would be `##` and the prefix `XXXXX1234`.
+        field :prefix, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('prefix') } }
 
+        sig { params(type: Models::Shared::TaxRequirementMetadataType, options: T.nilable(T::Array[Models::Shared::TaxRequirementMetadataOptions]), risk_class_code: T.nilable(::String), risk_class_description: T.nilable(::String), rate_type: T.nilable(Models::Shared::RateType), validation: T.nilable(Models::Shared::Validation), mask: T.nilable(::String), prefix: T.nilable(::String)).void }
+        def initialize(type:, options: nil, risk_class_code: nil, risk_class_description: nil, rate_type: nil, validation: nil, mask: nil, prefix: nil)
+          @type = type
+          @options = options
+          @risk_class_code = risk_class_code
+          @risk_class_description = risk_class_description
+          @rate_type = rate_type
+          @validation = validation
+          @mask = mask
+          @prefix = prefix
+        end
 
-      sig { params(type: ::GustoEmbedded::Shared::TaxRequirementMetadataType, mask: T.nilable(::String), options: T.nilable(T::Array[::GustoEmbedded::Shared::TaxRequirementMetadataOptions]), prefix: T.nilable(::String), rate_type: T.nilable(::GustoEmbedded::Shared::RateType), risk_class_code: T.nilable(::String), risk_class_description: T.nilable(::String), validation: T.nilable(::GustoEmbedded::Shared::Validation)).void }
-      def initialize(type: nil, mask: nil, options: nil, prefix: nil, rate_type: nil, risk_class_code: nil, risk_class_description: nil, validation: nil)
-        @type = type
-        @mask = mask
-        @options = options
-        @prefix = prefix
-        @rate_type = rate_type
-        @risk_class_code = risk_class_code
-        @risk_class_description = risk_class_description
-        @validation = validation
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @options == other.options
+          return false unless @risk_class_code == other.risk_class_code
+          return false unless @risk_class_description == other.risk_class_description
+          return false unless @rate_type == other.rate_type
+          return false unless @validation == other.validation
+          return false unless @mask == other.mask
+          return false unless @prefix == other.prefix
+          true
+        end
       end
     end
   end

@@ -2,6 +2,14 @@
 
 The status of the information request
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = InformationRequestStatus::PENDING_RESPONSE
+```
+
 
 ## Values
 

@@ -5,23 +5,31 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1ContractorsContractorIdPaymentMethodRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1ContractorsContractorIdPaymentMethodRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The payment method type. If type is Direct Deposit, the contractor is required to have a bank account.
-      # see [Bank account endpoint](./post-v1-contractors-contractor_uuid-bank_accounts)
-      field :type, ::GustoEmbedded::Operations::PutV1ContractorsContractorIdPaymentMethodType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PutV1ContractorsContractorIdPaymentMethodType, false) } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The payment method type. If type is Direct Deposit, the contractor is required to have a bank account. See [Bank account endpoint](./post-v1-contractors-contractor_uuid-bank_accounts).
+        field :type, Models::Operations::PutV1ContractorsContractorIdPaymentMethodType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::PutV1ContractorsContractorIdPaymentMethodType, false) } }
 
+        sig { params(version: ::String, type: Models::Operations::PutV1ContractorsContractorIdPaymentMethodType).void }
+        def initialize(version:, type:)
+          @version = version
+          @type = type
+        end
 
-      sig { params(type: ::GustoEmbedded::Operations::PutV1ContractorsContractorIdPaymentMethodType, version: ::String).void }
-      def initialize(type: nil, version: nil)
-        @type = type
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @type == other.type
+          true
+        end
       end
     end
   end

@@ -1,17 +1,18 @@
 # DocumentType
 
-The type of document an employee holds, based on their authorization status.
+The type of document being generated
 
-  * This is unused for authorization status `citizen` or `noncitizen`.
-  * If the authorization status is `permanent_resident`, this must be `uscis_alien_registration_number`.
-  * If the authorization status is `alien`, this is required and may be any of the valid values.
+## Example Usage
 
+```ruby
+require "gusto_embedded_client"
+
+value = DocumentType::PRINTABLE_PAYROLL_CHECKS
+```
 
 
 ## Values
 
-| Name                              | Value                             |
-| --------------------------------- | --------------------------------- |
-| `USCIS_ALIEN_REGISTRATION_NUMBER` | uscis_alien_registration_number   |
-| `FORM_I94`                        | form_i94                          |
-| `FOREIGN_PASSPORT`                | foreign_passport                  |
+| Name                       | Value                      |
+| -------------------------- | -------------------------- |
+| `PRINTABLE_PAYROLL_CHECKS` | printable_payroll_checks   |

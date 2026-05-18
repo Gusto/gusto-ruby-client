@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+      # Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable.
+      class EmployeeStateTaxes
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-    class EmployeeStateTaxes < ::Crystalline::FieldAugmented
-      extend T::Sig
+        # Whether this job is eligible for workers' compensation coverage in the states of Washington (WA) or Wyoming (WY).
+        field :wc_covered, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wc_covered') } }
+        # The risk class code for workers' compensation in Washington or Wyoming state. For Washington, visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. For Wyoming you can search for the code online using [WY Workforce Services website](https://dws.wyo.gov/dws-division/workers-compensation/) or call the agency at (307) 235-3217.
+        field :wc_class_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wc_class_code') } }
 
-      # The risk class code for workers' compensation in Washington or Wyoming state. For Washington, visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. For Wyoming you can search for the code online using [WY Workforce Services website](https://dws.wyo.gov/dws-division/workers-compensation/) or call the agency at (307) 235-3217.
-      field :wc_class_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wc_class_code') } }
-      # Whether this job is eligible for workers' compensation coverage in the states of Washington (WA) or Wyoming (WY).
-      field :wc_covered, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wc_covered') } }
+        sig { params(wc_covered: T.nilable(T::Boolean), wc_class_code: T.nilable(::String)).void }
+        def initialize(wc_covered: nil, wc_class_code: nil)
+          @wc_covered = wc_covered
+          @wc_class_code = wc_class_code
+        end
 
-
-      sig { params(wc_class_code: T.nilable(::String), wc_covered: T.nilable(T::Boolean)).void }
-      def initialize(wc_class_code: nil, wc_covered: nil)
-        @wc_class_code = wc_class_code
-        @wc_covered = wc_covered
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @wc_covered == other.wc_covered
+          return false unless @wc_class_code == other.wc_class_code
+          true
+        end
       end
     end
   end

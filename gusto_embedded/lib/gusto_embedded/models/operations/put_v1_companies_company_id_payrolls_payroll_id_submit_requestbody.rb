@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1CompaniesCompanyIdPayrollsPayrollIdSubmitRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompaniesCompanyIdPayrollsPayrollIdSubmitRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # An array of submission_blockers, each with a selected unblock option.
-      field :submission_blockers, T.nilable(T::Array[::GustoEmbedded::Operations::SubmissionBlockers]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('submission_blockers') } }
+        # An array of submission_blockers, each with a selected unblock option.
+        field :submission_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollSubmissionBlockerRequestType)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('submission_blockers') } }
 
+        sig { params(submission_blockers: T.nilable(T::Array[Models::Shared::PayrollSubmissionBlockerRequestType])).void }
+        def initialize(submission_blockers: nil)
+          @submission_blockers = submission_blockers
+        end
 
-      sig { params(submission_blockers: T.nilable(T::Array[::GustoEmbedded::Operations::SubmissionBlockers])).void }
-      def initialize(submission_blockers: nil)
-        @submission_blockers = submission_blockers
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @submission_blockers == other.submission_blockers
+          true
+        end
       end
     end
   end

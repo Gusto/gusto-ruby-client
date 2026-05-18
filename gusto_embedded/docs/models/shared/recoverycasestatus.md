@@ -2,6 +2,14 @@
 
 Status of the recovery case
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = RecoveryCaseStatus::OPEN
+```
+
 
 ## Values
 

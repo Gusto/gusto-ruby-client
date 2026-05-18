@@ -5,13 +5,14 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PaymentEventType - The type of payment event associated with the ACH transaction
-    class PaymentEventType < T::Enum
-      enums do
-        PAYROLL = new('Payroll')
-        CONTRACTOR_PAYMENT = new('ContractorPayment')
+  module Models
+    module Shared
+      # PaymentEventType - The type of payment event associated with the ACH transaction
+      class PaymentEventType < T::Enum
+        enums do
+          PAYROLL = new('Payroll')
+          CONTRACTOR_PAYMENT = new('ContractorPayment')
+        end
       end
     end
   end

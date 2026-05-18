@@ -5,52 +5,71 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of a notification
-    class Notification < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
 
-      # Unique identifier of a notification.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Indicates whether a notification requires action or not. If false, the notification provides critical information only.
-      field :actionable, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('actionable') } }
-      # Indicates whether a notification may block ability to run payroll. If true, we suggest that these notifications are prioritized to your end users.
-      field :can_block_payroll, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('can_block_payroll') } }
-      # The notification's category.
-      field :category, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
-      # Unique identifier of the company to which the notification belongs.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # Timestamp of when the notification is due. If the notification has no due date, this field will be null.
-      field :due_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('due_at') } }
-      # The message of the notification. This provides additional context for the user and recommends a specific action to resolve the notification.
-      field :message, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message') } }
-      # Timestamp of when the notification was published.
-      field :published_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('published_at') } }
-      # An array of entities relevant to the notification
-      field :resources, T.nilable(T::Array[::GustoEmbedded::Shared::Resources]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resources') } }
-      # Represents the notification's status as managed by our system. It is updated based on observable system events and internal business logic, and does not reflect resolution steps taken outside our system. This field is read-only and cannot be modified via the API.
-      field :status, T.nilable(::GustoEmbedded::Shared::NotificationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::NotificationStatus, true) } }
-      # An object containing template variables used to render the notification. The structure of this object depends on the notification category. Each category defines a fixed set of variable names (keys), which are always present. The values of these variables can vary depending on the specific notification instance.
-      field :template_variables, T.nilable(T::Hash[Symbol, ::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('template_variables') } }
-      # The title of the notification. This highlights the actionable component of the notification.
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+      class Notification
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # Unique identifier of a notification.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # Unique identifier of the company to which the notification belongs.
+        field :company_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid'), required: true } }
+        # The title of the notification. This highlights the actionable component of the notification.
+        field :title, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title'), required: true } }
+        # The message of the notification. This provides additional context for the user and recommends a specific action to resolve the notification.
+        field :message, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message'), required: true } }
+        # Represents the notification's status as managed by our system. It is updated based on observable system events and internal business logic, and does not reflect resolution steps taken outside our system. This field is read-only and cannot be modified via the API.
+        field :status, Models::Shared::NotificationStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::NotificationStatus, false) } }
+        # The notification's category.
+        field :category, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), required: true } }
+        # Indicates whether a notification requires action or not. If false, the notification provides critical information only.
+        field :actionable, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('actionable'), required: true } }
+        # Indicates whether a notification may block ability to run payroll. If true, we suggest that these notifications are prioritized to your end users.
+        field :can_block_payroll, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('can_block_payroll'), required: true } }
+        # Timestamp of when the notification was published.
+        field :published_at, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('published_at'), required: true } }
+        # An array of entities relevant to the notification
+        field :resources, Crystalline::Array.new(Models::Shared::Resources), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resources'), required: true } }
+        # Timestamp of when the notification is due. If the notification has no due date, this field will be null.
+        field :due_at, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('due_at'), required: true } }
+        # An object containing template variables used to render the notification. The structure of this object depends on the notification category. Each category defines a fixed set of variable names (keys), which are always present. The values of these variables can vary depending on the specific notification instance.
+        field :template_variables, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('template_variables') } }
 
-      sig { params(uuid: ::String, actionable: T.nilable(T::Boolean), can_block_payroll: T.nilable(T::Boolean), category: T.nilable(::String), company_uuid: T.nilable(::String), due_at: T.nilable(::String), message: T.nilable(::String), published_at: T.nilable(::String), resources: T.nilable(T::Array[::GustoEmbedded::Shared::Resources]), status: T.nilable(::GustoEmbedded::Shared::NotificationStatus), template_variables: T.nilable(T::Hash[Symbol, ::String]), title: T.nilable(::String)).void }
-      def initialize(uuid: nil, actionable: nil, can_block_payroll: nil, category: nil, company_uuid: nil, due_at: nil, message: nil, published_at: nil, resources: nil, status: nil, template_variables: nil, title: nil)
-        @uuid = uuid
-        @actionable = actionable
-        @can_block_payroll = can_block_payroll
-        @category = category
-        @company_uuid = company_uuid
-        @due_at = due_at
-        @message = message
-        @published_at = published_at
-        @resources = resources
-        @status = status
-        @template_variables = template_variables
-        @title = title
+        sig { params(uuid: ::String, company_uuid: ::String, title: ::String, message: ::String, status: Models::Shared::NotificationStatus, category: ::String, actionable: T::Boolean, can_block_payroll: T::Boolean, published_at: ::String, resources: T::Array[Models::Shared::Resources], due_at: T.nilable(::String), template_variables: T.nilable(T::Hash[Symbol, ::String])).void }
+        def initialize(uuid:, company_uuid:, title:, message:, status:, category:, actionable:, can_block_payroll:, published_at:, resources:, due_at: nil, template_variables: nil)
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @title = title
+          @message = message
+          @status = status
+          @category = category
+          @actionable = actionable
+          @can_block_payroll = can_block_payroll
+          @published_at = published_at
+          @resources = resources
+          @due_at = due_at
+          @template_variables = template_variables
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @title == other.title
+          return false unless @message == other.message
+          return false unless @status == other.status
+          return false unless @category == other.category
+          return false unless @actionable == other.actionable
+          return false unless @can_block_payroll == other.can_block_payroll
+          return false unless @published_at == other.published_at
+          return false unless @resources == other.resources
+          return false unless @due_at == other.due_at
+          return false unless @template_variables == other.template_variables
+          true
+        end
       end
     end
   end

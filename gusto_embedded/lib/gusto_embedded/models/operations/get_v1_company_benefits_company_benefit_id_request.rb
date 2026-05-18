@@ -5,25 +5,40 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1CompanyBenefitsCompanyBenefitIdRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1CompanyBenefitsCompanyBenefitIdRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company benefit
-      field :company_benefit_id, ::String, { 'path_param': { 'field_name': 'company_benefit_id', 'style': 'simple', 'explode': false } }
-      # Whether to return employee benefits associated with the benefit
-      field :with_employee_benefits, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'with_employee_benefits', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company benefit
+        field :company_benefit_id, ::String, { 'path_param': { 'field_name': 'company_benefit_id', 'style': 'simple', 'explode': false } }
+        # Whether to return employee benefits associated with the benefit
+        field :with_employee_benefits, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'query_param': { 'field_name': 'with_employee_benefits', 'style': 'form', 'explode': true } }
+        # Available options:
+        # - all_benefits: If with_employee_benefits=true, include all effective dated benefits for each employee instead of only the current benefits.
+        field :include, Crystalline::Nilable.new(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdQueryParamInclude), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_benefit_id: ::String, with_employee_benefits: T.nilable(T::Boolean), include: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdQueryParamInclude), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion)).void }
+        def initialize(company_benefit_id:, with_employee_benefits: nil, include: nil, x_gusto_api_version: Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_benefit_id = company_benefit_id
+          @with_employee_benefits = with_employee_benefits
+          @include = include
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(company_benefit_id: ::String, with_employee_benefits: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_benefit_id: nil, with_employee_benefits: nil, x_gusto_api_version: nil)
-        @company_benefit_id = company_benefit_id
-        @with_employee_benefits = with_employee_benefits
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_benefit_id == other.company_benefit_id
+          return false unless @with_employee_benefits == other.with_employee_benefits
+          return false unless @include == other.include
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

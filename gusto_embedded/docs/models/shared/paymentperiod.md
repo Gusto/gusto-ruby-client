@@ -2,6 +2,14 @@
 
 How often the agency collects the withholding amount. e.g. $500 monthly -> `Monthly`.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = PaymentPeriod::EVERY_WEEK
+```
+
 
 ## Values
 

@@ -5,19 +5,31 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class Employees < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Employees
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The UUID of the employee
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The starting balance for the employee
+        field :balance, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance') } }
 
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        sig { params(uuid: ::String, balance: T.nilable(::String)).void }
+        def initialize(uuid:, balance: nil)
+          @uuid = uuid
+          @balance = balance
+        end
 
-
-      sig { params(uuid: T.nilable(::String)).void }
-      def initialize(uuid: nil)
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @balance == other.balance
+          true
+        end
       end
     end
   end

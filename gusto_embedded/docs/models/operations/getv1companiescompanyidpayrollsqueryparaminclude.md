@@ -1,11 +1,20 @@
 # GetV1CompaniesCompanyIdPayrollsQueryParamInclude
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = GetV1CompaniesCompanyIdPayrollsQueryParamInclude::TAXES
+```
+
 
 ## Values
 
 | Name                  | Value                 |
 | --------------------- | --------------------- |
-| `TOTALS`              | totals                |
+| `TAXES`               | taxes                 |
 | `PAYROLL_STATUS_META` | payroll_status_meta   |
+| `TOTALS`              | totals                |
 | `RISK_BLOCKERS`       | risk_blockers         |
 | `REVERSALS`           | reversals             |

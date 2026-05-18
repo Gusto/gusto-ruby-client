@@ -5,62 +5,82 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class FederalTaxDetails < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
 
-      # How often the company sends money to the IRS. One of:
-      #   - Semiweekly
-      #   - Monthly
-      field :deposit_schedule, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deposit_schedule') } }
-      # The date that these details took effect.
-      field :effective_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
-      # Whether the EIN was able to be verified as a valid EIN with the IRS. 
-      field :ein_verified, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein_verified') } }
-      # The form used by the company for federal tax filing. One of:
-      # - 941 (Quarterly federal tax return form)
-      # - 944 (Annual federal tax return form)
-      field :filing_form, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_form') } }
-      # Whether company's Employer Identification Number (EIN) is present
-      field :has_ein, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ein') } }
-      # The legal name of the company
-      field :legal_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('legal_name') } }
-      # What type of tax entity the company is. One of:
-      # - C-Corporation
-      # - S-Corporation
-      # - Sole proprietor
-      # - LLC
-      # - LLP
-      # - Limited partnership
-      # - Co-ownership
-      # - Association
-      # - Trusteeship
-      # - General partnership
-      # - Joint venture
-      # - Non-Profit
-      field :tax_payer_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_payer_type') } }
-      # Whether the company is taxed as an S-Corporation. Tax payer types that may be taxed as an S-Corporation include:
-      # - S-Corporation
-      # - C-Corporation
-      # - LLC
-      field :taxable_as_scorp, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxable_as_scorp') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+      class FederalTaxDetails
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # Whether the company is taxed as an S-Corporation. Tax payer types that may be taxed as an S-Corporation include:
+        # - S-Corporation
+        # - C-Corporation
+        # - LLC
+        field :taxable_as_scorp, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxable_as_scorp') } }
+        # The form used by the company for federal tax filing. One of:
+        # - 941 (Quarterly federal tax return form)
+        # - 944 (Annual federal tax return form)
+        field :filing_form, Crystalline::Nilable.new(Models::Shared::FilingForm), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('filing_form'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::FilingForm, true) } }
+        # Whether company's Employer Identification Number (EIN) is present
+        field :has_ein, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ein') } }
+        # Whether the EIN has been successfully verified as a valid EIN with the IRS.
+        field :ein_verified, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein_verified') } }
+        # Information about the status of verifying the company's Employer Identification Number (EIN)
+        field :ein_verification, Crystalline::Nilable.new(Models::Shared::EinVerification), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ein_verification') } }
+        # The legal name of the company
+        field :legal_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('legal_name') } }
+        # The date that these details took effect.
+        field :effective_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
+        # How often the company sends money to the IRS. One of:
+        #   - Semiweekly
+        #   - Monthly
+        field :deposit_schedule, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deposit_schedule') } }
+        # What type of tax entity the company is. One of:
+        # - C-Corporation
+        # - S-Corporation
+        # - Sole proprietor
+        # - LLC
+        # - LLP
+        # - Limited partnership
+        # - Co-ownership
+        # - Association
+        # - Trusteeship
+        # - General partnership
+        # - Joint venture
+        # - Non-Profit
+        field :tax_payer_type, Crystalline::Nilable.new(Models::Shared::TaxPayerType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_payer_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::TaxPayerType, true) } }
 
-      sig { params(deposit_schedule: T.nilable(::String), effective_date: T.nilable(::String), ein_verified: T.nilable(T::Boolean), filing_form: T.nilable(::String), has_ein: T.nilable(T::Boolean), legal_name: T.nilable(::String), tax_payer_type: T.nilable(::String), taxable_as_scorp: T.nilable(T::Boolean), version: T.nilable(::String)).void }
-      def initialize(deposit_schedule: nil, effective_date: nil, ein_verified: nil, filing_form: nil, has_ein: nil, legal_name: nil, tax_payer_type: nil, taxable_as_scorp: nil, version: nil)
-        @deposit_schedule = deposit_schedule
-        @effective_date = effective_date
-        @ein_verified = ein_verified
-        @filing_form = filing_form
-        @has_ein = has_ein
-        @legal_name = legal_name
-        @tax_payer_type = tax_payer_type
-        @taxable_as_scorp = taxable_as_scorp
-        @version = version
+        sig { params(version: T.nilable(::String), taxable_as_scorp: T.nilable(T::Boolean), filing_form: T.nilable(Models::Shared::FilingForm), has_ein: T.nilable(T::Boolean), ein_verified: T.nilable(T::Boolean), ein_verification: T.nilable(Models::Shared::EinVerification), legal_name: T.nilable(::String), effective_date: T.nilable(::String), deposit_schedule: T.nilable(::String), tax_payer_type: T.nilable(Models::Shared::TaxPayerType)).void }
+        def initialize(version: nil, taxable_as_scorp: nil, filing_form: nil, has_ein: nil, ein_verified: nil, ein_verification: nil, legal_name: nil, effective_date: nil, deposit_schedule: nil, tax_payer_type: nil)
+          @version = version
+          @taxable_as_scorp = taxable_as_scorp
+          @filing_form = filing_form
+          @has_ein = has_ein
+          @ein_verified = ein_verified
+          @ein_verification = ein_verification
+          @legal_name = legal_name
+          @effective_date = effective_date
+          @deposit_schedule = deposit_schedule
+          @tax_payer_type = tax_payer_type
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @taxable_as_scorp == other.taxable_as_scorp
+          return false unless @filing_form == other.filing_form
+          return false unless @has_ein == other.has_ein
+          return false unless @ein_verified == other.ein_verified
+          return false unless @ein_verification == other.ein_verification
+          return false unless @legal_name == other.legal_name
+          return false unless @effective_date == other.effective_date
+          return false unless @deposit_schedule == other.deposit_schedule
+          return false unless @tax_payer_type == other.tax_payer_type
+          true
+        end
       end
     end
   end

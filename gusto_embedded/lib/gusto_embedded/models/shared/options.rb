@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class Options < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Options
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # A display label that corresponds to the answer value
-      field :label, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
-      # An allowed value to answer the question
-      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        # A display label that corresponds to the answer value
+        field :label, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label'), required: true } }
+        # An allowed value to answer the question
+        field :value, Crystalline::Nilable.new(Crystalline::Union.new(::String, Crystalline::Boolean.new, ::Float)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
+        sig { params(label: ::String, value: T.nilable(T.any(::String, T::Boolean, ::Float))).void }
+        def initialize(label:, value: nil)
+          @label = label
+          @value = value
+        end
 
-      sig { params(label: ::String, value: T.nilable(::Object)).void }
-      def initialize(label: nil, value: nil)
-        @label = label
-        @value = value
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @label == other.label
+          return false unless @value == other.value
+          true
+        end
       end
     end
   end

@@ -5,22 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class SubmissionBlockers < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class SubmissionBlockers
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The type of submission_blocker that is blocking the payment.
-      field :blocker_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blocker_type') } }
-      # The selected option to unblock the payment's submission_blocker.
-      field :selected_option, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selected_option') } }
+        # The type of blocker that is blocking the payment submission
+        field :blocker_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blocker_type') } }
+        # Optional message related to the blocker
+        field :message, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message') } }
+        # Optional array of additional options for the blocker
+        field :options, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Options)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
+        # The unblock option selected to resolve the submission blocker
+        field :selected_option, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selected_option') } }
 
+        sig { params(blocker_type: T.nilable(::String), message: T.nilable(::String), options: T.nilable(T::Array[Models::Operations::Options]), selected_option: T.nilable(::String)).void }
+        def initialize(blocker_type: nil, message: nil, options: nil, selected_option: nil)
+          @blocker_type = blocker_type
+          @message = message
+          @options = options
+          @selected_option = selected_option
+        end
 
-      sig { params(blocker_type: T.nilable(::String), selected_option: T.nilable(::String)).void }
-      def initialize(blocker_type: nil, selected_option: nil)
-        @blocker_type = blocker_type
-        @selected_option = selected_option
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @blocker_type == other.blocker_type
+          return false unless @message == other.message
+          return false unless @options == other.options
+          return false unless @selected_option == other.selected_option
+          true
+        end
       end
     end
   end

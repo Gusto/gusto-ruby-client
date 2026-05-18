@@ -2,6 +2,14 @@
 
 The type of information request
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = InformationRequestType::COMPANY_ONBOARDING
+```
+
 
 ## Values
 
