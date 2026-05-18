@@ -3,3 +3,4 @@
 .DS_Store
 /.speakeasy/reports
 /.speakeasy/temp
+.speakeasy/workflow.local.yaml
