@@ -2,6 +2,14 @@
 
 Contractor payment status
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = ContractorPaymentStatus::FUNDED
+```
+
 
 ## Values
 

@@ -5,28 +5,51 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class PaymentConfigs < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
 
-      # Company uuid
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # Payment limit for 1-day or 2-day payroll
-      field :fast_payment_limit, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fast_payment_limit') } }
-      # Partner uuid
-      field :partner_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_uuid') } }
-      # Payment speed for 1-day, 2-day, 4-day
-      field :payment_speed, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_speed') } }
+      class PaymentConfigs
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # Company uuid
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # Partner uuid
+        field :partner_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_uuid') } }
+        # Payment speed. READ-ONLY.
+        # - `1-day`: Next-day ACH (only for partners that opt in).
+        # - `2-day`: Two-day ACH.
+        # - `4-day`: Standard ACH.
+        #
+        field :payment_speed, Crystalline::Nilable.new(Models::Shared::PaymentSpeed), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_speed'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PaymentSpeed, true) } }
+        # Whether the company is configured to use the partner-owned disbursement payment rail
+        field :partner_owned_disbursement, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
+        # Blockers preventing the company from earning fast ACH payments
+        field :earned_fast_ach_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EarnedFastAchBlockers)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earned_fast_ach_blockers') } }
+        # Payment limit for 1-day or 2-day payroll (string representation of decimal).
+        field :fast_payment_limit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fast_payment_limit') } }
 
-      sig { params(company_uuid: T.nilable(::String), fast_payment_limit: T.nilable(::String), partner_uuid: T.nilable(::String), payment_speed: T.nilable(::String)).void }
-      def initialize(company_uuid: nil, fast_payment_limit: nil, partner_uuid: nil, payment_speed: nil)
-        @company_uuid = company_uuid
-        @fast_payment_limit = fast_payment_limit
-        @partner_uuid = partner_uuid
-        @payment_speed = payment_speed
+        sig { params(company_uuid: T.nilable(::String), partner_uuid: T.nilable(::String), payment_speed: T.nilable(Models::Shared::PaymentSpeed), partner_owned_disbursement: T.nilable(T::Boolean), earned_fast_ach_blockers: T.nilable(T::Array[Models::Shared::EarnedFastAchBlockers]), fast_payment_limit: T.nilable(::String)).void }
+        def initialize(company_uuid: nil, partner_uuid: nil, payment_speed: nil, partner_owned_disbursement: nil, earned_fast_ach_blockers: nil, fast_payment_limit: nil)
+          @company_uuid = company_uuid
+          @partner_uuid = partner_uuid
+          @payment_speed = payment_speed
+          @partner_owned_disbursement = partner_owned_disbursement
+          @earned_fast_ach_blockers = earned_fast_ach_blockers
+          @fast_payment_limit = fast_payment_limit
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @partner_uuid == other.partner_uuid
+          return false unless @payment_speed == other.payment_speed
+          return false unless @partner_owned_disbursement == other.partner_owned_disbursement
+          return false unless @earned_fast_ach_blockers == other.earned_fast_ach_blockers
+          return false unless @fast_payment_limit == other.fast_payment_limit
+          true
+        end
       end
     end
   end

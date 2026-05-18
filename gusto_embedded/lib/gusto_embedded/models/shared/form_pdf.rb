@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class FormPdf < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
 
-      # the UUID of the form
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The content type of the associated document. Most forms are PDFs with a content type of `application/pdf`. Some tax file packages will be zip files (containing PDFs) with a content type of `application/zip`. This attribute will be `null` when the document has not been prepared.
-      field :document_content_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_content_type') } }
-      # the URL of the form
-      field :document_url, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_url') } }
+      class FormPdf
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # the UUID of the form
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # the URL of the form
+        field :document_url, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_url') } }
+        # The content type of the associated document. Most forms are PDFs with a content type of `application/pdf`. Some tax file packages will be zip files (containing PDFs) with a content type of `application/zip`. This attribute will be `null` when the document has not been prepared.
+        field :document_content_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_content_type') } }
 
-      sig { params(uuid: ::String, document_content_type: T.nilable(::String), document_url: T.nilable(::String)).void }
-      def initialize(uuid: nil, document_content_type: nil, document_url: nil)
-        @uuid = uuid
-        @document_content_type = document_content_type
-        @document_url = document_url
+        sig { params(uuid: ::String, document_url: T.nilable(::String), document_content_type: T.nilable(::String)).void }
+        def initialize(uuid:, document_url: nil, document_content_type: nil)
+          @uuid = uuid
+          @document_url = document_url
+          @document_content_type = document_content_type
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @document_url == other.document_url
+          return false unless @document_content_type == other.document_content_type
+          true
+        end
       end
     end
   end

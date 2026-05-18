@@ -2,6 +2,14 @@
 
 Describes the type of tax_rate validation rule
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = TaxRequirementMetadataValidationType::ONE_OF
+```
+
 
 ## Values
 

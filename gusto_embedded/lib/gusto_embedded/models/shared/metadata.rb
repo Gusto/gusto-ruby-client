@@ -5,19 +5,22 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Stores metadata of the external payroll.
-    class Metadata < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-      # Determines if the external payroll can be deleted.
-      field :deletable, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deletable') } }
+  module Models
+    module Shared
+      # Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided.
+      class Metadata
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(deletable: T.nilable(T::Boolean)).void }
-      def initialize(deletable: nil)
-        @deletable = deletable
+        
+        def initialize; end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          true
+        end
       end
     end
   end

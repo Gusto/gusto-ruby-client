@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class FipsCodes < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class FipsCodes
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # FIPS code for state or county
-      field :code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('code') } }
-      # Name of county in the state for the corresponding FIPS code. When `null` the FIPS code applies state wide.
-      field :county, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('county') } }
+        # FIPS code for state or county
+        field :code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('code') } }
+        # Name of county in the state for the corresponding FIPS code. When `null` the FIPS code applies state wide.
+        field :county, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('county') } }
 
+        sig { params(code: T.nilable(::String), county: T.nilable(::String)).void }
+        def initialize(code: nil, county: nil)
+          @code = code
+          @county = county
+        end
 
-      sig { params(code: T.nilable(::String), county: T.nilable(::String)).void }
-      def initialize(code: nil, county: nil)
-        @code = code
-        @county = county
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @code == other.code
+          return false unless @county == other.county
+          true
+        end
       end
     end
   end

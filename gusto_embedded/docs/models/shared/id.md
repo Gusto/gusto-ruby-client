@@ -2,6 +2,14 @@
 
 The string identifier for each onboarding step
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = Id::ADD_ADDRESSES
+```
+
 
 ## Values
 

@@ -5,13 +5,14 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # EmployeeBankAccountAccountType - Bank account type
-    class EmployeeBankAccountAccountType < T::Enum
-      enums do
-        CHECKING = new('Checking')
-        SAVINGS = new('Savings')
+  module Models
+    module Shared
+      # EmployeeBankAccountAccountType - Bank account type
+      class EmployeeBankAccountAccountType < T::Enum
+        enums do
+          CHECKING = new('Checking')
+          SAVINGS = new('Savings')
+        end
       end
     end
   end

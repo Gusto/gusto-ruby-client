@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1BenefitsBenefitsIdRequirementsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1BenefitsBenefitsIdRequirementsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The benefit type in Gusto.
-      field :benefit_id, ::String, { 'path_param': { 'field_name': 'benefit_id', 'style': 'simple', 'explode': false } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The benefit type in Gusto.
+        field :benefit_id, ::String, { 'path_param': { 'field_name': 'benefit_id', 'style': 'simple', 'explode': false } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1BenefitsBenefitsIdRequirementsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(benefit_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1BenefitsBenefitsIdRequirementsHeaderXGustoAPIVersion)).void }
+        def initialize(benefit_id:, x_gusto_api_version: Models::Operations::GetV1BenefitsBenefitsIdRequirementsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @benefit_id = benefit_id
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(benefit_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(benefit_id: nil, x_gusto_api_version: nil)
-        @benefit_id = benefit_id
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @benefit_id == other.benefit_id
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

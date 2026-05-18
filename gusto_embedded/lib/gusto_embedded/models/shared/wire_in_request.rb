@@ -5,67 +5,91 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of a wire in request
-    class WireInRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # Representation of a wire in request
+      class WireInRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Notes for the wire in request
-      field :additional_notes, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_notes') } }
-      # Amount sent through wire in
-      field :amount_sent, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_sent') } }
-      # Name of the bank initiating the wire in
-      field :bank_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bank_name') } }
-      # Date the wire in was sent
-      field :date_sent, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_sent') } }
-      # Name of bank receiving the wire in
-      field :origination_bank, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('origination_bank') } }
-      # Address of bank receiving the wire in
-      field :origination_bank_address, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('origination_bank_address') } }
-      # Type of payment for the wire in
-      field :payment_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_type') } }
-      # Unique identifier of the payment
-      field :payment_uuid, T.nilable(::GustoEmbedded::Shared::PaymentUuid), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_uuid'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PaymentUuid, true) } }
-      # Recipient bank account number
-      field :recipient_account_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_account_number') } }
-      # Address of the recipient of the wire in
-      field :recipient_address, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_address') } }
-      # Name of the recipient of the wire In
-      field :recipient_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_name') } }
-      # Recipient bank routing number
-      field :recipient_routing_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_routing_number') } }
-      # Requested amount for the payment
-      field :requested_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requested_amount') } }
-      # Status of the wire in
-      field :status, T.nilable(::GustoEmbedded::Shared::WireInRequestStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::WireInRequestStatus, true) } }
-      # Include in note with bank to track payment
-      field :unique_tracking_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unique_tracking_code') } }
-      # Unique identifier of a wire in request
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Deadline to submit the wire in
-      field :wire_in_deadline, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wire_in_deadline') } }
+        # Unique identifier of a wire in request
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # Status of the wire in
+        field :status, Crystalline::Nilable.new(Models::Shared::WireInRequestStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::WireInRequestStatus, true) } }
+        # Name of bank receiving the wire in
+        field :origination_bank, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('origination_bank') } }
+        # Address of bank receiving the wire in
+        field :origination_bank_address, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('origination_bank_address') } }
+        # Name of the recipient of the wire In
+        field :recipient_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_name') } }
+        # Address of the recipient of the wire in
+        field :recipient_address, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_address') } }
+        # Recipient bank account number
+        field :recipient_account_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_account_number') } }
+        # Recipient bank routing number
+        field :recipient_routing_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_routing_number') } }
+        # Include in note with bank to track payment
+        field :unique_tracking_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('unique_tracking_code') } }
+        # Type of payment for the wire in
+        field :payment_type, Crystalline::Nilable.new(Models::Shared::PaymentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PaymentType, true) } }
+        # Unique identifier of the payment
+        field :payment_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_uuid') } }
+        # Requested amount for the payment
+        field :requested_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requested_amount') } }
+        # Deadline to submit the wire in
+        field :wire_in_deadline, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wire_in_deadline') } }
+        # Notes for the wire in request
+        field :additional_notes, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_notes') } }
+        # Name of the bank initiating the wire in
+        field :bank_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bank_name') } }
+        # Date the wire in was sent
+        field :date_sent, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_sent') } }
+        # Amount sent through wire in
+        field :amount_sent, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_sent') } }
 
+        sig { params(uuid: T.nilable(::String), status: T.nilable(Models::Shared::WireInRequestStatus), origination_bank: T.nilable(::String), origination_bank_address: T.nilable(::String), recipient_name: T.nilable(::String), recipient_address: T.nilable(::String), recipient_account_number: T.nilable(::String), recipient_routing_number: T.nilable(::String), unique_tracking_code: T.nilable(::String), payment_type: T.nilable(Models::Shared::PaymentType), payment_uuid: T.nilable(::String), requested_amount: T.nilable(::String), wire_in_deadline: T.nilable(::String), additional_notes: T.nilable(::String), bank_name: T.nilable(::String), date_sent: T.nilable(::String), amount_sent: T.nilable(::String)).void }
+        def initialize(uuid: nil, status: nil, origination_bank: nil, origination_bank_address: nil, recipient_name: nil, recipient_address: nil, recipient_account_number: nil, recipient_routing_number: nil, unique_tracking_code: nil, payment_type: nil, payment_uuid: nil, requested_amount: nil, wire_in_deadline: nil, additional_notes: nil, bank_name: nil, date_sent: nil, amount_sent: nil)
+          @uuid = uuid
+          @status = status
+          @origination_bank = origination_bank
+          @origination_bank_address = origination_bank_address
+          @recipient_name = recipient_name
+          @recipient_address = recipient_address
+          @recipient_account_number = recipient_account_number
+          @recipient_routing_number = recipient_routing_number
+          @unique_tracking_code = unique_tracking_code
+          @payment_type = payment_type
+          @payment_uuid = payment_uuid
+          @requested_amount = requested_amount
+          @wire_in_deadline = wire_in_deadline
+          @additional_notes = additional_notes
+          @bank_name = bank_name
+          @date_sent = date_sent
+          @amount_sent = amount_sent
+        end
 
-      sig { params(additional_notes: T.nilable(::String), amount_sent: T.nilable(::String), bank_name: T.nilable(::String), date_sent: T.nilable(::String), origination_bank: T.nilable(::String), origination_bank_address: T.nilable(::String), payment_type: T.nilable(::String), payment_uuid: T.nilable(::GustoEmbedded::Shared::PaymentUuid), recipient_account_number: T.nilable(::String), recipient_address: T.nilable(::String), recipient_name: T.nilable(::String), recipient_routing_number: T.nilable(::String), requested_amount: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::WireInRequestStatus), unique_tracking_code: T.nilable(::String), uuid: T.nilable(::String), wire_in_deadline: T.nilable(::String)).void }
-      def initialize(additional_notes: nil, amount_sent: nil, bank_name: nil, date_sent: nil, origination_bank: nil, origination_bank_address: nil, payment_type: nil, payment_uuid: nil, recipient_account_number: nil, recipient_address: nil, recipient_name: nil, recipient_routing_number: nil, requested_amount: nil, status: nil, unique_tracking_code: nil, uuid: nil, wire_in_deadline: nil)
-        @additional_notes = additional_notes
-        @amount_sent = amount_sent
-        @bank_name = bank_name
-        @date_sent = date_sent
-        @origination_bank = origination_bank
-        @origination_bank_address = origination_bank_address
-        @payment_type = payment_type
-        @payment_uuid = payment_uuid
-        @recipient_account_number = recipient_account_number
-        @recipient_address = recipient_address
-        @recipient_name = recipient_name
-        @recipient_routing_number = recipient_routing_number
-        @requested_amount = requested_amount
-        @status = status
-        @unique_tracking_code = unique_tracking_code
-        @uuid = uuid
-        @wire_in_deadline = wire_in_deadline
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @status == other.status
+          return false unless @origination_bank == other.origination_bank
+          return false unless @origination_bank_address == other.origination_bank_address
+          return false unless @recipient_name == other.recipient_name
+          return false unless @recipient_address == other.recipient_address
+          return false unless @recipient_account_number == other.recipient_account_number
+          return false unless @recipient_routing_number == other.recipient_routing_number
+          return false unless @unique_tracking_code == other.unique_tracking_code
+          return false unless @payment_type == other.payment_type
+          return false unless @payment_uuid == other.payment_uuid
+          return false unless @requested_amount == other.requested_amount
+          return false unless @wire_in_deadline == other.wire_in_deadline
+          return false unless @additional_notes == other.additional_notes
+          return false unless @bank_name == other.bank_name
+          return false unless @date_sent == other.date_sent
+          return false unless @amount_sent == other.amount_sent
+          true
+        end
       end
     end
   end

@@ -5,40 +5,55 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Benefit type requirements response
-    class BenefitTypeRequirements < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
 
-      # Whether the employee should use a benefit’s 'catch up' rate. Only Roth 401k and 401k benefits use this value for employees over 50.
-      field :catch_up, T.nilable(::GustoEmbedded::Shared::CatchUp), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('catch_up') } }
-      # The maximum company contribution amount per year. A null value signifies no limit.
-      field :company_contribution_annual_maximum, T.nilable(::GustoEmbedded::Shared::CompanyContributionAnnualMaximum), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution_annual_maximum') } }
-      # An object representing the type and value of the company contribution.
-      field :contribution, T.nilable(::GustoEmbedded::Shared::BenefitTypeRequirementsContribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
-      # The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set.
-      field :coverage_amount, T.nilable(::GustoEmbedded::Shared::CoverageAmount), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_amount') } }
-      # The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
-      field :coverage_salary_multiplier, T.nilable(::GustoEmbedded::Shared::CoverageSalaryMultiplier), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_salary_multiplier') } }
-      # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
-      field :deduct_as_percentage, T.nilable(::GustoEmbedded::Shared::DeductAsPercentage), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
-      # The amount to be deducted, per pay period, from the employee's pay.
-      field :employee_deduction, T.nilable(::GustoEmbedded::Shared::EmployeeDeduction), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
-      # Some benefits require additional information to determine their limit. For example, for an HSA benefit, the limit option should be either 'Family' or 'Individual'. For a Dependent Care FSA benefit, the limit option should be either 'Joint Filing or Single' or 'Married and Filing Separately'.
-      field :limit_option, T.nilable(::GustoEmbedded::Shared::LimitOption), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('limit_option') } }
+      class BenefitTypeRequirements
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The amount to be deducted, per pay period, from the employee's pay.
+        field :employee_deduction, Crystalline::Nilable.new(Models::Shared::EmployeeDeduction), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
+        # An object representing the type and value of the company contribution.
+        field :contribution, Crystalline::Nilable.new(Models::Shared::BenefitTypeRequirementsContribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
+        # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
+        field :deduct_as_percentage, Crystalline::Nilable.new(Models::Shared::DeductAsPercentage), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
+        # Whether the employee should use a benefit’s 'catch up' rate. Only Roth 401k and 401k benefits use this value for employees over 50.
+        field :catch_up, Crystalline::Nilable.new(Models::Shared::CatchUp), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('catch_up') } }
+        # Some benefits require additional information to determine their limit. For example, for an HSA benefit, the limit option should be either 'Family' or 'Individual'. For a Dependent Care FSA benefit, the limit option should be either 'Joint Filing or Single' or 'Married and Filing Separately'.
+        field :limit_option, Crystalline::Nilable.new(Models::Shared::LimitOption), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('limit_option') } }
+        # The maximum company contribution amount per year. A null value signifies no limit.
+        field :company_contribution_annual_maximum, Crystalline::Nilable.new(Models::Shared::CompanyContributionAnnualMaximum), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution_annual_maximum') } }
+        # The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
+        field :coverage_salary_multiplier, Crystalline::Nilable.new(Models::Shared::CoverageSalaryMultiplier), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_salary_multiplier') } }
+        # The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set.
+        field :coverage_amount, Crystalline::Nilable.new(Models::Shared::CoverageAmount), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_amount') } }
 
-      sig { params(catch_up: T.nilable(::GustoEmbedded::Shared::CatchUp), company_contribution_annual_maximum: T.nilable(::GustoEmbedded::Shared::CompanyContributionAnnualMaximum), contribution: T.nilable(::GustoEmbedded::Shared::BenefitTypeRequirementsContribution), coverage_amount: T.nilable(::GustoEmbedded::Shared::CoverageAmount), coverage_salary_multiplier: T.nilable(::GustoEmbedded::Shared::CoverageSalaryMultiplier), deduct_as_percentage: T.nilable(::GustoEmbedded::Shared::DeductAsPercentage), employee_deduction: T.nilable(::GustoEmbedded::Shared::EmployeeDeduction), limit_option: T.nilable(::GustoEmbedded::Shared::LimitOption)).void }
-      def initialize(catch_up: nil, company_contribution_annual_maximum: nil, contribution: nil, coverage_amount: nil, coverage_salary_multiplier: nil, deduct_as_percentage: nil, employee_deduction: nil, limit_option: nil)
-        @catch_up = catch_up
-        @company_contribution_annual_maximum = company_contribution_annual_maximum
-        @contribution = contribution
-        @coverage_amount = coverage_amount
-        @coverage_salary_multiplier = coverage_salary_multiplier
-        @deduct_as_percentage = deduct_as_percentage
-        @employee_deduction = employee_deduction
-        @limit_option = limit_option
+        sig { params(employee_deduction: T.nilable(Models::Shared::EmployeeDeduction), contribution: T.nilable(Models::Shared::BenefitTypeRequirementsContribution), deduct_as_percentage: T.nilable(Models::Shared::DeductAsPercentage), catch_up: T.nilable(Models::Shared::CatchUp), limit_option: T.nilable(Models::Shared::LimitOption), company_contribution_annual_maximum: T.nilable(Models::Shared::CompanyContributionAnnualMaximum), coverage_salary_multiplier: T.nilable(Models::Shared::CoverageSalaryMultiplier), coverage_amount: T.nilable(Models::Shared::CoverageAmount)).void }
+        def initialize(employee_deduction: nil, contribution: nil, deduct_as_percentage: nil, catch_up: nil, limit_option: nil, company_contribution_annual_maximum: nil, coverage_salary_multiplier: nil, coverage_amount: nil)
+          @employee_deduction = employee_deduction
+          @contribution = contribution
+          @deduct_as_percentage = deduct_as_percentage
+          @catch_up = catch_up
+          @limit_option = limit_option
+          @company_contribution_annual_maximum = company_contribution_annual_maximum
+          @coverage_salary_multiplier = coverage_salary_multiplier
+          @coverage_amount = coverage_amount
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_deduction == other.employee_deduction
+          return false unless @contribution == other.contribution
+          return false unless @deduct_as_percentage == other.deduct_as_percentage
+          return false unless @catch_up == other.catch_up
+          return false unless @limit_option == other.limit_option
+          return false unless @company_contribution_annual_maximum == other.company_contribution_annual_maximum
+          return false unless @coverage_salary_multiplier == other.coverage_salary_multiplier
+          return false unless @coverage_amount == other.coverage_amount
+          true
+        end
       end
     end
   end

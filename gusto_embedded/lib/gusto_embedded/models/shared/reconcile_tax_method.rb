@@ -5,13 +5,14 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # ReconcileTaxMethod - How Gusto will handle taxes already collected.
-    class ReconcileTaxMethod < T::Enum
-      enums do
-        PAY_TAXES = new('pay_taxes')
-        REFUND_TAXES = new('refund_taxes')
+  module Models
+    module Shared
+      # ReconcileTaxMethod - How Gusto will handle taxes already collected.
+      class ReconcileTaxMethod < T::Enum
+        enums do
+          PAY_TAXES = new('pay_taxes')
+          REFUND_TAXES = new('refund_taxes')
+        end
       end
     end
   end

@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetEmployeeYtdBenefitAmountsFromDifferentCompanyRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetEmployeeYtdBenefitAmountsFromDifferentCompanyRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the employee
-      field :employee_id, ::String, { 'path_param': { 'field_name': 'employee_id', 'style': 'simple', 'explode': false } }
-      # The tax year for which to retrieve YTD benefit amounts. Defaults to current year if not specified.
-      field :tax_year, T.nilable(::Integer), { 'query_param': { 'field_name': 'tax_year', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the employee
+        field :employee_id, ::String, { 'path_param': { 'field_name': 'employee_id', 'style': 'simple', 'explode': false } }
+        # The tax year for which to retrieve YTD benefit amounts. Defaults to current year if not specified.
+        field :tax_year, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'tax_year', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(employee_id: ::String, tax_year: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyHeaderXGustoAPIVersion)).void }
+        def initialize(employee_id:, tax_year: nil, x_gusto_api_version: Models::Operations::GetEmployeeYtdBenefitAmountsFromDifferentCompanyHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @employee_id = employee_id
+          @tax_year = tax_year
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(employee_id: ::String, tax_year: T.nilable(::Integer), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(employee_id: nil, tax_year: nil, x_gusto_api_version: nil)
-        @employee_id = employee_id
-        @tax_year = tax_year
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_id == other.employee_id
+          return false unless @tax_year == other.tax_year
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

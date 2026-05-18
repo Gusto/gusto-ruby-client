@@ -5,34 +5,47 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetEventsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetEventsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # A string containing the exact event name (e.g. `employee.created`), or use a wildcard match to filter for a group of events (e.g. `employee.*`, `*.created`, `notification.*.created` etc.)
-      field :event_type, T.nilable(::String), { 'query_param': { 'field_name': 'event_type', 'style': 'form', 'explode': true } }
-      # Limits the number of objects returned in a single response, between 1 and 100. The default is 25
-      field :limit, T.nilable(::String), { 'query_param': { 'field_name': 'limit', 'style': 'form', 'explode': true } }
-      # The UUID of the company. If not specified, will return all events for all companies.
-      field :resource_uuid, T.nilable(::String), { 'query_param': { 'field_name': 'resource_uuid', 'style': 'form', 'explode': true } }
-      # A string indicating whether to sort resulting events in ascending (asc) or descending (desc) chronological order. Events are sorted by their `timestamp`. Defaults to asc if left empty.
-      field :sort_order, T.nilable(::GustoEmbedded::Shared::SortOrder), { 'query_param': { 'field_name': 'sort_order', 'style': 'form', 'explode': true } }
-      # A cursor for pagination. Returns all events occuring after the specified UUID (exclusive). Events are sorted according to the provided sort_order param.
-      field :starting_after_uuid, T.nilable(::String), { 'query_param': { 'field_name': 'starting_after_uuid', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # A cursor for pagination. Returns all events occuring after the specified UUID (exclusive). Events are sorted according to the provided sort_order param.
+        field :starting_after_uuid, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'starting_after_uuid', 'style': 'form', 'explode': true } }
+        # The UUID of the company. If not specified, will return all events for all companies.
+        field :resource_uuid, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'resource_uuid', 'style': 'form', 'explode': true } }
+        # Limits the number of objects returned in a single response, between 1 and 100. The default is 25
+        field :limit, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'limit', 'style': 'form', 'explode': true } }
+        # A string containing the exact event name (e.g. `employee.created`), or use a wildcard match to filter for a group of events (e.g. `employee.*`, `*.created`, `notification.*.created` etc.)
+        field :event_type, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'event_type', 'style': 'form', 'explode': true } }
+        # A string indicating whether to sort resulting events in ascending (asc) or descending (desc) chronological order. Events are sorted by their `timestamp`. Defaults to asc if left empty.
+        field :sort_order, Crystalline::Nilable.new(Models::Operations::QueryParamSortOrder), { 'query_param': { 'field_name': 'sort_order', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetEventsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(starting_after_uuid: T.nilable(::String), resource_uuid: T.nilable(::String), limit: T.nilable(::String), event_type: T.nilable(::String), sort_order: T.nilable(Models::Operations::QueryParamSortOrder), x_gusto_api_version: T.nilable(Models::Operations::GetEventsHeaderXGustoAPIVersion)).void }
+        def initialize(starting_after_uuid: nil, resource_uuid: nil, limit: nil, event_type: nil, sort_order: nil, x_gusto_api_version: Models::Operations::GetEventsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @starting_after_uuid = starting_after_uuid
+          @resource_uuid = resource_uuid
+          @limit = limit
+          @event_type = event_type
+          @sort_order = sort_order
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(event_type: T.nilable(::String), limit: T.nilable(::String), resource_uuid: T.nilable(::String), sort_order: T.nilable(::GustoEmbedded::Shared::SortOrder), starting_after_uuid: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(event_type: nil, limit: nil, resource_uuid: nil, sort_order: nil, starting_after_uuid: nil, x_gusto_api_version: nil)
-        @event_type = event_type
-        @limit = limit
-        @resource_uuid = resource_uuid
-        @sort_order = sort_order
-        @starting_after_uuid = starting_after_uuid
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @starting_after_uuid == other.starting_after_uuid
+          return false unless @resource_uuid == other.resource_uuid
+          return false unless @limit == other.limit
+          return false unless @event_type == other.event_type
+          return false unless @sort_order == other.sort_order
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

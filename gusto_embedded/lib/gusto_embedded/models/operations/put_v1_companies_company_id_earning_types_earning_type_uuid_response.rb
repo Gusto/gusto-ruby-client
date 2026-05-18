@@ -5,34 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompaniesCompanyIdEarningTypesEarningTypeUuidResponse
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # HTTP response content type for this operation
-      field :content_type, ::String
-      # Raw HTTP response; suitable for custom response parsing
-      field :raw_response, ::Faraday::Response
-      # HTTP response status code for this operation
-      field :status_code, ::Integer
-      # Example response
-      field :earning_type, T.nilable(::GustoEmbedded::Shared::EarningType)
-      # Unprocessable Entity 
-      #   
-      # This may happen when the body of your request contains errors such as `invalid_attribute_value`, or the request fails due to an `invalid_operation`. See the [Errors Categories](https://docs.gusto.com/embedded-payroll/docs/error-categories) guide for more details.
-      # 
-      field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+        # HTTP response content type for this operation
+        field :content_type, ::String
+        # HTTP response status code for this operation
+        field :status_code, ::Integer
+        # Raw HTTP response; suitable for custom response parsing
+        field :raw_response, ::Faraday::Response
+        # Success
+        field :earning_type, Crystalline::Nilable.new(Models::Shared::EarningType)
 
+        sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, earning_type: T.nilable(Models::Shared::EarningType)).void }
+        def initialize(content_type:, status_code:, raw_response:, earning_type: nil)
+          @content_type = content_type
+          @status_code = status_code
+          @raw_response = raw_response
+          @earning_type = earning_type
+        end
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, earning_type: T.nilable(::GustoEmbedded::Shared::EarningType), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, earning_type: nil, unprocessable_entity_error_object: nil)
-        @content_type = content_type
-        @raw_response = raw_response
-        @status_code = status_code
-        @earning_type = earning_type
-        @unprocessable_entity_error_object = unprocessable_entity_error_object
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @content_type == other.content_type
+          return false unless @status_code == other.status_code
+          return false unless @raw_response == other.raw_response
+          return false unless @earning_type == other.earning_type
+          true
+        end
       end
     end
   end

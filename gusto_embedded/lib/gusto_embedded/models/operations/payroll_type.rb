@@ -5,15 +5,16 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # PayrollType - Payroll type
-    class PayrollType < T::Enum
-      enums do
-        REGULAR = new('Regular')
-        HIRED_EMPLOYEE = new('Hired employee')
-        DISMISSED_EMPLOYEE = new('Dismissed employee')
-        TRANSITION_FROM_OLD_PAY_SCHEDULE = new('Transition from old pay schedule')
+  module Models
+    module Operations
+      # PayrollType - Payroll type
+      class PayrollType < T::Enum
+        enums do
+          REGULAR = new('Regular')
+          HIRED_EMPLOYEE = new('Hired employee')
+          DISMISSED_EMPLOYEE = new('Dismissed employee')
+          TRANSITION_FROM_OLD_PAY_SCHEDULE = new('Transition from old pay schedule')
+        end
       end
     end
   end

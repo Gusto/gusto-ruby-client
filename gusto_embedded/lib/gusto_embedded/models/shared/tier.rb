@@ -5,19 +5,20 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Tier - The Gusto product tier of the company (not applicable to Embedded partner managed companies).
-    class Tier < T::Enum
-      enums do
-        SIMPLE = new('simple')
-        PLUS = new('plus')
-        PREMIUM = new('premium')
-        CORE = new('core')
-        COMPLETE = new('complete')
-        CONCIERGE = new('concierge')
-        CONTRACTOR_ONLY = new('contractor_only')
-        BASIC = new('basic')
+  module Models
+    module Shared
+      # Tier - The Gusto product tier of the company (not applicable to Embedded partner managed companies).
+      class Tier < T::Enum
+        enums do
+          SIMPLE = new('simple')
+          PLUS = new('plus')
+          PREMIUM = new('premium')
+          CORE = new('core')
+          COMPLETE = new('complete')
+          CONCIERGE = new('concierge')
+          CONTRACTOR_ONLY = new('contractor_only')
+          BASIC = new('basic')
+        end
       end
     end
   end

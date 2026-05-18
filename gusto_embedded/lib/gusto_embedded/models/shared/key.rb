@@ -5,14 +5,36 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Key - A required attribute when creating a garnishment for this state agency. The current values are listed as an enum; though unlikely, values could be added if state agency requirements change in the future.
-    class Key < T::Enum
-      enums do
-        CASE_NUMBER = new('case_number')
-        ORDER_NUMBER = new('order_number')
-        REMITTANCE_NUMBER = new('remittance_number')
+  module Models
+    module Shared
+      # Key - A unique identifier for the payroll blocker reason. For a complete list of blockers and their meanings, see the [Payroll Blockers guide](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers).
+      class Key < T::Enum
+        enums do
+          COMPANY_OWNERSHIP_REQUIRED = new('company_ownership_required')
+          CONTRACTOR_ONLY_COMPANY = new('contractor_only_company')
+          EFTPS_IN_ERROR = new('eftps_in_error')
+          GEOCODE_ERROR = new('geocode_error')
+          GEOCODE_NEEDED = new('geocode_needed')
+          INVALID_SIGNATORY = new('invalid_signatory')
+          MISSING_ADDRESSES = new('missing_addresses')
+          MISSING_BANK_INFO = new('missing_bank_info')
+          MISSING_BANK_VERIFICATION = new('missing_bank_verification')
+          MISSING_EMPLOYEE_SETUP = new('missing_employee_setup')
+          MISSING_FEDERAL_TAX_SETUP = new('missing_federal_tax_setup')
+          MISSING_FORMS = new('missing_forms')
+          MISSING_INDUSTRY_SELECTION = new('missing_industry_selection')
+          MISSING_PAY_SCHEDULE = new('missing_pay_schedule')
+          MISSING_SIGNATORY = new('missing_signatory')
+          MISSING_STATE_TAX_SETUP = new('missing_state_tax_setup')
+          NEEDS_APPROVAL = new('needs_approval')
+          NEEDS_ONBOARDING = new('needs_onboarding')
+          PAY_SCHEDULE_SETUP_NOT_COMPLETE = new('pay_schedule_setup_not_complete')
+          PENDING_INFORMATION_REQUEST = new('pending_information_request')
+          PENDING_PAYROLL_REVIEW = new('pending_payroll_review')
+          PENDING_RECOVERY_CASE = new('pending_recovery_case')
+          SOFT_SUSPENDED = new('soft_suspended')
+          SUSPENDED = new('suspended')
+        end
       end
     end
   end

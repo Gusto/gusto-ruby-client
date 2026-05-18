@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class TaxRequirementsState < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-
-      field :requirement_sets, T.nilable(T::Array[::GustoEmbedded::Shared::TaxRequirementSet]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirement_sets') } }
-      # One of the two-letter state abbreviations for the fifty United States and the District of Columbia (DC)
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+      class TaxRequirementsState
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(company_uuid: T.nilable(::String), requirement_sets: T.nilable(T::Array[::GustoEmbedded::Shared::TaxRequirementSet]), state: T.nilable(::String)).void }
-      def initialize(company_uuid: nil, requirement_sets: nil, state: nil)
-        @company_uuid = company_uuid
-        @requirement_sets = requirement_sets
-        @state = state
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # One of the two-letter state abbreviations for the fifty United States and the District of Columbia (DC)
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+
+        field :requirement_sets, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::TaxRequirementSet)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirement_sets') } }
+
+        sig { params(company_uuid: T.nilable(::String), state: T.nilable(::String), requirement_sets: T.nilable(T::Array[Models::Shared::TaxRequirementSet])).void }
+        def initialize(company_uuid: nil, state: nil, requirement_sets: nil)
+          @company_uuid = company_uuid
+          @state = state
+          @requirement_sets = requirement_sets
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @state == other.state
+          return false unless @requirement_sets == other.requirement_sets
+          true
+        end
       end
     end
   end

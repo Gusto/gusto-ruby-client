@@ -5,56 +5,80 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The company bank account
-    class CompanyBankAccount < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The company bank account
+      class CompanyBankAccount
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # UUID of the bank account
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Bank account type
-      field :account_type, T.nilable(::GustoEmbedded::Shared::AccountType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::AccountType, true) } }
-      # The balance fetch date associated with the last_cached_balance. Only applies when verification type is Plaid.
-      field :balance_fetched_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance_fetched_date') } }
-      # UUID of the company
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # Masked bank account number
-      field :hidden_account_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hidden_account_number') } }
-      # The last fetch balance for the bank account. Please be aware that this amount does not reflect the most up-to-date balance and only applies when the verification type is Plaid.
-      field :last_cached_balance, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_cached_balance') } }
-      # Name of bank account
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # The Plaid connection status of the bank account. Only applies when verification type is Plaid.
-      field :plaid_status, T.nilable(::GustoEmbedded::Shared::PlaidStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('plaid_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PlaidStatus, true) } }
-      # The bank account's routing number
-      field :routing_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('routing_number') } }
-      # The verification status of the bank account.
-      # 
-      # 'awaiting_deposits' means the bank account is just created and money is being transferred.
-      # 'ready_for_verification' means the micro-deposits are completed and the verification process can begin by using the verify endpoint.
-      # 'verified' means the bank account is verified.
-      field :verification_status, T.nilable(::GustoEmbedded::Shared::VerificationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('verification_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::VerificationStatus, true) } }
-      # The verification type of the bank account.
-      # 
-      # 'bank_deposits' means the bank account is connected by entering routing and accounting numbers and verifying through micro-deposits.
-      # 'plaid' means the bank account is connected through Plaid.
-      field :verification_type, T.nilable(::GustoEmbedded::Shared::VerificationType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('verification_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::VerificationType, true) } }
+        # UUID of the bank account
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # UUID of the company
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # Bank account type
+        field :account_type, Crystalline::Nilable.new(Models::Shared::AccountType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('account_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::AccountType, true) } }
+        # The bank account's routing number
+        field :routing_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('routing_number') } }
+        # Masked bank account number
+        field :hidden_account_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hidden_account_number') } }
+        # The verification status of the bank account.
+        #
+        # 'awaiting_deposits' means the bank account is just created and money is being transferred.
+        # 'ready_for_verification' means the micro-deposits are completed and the verification process can begin by using the verify endpoint.
+        # 'verified' means the bank account is verified.
+        field :verification_status, Crystalline::Nilable.new(Models::Shared::VerificationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('verification_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::VerificationStatus, true) } }
+        # The verification type of the bank account.
+        #
+        # 'bank_deposits' means the bank account is connected by entering routing and accounting numbers and verifying through micro-deposits.
+        # 'plaid' means the bank account is connected through Plaid.
+        field :verification_type, Crystalline::Nilable.new(Models::Shared::VerificationType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('verification_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::VerificationType, true) } }
+        # Name of bank account
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The Plaid connection status of the bank account. Only applies when verification type is Plaid.
+        field :plaid_status, Crystalline::Nilable.new(Models::Shared::PlaidStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('plaid_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PlaidStatus, true) } }
+        # The last fetch balance for the bank account. Please be aware that this amount does not reflect the most up-to-date balance and only applies when the verification type is Plaid.
+        field :last_cached_balance, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_cached_balance') } }
+        # The balance fetch date associated with the last_cached_balance. Only applies when verification type is Plaid.
+        field :balance_fetched_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('balance_fetched_date') } }
+        # Whether the company has at least one bank account with active reverse-wire
+        # funding. The same value is returned on every bank-account row in this
+        # response.
+        field :reverse_wire_enabled, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reverse_wire_enabled') } }
 
+        sig { params(uuid: ::String, company_uuid: T.nilable(::String), account_type: T.nilable(Models::Shared::AccountType), routing_number: T.nilable(::String), hidden_account_number: T.nilable(::String), verification_status: T.nilable(Models::Shared::VerificationStatus), verification_type: T.nilable(Models::Shared::VerificationType), name: T.nilable(::String), plaid_status: T.nilable(Models::Shared::PlaidStatus), last_cached_balance: T.nilable(::String), balance_fetched_date: T.nilable(::String), reverse_wire_enabled: T.nilable(T::Boolean)).void }
+        def initialize(uuid:, company_uuid: nil, account_type: nil, routing_number: nil, hidden_account_number: nil, verification_status: nil, verification_type: nil, name: nil, plaid_status: nil, last_cached_balance: nil, balance_fetched_date: nil, reverse_wire_enabled: nil)
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @account_type = account_type
+          @routing_number = routing_number
+          @hidden_account_number = hidden_account_number
+          @verification_status = verification_status
+          @verification_type = verification_type
+          @name = name
+          @plaid_status = plaid_status
+          @last_cached_balance = last_cached_balance
+          @balance_fetched_date = balance_fetched_date
+          @reverse_wire_enabled = reverse_wire_enabled
+        end
 
-      sig { params(uuid: ::String, account_type: T.nilable(::GustoEmbedded::Shared::AccountType), balance_fetched_date: T.nilable(::String), company_uuid: T.nilable(::String), hidden_account_number: T.nilable(::String), last_cached_balance: T.nilable(::String), name: T.nilable(::String), plaid_status: T.nilable(::GustoEmbedded::Shared::PlaidStatus), routing_number: T.nilable(::String), verification_status: T.nilable(::GustoEmbedded::Shared::VerificationStatus), verification_type: T.nilable(::GustoEmbedded::Shared::VerificationType)).void }
-      def initialize(uuid: nil, account_type: nil, balance_fetched_date: nil, company_uuid: nil, hidden_account_number: nil, last_cached_balance: nil, name: nil, plaid_status: nil, routing_number: nil, verification_status: nil, verification_type: nil)
-        @uuid = uuid
-        @account_type = account_type
-        @balance_fetched_date = balance_fetched_date
-        @company_uuid = company_uuid
-        @hidden_account_number = hidden_account_number
-        @last_cached_balance = last_cached_balance
-        @name = name
-        @plaid_status = plaid_status
-        @routing_number = routing_number
-        @verification_status = verification_status
-        @verification_type = verification_type
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @account_type == other.account_type
+          return false unless @routing_number == other.routing_number
+          return false unless @hidden_account_number == other.hidden_account_number
+          return false unless @verification_status == other.verification_status
+          return false unless @verification_type == other.verification_type
+          return false unless @name == other.name
+          return false unless @plaid_status == other.plaid_status
+          return false unless @last_cached_balance == other.last_cached_balance
+          return false unless @balance_fetched_date == other.balance_fetched_date
+          return false unless @reverse_wire_enabled == other.reverse_wire_enabled
+          true
+        end
       end
     end
   end

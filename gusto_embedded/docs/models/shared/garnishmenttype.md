@@ -1,6 +1,12 @@
 # GarnishmentType
 
-The specific type of garnishment for court ordered garnishments.
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = GarnishmentType::CHILD_SUPPORT
+```
 
 
 ## Values

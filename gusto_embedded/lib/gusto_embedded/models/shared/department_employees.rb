@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class DepartmentEmployees < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+      class DepartmentEmployees
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(uuid: T.nilable(::String)).void }
-      def initialize(uuid: nil)
-        @uuid = uuid
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+
+        sig { params(uuid: T.nilable(::String)).void }
+        def initialize(uuid: nil)
+          @uuid = uuid
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          true
+        end
       end
     end
   end

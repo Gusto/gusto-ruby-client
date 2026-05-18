@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of an employee's onboarding status.
-    class EmployeeOnboardingStatus < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of an employee's onboarding status.
+      class EmployeeOnboardingStatus
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Unique identifier for this employee.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # One of the "onboarding_status" enum values.
-      field :onboarding_status, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status') } }
-      # List of steps required to onboard an employee.
-      field :onboarding_steps, T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeOnboardingStatusOnboardingStep]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_steps') } }
+        # Unique identifier for this employee.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # One of the "onboarding_status" enum values.
+        field :onboarding_status, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status') } }
+        # List of steps required to onboard an employee.
+        field :onboarding_steps, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeOnboardingStatusOnboardingStep)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_steps') } }
 
+        sig { params(uuid: ::String, onboarding_status: T.nilable(::String), onboarding_steps: T.nilable(T::Array[Models::Shared::EmployeeOnboardingStatusOnboardingStep])).void }
+        def initialize(uuid:, onboarding_status: nil, onboarding_steps: nil)
+          @uuid = uuid
+          @onboarding_status = onboarding_status
+          @onboarding_steps = onboarding_steps
+        end
 
-      sig { params(uuid: ::String, onboarding_status: T.nilable(::String), onboarding_steps: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeOnboardingStatusOnboardingStep])).void }
-      def initialize(uuid: nil, onboarding_status: nil, onboarding_steps: nil)
-        @uuid = uuid
-        @onboarding_status = onboarding_status
-        @onboarding_steps = onboarding_steps
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @onboarding_status == other.onboarding_status
+          return false unless @onboarding_steps == other.onboarding_steps
+          true
+        end
       end
     end
   end

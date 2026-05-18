@@ -2,6 +2,14 @@
 
 How Gusto will handle taxes already collected.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = ReconcileTaxMethod::PAY_TAXES
+```
+
 
 ## Values
 

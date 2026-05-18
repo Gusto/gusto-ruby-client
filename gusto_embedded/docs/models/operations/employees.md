@@ -3,6 +3,7 @@
 
 ## Fields
 
-| Field                 | Type                  | Required              | Description           |
-| --------------------- | --------------------- | --------------------- | --------------------- |
-| `uuid`                | *T.nilable(::String)* | :heavy_minus_sign:    | N/A                   |
+| Field                                 | Type                                  | Required                              | Description                           |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| `uuid`                                | *::String*                            | :heavy_check_mark:                    | The UUID of the employee              |
+| `balance`                             | *T.nilable(::String)*                 | :heavy_minus_sign:                    | The starting balance for the employee |

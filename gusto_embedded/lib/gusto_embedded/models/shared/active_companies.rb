@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class ActiveCompanies < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class ActiveCompanies
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The number of active contractors the company was or will be invoiced for that invoice period. Active contractors are calculated as any contractor with an active contractor payment during the invoice period.
-      field :active_contractors, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active_contractors') } }
-      # The number of active employees the company was or will be invoiced for that invoice period. Active employees are calculated as the count of onboarded employees hired before the end of the invoice period and not terminated before the start of the invoice period.
-      field :active_employees, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active_employees') } }
-      # unique identifier for the company associated with the invoice data
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # The first invoice period for the company. This will either be the invoice period of the first invoice-able event (first payroll or contractor payment) or the date they migrated to embedded, whichever is later.
-      field :initial_invoice_period, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('initial_invoice_period') } }
+        # unique identifier for the company associated with the invoice data
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The number of active employees the company was or will be invoiced for that invoice period. Active employees are calculated as the count of onboarded employees hired before the end of the invoice period and not terminated before the start of the invoice period.
+        field :active_employees, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active_employees') } }
+        # The number of active contractors the company was or will be invoiced for that invoice period. Active contractors are calculated as any contractor with an active contractor payment during the invoice period.
+        field :active_contractors, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active_contractors') } }
+        # The first invoice period for the company. This will either be the invoice period of the first invoice-able event (first payroll or contractor payment) or the date they migrated to embedded, whichever is later.
+        field :initial_invoice_period, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('initial_invoice_period') } }
 
+        sig { params(company_uuid: T.nilable(::String), active_employees: T.nilable(::Integer), active_contractors: T.nilable(::Integer), initial_invoice_period: T.nilable(::String)).void }
+        def initialize(company_uuid: nil, active_employees: nil, active_contractors: nil, initial_invoice_period: nil)
+          @company_uuid = company_uuid
+          @active_employees = active_employees
+          @active_contractors = active_contractors
+          @initial_invoice_period = initial_invoice_period
+        end
 
-      sig { params(active_contractors: T.nilable(::Integer), active_employees: T.nilable(::Integer), company_uuid: T.nilable(::String), initial_invoice_period: T.nilable(::String)).void }
-      def initialize(active_contractors: nil, active_employees: nil, company_uuid: nil, initial_invoice_period: nil)
-        @active_contractors = active_contractors
-        @active_employees = active_employees
-        @company_uuid = company_uuid
-        @initial_invoice_period = initial_invoice_period
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @active_employees == other.active_employees
+          return false unless @active_contractors == other.active_contractors
+          return false unless @initial_invoice_period == other.initial_invoice_period
+          true
+        end
       end
     end
   end
