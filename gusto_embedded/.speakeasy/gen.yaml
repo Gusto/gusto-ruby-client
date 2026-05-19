@@ -28,6 +28,7 @@ ruby:
       shared: models/shared
       webhooks: models/webhooks
   inputModelSuffix: input
+  license: MIT
   maxMethodParams: 4
   module: GustoEmbedded
   outputModelSuffix: output
