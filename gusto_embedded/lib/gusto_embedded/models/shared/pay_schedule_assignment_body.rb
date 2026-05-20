@@ -5,37 +5,51 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class PayScheduleAssignmentBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayScheduleAssignmentBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The pay schedule assignment type.
-      field :type, ::GustoEmbedded::Shared::PayScheduleAssignmentBodyType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayScheduleAssignmentBodyType, false) } }
-      # Default pay schedule for employees.
-      field :default_pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default_pay_schedule_uuid') } }
-      # List of departments and their pay schedules.
-      field :departments, T.nilable(T::Array[::GustoEmbedded::Shared::Departments]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('departments') } }
-      # List of employees and their pay schedules.
-      field :employees, T.nilable(T::Array[::GustoEmbedded::Shared::Employees]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
-      # Pay schedule for hourly employees.
-      field :hourly_pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_pay_schedule_uuid') } }
-      # Indicates whether the request provides pay schedule assignments for a partial list of employees or departments of the company. By default, this is set to false.
-      field :partial_assignment, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partial_assignment') } }
-      # Pay schedule for salaried employees.
-      field :salaried_pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('salaried_pay_schedule_uuid') } }
+        # The pay schedule assignment type.
+        field :type, Crystalline::Nilable.new(Models::Shared::PayScheduleAssignmentBodyType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayScheduleAssignmentBodyType, false) } }
+        # Pay schedule for hourly employees.
+        field :hourly_pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_pay_schedule_uuid') } }
+        # Pay schedule for salaried employees.
+        field :salaried_pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('salaried_pay_schedule_uuid') } }
+        # Default pay schedule for employees.
+        field :default_pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default_pay_schedule_uuid') } }
+        # Indicates whether the request provides pay schedule assignments for a partial list of employees or departments of the company. By default, this is set to false.
+        field :partial_assignment, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partial_assignment') } }
+        # List of employees and their pay schedules.
+        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Employees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
+        # List of departments and their pay schedules.
+        field :departments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Departments)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('departments') } }
 
+        sig { params(type: T.nilable(Models::Shared::PayScheduleAssignmentBodyType), hourly_pay_schedule_uuid: T.nilable(::String), salaried_pay_schedule_uuid: T.nilable(::String), default_pay_schedule_uuid: T.nilable(::String), partial_assignment: T.nilable(T::Boolean), employees: T.nilable(T::Array[Models::Shared::Employees]), departments: T.nilable(T::Array[Models::Shared::Departments])).void }
+        def initialize(type: nil, hourly_pay_schedule_uuid: nil, salaried_pay_schedule_uuid: nil, default_pay_schedule_uuid: nil, partial_assignment: nil, employees: nil, departments: nil)
+          @type = type
+          @hourly_pay_schedule_uuid = hourly_pay_schedule_uuid
+          @salaried_pay_schedule_uuid = salaried_pay_schedule_uuid
+          @default_pay_schedule_uuid = default_pay_schedule_uuid
+          @partial_assignment = partial_assignment
+          @employees = employees
+          @departments = departments
+        end
 
-      sig { params(type: ::GustoEmbedded::Shared::PayScheduleAssignmentBodyType, default_pay_schedule_uuid: T.nilable(::String), departments: T.nilable(T::Array[::GustoEmbedded::Shared::Departments]), employees: T.nilable(T::Array[::GustoEmbedded::Shared::Employees]), hourly_pay_schedule_uuid: T.nilable(::String), partial_assignment: T.nilable(T::Boolean), salaried_pay_schedule_uuid: T.nilable(::String)).void }
-      def initialize(type: nil, default_pay_schedule_uuid: nil, departments: nil, employees: nil, hourly_pay_schedule_uuid: nil, partial_assignment: nil, salaried_pay_schedule_uuid: nil)
-        @type = type
-        @default_pay_schedule_uuid = default_pay_schedule_uuid
-        @departments = departments
-        @employees = employees
-        @hourly_pay_schedule_uuid = hourly_pay_schedule_uuid
-        @partial_assignment = partial_assignment
-        @salaried_pay_schedule_uuid = salaried_pay_schedule_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @hourly_pay_schedule_uuid == other.hourly_pay_schedule_uuid
+          return false unless @salaried_pay_schedule_uuid == other.salaried_pay_schedule_uuid
+          return false unless @default_pay_schedule_uuid == other.default_pay_schedule_uuid
+          return false unless @partial_assignment == other.partial_assignment
+          return false unless @employees == other.employees
+          return false unless @departments == other.departments
+          true
+        end
       end
     end
   end

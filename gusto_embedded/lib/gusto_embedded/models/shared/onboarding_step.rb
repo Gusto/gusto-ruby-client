@@ -5,34 +5,51 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class OnboardingStep < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class OnboardingStep
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The boolean flag indicating whether the step is completed or not.
-      field :completed, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('completed') } }
-      # The string identifier for each onboarding step
-      field :id, T.nilable(::GustoEmbedded::Shared::Id), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Id, true) } }
-      # The boolean flag indicating whether the step is required or optional
-      field :required, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
-      # A list of onboarding step that are required to be completed in order to proceed with the current onboarding step.
-      field :requirements, T.nilable(T::Array[::GustoEmbedded::Shared::Requirements]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirements') } }
-      # The boolean flag indicating whether the step can be skipped or not.
-      field :skippable, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skippable') } }
-      # The display name of the onboarding step
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # The display name of the onboarding step
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # The string identifier for each onboarding step
+        field :id, Crystalline::Nilable.new(Models::Shared::Id), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Id, true) } }
+        # The boolean flag indicating whether the step is required or optional
+        field :required, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
+        # The boolean flag indicating whether the step is completed or not.
+        field :completed, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('completed') } }
+        # The boolean flag indicating whether the step can be skipped or not.
+        field :skippable, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skippable') } }
+        # A list of onboarding steps that are required to be completed in order to proceed with the current onboarding step.
+        field :requirements, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::CompanyOnboardingStatusRequirements)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirements') } }
+        # The ISO 8601 timestamp indicating when the onboarding step was completed.
+        field :completed_at, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('completed_at') } }
 
+        sig { params(title: T.nilable(::String), id: T.nilable(Models::Shared::Id), required: T.nilable(T::Boolean), completed: T.nilable(T::Boolean), skippable: T.nilable(T::Boolean), requirements: T.nilable(T::Array[Models::Shared::CompanyOnboardingStatusRequirements]), completed_at: T.nilable(::String)).void }
+        def initialize(title: nil, id: nil, required: nil, completed: nil, skippable: nil, requirements: nil, completed_at: nil)
+          @title = title
+          @id = id
+          @required = required
+          @completed = completed
+          @skippable = skippable
+          @requirements = requirements
+          @completed_at = completed_at
+        end
 
-      sig { params(completed: T.nilable(T::Boolean), id: T.nilable(::GustoEmbedded::Shared::Id), required: T.nilable(T::Boolean), requirements: T.nilable(T::Array[::GustoEmbedded::Shared::Requirements]), skippable: T.nilable(T::Boolean), title: T.nilable(::String)).void }
-      def initialize(completed: nil, id: nil, required: nil, requirements: nil, skippable: nil, title: nil)
-        @completed = completed
-        @id = id
-        @required = required
-        @requirements = requirements
-        @skippable = skippable
-        @title = title
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @title == other.title
+          return false unless @id == other.id
+          return false unless @required == other.required
+          return false unless @completed == other.completed
+          return false unless @skippable == other.skippable
+          return false unless @requirements == other.requirements
+          return false unless @completed_at == other.completed_at
+          true
+        end
       end
     end
   end

@@ -1,6 +1,12 @@
 # PayScheduleType
 
-The pay schedule assignment type.
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = PayScheduleType::SINGLE
+```
 
 
 ## Values

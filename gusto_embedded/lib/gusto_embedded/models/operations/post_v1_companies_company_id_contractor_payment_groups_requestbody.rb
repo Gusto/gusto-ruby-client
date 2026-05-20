@@ -5,25 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PostV1CompaniesCompanyIdContractorPaymentGroupsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1CompaniesCompanyIdContractorPaymentGroupsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The payment check date
-      field :check_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), 'decoder': Utils.date_from_iso_format(false) } }
+        # The payment check date
+        field :check_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), required: true, 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(false) } }
+        # A token used to make contractor payment group creation idempotent. The string must be unique for each group you intend to create.
+        field :creation_token, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('creation_token'), required: true } }
 
-      field :contractor_payments, T::Array[::GustoEmbedded::Operations::ContractorPayments], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
-      # Optional token used to make contractor payment group creation idempotent.  If provided, string must be unique for each group you intend to create.
-      field :creation_token, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('creation_token') } }
+        field :contractor_payments, Crystalline::Array.new(Models::Operations::ContractorPayments), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments'), required: true } }
+        # Optional array of submission blockers with selected unblock options. Returned from the preview endpoint and can be submitted with selected_option to resolve blockers.
+        field :submission_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::SubmissionBlockers)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('submission_blockers') } }
 
+        sig { params(check_date: ::Date, creation_token: ::String, contractor_payments: T::Array[Models::Operations::ContractorPayments], submission_blockers: T.nilable(T::Array[Models::Operations::SubmissionBlockers])).void }
+        def initialize(check_date:, creation_token:, contractor_payments:, submission_blockers: nil)
+          @check_date = check_date
+          @creation_token = creation_token
+          @contractor_payments = contractor_payments
+          @submission_blockers = submission_blockers
+        end
 
-      sig { params(check_date: ::Date, contractor_payments: T::Array[::GustoEmbedded::Operations::ContractorPayments], creation_token: T.nilable(::String)).void }
-      def initialize(check_date: nil, contractor_payments: nil, creation_token: nil)
-        @check_date = check_date
-        @contractor_payments = contractor_payments
-        @creation_token = creation_token
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @check_date == other.check_date
+          return false unless @creation_token == other.creation_token
+          return false unless @contractor_payments == other.contractor_payments
+          return false unless @submission_blockers == other.submission_blockers
+          true
+        end
       end
     end
   end

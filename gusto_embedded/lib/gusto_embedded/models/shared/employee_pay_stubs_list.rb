@@ -5,34 +5,51 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of an employee pay stub information.
-    class EmployeePayStubsList < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of an employee pay stub information.
+      class EmployeePayStubsList
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the employee pay stub.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The check amount for the pay stub.
-      field :check_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
-      # The check date of the pay stub.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # The gross pay amount for the pay stub.
-      field :gross_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
-      # The net pay amount for the pay stub.
-      field :net_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
-      # A unique identifier of the payroll to which the pay stub belongs.
-      field :payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+        # The UUID of the employee pay stub.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The check date of the pay stub.
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # The gross pay amount for the pay stub.
+        field :gross_pay, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
+        # The net pay amount for the pay stub.
+        field :net_pay, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
+        # A unique identifier of the payroll to which the pay stub belongs.
+        field :payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+        # The check amount for the pay stub.
+        field :check_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
+        # The payment method for the pay stub.
+        field :payment_method, Crystalline::Nilable.new(Models::Shared::EmployeePayStubsListPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeePayStubsListPaymentMethod, true) } }
 
+        sig { params(uuid: ::String, check_date: T.nilable(::String), gross_pay: T.nilable(::String), net_pay: T.nilable(::String), payroll_uuid: T.nilable(::String), check_amount: T.nilable(::String), payment_method: T.nilable(Models::Shared::EmployeePayStubsListPaymentMethod)).void }
+        def initialize(uuid:, check_date: nil, gross_pay: nil, net_pay: nil, payroll_uuid: nil, check_amount: nil, payment_method: nil)
+          @uuid = uuid
+          @check_date = check_date
+          @gross_pay = gross_pay
+          @net_pay = net_pay
+          @payroll_uuid = payroll_uuid
+          @check_amount = check_amount
+          @payment_method = payment_method
+        end
 
-      sig { params(uuid: ::String, check_amount: T.nilable(::String), check_date: T.nilable(::String), gross_pay: T.nilable(::String), net_pay: T.nilable(::String), payroll_uuid: T.nilable(::String)).void }
-      def initialize(uuid: nil, check_amount: nil, check_date: nil, gross_pay: nil, net_pay: nil, payroll_uuid: nil)
-        @uuid = uuid
-        @check_amount = check_amount
-        @check_date = check_date
-        @gross_pay = gross_pay
-        @net_pay = net_pay
-        @payroll_uuid = payroll_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @check_date == other.check_date
+          return false unless @gross_pay == other.gross_pay
+          return false unless @net_pay == other.net_pay
+          return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @check_amount == other.check_amount
+          return false unless @payment_method == other.payment_method
+          true
+        end
       end
     end
   end

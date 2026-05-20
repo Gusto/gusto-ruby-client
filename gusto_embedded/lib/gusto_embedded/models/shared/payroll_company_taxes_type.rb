@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class PayrollCompanyTaxesType < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayrollCompanyTaxesType
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The amount of this tax for the payroll
-      field :amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
-      # Whether this tax is an employer or employee tax
-      field :employer, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer') } }
-      # The tax name
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The tax name
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # Whether this tax is an employer or employee tax
+        field :employer, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer') } }
+        # The amount of this tax for the payroll
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
 
+        sig { params(name: T.nilable(::String), employer: T.nilable(T::Boolean), amount: T.nilable(::String)).void }
+        def initialize(name: nil, employer: nil, amount: nil)
+          @name = name
+          @employer = employer
+          @amount = amount
+        end
 
-      sig { params(amount: T.nilable(::String), employer: T.nilable(T::Boolean), name: T.nilable(::String)).void }
-      def initialize(amount: nil, employer: nil, name: nil)
-        @amount = amount
-        @employer = employer
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @employer == other.employer
+          return false unless @amount == other.amount
+          true
+        end
       end
     end
   end

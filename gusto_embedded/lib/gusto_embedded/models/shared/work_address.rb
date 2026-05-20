@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+      # Primary work location for this historical employment row.
+      class WorkAddress
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-    class WorkAddress < ::Crystalline::FieldAugmented
-      extend T::Sig
+        # UUID of a company work location from the company locations response.
+        field :location_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid'), required: true } }
 
-      # Reference to a company location
-      field :location_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location_uuid') } }
+        sig { params(location_uuid: ::String).void }
+        def initialize(location_uuid:)
+          @location_uuid = location_uuid
+        end
 
-
-      sig { params(location_uuid: T.nilable(::String)).void }
-      def initialize(location_uuid: nil)
-        @location_uuid = location_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @location_uuid == other.location_uuid
+          true
+        end
       end
     end
   end

@@ -1,12 +1,19 @@
 # OffCycleReasonType
 
-The off-cycle reason. Only included for off-cycle payrolls.
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = OffCycleReasonType::ADHOC
+```
 
 
 ## Values
 
 | Name                                | Value                               |
 | ----------------------------------- | ----------------------------------- |
+| `ADHOC`                             | Adhoc                               |
 | `BENEFIT_REVERSAL`                  | Benefit reversal                    |
 | `BONUS`                             | Bonus                               |
 | `CORRECTION`                        | Correction                          |

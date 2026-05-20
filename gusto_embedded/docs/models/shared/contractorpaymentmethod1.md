@@ -1,6 +1,12 @@
 # ContractorPaymentMethod1
 
-The contractor's payment method.
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = ContractorPaymentMethod1::DIRECT_DEPOSIT
+```
 
 
 ## Values

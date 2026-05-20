@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class Report < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
 
-      # The array of urls to access the report
-      field :report_urls, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('report_urls') } }
-      # A unique identifier of the report request
-      field :request_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('request_uuid') } }
-      # Current status of the report, possible values are 'succeeded', 'pending', or 'failed'
-      field :status, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status') } }
+      class Report
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # A unique identifier of the report request
+        field :request_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('request_uuid') } }
+        # Current status of the report, possible values are 'succeeded', 'pending', or 'failed'
+        field :status, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status') } }
+        # The array of urls to access the report
+        field :report_urls, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('report_urls') } }
 
-      sig { params(report_urls: T.nilable(T::Array[::String]), request_uuid: T.nilable(::String), status: T.nilable(::String)).void }
-      def initialize(report_urls: nil, request_uuid: nil, status: nil)
-        @report_urls = report_urls
-        @request_uuid = request_uuid
-        @status = status
+        sig { params(request_uuid: T.nilable(::String), status: T.nilable(::String), report_urls: T.nilable(T::Array[::String])).void }
+        def initialize(request_uuid: nil, status: nil, report_urls: nil)
+          @request_uuid = request_uuid
+          @status = status
+          @report_urls = report_urls
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @request_uuid == other.request_uuid
+          return false unless @status == other.status
+          return false unless @report_urls == other.report_urls
+          true
+        end
       end
     end
   end

@@ -1,28 +1,41 @@
-speakeasyVersion: 1.513.4
+speakeasyVersion: 1.763.3
 sources:
     GustoEmbedded-OAS:
         sourceNamespace: gusto-embedded-oas
-        sourceRevisionDigest: sha256:b6231dbd5bfe779803fc89e53d1eb2a8f2410b4de85bd64d965fda1e3cc9507e
-        sourceBlobDigest: sha256:fd0ff3b53eea2bd9b89b0584cf31e1a8c25d405a55d4d0237624a49b7b6b064a
+        sourceRevisionDigest: sha256:5ffdc31ca590b34ab6d21e6c9faf5cba0715fe4bc771122f44e67df8abed41cc
+        sourceBlobDigest: sha256:f3bc4d77a542406ca19c5d26ecdbf40ee078739a5c3680394f3874d95b62da96
         tags:
             - latest
-            - speakeasy-sdk-regen-1745022438
-            - "2024-04-01"
+            - "2025-06-15"
+    GustoEmbedded-OAS-v2025-11-15:
+        sourceNamespace: gusto-embedded-oas-v2025-11-15
+        sourceRevisionDigest: sha256:cc75140d36c0fdcc12e42fa04f0a86efb4971768574b0e5f7f46ef51ba3037de
+        sourceBlobDigest: sha256:a6ffc1f0359444b0e0a1acda5f7ca50f73c49ada9de750a68f9b6d395bd14be5
+        tags:
+            - latest
+            - "2025-11-15"
 targets:
     gusto-embedded:
         source: GustoEmbedded-OAS
         sourceNamespace: gusto-embedded-oas
-        sourceRevisionDigest: sha256:b6231dbd5bfe779803fc89e53d1eb2a8f2410b4de85bd64d965fda1e3cc9507e
-        sourceBlobDigest: sha256:fd0ff3b53eea2bd9b89b0584cf31e1a8c25d405a55d4d0237624a49b7b6b064a
+        sourceRevisionDigest: sha256:5ffdc31ca590b34ab6d21e6c9faf5cba0715fe4bc771122f44e67df8abed41cc
+        sourceBlobDigest: sha256:f3bc4d77a542406ca19c5d26ecdbf40ee078739a5c3680394f3874d95b62da96
         codeSamplesNamespace: gusto-embedded-oas-code-samples
-        codeSamplesRevisionDigest: sha256:868aac81d768a0cc0a0f2736edeed9a88b4ba23e77276079971b9cc8bd2c0151
+        codeSamplesRevisionDigest: sha256:58709dd646f86df4cb8be2919128582de67d41f528e7dded2d8c4f9687294ecd
+    gusto-embedded-v2025-11-15:
+        source: GustoEmbedded-OAS-v2025-11-15
+        sourceNamespace: gusto-embedded-oas-v2025-11-15
+        sourceRevisionDigest: sha256:cc75140d36c0fdcc12e42fa04f0a86efb4971768574b0e5f7f46ef51ba3037de
+        sourceBlobDigest: sha256:a6ffc1f0359444b0e0a1acda5f7ca50f73c49ada9de750a68f9b6d395bd14be5
+        codeSamplesNamespace: gusto-embedded-oas-code-samples-v2025-11-15-code-samples
+        codeSamplesRevisionDigest: sha256:855be85fa0ee8971443045888f567caf56d467d4fe5f9c17c0e50fe5c6f8d00b
 workflow:
     workflowVersion: 1.0.0
-    speakeasyVersion: 1.513.4
+    speakeasyVersion: latest
     sources:
         GustoEmbedded-OAS:
             inputs:
-                - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/generated/embedded/api.v2024-04-01.embedded.yaml
+                - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/generated/embedded/api.v2025-06-15.embedded.yaml
                   authHeader: Authorization
                   authSecret: $openapi_doc_auth_token
             overlays:
@@ -31,6 +44,17 @@ workflow:
                   authSecret: $openapi_doc_auth_token
             registry:
                 location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas
+        GustoEmbedded-OAS-v2025-11-15:
+            inputs:
+                - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/generated/embedded/api.v2025-11-15.embedded.yaml
+                  authHeader: Authorization
+                  authSecret: $openapi_doc_auth_token
+            overlays:
+                - location: https://raw.githubusercontent.com/Gusto/Gusto-Partner-API/refs/heads/main/.speakeasy/speakeasy-modifications-overlay.yaml
+                  authHeader: Authorization
+                  authSecret: $openapi_doc_auth_token
+            registry:
+                location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas-v2025-11-15
     targets:
         gusto-embedded:
             target: ruby
@@ -42,6 +66,19 @@ workflow:
             codeSamples:
                 registry:
                     location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas-code-samples
+                labelOverride:
+                    fixedValue: Ruby (SDK)
+                blocking: false
+        gusto-embedded-v2025-11-15:
+            target: ruby
+            source: GustoEmbedded-OAS-v2025-11-15
+            output: ./gusto_embedded_v_2025_11_15
+            publish:
+                rubygems:
+                    token: $rubygems_auth_token
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/gusto/ruby-sdk/gusto-embedded-oas-code-samples-v2025-11-15-code-samples
                 labelOverride:
                     fixedValue: Ruby (SDK)
                 blocking: false

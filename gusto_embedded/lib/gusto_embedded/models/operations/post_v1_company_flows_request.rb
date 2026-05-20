@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PostV1CompanyFlowsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1CompanyFlowsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
+        # The UUID of the company
+        field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PostV1CompanyFlowsRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :create_flow_request, Models::Shared::CreateFlowRequest, { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::PostV1CompanyFlowsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_uuid: ::String, create_flow_request: Models::Shared::CreateFlowRequest, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompanyFlowsHeaderXGustoAPIVersion)).void }
+        def initialize(company_uuid:, create_flow_request:, x_gusto_api_version: Models::Operations::PostV1CompanyFlowsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_uuid = company_uuid
+          @create_flow_request = create_flow_request
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(company_uuid: ::String, request_body: ::GustoEmbedded::Operations::PostV1CompanyFlowsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_uuid: nil, request_body: nil, x_gusto_api_version: nil)
-        @company_uuid = company_uuid
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @create_flow_request == other.create_flow_request
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

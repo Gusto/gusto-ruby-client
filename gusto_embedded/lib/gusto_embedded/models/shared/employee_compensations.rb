@@ -5,43 +5,99 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class EmployeeCompensations < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class EmployeeCompensations
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The total child support garnishment for the pay period.
-      field :child_support_garnishment, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support_garnishment') } }
-      # The first name of the employee.
-      field :employee_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_first_name') } }
-      # The last name of the employee.
-      field :employee_last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_last_name') } }
-      # The UUID of the employee.
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-      # The employee's net pay. Net pay paid by check is available for reference but is not included in the `["totals"]["net_pay_debit"]` amount.
-      field :net_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
-      # The employee's compensation payment method.\n\n`Check` `Direct Deposit`
-      field :payment_method, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method') } }
-      # The total garnishments for the pay period.
-      field :total_garnishments, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_garnishments') } }
-      # The total reimbursement for the pay period.
-      field :total_reimbursement, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_reimbursement') } }
-      # The total of employer and employee taxes for the pay period.
-      field :total_tax, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total_tax') } }
+        # The UUID of the employee.
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # This employee will be excluded (skipped) from payroll calculation and will not be paid for the payroll. Cancelling a payroll would reset all employees' excluded back to false.
+        field :excluded, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('excluded') } }
+        # An array of fixed compensations for the employee. Fixed compensations include tips, bonuses, and one time reimbursements. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned.
+        field :fixed_compensations, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowFixedCompensations)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_compensations') } }
+        # An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned.
+        field :hourly_compensations, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowHourlyCompensations)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_compensations') } }
+        # An array of all paid time off the employee is eligible for this pay period.
+        field :paid_time_off, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowPaidTimeOff)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_time_off') } }
+        # An array of reimbursements for the employee.
+        field :reimbursements, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowReimbursements)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursements') } }
+        # The current version of this employee compensation. This field is only available for prepared payrolls. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # An array of employee deductions for the pay period. Only included when `deductions` is present in the `include` parameter.
+        field :deductions, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowDeductions)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deductions') } }
+        # An array of employer and employee taxes for the pay period. Only included for processed or calculated payrolls when `taxes` is present in the `include` parameter.
+        field :taxes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowTaxes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
+        # An array of employee benefits for the pay period. Benefits are only included for processed payroll when the include parameter is present.
+        field :benefits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowBenefits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
 
+        field :additional_properties, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_properties'), 'additional_properties': true } }
+        # The first name of the employee. Requires `employees:read` scope.
+        field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+        # The preferred first name of the employee. Requires `employees:read` scope.
+        field :preferred_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
+        # The last name of the employee. Requires `employees:read` scope.
+        field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        # The employee's gross pay, equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income. This value is only available for processed payrolls.
+        field :gross_pay, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
+        # The employee's net pay, equal to gross_pay - employee taxes - employee deductions or garnishments - cash tips. This value is only available for processed payrolls.
+        field :net_pay, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay') } }
+        # The employee's check amount, equal to net_pay + reimbursements. This value is only available for processed payrolls.
+        field :check_amount, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
+        # The employee's compensation payment method. Is *only* `Historical` when retrieving external payrolls initially run outside of Gusto, then put into Gusto.
+        field :payment_method, Crystalline::Nilable.new(Models::Shared::PayrollShowPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollShowPaymentMethod, true) } }
+        # Custom text that will be printed as a personal note to the employee on a paystub.
+        field :memo, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('memo') } }
 
-      sig { params(child_support_garnishment: T.nilable(::String), employee_first_name: T.nilable(::String), employee_last_name: T.nilable(::String), employee_uuid: T.nilable(::String), net_pay: T.nilable(::String), payment_method: T.nilable(::String), total_garnishments: T.nilable(::String), total_reimbursement: T.nilable(::String), total_tax: T.nilable(::String)).void }
-      def initialize(child_support_garnishment: nil, employee_first_name: nil, employee_last_name: nil, employee_uuid: nil, net_pay: nil, payment_method: nil, total_garnishments: nil, total_reimbursement: nil, total_tax: nil)
-        @child_support_garnishment = child_support_garnishment
-        @employee_first_name = employee_first_name
-        @employee_last_name = employee_last_name
-        @employee_uuid = employee_uuid
-        @net_pay = net_pay
-        @payment_method = payment_method
-        @total_garnishments = total_garnishments
-        @total_reimbursement = total_reimbursement
-        @total_tax = total_tax
+        sig { params(employee_uuid: T.nilable(::String), excluded: T.nilable(T::Boolean), fixed_compensations: T.nilable(T::Array[Models::Shared::PayrollShowFixedCompensations]), hourly_compensations: T.nilable(T::Array[Models::Shared::PayrollShowHourlyCompensations]), paid_time_off: T.nilable(T::Array[Models::Shared::PayrollShowPaidTimeOff]), reimbursements: T.nilable(T::Array[Models::Shared::PayrollShowReimbursements]), version: T.nilable(::Object), deductions: T.nilable(T::Array[Models::Shared::PayrollShowDeductions]), taxes: T.nilable(T::Array[Models::Shared::PayrollShowTaxes]), benefits: T.nilable(T::Array[Models::Shared::PayrollShowBenefits]), additional_properties: T.nilable(T::Hash[Symbol, ::Object]), first_name: T.nilable(::String), preferred_first_name: T.nilable(::String), last_name: T.nilable(::String), gross_pay: T.nilable(::Float), net_pay: T.nilable(::Float), check_amount: T.nilable(::Float), payment_method: T.nilable(Models::Shared::PayrollShowPaymentMethod), memo: T.nilable(::String)).void }
+        def initialize(employee_uuid: nil, excluded: nil, fixed_compensations: nil, hourly_compensations: nil, paid_time_off: nil, reimbursements: nil, version: nil, deductions: nil, taxes: nil, benefits: nil, additional_properties: nil, first_name: nil, preferred_first_name: nil, last_name: nil, gross_pay: nil, net_pay: nil, check_amount: nil, payment_method: nil, memo: nil)
+          @employee_uuid = employee_uuid
+          @excluded = excluded
+          @fixed_compensations = fixed_compensations
+          @hourly_compensations = hourly_compensations
+          @paid_time_off = paid_time_off
+          @reimbursements = reimbursements
+          @version = version
+          @deductions = deductions
+          @taxes = taxes
+          @benefits = benefits
+          @additional_properties = additional_properties
+          @first_name = first_name
+          @preferred_first_name = preferred_first_name
+          @last_name = last_name
+          @gross_pay = gross_pay
+          @net_pay = net_pay
+          @check_amount = check_amount
+          @payment_method = payment_method
+          @memo = memo
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @excluded == other.excluded
+          return false unless @fixed_compensations == other.fixed_compensations
+          return false unless @hourly_compensations == other.hourly_compensations
+          return false unless @paid_time_off == other.paid_time_off
+          return false unless @reimbursements == other.reimbursements
+          return false unless @version == other.version
+          return false unless @deductions == other.deductions
+          return false unless @taxes == other.taxes
+          return false unless @benefits == other.benefits
+          return false unless @additional_properties == other.additional_properties
+          return false unless @first_name == other.first_name
+          return false unless @preferred_first_name == other.preferred_first_name
+          return false unless @last_name == other.last_name
+          return false unless @gross_pay == other.gross_pay
+          return false unless @net_pay == other.net_pay
+          return false unless @check_amount == other.check_amount
+          return false unless @payment_method == other.payment_method
+          return false unless @memo == other.memo
+          true
+        end
       end
     end
   end

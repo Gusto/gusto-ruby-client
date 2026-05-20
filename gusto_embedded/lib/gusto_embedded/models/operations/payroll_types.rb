@@ -5,14 +5,15 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-
-    class PayrollTypes < T::Enum
-      enums do
-        REGULAR = new('regular')
-        OFF_CYCLE = new('off_cycle')
-        EXTERNAL = new('external')
+  module Models
+    module Operations
+      # PayrollTypes - Comma-separated list of payroll types to include (regular, transition). Defaults to regular only.
+      class PayrollTypes < T::Enum
+        enums do
+          REGULAR = new('regular')
+          TRANSITION = new('transition')
+          REGULAR_TRANSITION = new('regular,transition')
+        end
       end
     end
   end

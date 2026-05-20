@@ -2,6 +2,14 @@
 
 One of the "onboarding_status" enum values.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = ContractorOnboardingStatus1::ADMIN_ONBOARDING_INCOMPLETE
+```
+
 
 ## Values
 

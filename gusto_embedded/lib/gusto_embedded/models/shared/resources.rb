@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class Resources < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Resources
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The type of entity being described, could be “Contractor”, “Employee”, “BankAccount”, “Payroll”, “ContractorPayment”, “RecoveryCase”, or “Signatory”
-      field :entity_type, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type') } }
-      # Unique identifier of the entity
-      field :entity_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid') } }
-      # Optional. The type of a resource that is related to the one described by entity_type and entity_uuid. For instance, if the entity_type is “BankAccount”, the reference_type could be the “Employee” or “Contractor” to whom the bank account belongs.
-      field :reference_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reference_type') } }
-      # Optional. Unique identifier of the reference.
-      field :reference_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reference_uuid') } }
+        # The type of entity being described.
+        field :entity_type, Models::Shared::NotificationEntityType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::NotificationEntityType, false) } }
+        # Unique identifier of the entity
+        field :entity_uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid'), required: true } }
+        # Optional. The type of a resource that is related to the one described by entity_type and entity_uuid. For instance, if the entity_type is “BankAccount”, the reference_type could be the “Employee” or “Contractor” to whom the bank account belongs.
+        field :reference_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reference_type') } }
+        # Optional. Unique identifier of the reference.
+        field :reference_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reference_uuid') } }
 
+        sig { params(entity_type: Models::Shared::NotificationEntityType, entity_uuid: ::String, reference_type: T.nilable(::String), reference_uuid: T.nilable(::String)).void }
+        def initialize(entity_type:, entity_uuid:, reference_type: nil, reference_uuid: nil)
+          @entity_type = entity_type
+          @entity_uuid = entity_uuid
+          @reference_type = reference_type
+          @reference_uuid = reference_uuid
+        end
 
-      sig { params(entity_type: ::String, entity_uuid: ::String, reference_type: T.nilable(::String), reference_uuid: T.nilable(::String)).void }
-      def initialize(entity_type: nil, entity_uuid: nil, reference_type: nil, reference_uuid: nil)
-        @entity_type = entity_type
-        @entity_uuid = entity_uuid
-        @reference_type = reference_type
-        @reference_uuid = reference_uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @entity_type == other.entity_type
+          return false unless @entity_uuid == other.entity_uuid
+          return false unless @reference_type == other.reference_type
+          return false unless @reference_uuid == other.reference_uuid
+          true
+        end
       end
     end
   end

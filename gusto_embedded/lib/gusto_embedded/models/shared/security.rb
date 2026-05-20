@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class Security < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :company_access_auth, T.nilable(::String), { 'security': { 'scheme': true, 'type': 'http', 'sub_type': 'bearer', 'field_name': 'Authorization' } }
+      class Security
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(company_access_auth: T.nilable(::String)).void }
-      def initialize(company_access_auth: nil)
-        @company_access_auth = company_access_auth
+        field :company_access_auth, Crystalline::Nilable.new(::String), { 'security': { 'scheme': true, 'type': 'http', 'sub_type': 'bearer', 'field_name': 'Authorization' } }
+
+        sig { params(company_access_auth: T.nilable(::String)).void }
+        def initialize(company_access_auth: nil)
+          @company_access_auth = company_access_auth
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_access_auth == other.company_access_auth
+          true
+        end
       end
     end
   end

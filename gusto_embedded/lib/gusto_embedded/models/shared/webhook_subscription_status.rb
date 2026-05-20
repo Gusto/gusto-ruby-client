@@ -5,15 +5,16 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # WebhookSubscriptionStatus - The status of the webhook subscription.
-    class WebhookSubscriptionStatus < T::Enum
-      enums do
-        PENDING = new('pending')
-        VERIFIED = new('verified')
-        REMOVED = new('removed')
-        UNREACHABLE = new('unreachable')
+  module Models
+    module Shared
+      # WebhookSubscriptionStatus - The status of the webhook subscription.
+      class WebhookSubscriptionStatus < T::Enum
+        enums do
+          PENDING = new('pending')
+          VERIFIED = new('verified')
+          REMOVED = new('removed')
+          UNREACHABLE = new('unreachable')
+        end
       end
     end
   end

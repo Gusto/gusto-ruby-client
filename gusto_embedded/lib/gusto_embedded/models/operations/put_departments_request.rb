@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutDepartmentsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutDepartmentsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the department
-      field :department_uuid, ::String, { 'path_param': { 'field_name': 'department_uuid', 'style': 'simple', 'explode': false } }
+        # The UUID of the department
+        field :department_uuid, ::String, { 'path_param': { 'field_name': 'department_uuid', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PutDepartmentsRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :department_update_request_body, Models::Shared::DepartmentUpdateRequestBody, { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::PutDepartmentsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(department_uuid: ::String, department_update_request_body: Models::Shared::DepartmentUpdateRequestBody, x_gusto_api_version: T.nilable(Models::Operations::PutDepartmentsHeaderXGustoAPIVersion)).void }
+        def initialize(department_uuid:, department_update_request_body:, x_gusto_api_version: Models::Operations::PutDepartmentsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @department_uuid = department_uuid
+          @department_update_request_body = department_update_request_body
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(department_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutDepartmentsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(department_uuid: nil, request_body: nil, x_gusto_api_version: nil)
-        @department_uuid = department_uuid
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @department_uuid == other.department_uuid
+          return false unless @department_update_request_body == other.department_update_request_body
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

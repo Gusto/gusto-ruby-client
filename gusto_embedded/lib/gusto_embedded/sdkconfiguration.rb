@@ -5,38 +5,83 @@
 
 require 'faraday'
 require 'faraday/multipart'
+require 'faraday/retry'
 require 'sorbet-runtime'
+require_relative 'sdk_hooks/hooks'
+require_relative 'utils/retries'
 
 module GustoEmbedded
   extend T::Sig
 
   SERVER_DEMO = :demo # Demo
   SERVER_PROD = :prod # Prod
-  SERVERS = {
+  SERVERS = T.let({
     demo: 'https://api.gusto-demo.com',
     prod: 'https://api.gusto.com',
-  }.freeze
+  }.freeze, T::Hash[T.any(String, Symbol), String])
   # Contains the list of servers available to the SDK
 
-  class SDKConfiguration < ::Crystalline::FieldAugmented
+  class SDKConfiguration
     extend T::Sig
 
-    field :client, T.nilable(Faraday::Connection)
-    field :security_source, T.nilable(T.proc.returns(T.nilable(::GustoEmbedded::Shared::Security)))
-    field :server_url, T.nilable(String)
-    field :server, Symbol
-    field :language, String
-    field :openapi_doc_version, String
-    field :sdk_version, String
-    field :gen_version, String
-    field :user_agent, String
+    sig { returns(T.nilable(Faraday::Connection)) }
+    attr_accessor :client
 
+    sig { returns(::GustoEmbedded::SDKHooks::Hooks) }
+    attr_accessor :hooks
 
+    sig { returns(T.nilable(::GustoEmbedded::Utils::RetryConfig)) }
+    attr_accessor :retry_config
 
-    sig { params(client: T.nilable(Faraday::Connection), security: T.nilable(::GustoEmbedded::Shared::Security), security_source: T.nilable(T.proc.returns(::GustoEmbedded::Shared::Security)), server_url: T.nilable(String), server: T.nilable(Symbol)).void }
-    def initialize(client, security, security_source, server_url, server)
+    sig { returns(T.nilable(Float)) }
+    attr_accessor :timeout
+
+    
+    sig { returns(T.nilable(T.proc.returns(T.nilable(Models::Shared::Security)))) }
+    attr_accessor :security_source
+
+    
+    sig { returns(T.nilable(String)) }
+    attr_accessor :server_url
+
+    
+    sig { returns(Symbol) }
+    attr_accessor :server
+
+    
+    sig { returns(String) }
+    attr_accessor :language
+
+    sig { returns(String) }
+    attr_accessor :openapi_doc_version
+
+    sig { returns(String) }
+    attr_accessor :sdk_version
+
+    sig { returns(String) }
+    attr_accessor :gen_version
+
+    sig { returns(String) }
+    attr_accessor :user_agent
+
+    sig do
+      params(
+        client: T.nilable(Faraday::Connection),
+        hooks: ::GustoEmbedded::SDKHooks::Hooks,
+        retry_config: T.nilable(::GustoEmbedded::Utils::RetryConfig),
+        timeout_ms: T.nilable(Integer),
+        security: T.nilable(Models::Shared::Security),
+        security_source: T.nilable(T.proc.returns(Models::Shared::Security)),
+        server_url: T.nilable(String),
+        server: T.nilable(Symbol)
+      ).void
+    end
+    def initialize(client, hooks, retry_config, timeout_ms, security, security_source, server_url, server)
       @client = client
+      @hooks = hooks
+      @retry_config = retry_config
       @server_url = server_url
+      @timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       @server = server.nil? ? SERVER_DEMO : server
       raise StandardError, "Invalid server \"#{server}\"" if !SERVERS.key?(@server)
       if !security_source.nil?
@@ -45,16 +90,17 @@ module GustoEmbedded
         @security_source = -> { security }
       end
       @language = 'ruby'
-      @openapi_doc_version = '2024-04-01'
-      @sdk_version = '0.2.11'
-      @gen_version = '2.545.4'
-      @user_agent = 'speakeasy-sdk/ruby 0.2.11 2.545.4 2024-04-01 gusto_embedded_client'
+      @openapi_doc_version = '2025-06-15'
+      @sdk_version = '0.3.0'
+      @gen_version = '2.884.7'
+      @user_agent = 'speakeasy-sdk/ruby 0.3.0 2.884.7 2025-06-15 gusto_embedded_client'
     end
 
     sig { returns([String, T::Hash[Symbol, String]]) }
     def get_server_details
       return [@server_url.delete_suffix('/'), {}] if !@server_url.nil?
-      [SERVERS[@server], {}]
+      @server = T.must(@server)
+      [T.must(SERVERS[@server]), {}]
     end
   end
 end

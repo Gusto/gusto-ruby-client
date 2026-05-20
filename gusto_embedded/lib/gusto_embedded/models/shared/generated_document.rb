@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class GeneratedDocument < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
 
-      # The array of urls to access the documents.
-      field :document_urls, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_urls') } }
-      # A unique identifier of the Generated Document request
-      field :request_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('request_uuid') } }
-      # Current status of the Generated Document
-      field :status, T.nilable(::GustoEmbedded::Shared::GeneratedDocumentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::GeneratedDocumentStatus, true) } }
+      class GeneratedDocument
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # A unique identifier of the Generated Document request
+        field :request_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('request_uuid') } }
+        # Current status of the Generated Document
+        field :status, Crystalline::Nilable.new(Models::Shared::GeneratedDocumentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::GeneratedDocumentStatus, true) } }
+        # The array of urls to access the documents.
+        field :document_urls, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('document_urls') } }
 
-      sig { params(document_urls: T.nilable(T::Array[::String]), request_uuid: T.nilable(::String), status: T.nilable(::GustoEmbedded::Shared::GeneratedDocumentStatus)).void }
-      def initialize(document_urls: nil, request_uuid: nil, status: nil)
-        @document_urls = document_urls
-        @request_uuid = request_uuid
-        @status = status
+        sig { params(request_uuid: T.nilable(::String), status: T.nilable(Models::Shared::GeneratedDocumentStatus), document_urls: T.nilable(T::Array[::String])).void }
+        def initialize(request_uuid: nil, status: nil, document_urls: nil)
+          @request_uuid = request_uuid
+          @status = status
+          @document_urls = document_urls
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @request_uuid == other.request_uuid
+          return false unless @status == other.status
+          return false unless @document_urls == other.document_urls
+          true
+        end
       end
     end
   end

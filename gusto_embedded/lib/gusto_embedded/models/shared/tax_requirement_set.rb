@@ -5,31 +5,43 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class TaxRequirementSet < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class TaxRequirementSet
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # An ISO 8601 formatted date representing the date values became effective. Some requirement sets are effective dated, while others are not. Multiple requirement sets for the same state/key can/will exist with unique effective dates. If a requirement set is has an `effective_from` value, all requirement sets with the same key will also have an `effective_from` value.
-      field :effective_from, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_from') } }
-      # An identifier for a set of requirements. A list of requirement sets can contain multiple sets with the same `key` and different `effective_from` values.
-      field :key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
-      # Customer facing label for the requirement set, e.g. "Registrations"
-      field :label, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
+        # One of the two-letter state abbreviations for the fifty United States and the District of Columbia (DC)
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        # An identifier for a set of requirements. A list of requirement sets can contain multiple sets with the same `key` and different `effective_from` values.
+        field :key, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
+        # Customer facing label for the requirement set, e.g. "Registrations"
+        field :label, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
 
-      field :requirements, T.nilable(T::Array[::GustoEmbedded::Shared::TaxRequirement]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirements') } }
-      # One of the two-letter state abbreviations for the fifty United States and the District of Columbia (DC)
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        field :requirements, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::TaxRequirement)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirements') } }
+        # An ISO 8601 formatted date representing the date values became effective. Some requirement sets are effective dated, while others are not. Multiple requirement sets for the same state/key can/will exist with unique effective dates. If a requirement set is has an `effective_from` value, all requirement sets with the same key will also have an `effective_from` value.
+        field :effective_from, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_from') } }
 
+        sig { params(state: T.nilable(::String), key: T.nilable(::String), label: T.nilable(::String), requirements: T.nilable(T::Array[Models::Shared::TaxRequirement]), effective_from: T.nilable(::String)).void }
+        def initialize(state: nil, key: nil, label: nil, requirements: nil, effective_from: nil)
+          @state = state
+          @key = key
+          @label = label
+          @requirements = requirements
+          @effective_from = effective_from
+        end
 
-      sig { params(effective_from: T.nilable(::String), key: T.nilable(::String), label: T.nilable(::String), requirements: T.nilable(T::Array[::GustoEmbedded::Shared::TaxRequirement]), state: T.nilable(::String)).void }
-      def initialize(effective_from: nil, key: nil, label: nil, requirements: nil, state: nil)
-        @effective_from = effective_from
-        @key = key
-        @label = label
-        @requirements = requirements
-        @state = state
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @state == other.state
+          return false unless @key == other.key
+          return false unless @label == other.label
+          return false unless @requirements == other.requirements
+          return false unless @effective_from == other.effective_from
+          true
+        end
       end
     end
   end

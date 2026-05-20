@@ -5,23 +5,32 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PostV1SandboxGenerate1099RequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1SandboxGenerate1099RequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The contractor UUID.
-      field :contractor_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_id') } }
-      # Must be equal to or more recent than 2015. If not specified, defaults to the previous year.
-      # 
-      field :year, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('year') } }
+        # The contractor UUID.
+        field :contractor_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_id'), required: true } }
+        # Must be equal to or more recent than 2015. If not specified, defaults to the previous year.
+        #
+        field :year, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('year') } }
 
+        sig { params(contractor_id: ::String, year: T.nilable(::Integer)).void }
+        def initialize(contractor_id:, year: nil)
+          @contractor_id = contractor_id
+          @year = year
+        end
 
-      sig { params(contractor_id: ::String, year: T.nilable(::Integer)).void }
-      def initialize(contractor_id: nil, year: nil)
-        @contractor_id = contractor_id
-        @year = year
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @contractor_id == other.contractor_id
+          return false unless @year == other.year
+          true
+        end
       end
     end
   end

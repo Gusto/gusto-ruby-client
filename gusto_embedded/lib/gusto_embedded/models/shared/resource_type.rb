@@ -5,12 +5,13 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # ResourceType - Name of the parent resource of the described entity.
-    class ResourceType < T::Enum
-      enums do
-        COMPANY = new('Company')
+  module Models
+    module Shared
+      # ResourceType - Name of the parent resource of the described entity.
+      class ResourceType < T::Enum
+        enums do
+          COMPANY = new('Company')
+        end
       end
     end
   end

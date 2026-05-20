@@ -5,37 +5,51 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of an Event
-    class Event < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # Representation of an Event
+      class Event
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Unique identifier for the event.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # Name of the entity that the event corresponds to.
-      field :entity_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type') } }
-      # Unique identifier for the entity.
-      field :entity_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid') } }
-      # Description of the event (e.g., payroll.submitted, or company.form.signed).
-      field :event_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('event_type') } }
-      # Name of the parent resource of the described entity.
-      field :resource_type, T.nilable(::GustoEmbedded::Shared::ResourceType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resource_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::ResourceType, true) } }
-      # Unique identifier for the parent resource.
-      field :resource_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resource_uuid') } }
-      # Time at which this event was created. Measured in seconds since the Unix epoch.
-      field :timestamp, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('timestamp') } }
+        # Unique identifier for the event.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # Description of the event (e.g., payroll.submitted, or company.form.signed).
+        field :event_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('event_type') } }
+        # Name of the parent resource of the described entity.
+        field :resource_type, Crystalline::Nilable.new(Models::Shared::ResourceType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resource_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ResourceType, true) } }
+        # Unique identifier for the parent resource.
+        field :resource_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('resource_uuid') } }
+        # Name of the entity that the event corresponds to.
+        field :entity_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type') } }
+        # Unique identifier for the entity.
+        field :entity_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid') } }
+        # Time at which this event was created. Measured in seconds since the Unix epoch.
+        field :timestamp, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('timestamp') } }
 
+        sig { params(uuid: ::String, event_type: T.nilable(::String), resource_type: T.nilable(Models::Shared::ResourceType), resource_uuid: T.nilable(::String), entity_type: T.nilable(::String), entity_uuid: T.nilable(::String), timestamp: T.nilable(::Integer)).void }
+        def initialize(uuid:, event_type: nil, resource_type: nil, resource_uuid: nil, entity_type: nil, entity_uuid: nil, timestamp: nil)
+          @uuid = uuid
+          @event_type = event_type
+          @resource_type = resource_type
+          @resource_uuid = resource_uuid
+          @entity_type = entity_type
+          @entity_uuid = entity_uuid
+          @timestamp = timestamp
+        end
 
-      sig { params(uuid: ::String, entity_type: T.nilable(::String), entity_uuid: T.nilable(::String), event_type: T.nilable(::String), resource_type: T.nilable(::GustoEmbedded::Shared::ResourceType), resource_uuid: T.nilable(::String), timestamp: T.nilable(::Integer)).void }
-      def initialize(uuid: nil, entity_type: nil, entity_uuid: nil, event_type: nil, resource_type: nil, resource_uuid: nil, timestamp: nil)
-        @uuid = uuid
-        @entity_type = entity_type
-        @entity_uuid = entity_uuid
-        @event_type = event_type
-        @resource_type = resource_type
-        @resource_uuid = resource_uuid
-        @timestamp = timestamp
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @event_type == other.event_type
+          return false unless @resource_type == other.resource_type
+          return false unless @resource_uuid == other.resource_uuid
+          return false unless @entity_type == other.entity_type
+          return false unless @entity_uuid == other.entity_uuid
+          return false unless @timestamp == other.timestamp
+          true
+        end
       end
     end
   end
