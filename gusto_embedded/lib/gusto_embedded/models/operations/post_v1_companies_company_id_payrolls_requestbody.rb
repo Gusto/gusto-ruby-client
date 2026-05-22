@@ -5,46 +5,67 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PostV1CompaniesCompanyIdPayrollsRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1CompaniesCompanyIdPayrollsRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Pay period end date.
-      field :end_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
-      # Whether it is an off cycle payroll.
-      field :off_cycle, T::Boolean, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle') } }
-      # An off cycle payroll reason. Select one from the following list.
-      field :off_cycle_reason, ::GustoEmbedded::Operations::OffCycleReason, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle_reason'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::OffCycleReason, false) } }
-      # Pay period start date.
-      field :start_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
-      # Payment date.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # A list of employee uuids to include on the payroll.
-      field :employee_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
-      # Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages.
-      field :fixed_withholding_rate, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_withholding_rate') } }
-      # A pay schedule is required for transition from old pay schedule payroll to identify the matching transition pay period.
-      field :pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
-      # Block regular deductions and contributions for this payroll.
-      field :skip_regular_deductions, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skip_regular_deductions') } }
-      # The payment schedule tax rate the payroll is based on.
-      field :withholding_pay_period, T.nilable(::GustoEmbedded::Operations::WithholdingPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('withholding_pay_period'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::WithholdingPayPeriod, true) } }
+        # Whether it is an off cycle payroll.
+        field :off_cycle, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle'), required: true } }
+        # An off cycle payroll reason. Select one from the following list.
+        field :off_cycle_reason, Models::Operations::OffCycleReason, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('off_cycle_reason'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::OffCycleReason, false) } }
+        # Pay period start date.
+        field :start_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date'), required: true, 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(false) } }
+        # Pay period end date.
+        field :end_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date'), required: true, 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(false) } }
+        # A pay schedule is required for transition from old pay schedule payroll to identify the matching transition pay period.
+        field :pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
+        # Payment date.
+        field :check_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(true) } }
+        # The payment schedule tax rate the payroll is based on.
+        field :withholding_pay_period, Crystalline::Nilable.new(Models::Operations::WithholdingPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('withholding_pay_period'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::WithholdingPayPeriod, true) } }
+        # Block regular deductions and contributions for this payroll.
+        field :skip_regular_deductions, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skip_regular_deductions') } }
+        # Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages.
+        field :fixed_withholding_rate, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_withholding_rate') } }
+        # When true, all employees in the payroll will be paid by check and the check date can be set to today or any future business day (rather than requiring ACH lead time). Payment methods cannot be changed on check-only payrolls.
+        field :is_check_only_payroll, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('is_check_only_payroll') } }
+        # A list of employee uuids to include on the payroll.
+        field :employee_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
 
+        sig { params(off_cycle: T::Boolean, off_cycle_reason: Models::Operations::OffCycleReason, start_date: ::Date, end_date: ::Date, pay_schedule_uuid: T.nilable(::String), check_date: T.nilable(::Date), withholding_pay_period: T.nilable(Models::Operations::WithholdingPayPeriod), skip_regular_deductions: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), is_check_only_payroll: T.nilable(T::Boolean), employee_uuids: T.nilable(T::Array[::String])).void }
+        def initialize(off_cycle:, off_cycle_reason:, start_date:, end_date:, pay_schedule_uuid: nil, check_date: nil, withholding_pay_period: nil, skip_regular_deductions: nil, fixed_withholding_rate: nil, is_check_only_payroll: nil, employee_uuids: nil)
+          @off_cycle = off_cycle
+          @off_cycle_reason = off_cycle_reason
+          @start_date = start_date
+          @end_date = end_date
+          @pay_schedule_uuid = pay_schedule_uuid
+          @check_date = check_date
+          @withholding_pay_period = withholding_pay_period
+          @skip_regular_deductions = skip_regular_deductions
+          @fixed_withholding_rate = fixed_withholding_rate
+          @is_check_only_payroll = is_check_only_payroll
+          @employee_uuids = employee_uuids
+        end
 
-      sig { params(end_date: ::String, off_cycle: T::Boolean, off_cycle_reason: ::GustoEmbedded::Operations::OffCycleReason, start_date: ::String, check_date: T.nilable(::String), employee_uuids: T.nilable(T::Array[::String]), fixed_withholding_rate: T.nilable(T::Boolean), pay_schedule_uuid: T.nilable(::String), skip_regular_deductions: T.nilable(T::Boolean), withholding_pay_period: T.nilable(::GustoEmbedded::Operations::WithholdingPayPeriod)).void }
-      def initialize(end_date: nil, off_cycle: nil, off_cycle_reason: nil, start_date: nil, check_date: nil, employee_uuids: nil, fixed_withholding_rate: nil, pay_schedule_uuid: nil, skip_regular_deductions: nil, withholding_pay_period: nil)
-        @end_date = end_date
-        @off_cycle = off_cycle
-        @off_cycle_reason = off_cycle_reason
-        @start_date = start_date
-        @check_date = check_date
-        @employee_uuids = employee_uuids
-        @fixed_withholding_rate = fixed_withholding_rate
-        @pay_schedule_uuid = pay_schedule_uuid
-        @skip_regular_deductions = skip_regular_deductions
-        @withholding_pay_period = withholding_pay_period
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @off_cycle == other.off_cycle
+          return false unless @off_cycle_reason == other.off_cycle_reason
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          return false unless @pay_schedule_uuid == other.pay_schedule_uuid
+          return false unless @check_date == other.check_date
+          return false unless @withholding_pay_period == other.withholding_pay_period
+          return false unless @skip_regular_deductions == other.skip_regular_deductions
+          return false unless @fixed_withholding_rate == other.fixed_withholding_rate
+          return false unless @is_check_only_payroll == other.is_check_only_payroll
+          return false unless @employee_uuids == other.employee_uuids
+          true
+        end
       end
     end
   end

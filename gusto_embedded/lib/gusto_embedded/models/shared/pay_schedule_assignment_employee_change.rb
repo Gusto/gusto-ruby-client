@@ -5,34 +5,47 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class PayScheduleAssignmentEmployeeChange < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayScheduleAssignmentEmployeeChange
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the employee.
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-      # The employee's first name.
-      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-      # Pay schedule assignment first pay period information.
-      field :first_pay_period, T.nilable(::GustoEmbedded::Shared::PayScheduleAssignmentPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_pay_period') } }
-      # The employee's last name.
-      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-      # New pay schedule frequency and name.
-      field :pay_frequency, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_frequency') } }
-      # Pay schedule assignment transition pay period information.
-      field :transition_pay_period, T.nilable(::GustoEmbedded::Shared::PayScheduleAssignmentTransitionPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('transition_pay_period') } }
+        # The UUID of the employee.
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # The employee's first name.
+        field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+        # The employee's last name.
+        field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        # New pay schedule frequency and name.
+        field :pay_frequency, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_frequency') } }
+        # Pay schedule assignment first pay period information.
+        field :first_pay_period, Crystalline::Nilable.new(Models::Shared::PayScheduleAssignmentPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_pay_period') } }
+        # Pay schedule assignment transition pay period information.
+        field :transition_pay_period, Crystalline::Nilable.new(Models::Shared::PayScheduleAssignmentTransitionPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('transition_pay_period') } }
 
+        sig { params(employee_uuid: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), pay_frequency: T.nilable(::String), first_pay_period: T.nilable(Models::Shared::PayScheduleAssignmentPayPeriod), transition_pay_period: T.nilable(Models::Shared::PayScheduleAssignmentTransitionPayPeriod)).void }
+        def initialize(employee_uuid: nil, first_name: nil, last_name: nil, pay_frequency: nil, first_pay_period: nil, transition_pay_period: nil)
+          @employee_uuid = employee_uuid
+          @first_name = first_name
+          @last_name = last_name
+          @pay_frequency = pay_frequency
+          @first_pay_period = first_pay_period
+          @transition_pay_period = transition_pay_period
+        end
 
-      sig { params(employee_uuid: T.nilable(::String), first_name: T.nilable(::String), first_pay_period: T.nilable(::GustoEmbedded::Shared::PayScheduleAssignmentPayPeriod), last_name: T.nilable(::String), pay_frequency: T.nilable(::String), transition_pay_period: T.nilable(::GustoEmbedded::Shared::PayScheduleAssignmentTransitionPayPeriod)).void }
-      def initialize(employee_uuid: nil, first_name: nil, first_pay_period: nil, last_name: nil, pay_frequency: nil, transition_pay_period: nil)
-        @employee_uuid = employee_uuid
-        @first_name = first_name
-        @first_pay_period = first_pay_period
-        @last_name = last_name
-        @pay_frequency = pay_frequency
-        @transition_pay_period = transition_pay_period
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @pay_frequency == other.pay_frequency
+          return false unless @first_pay_period == other.first_pay_period
+          return false unless @transition_pay_period == other.transition_pay_period
+          true
+        end
       end
     end
   end

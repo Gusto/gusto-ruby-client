@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
+      # Hire date for the historical job used to build employments and filings.
+      class Job
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-    class Job < ::Crystalline::FieldAugmented
-      extend T::Sig
+        # First calendar day the employee was employed in this role at the company.
+        field :hire_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hire_date'), required: true, 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(false) } }
 
-      # The date when the employee was hired to the company
-      field :hire_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hire_date'), 'decoder': Utils.date_from_iso_format(true) } }
+        sig { params(hire_date: ::Date).void }
+        def initialize(hire_date:)
+          @hire_date = hire_date
+        end
 
-
-      sig { params(hire_date: T.nilable(::Date)).void }
-      def initialize(hire_date: nil)
-        @hire_date = hire_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @hire_date == other.hire_date
+          true
+        end
       end
     end
   end

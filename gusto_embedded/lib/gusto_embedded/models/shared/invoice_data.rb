@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Representation of a partners invoice data
-    class InvoiceData < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # Representation of a partners invoice data
+      class InvoiceData
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The list of companies that are active within the invoice period
-      field :active_companies, T.nilable(T::Array[::GustoEmbedded::Shared::ActiveCompanies]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active_companies') } }
+        # The list of companies that are active within the invoice period
+        field :active_companies, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ActiveCompanies)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active_companies') } }
 
+        sig { params(active_companies: T.nilable(T::Array[Models::Shared::ActiveCompanies])).void }
+        def initialize(active_companies: nil)
+          @active_companies = active_companies
+        end
 
-      sig { params(active_companies: T.nilable(T::Array[::GustoEmbedded::Shared::ActiveCompanies])).void }
-      def initialize(active_companies: nil)
-        @active_companies = active_companies
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @active_companies == other.active_companies
+          true
+        end
       end
     end
   end

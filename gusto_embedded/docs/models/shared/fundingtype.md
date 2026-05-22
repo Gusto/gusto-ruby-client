@@ -2,6 +2,14 @@
 
 Company's default funding type
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = FundingType::ACH
+```
+
 
 ## Values
 

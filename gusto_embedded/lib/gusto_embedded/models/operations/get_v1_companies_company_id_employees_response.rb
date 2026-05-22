@@ -5,31 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1CompaniesCompanyIdEmployeesResponse < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1CompaniesCompanyIdEmployeesResponse
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # HTTP response content type for this operation
-      field :content_type, ::String
-      # Raw HTTP response; suitable for custom response parsing
-      field :raw_response, ::Faraday::Response
-      # HTTP response status code for this operation
-      field :status_code, ::Integer
-      # successful
-      field :employees, T.nilable(T::Array[::GustoEmbedded::Shared::Employee])
-      # not found
-      field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
+        # HTTP response content type for this operation
+        field :content_type, ::String
+        # HTTP response status code for this operation
+        field :status_code, ::Integer
+        # Raw HTTP response; suitable for custom response parsing
+        field :raw_response, ::Faraday::Response
+        # successful
+        field :show_employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ShowEmployees))
 
+        sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, show_employees: T.nilable(T::Array[Models::Shared::ShowEmployees])).void }
+        def initialize(content_type:, status_code:, raw_response:, show_employees: nil)
+          @content_type = content_type
+          @status_code = status_code
+          @raw_response = raw_response
+          @show_employees = show_employees
+        end
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, employees: T.nilable(T::Array[::GustoEmbedded::Shared::Employee]), unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, employees: nil, unprocessable_entity_error_object: nil)
-        @content_type = content_type
-        @raw_response = raw_response
-        @status_code = status_code
-        @employees = employees
-        @unprocessable_entity_error_object = unprocessable_entity_error_object
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @content_type == other.content_type
+          return false unless @status_code == other.status_code
+          return false unless @raw_response == other.raw_response
+          return false unless @show_employees == other.show_employees
+          true
+        end
       end
     end
   end

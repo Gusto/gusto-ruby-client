@@ -5,31 +5,43 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of an employee's individual employements.
-    class EmploymentHistoryList < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of an employee's individual employements.
+      class EmploymentHistoryList
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*.
-      field :employment_status, T.nilable(::GustoEmbedded::Shared::EmploymentHistoryListEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::EmploymentHistoryListEmploymentStatus, true) } }
-      # The boolean flag indicating whether Gusto will file a new hire report for the employee.
-      field :file_new_hire_report, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_new_hire_report') } }
-      # The employee's start day of work for an employment.
-      field :hire_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hire_date') } }
-      # The employee's last day of work for an employment.
-      field :termination_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('termination_date') } }
-      # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
-      field :two_percent_shareholder, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
+        # The employee's start day of work for an employment.
+        field :hire_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hire_date') } }
+        # The boolean flag indicating whether Gusto will file a new hire report for the employee.
+        field :file_new_hire_report, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('file_new_hire_report') } }
+        # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
+        field :two_percent_shareholder, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
+        # The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*.
+        field :employment_status, Crystalline::Nilable.new(Models::Shared::EmploymentHistoryListEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmploymentHistoryListEmploymentStatus, true) } }
+        # The employee's last day of work for an employment.
+        field :termination_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('termination_date') } }
 
+        sig { params(hire_date: T.nilable(::String), file_new_hire_report: T.nilable(T::Boolean), two_percent_shareholder: T.nilable(T::Boolean), employment_status: T.nilable(Models::Shared::EmploymentHistoryListEmploymentStatus), termination_date: T.nilable(::String)).void }
+        def initialize(hire_date: nil, file_new_hire_report: nil, two_percent_shareholder: nil, employment_status: nil, termination_date: nil)
+          @hire_date = hire_date
+          @file_new_hire_report = file_new_hire_report
+          @two_percent_shareholder = two_percent_shareholder
+          @employment_status = employment_status
+          @termination_date = termination_date
+        end
 
-      sig { params(employment_status: T.nilable(::GustoEmbedded::Shared::EmploymentHistoryListEmploymentStatus), file_new_hire_report: T.nilable(T::Boolean), hire_date: T.nilable(::String), termination_date: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean)).void }
-      def initialize(employment_status: nil, file_new_hire_report: nil, hire_date: nil, termination_date: nil, two_percent_shareholder: nil)
-        @employment_status = employment_status
-        @file_new_hire_report = file_new_hire_report
-        @hire_date = hire_date
-        @termination_date = termination_date
-        @two_percent_shareholder = two_percent_shareholder
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @hire_date == other.hire_date
+          return false unless @file_new_hire_report == other.file_new_hire_report
+          return false unless @two_percent_shareholder == other.two_percent_shareholder
+          return false unless @employment_status == other.employment_status
+          return false unless @termination_date == other.termination_date
+          true
+        end
       end
     end
   end

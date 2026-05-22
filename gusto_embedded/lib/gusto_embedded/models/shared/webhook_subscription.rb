@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of webhook subscription.
-    class WebhookSubscription < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of webhook subscription.
+      class WebhookSubscription
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the webhook subscription.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The status of the webhook subscription.
-      field :status, T.nilable(::GustoEmbedded::Shared::WebhookSubscriptionStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::WebhookSubscriptionStatus, true) } }
-      # Receive updates for these types.
-      field :subscription_types, T.nilable(T::Array[::GustoEmbedded::Shared::SubscriptionTypes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('subscription_types') } }
-      # The webhook subscriber URL. Updates will be POSTed to this URL.
-      field :url, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('url') } }
+        # The UUID of the webhook subscription.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The webhook subscriber URL. Updates will be POSTed to this URL.
+        field :url, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('url') } }
+        # The status of the webhook subscription.
+        field :status, Crystalline::Nilable.new(Models::Shared::WebhookSubscriptionStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::WebhookSubscriptionStatus, true) } }
+        # Receive updates for these types.
+        field :subscription_types, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::SubscriptionTypes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('subscription_types') } }
 
+        sig { params(uuid: ::String, url: T.nilable(::String), status: T.nilable(Models::Shared::WebhookSubscriptionStatus), subscription_types: T.nilable(T::Array[Models::Shared::SubscriptionTypes])).void }
+        def initialize(uuid:, url: nil, status: nil, subscription_types: nil)
+          @uuid = uuid
+          @url = url
+          @status = status
+          @subscription_types = subscription_types
+        end
 
-      sig { params(uuid: ::String, status: T.nilable(::GustoEmbedded::Shared::WebhookSubscriptionStatus), subscription_types: T.nilable(T::Array[::GustoEmbedded::Shared::SubscriptionTypes]), url: T.nilable(::String)).void }
-      def initialize(uuid: nil, status: nil, subscription_types: nil, url: nil)
-        @uuid = uuid
-        @status = status
-        @subscription_types = subscription_types
-        @url = url
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @url == other.url
+          return false unless @status == other.status
+          return false unless @subscription_types == other.subscription_types
+          true
+        end
       end
     end
   end

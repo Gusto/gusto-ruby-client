@@ -5,15 +5,16 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # GeneratedDocumentStatus - Current status of the Generated Document
-    class GeneratedDocumentStatus < T::Enum
-      enums do
-        PENDING = new('pending')
-        STARTED = new('started')
-        SUCCEEDED = new('succeeded')
-        FAILED = new('failed')
+  module Models
+    module Shared
+      # GeneratedDocumentStatus - Current status of the Generated Document
+      class GeneratedDocumentStatus < T::Enum
+        enums do
+          PENDING = new('pending')
+          STARTED = new('started')
+          SUCCEEDED = new('succeeded')
+          FAILED = new('failed')
+        end
       end
     end
   end

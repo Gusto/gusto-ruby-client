@@ -5,34 +5,47 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Additional child support order details
-    class GarnishmentChildSupport < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # Additional child support order details
+      class GarnishmentChildSupport
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Child Support Enforcement Case Number associated with this child support obligation - required for most states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API.
-      field :case_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('case_number') } }
-      # The FIPS code associated with the state or county agency issuing the child support order. Agency data is available in the `GET /v1/garnishments/child_support` API.
-      field :fips_code, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fips_code') } }
-      # Order Identifier or Order ID associated with this child support obligation - required for some states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API.
-      field :order_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('order_number') } }
-      # How often the agency collects the withholding amount. e.g. $500 monthly -> `Monthly`.
-      field :payment_period, T.nilable(::GustoEmbedded::Shared::PaymentPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PaymentPeriod, true) } }
-      # Child Support Enforcement Remittance ID associated with this child support obligation - required for some states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API.
-      field :remittance_number, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('remittance_number') } }
-      # The two letter state abbreviation for the state issuing the child support order. Agency data is available in the `GET /v1/garnishments/child_support` API.
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        # The two letter state abbreviation for the state issuing the child support order. Agency data is available in the `GET /v1/garnishments/child_support` API.
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        # How often the agency collects the withholding amount. e.g. $500 monthly -> `Monthly`.
+        field :payment_period, Crystalline::Nilable.new(Models::Shared::PaymentPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PaymentPeriod, true) } }
+        # The FIPS code associated with the state or county agency issuing the child support order. Agency data is available in the `GET /v1/garnishments/child_support` API.
+        field :fips_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fips_code') } }
+        # Child Support Enforcement Case Number associated with this child support obligation - required for most states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API.
+        field :case_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('case_number') } }
+        # Order Identifier or Order ID associated with this child support obligation - required for some states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API.
+        field :order_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('order_number') } }
+        # Child Support Enforcement Remittance ID associated with this child support obligation - required for some states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API.
+        field :remittance_number, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('remittance_number') } }
 
+        sig { params(state: T.nilable(::String), payment_period: T.nilable(Models::Shared::PaymentPeriod), fips_code: T.nilable(::String), case_number: T.nilable(::String), order_number: T.nilable(::String), remittance_number: T.nilable(::String)).void }
+        def initialize(state: nil, payment_period: nil, fips_code: nil, case_number: nil, order_number: nil, remittance_number: nil)
+          @state = state
+          @payment_period = payment_period
+          @fips_code = fips_code
+          @case_number = case_number
+          @order_number = order_number
+          @remittance_number = remittance_number
+        end
 
-      sig { params(case_number: T.nilable(::String), fips_code: T.nilable(::String), order_number: T.nilable(::String), payment_period: T.nilable(::GustoEmbedded::Shared::PaymentPeriod), remittance_number: T.nilable(::String), state: T.nilable(::String)).void }
-      def initialize(case_number: nil, fips_code: nil, order_number: nil, payment_period: nil, remittance_number: nil, state: nil)
-        @case_number = case_number
-        @fips_code = fips_code
-        @order_number = order_number
-        @payment_period = payment_period
-        @remittance_number = remittance_number
-        @state = state
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @state == other.state
+          return false unless @payment_period == other.payment_period
+          return false unless @fips_code == other.fips_code
+          return false unless @case_number == other.case_number
+          return false unless @order_number == other.order_number
+          return false unless @remittance_number == other.remittance_number
+          true
+        end
       end
     end
   end

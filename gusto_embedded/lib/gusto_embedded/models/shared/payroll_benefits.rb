@@ -5,40 +5,55 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class PayrollBenefits < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-      # Check date of this payroll.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # The company contribution amount for this employee on the payroll.
-      field :company_benefit_contribution, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_contribution') } }
-      # The employee benefit deduction amount for this employee on the payroll.
-      field :company_benefit_deduction, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_deduction') } }
-      # Gross pay for this employee on the payroll.
-      field :gross_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
-      # Total imputed pay for this employee on the payroll.
-      field :imputed_pay, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('imputed_pay') } }
-
-      field :pay_period, T.nilable(::GustoEmbedded::Shared::BenefitSummaryPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_period') } }
-      # Whether it is regular or bonus payroll
-      field :payroll_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_type') } }
-
-      field :payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+      class PayrollBenefits
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(check_date: T.nilable(::String), company_benefit_contribution: T.nilable(::String), company_benefit_deduction: T.nilable(::String), gross_pay: T.nilable(::String), imputed_pay: T.nilable(::String), pay_period: T.nilable(::GustoEmbedded::Shared::BenefitSummaryPayPeriod), payroll_type: T.nilable(::String), payroll_uuid: T.nilable(::String)).void }
-      def initialize(check_date: nil, company_benefit_contribution: nil, company_benefit_deduction: nil, gross_pay: nil, imputed_pay: nil, pay_period: nil, payroll_type: nil, payroll_uuid: nil)
-        @check_date = check_date
-        @company_benefit_contribution = company_benefit_contribution
-        @company_benefit_deduction = company_benefit_deduction
-        @gross_pay = gross_pay
-        @imputed_pay = imputed_pay
-        @pay_period = pay_period
-        @payroll_type = payroll_type
-        @payroll_uuid = payroll_uuid
+        field :payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+        # Whether it is regular or bonus payroll
+        field :payroll_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_type') } }
+        # Check date of this payroll.
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # Gross pay for this employee on the payroll.
+        field :gross_pay, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('gross_pay') } }
+        # Total imputed pay for this employee on the payroll.
+        field :imputed_pay, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('imputed_pay') } }
+        # The employee benefit deduction amount for this employee on the payroll.
+        field :company_benefit_deduction, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_deduction') } }
+        # The company contribution amount for this employee on the payroll.
+        field :company_benefit_contribution, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_contribution') } }
+
+        field :pay_period, Crystalline::Nilable.new(Models::Shared::BenefitSummaryPayPeriod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_period') } }
+
+        sig { params(payroll_uuid: T.nilable(::String), payroll_type: T.nilable(::String), check_date: T.nilable(::String), gross_pay: T.nilable(::String), imputed_pay: T.nilable(::String), company_benefit_deduction: T.nilable(::String), company_benefit_contribution: T.nilable(::String), pay_period: T.nilable(Models::Shared::BenefitSummaryPayPeriod)).void }
+        def initialize(payroll_uuid: nil, payroll_type: nil, check_date: nil, gross_pay: nil, imputed_pay: nil, company_benefit_deduction: nil, company_benefit_contribution: nil, pay_period: nil)
+          @payroll_uuid = payroll_uuid
+          @payroll_type = payroll_type
+          @check_date = check_date
+          @gross_pay = gross_pay
+          @imputed_pay = imputed_pay
+          @company_benefit_deduction = company_benefit_deduction
+          @company_benefit_contribution = company_benefit_contribution
+          @pay_period = pay_period
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @payroll_type == other.payroll_type
+          return false unless @check_date == other.check_date
+          return false unless @gross_pay == other.gross_pay
+          return false unless @imputed_pay == other.imputed_pay
+          return false unless @company_benefit_deduction == other.company_benefit_deduction
+          return false unless @company_benefit_contribution == other.company_benefit_contribution
+          return false unless @pay_period == other.pay_period
+          true
+        end
       end
     end
   end

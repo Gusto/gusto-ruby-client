@@ -5,21 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class Requirements < T::Enum
-      enums do
-        ADD_ADDRESSES = new('add_addresses')
-        FEDERAL_TAX_SETUP = new('federal_tax_setup')
-        SELECT_INDUSTRY = new('select_industry')
-        ADD_BANK_INFO = new('add_bank_info')
-        ADD_EMPLOYEES = new('add_employees')
-        STATE_SETUP = new('state_setup')
-        PAYROLL_SCHEDULE = new('payroll_schedule')
-        SIGN_ALL_FORMS = new('sign_all_forms')
-        VERIFY_BANK_INFO = new('verify_bank_info')
-        EXTERNAL_PAYROLL = new('external_payroll')
+      class Requirements
+        extend T::Sig
+        include Crystalline::MetadataFields
+
+        # An identifier for an individual requirement. Uniqueness is guaranteed within a requirement set.
+        field :key, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key'), required: true } }
+        # The value or "answer" for a tax requirement. Type depends on the requirement metadata type (e.g. string for text/account_number, boolean for radio/checkbox, number for percent/currency/tax_rate). Null when the requirement has not been answered.
+        field :value, Crystalline::Nilable.new(Crystalline::Union.new(Crystalline::Boolean.new, ::String, ::Float)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+
+        sig { params(key: ::String, value: T.nilable(T.any(T::Boolean, ::String, ::Float))).void }
+        def initialize(key:, value: nil)
+          @key = key
+          @value = value
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @key == other.key
+          return false unless @value == other.value
+          true
+        end
       end
     end
   end

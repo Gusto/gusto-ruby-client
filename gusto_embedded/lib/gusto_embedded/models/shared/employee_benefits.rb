@@ -5,40 +5,59 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class EmployeeBenefits < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class EmployeeBenefits
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Whether the employee benefit is active.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
-      # The UUID of the company benefit.
-      field :company_benefit_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_uuid') } }
-      # The value of the company contribution
-      field :company_contribution, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution') } }
-      # An object representing the type and value of the company contribution.
-      field :contribution, T.nilable(::GustoEmbedded::Shared::CompanyBenefitWithEmployeeBenefitsContribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
-      # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
-      field :deduct_as_percentage, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
-      # The amount to be deducted, per pay period, from the employee's pay.
-      field :employee_deduction, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
-      # The UUID of the employee to which the benefit belongs.
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # The UUID of the employee to which the benefit belongs.
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # The UUID of the company benefit.
+        field :company_benefit_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_uuid') } }
+        # The value of the company contribution
+        field :company_contribution, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution') } }
+        # The date when the employee benefit becomes effective. If not provided, the benefit will be effective from 1970-01-01 (unix epoch).
+        field :effective_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
+        # The date when the employee benefit expires. If not provided, the benefit will have no expiration date.
+        field :expiration_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expiration_date') } }
+        # An object representing the type and value of the company contribution.
+        field :contribution, Crystalline::Nilable.new(Models::Shared::CompanyBenefitWithEmployeeBenefitsContribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
+        # Whether the employee benefit is active.
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
+        field :deduct_as_percentage, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
+        # The amount to be deducted, per pay period, from the employee's pay.
+        field :employee_deduction, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
 
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        sig { params(employee_uuid: T.nilable(::String), company_benefit_uuid: T.nilable(::String), company_contribution: T.nilable(::String), effective_date: T.nilable(::String), expiration_date: T.nilable(::String), contribution: T.nilable(Models::Shared::CompanyBenefitWithEmployeeBenefitsContribution), active: T.nilable(T::Boolean), deduct_as_percentage: T.nilable(T::Boolean), employee_deduction: T.nilable(::String)).void }
+        def initialize(employee_uuid: nil, company_benefit_uuid: nil, company_contribution: nil, effective_date: nil, expiration_date: nil, contribution: nil, active: true, deduct_as_percentage: false, employee_deduction: '0.00')
+          @employee_uuid = employee_uuid
+          @company_benefit_uuid = company_benefit_uuid
+          @company_contribution = company_contribution
+          @effective_date = effective_date
+          @expiration_date = expiration_date
+          @contribution = contribution
+          @active = active
+          @deduct_as_percentage = deduct_as_percentage
+          @employee_deduction = employee_deduction
+        end
 
-
-      sig { params(active: T.nilable(T::Boolean), company_benefit_uuid: T.nilable(::String), company_contribution: T.nilable(::String), contribution: T.nilable(::GustoEmbedded::Shared::CompanyBenefitWithEmployeeBenefitsContribution), deduct_as_percentage: T.nilable(T::Boolean), employee_deduction: T.nilable(::String), employee_uuid: T.nilable(::String), uuid: T.nilable(::String)).void }
-      def initialize(active: nil, company_benefit_uuid: nil, company_contribution: nil, contribution: nil, deduct_as_percentage: nil, employee_deduction: nil, employee_uuid: nil, uuid: nil)
-        @active = active
-        @company_benefit_uuid = company_benefit_uuid
-        @company_contribution = company_contribution
-        @contribution = contribution
-        @deduct_as_percentage = deduct_as_percentage
-        @employee_deduction = employee_deduction
-        @employee_uuid = employee_uuid
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @company_benefit_uuid == other.company_benefit_uuid
+          return false unless @company_contribution == other.company_contribution
+          return false unless @effective_date == other.effective_date
+          return false unless @expiration_date == other.expiration_date
+          return false unless @contribution == other.contribution
+          return false unless @active == other.active
+          return false unless @deduct_as_percentage == other.deduct_as_percentage
+          return false unless @employee_deduction == other.employee_deduction
+          true
+        end
       end
     end
   end

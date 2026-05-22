@@ -5,13 +5,14 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # WageType - The contractor's wage type, either "Fixed" or "Hourly".
-    class WageType < T::Enum
-      enums do
-        FIXED = new('Fixed')
-        HOURLY = new('Hourly')
+  module Models
+    module Shared
+      # WageType - The contractor's wage type, either "Fixed" or "Hourly".
+      class WageType < T::Enum
+        enums do
+          FIXED = new('Fixed')
+          HOURLY = new('Hourly')
+        end
       end
     end
   end

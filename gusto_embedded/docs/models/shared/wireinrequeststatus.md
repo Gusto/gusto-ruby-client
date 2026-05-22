@@ -2,6 +2,14 @@
 
 Status of the wire in
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = WireInRequestStatus::AWAITING_FUNDS
+```
+
 
 ## Values
 
@@ -10,5 +18,4 @@ Status of the wire in
 | `AWAITING_FUNDS` | awaiting_funds   |
 | `PENDING_REVIEW` | pending_review   |
 | `APPROVED`       | approved         |
-| `RFI`            | rfi              |
 | `CANCELED`       | canceled         |

@@ -5,34 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutWireInRequestsWireInRequestUuidResponse < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutWireInRequestsWireInRequestUuidResponse
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # HTTP response content type for this operation
-      field :content_type, ::String
-      # Raw HTTP response; suitable for custom response parsing
-      field :raw_response, ::Faraday::Response
-      # HTTP response status code for this operation
-      field :status_code, ::Integer
-      # Unprocessable Entity 
-      #   
-      # This may happen when the body of your request contains errors such as `invalid_attribute_value`, or the request fails due to an `invalid_operation`. See the [Errors Categories](https://docs.gusto.com/embedded-payroll/docs/error-categories) guide for more details.
-      # 
-      field :unprocessable_entity_error_object, T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
-      # Example response
-      field :wire_in_request, T.nilable(::GustoEmbedded::Shared::WireInRequest)
+        # HTTP response content type for this operation
+        field :content_type, ::String
+        # HTTP response status code for this operation
+        field :status_code, ::Integer
+        # Raw HTTP response; suitable for custom response parsing
+        field :raw_response, ::Faraday::Response
+        # Success
+        field :wire_in_request, Crystalline::Nilable.new(Models::Shared::WireInRequest)
 
+        sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, wire_in_request: T.nilable(Models::Shared::WireInRequest)).void }
+        def initialize(content_type:, status_code:, raw_response:, wire_in_request: nil)
+          @content_type = content_type
+          @status_code = status_code
+          @raw_response = raw_response
+          @wire_in_request = wire_in_request
+        end
 
-      sig { params(content_type: ::String, raw_response: ::Faraday::Response, status_code: ::Integer, unprocessable_entity_error_object: T.nilable(::GustoEmbedded::Shared::UnprocessableEntityErrorObject), wire_in_request: T.nilable(::GustoEmbedded::Shared::WireInRequest)).void }
-      def initialize(content_type: nil, raw_response: nil, status_code: nil, unprocessable_entity_error_object: nil, wire_in_request: nil)
-        @content_type = content_type
-        @raw_response = raw_response
-        @status_code = status_code
-        @unprocessable_entity_error_object = unprocessable_entity_error_object
-        @wire_in_request = wire_in_request
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @content_type == other.content_type
+          return false unless @status_code == other.status_code
+          return false unless @raw_response == other.raw_response
+          return false unless @wire_in_request == other.wire_in_request
+          true
+        end
       end
     end
   end

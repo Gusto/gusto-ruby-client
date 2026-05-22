@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1ContractorDocumentPdfRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1ContractorDocumentPdfRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The ID or UUID of the document
-      field :document_uuid, ::String, { 'path_param': { 'field_name': 'document_uuid', 'style': 'simple', 'explode': false } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the document
+        field :document_uuid, ::String, { 'path_param': { 'field_name': 'document_uuid', 'style': 'simple', 'explode': false } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1ContractorDocumentPdfHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(document_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1ContractorDocumentPdfHeaderXGustoAPIVersion)).void }
+        def initialize(document_uuid:, x_gusto_api_version: Models::Operations::GetV1ContractorDocumentPdfHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @document_uuid = document_uuid
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(document_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(document_uuid: nil, x_gusto_api_version: nil)
-        @document_uuid = document_uuid
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @document_uuid == other.document_uuid
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

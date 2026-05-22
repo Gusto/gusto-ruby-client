@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The primary payroll admin of the company.
-    class PrimaryPayrollAdmin < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The primary payroll admin of the company.
+      class PrimaryPayrollAdmin
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The company's primary payroll admin's email address.
-      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-      # The company's primary payroll admin's first name.
-      field :first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-      # The company's primary payroll admin's last name.
-      field :last_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-      # The company's primary payroll admin's phone number.
-      field :phone, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
+        # The company's primary payroll admin's first name.
+        field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+        # The company's primary payroll admin's last name.
+        field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
+        # The company's primary payroll admin's email address.
+        field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # The company's primary payroll admin's phone number.
+        field :phone, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
 
+        sig { params(first_name: T.nilable(::String), last_name: T.nilable(::String), email: T.nilable(::String), phone: T.nilable(::String)).void }
+        def initialize(first_name: nil, last_name: nil, email: nil, phone: nil)
+          @first_name = first_name
+          @last_name = last_name
+          @email = email
+          @phone = phone
+        end
 
-      sig { params(email: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), phone: T.nilable(::String)).void }
-      def initialize(email: nil, first_name: nil, last_name: nil, phone: nil)
-        @email = email
-        @first_name = first_name
-        @last_name = last_name
-        @phone = phone
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @email == other.email
+          return false unless @phone == other.phone
+          true
+        end
       end
     end
   end

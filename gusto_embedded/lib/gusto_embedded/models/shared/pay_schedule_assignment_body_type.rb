@@ -5,15 +5,16 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PayScheduleAssignmentBodyType - The pay schedule assignment type.
-    class PayScheduleAssignmentBodyType < T::Enum
-      enums do
-        SINGLE = new('single')
-        HOURLY_SALARIED = new('hourly_salaried')
-        BY_EMPLOYEE = new('by_employee')
-        BY_DEPARTMENT = new('by_department')
+  module Models
+    module Shared
+
+      class PayScheduleAssignmentBodyType < T::Enum
+        enums do
+          SINGLE = new('single')
+          HOURLY_SALARIED = new('hourly_salaried')
+          BY_EMPLOYEE = new('by_employee')
+          BY_DEPARTMENT = new('by_department')
+        end
       end
     end
   end

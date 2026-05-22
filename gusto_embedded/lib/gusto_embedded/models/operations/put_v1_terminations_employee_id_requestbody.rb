@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1TerminationsEmployeeIdRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1TerminationsEmployeeIdRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The employee's last day of work.
-      field :effective_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # If true, the employee should receive their final wages via an off-cycle payroll. If false, they should receive their final wages on their current pay schedule.
-      field :run_termination_payroll, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('run_termination_payroll') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The employee's last day of work.
+        field :effective_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), required: true } }
+        # If true, the employee should receive their final wages via an off-cycle payroll. If false, they should receive their final wages on their current pay schedule.
+        field :run_termination_payroll, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('run_termination_payroll') } }
 
+        sig { params(version: ::String, effective_date: ::String, run_termination_payroll: T.nilable(T::Boolean)).void }
+        def initialize(version:, effective_date:, run_termination_payroll: false)
+          @version = version
+          @effective_date = effective_date
+          @run_termination_payroll = run_termination_payroll
+        end
 
-      sig { params(effective_date: ::String, version: ::String, run_termination_payroll: T.nilable(T::Boolean)).void }
-      def initialize(effective_date: nil, version: nil, run_termination_payroll: nil)
-        @effective_date = effective_date
-        @version = version
-        @run_termination_payroll = run_termination_payroll
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @effective_date == other.effective_date
+          return false unless @run_termination_payroll == other.run_termination_payroll
+          true
+        end
       end
     end
   end

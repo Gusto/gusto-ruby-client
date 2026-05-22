@@ -5,52 +5,71 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class EmployeeAddress < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class EmployeeAddress
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
-      field :active, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The UUID of the employee address
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
+        # The UUID of the employee
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        # The date the employee started living at the address.
+        field :effective_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(true) } }
+        # Determines if home taxes should be withheld and paid for employee.
+        field :courtesy_withholding, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('courtesy_withholding') } }
 
-      field :city, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
+        field :street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
 
-      field :country, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
-      # Determines if home taxes should be withheld and paid for employee.
-      field :courtesy_withholding, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('courtesy_withholding') } }
-      # The date the employee started living at the address.
-      field :effective_date, T.nilable(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('effective_date'), 'decoder': Utils.date_from_iso_format(true) } }
-      # The UUID of the employee
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+        field :city, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('city') } }
 
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
 
-      field :street_1, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
+        field :zip, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+        # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
 
-      field :street_2, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
-      # The UUID of the employee address
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
 
-      field :zip, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('zip') } }
+        field :country, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
 
+        sig { params(uuid: ::String, version: ::String, employee_uuid: T.nilable(::String), effective_date: T.nilable(::Date), courtesy_withholding: T.nilable(T::Boolean), street_1: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), active: T.nilable(T::Boolean), street_2: T.nilable(::String), country: T.nilable(::String)).void }
+        def initialize(uuid:, version:, employee_uuid: nil, effective_date: nil, courtesy_withholding: nil, street_1: nil, city: nil, state: nil, zip: nil, active: nil, street_2: nil, country: 'USA')
+          @uuid = uuid
+          @version = version
+          @employee_uuid = employee_uuid
+          @effective_date = effective_date
+          @courtesy_withholding = courtesy_withholding
+          @street_1 = street_1
+          @city = city
+          @state = state
+          @zip = zip
+          @active = active
+          @street_2 = street_2
+          @country = country
+        end
 
-      sig { params(active: T.nilable(T::Boolean), city: T.nilable(::String), country: T.nilable(::String), courtesy_withholding: T.nilable(T::Boolean), effective_date: T.nilable(::Date), employee_uuid: T.nilable(::String), state: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), uuid: T.nilable(::String), version: T.nilable(::String), zip: T.nilable(::String)).void }
-      def initialize(active: nil, city: nil, country: nil, courtesy_withholding: nil, effective_date: nil, employee_uuid: nil, state: nil, street_1: nil, street_2: nil, uuid: nil, version: nil, zip: nil)
-        @active = active
-        @city = city
-        @country = country
-        @courtesy_withholding = courtesy_withholding
-        @effective_date = effective_date
-        @employee_uuid = employee_uuid
-        @state = state
-        @street_1 = street_1
-        @street_2 = street_2
-        @uuid = uuid
-        @version = version
-        @zip = zip
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @version == other.version
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @effective_date == other.effective_date
+          return false unless @courtesy_withholding == other.courtesy_withholding
+          return false unless @street_1 == other.street_1
+          return false unless @city == other.city
+          return false unless @state == other.state
+          return false unless @zip == other.zip
+          return false unless @active == other.active
+          return false unless @street_2 == other.street_2
+          return false unless @country == other.country
+          true
+        end
       end
     end
   end

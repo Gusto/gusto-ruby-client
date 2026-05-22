@@ -5,28 +5,43 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1CompaniesCompanyIdCompanyBenefitsRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1CompaniesCompanyIdCompanyBenefitsRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
-      # Whether the benefit is currently active
-      field :active, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'active', 'style': 'form', 'explode': true } }
-      # Whether to return employee enrollment count
-      field :enrollment_count, T.nilable(T::Boolean), { 'query_param': { 'field_name': 'enrollment_count', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company
+        field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
+        # Whether the benefit is currently active
+        field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'query_param': { 'field_name': 'active', 'style': 'form', 'explode': true } }
+        # Whether to return employee enrollment count
+        field :enrollment_count, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'query_param': { 'field_name': 'enrollment_count', 'style': 'form', 'explode': true } }
+        # Filter by benefit type. Comma-separated list of benefit type IDs, i.e. `?benefit_type=5,105`
+        field :benefit_type, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'benefit_type', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_id: ::String, active: T.nilable(T::Boolean), enrollment_count: T.nilable(T::Boolean), benefit_type: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsHeaderXGustoAPIVersion)).void }
+        def initialize(company_id:, active: nil, enrollment_count: nil, benefit_type: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_id = company_id
+          @active = active
+          @enrollment_count = enrollment_count
+          @benefit_type = benefit_type
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(company_id: ::String, active: T.nilable(T::Boolean), enrollment_count: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_id: nil, active: nil, enrollment_count: nil, x_gusto_api_version: nil)
-        @company_id = company_id
-        @active = active
-        @enrollment_count = enrollment_count
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_id == other.company_id
+          return false unless @active == other.active
+          return false unless @enrollment_count == other.enrollment_count
+          return false unless @benefit_type == other.benefit_type
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

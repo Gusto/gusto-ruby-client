@@ -5,30 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # An object representing the type and value of the company contribution.
-    class CompanyBenefitWithEmployeeBenefitsContribution < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # An object representing the type and value of the company contribution.
+      class CompanyBenefitWithEmployeeBenefitsContribution
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The company contribution scheme.
-      # 
-      # "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar.
-      # 
-      # "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar.
-      # 
-      # "tiered": The company contribution varies according to the size of the employee deduction.
-      field :type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type') } }
-      # For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage.
-      # 
-      # For the `tiered` contribution type, an array of tiers.
-      field :value, T.nilable(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        # The company contribution scheme.
+        #
+        # "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar.
+        #
+        # "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar.
+        #
+        # "tiered": The company contribution varies according to the size of the employee deduction.
+        field :type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type') } }
+        # For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage.
+        #
+        # For the `tiered` contribution type, an array of tiers.
+        field :value, Crystalline::Nilable.new(Crystalline::Union.new(::String, Models::Shared::CompanyBenefitWithEmployeeBenefitsValue2)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
+        sig { params(type: T.nilable(::String), value: T.nilable(T.any(::String, Models::Shared::CompanyBenefitWithEmployeeBenefitsValue2))).void }
+        def initialize(type: nil, value: nil)
+          @type = type
+          @value = value
+        end
 
-      sig { params(type: T.nilable(::String), value: T.nilable(::Object)).void }
-      def initialize(type: nil, value: nil)
-        @type = type
-        @value = value
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @type == other.type
+          return false unless @value == other.value
+          true
+        end
       end
     end
   end

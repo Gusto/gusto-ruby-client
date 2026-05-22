@@ -5,19 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class CompanyPaidTimeOff < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class CompanyPaidTimeOff
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The name of the paid time off type.
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The name of the paid time off type.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The UUID of the paid time off type.
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
 
+        sig { params(name: T.nilable(::String), uuid: T.nilable(::String)).void }
+        def initialize(name: nil, uuid: nil)
+          @name = name
+          @uuid = uuid
+        end
 
-      sig { params(name: T.nilable(::String)).void }
-      def initialize(name: nil)
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @uuid == other.uuid
+          true
+        end
       end
     end
   end

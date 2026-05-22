@@ -5,19 +5,20 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # AccrualMethod - Accrual method of the time off policy
-    class AccrualMethod < T::Enum
-      enums do
-        UNLIMITED = new('unlimited')
-        PER_PAY_PERIOD = new('per_pay_period')
-        PER_CALENDAR_YEAR = new('per_calendar_year')
-        PER_ANNIVERSARY_YEAR = new('per_anniversary_year')
-        PER_HOUR_WORKED = new('per_hour_worked')
-        PER_HOUR_WORKED_NO_OVERTIME = new('per_hour_worked_no_overtime')
-        PER_HOUR_PAID = new('per_hour_paid')
-        PER_HOUR_PAID_NO_OVERTIME = new('per_hour_paid_no_overtime')
+  module Models
+    module Operations
+      # AccrualMethod - Accrual method of the time off policy
+      class AccrualMethod < T::Enum
+        enums do
+          UNLIMITED = new('unlimited')
+          PER_PAY_PERIOD = new('per_pay_period')
+          PER_CALENDAR_YEAR = new('per_calendar_year')
+          PER_ANNIVERSARY_YEAR = new('per_anniversary_year')
+          PER_HOUR_WORKED = new('per_hour_worked')
+          PER_HOUR_WORKED_NO_OVERTIME = new('per_hour_worked_no_overtime')
+          PER_HOUR_PAID = new('per_hour_paid')
+          PER_HOUR_PAID_NO_OVERTIME = new('per_hour_paid_no_overtime')
+        end
       end
     end
   end

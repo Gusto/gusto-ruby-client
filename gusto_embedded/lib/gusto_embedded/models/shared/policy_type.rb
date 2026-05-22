@@ -5,13 +5,23 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # PolicyType - Type of the time off policy
-    class PolicyType < T::Enum
-      enums do
-        VACATION = new('vacation')
-        SICK = new('sick')
+  module Models
+    module Shared
+      # PolicyType - Type of the time off policy. Only "vacation" and "sick" can be created through the API, but other types may be present if the company was previously a Gusto.com customer.
+      class PolicyType < T::Enum
+        enums do
+          VACATION = new('vacation')
+          SICK = new('sick')
+          BEREAVEMENT = new('bereavement')
+          CUSTOM = new('custom')
+          FLOATING_HOLIDAY = new('floating_holiday')
+          JURY_DUTY = new('jury_duty')
+          LEARNING_AND_DEVELOPMENT = new('learning_and_development')
+          PARENTAL_LEAVE = new('parental_leave')
+          PERSONAL_DAY = new('personal_day')
+          VOLUNTEER = new('volunteer')
+          WEATHER = new('weather')
+        end
       end
     end
   end

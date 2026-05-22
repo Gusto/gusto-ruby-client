@@ -5,31 +5,43 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PostCompaniesPayrollSkipCompanyUuidRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostCompaniesPayrollSkipCompanyUuidRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Payroll type
-      field :payroll_type, ::GustoEmbedded::Operations::PayrollType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::PayrollType, false) } }
-      # An array of employees. This field is only applicable to new hire payroll and termination payroll
-      field :employee_uuids, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
-      # Pay period end date. If left empty, defaults to today's date.
-      field :end_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
-      # The UUID of the pay schedule
-      field :pay_schedule_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
-      # Pay period start date
-      field :start_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # Payroll type
+        field :payroll_type, Models::Operations::PayrollType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::PayrollType, false) } }
+        # Pay period start date
+        field :start_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('start_date') } }
+        # Pay period end date. If left empty, defaults to today's date.
+        field :end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date') } }
+        # The UUID of the pay schedule
+        field :pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
+        # An array of employees. This field is only applicable to new hire payroll and termination payroll
+        field :employee_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
 
+        sig { params(payroll_type: Models::Operations::PayrollType, start_date: T.nilable(::String), end_date: T.nilable(::String), pay_schedule_uuid: T.nilable(::String), employee_uuids: T.nilable(T::Array[::String])).void }
+        def initialize(payroll_type:, start_date: nil, end_date: nil, pay_schedule_uuid: nil, employee_uuids: nil)
+          @payroll_type = payroll_type
+          @start_date = start_date
+          @end_date = end_date
+          @pay_schedule_uuid = pay_schedule_uuid
+          @employee_uuids = employee_uuids
+        end
 
-      sig { params(payroll_type: ::GustoEmbedded::Operations::PayrollType, employee_uuids: T.nilable(T::Array[::String]), end_date: T.nilable(::String), pay_schedule_uuid: T.nilable(::String), start_date: T.nilable(::String)).void }
-      def initialize(payroll_type: nil, employee_uuids: nil, end_date: nil, pay_schedule_uuid: nil, start_date: nil)
-        @payroll_type = payroll_type
-        @employee_uuids = employee_uuids
-        @end_date = end_date
-        @pay_schedule_uuid = pay_schedule_uuid
-        @start_date = start_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @payroll_type == other.payroll_type
+          return false unless @start_date == other.start_date
+          return false unless @end_date == other.end_date
+          return false unless @pay_schedule_uuid == other.pay_schedule_uuid
+          return false unless @employee_uuids == other.employee_uuids
+          true
+        end
       end
     end
   end

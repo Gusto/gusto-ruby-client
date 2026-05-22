@@ -5,52 +5,75 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
+      # Request body for creating or updating a **historical employee**—someone who already separated from the company and must appear on year-to-date or tax filings without receiving ongoing payroll.
+      #
+      # Send this object under the JSON root key `employee`. All dates are ISO 8601 (`YYYY-MM-DD`). Use a `work_address.location_uuid` returned from your company locations API for an active work site.
+      #
+      class HistoricalEmployeeBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-    class HistoricalEmployeeBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+        # Legal first name as it appears on government-issued identification.
+        field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name'), required: true } }
+        # Legal last name as it appears on government-issued identification.
+        field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name'), required: true } }
+        # Date of birth (YYYY-MM-DD).
+        field :date_of_birth, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth'), required: true, 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(false) } }
+        # Nine-digit U.S. Social Security number **without** dashes or spaces. Must pass Gusto/SSA validation in production; use a valid test SSN in sandbox environments.
+        #
+        field :ssn, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn'), required: true } }
+        # Primary work location for this historical employment row.
+        field :work_address, Models::Shared::WorkAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_address'), required: true } }
+        # Residential address on file for tax withholding and compliance mail.
+        field :home_address, Models::Shared::HistoricalEmployeeBodyHomeAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address'), required: true } }
+        # End of the historical employment period.
+        field :termination, Models::Shared::HistoricalEmployeeBodyTermination, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('termination'), required: true } }
+        # Hire date for the historical job used to build employments and filings.
+        field :job, Models::Shared::HistoricalEmployeeBodyJob, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job'), required: true } }
+        # Single middle initial, if any.
+        field :middle_initial, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
+        # Preferred given name for display; omit when the same as legal first name.
+        field :preferred_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
+        # Optional. When provided, stored on the employee record for notifications and profile.
+        field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable.
+        field :employee_state_taxes, Crystalline::Nilable.new(Models::Shared::EmployeeStateTaxes), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_state_taxes') } }
 
+        sig { params(first_name: ::String, last_name: ::String, date_of_birth: ::Date, ssn: ::String, work_address: Models::Shared::WorkAddress, home_address: Models::Shared::HistoricalEmployeeBodyHomeAddress, termination: Models::Shared::HistoricalEmployeeBodyTermination, job: Models::Shared::HistoricalEmployeeBodyJob, middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), email: T.nilable(::String), employee_state_taxes: T.nilable(Models::Shared::EmployeeStateTaxes)).void }
+        def initialize(first_name:, last_name:, date_of_birth:, ssn:, work_address:, home_address:, termination:, job:, middle_initial: nil, preferred_first_name: nil, email: nil, employee_state_taxes: nil)
+          @first_name = first_name
+          @last_name = last_name
+          @date_of_birth = date_of_birth
+          @ssn = ssn
+          @work_address = work_address
+          @home_address = home_address
+          @termination = termination
+          @job = job
+          @middle_initial = middle_initial
+          @preferred_first_name = preferred_first_name
+          @email = email
+          @employee_state_taxes = employee_state_taxes
+        end
 
-      field :date_of_birth, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth') } }
-
-      field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
-
-      field :home_address, ::GustoEmbedded::Shared::HistoricalEmployeeBodyHomeAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
-
-      field :job, ::GustoEmbedded::Shared::HistoricalEmployeeBodyJob, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job') } }
-
-      field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-
-      field :ssn, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
-
-      field :termination, ::GustoEmbedded::Shared::HistoricalEmployeeBodyTermination, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('termination') } }
-
-      field :work_address, ::GustoEmbedded::Shared::WorkAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_address') } }
-      # Optional. If provided, the email address will be saved to the employee.
-      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
-
-      field :employee_state_taxes, T.nilable(::GustoEmbedded::Shared::EmployeeStateTaxes), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_state_taxes') } }
-
-      field :middle_initial, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
-
-      field :preferred_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
-
-
-      sig { params(date_of_birth: ::String, first_name: ::String, home_address: ::GustoEmbedded::Shared::HistoricalEmployeeBodyHomeAddress, job: ::GustoEmbedded::Shared::HistoricalEmployeeBodyJob, last_name: ::String, ssn: ::String, termination: ::GustoEmbedded::Shared::HistoricalEmployeeBodyTermination, work_address: ::GustoEmbedded::Shared::WorkAddress, email: T.nilable(::String), employee_state_taxes: T.nilable(::GustoEmbedded::Shared::EmployeeStateTaxes), middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String)).void }
-      def initialize(date_of_birth: nil, first_name: nil, home_address: nil, job: nil, last_name: nil, ssn: nil, termination: nil, work_address: nil, email: nil, employee_state_taxes: nil, middle_initial: nil, preferred_first_name: nil)
-        @date_of_birth = date_of_birth
-        @first_name = first_name
-        @home_address = home_address
-        @job = job
-        @last_name = last_name
-        @ssn = ssn
-        @termination = termination
-        @work_address = work_address
-        @email = email
-        @employee_state_taxes = employee_state_taxes
-        @middle_initial = middle_initial
-        @preferred_first_name = preferred_first_name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @date_of_birth == other.date_of_birth
+          return false unless @ssn == other.ssn
+          return false unless @work_address == other.work_address
+          return false unless @home_address == other.home_address
+          return false unless @termination == other.termination
+          return false unless @job == other.job
+          return false unless @middle_initial == other.middle_initial
+          return false unless @preferred_first_name == other.preferred_first_name
+          return false unless @email == other.email
+          return false unless @employee_state_taxes == other.employee_state_taxes
+          true
+        end
       end
     end
   end

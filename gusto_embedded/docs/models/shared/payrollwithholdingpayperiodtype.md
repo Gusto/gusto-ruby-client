@@ -1,6 +1,12 @@
 # PayrollWithholdingPayPeriodType
 
-The payment schedule tax rate the payroll is based on. Only included for off-cycle payrolls.
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = PayrollWithholdingPayPeriodType::EVERY_WEEK
+```
 
 
 ## Values

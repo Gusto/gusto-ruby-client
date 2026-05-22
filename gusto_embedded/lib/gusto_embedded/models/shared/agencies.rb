@@ -5,32 +5,43 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class Agencies < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Agencies
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # FIPS codes for state or county child support orders
-      field :fips_codes, T.nilable(T::Array[::GustoEmbedded::Shared::FipsCodes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fips_codes') } }
-      # Specifies if remitting payment to the agency is required outside of Gusto. If true, Gusto includes garnishment amounts for this agency in payroll calculation, but does not debit for or remit payment to the agency automatically. As of September 2024, only garnishments for South Carolina Integrated Child Support Services require manual payment.
-      # 
-      field :manual_payment_required, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('manual_payment_required') } }
-      # Name of state child support agency
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # Describes which child support case identifying attributes are required for this agency. While most agencies only require a single identifier, some (e.g. OH) require multiple identifiers.
-      field :required_attributes, T.nilable(T::Array[::GustoEmbedded::Shared::RequiredAttributes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required_attributes') } }
-      # Two letter state abbreviation
-      field :state, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        # Two letter state abbreviation
+        field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
+        # Name of state child support agency
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # Specifies if remitting payment to the agency is required outside of Gusto. If true, Gusto includes garnishment amounts for this agency in payroll calculation, but does not debit for or remit payment to the agency automatically. As of September 2024, only garnishments for South Carolina Integrated Child Support Services require manual payment. 
+        field :manual_payment_required, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('manual_payment_required') } }
+        # FIPS codes for state or county child support orders
+        field :fips_codes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::FipsCodes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fips_codes') } }
+        # Describes which child support case identifying attributes are required for this agency. While most agencies only require a single identifier, some (e.g. OH) require multiple identifiers.
+        field :required_attributes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::RequiredAttributes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required_attributes') } }
 
+        sig { params(state: T.nilable(::String), name: T.nilable(::String), manual_payment_required: T.nilable(T::Boolean), fips_codes: T.nilable(T::Array[Models::Shared::FipsCodes]), required_attributes: T.nilable(T::Array[Models::Shared::RequiredAttributes])).void }
+        def initialize(state: nil, name: nil, manual_payment_required: nil, fips_codes: nil, required_attributes: nil)
+          @state = state
+          @name = name
+          @manual_payment_required = manual_payment_required
+          @fips_codes = fips_codes
+          @required_attributes = required_attributes
+        end
 
-      sig { params(fips_codes: T.nilable(T::Array[::GustoEmbedded::Shared::FipsCodes]), manual_payment_required: T.nilable(T::Boolean), name: T.nilable(::String), required_attributes: T.nilable(T::Array[::GustoEmbedded::Shared::RequiredAttributes]), state: T.nilable(::String)).void }
-      def initialize(fips_codes: nil, manual_payment_required: nil, name: nil, required_attributes: nil, state: nil)
-        @fips_codes = fips_codes
-        @manual_payment_required = manual_payment_required
-        @name = name
-        @required_attributes = required_attributes
-        @state = state
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @state == other.state
+          return false unless @name == other.name
+          return false unless @manual_payment_required == other.manual_payment_required
+          return false unless @fips_codes == other.fips_codes
+          return false unless @required_attributes == other.required_attributes
+          true
+        end
       end
     end
   end

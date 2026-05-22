@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class PayrollBlocker < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
 
-      # The unique identifier of the reason
-      field :key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
-      # User-friendly message describing the payroll blocker.
-      field :message, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message') } }
+      class PayrollBlocker
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # A unique identifier for the payroll blocker reason. For a complete list of blockers and their meanings, see the [Payroll Blockers guide](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers).
+        field :key, Models::Shared::Key, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Key, false) } }
+        # A human-readable message describing the payroll blocker and what action is needed to resolve it.
+        field :message, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message'), required: true } }
 
-      sig { params(key: T.nilable(::String), message: T.nilable(::String)).void }
-      def initialize(key: nil, message: nil)
-        @key = key
-        @message = message
+        sig { params(key: Models::Shared::Key, message: ::String).void }
+        def initialize(key:, message:)
+          @key = key
+          @message = message
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @key == other.key
+          return false unless @message == other.message
+          true
+        end
       end
     end
   end

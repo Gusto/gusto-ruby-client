@@ -1,0 +1,22 @@
+# EmployeeBankAccountAccountType
+
+Bank account type
+
+## Example Usage
+
+```ruby
+require "gusto_embedded_client_v_2025_11_15"
+
+value = EmployeeBankAccountAccountType::CHECKING
+
+# Open enum: use .deserialize() to create instances from custom string values
+custom = EmployeeBankAccountAccountType.deserialize("custom_value")
+```
+
+
+## Values
+
+| Name       | Value      |
+| ---------- | ---------- |
+| `CHECKING` | Checking   |
+| `SAVINGS`  | Savings    |

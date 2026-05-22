@@ -2,6 +2,14 @@
 
 The payment method.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = ContractorPaymentForGroupPaymentMethod::DIRECT_DEPOSIT
+```
+
 
 ## Values
 

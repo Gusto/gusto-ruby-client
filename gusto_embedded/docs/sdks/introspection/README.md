@@ -1,31 +1,33 @@
 # Introspection
-(*introspection*)
 
 ## Overview
 
 ### Available Operations
 
 * [get_info](#get_info) - Get info about the current access token
-* [refresh_token](#refresh_token) - Refresh access token
+* [oauth_access_token](#oauth_access_token) - Create a System Access Token or Refresh an Access Token
 
 ## get_info
 
-Returns scope and resource information associated with the current access token.
+Returns scope and resource information associated with the current access token. Use this endpoint to verify the following for the current access token:
+* Resource (company, employee, contractor, or application) and resource owner
+* Access level
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="get-v1-token-info" method="get" path="/v1/token_info" -->
 ```ruby
 require 'gusto_embedded_client'
 
+Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-      ),
-    )
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.introspection.get_info(x_gusto_api_version: Models::Operations::XGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-res = s.introspection.get_info(x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
-
-if ! res.object.nil?
+unless res.token_info.nil?
   # handle response
 end
 
@@ -35,41 +37,37 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::XGustoAPIVersion)](../../models/operations/xgustoapiversion.md)                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::GetV1TokenInfoResponse)](../../models/operations/getv1tokeninforesponse.md)**
+**[T.nilable(Models::Operations::GetV1TokenInfoResponse)](../../models/operations/getv1tokeninforesponse.md)**
 
+### Errors
 
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |
 
-## refresh_token
+## oauth_access_token
 
-Exchange a refresh token for a new access token.
-
-The previous `refresh_token` will be revoked on the first usage of the new `access_token`.
-
-The `expires_in` value is provided in seconds from when the `access_token` was generated.
+Creates a system access token or refreshes an oauth access token
 
 ### Example Usage
 
+<!-- UsageSnippet language="ruby" operationID="oauth-access-token" method="post" path="/oauth/token" -->
 ```ruby
 require 'gusto_embedded_client'
 
-s = ::GustoEmbedded::Client.new(
-      security: ::GustoEmbedded::Shared::Security.new(
-        company_access_auth: "<YOUR_BEARER_TOKEN_HERE>",
-      ),
-    )
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new
+res = s.introspection.oauth_access_token(request_body: Models::Operations::SystemAccessTokenRequest.new(
+  client_id: 'qr6L_9FRkbMVL_GdwvrMW6Ef8tcU6NUxjWpOfqXqOG8',
+  client_secret: '3aQSHRB3596nZhm6NdNBELZ1u9xbZmvCrKpBhbZYq6w',
+  grant_type: Models::Operations::RequestBodyGrantType::SYSTEM_ACCESS
+), x_gusto_api_version: Models::Operations::HeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-res = s.introspection.refresh_token(request_body=::GustoEmbedded::Operations::RefreshAccessTokenRequestBody.new(
-  client_id: "<id>",
-  client_secret: "<value>",
-  refresh_token: "<value>",
-  grant_type: "<value>",
-), x_gusto_api_version=::GustoEmbedded::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FOUR_04_01)
-
-if ! res.authentication.nil?
+unless res.authentication.nil?
   # handle response
 end
 
@@ -79,10 +77,15 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request_body`                                                                                                                                                                                                               | [::GustoEmbedded::Operations::RefreshAccessTokenRequestBody](../../models/operations/refreshaccesstokenrequestbody.md)                                                                                                       | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(::GustoEmbedded::Shared::VersionHeader)](../../models/shared/versionheader.md)                                                                                                                                    | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `request_body`                                                                                                                                                                                                               | [T.any(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest)](../../models/operations/oauthaccesstokenrequestbody.md)                                                                       | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::HeaderXGustoAPIVersion)](../../models/operations/headerxgustoapiversion.md)                                                                                                                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(::GustoEmbedded::Operations::RefreshAccessTokenResponse)](../../models/operations/refreshaccesstokenresponse.md)**
+**[T.nilable(Models::Operations::OauthAccessTokenResponse)](../../models/operations/oauthaccesstokenresponse.md)**
 
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |

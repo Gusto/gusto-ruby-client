@@ -1,5 +1,13 @@
 # SubscriptionTypes
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = SubscriptionTypes::BANK_ACCOUNT
+```
+
 
 ## Values
 
@@ -18,5 +26,7 @@
 | `LOCATION`                  | Location                    |
 | `NOTIFICATION`              | Notification                |
 | `PAYROLL`                   | Payroll                     |
+| `PAYROLL_SYNC`              | PayrollSync                 |
 | `PAY_SCHEDULE`              | PaySchedule                 |
+| `PEOPLE_BATCH`              | PeopleBatch                 |
 | `SIGNATORY`                 | Signatory                   |

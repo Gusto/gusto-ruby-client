@@ -5,28 +5,43 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Example response
-    class TaxLiabilitiesSelections < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of tax liabilities selections.
+      class TaxLiabilitiesSelections
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of last unpaid external payroll.
-      field :last_unpaid_external_payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_unpaid_external_payroll_uuid') } }
-      # Possible tax liabilities selections.
-      field :possible_liabilities, T.nilable(T::Array[::GustoEmbedded::Shared::PossibleLiabilities]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('possible_liabilities') } }
-      # The ID of the tax.
-      field :tax_id, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_id') } }
-      # The name of the tax.
-      field :tax_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_name') } }
+        # The ID of the tax.
+        field :tax_id, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_id') } }
+        # The name of the tax.
+        field :tax_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_name') } }
+        # Possible tax liabilities selections.
+        field :possible_liabilities, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PossibleLiabilities)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('possible_liabilities') } }
+        # A description of the tax, providing additional detail about the tax type.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # The UUID of last unpaid external payroll.
+        field :last_unpaid_external_payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_unpaid_external_payroll_uuid') } }
 
+        sig { params(tax_id: T.nilable(::Integer), tax_name: T.nilable(::String), possible_liabilities: T.nilable(T::Array[Models::Shared::PossibleLiabilities]), description: T.nilable(::String), last_unpaid_external_payroll_uuid: T.nilable(::String)).void }
+        def initialize(tax_id: nil, tax_name: nil, possible_liabilities: nil, description: nil, last_unpaid_external_payroll_uuid: nil)
+          @tax_id = tax_id
+          @tax_name = tax_name
+          @possible_liabilities = possible_liabilities
+          @description = description
+          @last_unpaid_external_payroll_uuid = last_unpaid_external_payroll_uuid
+        end
 
-      sig { params(last_unpaid_external_payroll_uuid: T.nilable(::String), possible_liabilities: T.nilable(T::Array[::GustoEmbedded::Shared::PossibleLiabilities]), tax_id: T.nilable(::Integer), tax_name: T.nilable(::String)).void }
-      def initialize(last_unpaid_external_payroll_uuid: nil, possible_liabilities: nil, tax_id: nil, tax_name: nil)
-        @last_unpaid_external_payroll_uuid = last_unpaid_external_payroll_uuid
-        @possible_liabilities = possible_liabilities
-        @tax_id = tax_id
-        @tax_name = tax_name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @tax_id == other.tax_id
+          return false unless @tax_name == other.tax_name
+          return false unless @possible_liabilities == other.possible_liabilities
+          return false unless @description == other.description
+          return false unless @last_unpaid_external_payroll_uuid == other.last_unpaid_external_payroll_uuid
+          true
+        end
       end
     end
   end

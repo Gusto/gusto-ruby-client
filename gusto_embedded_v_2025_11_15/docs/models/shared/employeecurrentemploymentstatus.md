@@ -1,0 +1,23 @@
+# EmployeeCurrentEmploymentStatus
+
+## Example Usage
+
+```ruby
+require "gusto_embedded_client_v_2025_11_15"
+
+value = EmployeeCurrentEmploymentStatus::FULL_TIME
+
+# Open enum: use .deserialize() to create instances from custom string values
+custom = EmployeeCurrentEmploymentStatus.deserialize("custom_value")
+```
+
+
+## Values
+
+| Name                           | Value                          |
+| ------------------------------ | ------------------------------ |
+| `FULL_TIME`                    | full_time                      |
+| `PART_TIME_UNDER_TWENTY_HOURS` | part_time_under_twenty_hours   |
+| `PART_TIME_TWENTY_PLUS_HOURS`  | part_time_twenty_plus_hours    |
+| `VARIABLE`                     | variable                       |
+| `SEASONAL`                     | seasonal                       |

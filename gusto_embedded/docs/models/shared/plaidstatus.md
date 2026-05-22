@@ -1,6 +1,12 @@
 # PlaidStatus
 
-The Plaid connection status of the bank account. Only applies when verification type is Plaid.
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = PlaidStatus::CONNECTED
+```
 
 
 ## Values

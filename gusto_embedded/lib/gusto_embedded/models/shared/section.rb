@@ -5,17 +5,18 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Section - The document option's section in the list of acceptable documents on the Form I-9
-    class Section < T::Enum
-      enums do
-        A = new('A')
-        A1 = new('A1')
-        A2 = new('A2')
-        A3 = new('A3')
-        B = new('B')
-        C = new('C')
+  module Models
+    module Shared
+      # Section - The document option's section in the list of acceptable documents on the Form I-9
+      class Section < T::Enum
+        enums do
+          A = new('A')
+          A1 = new('A1')
+          A2 = new('A2')
+          A3 = new('A3')
+          B = new('B')
+          C = new('C')
+        end
       end
     end
   end

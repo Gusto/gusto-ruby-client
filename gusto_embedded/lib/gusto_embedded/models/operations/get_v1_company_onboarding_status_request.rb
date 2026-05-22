@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1CompanyOnboardingStatusRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class GetV1CompanyOnboardingStatusRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
-      # Comma delimited string indicating whether to include any additional steps of onboarding. Currently only supports the value "external_payroll".
-      field :additional_steps, T.nilable(::String), { 'query_param': { 'field_name': 'additional_steps', 'style': 'form', 'explode': true } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company
+        field :company_uuid, ::String, { 'path_param': { 'field_name': 'company_uuid', 'style': 'simple', 'explode': false } }
+        # Comma-delimited string of additional onboarding steps to include. Currently only supports the value "external_payroll".
+        field :additional_steps, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'additional_steps', 'style': 'form', 'explode': true } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(company_uuid: ::String, additional_steps: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion)).void }
+        def initialize(company_uuid:, additional_steps: nil, x_gusto_api_version: Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_uuid = company_uuid
+          @additional_steps = additional_steps
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(company_uuid: ::String, additional_steps: T.nilable(::String), x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_uuid: nil, additional_steps: nil, x_gusto_api_version: nil)
-        @company_uuid = company_uuid
-        @additional_steps = additional_steps
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_uuid == other.company_uuid
+          return false unless @additional_steps == other.additional_steps
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

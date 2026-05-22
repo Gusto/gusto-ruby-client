@@ -2,6 +2,14 @@
 
 The payment schedule tax rate the payroll is based on.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = WithholdingPayPeriod::EVERY_WEEK
+```
+
 
 ## Values
 

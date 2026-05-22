@@ -5,97 +5,171 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The representation of an employee in Gusto.
-    class Employee < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The representation of an employee in Gusto.
+      class Employee
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # The UUID of the employee in Gusto.
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
 
-      field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
+        field :first_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name'), required: true } }
 
-      field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
-      # The UUID of the employee in Gusto.
-      field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The UUID of the company the employee is employed by.
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # The current employment status of the employee. Full-time employees work 30+ hours per week. Part-time employees are split into two groups: those that work 20-29 hours a week, and those that work under 20 hours a week. Variable employees have hours that vary each week. Seasonal employees are hired for 6 months of the year or less.
-      field :current_employment_status, T.nilable(::GustoEmbedded::Shared::CurrentEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('current_employment_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::CurrentEmploymentStatus, true) } }
-      # Custom fields are only included for the employee if the include param has the custom_fields value set
-      field :custom_fields, T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCustomField]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_fields') } }
+        field :last_name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name'), required: true } }
+        # The UUID of the company the employee is employed by.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # The current version of the employee. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # Whether the employee is terminated.
+        field :terminated, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('terminated') } }
+        # Whether the employee has completed onboarding.
+        field :onboarded, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarded') } }
+        # Configuration for an employee onboarding documents during onboarding
+        field :onboarding_documents_config, Crystalline::Nilable.new(Models::Shared::EmployeeOnboardingDocumentsConfig), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_documents_config') } }
 
-      field :date_of_birth, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth') } }
-      # The employee's department in the company.
-      field :department, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department') } }
+        field :jobs, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Job)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('jobs') } }
 
-      field :eligible_paid_time_off, T.nilable(T::Array[::GustoEmbedded::Shared::PaidTimeOff]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('eligible_paid_time_off') } }
-      # The personal email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
-      field :email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        field :eligible_paid_time_off, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PaidTimeOff)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('eligible_paid_time_off') } }
 
-      field :garnishments, T.nilable(T::Array[::GustoEmbedded::Shared::Garnishment]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('garnishments') } }
-      # Indicates whether the employee has an SSN in Gusto.
-      field :has_ssn, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ssn') } }
+        field :terminations, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Termination)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('terminations') } }
 
-      field :jobs, T.nilable(T::Array[::GustoEmbedded::Shared::Job]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('jobs') } }
-      # The UUID of the employee's manager.
-      field :manager_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('manager_uuid') } }
+        field :garnishments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Garnishment)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('garnishments') } }
+        # Custom fields are only included for the employee if the include param has the custom_fields value set
+        field :custom_fields, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeCustomField)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_fields') } }
+        # Indicates whether the employee has an SSN in Gusto.
+        field :has_ssn, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ssn') } }
+        # Deprecated. This field always returns an empty string.
+        field :ssn, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
 
-      field :middle_initial, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
-      # Whether the employee has completed onboarding.
-      field :onboarded, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarded') } }
-      # Configuration for an employee onboarding documents during onboarding
-      field :onboarding_documents_config, T.nilable(::GustoEmbedded::Shared::OnboardingDocumentsConfig), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_documents_config') } }
-      # The current onboarding status of the employee
-      field :onboarding_status, T.nilable(::GustoEmbedded::Shared::OnboardingStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::OnboardingStatus, true) } }
-      # The employee's payment method
-      field :payment_method, T.nilable(::GustoEmbedded::Shared::PaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PaymentMethod, true) } }
+        field :historical, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('historical') } }
+        # The short format code of the employee
+        field :employee_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_code') } }
 
-      field :phone, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # The date when the employee was hired to the company
+        field :hired_at, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hired_at'), 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(true) } }
 
-      field :preferred_first_name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
-      # Deprecated. This field always returns an empty string.
-      field :ssn, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('ssn') } }
-      # Whether the employee is terminated.
-      field :terminated, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('terminated') } }
+        field :hidden_ssn, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hidden_ssn') } }
+        # The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. 
+        field :flsa_status, Crystalline::Nilable.new(Models::Shared::FlsaStatusType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::FlsaStatusType, true) } }
 
-      field :terminations, T.nilable(T::Array[::GustoEmbedded::Shared::Termination]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('terminations') } }
-      # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
-      field :two_percent_shareholder, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
-      # The current version of the employee. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
-      # The work email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
-      field :work_email, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_email') } }
+        field :applicable_tax_ids, Crystalline::Nilable.new(Crystalline::Array.new(::Float)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_tax_ids') } }
 
+        field :middle_initial, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('middle_initial') } }
+        # The personal email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
+        field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # The UUID of the employee's manager.
+        field :manager_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('manager_uuid') } }
+        # The employee's department in the company.
+        field :department, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department') } }
+        # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
+        field :two_percent_shareholder, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
+        # The work email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
+        field :work_email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_email') } }
+        # The current onboarding status of the employee
+        field :onboarding_status, Crystalline::Nilable.new(Models::Shared::EmployeeOnboardingStatus1), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeeOnboardingStatus1, true) } }
 
-      sig { params(first_name: ::String, last_name: ::String, uuid: ::String, company_uuid: T.nilable(::String), current_employment_status: T.nilable(::GustoEmbedded::Shared::CurrentEmploymentStatus), custom_fields: T.nilable(T::Array[::GustoEmbedded::Shared::EmployeeCustomField]), date_of_birth: T.nilable(::String), department: T.nilable(::String), eligible_paid_time_off: T.nilable(T::Array[::GustoEmbedded::Shared::PaidTimeOff]), email: T.nilable(::String), garnishments: T.nilable(T::Array[::GustoEmbedded::Shared::Garnishment]), has_ssn: T.nilable(T::Boolean), jobs: T.nilable(T::Array[::GustoEmbedded::Shared::Job]), manager_uuid: T.nilable(::String), middle_initial: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_documents_config: T.nilable(::GustoEmbedded::Shared::OnboardingDocumentsConfig), onboarding_status: T.nilable(::GustoEmbedded::Shared::OnboardingStatus), payment_method: T.nilable(::GustoEmbedded::Shared::PaymentMethod), phone: T.nilable(::String), preferred_first_name: T.nilable(::String), ssn: T.nilable(::String), terminated: T.nilable(T::Boolean), terminations: T.nilable(T::Array[::GustoEmbedded::Shared::Termination]), two_percent_shareholder: T.nilable(T::Boolean), version: T.nilable(::String), work_email: T.nilable(::String)).void }
-      def initialize(first_name: nil, last_name: nil, uuid: nil, company_uuid: nil, current_employment_status: nil, custom_fields: nil, date_of_birth: nil, department: nil, eligible_paid_time_off: nil, email: nil, garnishments: nil, has_ssn: nil, jobs: nil, manager_uuid: nil, middle_initial: nil, onboarded: nil, onboarding_documents_config: nil, onboarding_status: nil, payment_method: nil, phone: nil, preferred_first_name: nil, ssn: nil, terminated: nil, terminations: nil, two_percent_shareholder: nil, version: nil, work_email: nil)
-        @first_name = first_name
-        @last_name = last_name
-        @uuid = uuid
-        @company_uuid = company_uuid
-        @current_employment_status = current_employment_status
-        @custom_fields = custom_fields
-        @date_of_birth = date_of_birth
-        @department = department
-        @eligible_paid_time_off = eligible_paid_time_off
-        @email = email
-        @garnishments = garnishments
-        @has_ssn = has_ssn
-        @jobs = jobs
-        @manager_uuid = manager_uuid
-        @middle_initial = middle_initial
-        @onboarded = onboarded
-        @onboarding_documents_config = onboarding_documents_config
-        @onboarding_status = onboarding_status
-        @payment_method = payment_method
-        @phone = phone
-        @preferred_first_name = preferred_first_name
-        @ssn = ssn
-        @terminated = terminated
-        @terminations = terminations
-        @two_percent_shareholder = two_percent_shareholder
-        @version = version
-        @work_email = work_email
+        field :date_of_birth, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth') } }
+
+        field :phone, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('phone') } }
+
+        field :preferred_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
+        # The employee's payment method
+        field :payment_method, Crystalline::Nilable.new(Models::Shared::EmployeePaymentMethod1), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeePaymentMethod1, true) } }
+        # The current employment status of the employee. Full-time employees work 30+ hours per week. Part-time employees are split into two groups: those that work 20-29 hours a week, and those that work under 20 hours a week. Variable employees have hours that vary each week. Seasonal employees are hired for 6 months of the year or less.
+        field :current_employment_status, Crystalline::Nilable.new(Models::Shared::EmployeeCurrentEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('current_employment_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeeCurrentEmploymentStatus, true) } }
+        # The UUID of the department the employee is under
+        field :department_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuid') } }
+        # Member portal invitation status information. Only included when the include param has the portal_invitations value set.
+        field :member_portal_invitation_status, Crystalline::Nilable.new(Models::Shared::EmployeeMemberPortalInvitationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('member_portal_invitation_status') } }
+        # Whether an external partner portal invitation webhook has been sent for this employee. Only included when the include param has the portal_invitations value set.
+        field :partner_portal_invitation_sent, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_portal_invitation_sent') } }
+
+        sig { params(uuid: ::String, first_name: ::String, last_name: ::String, company_uuid: T.nilable(::String), version: T.nilable(::String), terminated: T.nilable(T::Boolean), onboarded: T.nilable(T::Boolean), onboarding_documents_config: T.nilable(Models::Shared::EmployeeOnboardingDocumentsConfig), jobs: T.nilable(T::Array[Models::Shared::Job]), eligible_paid_time_off: T.nilable(T::Array[Models::Shared::PaidTimeOff]), terminations: T.nilable(T::Array[Models::Shared::Termination]), garnishments: T.nilable(T::Array[Models::Shared::Garnishment]), custom_fields: T.nilable(T::Array[Models::Shared::EmployeeCustomField]), has_ssn: T.nilable(T::Boolean), ssn: T.nilable(::String), historical: T.nilable(T::Boolean), employee_code: T.nilable(::String), title: T.nilable(::String), hired_at: T.nilable(::Date), hidden_ssn: T.nilable(::String), flsa_status: T.nilable(Models::Shared::FlsaStatusType), applicable_tax_ids: T.nilable(T::Array[::Float]), middle_initial: T.nilable(::String), email: T.nilable(::String), manager_uuid: T.nilable(::String), department: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), work_email: T.nilable(::String), onboarding_status: T.nilable(Models::Shared::EmployeeOnboardingStatus1), date_of_birth: T.nilable(::String), phone: T.nilable(::String), preferred_first_name: T.nilable(::String), payment_method: T.nilable(Models::Shared::EmployeePaymentMethod1), current_employment_status: T.nilable(Models::Shared::EmployeeCurrentEmploymentStatus), department_uuid: T.nilable(::String), member_portal_invitation_status: T.nilable(Models::Shared::EmployeeMemberPortalInvitationStatus), partner_portal_invitation_sent: T.nilable(T::Boolean)).void }
+        def initialize(uuid:, first_name:, last_name:, company_uuid: nil, version: nil, terminated: nil, onboarded: nil, onboarding_documents_config: nil, jobs: nil, eligible_paid_time_off: nil, terminations: nil, garnishments: nil, custom_fields: nil, has_ssn: nil, ssn: nil, historical: nil, employee_code: nil, title: nil, hired_at: nil, hidden_ssn: nil, flsa_status: nil, applicable_tax_ids: nil, middle_initial: nil, email: nil, manager_uuid: nil, department: nil, two_percent_shareholder: nil, work_email: nil, onboarding_status: nil, date_of_birth: nil, phone: nil, preferred_first_name: nil, payment_method: Models::Shared::EmployeePaymentMethod1::CHECK, current_employment_status: nil, department_uuid: nil, member_portal_invitation_status: nil, partner_portal_invitation_sent: nil)
+          @uuid = uuid
+          @first_name = first_name
+          @last_name = last_name
+          @company_uuid = company_uuid
+          @version = version
+          @terminated = terminated
+          @onboarded = onboarded
+          @onboarding_documents_config = onboarding_documents_config
+          @jobs = jobs
+          @eligible_paid_time_off = eligible_paid_time_off
+          @terminations = terminations
+          @garnishments = garnishments
+          @custom_fields = custom_fields
+          @has_ssn = has_ssn
+          @ssn = ssn
+          @historical = historical
+          @employee_code = employee_code
+          @title = title
+          @hired_at = hired_at
+          @hidden_ssn = hidden_ssn
+          @flsa_status = flsa_status
+          @applicable_tax_ids = applicable_tax_ids
+          @middle_initial = middle_initial
+          @email = email
+          @manager_uuid = manager_uuid
+          @department = department
+          @two_percent_shareholder = two_percent_shareholder
+          @work_email = work_email
+          @onboarding_status = onboarding_status
+          @date_of_birth = date_of_birth
+          @phone = phone
+          @preferred_first_name = preferred_first_name
+          @payment_method = payment_method
+          @current_employment_status = current_employment_status
+          @department_uuid = department_uuid
+          @member_portal_invitation_status = member_portal_invitation_status
+          @partner_portal_invitation_sent = partner_portal_invitation_sent
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @first_name == other.first_name
+          return false unless @last_name == other.last_name
+          return false unless @company_uuid == other.company_uuid
+          return false unless @version == other.version
+          return false unless @terminated == other.terminated
+          return false unless @onboarded == other.onboarded
+          return false unless @onboarding_documents_config == other.onboarding_documents_config
+          return false unless @jobs == other.jobs
+          return false unless @eligible_paid_time_off == other.eligible_paid_time_off
+          return false unless @terminations == other.terminations
+          return false unless @garnishments == other.garnishments
+          return false unless @custom_fields == other.custom_fields
+          return false unless @has_ssn == other.has_ssn
+          return false unless @ssn == other.ssn
+          return false unless @historical == other.historical
+          return false unless @employee_code == other.employee_code
+          return false unless @title == other.title
+          return false unless @hired_at == other.hired_at
+          return false unless @hidden_ssn == other.hidden_ssn
+          return false unless @flsa_status == other.flsa_status
+          return false unless @applicable_tax_ids == other.applicable_tax_ids
+          return false unless @middle_initial == other.middle_initial
+          return false unless @email == other.email
+          return false unless @manager_uuid == other.manager_uuid
+          return false unless @department == other.department
+          return false unless @two_percent_shareholder == other.two_percent_shareholder
+          return false unless @work_email == other.work_email
+          return false unless @onboarding_status == other.onboarding_status
+          return false unless @date_of_birth == other.date_of_birth
+          return false unless @phone == other.phone
+          return false unless @preferred_first_name == other.preferred_first_name
+          return false unless @payment_method == other.payment_method
+          return false unless @current_employment_status == other.current_employment_status
+          return false unless @department_uuid == other.department_uuid
+          return false unless @member_portal_invitation_status == other.member_portal_invitation_status
+          return false unless @partner_portal_invitation_sent == other.partner_portal_invitation_sent
+          true
+        end
       end
     end
   end

@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class ExternalPayrollItems < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-
-      field :benefits, T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollBenefits]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
-
-      field :earnings, T.nilable(T::Array[::GustoEmbedded::Shared::Earnings]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earnings') } }
-
-      field :employee_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-
-      field :taxes, T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollTaxes]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
+      class ExternalPayrollItems
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(benefits: T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollBenefits]), earnings: T.nilable(T::Array[::GustoEmbedded::Shared::Earnings]), employee_uuid: T.nilable(::String), taxes: T.nilable(T::Array[::GustoEmbedded::Shared::ExternalPayrollTaxes])).void }
-      def initialize(benefits: nil, earnings: nil, employee_uuid: nil, taxes: nil)
-        @benefits = benefits
-        @earnings = earnings
-        @employee_uuid = employee_uuid
-        @taxes = taxes
+        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
+
+        field :earnings, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Earnings)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earnings') } }
+
+        field :benefits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Benefits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('benefits') } }
+
+        field :taxes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ExternalPayrollTaxes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
+
+        sig { params(employee_uuid: T.nilable(::String), earnings: T.nilable(T::Array[Models::Shared::Earnings]), benefits: T.nilable(T::Array[Models::Shared::Benefits]), taxes: T.nilable(T::Array[Models::Shared::ExternalPayrollTaxes])).void }
+        def initialize(employee_uuid: nil, earnings: nil, benefits: nil, taxes: nil)
+          @employee_uuid = employee_uuid
+          @earnings = earnings
+          @benefits = benefits
+          @taxes = taxes
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @employee_uuid == other.employee_uuid
+          return false unless @earnings == other.earnings
+          return false unless @benefits == other.benefits
+          return false unless @taxes == other.taxes
+          true
+        end
       end
     end
   end
