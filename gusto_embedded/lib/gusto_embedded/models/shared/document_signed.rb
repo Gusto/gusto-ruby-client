@@ -5,49 +5,75 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class DocumentSigned < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class DocumentSigned
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The description of the document
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # If the document is in a draft state
-      field :draft, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('draft') } }
-      # The type identifier of the document
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # The quarter of this document. This value is nullable and will not be present on all documents.
-      field :quarter, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('quarter') } }
-      # The type of recipient associated with the document (will be `Contractor` for Contractor Documents)
-      field :recipient_type, T.nilable(::GustoEmbedded::Shared::DocumentSignedRecipientType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::DocumentSignedRecipientType, true) } }
-      # Unique identifier for the recipient associated with the document
-      field :recipient_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_uuid') } }
-      # A boolean flag that indicates whether the document needs signing or not. Note that this value will change after the document is signed.
-      field :requires_signing, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requires_signing') } }
-      # When the document was signed (will be `null` if unsigned)
-      field :signed_at, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_at') } }
-      # The title of the document
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
-      # The UUID of the document
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The year of this document. This value is nullable and will not be present on all documents.
-      field :year, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('year') } }
+        # The UUID of the document
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The title of the document
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # The type identifier of the document
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The type of recipient associated with the document (will be `Contractor` for Contractor Documents)
+        field :recipient_type, Crystalline::Nilable.new(Models::Shared::DocumentSignedRecipientType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::DocumentSignedRecipientType, true) } }
+        # Unique identifier for the recipient associated with the document
+        field :recipient_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_uuid') } }
+        # List of the document's pages and associated image URLs.
+        field :pages, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::DocumentSignedPages)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pages') } }
+        # List of the document's fields and associated data. Values reflect the data provided at signing.
+        field :fields_, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::DocumentSignedFields)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fields') } }
+        # The description of the document
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # A boolean flag that indicates whether the document needs signing or not. Note that this value will change after the document is signed.
+        field :requires_signing, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requires_signing') } }
+        # If the document is in a draft state
+        field :draft, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('draft') } }
+        # When the document was signed (will be `null` if unsigned)
+        field :signed_at, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('signed_at') } }
+        # The year of this document. This value is nullable and will not be present on all documents.
+        field :year, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('year') } }
+        # The quarter of this document. This value is nullable and will not be present on all documents.
+        field :quarter, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('quarter') } }
 
+        sig { params(uuid: T.nilable(::String), title: T.nilable(::String), name: T.nilable(::String), recipient_type: T.nilable(Models::Shared::DocumentSignedRecipientType), recipient_uuid: T.nilable(::String), pages: T.nilable(T::Array[Models::Shared::DocumentSignedPages]), fields_: T.nilable(T::Array[Models::Shared::DocumentSignedFields]), description: T.nilable(::String), requires_signing: T.nilable(T::Boolean), draft: T.nilable(T::Boolean), signed_at: T.nilable(::String), year: T.nilable(::Integer), quarter: T.nilable(::Integer)).void }
+        def initialize(uuid: nil, title: nil, name: nil, recipient_type: nil, recipient_uuid: nil, pages: nil, fields_: nil, description: nil, requires_signing: nil, draft: nil, signed_at: nil, year: nil, quarter: nil)
+          @uuid = uuid
+          @title = title
+          @name = name
+          @recipient_type = recipient_type
+          @recipient_uuid = recipient_uuid
+          @pages = pages
+          @fields_ = fields_
+          @description = description
+          @requires_signing = requires_signing
+          @draft = draft
+          @signed_at = signed_at
+          @year = year
+          @quarter = quarter
+        end
 
-      sig { params(description: T.nilable(::String), draft: T.nilable(T::Boolean), name: T.nilable(::String), quarter: T.nilable(::Integer), recipient_type: T.nilable(::GustoEmbedded::Shared::DocumentSignedRecipientType), recipient_uuid: T.nilable(::String), requires_signing: T.nilable(T::Boolean), signed_at: T.nilable(::String), title: T.nilable(::String), uuid: T.nilable(::String), year: T.nilable(::Integer)).void }
-      def initialize(description: nil, draft: nil, name: nil, quarter: nil, recipient_type: nil, recipient_uuid: nil, requires_signing: nil, signed_at: nil, title: nil, uuid: nil, year: nil)
-        @description = description
-        @draft = draft
-        @name = name
-        @quarter = quarter
-        @recipient_type = recipient_type
-        @recipient_uuid = recipient_uuid
-        @requires_signing = requires_signing
-        @signed_at = signed_at
-        @title = title
-        @uuid = uuid
-        @year = year
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @title == other.title
+          return false unless @name == other.name
+          return false unless @recipient_type == other.recipient_type
+          return false unless @recipient_uuid == other.recipient_uuid
+          return false unless @pages == other.pages
+          return false unless @fields_ == other.fields_
+          return false unless @description == other.description
+          return false unless @requires_signing == other.requires_signing
+          return false unless @draft == other.draft
+          return false unless @signed_at == other.signed_at
+          return false unless @year == other.year
+          return false unless @quarter == other.quarter
+          true
+        end
       end
     end
   end

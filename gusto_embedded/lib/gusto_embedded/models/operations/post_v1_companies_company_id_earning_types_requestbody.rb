@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PostV1CompaniesCompanyIdEarningTypesRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PostV1CompaniesCompanyIdEarningTypesRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The name of the custom earning type.
-      field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The name of the custom earning type.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
 
+        sig { params(name: T.nilable(::String)).void }
+        def initialize(name: 'Gym Membership')
+          @name = name
+        end
 
-      sig { params(name: ::String).void }
-      def initialize(name: nil)
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          true
+        end
       end
     end
   end

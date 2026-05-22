@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Child Support agency data
-    class ChildSupportData < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # Child Support agency data
+      class ChildSupportData
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # State child support agencies
-      field :agencies, T.nilable(T::Array[::GustoEmbedded::Shared::Agencies]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('agencies') } }
+        # State child support agencies
+        field :agencies, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Agencies)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('agencies') } }
 
+        sig { params(agencies: T.nilable(T::Array[Models::Shared::Agencies])).void }
+        def initialize(agencies: nil)
+          @agencies = agencies
+        end
 
-      sig { params(agencies: T.nilable(T::Array[::GustoEmbedded::Shared::Agencies])).void }
-      def initialize(agencies: nil)
-        @agencies = agencies
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @agencies == other.agencies
+          true
+        end
       end
     end
   end

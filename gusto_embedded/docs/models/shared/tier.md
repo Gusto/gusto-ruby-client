@@ -2,6 +2,14 @@
 
 The Gusto product tier of the company (not applicable to Embedded partner managed companies).
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = Tier::SIMPLE
+```
+
 
 ## Values
 

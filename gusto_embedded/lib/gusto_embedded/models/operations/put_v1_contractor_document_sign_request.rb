@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1ContractorDocumentSignRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1ContractorDocumentSignRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The ID or UUID of the document
-      field :document_uuid, ::String, { 'path_param': { 'field_name': 'document_uuid', 'style': 'simple', 'explode': false } }
+        # The UUID of the document
+        field :document_uuid, ::String, { 'path_param': { 'field_name': 'document_uuid', 'style': 'simple', 'explode': false } }
 
-      field :request_body, ::GustoEmbedded::Operations::PutV1ContractorDocumentSignRequestBody, { 'request': { 'media_type': 'application/json' } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
-      # Optional header to supply the IP address. This can be used to supply the IP address for signature endpoints instead of the signed_by_ip_address parameter.
-      field :x_gusto_client_ip, T.nilable(::String), { 'header': { 'field_name': 'x-gusto-client-ip', 'style': 'simple', 'explode': false } }
+        field :request_body, Models::Operations::PutV1ContractorDocumentSignRequestBody, { 'request': { 'media_type': 'application/json' } }
+        # Optional header to supply the IP address. This can be used to supply the IP address for signature endpoints instead of the signed_by_ip_address parameter.
+        field :x_gusto_client_ip, Crystalline::Nilable.new(::String), { 'header': { 'field_name': 'x-gusto-client-ip', 'style': 'simple', 'explode': false } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::PutV1ContractorDocumentSignHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(document_uuid: ::String, request_body: Models::Operations::PutV1ContractorDocumentSignRequestBody, x_gusto_client_ip: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::PutV1ContractorDocumentSignHeaderXGustoAPIVersion)).void }
+        def initialize(document_uuid:, request_body:, x_gusto_client_ip: nil, x_gusto_api_version: Models::Operations::PutV1ContractorDocumentSignHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @document_uuid = document_uuid
+          @request_body = request_body
+          @x_gusto_client_ip = x_gusto_client_ip
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(document_uuid: ::String, request_body: ::GustoEmbedded::Operations::PutV1ContractorDocumentSignRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader), x_gusto_client_ip: T.nilable(::String)).void }
-      def initialize(document_uuid: nil, request_body: nil, x_gusto_api_version: nil, x_gusto_client_ip: nil)
-        @document_uuid = document_uuid
-        @request_body = request_body
-        @x_gusto_api_version = x_gusto_api_version
-        @x_gusto_client_ip = x_gusto_client_ip
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @document_uuid == other.document_uuid
+          return false unless @request_body == other.request_body
+          return false unless @x_gusto_client_ip == other.x_gusto_client_ip
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

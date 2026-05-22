@@ -1,0 +1,10 @@
+# PostV1CompaniesCompanyIdPeopleBatchesRequestBody
+
+
+## Fields
+
+| Field                                                                     | Type                                                                      | Required                                                                  | Description                                                               | Example                                                                   |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `idempotency_key`                                                         | *::String*                                                                | :heavy_check_mark:                                                        | A unique identifier to ensure idempotency of the batch request            | 550e8400-e29b-41d4-a716-446655440000                                      |
+| `batch_action`                                                            | [Models::Operations::BatchAction](../../models/operations/batchaction.md) | :heavy_check_mark:                                                        | The action to perform on the batch                                        | create                                                                    |
+| `batch`                                                                   | T::Array<[Models::Operations::Batch](../../models/operations/batch.md)>   | :heavy_check_mark:                                                        | Array of people to create                                                 |                                                                           |

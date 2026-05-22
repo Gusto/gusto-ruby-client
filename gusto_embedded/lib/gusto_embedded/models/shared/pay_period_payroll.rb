@@ -5,31 +5,43 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # Information about the payroll for the pay period.
-    class PayPeriodPayroll < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # Information about the payroll for the pay period.
+      class PayPeriodPayroll
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The date on which employees will be paid for the payroll if the payroll is submitted on time.
-      field :check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
-      # The date by which payroll should be run for employees to be paid on time. Payroll data, such as time and attendance data, should be submitted on or before this date.
-      field :payroll_deadline, T.nilable(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_deadline'), 'decoder': Utils.datetime_from_iso_format(true) } }
-      # Whether it is regular pay period or transition pay period.
-      field :payroll_type, T.nilable(::GustoEmbedded::Shared::PayrollType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::PayrollType, true) } }
-      # The UUID of the payroll for this pay period.
-      field :payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
-      # Whether or not the payroll has been successfully processed. Note that processed payrolls cannot be updated. Additionally, a payroll is not guaranteed to be processed just because the payroll deadline has passed. Late payrolls are not uncommon. Conversely, users may choose to run payroll before the payroll deadline.
-      field :processed, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processed') } }
+        # The UUID of the payroll for this pay period.
+        field :payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_uuid') } }
+        # The date on which employees will be paid for the payroll if the payroll is submitted on time.
+        field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
+        # Whether or not the payroll has been successfully processed. Note that processed payrolls cannot be updated. Additionally, a payroll is not guaranteed to be processed just because the payroll deadline has passed. Late payrolls are not uncommon. Conversely, users may choose to run payroll before the payroll deadline.
+        field :processed, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processed') } }
+        # The date by which payroll should be run for employees to be paid on time. Payroll data, such as time and attendance data, should be submitted on or before this date.
+        field :payroll_deadline, Crystalline::Nilable.new(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_deadline'), 'decoder': ::GustoEmbedded::Utils.datetime_from_iso_format(true) } }
+        # Whether it is regular pay period or transition pay period.
+        field :payroll_type, Crystalline::Nilable.new(Models::Shared::PayrollType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollType, true) } }
 
+        sig { params(payroll_uuid: T.nilable(::String), check_date: T.nilable(::String), processed: T.nilable(T::Boolean), payroll_deadline: T.nilable(::DateTime), payroll_type: T.nilable(Models::Shared::PayrollType)).void }
+        def initialize(payroll_uuid: nil, check_date: nil, processed: nil, payroll_deadline: nil, payroll_type: nil)
+          @payroll_uuid = payroll_uuid
+          @check_date = check_date
+          @processed = processed
+          @payroll_deadline = payroll_deadline
+          @payroll_type = payroll_type
+        end
 
-      sig { params(check_date: T.nilable(::String), payroll_deadline: T.nilable(::DateTime), payroll_type: T.nilable(::GustoEmbedded::Shared::PayrollType), payroll_uuid: T.nilable(::String), processed: T.nilable(T::Boolean)).void }
-      def initialize(check_date: nil, payroll_deadline: nil, payroll_type: nil, payroll_uuid: nil, processed: nil)
-        @check_date = check_date
-        @payroll_deadline = payroll_deadline
-        @payroll_type = payroll_type
-        @payroll_uuid = payroll_uuid
-        @processed = processed
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @check_date == other.check_date
+          return false unless @processed == other.processed
+          return false unless @payroll_deadline == other.payroll_deadline
+          return false unless @payroll_type == other.payroll_type
+          true
+        end
       end
     end
   end

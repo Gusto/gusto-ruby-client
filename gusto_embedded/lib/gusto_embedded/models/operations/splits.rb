@@ -5,29 +5,39 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class Splits < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Splits
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The bank account name
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential.
-      field :priority, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('priority') } }
-      # The cents amount allocated for each payment split
-      field :split_amount, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_amount') } }
-      # The bank account ID
-      # 
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The bank account UUID.
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The bank account name.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # Order of priority for each payment split; priority 1 is the first account paid. Must be unique and sequential.
+        field :priority, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('priority') } }
+        # If split_by is Amount, value is in cents (e.g., 500 for $5.00) and exactly one account must have null to capture the remainder. If split_by is Percentage, value is the percentage (e.g., 60 for 60%).
+        field :split_amount, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_amount') } }
 
+        sig { params(uuid: T.nilable(::String), name: T.nilable(::String), priority: T.nilable(::Integer), split_amount: T.nilable(::Float)).void }
+        def initialize(uuid: nil, name: nil, priority: nil, split_amount: nil)
+          @uuid = uuid
+          @name = name
+          @priority = priority
+          @split_amount = split_amount
+        end
 
-      sig { params(name: T.nilable(::String), priority: T.nilable(::Integer), split_amount: T.nilable(::Integer), uuid: T.nilable(::String)).void }
-      def initialize(name: nil, priority: nil, split_amount: nil, uuid: nil)
-        @name = name
-        @priority = priority
-        @split_amount = split_amount
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @name == other.name
+          return false unless @priority == other.priority
+          return false unless @split_amount == other.split_amount
+          true
+        end
       end
     end
   end

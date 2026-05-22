@@ -5,13 +5,13 @@
 
 
 module GustoEmbedded
-  module Operations
-  
-    # EntityType - the type of target entity applicable to the flow. This field is optional for company flows, please refer to the flow_types table above for more details.
-    class EntityType < T::Enum
-      enums do
-        COMPANY = new('Company')
-        EMPLOYEE = new('Employee')
+  module Models
+    module Operations
+      # EntityType - The type of entity to create
+      class EntityType < T::Enum
+        enums do
+          EMPLOYEE = new('employee')
+        end
       end
     end
   end

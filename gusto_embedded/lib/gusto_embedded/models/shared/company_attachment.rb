@@ -5,28 +5,43 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The company attachment
-    class CompanyAttachment < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The company attachment
+      class CompanyAttachment
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The category of the company attachment
-      field :category, T.nilable(::GustoEmbedded::Shared::Category), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::Category, true) } }
-      # name of the file uploaded
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # The ISO 8601 timestamp of when an attachment was uploaded
-      field :upload_time, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('upload_time') } }
-      # UUID of the company attachment
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # UUID of the company attachment
+        field :uuid, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid'), required: true } }
+        # name of the file uploaded
+        field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name'), required: true } }
+        # The category of the company attachment.
+        # - `gep_notice`: A tax notice attachment
+        # - `compliance`: A compliance attachment
+        # - `other`: Any other attachment type
+        #
+        field :category, Models::Shared::Category, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Category, false) } }
+        # The ISO 8601 timestamp of when an attachment was uploaded
+        field :upload_time, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('upload_time'), required: true } }
 
+        sig { params(uuid: ::String, name: ::String, category: Models::Shared::Category, upload_time: ::String).void }
+        def initialize(uuid:, name:, category:, upload_time:)
+          @uuid = uuid
+          @name = name
+          @category = category
+          @upload_time = upload_time
+        end
 
-      sig { params(category: T.nilable(::GustoEmbedded::Shared::Category), name: T.nilable(::String), upload_time: T.nilable(::String), uuid: T.nilable(::String)).void }
-      def initialize(category: nil, name: nil, upload_time: nil, uuid: nil)
-        @category = category
-        @name = name
-        @upload_time = upload_time
-        @uuid = uuid
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @uuid == other.uuid
+          return false unless @name == other.name
+          return false unless @category == other.category
+          return false unless @upload_time == other.upload_time
+          true
+        end
       end
     end
   end

@@ -5,43 +5,59 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class Fields < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Fields
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The field's data type
-      field :data_type, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('data_type') } }
-      # Height of the field
-      field :height, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('height') } }
-      # Unique identifier of the field
-      field :key, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
-      # Page number of the field
-      field :page_number, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('page_number') } }
-      # Whether the field is required
-      field :required, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
-      # Auto-filled value of the field
-      field :value, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
-      # Width of the field
-      field :width, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('width') } }
-      # X-coordinate location of the field on the page
-      field :x, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('x') } }
-      # Y-coordinate location of the field on the page
-      field :y, T.nilable(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('y') } }
+        # The field's data type
+        field :data_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('data_type') } }
+        # Whether the field is required
+        field :required, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
+        # Unique identifier of the field. May be null for custom fields that do not correspond to a known Gusto-managed key mapping.
+        field :key, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
+        # Auto-filled value of the field
+        field :value, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
+        # X-coordinate location of the field on the page. May be null when the field has no positioning information.
+        field :x, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('x') } }
+        # Y-coordinate location of the field on the page. May be null when the field has no positioning information.
+        field :y, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('y') } }
+        # Width of the field. May be null when the field has no positioning information.
+        field :width, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('width') } }
+        # Height of the field. May be null when the field has no positioning information.
+        field :height, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('height') } }
+        # Page number of the field. May be null when the field has no positioning information.
+        field :page_number, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('page_number') } }
 
+        sig { params(data_type: T.nilable(::String), required: T.nilable(T::Boolean), key: T.nilable(::String), value: T.nilable(::String), x: T.nilable(::Integer), y: T.nilable(::Integer), width: T.nilable(::Integer), height: T.nilable(::Integer), page_number: T.nilable(::Integer)).void }
+        def initialize(data_type: nil, required: nil, key: nil, value: nil, x: nil, y: nil, width: nil, height: nil, page_number: nil)
+          @data_type = data_type
+          @required = required
+          @key = key
+          @value = value
+          @x = x
+          @y = y
+          @width = width
+          @height = height
+          @page_number = page_number
+        end
 
-      sig { params(data_type: T.nilable(::String), height: T.nilable(::Integer), key: T.nilable(::String), page_number: T.nilable(::Integer), required: T.nilable(T::Boolean), value: T.nilable(::String), width: T.nilable(::Integer), x: T.nilable(::Integer), y: T.nilable(::Integer)).void }
-      def initialize(data_type: nil, height: nil, key: nil, page_number: nil, required: nil, value: nil, width: nil, x: nil, y: nil)
-        @data_type = data_type
-        @height = height
-        @key = key
-        @page_number = page_number
-        @required = required
-        @value = value
-        @width = width
-        @x = x
-        @y = y
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @data_type == other.data_type
+          return false unless @required == other.required
+          return false unless @key == other.key
+          return false unless @value == other.value
+          return false unless @x == other.x
+          return false unless @y == other.y
+          return false unless @width == other.width
+          return false unless @height == other.height
+          return false unless @page_number == other.page_number
+          true
+        end
       end
     end
   end

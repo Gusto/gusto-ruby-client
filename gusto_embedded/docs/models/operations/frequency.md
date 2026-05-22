@@ -2,6 +2,14 @@
 
 The frequency that employees on this pay schedule are paid with Gusto.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = Frequency::EVERY_WEEK
+```
+
 
 ## Values
 

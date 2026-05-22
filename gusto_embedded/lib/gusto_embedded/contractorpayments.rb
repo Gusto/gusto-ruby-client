@@ -5,240 +5,639 @@
 
 require 'faraday'
 require 'faraday/multipart'
+require 'faraday/retry'
 require 'sorbet-runtime'
+require_relative 'sdk_hooks/hooks'
+require_relative 'utils/retries'
 
 module GustoEmbedded
   extend T::Sig
   class ContractorPayments
     extend T::Sig
+    
 
 
     sig { params(sdk_config: SDKConfiguration).void }
     def initialize(sdk_config)
       @sdk_configuration = sdk_config
+      
+    end
+
+    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    def get_url(base_url:, url_variables: nil)
+      sd_base_url, sd_options = @sdk_configuration.get_server_details
+
+      if base_url.nil?
+        base_url = sd_base_url
+      end
+
+      if url_variables.nil?
+        url_variables = sd_options
+      end
+
+      return Utils.template_url base_url, url_variables
     end
 
 
-    sig { params(contractor_payment_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptResponse) }
-    def get_receipt(contractor_payment_uuid, x_gusto_api_version = nil)
+
+
+    sig { params(contractor_payment_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptResponse) }
+    def get_receipt(contractor_payment_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get_receipt - Get a single contractor payment receipt
       # Returns a contractor payment receipt.
-      # 
+      #
       # Notes:
       # * Receipts are only available for direct deposit payments and are only available once those payments have been funded.
       # * Payroll Receipt requests for payrolls which do not have receipts available (e.g. payment by check) will return a 404 status.
       # * Hour and dollar amounts are returned as string representations of numeric decimals.
       # * Dollar amounts are represented to the cent.
       # * If no data has yet be inserted for a given field, it defaults to “0.00” (for fixed amounts).
-      # 
+      #
       # scope: `payrolls:read`
-      request = ::GustoEmbedded::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptRequest.new(
-        
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptRequest.new(
         contractor_payment_uuid: contractor_payment_uuid,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::GustoEmbedded::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptRequest,
+        Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptRequest,
         base_url,
         '/v1/contractor_payments/{contractor_payment_uuid}/receipt',
         request
       )
       headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[String, String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.get(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-      end
+      security = @sdk_configuration.security_source&.call
 
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
 
-      res = ::GustoEmbedded::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'get-v1-contractor_payments-contractor_payment_uuid-receipt',
+        security_source: @sdk_configuration.security_source
       )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPaymentReceipt)
-          res.contractor_payment_receipt = out
-        end
-      elsif r.status == 404
-      end
 
-      res
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).get(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
+        end
+      end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::ContractorPaymentReceipt)
+          response = Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            contractor_payment_receipt: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['404'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
     end
 
 
-    sig { params(contractor_payment_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundResponse) }
-    def fund(contractor_payment_uuid, x_gusto_api_version = nil)
+    sig { params(contractor_payment_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundResponse) }
+    def fund(contractor_payment_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # fund - Fund a contractor payment [DEMO]
       # > 🚧 Demo action
       # >
       # > This action is only available in the Demo environment
-      # 
+      #
       # Simulate funding a contractor payment. Funding only occurs automatically in the production environment when bank transactions are generated. Use this action in the demo environment to transition a contractor payment's `status` from `Unfunded` to `Funded`. A `Funded` status is required for generating a contractor payment receipt.
-      # 
+      #
       # scope: `payrolls:run`
-      request = ::GustoEmbedded::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundRequest.new(
-        
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundRequest.new(
         contractor_payment_uuid: contractor_payment_uuid,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::GustoEmbedded::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundRequest,
+        Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundRequest,
         base_url,
         '/v1/contractor_payments/{contractor_payment_uuid}/fund',
         request
       )
       headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[String, String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.put(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-      end
+      security = @sdk_configuration.security_source&.call
 
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
 
-      res = ::GustoEmbedded::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'get-v1-contractor_payments-contractor_payment_uuid-fund',
+        security_source: @sdk_configuration.security_source
       )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPayment)
-          res.contractor_payment = out
+
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).put(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
         end
-      elsif r.status == 404
-      elsif r.status == 422
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
-          res.unprocessable_entity_error_object = out
-        end
-      end
-
-      res
-    end
-
-
-    sig { params(company_id: ::String, request_body: ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentsResponse) }
-    def create(company_id, request_body, x_gusto_api_version = nil)
-      # create - Create a contractor payment
-      # Pay a contractor. Information needed depends on the contractor's wage type (hourly vs fixed)
-      # 
-      # scope: `payrolls:run`
-      request = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequest.new(
-        
-        company_id: company_id,
-        request_body: request_body,
-        x_gusto_api_version: x_gusto_api_version
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequest,
-        base_url,
-        '/v1/companies/{company_id}/contractor_payments',
-        request
-      )
-      headers = Utils.get_headers(request)
-      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
-      headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
-      headers['Accept'] = 'application/json'
-      headers['user-agent'] = @sdk_configuration.user_agent
-
-      r = @sdk_configuration.client.post(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-        if form
-          req.body = Utils.encode_form(form)
-        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-          req.body = URI.encode_www_form(data)
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
         else
-          req.body = data
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
         end
       end
-
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
-
-      res = ::GustoEmbedded::Operations::PostV1CompaniesCompanyIdContractorPaymentsResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
-      )
-      if r.status == 200
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPayment)
-          res.contractor_payment = out
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::ContractorPayment)
+          response = Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            contractor_payment: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
         end
-      elsif r.status == 404
-      elsif r.status == 422
+      elsif Utils.match_status_code(http_response.status, ['404'])
         if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
-          res.unprocessable_entity_error_object = out
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
         end
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
       end
-
-      res
     end
 
 
-    sig { params(request: T.nilable(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentsRequest)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentsResponse) }
-    def list(request)
+    sig { params(request: Models::Operations::GetV1CompaniesCompanyIdContractorPaymentsRequest, timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdContractorPaymentsResponse) }
+    def list(request:, timeout_ms: nil, http_headers: nil)
       # list - Get contractor payments for a company
       # Returns an object containing individual contractor payments, within a given time period, including totals.
-      # 
+      #
+      # Results are returned in reverse chronological order (newest first).
+      #
       # scope: `payrolls:read`
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentsRequest,
+        Models::Operations::GetV1CompaniesCompanyIdContractorPaymentsRequest,
         base_url,
         '/v1/companies/{company_id}/contractor_payments',
         request
       )
       headers = Utils.get_headers(request)
-      query_params = Utils.get_query_params(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentsRequest, request)
+      headers = T.cast(headers, T::Hash[String, String])
+      query_params = Utils.get_query_params(Models::Operations::GetV1CompaniesCompanyIdContractorPaymentsRequest, request, nil)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.get(url) do |req|
-        req.headers = headers
-        req.params = query_params
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-      end
+      security = @sdk_configuration.security_source&.call
 
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
 
-      res = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentsResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'get-v1-companies-company_id-contractor_payments',
+        security_source: @sdk_configuration.security_source
       )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::Object)
-          res.one_of = out
-        end
-      elsif r.status == 404
-      end
 
-      res
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).get(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          req.params = query_params
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
+        end
+      end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Union.new(Models::Shared::ContractorPaymentSummary, Models::Shared::ContractorPaymentSummaryByDates))
+          response = Models::Operations::GetV1CompaniesCompanyIdContractorPaymentsResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            one_of: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['404'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
     end
 
 
-    sig { params(company_id: ::String, contractor_payment_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse) }
-    def get(company_id, contractor_payment_id, x_gusto_api_version = nil)
+    sig { params(contractor_payment_body: Models::Shared::ContractorPaymentBody, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentsHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentsResponse) }
+    def create(contractor_payment_body:, company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # create - Create a contractor payment
+      # Pay a contractor. Information needed depends on the contractor's wage type (hourly vs fixed)
+      #
+      # scope: `payrolls:run`
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequest.new(
+        company_id: company_id,
+        contractor_payment_body: contractor_payment_body,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        Models::Operations::PostV1CompaniesCompanyIdContractorPaymentsRequest,
+        base_url,
+        '/v1/companies/{company_id}/contractor_payments',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[String, String])
+      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :contractor_payment_body, :json)
+      headers['content-type'] = req_content_type
+      raise StandardError, 'request body is required' if data.nil? && form.nil?
+
+      if form && !form.empty?
+        body = Utils.encode_form(form)
+      elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+      else
+        body = data
+      end
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      security = @sdk_configuration.security_source&.call
+
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
+
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'post-v1-companies-company_id-contractor_payments',
+        security_source: @sdk_configuration.security_source
+      )
+
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).post(url) do |req|
+          req.body = body
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
+        end
+      end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::ContractorPayment)
+          response = Models::Operations::PostV1CompaniesCompanyIdContractorPaymentsResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            contractor_payment: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['404'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
+    end
+
+
+    sig { params(company_id: ::String, contractor_payment_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse) }
+    def get(company_id:, contractor_payment_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get - Get a single contractor payment
       # Returns a single contractor payment.
+      #
       # scope: `payrolls:read`
-      request = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest.new(
-        
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest.new(
         company_id: company_id,
         contractor_payment_id: contractor_payment_id,
         x_gusto_api_version: x_gusto_api_version
@@ -246,46 +645,134 @@ module GustoEmbedded
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest,
+        Models::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest,
         base_url,
         '/v1/companies/{company_id}/contractor_payments/{contractor_payment_id}',
         request
       )
       headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[String, String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.get(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-      end
+      security = @sdk_configuration.security_source&.call
 
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
 
-      res = ::GustoEmbedded::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'get-v1-companies-company_id-contractor_payment-contractor-payment',
+        security_source: @sdk_configuration.security_source
       )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::ContractorPayment)
-          res.contractor_payment = out
-        end
-      elsif r.status == 404
-      end
 
-      res
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).get(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
+        end
+      end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::ContractorPayment)
+          response = Models::Operations::GetV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            contractor_payment: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['404'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
     end
 
 
-    sig { params(company_id: ::String, contractor_payment_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse) }
-    def delete(company_id, contractor_payment_id, x_gusto_api_version = nil)
+    sig { params(company_id: ::String, contractor_payment_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse) }
+    def delete(company_id:, contractor_payment_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # delete - Cancel a contractor payment
       # Cancels and deletes a contractor payment. If the contractor payment has already started processing ("may_cancel": true), the payment cannot be cancelled.
-      # 
+      #
       # scope: `payrolls:run`
-      request = ::GustoEmbedded::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest.new(
-        
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest.new(
         company_id: company_id,
         contractor_payment_id: contractor_payment_id,
         x_gusto_api_version: x_gusto_api_version
@@ -293,100 +780,401 @@ module GustoEmbedded
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::GustoEmbedded::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest,
+        Models::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentRequest,
         base_url,
         '/v1/companies/{company_id}/contractor_payments/{contractor_payment_id}',
         request
       )
       headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[String, String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.delete(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-      end
+      security = @sdk_configuration.security_source&.call
 
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
 
-      res = ::GustoEmbedded::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'delete-v1-companies-company_id-contractor_payment-contractor-payment',
+        security_source: @sdk_configuration.security_source
       )
-      if r.status == 204
-      elsif r.status == 404
-      elsif r.status == 422
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::UnprocessableEntityErrorObject)
-          res.unprocessable_entity_error_object = out
+
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).delete(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
         end
       end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['204'])
+        http_response = @sdk_configuration.hooks.after_success(
+          hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+            hook_ctx: hook_ctx
+          ),
+          response: http_response
+        )
+        return Models::Operations::DeleteV1CompaniesCompanyIdContractorPaymentContractorPaymentResponse.new(
+          status_code: http_response.status,
+          content_type: content_type,
+          raw_response: http_response
+        )
+      elsif Utils.match_status_code(http_response.status, ['404'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
 
-      res
+      end
     end
 
 
-    sig { params(company_uuid: ::String, request_body: ::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewResponse) }
-    def preview(company_uuid, request_body, x_gusto_api_version = nil)
+    sig { params(contractor_payments_preview_body: Models::Shared::ContractorPaymentsPreviewBody, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewResponse) }
+    def preview(contractor_payments_preview_body:, company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # preview - Preview contractor payment debit date
       # Returns a debit_date dependent on the ACH payment speed of the company.
-      # 
+      #
       # If the payment method is Check or Historical payment, the debit_date will be the same as the check_date.
-      # 
+      #
       # scope: `payrolls:read`
-      request = ::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequest.new(
-        
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequest.new(
         company_uuid: company_uuid,
-        request_body: request_body,
+        contractor_payments_preview_body: contractor_payments_preview_body,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        ::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequest,
+        Models::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewRequest,
         base_url,
         '/v1/companies/{company_uuid}/contractor_payments/preview',
         request
       )
       headers = Utils.get_headers(request)
-      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers = T.cast(headers, T::Hash[String, String])
+      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :contractor_payments_preview_body, :json)
       headers['content-type'] = req_content_type
       raise StandardError, 'request body is required' if data.nil? && form.nil?
+
+      if form && !form.empty?
+        body = Utils.encode_form(form)
+      elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+      else
+        body = data
+      end
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.get(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-        if form
-          req.body = Utils.encode_form(form)
-        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-          req.body = URI.encode_www_form(data)
-        else
-          req.body = data
-        end
-      end
+      security = @sdk_configuration.security_source&.call
 
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
 
-      res = ::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'get-companies-company_uuid-contractor_payments-preview',
+        security_source: @sdk_configuration.security_source
       )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewResponseBody)
-          res.two_hundred_application_json_object = out
+
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).get(url) do |req|
+          req.body = body
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
         end
-      elsif r.status == 404
-      elsif r.status == 422
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewContractorPaymentsResponseBody)
-          res.four_hundred_and_twenty_two_application_json_object = out
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
         end
       end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::ContractorPaymentsPreview)
+          response = Models::Operations::GetCompaniesCompanyUuidContractorPaymentsPreviewResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            contractor_payments_preview: T.unsafe(obj)
+          )
 
-      res
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['404'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
     end
-  end
+
+
+    sig { params(contractor_payment_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfResponse) }
+    def get_v1_contractor_payments_contractor_payment_id_pdf(contractor_payment_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # get_v1_contractor_payments_contractor_payment_id_pdf - Get a contractor payment PDF
+      # Get a PDF document for a single contractor payment.
+      #
+      # scope: `payrolls:read`
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfRequest.new(
+        contractor_payment_id: contractor_payment_id,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfRequest,
+        base_url,
+        '/v1/contractor_payments/{contractor_payment_id}/pdf',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[String, String])
+      headers['Accept'] = '*/*'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      security = @sdk_configuration.security_source&.call
+
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
+
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'get-v1-contractor_payments-contractor_payment_id-pdf',
+        security_source: @sdk_configuration.security_source
+      )
+
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).get(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
+        end
+      end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        http_response = @sdk_configuration.hooks.after_success(
+          hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+            hook_ctx: hook_ctx
+          ),
+          response: http_response
+        )
+        return Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfResponse.new(
+          status_code: http_response.status,
+          content_type: content_type,
+          raw_response: http_response
+        )
+      elsif Utils.match_status_code(http_response.status, ['404', '4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
+    end
+end
 end

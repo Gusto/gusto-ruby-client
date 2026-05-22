@@ -2,6 +2,14 @@
 
 Payroll type
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = PayrollType::REGULAR
+```
+
 
 ## Values
 

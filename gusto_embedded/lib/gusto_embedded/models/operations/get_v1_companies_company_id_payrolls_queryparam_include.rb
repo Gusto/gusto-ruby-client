@@ -5,15 +5,17 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class GetV1CompaniesCompanyIdPayrollsQueryParamInclude < T::Enum
-      enums do
-        TOTALS = new('totals')
-        PAYROLL_STATUS_META = new('payroll_status_meta')
-        RISK_BLOCKERS = new('risk_blockers')
-        REVERSALS = new('reversals')
+      class GetV1CompaniesCompanyIdPayrollsQueryParamInclude < T::Enum
+        enums do
+          TAXES = new('taxes')
+          PAYROLL_STATUS_META = new('payroll_status_meta')
+          TOTALS = new('totals')
+          RISK_BLOCKERS = new('risk_blockers')
+          REVERSALS = new('reversals')
+        end
       end
     end
   end

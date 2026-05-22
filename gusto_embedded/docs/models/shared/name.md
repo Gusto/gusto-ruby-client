@@ -2,6 +2,14 @@
 
 The name of the paid time off type.
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = Name::VACATION_HOURS
+```
+
 
 ## Values
 

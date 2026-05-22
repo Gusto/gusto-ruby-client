@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class PayrollEmployeeCompensationsTypePaidTimeOff < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PayrollEmployeeCompensationsTypePaidTimeOff
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The outstanding hours paid upon termination. This field is only applicable for termination payrolls.
-      field :final_payout_unused_hours_input, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('final_payout_unused_hours_input') } }
-      # The hours of this PTO taken during the pay period.
-      field :hours, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
-      # The name of the PTO. This also serves as the unique, immutable identifier for the PTO.
-      field :name, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The name of the PTO. This also serves as the unique, immutable identifier for the PTO.
+        field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
+        # The hours of this PTO taken during the pay period.
+        field :hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
+        # The outstanding hours paid upon termination. This field is only applicable for termination payrolls.
+        field :final_payout_unused_hours_input, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('final_payout_unused_hours_input') } }
 
+        sig { params(name: T.nilable(::String), hours: T.nilable(::String), final_payout_unused_hours_input: T.nilable(::String)).void }
+        def initialize(name: nil, hours: nil, final_payout_unused_hours_input: nil)
+          @name = name
+          @hours = hours
+          @final_payout_unused_hours_input = final_payout_unused_hours_input
+        end
 
-      sig { params(final_payout_unused_hours_input: T.nilable(::String), hours: T.nilable(::String), name: T.nilable(::String)).void }
-      def initialize(final_payout_unused_hours_input: nil, hours: nil, name: nil)
-        @final_payout_unused_hours_input = final_payout_unused_hours_input
-        @hours = hours
-        @name = name
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @name == other.name
+          return false unless @hours == other.hours
+          return false unless @final_payout_unused_hours_input == other.final_payout_unused_hours_input
+          true
+        end
       end
     end
   end

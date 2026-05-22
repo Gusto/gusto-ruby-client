@@ -5,31 +5,47 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class EmployeeStateTaxQuestion < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class EmployeeStateTaxQuestion
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # A short title for the question
+        field :label, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label'), required: true } }
+        # A unique identifier of the question (for the given state) - used for updating the answer.
+        field :key, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key'), required: true } }
 
-      field :answers, T::Array[::GustoEmbedded::Shared::EmployeeStateTaxAnswer], { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('answers') } }
-      # An explaination of the question - this may contain inline html formatted links.
-      field :description, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        field :is_question_for_admin_only, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('is_question_for_admin_only'), required: true } }
 
-      field :input_question_format, ::GustoEmbedded::Shared::EmployeeStateTaxInputQuestionFormat, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('input_question_format') } }
-      # A unique identifier of the question (for the given state) - used for updating the answer.
-      field :key, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('key') } }
-      # A short title for the question
-      field :label, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('label') } }
+        field :input_question_format, Models::Shared::EmployeeStateTaxInputQuestionFormat, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('input_question_format'), required: true } }
 
+        field :answers, Crystalline::Array.new(Models::Shared::EmployeeStateTaxAnswer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('answers'), required: true } }
+        # An explaination of the question - this may contain inline html formatted links.
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description'), required: true } }
 
-      sig { params(answers: T::Array[::GustoEmbedded::Shared::EmployeeStateTaxAnswer], description: ::String, input_question_format: ::GustoEmbedded::Shared::EmployeeStateTaxInputQuestionFormat, key: ::String, label: ::String).void }
-      def initialize(answers: nil, description: nil, input_question_format: nil, key: nil, label: nil)
-        @answers = answers
-        @description = description
-        @input_question_format = input_question_format
-        @key = key
-        @label = label
+        sig { params(label: ::String, key: ::String, is_question_for_admin_only: T::Boolean, input_question_format: Models::Shared::EmployeeStateTaxInputQuestionFormat, answers: T::Array[Models::Shared::EmployeeStateTaxAnswer], description: T.nilable(::String)).void }
+        def initialize(label:, key:, is_question_for_admin_only:, input_question_format:, answers:, description: nil)
+          @label = label
+          @key = key
+          @is_question_for_admin_only = is_question_for_admin_only
+          @input_question_format = input_question_format
+          @answers = answers
+          @description = description
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @label == other.label
+          return false unless @key == other.key
+          return false unless @is_question_for_admin_only == other.is_question_for_admin_only
+          return false unless @input_question_format == other.input_question_format
+          return false unless @answers == other.answers
+          return false unless @description == other.description
+          true
+        end
       end
     end
   end

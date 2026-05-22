@@ -5,16 +5,17 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # RateType - [for `workers_compensation_rate`] The type of rate being collected. Either:
-    #  - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1%
-    #  - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr
-    # 
-    class RateType < T::Enum
-      enums do
-        PERCENT = new('percent')
-        CURRENCY_PER_HOUR = new('currency_per_hour')
+  module Models
+    module Shared
+      # RateType - [for `workers_compensation_rate`] The type of rate being collected. Either:
+      #   - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1%
+      #   - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr
+      #
+      class RateType < T::Enum
+        enums do
+          PERCENT = new('percent')
+          CURRENCY_PER_HOUR = new('currency_per_hour')
+        end
       end
     end
   end

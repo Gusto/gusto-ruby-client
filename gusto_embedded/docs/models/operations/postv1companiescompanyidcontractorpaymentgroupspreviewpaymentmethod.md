@@ -1,5 +1,13 @@
 # PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod::DIRECT_DEPOSIT
+```
+
 
 ## Values
 

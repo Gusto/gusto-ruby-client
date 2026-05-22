@@ -1,6 +1,12 @@
 # OnboardingStatus
 
-The current onboarding status of the employee
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = OnboardingStatus::ONBOARDING_COMPLETED
+```
 
 
 ## Values

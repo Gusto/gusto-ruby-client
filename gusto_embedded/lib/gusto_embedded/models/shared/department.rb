@@ -5,34 +5,47 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class Department < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class Department
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
-      # Array of contractors assigned to the department.
-      field :contractors, T.nilable(T::Array[::GustoEmbedded::Shared::Contractors]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractors') } }
-      # Array of employees assigned to the department.
-      field :employees, T.nilable(T::Array[::GustoEmbedded::Shared::DepartmentEmployees]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
-      # Name of the department
-      field :title, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
-      # The UUID of the department
-      field :uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-      # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
-      field :version, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
+        field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # The UUID of the department
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The UUID of the company
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # Name of the department
+        field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
+        # Array of employees assigned to the department.
+        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::DepartmentEmployees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
+        # Array of contractors assigned to the department.
+        field :contractors, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Contractors)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractors') } }
 
+        sig { params(version: T.nilable(::String), uuid: T.nilable(::String), company_uuid: T.nilable(::String), title: T.nilable(::String), employees: T.nilable(T::Array[Models::Shared::DepartmentEmployees]), contractors: T.nilable(T::Array[Models::Shared::Contractors])).void }
+        def initialize(version: nil, uuid: nil, company_uuid: nil, title: nil, employees: nil, contractors: nil)
+          @version = version
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @title = title
+          @employees = employees
+          @contractors = contractors
+        end
 
-      sig { params(company_uuid: T.nilable(::String), contractors: T.nilable(T::Array[::GustoEmbedded::Shared::Contractors]), employees: T.nilable(T::Array[::GustoEmbedded::Shared::DepartmentEmployees]), title: T.nilable(::String), uuid: T.nilable(::String), version: T.nilable(::String)).void }
-      def initialize(company_uuid: nil, contractors: nil, employees: nil, title: nil, uuid: nil, version: nil)
-        @company_uuid = company_uuid
-        @contractors = contractors
-        @employees = employees
-        @title = title
-        @uuid = uuid
-        @version = version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @version == other.version
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @title == other.title
+          return false unless @employees == other.employees
+          return false unless @contractors == other.contractors
+          true
+        end
       end
     end
   end

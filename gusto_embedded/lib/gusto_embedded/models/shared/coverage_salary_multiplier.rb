@@ -5,28 +5,39 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
-    class CoverageSalaryMultiplier < ::Crystalline::FieldAugmented
-      extend T::Sig
+  module Models
+    module Shared
+      # The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
+      class CoverageSalaryMultiplier
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      field :choices, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('choices') } }
+        field :required, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
 
-      field :default_value, T.nilable(::GustoEmbedded::Shared::BenefitTypeRequirementsCoverageSalaryMultiplierDefaultValue), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default_value') } }
+        field :editable, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('editable') } }
 
-      field :editable, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('editable') } }
+        field :default_value, Crystalline::Nilable.new(Models::Shared::BenefitTypeRequirementsCoverageSalaryMultiplierDefaultValue), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default_value') } }
 
-      field :required, T.nilable(T::Boolean), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
+        field :choices, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('choices') } }
 
+        sig { params(required: T.nilable(T::Boolean), editable: T.nilable(T::Boolean), default_value: T.nilable(Models::Shared::BenefitTypeRequirementsCoverageSalaryMultiplierDefaultValue), choices: T.nilable(T::Array[::String])).void }
+        def initialize(required: nil, editable: nil, default_value: nil, choices: nil)
+          @required = required
+          @editable = editable
+          @default_value = default_value
+          @choices = choices
+        end
 
-      sig { params(choices: T.nilable(T::Array[::String]), default_value: T.nilable(::GustoEmbedded::Shared::BenefitTypeRequirementsCoverageSalaryMultiplierDefaultValue), editable: T.nilable(T::Boolean), required: T.nilable(T::Boolean)).void }
-      def initialize(choices: nil, default_value: nil, editable: nil, required: nil)
-        @choices = choices
-        @default_value = default_value
-        @editable = editable
-        @required = required
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @required == other.required
+          return false unless @editable == other.editable
+          return false unless @default_value == other.default_value
+          return false unless @choices == other.choices
+          true
+        end
       end
     end
   end

@@ -5,37 +5,51 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # A custom field of an employee
-    class EmployeeCustomField < ::Crystalline::FieldAugmented
-      extend T::Sig
-
-      # This is the id of the response object from when you get the company custom fields
-      field :company_custom_field_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_custom_field_id') } }
-
-      field :id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id') } }
-
-      field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
-      # Input type for the custom field.
-      field :type, ::GustoEmbedded::Shared::CustomFieldType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Shared::CustomFieldType, false) } }
-
-      field :value, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
-
-      field :description, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-      # An array of options for fields of type radio. Otherwise, null.
-      field :selection_options, T.nilable(T::Array[::String]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selection_options') } }
+  module Models
+    module Shared
+      # A custom field of an employee
+      class EmployeeCustomField
+        extend T::Sig
+        include Crystalline::MetadataFields
 
 
-      sig { params(company_custom_field_id: ::String, id: ::String, name: ::String, type: ::GustoEmbedded::Shared::CustomFieldType, value: ::String, description: T.nilable(::String), selection_options: T.nilable(T::Array[::String])).void }
-      def initialize(company_custom_field_id: nil, id: nil, name: nil, type: nil, value: nil, description: nil, selection_options: nil)
-        @company_custom_field_id = company_custom_field_id
-        @id = id
-        @name = name
-        @type = type
-        @value = value
-        @description = description
-        @selection_options = selection_options
+        field :id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('id'), required: true } }
+        # This is the id of the response object from when you get the company custom fields
+        field :company_custom_field_id, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_custom_field_id'), required: true } }
+
+        field :name, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name'), required: true } }
+        # Input type for the custom field.
+        field :type, Models::Shared::CustomFieldType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::CustomFieldType, false) } }
+
+        field :value, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value'), required: true } }
+
+        field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
+        # An array of options for fields of type radio. Otherwise, null.
+        field :selection_options, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('selection_options') } }
+
+        sig { params(id: ::String, company_custom_field_id: ::String, name: ::String, type: Models::Shared::CustomFieldType, value: ::String, description: T.nilable(::String), selection_options: T.nilable(T::Array[::String])).void }
+        def initialize(id:, company_custom_field_id:, name:, type:, value:, description: nil, selection_options: nil)
+          @id = id
+          @company_custom_field_id = company_custom_field_id
+          @name = name
+          @type = type
+          @value = value
+          @description = description
+          @selection_options = selection_options
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @id == other.id
+          return false unless @company_custom_field_id == other.company_custom_field_id
+          return false unless @name == other.name
+          return false unless @type == other.type
+          return false unless @value == other.value
+          return false unless @description == other.description
+          return false unless @selection_options == other.selection_options
+          true
+        end
       end
     end
   end

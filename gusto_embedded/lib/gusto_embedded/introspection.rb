@@ -5,67 +5,161 @@
 
 require 'faraday'
 require 'faraday/multipart'
+require 'faraday/retry'
 require 'sorbet-runtime'
+require_relative 'sdk_hooks/hooks'
+require_relative 'utils/retries'
 
 module GustoEmbedded
   extend T::Sig
   class Introspection
     extend T::Sig
+    
 
 
     sig { params(sdk_config: SDKConfiguration).void }
     def initialize(sdk_config)
       @sdk_configuration = sdk_config
+      
+    end
+
+    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    def get_url(base_url:, url_variables: nil)
+      sd_base_url, sd_options = @sdk_configuration.get_server_details
+
+      if base_url.nil?
+        base_url = sd_base_url
+      end
+
+      if url_variables.nil?
+        url_variables = sd_options
+      end
+
+      return Utils.template_url base_url, url_variables
     end
 
 
-    sig { params(x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::GetV1TokenInfoResponse) }
-    def get_info(x_gusto_api_version = nil)
+
+
+    sig { params(x_gusto_api_version: T.nilable(Models::Operations::XGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1TokenInfoResponse) }
+    def get_info(x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get_info - Get info about the current access token
-      # Returns scope and resource information associated with the current access token.
-      request = ::GustoEmbedded::Operations::GetV1TokenInfoRequest.new(
-        
+      # Returns scope and resource information associated with the current access token. Use this endpoint to verify the following for the current access token:
+      # * Resource (company, employee, contractor, or application) and resource owner
+      # * Access level
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetV1TokenInfoRequest.new(
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = "#{base_url}/v1/token_info"
       headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[String, String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.get(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-      end
+      security = @sdk_configuration.security_source&.call
 
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
 
-      res = ::GustoEmbedded::Operations::GetV1TokenInfoResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'get-v1-token-info',
+        security_source: @sdk_configuration.security_source
       )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Operations::GetV1TokenInfoResponseBody)
-          res.object = out
+
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).get(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
         end
       end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::TokenInfo)
+          response = Models::Operations::GetV1TokenInfoResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            token_info: T.unsafe(obj)
+          )
 
-      res
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
     end
 
 
-    sig { params(request_body: ::GustoEmbedded::Operations::RefreshAccessTokenRequestBody, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).returns(::GustoEmbedded::Operations::RefreshAccessTokenResponse) }
-    def refresh_token(request_body, x_gusto_api_version = nil)
-      # refresh_token - Refresh access token
-      # Exchange a refresh token for a new access token.
-      # 
-      # The previous `refresh_token` will be revoked on the first usage of the new `access_token`.
-      # 
-      # The `expires_in` value is provided in seconds from when the `access_token` was generated.
-      request = ::GustoEmbedded::Operations::RefreshAccessTokenRequest.new(
-        
+    sig { params(request_body: T.any(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest), x_gusto_api_version: T.nilable(Models::Operations::HeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::OauthAccessTokenResponse) }
+    def oauth_access_token(request_body:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # oauth_access_token - Create a System Access Token or Refresh an Access Token
+      # Creates a system access token or refreshes an oauth access token
+      request = Models::Operations::OauthAccessTokenRequest.new(
         request_body: request_body,
         x_gusto_api_version: x_gusto_api_version
       )
@@ -73,38 +167,111 @@ module GustoEmbedded
       base_url = Utils.template_url(url, params)
       url = "#{base_url}/oauth/token"
       headers = Utils.get_headers(request)
-      req_content_type, data, form = Utils.serialize_request_body(request, :request_body, :json)
+      headers = T.cast(headers, T::Hash[String, String])
+      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
       headers['content-type'] = req_content_type
       raise StandardError, 'request body is required' if data.nil? && form.nil?
+
+      if form && !form.empty?
+        body = Utils.encode_form(form)
+      elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+      else
+        body = data
+      end
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      r = @sdk_configuration.client.post(url) do |req|
-        req.headers = headers
-        security = !@sdk_configuration.nil? && !@sdk_configuration.security_source.nil? ? @sdk_configuration.security_source.call : nil
-        Utils.configure_request_security(req, security) if !security.nil?
-        if form
-          req.body = Utils.encode_form(form)
-        elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-          req.body = URI.encode_www_form(data)
-        else
-          req.body = data
-        end
-      end
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+      
 
-      content_type = r.headers.fetch('Content-Type', 'application/octet-stream')
+      connection = @sdk_configuration.client
 
-      res = ::GustoEmbedded::Operations::RefreshAccessTokenResponse.new(
-        status_code: r.status, content_type: content_type, raw_response: r
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'oauth-access-token',
+        security_source: nil
       )
-      if r.status == 200
-        if Utils.match_content_type(content_type, 'application/json')
-          out = Crystalline.unmarshal_json(JSON.parse(r.env.response_body), ::GustoEmbedded::Shared::Authentication)
-          res.authentication = out
+
+      error = T.let(nil, T.nilable(StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+      
+      begin
+        http_response = T.must(connection).post(url) do |req|
+          req.body = body
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+        
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
         end
       end
+      
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Union.new(Models::Shared::CreateTokenAuthentication, Models::Shared::RefreshTokenAuthentication))
+          response = Models::Operations::OauthAccessTokenResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            authentication: T.unsafe(obj)
+          )
 
-      res
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
     end
-  end
+end
 end

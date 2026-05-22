@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompaniesCompanyUuidTaxRequirementsStateRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
+        # Array of requirement sets to update. Each set corresponds to a category of requirements for the state.
+        field :requirement_sets, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::TaxRequirementSetUpdate)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirement_sets') } }
 
-      field :requirement_sets, T.nilable(T::Array[::GustoEmbedded::Operations::RequirementSets]), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('requirement_sets') } }
+        sig { params(requirement_sets: T.nilable(T::Array[Models::Shared::TaxRequirementSetUpdate])).void }
+        def initialize(requirement_sets: nil)
+          @requirement_sets = requirement_sets
+        end
 
-
-      sig { params(requirement_sets: T.nilable(T::Array[::GustoEmbedded::Operations::RequirementSets])).void }
-      def initialize(requirement_sets: nil)
-        @requirement_sets = requirement_sets
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @requirement_sets == other.requirement_sets
+          true
+        end
       end
     end
   end

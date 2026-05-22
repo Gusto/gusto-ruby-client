@@ -1,9 +1,17 @@
 # ProcessingStatuses
 
+## Example Usage
+
+```ruby
+require "gusto_embedded_client"
+
+value = ProcessingStatuses::PROCESSED
+```
+
 
 ## Values
 
 | Name          | Value         |
 | ------------- | ------------- |
-| `UNPROCESSED` | unprocessed   |
 | `PROCESSED`   | processed     |
+| `UNPROCESSED` | unprocessed   |

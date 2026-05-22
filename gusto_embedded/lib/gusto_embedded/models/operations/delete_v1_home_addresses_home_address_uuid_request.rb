@@ -5,22 +5,31 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class DeleteV1HomeAddressesHomeAddressUuidRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class DeleteV1HomeAddressesHomeAddressUuidRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the home address
-      field :home_address_uuid, ::String, { 'path_param': { 'field_name': 'home_address_uuid', 'style': 'simple', 'explode': false } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the home address
+        field :home_address_uuid, ::String, { 'path_param': { 'field_name': 'home_address_uuid', 'style': 'simple', 'explode': false } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::DeleteV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
+        sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::DeleteV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion)).void }
+        def initialize(home_address_uuid:, x_gusto_api_version: Models::Operations::DeleteV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @home_address_uuid = home_address_uuid
+          @x_gusto_api_version = x_gusto_api_version
+        end
 
-      sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(home_address_uuid: nil, x_gusto_api_version: nil)
-        @home_address_uuid = home_address_uuid
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @home_address_uuid == other.home_address_uuid
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

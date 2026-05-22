@@ -5,7 +5,10 @@
 
 require 'faraday'
 require 'faraday/multipart'
+require 'faraday/retry'
 require 'sorbet-runtime'
+require_relative 'sdk_hooks/hooks'
+require_relative 'utils/retries'
 
 module GustoEmbedded
   extend T::Sig
@@ -13,36 +16,44 @@ module GustoEmbedded
   class Client
     extend T::Sig
 
-    attr_accessor :introspection, :companies, :invoices, :company_attachments, :company_attachment, :federal_tax_details, :industry_selection, :signatories, :flows, :locations, :bank_accounts, :external_payrolls, :payment_configs, :pay_schedules, :employees, :historical_employees, :departments, :employee_employments, :employee_addresses, :employee_tax_setup, :employee_payment_method, :employee_payment_methods, :jobs_and_compensations, :earning_types, :contractors, :contractor_payment_methods, :contractor_payment_method, :webhooks, :contractor_forms, :contractor_documents, :employee_forms, :payrolls, :time_off_policies, :contractor_payments, :contractor_payment_groups, :company_forms, :generated_documents, :reports, :company_benefits, :employee_benefits, :garnishments, :i9_verification, :tax_requirements, :companies_suspensions, :holiday_pay_policies, :notifications, :events, :information_requests, :recovery_cases, :ach_transactions, :wire_in_requests
+    attr_accessor :introspection, :companies, :invoices, :company_attachments, :company_attachment, :federal_tax_details, :industry_selection, :signatories, :flows, :locations, :bank_accounts, :external_payrolls, :payment_configs, :pay_schedules, :employees, :historical_employees, :departments, :employee_employments, :employee_addresses, :employee_tax_setup, :employee_payment_methods, :employee_payment_method, :jobs_and_compensations, :earning_types, :contractors, :contractor_payment_method, :contractor_payment_methods, :webhooks, :contractor_forms, :contractor_documents, :employee_forms, :payrolls, :time_off_policies, :contractor_payments, :contractor_payment_groups, :company_forms, :generated_documents, :reports, :company_benefits, :employee_benefits, :garnishments, :i9_verification, :tax_requirements, :holiday_pay_policies, :notifications, :events, :information_requests, :recovery_cases, :ach_transactions, :wire_in_requests, :salary_estimates, :reimbursements, :people_batches, :time_off_requests
 
+    # Instantiates the SDK, configuring it with the provided parameters.
+    #
+    # @param client [Faraday::Connection, nil] The faraday HTTP client to use for all operations
+    # @param retry_config [::GustoEmbedded::Utils::RetryConfig, nil] The retry configuration to use for all operations
+    # @param timeout_ms [Integer, nil] Request timeout in milliseconds for all operations
+    # @param security [Models::Shared::Security, nil] The security details required for authentication
+    # @param security_source [Proc{|| Models::Shared::Security, nil}] A function that returns security details required for authentication
+    # @param server [Symbol, nil] The server identifier to use for all operations
+    # @param server_url [String, nil] The server URL to use for all operations
+    # @param url_params [Hash{Symbol => String}, nil] Parameters to optionally template the server URL with
     sig do
       params(
-        client: T.nilable(Faraday::Request),
-        security: T.nilable(::GustoEmbedded::Shared::Security),
-        security_source: T.nilable(T.proc.returns(::GustoEmbedded::Shared::Security)),
+        client: T.nilable(Faraday::Connection),
+        retry_config: T.nilable(::GustoEmbedded::Utils::RetryConfig),
+        timeout_ms: T.nilable(Integer),
+        security: T.nilable(Models::Shared::Security),
+        security_source: T.nilable(T.proc.returns(Models::Shared::Security)),
         server: T.nilable(Symbol),
         server_url: T.nilable(String),
         url_params: T.nilable(T::Hash[Symbol, String])
       ).void
     end
-    def initialize(client: nil, security: nil, security_source: nil, server: nil, server_url: nil, url_params: nil)
-      ## Instantiates the SDK configuring it with the provided parameters.
-      # @param [T.nilable(Faraday::Request)] client The faraday HTTP client to use for all operations
-      # @param [T.nilable(::GustoEmbedded::Shared::Security)] security: The security details required for authentication
-      # @param [T.proc.returns(T.nilable(::GustoEmbedded::Shared::Security))] security_source: A function that returns security details required for authentication
-      # @param [T.nilable(::Symbol)] server The server identifier to use for all operations
-      # @param [T.nilable(::String)] server_url The server URL to use for all operations
-      # @param [T.nilable(::Hash<::Symbol, ::String>)] url_params Parameters to optionally template the server URL with
+    def initialize(client: nil, retry_config: nil, timeout_ms: nil, security: nil, security_source: nil, server: nil, server_url: nil, url_params: nil)
 
-      if client.nil?
-        client = Faraday.new(request: {
-                          params_encoder: Faraday::FlatParamsEncoder
-                        }) do |f|
-          f.request :multipart, {}
-          # f.response :logger
-        end
+      connection_options = {
+        request: {
+          params_encoder: Faraday::FlatParamsEncoder
+        }
+      }
+      connection_options[:request][:timeout] = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+
+      client ||= Faraday.new(**connection_options) do |f|
+        f.request :multipart, {}
+        # f.response :logger, nil, { headers: true, bodies: true, errors: true }
       end
-
+      
       if !server_url.nil?
         if !url_params.nil?
           server_url = Utils.template_url(server_url, url_params)
@@ -50,13 +61,18 @@ module GustoEmbedded
       end
 
       raise StandardError, "Invalid server \"#{server}\"" if !server.nil? && !SERVERS.key?(server)
+      hooks = SDKHooks::Hooks.new
       @sdk_configuration = SDKConfiguration.new(
         client,
+        hooks,
+        retry_config,
+        timeout_ms,
         security,
         security_source,
         server_url,
         server
       )
+      @sdk_configuration = hooks.sdk_init(config: @sdk_configuration)
       init_sdks
     end
 
@@ -82,13 +98,13 @@ module GustoEmbedded
       @employee_employments = EmployeeEmployments.new(@sdk_configuration)
       @employee_addresses = EmployeeAddresses.new(@sdk_configuration)
       @employee_tax_setup = EmployeeTaxSetup.new(@sdk_configuration)
-      @employee_payment_method = EmployeePaymentMethod.new(@sdk_configuration)
       @employee_payment_methods = EmployeePaymentMethods.new(@sdk_configuration)
+      @employee_payment_method = EmployeePaymentMethod.new(@sdk_configuration)
       @jobs_and_compensations = JobsAndCompensations.new(@sdk_configuration)
       @earning_types = EarningTypes.new(@sdk_configuration)
       @contractors = Contractors.new(@sdk_configuration)
-      @contractor_payment_methods = ContractorPaymentMethods.new(@sdk_configuration)
       @contractor_payment_method = ContractorPaymentMethod.new(@sdk_configuration)
+      @contractor_payment_methods = ContractorPaymentMethods.new(@sdk_configuration)
       @webhooks = Webhooks.new(@sdk_configuration)
       @contractor_forms = ContractorForms.new(@sdk_configuration)
       @contractor_documents = ContractorDocuments.new(@sdk_configuration)
@@ -105,7 +121,6 @@ module GustoEmbedded
       @garnishments = Garnishments.new(@sdk_configuration)
       @i9_verification = I9Verification.new(@sdk_configuration)
       @tax_requirements = TaxRequirements.new(@sdk_configuration)
-      @companies_suspensions = CompaniesSuspensions.new(@sdk_configuration)
       @holiday_pay_policies = HolidayPayPolicies.new(@sdk_configuration)
       @notifications = Notifications.new(@sdk_configuration)
       @events = Events.new(@sdk_configuration)
@@ -113,6 +128,26 @@ module GustoEmbedded
       @recovery_cases = RecoveryCases.new(@sdk_configuration)
       @ach_transactions = AchTransactions.new(@sdk_configuration)
       @wire_in_requests = WireInRequests.new(@sdk_configuration)
+      @salary_estimates = SalaryEstimates.new(@sdk_configuration)
+      @reimbursements = Reimbursements.new(@sdk_configuration)
+      @people_batches = PeopleBatches.new(@sdk_configuration)
+      @time_off_requests = TimeOffRequests.new(@sdk_configuration)
     end
-  end
+
+    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    def get_url(base_url:, url_variables: nil)
+      sd_base_url, sd_options = @sdk_configuration.get_server_details
+
+      if base_url.nil?
+        base_url = sd_base_url
+      end
+
+      if url_variables.nil?
+        url_variables = sd_options
+      end
+
+      return Utils.template_url base_url, url_variables
+    end
+
+end
 end

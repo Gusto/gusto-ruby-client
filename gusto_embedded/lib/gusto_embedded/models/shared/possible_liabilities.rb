@@ -5,25 +5,35 @@
 
 
 module GustoEmbedded
-  module Shared
-  
+  module Models
+    module Shared
 
-    class PossibleLiabilities < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PossibleLiabilities
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the external payroll.
-      field :external_payroll_uuid, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_payroll_uuid') } }
-      # Liability amount.
-      field :liability_amount, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('liability_amount') } }
-      # The external payroll check date.
-      field :payroll_check_date, T.nilable(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_check_date') } }
+        # Liability amount.
+        field :liability_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('liability_amount') } }
+        # The external payroll check date.
+        field :payroll_check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payroll_check_date') } }
+        # The UUID of the external payroll.
+        field :external_payroll_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_payroll_uuid') } }
 
+        sig { params(liability_amount: T.nilable(::String), payroll_check_date: T.nilable(::String), external_payroll_uuid: T.nilable(::String)).void }
+        def initialize(liability_amount: nil, payroll_check_date: nil, external_payroll_uuid: nil)
+          @liability_amount = liability_amount
+          @payroll_check_date = payroll_check_date
+          @external_payroll_uuid = external_payroll_uuid
+        end
 
-      sig { params(external_payroll_uuid: T.nilable(::String), liability_amount: T.nilable(::String), payroll_check_date: T.nilable(::String)).void }
-      def initialize(external_payroll_uuid: nil, liability_amount: nil, payroll_check_date: nil)
-        @external_payroll_uuid = external_payroll_uuid
-        @liability_amount = liability_amount
-        @payroll_check_date = payroll_check_date
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @liability_amount == other.liability_amount
+          return false unless @payroll_check_date == other.payroll_check_date
+          return false unless @external_payroll_uuid == other.external_payroll_uuid
+          true
+        end
       end
     end
   end

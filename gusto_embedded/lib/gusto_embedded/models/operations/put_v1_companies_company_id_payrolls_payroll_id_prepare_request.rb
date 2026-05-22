@@ -5,25 +5,51 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequest < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequest
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # The UUID of the company
-      field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
-      # The UUID of the payroll
-      field :payroll_id, ::String, { 'path_param': { 'field_name': 'payroll_id', 'style': 'simple', 'explode': false } }
-      # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-      field :x_gusto_api_version, T.nilable(::GustoEmbedded::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        # The UUID of the company
+        field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
+        # The UUID of the payroll
+        field :payroll_id, ::String, { 'path_param': { 'field_name': 'payroll_id', 'style': 'simple', 'explode': false } }
+        # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
+        field :page, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
+        # Number of objects per page. For majority of endpoints will default to 25
+        field :per, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
+        # Sort employee compensations by name
+        field :sort_by, Crystalline::Nilable.new(Models::Operations::QueryParamSortBy), { 'query_param': { 'field_name': 'sort_by', 'style': 'form', 'explode': true } }
 
+        field :request_body, Crystalline::Nilable.new(Models::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody), { 'request': { 'media_type': 'application/json' } }
+        # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-      sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(::GustoEmbedded::Shared::VersionHeader)).void }
-      def initialize(company_id: nil, payroll_id: nil, x_gusto_api_version: nil)
-        @company_id = company_id
-        @payroll_id = payroll_id
-        @x_gusto_api_version = x_gusto_api_version
+        sig { params(company_id: ::String, payroll_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), sort_by: T.nilable(Models::Operations::QueryParamSortBy), request_body: T.nilable(Models::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody), x_gusto_api_version: T.nilable(Models::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareHeaderXGustoAPIVersion)).void }
+        def initialize(company_id:, payroll_id:, page: nil, per: nil, sort_by: nil, request_body: nil, x_gusto_api_version: Models::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+          @company_id = company_id
+          @payroll_id = payroll_id
+          @page = page
+          @per = per
+          @sort_by = sort_by
+          @request_body = request_body
+          @x_gusto_api_version = x_gusto_api_version
+        end
+
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @company_id == other.company_id
+          return false unless @payroll_id == other.payroll_id
+          return false unless @page == other.page
+          return false unless @per == other.per
+          return false unless @sort_by == other.sort_by
+          return false unless @request_body == other.request_body
+          return false unless @x_gusto_api_version == other.x_gusto_api_version
+          true
+        end
       end
     end
   end

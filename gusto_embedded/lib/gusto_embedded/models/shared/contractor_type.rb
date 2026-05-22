@@ -5,13 +5,14 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # ContractorType - The contractor's type, either "Individual" or "Business". 
-    class ContractorType < T::Enum
-      enums do
-        INDIVIDUAL = new('Individual')
-        BUSINESS = new('Business')
+  module Models
+    module Shared
+      # ContractorType - The contractor's type, either "Individual" or "Business". 
+      class ContractorType < T::Enum
+        enums do
+          INDIVIDUAL = new('Individual')
+          BUSINESS = new('Business')
+        end
       end
     end
   end

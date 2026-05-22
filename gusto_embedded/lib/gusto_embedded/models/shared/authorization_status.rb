@@ -5,15 +5,16 @@
 
 
 module GustoEmbedded
-  module Shared
-  
-    # AuthorizationStatus - The employee's authorization status
-    class AuthorizationStatus < T::Enum
-      enums do
-        CITIZEN = new('citizen')
-        NONCITIZEN = new('noncitizen')
-        PERMANENT_RESIDENT = new('permanent_resident')
-        ALIEN = new('alien')
+  module Models
+    module Shared
+      # AuthorizationStatus - The employee's authorization status
+      class AuthorizationStatus < T::Enum
+        enums do
+          CITIZEN = new('citizen')
+          NONCITIZEN = new('noncitizen')
+          PERMANENT_RESIDENT = new('permanent_resident')
+          ALIEN = new('alien')
+        end
       end
     end
   end

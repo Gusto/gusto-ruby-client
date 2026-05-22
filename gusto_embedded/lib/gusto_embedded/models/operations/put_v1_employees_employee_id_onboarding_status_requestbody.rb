@@ -5,19 +5,27 @@
 
 
 module GustoEmbedded
-  module Operations
-  
+  module Models
+    module Operations
 
-    class PutV1EmployeesEmployeeIdOnboardingStatusRequestBody < ::Crystalline::FieldAugmented
-      extend T::Sig
+      class PutV1EmployeesEmployeeIdOnboardingStatusRequestBody
+        extend T::Sig
+        include Crystalline::MetadataFields
 
-      # Onboarding status value
-      field :onboarding_status, ::GustoEmbedded::Operations::OnboardingStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': Utils.enum_from_string(::GustoEmbedded::Operations::OnboardingStatus, false) } }
+        # Onboarding status value
+        field :onboarding_status, Models::Operations::OnboardingStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::OnboardingStatus, false) } }
 
+        sig { params(onboarding_status: Models::Operations::OnboardingStatus).void }
+        def initialize(onboarding_status:)
+          @onboarding_status = onboarding_status
+        end
 
-      sig { params(onboarding_status: ::GustoEmbedded::Operations::OnboardingStatus).void }
-      def initialize(onboarding_status: nil)
-        @onboarding_status = onboarding_status
+        sig { params(other: T.untyped).returns(T::Boolean) }
+        def ==(other)
+          return false unless other.is_a? self.class
+          return false unless @onboarding_status == other.onboarding_status
+          true
+        end
       end
     end
   end
