@@ -48,6 +48,8 @@ module GustoEmbedded
         field :retirement_loan_identifier, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('retirement_loan_identifier') } }
         # The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set.
         field :coverage_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_amount') } }
+        # Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored.
+        field :deduction_reduces_taxable_income, Crystalline::Nilable.new(Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduction_reduces_taxable_income'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome, true) } }
         # The amount to be paid, per pay period, by the company. This field will not appear for tiered contribution types.
         #
         # @deprecated true: This will be removed in a future release, please migrate away from it as soon as possible.
@@ -60,13 +62,11 @@ module GustoEmbedded
         field :expiration_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('expiration_date'), 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(true) } }
         # Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50.
         field :catch_up, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('catch_up') } }
-        # Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored.
-        field :deduction_reduces_taxable_income, Crystalline::Nilable.new(Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduction_reduces_taxable_income'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome, true) } }
         # The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
         field :coverage_salary_multiplier, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_salary_multiplier') } }
 
-        sig { params(employee_uuid: ::String, version: T.nilable(::String), contribution: T.nilable(Models::Shared::EmployeeBenefitForCompanyBenefitContribution), effective_date: T.nilable(::Date), uuid: T.nilable(::String), action: T.nilable(Models::Shared::Action), additional_properties: T.nilable(T::Hash[Symbol, ::Object]), active: T.nilable(T::Boolean), employee_deduction: T.nilable(::String), deduct_as_percentage: T.nilable(T::Boolean), employee_deduction_annual_maximum: T.nilable(::String), elective: T.nilable(T::Boolean), company_contribution_annual_maximum: T.nilable(::String), limit_option: T.nilable(::String), retirement_loan_identifier: T.nilable(::String), coverage_amount: T.nilable(::String), company_contribution: T.nilable(::String), contribute_as_percentage: T.nilable(T::Boolean), expiration_date: T.nilable(::Date), catch_up: T.nilable(T::Boolean), deduction_reduces_taxable_income: T.nilable(Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome), coverage_salary_multiplier: T.nilable(::String)).void }
-        def initialize(employee_uuid:, version: nil, contribution: nil, effective_date: nil, uuid: nil, action: nil, additional_properties: nil, active: true, employee_deduction: '0.00', deduct_as_percentage: false, employee_deduction_annual_maximum: nil, elective: false, company_contribution_annual_maximum: nil, limit_option: nil, retirement_loan_identifier: nil, coverage_amount: nil, company_contribution: '0.00', contribute_as_percentage: false, expiration_date: nil, catch_up: false, deduction_reduces_taxable_income: Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome::UNSET, coverage_salary_multiplier: '0.00')
+        sig { params(employee_uuid: ::String, version: T.nilable(::String), contribution: T.nilable(Models::Shared::EmployeeBenefitForCompanyBenefitContribution), effective_date: T.nilable(::Date), uuid: T.nilable(::String), action: T.nilable(Models::Shared::Action), additional_properties: T.nilable(T::Hash[Symbol, ::Object]), active: T.nilable(T::Boolean), employee_deduction: T.nilable(::String), deduct_as_percentage: T.nilable(T::Boolean), employee_deduction_annual_maximum: T.nilable(::String), elective: T.nilable(T::Boolean), company_contribution_annual_maximum: T.nilable(::String), limit_option: T.nilable(::String), retirement_loan_identifier: T.nilable(::String), coverage_amount: T.nilable(::String), deduction_reduces_taxable_income: T.nilable(Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome), company_contribution: T.nilable(::String), contribute_as_percentage: T.nilable(T::Boolean), expiration_date: T.nilable(::Date), catch_up: T.nilable(T::Boolean), coverage_salary_multiplier: T.nilable(::String)).void }
+        def initialize(employee_uuid:, version: nil, contribution: nil, effective_date: nil, uuid: nil, action: nil, additional_properties: nil, active: true, employee_deduction: '0.00', deduct_as_percentage: false, employee_deduction_annual_maximum: nil, elective: false, company_contribution_annual_maximum: nil, limit_option: nil, retirement_loan_identifier: nil, coverage_amount: nil, deduction_reduces_taxable_income: nil, company_contribution: '0.00', contribute_as_percentage: false, expiration_date: nil, catch_up: false, coverage_salary_multiplier: '0.00')
           @employee_uuid = employee_uuid
           @version = version
           @contribution = contribution
@@ -83,11 +83,11 @@ module GustoEmbedded
           @limit_option = limit_option
           @retirement_loan_identifier = retirement_loan_identifier
           @coverage_amount = coverage_amount
+          @deduction_reduces_taxable_income = deduction_reduces_taxable_income
           @company_contribution = company_contribution
           @contribute_as_percentage = contribute_as_percentage
           @expiration_date = expiration_date
           @catch_up = catch_up
-          @deduction_reduces_taxable_income = deduction_reduces_taxable_income
           @coverage_salary_multiplier = coverage_salary_multiplier
         end
 
@@ -110,11 +110,11 @@ module GustoEmbedded
           return false unless @limit_option == other.limit_option
           return false unless @retirement_loan_identifier == other.retirement_loan_identifier
           return false unless @coverage_amount == other.coverage_amount
+          return false unless @deduction_reduces_taxable_income == other.deduction_reduces_taxable_income
           return false unless @company_contribution == other.company_contribution
           return false unless @contribute_as_percentage == other.contribute_as_percentage
           return false unless @expiration_date == other.expiration_date
           return false unless @catch_up == other.catch_up
-          return false unless @deduction_reduces_taxable_income == other.deduction_reduces_taxable_income
           return false unless @coverage_salary_multiplier == other.coverage_salary_multiplier
           true
         end

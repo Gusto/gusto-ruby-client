@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # AchTransactionRecipientType - The type of recipient associated with the ACH transaction
+
       class AchTransactionRecipientType < T::Enum
         enums do
           EMPLOYEE = new('Employee')

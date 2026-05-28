@@ -40,6 +40,8 @@ class GustoEmbedded::Models::Shared::EmployeeBenefit
   def retirement_loan_identifier=(str_); end
   def coverage_amount(); end
   def coverage_amount=(str_); end
+  def deduction_reduces_taxable_income(); end
+  def deduction_reduces_taxable_income=(str_); end
   def company_contribution(); end
   def company_contribution=(str_); end
   def contribute_as_percentage(); end
@@ -48,8 +50,6 @@ class GustoEmbedded::Models::Shared::EmployeeBenefit
   def expiration_date=(str_); end
   def catch_up(); end
   def catch_up=(str_); end
-  def deduction_reduces_taxable_income(); end
-  def deduction_reduces_taxable_income=(str_); end
   def coverage_salary_multiplier(); end
   def coverage_salary_multiplier=(str_); end
 end

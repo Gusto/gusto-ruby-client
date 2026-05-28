@@ -486,6 +486,7 @@ s = ::GustoEmbedded::Client.new(
 res = s.company_benefits.update_employee_benefits(company_benefit_id: '<id>', employee_benefit_bulk_update_request: Models::Shared::EmployeeBenefitBulkUpdateRequest.new(
   employee_benefits: [
     Models::Shared::EmployeeBenefitForCompanyBenefit.new(
+      deduction_reduces_taxable_income: Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome::UNSET,
       employee_uuid: '<id>'
     ),
   ]

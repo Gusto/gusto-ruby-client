@@ -102,6 +102,12 @@ class GustoEmbedded::Models::Shared::EmployeeBenefitForCompanyBenefit
   def coverage_amount=(str_)
   end
 
+  def deduction_reduces_taxable_income
+  end
+
+  def deduction_reduces_taxable_income=(str_)
+  end
+
   def company_contribution
   end
 
@@ -124,12 +130,6 @@ class GustoEmbedded::Models::Shared::EmployeeBenefitForCompanyBenefit
   end
 
   def catch_up=(str_)
-  end
-
-  def deduction_reduces_taxable_income
-  end
-
-  def deduction_reduces_taxable_income=(str_)
   end
 
   def coverage_salary_multiplier

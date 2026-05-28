@@ -7,12 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # EmployeeBenefitUpdateRequestLimitOption - Some benefits require additional information to determine
-      # their limit.
-      #
-      # `Family` or `Individual`: Applicable to HSA benefit.
-      #
-      # `Joint Filing or Single` or `Married and Filing Separately`: Applicable to Dependent Care FSA benefit.
+
       class EmployeeBenefitUpdateRequestLimitOption < T::Enum
         enums do
           FAMILY = new('Family')

@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome - Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored.
+
       class EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome < T::Enum
         enums do
           UNSET = new('unset')

@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Operations
-      # SplitBy - How the payment will be split. If Percentage, split amounts must add up to exactly 100. If Amount, values are in cents and the last split amount must be null to capture the remainder.
+
       class SplitBy < T::Enum
         enums do
           PERCENTAGE = new('Percentage')

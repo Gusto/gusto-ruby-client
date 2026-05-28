@@ -84,6 +84,12 @@ class GustoEmbedded::Models::Shared::EmployeeBenefitUpdateRequest
   def coverage_amount=(str_)
   end
 
+  def deduction_reduces_taxable_income
+  end
+
+  def deduction_reduces_taxable_income=(str_)
+  end
+
   def coverage_salary_multiplier
   end
 
@@ -100,11 +106,5 @@ class GustoEmbedded::Models::Shared::EmployeeBenefitUpdateRequest
   end
 
   def contribute_as_percentage=(str_)
-  end
-
-  def deduction_reduces_taxable_income
-  end
-
-  def deduction_reduces_taxable_income=(str_)
   end
 end

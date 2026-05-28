@@ -799,6 +799,28 @@ module GustoEmbedded
         :PayrollCreditBlockerUnblockOptionWaitForReverseWireUnblockType,
         "gusto_embedded/models/shared/payroll_credit_blocker_unblock_option_wait_for_reverse_wire_unblock_type.rb"
       )
+      autoload :PayrollDigest, "gusto_embedded/models/shared/payroll_digest.rb"
+      autoload :PayrollDigestResults, "gusto_embedded/models/shared/payroll_digest_results.rb"
+      autoload :PayrollDigestResultsCategory, "gusto_embedded/models/shared/payroll_digest_results_category.rb"
+      autoload :PayrollDigestResultsEntityType, "gusto_embedded/models/shared/payroll_digest_results_entity_type.rb"
+      autoload :PayrollDigestResultsExclusions, "gusto_embedded/models/shared/payroll_digest_results_exclusions.rb"
+      autoload(
+        :PayrollDigestResultsExclusionsEntityType,
+        "gusto_embedded/models/shared/payroll_digest_results_exclusions_entity_type.rb"
+      )
+      autoload(
+        :PayrollDigestResultsExclusionsStatus,
+        "gusto_embedded/models/shared/payroll_digest_results_exclusions_status.rb"
+      )
+      autoload :PayrollDigestResultsPayPeriod, "gusto_embedded/models/shared/payroll_digest_results_pay_period.rb"
+      autoload :PayrollDigestResultsResults, "gusto_embedded/models/shared/payroll_digest_results_results.rb"
+      autoload(
+        :PayrollDigestResultsResultsStatus,
+        "gusto_embedded/models/shared/payroll_digest_results_results_status.rb"
+      )
+      autoload :PayrollDigestResultsStatus, "gusto_embedded/models/shared/payroll_digest_results_status.rb"
+      autoload :PayrollDigestResultsTotals, "gusto_embedded/models/shared/payroll_digest_results_totals.rb"
+      autoload :PayrollDigestStatus, "gusto_embedded/models/shared/payroll_digest_status.rb"
       autoload :PayrollEmployeeCompensationsType, "gusto_embedded/models/shared/payroll_employee_compensations_type.rb"
       autoload(
         :PayrollEmployeeCompensationsTypeFixedCompensations,
@@ -1008,8 +1030,10 @@ module GustoEmbedded
       autoload :Approver, "gusto_embedded/models/shared/approver.rb"
       autoload :AuthorizationStatus, "gusto_embedded/models/shared/authorization_status.rb"
       autoload :Balances, "gusto_embedded/models/shared/balances.rb"
+      autoload :BatchAction, "gusto_embedded/models/shared/batch_action.rb"
       autoload :Benefits, "gusto_embedded/models/shared/benefits.rb"
       autoload :BlockerType, "gusto_embedded/models/shared/blocker_type.rb"
+      autoload :Blockers, "gusto_embedded/models/shared/blockers.rb"
       autoload :CatchUp, "gusto_embedded/models/shared/catch_up.rb"
       autoload :CatchUpType, "gusto_embedded/models/shared/catch_up_type.rb"
       autoload :Category, "gusto_embedded/models/shared/category.rb"
@@ -1089,6 +1113,7 @@ module GustoEmbedded
       autoload :Options, "gusto_embedded/models/shared/options.rb"
       autoload :OwnerType, "gusto_embedded/models/shared/owner_type.rb"
       autoload :Pages, "gusto_embedded/models/shared/pages.rb"
+      autoload :PaySchedule, "gusto_embedded/models/shared/pay_schedule.rb"
       autoload :PayScheduleType, "gusto_embedded/models/shared/pay_schedule_type.rb"
       autoload :PaymentDirection, "gusto_embedded/models/shared/payment_direction.rb"
       autoload :PaymentEventType, "gusto_embedded/models/shared/payment_event_type.rb"
@@ -1100,6 +1125,7 @@ module GustoEmbedded
       autoload :PaymentUnit, "gusto_embedded/models/shared/payment_unit.rb"
       autoload :PayrollBenefits, "gusto_embedded/models/shared/payroll_benefits.rb"
       autoload :PayrollType, "gusto_embedded/models/shared/payroll_type.rb"
+      autoload :Payrolls, "gusto_embedded/models/shared/payrolls.rb"
       autoload :PlaidStatus, "gusto_embedded/models/shared/plaid_status.rb"
       autoload :PolicyType, "gusto_embedded/models/shared/policy_type.rb"
       autoload :PossibleLiabilities, "gusto_embedded/models/shared/possible_liabilities.rb"

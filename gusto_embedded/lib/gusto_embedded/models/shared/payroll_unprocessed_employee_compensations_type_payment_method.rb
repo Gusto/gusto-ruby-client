@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # PayrollUnprocessedEmployeeCompensationsTypePaymentMethod - The employee's compensation payment method. Is *only* `Historical` when retrieving external payrolls initially run outside of Gusto, then put into Gusto.
+
       class PayrollUnprocessedEmployeeCompensationsTypePaymentMethod < T::Enum
         enums do
           DIRECT_DEPOSIT = new('Direct Deposit')

@@ -34,12 +34,12 @@ class GustoEmbedded::Models::Shared::EmployeeBenefitUpdateRequest
   def catch_up=(str_); end
   def coverage_amount(); end
   def coverage_amount=(str_); end
+  def deduction_reduces_taxable_income(); end
+  def deduction_reduces_taxable_income=(str_); end
   def coverage_salary_multiplier(); end
   def coverage_salary_multiplier=(str_); end
   def company_contribution(); end
   def company_contribution=(str_); end
   def contribute_as_percentage(); end
   def contribute_as_percentage=(str_); end
-  def deduction_reduces_taxable_income(); end
-  def deduction_reduces_taxable_income=(str_); end
 end

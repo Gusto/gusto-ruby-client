@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # InformationRequestType - The type of information request
+
       class InformationRequestType < T::Enum
         enums do
           COMPANY_ONBOARDING = new('company_onboarding')

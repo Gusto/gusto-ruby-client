@@ -43,6 +43,8 @@ module GustoEmbedded
         field :catch_up, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('catch_up') } }
         # The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set.
         field :coverage_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_amount') } }
+        # Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored.
+        field :deduction_reduces_taxable_income, Crystalline::Nilable.new(Models::Shared::EmployeeBenefitUpdateRequestDeductionReducesTaxableIncome), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduction_reduces_taxable_income'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeeBenefitUpdateRequestDeductionReducesTaxableIncome, true) } }
         # The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set.
         field :coverage_salary_multiplier, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_salary_multiplier') } }
         # The amount to be paid, per pay period, by the company.
@@ -53,11 +55,9 @@ module GustoEmbedded
         #
         # @deprecated true: This will be removed in a future release, please migrate away from it as soon as possible.
         field :contribute_as_percentage, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribute_as_percentage') } }
-        # Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored.
-        field :deduction_reduces_taxable_income, Crystalline::Nilable.new(Models::Shared::EmployeeBenefitUpdateRequestDeductionReducesTaxableIncome), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduction_reduces_taxable_income'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeeBenefitUpdateRequestDeductionReducesTaxableIncome, true) } }
 
-        sig { params(version: ::String, active: T.nilable(T::Boolean), deduct_as_percentage: T.nilable(T::Boolean), effective_date: T.nilable(::Date), contribution: T.nilable(Models::Shared::EmployeeBenefitUpdateRequestContribution), employee_deduction: T.nilable(::String), employee_deduction_annual_maximum: T.nilable(::String), expiration_date: T.nilable(::Date), elective: T.nilable(T::Boolean), company_contribution_annual_maximum: T.nilable(::String), limit_option: T.nilable(Models::Shared::EmployeeBenefitUpdateRequestLimitOption), catch_up: T.nilable(T::Boolean), coverage_amount: T.nilable(::String), coverage_salary_multiplier: T.nilable(::String), company_contribution: T.nilable(::String), contribute_as_percentage: T.nilable(T::Boolean), deduction_reduces_taxable_income: T.nilable(Models::Shared::EmployeeBenefitUpdateRequestDeductionReducesTaxableIncome)).void }
-        def initialize(version:, active: nil, deduct_as_percentage: nil, effective_date: nil, contribution: nil, employee_deduction: '0.00', employee_deduction_annual_maximum: nil, expiration_date: nil, elective: false, company_contribution_annual_maximum: nil, limit_option: nil, catch_up: false, coverage_amount: nil, coverage_salary_multiplier: '0.00', company_contribution: '0.00', contribute_as_percentage: false, deduction_reduces_taxable_income: Models::Shared::EmployeeBenefitUpdateRequestDeductionReducesTaxableIncome::UNSET)
+        sig { params(version: ::String, active: T.nilable(T::Boolean), deduct_as_percentage: T.nilable(T::Boolean), effective_date: T.nilable(::Date), contribution: T.nilable(Models::Shared::EmployeeBenefitUpdateRequestContribution), employee_deduction: T.nilable(::String), employee_deduction_annual_maximum: T.nilable(::String), expiration_date: T.nilable(::Date), elective: T.nilable(T::Boolean), company_contribution_annual_maximum: T.nilable(::String), limit_option: T.nilable(Models::Shared::EmployeeBenefitUpdateRequestLimitOption), catch_up: T.nilable(T::Boolean), coverage_amount: T.nilable(::String), deduction_reduces_taxable_income: T.nilable(Models::Shared::EmployeeBenefitUpdateRequestDeductionReducesTaxableIncome), coverage_salary_multiplier: T.nilable(::String), company_contribution: T.nilable(::String), contribute_as_percentage: T.nilable(T::Boolean)).void }
+        def initialize(version:, active: nil, deduct_as_percentage: nil, effective_date: nil, contribution: nil, employee_deduction: '0.00', employee_deduction_annual_maximum: nil, expiration_date: nil, elective: false, company_contribution_annual_maximum: nil, limit_option: nil, catch_up: false, coverage_amount: nil, deduction_reduces_taxable_income: nil, coverage_salary_multiplier: '0.00', company_contribution: '0.00', contribute_as_percentage: false)
           @version = version
           @active = active
           @deduct_as_percentage = deduct_as_percentage
@@ -71,10 +71,10 @@ module GustoEmbedded
           @limit_option = limit_option
           @catch_up = catch_up
           @coverage_amount = coverage_amount
+          @deduction_reduces_taxable_income = deduction_reduces_taxable_income
           @coverage_salary_multiplier = coverage_salary_multiplier
           @company_contribution = company_contribution
           @contribute_as_percentage = contribute_as_percentage
-          @deduction_reduces_taxable_income = deduction_reduces_taxable_income
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -93,10 +93,10 @@ module GustoEmbedded
           return false unless @limit_option == other.limit_option
           return false unless @catch_up == other.catch_up
           return false unless @coverage_amount == other.coverage_amount
+          return false unless @deduction_reduces_taxable_income == other.deduction_reduces_taxable_income
           return false unless @coverage_salary_multiplier == other.coverage_salary_multiplier
           return false unless @company_contribution == other.company_contribution
           return false unless @contribute_as_percentage == other.contribute_as_percentage
-          return false unless @deduction_reduces_taxable_income == other.deduction_reduces_taxable_income
           true
         end
       end

@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # EntityType - The tax payer type of the company.
+
       class EntityType < T::Enum
         enums do
           C_CORPORATION = new('C-Corporation')
