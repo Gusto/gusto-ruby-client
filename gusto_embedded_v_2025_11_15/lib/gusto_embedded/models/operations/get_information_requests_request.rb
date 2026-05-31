@@ -17,6 +17,12 @@ module GustoEmbedded
           ::String,
           {'path_param': {'field_name': "company_uuid", 'style': "simple", 'explode': false}}
         )
+        # Sort by one or more fields. Options: payroll_blocker, status, type. Append `:asc` or `:desc` to specify direction (e.g., `payroll_blocker:asc`). Defaults to ascending.
+        field(
+          :sort_by,
+          Crystalline::Nilable.new(::String),
+          {'query_param': {'field_name': "sort_by", 'style': "form", 'explode': true}}
+        )
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field(
           :x_gusto_api_version,
@@ -27,15 +33,18 @@ module GustoEmbedded
         sig {
           params(
             company_uuid: ::String,
+            sort_by: T.nilable(::String),
             x_gusto_api_version: T.nilable(Models::Operations::GetInformationRequestsHeaderXGustoAPIVersion)
           )
             .void
         }
         def initialize(
           company_uuid:,
+          sort_by: nil,
           x_gusto_api_version: Models::Operations::GetInformationRequestsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15
         )
           @company_uuid = company_uuid
+          @sort_by = sort_by
           @x_gusto_api_version = x_gusto_api_version
         end
 
@@ -43,6 +52,7 @@ module GustoEmbedded
         def ==(other)
           return false unless other.is_a?(self.class)
           return false unless @company_uuid == other.company_uuid
+          return false unless @sort_by == other.sort_by
           return false unless @x_gusto_api_version == other.x_gusto_api_version
           true
         end

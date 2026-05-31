@@ -268,9 +268,11 @@ end
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| Errors::APIError | 4XX, 5XX         | \*/\*            |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
 ## get_all
 
@@ -486,6 +488,7 @@ s = ::GustoEmbedded::Client.new(
 res = s.company_benefits.update_employee_benefits(company_benefit_id: '<id>', body: Models::Shared::EmployeeBenefitBulkUpdateRequest.new(
   employee_benefits: [
     Models::Shared::EmployeeBenefitForCompanyBenefit.new(
+      deduction_reduces_taxable_income: Models::Shared::EmployeeBenefitForCompanyBenefitDeductionReducesTaxableIncome::UNSET,
       employee_uuid: '<id>'
     ),
   ]

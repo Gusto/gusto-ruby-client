@@ -6,7 +6,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # EntityType - The tax payer type of the company.
+
       class EntityType
         include ::Crystalline::Enum
         enums do

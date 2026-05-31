@@ -6,7 +6,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # Name - The name of the paid time off type.
+
       class Name
         include ::Crystalline::Enum
         enums do

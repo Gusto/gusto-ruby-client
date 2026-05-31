@@ -71,7 +71,8 @@ module GustoEmbedded
       :salary_estimates,
       :reimbursements,
       :people_batches,
-      :time_off_requests
+      :time_off_requests,
+      :payroll_digests
     )
 
     # Instantiates the SDK, configuring it with the provided parameters.
@@ -198,6 +199,7 @@ module GustoEmbedded
       @reimbursements = Reimbursements.new(@sdk_configuration)
       @people_batches = PeopleBatches.new(@sdk_configuration)
       @time_off_requests = TimeOffRequests.new(@sdk_configuration)
+      @payroll_digests = PayrollDigests.new(@sdk_configuration)
     end
 
     sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }

@@ -6,7 +6,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # AchTransactionRecipientType - The type of recipient associated with the ACH transaction
+
       class AchTransactionRecipientType
         include ::Crystalline::Enum
         enums do

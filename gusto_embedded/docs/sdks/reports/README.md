@@ -235,7 +235,7 @@ res = s.reports.post_v1_companies_company_id_reports_employees_annual_fica_wage(
   end_year: 2024
 ), x_gusto_api_version: Models::Operations::PostV1CompaniesCompanyIdReportsEmployeesAnnualFicaWageHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
-unless res.object.nil?
+unless res.employees_annual_fica_wage_report_acceptance.nil?
   # handle response
 end
 

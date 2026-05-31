@@ -13,10 +13,10 @@ module GustoEmbedded
 
         # The UUID of the company
         field :company_id, ::String, {'path_param': {'field_name': "company_id", 'style': "simple", 'explode': false}}
-        # Sort company forms by a given field. Append `:asc` or `:desc` to specify direction (e.g., `name:asc`). Defaults to ascending.
+        # Sort by one or more fields. Options: created_at, name, year, quarter, draft, document_content_type. Append `:asc` or `:desc` to specify direction (e.g., `created_at:asc`). Defaults to ascending.
         field(
           :sort_by,
-          Crystalline::Nilable.new(Models::Operations::GetV1CompanyFormsQueryParamSortBy),
+          Crystalline::Nilable.new(::String),
           {'query_param': {'field_name': "sort_by", 'style': "form", 'explode': true}}
         )
         # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
@@ -41,7 +41,7 @@ module GustoEmbedded
         sig {
           params(
             company_id: ::String,
-            sort_by: T.nilable(Models::Operations::GetV1CompanyFormsQueryParamSortBy),
+            sort_by: T.nilable(::String),
             page: T.nilable(::Integer),
             per: T.nilable(::Integer),
             x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyFormsHeaderXGustoAPIVersion)

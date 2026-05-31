@@ -979,13 +979,13 @@ module GustoEmbedded
           response_data = http_response.env.response_body
           obj = Crystalline.unmarshal_json(
             JSON.parse(response_data),
-            Models::Operations::PostV1CompaniesCompanyIdReportsEmployeesAnnualFicaWageResponseBody
+            Models::Shared::EmployeesAnnualFicaWageReportAcceptance
           )
           response = Models::Operations::PostV1CompaniesCompanyIdReportsEmployeesAnnualFicaWageResponse.new(
             status_code: http_response.status,
             content_type: content_type,
             raw_response: http_response,
-            object: T.unsafe(obj)
+            employees_annual_fica_wage_report_acceptance: T.unsafe(obj)
           )
 
           return response

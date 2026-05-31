@@ -998,10 +998,6 @@ module GustoEmbedded
         :GetV1CompanyFormsHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_company_forms_header_x_gusto_api_version.rb"
       )
-      autoload(
-        :GetV1CompanyFormsQueryParamSortBy,
-        "gusto_embedded/models/operations/get_v1_company_forms_queryparam_sort_by.rb"
-      )
       autoload :GetV1CompanyFormsRequest, "gusto_embedded/models/operations/get_v1_company_forms_request.rb"
       autoload :GetV1CompanyFormsResponse, "gusto_embedded/models/operations/get_v1_company_forms_response.rb"
       autoload(
@@ -1701,6 +1697,22 @@ module GustoEmbedded
         "gusto_embedded/models/operations/get_v1_payment_receipts_payrolls_payroll_uuid_response.rb"
       )
       autoload(
+        :GetV1PayrollDigestsPayrollDigestUuidSecurity,
+        "gusto_embedded/models/operations/get_v1_payroll_digests_payroll_digest_uuid_security.rb"
+      )
+      autoload(
+        :GetV1PayrollDigestsPayrollDigestUuidHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_payroll_digests_payroll_digest_uuid_header_x_gusto_api_version.rb"
+      )
+      autoload(
+        :GetV1PayrollDigestsPayrollDigestUuidRequest,
+        "gusto_embedded/models/operations/get_v1_payroll_digests_payroll_digest_uuid_request.rb"
+      )
+      autoload(
+        :GetV1PayrollDigestsPayrollDigestUuidResponse,
+        "gusto_embedded/models/operations/get_v1_payroll_digests_payroll_digest_uuid_response.rb"
+      )
+      autoload(
         :GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_payrolls_payroll_uuid_employees_employee_uuid_pay_stub_header_x_gu_9b2847.rb"
       )
@@ -2334,10 +2346,6 @@ module GustoEmbedded
         "gusto_embedded/models/operations/post_v1_companies_company_id_reports_employees_annual_fica_wage_response.rb"
       )
       autoload(
-        :PostV1CompaniesCompanyIdReportsEmployeesAnnualFicaWageResponseBody,
-        "gusto_embedded/models/operations/post_v1_companies_company_id_reports_employees_annual_fica_wage_responsebody.rb"
-      )
-      autoload(
         :PostV1CompaniesCompanyUuidContractorsHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/post_v1_companies_company_uuid_contractors_header_x_gusto_api_version.rb"
       )
@@ -2700,6 +2708,26 @@ module GustoEmbedded
         :PostV1PartnerManagedCompaniesResponse,
         "gusto_embedded/models/operations/post_v1_partner_managed_companies_response.rb"
       )
+      autoload :PostV1PayrollDigestsSecurity, "gusto_embedded/models/operations/post_v1_payroll_digests_security.rb"
+      autoload :PostV1PayrollDigestsBatch, "gusto_embedded/models/operations/post_v1_payroll_digests_batch.rb"
+      autoload(
+        :PostV1PayrollDigestsBatchAction,
+        "gusto_embedded/models/operations/post_v1_payroll_digests_batch_action.rb"
+      )
+      autoload(
+        :PostV1PayrollDigestsEntityType,
+        "gusto_embedded/models/operations/post_v1_payroll_digests_entity_type.rb"
+      )
+      autoload(
+        :PostV1PayrollDigestsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/post_v1_payroll_digests_header_x_gusto_api_version.rb"
+      )
+      autoload :PostV1PayrollDigestsRequest, "gusto_embedded/models/operations/post_v1_payroll_digests_request.rb"
+      autoload(
+        :PostV1PayrollDigestsRequestBody,
+        "gusto_embedded/models/operations/post_v1_payroll_digests_requestbody.rb"
+      )
+      autoload :PostV1PayrollDigestsResponse, "gusto_embedded/models/operations/post_v1_payroll_digests_response.rb"
       autoload(
         :PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/post_v1_payrolls_payroll_id_calculate_accruing_time_off_hours_header_x_gu_86cdd4.rb"
@@ -3713,7 +3741,6 @@ module GustoEmbedded
       )
       autoload :QueryParamInclude, "gusto_embedded/models/operations/queryparam_include.rb"
       autoload :QueryParamPayrollTypes, "gusto_embedded/models/operations/queryparam_payroll_types.rb"
-      autoload :QueryParamSortBy, "gusto_embedded/models/operations/queryparam_sort_by.rb"
       autoload :QueryParamSortOrder, "gusto_embedded/models/operations/queryparam_sort_order.rb"
       autoload :Reason, "gusto_embedded/models/operations/reason.rb"
       autoload :ReconcileTaxMethod, "gusto_embedded/models/operations/reconcile_tax_method.rb"
@@ -3726,7 +3753,6 @@ module GustoEmbedded
       autoload :RequestBodyGrantType, "gusto_embedded/models/operations/requestbody_grant_type.rb"
       autoload :RequiredQuestions, "gusto_embedded/models/operations/required_questions.rb"
       autoload :ResponseType, "gusto_embedded/models/operations/response_type.rb"
-      autoload :SortBy, "gusto_embedded/models/operations/sort_by.rb"
       autoload :SortOrder, "gusto_embedded/models/operations/sort_order.rb"
       autoload :SplitBy, "gusto_embedded/models/operations/split_by.rb"
       autoload :Splits, "gusto_embedded/models/operations/splits.rb"
