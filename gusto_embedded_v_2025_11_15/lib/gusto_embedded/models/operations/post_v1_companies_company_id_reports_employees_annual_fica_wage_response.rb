@@ -19,10 +19,8 @@ module GustoEmbedded
         field :raw_response, ::Faraday::Response
         # accepted
         field(
-          :object,
-          Crystalline::Nilable.new(
-            Models::Operations::PostV1CompaniesCompanyIdReportsEmployeesAnnualFicaWageResponseBody
-          )
+          :employees_annual_fica_wage_report_acceptance,
+          Crystalline::Nilable.new(Models::Shared::EmployeesAnnualFicaWageReportAcceptance)
         )
 
         sig {
@@ -30,15 +28,17 @@ module GustoEmbedded
             content_type: ::String,
             status_code: ::Integer,
             raw_response: ::Faraday::Response,
-            object: T.nilable(Models::Operations::PostV1CompaniesCompanyIdReportsEmployeesAnnualFicaWageResponseBody)
+            employees_annual_fica_wage_report_acceptance: T.nilable(
+              Models::Shared::EmployeesAnnualFicaWageReportAcceptance
+            )
           )
             .void
         }
-        def initialize(content_type:, status_code:, raw_response:, object: nil)
+        def initialize(content_type:, status_code:, raw_response:, employees_annual_fica_wage_report_acceptance: nil)
           @content_type = content_type
           @status_code = status_code
           @raw_response = raw_response
-          @object = object
+          @employees_annual_fica_wage_report_acceptance = employees_annual_fica_wage_report_acceptance
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -47,7 +47,10 @@ module GustoEmbedded
           return false unless @content_type == other.content_type
           return false unless @status_code == other.status_code
           return false unless @raw_response == other.raw_response
-          return false unless @object == other.object
+          unless @employees_annual_fica_wage_report_acceptance == other.employees_annual_fica_wage_report_acceptance
+            return false
+          end
+
           true
         end
       end

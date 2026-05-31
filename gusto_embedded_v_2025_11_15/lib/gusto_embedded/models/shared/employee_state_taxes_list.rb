@@ -11,6 +11,12 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
+        # The uuid of the employee state field.
+        field(
+          :uuid,
+          Crystalline::Nilable.new(::String),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("uuid")}}
+        )
         # The employee's uuid
         field(
           :employee_uuid,
@@ -44,6 +50,7 @@ module GustoEmbedded
 
         sig {
           params(
+            uuid: T.nilable(::String),
             employee_uuid: T.nilable(::String),
             state: T.nilable(::String),
             is_work_state: T.nilable(T::Boolean),
@@ -52,7 +59,15 @@ module GustoEmbedded
           )
             .void
         }
-        def initialize(employee_uuid: nil, state: nil, is_work_state: nil, questions: nil, file_new_hire_report: nil)
+        def initialize(
+          uuid: nil,
+          employee_uuid: nil,
+          state: nil,
+          is_work_state: nil,
+          questions: nil,
+          file_new_hire_report: nil
+        )
+          @uuid = uuid
           @employee_uuid = employee_uuid
           @state = state
           @is_work_state = is_work_state
@@ -63,6 +78,7 @@ module GustoEmbedded
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a?(self.class)
+          return false unless @uuid == other.uuid
           return false unless @employee_uuid == other.employee_uuid
           return false unless @state == other.state
           return false unless @is_work_state == other.is_work_state

@@ -211,7 +211,8 @@ s = ::GustoEmbedded::Client.new(
 
 req = Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdRequest.new(
   company_id: '<id>',
-  payroll_id: '<id>'
+  payroll_id: '<id>',
+  sort_by: 'first_name:asc'
 )
 res = s.payrolls.get(request: req)
 
@@ -372,7 +373,8 @@ s = ::GustoEmbedded::Client.new(
 
 req = Models::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequest.new(
   company_id: '<id>',
-  payroll_id: '<id>'
+  payroll_id: '<id>',
+  sort_by: 'first_name:asc'
 )
 res = s.payrolls.prepare(request: req)
 

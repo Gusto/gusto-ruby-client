@@ -41,12 +41,19 @@ module GustoEmbedded
       params(
         company_uuid: ::String,
         x_gusto_api_version: T.nilable(Models::Operations::GetInformationRequestsHeaderXGustoAPIVersion),
+        sort_by: T.nilable(::String),
         timeout_ms: T.nilable(Integer),
         http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
       )
         .returns(Models::Operations::GetInformationRequestsResponse)
     }
-    def get_information_requests(company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+    def get_information_requests(
+      company_uuid:,
+      x_gusto_api_version: nil,
+      sort_by: nil,
+      timeout_ms: nil,
+      http_headers: nil
+    )
       # get_information_requests - Get all information requests for a company
       # Fetch all information requests for a company.
       #
@@ -55,7 +62,8 @@ module GustoEmbedded
       # If set, this operation will use `company_access_auth` from the global security.
       request = Models::Operations::GetInformationRequestsRequest.new(
         company_uuid: company_uuid,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        sort_by: sort_by
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -67,6 +75,7 @@ module GustoEmbedded
       )
       headers = Utils.get_headers(request)
       headers = T.cast(headers, T::Hash[String, String])
+      query_params = Utils.get_query_params(Models::Operations::GetInformationRequestsRequest, request, nil)
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -92,6 +101,7 @@ module GustoEmbedded
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
           req.options.timeout = timeout unless timeout.nil?
+          req.params = query_params
           Utils.configure_request_security(req, security, %i[company_access_auth])
           http_headers&.each do |key, value|
             req.headers[key.to_s] = value

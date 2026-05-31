@@ -1,0 +1,17 @@
+# typed: true
+# frozen_string_literal: true
+
+
+class GustoEmbedded::Models::Operations::PostCompaniesCompanyUuidReportsRequest
+  extend ::Crystalline::MetadataFields::ClassMethods
+end
+
+
+class GustoEmbedded::Models::Operations::PostCompaniesCompanyUuidReportsRequest
+  def company_uuid(); end
+  def company_uuid=(str_); end
+  def create_report_body(); end
+  def create_report_body=(str_); end
+  def x_gusto_api_version(); end
+  def x_gusto_api_version=(str_); end
+end

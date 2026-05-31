@@ -6,7 +6,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # InformationRequestType - The type of information request
+
       class InformationRequestType
         include ::Crystalline::Enum
         enums do

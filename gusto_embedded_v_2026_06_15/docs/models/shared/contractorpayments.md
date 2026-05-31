@@ -1,0 +1,11 @@
+# ContractorPayments
+
+
+## Fields
+
+| Field                                                                                   | Type                                                                                    | Required                                                                                | Description                                                                             |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `contractor_uuid`                                                                       | *T.nilable(::Float)*                                                                    | :heavy_minus_sign:                                                                      | The UUID of the contractor.                                                             |
+| `reimbursement_total`                                                                   | *T.nilable(::String)*                                                                   | :heavy_minus_sign:                                                                      | The total reimbursements for the contractor within a given time period.                 |
+| `wage_total`                                                                            | *T.nilable(::String)*                                                                   | :heavy_minus_sign:                                                                      | The total wages for the contractor within a given time period.                          |
+| `payments`                                                                              | T::Array<[Models::Shared::ContractorPayment](../../models/shared/contractorpayment.md)> | :heavy_minus_sign:                                                                      | The contractor's payments within a given time period.                                   |

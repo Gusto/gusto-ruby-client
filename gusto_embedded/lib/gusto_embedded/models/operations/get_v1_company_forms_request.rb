@@ -14,8 +14,8 @@ module GustoEmbedded
 
         # The UUID of the company
         field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
-        # Sort company forms by a given field. Append `:asc` or `:desc` to specify direction (e.g., `name:asc`). Defaults to ascending.
-        field :sort_by, Crystalline::Nilable.new(Models::Operations::GetV1CompanyFormsQueryParamSortBy), { 'query_param': { 'field_name': 'sort_by', 'style': 'form', 'explode': true } }
+        # Sort by one or more fields. Options: created_at, name, year, quarter, draft, document_content_type. Append `:asc` or `:desc` to specify direction (e.g., `created_at:asc`). Defaults to ascending.
+        field :sort_by, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'sort_by', 'style': 'form', 'explode': true } }
         # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
         field :page, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
         # Number of objects per page. For majority of endpoints will default to 25
@@ -23,7 +23,7 @@ module GustoEmbedded
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompanyFormsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(company_id: ::String, sort_by: T.nilable(Models::Operations::GetV1CompanyFormsQueryParamSortBy), page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyFormsHeaderXGustoAPIVersion)).void }
+        sig { params(company_id: ::String, sort_by: T.nilable(::String), page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyFormsHeaderXGustoAPIVersion)).void }
         def initialize(company_id:, sort_by: nil, page: nil, per: nil, x_gusto_api_version: Models::Operations::GetV1CompanyFormsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @company_id = company_id
           @sort_by = sort_by

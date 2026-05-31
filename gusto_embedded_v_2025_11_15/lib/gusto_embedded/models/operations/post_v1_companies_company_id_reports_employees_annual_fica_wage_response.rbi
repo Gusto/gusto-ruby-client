@@ -24,9 +24,9 @@ class GustoEmbedded::Models::Operations::PostV1CompaniesCompanyIdReportsEmployee
   def raw_response=(str_)
   end
 
-  def object
+  def employees_annual_fica_wage_report_acceptance
   end
 
-  def object=(str_)
+  def employees_annual_fica_wage_report_acceptance=(str_)
   end
 end
