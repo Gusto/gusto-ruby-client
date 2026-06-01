@@ -22,12 +22,12 @@ module GustoEmbedded
         field :page, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }
         # Number of objects per page. For majority of endpoints will default to 25
         field :per, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
-        # Field to sort employee compensations by
-        field :sort_by, Crystalline::Nilable.new(Models::Operations::SortBy), { 'query_param': { 'field_name': 'sort_by', 'style': 'form', 'explode': true } }
+        # Sort employee compensations by one or more fields. Options: first_name, last_name. Append `:asc` or `:desc` to specify direction (e.g., `last_name:asc` or `last_name:asc,first_name:asc`). Defaults to ascending.
+        field :sort_by, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'sort_by', 'style': 'form', 'explode': true } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(company_id: ::String, payroll_id: ::String, include: T.nilable(T::Array[Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdQueryParamInclude]), page: T.nilable(::Integer), per: T.nilable(::Integer), sort_by: T.nilable(Models::Operations::SortBy), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdHeaderXGustoAPIVersion)).void }
+        sig { params(company_id: ::String, payroll_id: ::String, include: T.nilable(T::Array[Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdQueryParamInclude]), page: T.nilable(::Integer), per: T.nilable(::Integer), sort_by: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdHeaderXGustoAPIVersion)).void }
         def initialize(company_id:, payroll_id:, include: nil, page: nil, per: nil, sort_by: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @company_id = company_id
           @payroll_id = payroll_id

@@ -35,10 +35,10 @@ module GustoEmbedded
           Crystalline::Nilable.new(::Integer),
           {'query_param': {'field_name': "per", 'style': "form", 'explode': true}}
         )
-        # Field to sort employee compensations by
+        # Sort employee compensations by one or more fields. Options: first_name, last_name. Append `:asc` or `:desc` to specify direction (e.g., `last_name:asc` or `last_name:asc,first_name:asc`). Defaults to ascending.
         field(
           :sort_by,
-          Crystalline::Nilable.new(Models::Operations::SortBy),
+          Crystalline::Nilable.new(::String),
           {'query_param': {'field_name': "sort_by", 'style': "form", 'explode': true}}
         )
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
@@ -55,7 +55,7 @@ module GustoEmbedded
             include: T.nilable(T::Array[Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdQueryParamInclude]),
             page: T.nilable(::Integer),
             per: T.nilable(::Integer),
-            sort_by: T.nilable(Models::Operations::SortBy),
+            sort_by: T.nilable(::String),
             x_gusto_api_version: T.nilable(
               Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdHeaderXGustoAPIVersion
             )

@@ -12,6 +12,12 @@ class GustoEmbedded::Models::Operations::GetInformationRequestsRequest
   def company_uuid=(str_)
   end
 
+  def sort_by
+  end
+
+  def sort_by=(str_)
+  end
+
   def x_gusto_api_version
   end
 

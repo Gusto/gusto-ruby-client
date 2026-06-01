@@ -1,0 +1,8 @@
+# ContributionExclusionUpdateRequest
+
+
+## Fields
+
+| Field                                                                                           | Type                                                                                            | Required                                                                                        | Description                                                                                     |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `contribution_exclusions`                                                                       | T::Array<[Models::Shared::ContributionExclusion](../../models/shared/contributionexclusion.md)> | :heavy_check_mark:                                                                              | The list of contribution exclusions to update                                                   |

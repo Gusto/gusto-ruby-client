@@ -6,6 +6,12 @@ class GustoEmbedded::Models::Shared::EmployeeStateTaxesList
 end
 
 class GustoEmbedded::Models::Shared::EmployeeStateTaxesList
+  def uuid
+  end
+
+  def uuid=(str_)
+  end
+
   def employee_uuid
   end
 

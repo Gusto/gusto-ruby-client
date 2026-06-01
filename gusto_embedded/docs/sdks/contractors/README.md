@@ -39,7 +39,8 @@ s = ::GustoEmbedded::Client.new(
 )
 
 req = Models::Operations::GetV1CompaniesCompanyUuidContractorsRequest.new(
-  company_uuid: '<id>'
+  company_uuid: '<id>',
+  sort_by: 'created_at:asc'
 )
 res = s.contractors.list(request: req)
 

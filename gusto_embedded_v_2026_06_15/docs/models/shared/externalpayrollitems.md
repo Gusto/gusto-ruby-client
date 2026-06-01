@@ -1,0 +1,11 @@
+# ExternalPayrollItems
+
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `employee_uuid`                                                                               | *T.nilable(::String)*                                                                         | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `earnings`                                                                                    | T::Array<[Models::Shared::Earnings](../../models/shared/earnings.md)>                         | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `benefits`                                                                                    | T::Array<[Models::Shared::Benefits](../../models/shared/benefits.md)>                         | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `taxes`                                                                                       | T::Array<[Models::Shared::ExternalPayrollTaxes](../../models/shared/externalpayrolltaxes.md)> | :heavy_minus_sign:                                                                            | N/A                                                                                           |

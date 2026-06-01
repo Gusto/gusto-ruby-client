@@ -6,7 +6,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # GarnishmentRequestGarnishmentType - The specific type of garnishment for court ordered garnishments.
+
       class GarnishmentRequestGarnishmentType < T::Enum
         enums do
           CHILD_SUPPORT = new("child_support")

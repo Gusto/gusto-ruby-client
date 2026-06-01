@@ -32,7 +32,8 @@ s = ::GustoEmbedded::Client.new(
 )
 
 req = Models::Operations::GetV1CompanyFormsRequest.new(
-  company_id: '<id>'
+  company_id: '<id>',
+  sort_by: 'created_at:asc'
 )
 res = s.company_forms.get_all(request: req)
 

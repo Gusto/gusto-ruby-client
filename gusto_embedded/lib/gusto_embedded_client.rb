@@ -60,6 +60,7 @@ module GustoEmbedded
   autoload :Reimbursements, 'gusto_embedded/reimbursements'
   autoload :PeopleBatches, 'gusto_embedded/people_batches'
   autoload :TimeOffRequests, 'gusto_embedded/time_off_requests'
+  autoload :PayrollDigests, 'gusto_embedded/payroll_digests'
   module Models
     autoload :Shared, 'gusto_embedded/models/shared'
     autoload :Operations, 'gusto_embedded/models/operations'
