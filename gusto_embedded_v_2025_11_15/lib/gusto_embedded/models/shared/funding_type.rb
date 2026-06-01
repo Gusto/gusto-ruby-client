@@ -6,14 +6,16 @@
 module GustoEmbedded
   module Models
     module Shared
-      # FundingType - Company's default funding type
+
       class FundingType
         include ::Crystalline::Enum
         enums do
           ACH = new("ach")
           REVERSE_WIRE = new("reverse_wire")
           WIRE_IN = new("wire_in")
-          BREX = new("brex")
+          PARTNER_DISBURSEMENT = new("partner_disbursement")
+          RTP = new("rtp")
+          LINE_OF_CREDIT = new("line_of_credit")
         end
 
         open!

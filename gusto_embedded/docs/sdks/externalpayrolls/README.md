@@ -269,9 +269,11 @@ end
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| Errors::APIError | 4XX, 5XX         | \*/\*            |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
 ## calculate_taxes
 
@@ -452,6 +454,8 @@ end
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| Errors::APIError | 4XX, 5XX         | \*/\*            |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |

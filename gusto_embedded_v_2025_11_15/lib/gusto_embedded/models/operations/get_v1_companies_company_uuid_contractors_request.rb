@@ -23,7 +23,7 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'query_param': {'field_name': "search_term", 'style': "form", 'explode': true}}
         )
-        # Sort contractors. Options: type, onboarding_status, name, created_at
+        # Sort by one or more fields. Options: created_at, type, onboarding_status, name. Append `:asc` or `:desc` to specify direction (e.g., `created_at:asc`). Defaults to ascending.
         field(
           :sort_by,
           Crystalline::Nilable.new(::String),

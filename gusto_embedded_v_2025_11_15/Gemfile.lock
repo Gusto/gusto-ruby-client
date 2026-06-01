@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gusto_embedded_client_v_2025_11_15 (0.0.1)
+    gusto_embedded_client_v_2025_11_15 (0.0.2)
       base64 (>= 0.2.0, < 1.0)
       faraday (>= 2.14.1)
       faraday-multipart (~> 1.2.0)

@@ -27,10 +27,10 @@ module GustoEmbedded
           Crystalline::Nilable.new(::Integer),
           {'query_param': {'field_name': "per", 'style': "form", 'explode': true}}
         )
-        # Sort employee compensations by name
+        # Sort employee compensations by one or more fields. Options: first_name, last_name. Append `:asc` or `:desc` to specify direction (e.g., `last_name:asc` or `last_name:asc,first_name:asc`). Defaults to ascending.
         field(
           :sort_by,
-          Crystalline::Nilable.new(Models::Operations::QueryParamSortBy),
+          Crystalline::Nilable.new(::String),
           {'query_param': {'field_name': "sort_by", 'style': "form", 'explode': true}}
         )
 
@@ -54,7 +54,7 @@ module GustoEmbedded
             payroll_id: ::String,
             page: T.nilable(::Integer),
             per: T.nilable(::Integer),
-            sort_by: T.nilable(Models::Operations::QueryParamSortBy),
+            sort_by: T.nilable(::String),
             body: T.nilable(Models::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareRequestBody),
             x_gusto_api_version: T.nilable(
               Models::Operations::PutV1CompaniesCompanyIdPayrollsPayrollIdPrepareHeaderXGustoAPIVersion

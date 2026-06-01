@@ -1,0 +1,17 @@
+# typed: true
+# frozen_string_literal: true
+
+
+class GustoEmbedded::Models::Operations::PostPayrollsGrossUpPayrollUuidRequest
+  extend ::Crystalline::MetadataFields::ClassMethods
+end
+
+
+class GustoEmbedded::Models::Operations::PostPayrollsGrossUpPayrollUuidRequest
+  def payroll_uuid(); end
+  def payroll_uuid=(str_); end
+  def payroll_gross_up_request(); end
+  def payroll_gross_up_request=(str_); end
+  def x_gusto_api_version(); end
+  def x_gusto_api_version=(str_); end
+end

@@ -1,7 +1,5 @@
 # FundingType
 
-Company's default funding type
-
 ## Example Usage
 
 ```ruby
@@ -16,9 +14,11 @@ custom = FundingType.deserialize("custom_value")
 
 ## Values
 
-| Name           | Value          |
-| -------------- | -------------- |
-| `ACH`          | ach            |
-| `REVERSE_WIRE` | reverse_wire   |
-| `WIRE_IN`      | wire_in        |
-| `BREX`         | brex           |
+| Name                   | Value                  |
+| ---------------------- | ---------------------- |
+| `ACH`                  | ach                    |
+| `REVERSE_WIRE`         | reverse_wire           |
+| `WIRE_IN`              | wire_in                |
+| `PARTNER_DISBURSEMENT` | partner_disbursement   |
+| `RTP`                  | rtp                    |
+| `LINE_OF_CREDIT`       | line_of_credit         |

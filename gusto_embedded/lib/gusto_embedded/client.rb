@@ -16,7 +16,7 @@ module GustoEmbedded
   class Client
     extend T::Sig
 
-    attr_accessor :introspection, :companies, :invoices, :company_attachments, :company_attachment, :federal_tax_details, :industry_selection, :signatories, :flows, :locations, :bank_accounts, :external_payrolls, :payment_configs, :pay_schedules, :employees, :historical_employees, :departments, :employee_employments, :employee_addresses, :employee_tax_setup, :employee_payment_methods, :employee_payment_method, :jobs_and_compensations, :earning_types, :contractors, :contractor_payment_method, :contractor_payment_methods, :webhooks, :contractor_forms, :contractor_documents, :employee_forms, :payrolls, :time_off_policies, :contractor_payments, :contractor_payment_groups, :company_forms, :generated_documents, :reports, :company_benefits, :employee_benefits, :garnishments, :i9_verification, :tax_requirements, :holiday_pay_policies, :notifications, :events, :information_requests, :recovery_cases, :ach_transactions, :wire_in_requests, :salary_estimates, :reimbursements, :people_batches, :time_off_requests
+    attr_accessor :introspection, :companies, :invoices, :company_attachments, :company_attachment, :federal_tax_details, :industry_selection, :signatories, :flows, :locations, :bank_accounts, :external_payrolls, :payment_configs, :pay_schedules, :employees, :historical_employees, :departments, :employee_employments, :employee_addresses, :employee_tax_setup, :employee_payment_methods, :employee_payment_method, :jobs_and_compensations, :earning_types, :contractors, :contractor_payment_method, :contractor_payment_methods, :webhooks, :contractor_forms, :contractor_documents, :employee_forms, :payrolls, :time_off_policies, :contractor_payments, :contractor_payment_groups, :company_forms, :generated_documents, :reports, :company_benefits, :employee_benefits, :garnishments, :i9_verification, :tax_requirements, :holiday_pay_policies, :notifications, :events, :information_requests, :recovery_cases, :ach_transactions, :wire_in_requests, :salary_estimates, :reimbursements, :people_batches, :time_off_requests, :payroll_digests
 
     # Instantiates the SDK, configuring it with the provided parameters.
     #
@@ -132,6 +132,7 @@ module GustoEmbedded
       @reimbursements = Reimbursements.new(@sdk_configuration)
       @people_batches = PeopleBatches.new(@sdk_configuration)
       @time_off_requests = TimeOffRequests.new(@sdk_configuration)
+      @payroll_digests = PayrollDigests.new(@sdk_configuration)
     end
 
     sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }

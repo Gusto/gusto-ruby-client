@@ -1,0 +1,18 @@
+# PutAPIV1CompaniesCompanyIdPayrollsPayrollIdCancelHeaderXGustoAPIVersion
+
+Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
+
+## Example Usage
+
+```ruby
+require "gusto_embedded_client_v_2026_06_15"
+
+value = PutAPIV1CompaniesCompanyIdPayrollsPayrollIdCancelHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15
+```
+
+
+## Values
+
+| Name                                            | Value                                           |
+| ----------------------------------------------- | ----------------------------------------------- |
+| `TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15` | 2026-06-15                                      |

@@ -470,6 +470,11 @@ end
 * [get](docs/sdks/paymentconfigs/README.md#get) - Get a company's payment configs
 * [update](docs/sdks/paymentconfigs/README.md#update) - Update a company's payment configs
 
+### [PayrollDigests](docs/sdks/payrolldigests/README.md)
+
+* [post_v1_payroll_digests](docs/sdks/payrolldigests/README.md#post_v1_payroll_digests) - Create a payroll digest batch
+* [get_v1_payroll_digests_payroll_digest_uuid](docs/sdks/payrolldigests/README.md#get_v1_payroll_digests_payroll_digest_uuid) - Get a payroll digest batch
+
 ### [Payrolls](docs/sdks/payrolls/README.md)
 
 * [list](docs/sdks/payrolls/README.md#list) - Get all payrolls for a company
