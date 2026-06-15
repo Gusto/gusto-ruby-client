@@ -41,7 +41,7 @@ module GustoEmbedded
 
 
 
-    sig { params(document_type: Models::Operations::DocumentType, request_uuid: ::String, x_gusto_api_version: T.nilable(Models::Shared::VersionHeader), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidResponse) }
+    sig { params(document_type: Models::Operations::DocumentType, request_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidResponse) }
     def get(document_type:, request_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get - Get a generated document
       # Get a document given the request_uuid. The response will include the generation request's status and urls to the document. A list of urls is returned as certain document types require several urls.

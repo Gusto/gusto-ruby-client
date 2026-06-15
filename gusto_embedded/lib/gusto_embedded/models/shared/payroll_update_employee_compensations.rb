@@ -28,13 +28,18 @@ module GustoEmbedded
         field :hourly_compensations, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollUpdateHourlyCompensations)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_compensations') } }
 
         field :deductions, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollUpdateDeductions)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deductions') } }
+        # Optional per-payroll one-time custom withholdings for federal and/or state income tax.
+        # When provided, the supplied override takes precedence over any persistent withholding schedule for this run.
+        # This field is in limited release; if your application does not have access, requests including it are silently ignored.
+        #
+        field :custom_withholdings, Crystalline::Nilable.new(Models::Shared::CustomWithholdings), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_withholdings') } }
         # An array of all paid time off the employee is eligible for this pay period. Each paid time off object can be the name or the specific policy_uuid.
         field :paid_time_off, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollUpdatePaidTimeOff)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_time_off') } }
         # An array of reimbursements for the employee.
         field :reimbursements, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollUpdateReimbursements)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursements') } }
 
-        sig { params(employee_uuid: T.nilable(::String), version: T.nilable(::String), excluded: T.nilable(T::Boolean), payment_method: T.nilable(Models::Shared::PayrollUpdatePaymentMethod), memo: T.nilable(::String), fixed_compensations: T.nilable(T::Array[Models::Shared::PayrollUpdateFixedCompensations]), hourly_compensations: T.nilable(T::Array[Models::Shared::PayrollUpdateHourlyCompensations]), deductions: T.nilable(T::Array[Models::Shared::PayrollUpdateDeductions]), paid_time_off: T.nilable(T::Array[Models::Shared::PayrollUpdatePaidTimeOff]), reimbursements: T.nilable(T::Array[Models::Shared::PayrollUpdateReimbursements])).void }
-        def initialize(employee_uuid: nil, version: nil, excluded: nil, payment_method: nil, memo: nil, fixed_compensations: nil, hourly_compensations: nil, deductions: nil, paid_time_off: nil, reimbursements: nil)
+        sig { params(employee_uuid: T.nilable(::String), version: T.nilable(::String), excluded: T.nilable(T::Boolean), payment_method: T.nilable(Models::Shared::PayrollUpdatePaymentMethod), memo: T.nilable(::String), fixed_compensations: T.nilable(T::Array[Models::Shared::PayrollUpdateFixedCompensations]), hourly_compensations: T.nilable(T::Array[Models::Shared::PayrollUpdateHourlyCompensations]), deductions: T.nilable(T::Array[Models::Shared::PayrollUpdateDeductions]), custom_withholdings: T.nilable(Models::Shared::CustomWithholdings), paid_time_off: T.nilable(T::Array[Models::Shared::PayrollUpdatePaidTimeOff]), reimbursements: T.nilable(T::Array[Models::Shared::PayrollUpdateReimbursements])).void }
+        def initialize(employee_uuid: nil, version: nil, excluded: nil, payment_method: nil, memo: nil, fixed_compensations: nil, hourly_compensations: nil, deductions: nil, custom_withholdings: nil, paid_time_off: nil, reimbursements: nil)
           @employee_uuid = employee_uuid
           @version = version
           @excluded = excluded
@@ -43,6 +48,7 @@ module GustoEmbedded
           @fixed_compensations = fixed_compensations
           @hourly_compensations = hourly_compensations
           @deductions = deductions
+          @custom_withholdings = custom_withholdings
           @paid_time_off = paid_time_off
           @reimbursements = reimbursements
         end
@@ -58,6 +64,7 @@ module GustoEmbedded
           return false unless @fixed_compensations == other.fixed_compensations
           return false unless @hourly_compensations == other.hourly_compensations
           return false unless @deductions == other.deductions
+          return false unless @custom_withholdings == other.custom_withholdings
           return false unless @paid_time_off == other.paid_time_off
           return false unless @reimbursements == other.reimbursements
           true

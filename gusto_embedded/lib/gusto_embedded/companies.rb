@@ -1419,8 +1419,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_uuid: ::String, additional_steps: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompanyOnboardingStatusResponse) }
-    def get_onboarding_status(company_uuid:, additional_steps: nil, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion), additional_steps: T.nilable(::String), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompanyOnboardingStatusResponse) }
+    def get_onboarding_status(company_uuid:, x_gusto_api_version: nil, additional_steps: nil, timeout_ms: nil, http_headers: nil)
       # get_onboarding_status - Get company onboarding status
       # Retrieves a company's onboarding status, including whether onboarding is complete and the list of
       # required onboarding steps with their respective completion state.
@@ -1430,8 +1430,8 @@ module GustoEmbedded
       # If set, this operation will use `company_access_auth` from the global security.
       request = Models::Operations::GetV1CompanyOnboardingStatusRequest.new(
         company_uuid: company_uuid,
-        additional_steps: additional_steps,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        additional_steps: additional_steps
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)

@@ -1410,8 +1410,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, contractor_uuid: T.nilable(::String), contractor_payment_group_uuid: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsResponse) }
-    def get_v1_companies_company_id_contractors_payment_details(company_id:, contractor_uuid: nil, contractor_payment_group_uuid: nil, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsHeaderXGustoAPIVersion), contractor_uuid: T.nilable(::String), contractor_payment_group_uuid: T.nilable(::String), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsResponse) }
+    def get_v1_companies_company_id_contractors_payment_details(company_id:, x_gusto_api_version: nil, contractor_uuid: nil, contractor_payment_group_uuid: nil, timeout_ms: nil, http_headers: nil)
       # get_v1_companies_company_id_contractors_payment_details - List contractor payment details
       # Get payment details for contractors in a company. This endpoint returns a list of all contractors
       # associated with the specified company, including their payment methods and bank account details
@@ -1444,9 +1444,9 @@ module GustoEmbedded
       # If set, this operation will use `company_access_auth` from the global security.
       request = Models::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsRequest.new(
         company_id: company_id,
+        x_gusto_api_version: x_gusto_api_version,
         contractor_uuid: contractor_uuid,
-        contractor_payment_group_uuid: contractor_payment_group_uuid,
-        x_gusto_api_version: x_gusto_api_version
+        contractor_payment_group_uuid: contractor_payment_group_uuid
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -1614,7 +1614,7 @@ module GustoEmbedded
       else
         body = data
       end
-      headers['Accept'] = '*/*'
+      headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       security = @sdk_configuration.security_source&.call
@@ -1693,7 +1693,21 @@ module GustoEmbedded
           content_type: content_type,
           raw_response: http_response
         )
-      elsif Utils.match_status_code(http_response.status, ['422', '4XX'])
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
         raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
       elsif Utils.match_status_code(http_response.status, ['5XX'])
         raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
@@ -1735,7 +1749,7 @@ module GustoEmbedded
       )
       headers = Utils.get_headers(request)
       headers = T.cast(headers, T::Hash[String, String])
-      headers['Accept'] = '*/*'
+      headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       security = @sdk_configuration.security_source&.call
@@ -1813,7 +1827,21 @@ module GustoEmbedded
           content_type: content_type,
           raw_response: http_response
         )
-      elsif Utils.match_status_code(http_response.status, ['422', '4XX'])
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
         raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
       elsif Utils.match_status_code(http_response.status, ['5XX'])
         raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
@@ -1866,7 +1894,7 @@ module GustoEmbedded
       else
         body = data
       end
-      headers['Accept'] = '*/*'
+      headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       security = @sdk_configuration.security_source&.call
@@ -1945,7 +1973,21 @@ module GustoEmbedded
           content_type: content_type,
           raw_response: http_response
         )
-      elsif Utils.match_status_code(http_response.status, ['422', '4XX'])
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
         raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
       elsif Utils.match_status_code(http_response.status, ['5XX'])
         raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
@@ -1987,7 +2029,7 @@ module GustoEmbedded
       )
       headers = Utils.get_headers(request)
       headers = T.cast(headers, T::Hash[String, String])
-      headers['Accept'] = '*/*'
+      headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
       security = @sdk_configuration.security_source&.call
@@ -2065,7 +2107,21 @@ module GustoEmbedded
           content_type: content_type,
           raw_response: http_response
         )
-      elsif Utils.match_status_code(http_response.status, ['422', '4XX'])
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
         raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
       elsif Utils.match_status_code(http_response.status, ['5XX'])
         raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'

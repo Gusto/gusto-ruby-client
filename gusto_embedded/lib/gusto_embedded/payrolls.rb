@@ -347,8 +347,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Shared::VersionHeader), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsResponse) }
-    def get_approved_reversals(company_id:, page: nil, per: nil, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion), page: T.nilable(::Integer), per: T.nilable(::Integer), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsResponse) }
+    def get_approved_reversals(company_id:, x_gusto_api_version: nil, page: nil, per: nil, timeout_ms: nil, http_headers: nil)
       # get_approved_reversals - Get approved payroll reversals
       # Returns all approved Payroll Reversals for a Company.
       #
@@ -357,9 +357,9 @@ module GustoEmbedded
       # If set, this operation will use `company_access_auth` from the global security.
       request = Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsRequest.new(
         company_id: company_id,
+        x_gusto_api_version: x_gusto_api_version,
         page: page,
-        per: per,
-        x_gusto_api_version: x_gusto_api_version
+        per: per
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -792,8 +792,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, payroll_id: ::String, async: T.nilable(T::Boolean), x_gusto_api_version: T.nilable(Models::Operations::DeleteV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::DeleteV1CompaniesCompanyIdPayrollsResponse) }
-    def delete(company_id:, payroll_id:, async: nil, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+    sig { params(company_id: ::String, payroll_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::DeleteV1CompaniesCompanyIdPayrollsHeaderXGustoAPIVersion), async: T.nilable(T::Boolean), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::DeleteV1CompaniesCompanyIdPayrollsResponse) }
+    def delete(company_id:, payroll_id:, x_gusto_api_version: nil, async: nil, timeout_ms: nil, http_headers: nil)
       # delete - Delete a payroll
       # This endpoint allows you to delete an **unprocessed** payroll.
       #
@@ -805,8 +805,8 @@ module GustoEmbedded
       request = Models::Operations::DeleteV1CompaniesCompanyIdPayrollsRequest.new(
         company_id: company_id,
         payroll_id: payroll_id,
-        async: async,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        async: async
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)

@@ -777,6 +777,10 @@ module GustoEmbedded
         "gusto_embedded/models/operations/get_v1_companies_company_id_pay_schedules_response.rb"
       )
       autoload(
+        :GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_companies_company_id_payroll_reversals_header_x_gusto_api_version.rb"
+      )
+      autoload(
         :GetV1CompaniesCompanyIdPayrollReversalsRequest,
         "gusto_embedded/models/operations/get_v1_companies_company_id_payroll_reversals_request.rb"
       )
@@ -1249,6 +1253,18 @@ module GustoEmbedded
         "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_payment_method_response.rb"
       )
       autoload(
+        :GetV1ContractorsContractorUuidPaymentsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_payments_header_x_gusto_api_version.rb"
+      )
+      autoload(
+        :GetV1ContractorsContractorUuidPaymentsRequest,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_payments_request.rb"
+      )
+      autoload(
+        :GetV1ContractorsContractorUuidPaymentsResponse,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_payments_response.rb"
+      )
+      autoload(
         :GetV1ContractorsContractorUuidHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_header_x_gusto_api_version.rb"
       )
@@ -1601,6 +1617,10 @@ module GustoEmbedded
       autoload(
         :GetV1GarnishmentsGarnishmentIdResponse,
         "gusto_embedded/models/operations/get_v1_garnishments_garnishment_id_response.rb"
+      )
+      autoload(
+        :GetV1GeneratedDocumentsDocumentTypeRequestUuidHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_generated_documents_document_type_request_uuid_header_x_gusto_api_version.rb"
       )
       autoload(
         :GetV1GeneratedDocumentsDocumentTypeRequestUuidRequest,

@@ -261,6 +261,13 @@ module GustoEmbedded
       )
       autoload :ContractorPaymentGroupStatus, "gusto_embedded/models/shared/contractor_payment_group_status.rb"
       autoload :ContractorPaymentGroupTotals, "gusto_embedded/models/shared/contractor_payment_group_totals.rb"
+      autoload :ContractorPaymentListing, "gusto_embedded/models/shared/contractor_payment_listing.rb"
+      autoload(
+        :ContractorPaymentListingPaymentMethod,
+        "gusto_embedded/models/shared/contractor_payment_listing_payment_method.rb"
+      )
+      autoload :ContractorPaymentListingStatus, "gusto_embedded/models/shared/contractor_payment_listing_status.rb"
+      autoload :ContractorPaymentListingWageType, "gusto_embedded/models/shared/contractor_payment_listing_wage_type.rb"
       autoload :ContractorPaymentMethod, "gusto_embedded/models/shared/contractor_payment_method.rb"
       autoload :ContractorPaymentMethodSplitBy, "gusto_embedded/models/shared/contractor_payment_method_split_by.rb"
       autoload :ContractorPaymentMethodType, "gusto_embedded/models/shared/contractor_payment_method_type.rb"
@@ -441,6 +448,7 @@ module GustoEmbedded
         :EmployeeOnboardingStatusOnboardingStep,
         "gusto_embedded/models/shared/employee_onboarding_status_onboarding_step.rb"
       )
+      autoload :EmployeeOnboardingStatusCategory, "gusto_embedded/models/shared/employee_onboarding_status_category.rb"
       autoload :EmployeePayStubsList, "gusto_embedded/models/shared/employee_pay_stubs_list.rb"
       autoload(
         :EmployeePayStubsListPaymentMethod,
@@ -805,6 +813,7 @@ module GustoEmbedded
       )
       autoload :PayrollDigest, "gusto_embedded/models/shared/payroll_digest.rb"
       autoload :PayrollDigestResults, "gusto_embedded/models/shared/payroll_digest_results.rb"
+      autoload :PayrollDigestResultsBlockers, "gusto_embedded/models/shared/payroll_digest_results_blockers.rb"
       autoload :PayrollDigestResultsCategory, "gusto_embedded/models/shared/payroll_digest_results_category.rb"
       autoload :PayrollDigestResultsEntityType, "gusto_embedded/models/shared/payroll_digest_results_entity_type.rb"
       autoload :PayrollDigestResultsExclusions, "gusto_embedded/models/shared/payroll_digest_results_exclusions.rb"
@@ -919,8 +928,17 @@ module GustoEmbedded
         :PayrollUpdateEmployeeCompensations,
         "gusto_embedded/models/shared/payroll_update_employee_compensations.rb"
       )
+      autoload(
+        :PayrollUpdateEmployeeCompensationsAmountType,
+        "gusto_embedded/models/shared/payroll_update_employee_compensations_amount_type.rb"
+      )
+      autoload(
+        :PayrollUpdateEmployeeCompensationsCustomWithholdingsAmountType,
+        "gusto_embedded/models/shared/payroll_update_employee_compensations_custom_withholdings_amount_type.rb"
+      )
       autoload :PayrollUpdateFixedCompensations, "gusto_embedded/models/shared/payroll_update_fixed_compensations.rb"
       autoload :PayrollUpdateHourlyCompensations, "gusto_embedded/models/shared/payroll_update_hourly_compensations.rb"
+      autoload :PayrollUpdateOverrideType, "gusto_embedded/models/shared/payroll_update_override_type.rb"
       autoload :PayrollUpdatePaidTimeOff, "gusto_embedded/models/shared/payroll_update_paid_time_off.rb"
       autoload :PayrollUpdatePaymentMethod, "gusto_embedded/models/shared/payroll_update_payment_method.rb"
       autoload :PayrollUpdateReimbursements, "gusto_embedded/models/shared/payroll_update_reimbursements.rb"
@@ -1001,7 +1019,6 @@ module GustoEmbedded
         :UpdateGarnishmentRequestGarnishmentType,
         "gusto_embedded/models/shared/update_garnishment_request_garnishment_type.rb"
       )
-      autoload :VersionHeader, "gusto_embedded/models/shared/versionheader.rb"
       autoload :WebhookSubscription, "gusto_embedded/models/shared/webhook_subscription.rb"
       autoload :WebhookSubscriptionStatus, "gusto_embedded/models/shared/webhook_subscription_status.rb"
       autoload :WebhookVerificationTokenResponse, "gusto_embedded/models/shared/webhook_verification_token_response.rb"
@@ -1053,6 +1070,7 @@ module GustoEmbedded
       autoload :CoverageAmount, "gusto_embedded/models/shared/coverage_amount.rb"
       autoload :CoverageSalaryMultiplier, "gusto_embedded/models/shared/coverage_salary_multiplier.rb"
       autoload :CurrentEmploymentStatus, "gusto_embedded/models/shared/current_employment_status.rb"
+      autoload :CustomWithholdings, "gusto_embedded/models/shared/custom_withholdings.rb"
       autoload :DeductAsPercentage, "gusto_embedded/models/shared/deduct_as_percentage.rb"
       autoload :DeductionReducesTaxableIncome, "gusto_embedded/models/shared/deduction_reduces_taxable_income.rb"
       autoload :Deductions, "gusto_embedded/models/shared/deductions.rb"
@@ -1077,7 +1095,9 @@ module GustoEmbedded
       autoload :Exclusions, "gusto_embedded/models/shared/exclusions.rb"
       autoload :ExperienceLevel, "gusto_embedded/models/shared/experience_level.rb"
       autoload :ExternalPayrollItems, "gusto_embedded/models/shared/external_payroll_items.rb"
+      autoload :Federal, "gusto_embedded/models/shared/federal.rb"
       autoload :FederalHolidays, "gusto_embedded/models/shared/federal_holidays.rb"
+      autoload :Field, "gusto_embedded/models/shared/field.rb"
       autoload :Fields, "gusto_embedded/models/shared/fields_.rb"
       autoload :FileType, "gusto_embedded/models/shared/file_type.rb"
       autoload :FilingForm, "gusto_embedded/models/shared/filing_form.rb"
@@ -1115,6 +1135,7 @@ module GustoEmbedded
       autoload :OnboardingDocumentsConfig, "gusto_embedded/models/shared/onboarding_documents_config.rb"
       autoload :OnboardingStatus, "gusto_embedded/models/shared/onboarding_status.rb"
       autoload :Options, "gusto_embedded/models/shared/options.rb"
+      autoload :OverrideType, "gusto_embedded/models/shared/override_type.rb"
       autoload :OwnerType, "gusto_embedded/models/shared/owner_type.rb"
       autoload :Pages, "gusto_embedded/models/shared/pages.rb"
       autoload :PaySchedule, "gusto_embedded/models/shared/pay_schedule.rb"
@@ -1157,6 +1178,7 @@ module GustoEmbedded
       autoload :Source, "gusto_embedded/models/shared/source.rb"
       autoload :SplitBy, "gusto_embedded/models/shared/split_by.rb"
       autoload :Splits, "gusto_embedded/models/shared/splits.rb"
+      autoload :State, "gusto_embedded/models/shared/state.rb"
       autoload :States, "gusto_embedded/models/shared/states.rb"
       autoload :Status, "gusto_embedded/models/shared/status.rb"
       autoload :SubscriptionTypes, "gusto_embedded/models/shared/subscription_types.rb"

@@ -1090,8 +1090,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse) }
-    def get_custom_fields(employee_id:, page: nil, per: nil, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsHeaderXGustoAPIVersion), page: T.nilable(::Integer), per: T.nilable(::Integer), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse) }
+    def get_custom_fields(employee_id:, x_gusto_api_version: nil, page: nil, per: nil, timeout_ms: nil, http_headers: nil)
       # get_custom_fields - Get an employee's custom fields
       # Returns a list of the employee's custom fields.
       #
@@ -1100,9 +1100,9 @@ module GustoEmbedded
       # If set, this operation will use `company_access_auth` from the global security.
       request = Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsRequest.new(
         employee_id: employee_id,
+        x_gusto_api_version: x_gusto_api_version,
         page: page,
-        per: per,
-        x_gusto_api_version: x_gusto_api_version
+        per: per
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)

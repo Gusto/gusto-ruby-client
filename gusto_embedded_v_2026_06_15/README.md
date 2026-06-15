@@ -249,6 +249,7 @@ end
 * [get_receipt](docs/sdks/contractorpayments/README.md#get_receipt) - Get a single contractor payment receipt
 * [fund](docs/sdks/contractorpayments/README.md#fund) - Fund a contractor payment [DEMO]
 * [get_v1_contractor_payments_contractor_payment_id_pdf](docs/sdks/contractorpayments/README.md#get_v1_contractor_payments_contractor_payment_id_pdf) - Get a contractor payment PDF
+* [get_v1_contractors_contractor_uuid_payments](docs/sdks/contractorpayments/README.md#get_v1_contractors_contractor_uuid_payments) - Get contractor payments
 
 ### [Contractors](docs/sdks/contractors/README.md)
 

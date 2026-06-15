@@ -786,8 +786,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(job_id: ::String, include: T.nilable(Models::Operations::GetV1JobsJobIdQueryParamInclude), x_gusto_api_version: T.nilable(Models::Operations::GetV1JobsJobIdHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1JobsJobIdResponse) }
-    def get_job(job_id:, include: nil, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+    sig { params(job_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1JobsJobIdHeaderXGustoAPIVersion), include: T.nilable(Models::Operations::GetV1JobsJobIdQueryParamInclude), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1JobsJobIdResponse) }
+    def get_job(job_id:, x_gusto_api_version: nil, include: nil, timeout_ms: nil, http_headers: nil)
       # get_job - Get a job
       # Get a job.
       #
@@ -800,8 +800,8 @@ module GustoEmbedded
       # If set, this operation will use `company_access_auth` from the global security.
       request = Models::Operations::GetV1JobsJobIdRequest.new(
         job_id: job_id,
-        include: include,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        include: include
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)

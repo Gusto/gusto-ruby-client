@@ -242,6 +242,7 @@ end
 * [delete](docs/sdks/contractorpayments/README.md#delete) - Cancel a contractor payment
 * [preview](docs/sdks/contractorpayments/README.md#preview) - Preview contractor payment debit date
 * [get_v1_contractor_payments_contractor_payment_id_pdf](docs/sdks/contractorpayments/README.md#get_v1_contractor_payments_contractor_payment_id_pdf) - Get a contractor payment PDF
+* [get_v1_contractors_contractor_uuid_payments](docs/sdks/contractorpayments/README.md#get_v1_contractors_contractor_uuid_payments) - Get contractor payments
 
 ### [Contractors](docs/sdks/contractors/README.md)
 
