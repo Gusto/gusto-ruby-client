@@ -58,7 +58,7 @@ module GustoEmbedded
 
         field(
           :totals,
-          Crystalline::Nilable.new(Models::Shared::ContractorPaymentGroupPreviewTotals),
+          Crystalline::Nilable.new(Models::Shared::Totals),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("totals")}}
         )
 
@@ -94,7 +94,7 @@ module GustoEmbedded
             status: T.nilable(Models::Shared::ContractorPaymentGroupPreviewStatus),
             submission_blockers: T.nilable(T::Array[Models::Shared::PayrollSubmissionBlockerType]),
             credit_blockers: T.nilable(T::Array[Models::Shared::PayrollCreditBlockerType]),
-            totals: T.nilable(Models::Shared::ContractorPaymentGroupPreviewTotals),
+            totals: T.nilable(Models::Shared::Totals),
             contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPaymentForGroupPreview]),
             uuid: T.nilable(::String),
             creation_token: T.nilable(::String),

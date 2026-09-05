@@ -40,13 +40,15 @@ module GustoEmbedded
         field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
         # The status of the location. Inactive locations have been deleted, but may still have historical data associated with them.
         field :inactive, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('inactive') } }
+        # An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved.
+        field :warnings, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::WarningObject)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('warnings') } }
 
         field :street_2, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_2') } }
 
         field :country, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
 
-        sig { params(uuid: ::String, version: T.nilable(::String), company_uuid: T.nilable(::String), phone_number: T.nilable(::String), street_1: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), mailing_address: T.nilable(T::Boolean), filing_address: T.nilable(T::Boolean), created_at: T.nilable(::String), updated_at: T.nilable(::String), active: T.nilable(T::Boolean), inactive: T.nilable(T::Boolean), street_2: T.nilable(::String), country: T.nilable(::String)).void }
-        def initialize(uuid:, version: nil, company_uuid: nil, phone_number: nil, street_1: nil, city: nil, state: nil, zip: nil, mailing_address: nil, filing_address: nil, created_at: nil, updated_at: nil, active: nil, inactive: nil, street_2: nil, country: 'USA')
+        sig { params(uuid: ::String, version: T.nilable(::String), company_uuid: T.nilable(::String), phone_number: T.nilable(::String), street_1: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), mailing_address: T.nilable(T::Boolean), filing_address: T.nilable(T::Boolean), created_at: T.nilable(::String), updated_at: T.nilable(::String), active: T.nilable(T::Boolean), inactive: T.nilable(T::Boolean), warnings: T.nilable(T::Array[Models::Shared::WarningObject]), street_2: T.nilable(::String), country: T.nilable(::String)).void }
+        def initialize(uuid:, version: nil, company_uuid: nil, phone_number: nil, street_1: nil, city: nil, state: nil, zip: nil, mailing_address: nil, filing_address: nil, created_at: nil, updated_at: nil, active: nil, inactive: nil, warnings: nil, street_2: nil, country: 'USA')
           @uuid = uuid
           @version = version
           @company_uuid = company_uuid
@@ -61,6 +63,7 @@ module GustoEmbedded
           @updated_at = updated_at
           @active = active
           @inactive = inactive
+          @warnings = warnings
           @street_2 = street_2
           @country = country
         end
@@ -82,6 +85,7 @@ module GustoEmbedded
           return false unless @updated_at == other.updated_at
           return false unless @active == other.active
           return false unless @inactive == other.inactive
+          return false unless @warnings == other.warnings
           return false unless @street_2 == other.street_2
           return false unless @country == other.country
           true

@@ -17,4 +17,10 @@ class GustoEmbedded::Models::Shared::Options
 
   def value=(str_)
   end
+
+  def short_label
+  end
+
+  def short_label=(str_)
+  end
 end

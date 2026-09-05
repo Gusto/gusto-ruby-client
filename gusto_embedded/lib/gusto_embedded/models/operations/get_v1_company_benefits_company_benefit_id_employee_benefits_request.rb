@@ -20,11 +20,11 @@ module GustoEmbedded
         field :per, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
         # Available options:
         # - all_benefits: Include all effective dated benefits for each employee instead of only the current benefits.
-        field :include, Crystalline::Nilable.new(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsQueryParamInclude), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': true } }
+        field :include, Crystalline::Nilable.new(Models::Operations::QueryParamInclude), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': true } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(company_benefit_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), include: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsQueryParamInclude), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsHeaderXGustoAPIVersion)).void }
+        sig { params(company_benefit_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), include: T.nilable(Models::Operations::QueryParamInclude), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsHeaderXGustoAPIVersion)).void }
         def initialize(company_benefit_id:, page: nil, per: nil, include: nil, x_gusto_api_version: Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @company_benefit_id = company_benefit_id
           @page = page

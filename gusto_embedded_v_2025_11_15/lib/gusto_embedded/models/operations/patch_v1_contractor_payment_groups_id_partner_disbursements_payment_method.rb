@@ -11,6 +11,8 @@ module GustoEmbedded
         enums do
           DIRECT_DEPOSIT = new("Direct Deposit")
           CHECK = new("Check")
+          HISTORICAL_PAYMENT = new("Historical Payment")
+          CORRECTION_PAYMENT = new("Correction Payment")
         end
       end
     end

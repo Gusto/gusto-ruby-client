@@ -14,15 +14,12 @@ module GustoEmbedded
         # Describes the type of tax_rate validation rule
         field(
           :type,
-          Models::Shared::TaxRequirementMetadataValidationType,
+          Models::Shared::TaxRequirementMetadataType,
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("type"),
               required: true,
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(
-                Models::Shared::TaxRequirementMetadataValidationType,
-                false
-              )
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::TaxRequirementMetadataType, false)
             }
           }
         )
@@ -49,7 +46,7 @@ module GustoEmbedded
 
         sig {
           params(
-            type: Models::Shared::TaxRequirementMetadataValidationType,
+            type: Models::Shared::TaxRequirementMetadataType,
             min: T.nilable(::String),
             max: T.nilable(::String),
             rates: T.nilable(T::Array[::String])

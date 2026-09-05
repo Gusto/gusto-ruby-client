@@ -6,12 +6,19 @@
 module GustoEmbedded
   module Models
     module Shared
-      # Status - The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized.  Once in the `processed` status all actions that can edit an external payroll will be disabled.
+      # Status - The batch's processing state.
+      # - `pending`: accepted, not yet started
+      # - `processing`: reports are being generated
+      # - `completed`: all reports finished
+      # - `failed`: the batch failed before completing
+      #
       class Status
         include ::Crystalline::Enum
         enums do
-          UNPROCESSED = new("unprocessed")
-          PROCESSED = new("processed")
+          PENDING = new("pending")
+          PROCESSING = new("processing")
+          COMPLETED = new("completed")
+          FAILED = new("failed")
         end
 
         open!

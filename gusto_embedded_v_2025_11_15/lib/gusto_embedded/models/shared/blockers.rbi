@@ -6,15 +6,21 @@ class GustoEmbedded::Models::Shared::Blockers
 end
 
 class GustoEmbedded::Models::Shared::Blockers
-  def type
+  def field
   end
 
-  def type=(str_)
+  def field=(str_)
   end
 
-  def description
+  def category
   end
 
-  def description=(str_)
+  def category=(str_)
+  end
+
+  def message
+  end
+
+  def message=(str_)
   end
 end

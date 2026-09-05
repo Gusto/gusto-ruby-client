@@ -15,13 +15,13 @@ module GustoEmbedded
         # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field.
         field :version, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version'), required: true } }
         # The payment method type. If type is Check, split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
-        field :type, Models::Operations::Type, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::Type, false) } }
+        field :type, Models::Operations::PutV1EmployeesEmployeeIdPaymentMethodType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::PutV1EmployeesEmployeeIdPaymentMethodType, false) } }
         # How the payment will be split. If Percentage, split amounts must add up to exactly 100. If Amount, values are in cents and the last split amount must be null to capture the remainder.
         field :split_by, Crystalline::Nilable.new(Models::Operations::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::SplitBy, true) } }
         # Array of payment splits. Required when type is Direct Deposit.
         field :splits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Splits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
 
-        sig { params(version: ::String, type: Models::Operations::Type, split_by: T.nilable(Models::Operations::SplitBy), splits: T.nilable(T::Array[Models::Operations::Splits])).void }
+        sig { params(version: ::String, type: Models::Operations::PutV1EmployeesEmployeeIdPaymentMethodType, split_by: T.nilable(Models::Operations::SplitBy), splits: T.nilable(T::Array[Models::Operations::Splits])).void }
         def initialize(version:, type:, split_by: nil, splits: nil)
           @version = version
           @type = type

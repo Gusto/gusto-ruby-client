@@ -74,7 +74,7 @@ module GustoEmbedded
         # The subtotals for the payroll.
         field(
           :totals,
-          Crystalline::Nilable.new(Models::Shared::Totals),
+          Crystalline::Nilable.new(Models::Shared::PayrollReceiptTotals),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("totals")}}
         )
         # An array of totaled employer and employee taxes for the pay period.
@@ -92,7 +92,7 @@ module GustoEmbedded
         # The licensed payroll processor
         field(
           :licensee,
-          Crystalline::Nilable.new(Models::Shared::Licensee),
+          Crystalline::Nilable.new(Models::Shared::PayrollReceiptLicensee),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("licensee")}}
         )
 
@@ -108,10 +108,10 @@ module GustoEmbedded
             license_uri: T.nilable(::String),
             right_to_refund: T.nilable(::String),
             liability_of_licensee: T.nilable(::String),
-            totals: T.nilable(Models::Shared::Totals),
+            totals: T.nilable(Models::Shared::PayrollReceiptTotals),
             taxes: T.nilable(T::Array[Models::Shared::Taxes]),
             employee_compensations: T.nilable(T::Array[Models::Shared::PayrollReceiptEmployeeCompensations]),
-            licensee: T.nilable(Models::Shared::Licensee)
+            licensee: T.nilable(Models::Shared::PayrollReceiptLicensee)
           )
             .void
         }

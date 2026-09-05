@@ -23,11 +23,11 @@ module GustoEmbedded
         # Indicates whether the request provides pay schedule assignments for a partial list of employees or departments of the company. By default, this is set to false.
         field :partial_assignment, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partial_assignment') } }
         # List of employees and their pay schedules.
-        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Employees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
+        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleAssignmentBodyEmployees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
         # List of departments and their pay schedules.
         field :departments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Departments)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('departments') } }
 
-        sig { params(type: T.nilable(Models::Shared::PayScheduleAssignmentBodyType), hourly_pay_schedule_uuid: T.nilable(::String), salaried_pay_schedule_uuid: T.nilable(::String), default_pay_schedule_uuid: T.nilable(::String), partial_assignment: T.nilable(T::Boolean), employees: T.nilable(T::Array[Models::Shared::Employees]), departments: T.nilable(T::Array[Models::Shared::Departments])).void }
+        sig { params(type: T.nilable(Models::Shared::PayScheduleAssignmentBodyType), hourly_pay_schedule_uuid: T.nilable(::String), salaried_pay_schedule_uuid: T.nilable(::String), default_pay_schedule_uuid: T.nilable(::String), partial_assignment: T.nilable(T::Boolean), employees: T.nilable(T::Array[Models::Shared::PayScheduleAssignmentBodyEmployees]), departments: T.nilable(T::Array[Models::Shared::Departments])).void }
         def initialize(type: nil, hourly_pay_schedule_uuid: nil, salaried_pay_schedule_uuid: nil, default_pay_schedule_uuid: nil, partial_assignment: nil, employees: nil, departments: nil)
           @type = type
           @hourly_pay_schedule_uuid = hourly_pay_schedule_uuid

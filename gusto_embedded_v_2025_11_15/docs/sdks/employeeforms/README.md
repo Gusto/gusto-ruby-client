@@ -4,62 +4,11 @@
 
 ### Available Operations
 
-* [generate_w2](#generate_w2) - Generate a W2 form [DEMO]
 * [list](#list) - Get all employee forms
 * [get](#get) - Get an employee form
 * [get_pdf](#get_pdf) - Get the employee form pdf
 * [sign](#sign) - Sign an employee form
-
-## generate_w2
-
-> 🚧 Demo action
->
-> This action is only available in the Demo environment
-
-Generates a W2 document for testing purposes.
-
-scope: `employees:write`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="post-v1-sandbox-generate_w2" method="post" path="/v1/sandbox/generate_w2" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.employee_forms.generate_w2(body: Models::Operations::PostV1SandboxGenerateW2RequestBody.new(
-  employee_id: '<id>'
-), x_gusto_api_version: Models::Operations::PostV1SandboxGenerateW2HeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
-
-unless res.form.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `body`                                                                                                                                                                                                                       | [Models::Operations::PostV1SandboxGenerateW2RequestBody](../../models/operations/postv1sandboxgeneratew2requestbody.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1SandboxGenerateW2HeaderXGustoAPIVersion)](../../models/operations/postv1sandboxgeneratew2headerxgustoapiversion.md)                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::PostV1SandboxGenerateW2Response)](../../models/operations/postv1sandboxgeneratew2response.md)**
-
-### Errors
-
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
-| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
-| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+* [generate_w2](#generate_w2) - Generate a W2 form [DEMO]
 
 ## list
 
@@ -242,6 +191,57 @@ end
 ### Response
 
 **[T.nilable(Models::Operations::PutV1EmployeeFormSignResponse)](../../models/operations/putv1employeeformsignresponse.md)**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## generate_w2
+
+> 🚧 Demo action
+>
+> This action is only available in the Demo environment
+
+Generates a W2 document for testing purposes.
+
+scope: `employees:write`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="post-v1-sandbox-generate_w2" method="post" path="/v1/sandbox/generate_w2" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.employee_forms.generate_w2(body: Models::Operations::PostV1SandboxGenerateW2RequestBody.new(
+  employee_id: '<id>'
+), x_gusto_api_version: Models::Operations::PostV1SandboxGenerateW2HeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.form.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `body`                                                                                                                                                                                                                       | [Models::Operations::PostV1SandboxGenerateW2RequestBody](../../models/operations/postv1sandboxgeneratew2requestbody.md)                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1SandboxGenerateW2HeaderXGustoAPIVersion)](../../models/operations/postv1sandboxgeneratew2headerxgustoapiversion.md)                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::PostV1SandboxGenerateW2Response)](../../models/operations/postv1sandboxgeneratew2response.md)**
 
 ### Errors
 
