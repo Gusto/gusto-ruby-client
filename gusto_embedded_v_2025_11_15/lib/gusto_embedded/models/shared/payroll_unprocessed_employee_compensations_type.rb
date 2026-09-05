@@ -23,16 +23,20 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Boolean.new),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("excluded")}}
         )
-        # An array of fixed compensations for the employee. Fixed compensations include tips, bonuses, and one time reimbursements. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned.
+        # An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned.
         field(
           :fixed_compensations,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::FixedCompensations)),
+          Crystalline::Nilable.new(
+            Crystalline::Array.new(Models::Shared::PayrollUnprocessedEmployeeCompensationsTypeFixedCompensations)
+          ),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("fixed_compensations")}}
         )
         # An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned.
         field(
           :hourly_compensations,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::HourlyCompensations)),
+          Crystalline::Nilable.new(
+            Crystalline::Array.new(Models::Shared::PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensations)
+          ),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("hourly_compensations")}}
         )
         # An array of all paid time off the employee is eligible for this pay period.
@@ -46,8 +50,19 @@ module GustoEmbedded
         # An array of reimbursements for the employee.
         field(
           :reimbursements,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Reimbursements)),
+          Crystalline::Nilable.new(
+            Crystalline::Array.new(Models::Shared::PayrollUnprocessedEmployeeCompensationsTypeReimbursements)
+          ),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("reimbursements")}}
+        )
+        # The one-time custom withholding overrides applied to this payroll for this employee.
+        # `federal` is null when no federal one-time override is set; `state` is an empty
+        # array when no state one-time overrides are set.
+        #
+        field(
+          :custom_withholdings,
+          Crystalline::Nilable.new(Models::Shared::PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("custom_withholdings")}}
         )
         # The current version of this employee compensation. This field is only available for prepared payrolls. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/api-fundamentals#optimistic-version-control) for information on how to use this field.
         field(
@@ -116,10 +131,19 @@ module GustoEmbedded
           params(
             employee_uuid: T.nilable(::String),
             excluded: T.nilable(T::Boolean),
-            fixed_compensations: T.nilable(T::Array[Models::Shared::FixedCompensations]),
-            hourly_compensations: T.nilable(T::Array[Models::Shared::HourlyCompensations]),
+            fixed_compensations: T.nilable(
+              T::Array[Models::Shared::PayrollUnprocessedEmployeeCompensationsTypeFixedCompensations]
+            ),
+            hourly_compensations: T.nilable(
+              T::Array[Models::Shared::PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensations]
+            ),
             paid_time_off: T.nilable(T::Array[Models::Shared::PayrollUnprocessedEmployeeCompensationsTypePaidTimeOff]),
-            reimbursements: T.nilable(T::Array[Models::Shared::Reimbursements]),
+            reimbursements: T.nilable(
+              T::Array[Models::Shared::PayrollUnprocessedEmployeeCompensationsTypeReimbursements]
+            ),
+            custom_withholdings: T.nilable(
+              Models::Shared::PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings
+            ),
             version: T.nilable(::Object),
             first_name: T.nilable(::String),
             preferred_first_name: T.nilable(::String),
@@ -139,6 +163,7 @@ module GustoEmbedded
           hourly_compensations: nil,
           paid_time_off: nil,
           reimbursements: nil,
+          custom_withholdings: nil,
           version: nil,
           first_name: nil,
           preferred_first_name: nil,
@@ -155,6 +180,7 @@ module GustoEmbedded
           @hourly_compensations = hourly_compensations
           @paid_time_off = paid_time_off
           @reimbursements = reimbursements
+          @custom_withholdings = custom_withholdings
           @version = version
           @first_name = first_name
           @preferred_first_name = preferred_first_name
@@ -175,6 +201,7 @@ module GustoEmbedded
           return false unless @hourly_compensations == other.hourly_compensations
           return false unless @paid_time_off == other.paid_time_off
           return false unless @reimbursements == other.reimbursements
+          return false unless @custom_withholdings == other.custom_withholdings
           return false unless @version == other.version
           return false unless @first_name == other.first_name
           return false unless @preferred_first_name == other.preferred_first_name

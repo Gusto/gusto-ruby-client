@@ -18,6 +18,8 @@ module GustoEmbedded
         field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
         # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
         field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
+        # An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved.
+        field :warnings, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::WarningObject)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('warnings') } }
 
         field :street_1, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('street_1') } }
 
@@ -31,11 +33,12 @@ module GustoEmbedded
 
         field :country, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('country') } }
 
-        sig { params(contractor_uuid: T.nilable(::String), active: T.nilable(T::Boolean), version: T.nilable(::String), street_1: T.nilable(::String), street_2: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), country: T.nilable(::String)).void }
-        def initialize(contractor_uuid: nil, active: nil, version: nil, street_1: nil, street_2: nil, city: nil, state: nil, zip: nil, country: 'USA')
+        sig { params(contractor_uuid: T.nilable(::String), active: T.nilable(T::Boolean), version: T.nilable(::String), warnings: T.nilable(T::Array[Models::Shared::WarningObject]), street_1: T.nilable(::String), street_2: T.nilable(::String), city: T.nilable(::String), state: T.nilable(::String), zip: T.nilable(::String), country: T.nilable(::String)).void }
+        def initialize(contractor_uuid: nil, active: nil, version: nil, warnings: nil, street_1: nil, street_2: nil, city: nil, state: nil, zip: nil, country: 'USA')
           @contractor_uuid = contractor_uuid
           @active = active
           @version = version
+          @warnings = warnings
           @street_1 = street_1
           @street_2 = street_2
           @city = city
@@ -50,6 +53,7 @@ module GustoEmbedded
           return false unless @contractor_uuid == other.contractor_uuid
           return false unless @active == other.active
           return false unless @version == other.version
+          return false unless @warnings == other.warnings
           return false unless @street_1 == other.street_1
           return false unless @street_2 == other.street_2
           return false unless @city == other.city

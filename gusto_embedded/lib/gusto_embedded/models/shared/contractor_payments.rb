@@ -13,51 +13,29 @@ module GustoEmbedded
         include Crystalline::MetadataFields
 
         # The UUID of the contractor.
-        field :contractor_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
-        # The first name of the contractor. Applies when `contractor_type` is `Individual`.
-        field :contractor_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_first_name') } }
-        # The last name of the contractor.  Applies when `contractor_type` is `Individual`.
-        field :contractor_last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_last_name') } }
-        # The business name of the contractor. Applies when `contractor_type` is `Business`.
-        field :contractor_business_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_business_name') } }
-        # The type of contractor.
-        #
-        # `Individual` `Business`
-        field :contractor_type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_type') } }
-        # The payment method.
-        field :payment_method, Crystalline::Nilable.new(Models::Shared::ContractorPaymentReceiptPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ContractorPaymentReceiptPaymentMethod, true) } }
-        # The fixed wage of the payment, regardless of hours worked.
-        field :wage, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
-        # The bonus amount in the payment.
-        field :bonus, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
-        # The reimbursement amount in the payment.
-        field :reimbursement, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
+        field :contractor_uuid, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
+        # The total reimbursements for the contractor within a given time period.
+        field :reimbursement_total, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement_total') } }
+        # The total wages for the contractor within a given time period.
+        field :wage_total, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_total') } }
+        # The contractor's payments within a given time period.
+        field :payments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPayment)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payments') } }
 
-        sig { params(contractor_uuid: T.nilable(::String), contractor_first_name: T.nilable(::String), contractor_last_name: T.nilable(::String), contractor_business_name: T.nilable(::String), contractor_type: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentReceiptPaymentMethod), wage: T.nilable(::String), bonus: T.nilable(::String), reimbursement: T.nilable(::String)).void }
-        def initialize(contractor_uuid: nil, contractor_first_name: nil, contractor_last_name: nil, contractor_business_name: nil, contractor_type: nil, payment_method: nil, wage: nil, bonus: nil, reimbursement: nil)
+        sig { params(contractor_uuid: T.nilable(::Float), reimbursement_total: T.nilable(::String), wage_total: T.nilable(::String), payments: T.nilable(T::Array[Models::Shared::ContractorPayment])).void }
+        def initialize(contractor_uuid: nil, reimbursement_total: nil, wage_total: nil, payments: nil)
           @contractor_uuid = contractor_uuid
-          @contractor_first_name = contractor_first_name
-          @contractor_last_name = contractor_last_name
-          @contractor_business_name = contractor_business_name
-          @contractor_type = contractor_type
-          @payment_method = payment_method
-          @wage = wage
-          @bonus = bonus
-          @reimbursement = reimbursement
+          @reimbursement_total = reimbursement_total
+          @wage_total = wage_total
+          @payments = payments
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a? self.class
           return false unless @contractor_uuid == other.contractor_uuid
-          return false unless @contractor_first_name == other.contractor_first_name
-          return false unless @contractor_last_name == other.contractor_last_name
-          return false unless @contractor_business_name == other.contractor_business_name
-          return false unless @contractor_type == other.contractor_type
-          return false unless @payment_method == other.payment_method
-          return false unless @wage == other.wage
-          return false unless @bonus == other.bonus
-          return false unless @reimbursement == other.reimbursement
+          return false unless @reimbursement_total == other.reimbursement_total
+          return false unless @wage_total == other.wage_total
+          return false unless @payments == other.payments
           true
         end
       end

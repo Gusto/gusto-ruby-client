@@ -84,14 +84,11 @@ module GustoEmbedded
         # The wage type for the payment.
         field(
           :wage_type,
-          Crystalline::Nilable.new(Models::Shared::ContractorPaymentForGroupPreviewWageType),
+          Crystalline::Nilable.new(Models::Shared::WageType),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("wage_type"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(
-                Models::Shared::ContractorPaymentForGroupPreviewWageType,
-                true
-              )
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::WageType, true)
             }
           }
         )
@@ -119,7 +116,7 @@ module GustoEmbedded
             hourly_rate: T.nilable(::String),
             may_cancel: T.nilable(T::Boolean),
             wage: T.nilable(::String),
-            wage_type: T.nilable(Models::Shared::ContractorPaymentForGroupPreviewWageType),
+            wage_type: T.nilable(Models::Shared::WageType),
             wage_total: T.nilable(::String),
             uuid: T.nilable(::String)
           )

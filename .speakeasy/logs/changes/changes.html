@@ -98,99 +98,149 @@
 <body><h2 id="ruby-sdk-changes">Ruby SDK Changes:</h2>
 
 <ul>
-<li><code>client.payrolls.get()</code>:
+<li><code>client.webhooks.list_subscriptions()</code>:  <code>response.[].subscription_types[].enum(time_off_request)</code> <strong>Added</strong> (Breaking ⚠️)</li>
+<li><code>client.webhooks.create_subscription()</code>:
 
 <ul>
-<li><code>request.sort_by</code> <strong>Changed</strong> (Breaking ⚠️)</li>
+<li><code>request_body.subscription_types[].enum(time_off_request)</code> <strong>Added</strong></li>
+<li><code>response.subscription_types[].enum(time_off_request)</code> <strong>Added</strong> (Breaking ⚠️)</li>
 </ul></li>
-<li><code>client.company_forms.get_all()</code>:
+<li><code>client.webhooks.get_subscription()</code>:  <code>response.subscription_types[].enum(time_off_request)</code> <strong>Added</strong> (Breaking ⚠️)</li>
+<li><code>client.webhooks.update_subscription()</code>:
 
 <ul>
-<li><code>request.sort_by</code> <strong>Changed</strong> (Breaking ⚠️)</li>
+<li><code>request_body.subscription_types[].enum(time_off_request)</code> <strong>Added</strong></li>
+<li><code>response.subscription_types[].enum(time_off_request)</code> <strong>Added</strong> (Breaking ⚠️)</li>
 </ul></li>
-<li><code>client.companies.get()</code>: <code>response.funding_type</code> <strong>Changed</strong> (Breaking ⚠️)
+<li><code>client.webhooks.verify()</code>:  <code>response.subscription_types[].enum(time_off_request)</code> <strong>Added</strong> (Breaking ⚠️)</li>
+<li><code>client.locations.retrieve()</code>:  <code>response.warnings</code> <strong>Added</strong></li>
+<li><code>client.employees.list()</code>:  <code>response.[].jobs[].location.warnings</code> <strong>Added</strong></li>
+<li><code>client.reports.get_v1_bulk_reports_request_uuid()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.get_v1_contractors_contractor_uuid_payments()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.get_v1_contractor_payments_contractor_payment_id_pdf()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.list()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.create()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.get()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.delete()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.preview()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.get_receipt()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.fund()</code>: <strong>Added</strong></li>
+<li><code>client.member_portal_invitations.post_v1_employees_employee_id_member_portal_invitations()</code>: <strong>Added</strong></li>
+<li><code>client.member_portal_invitations.get_v1_employees_employee_id_member_portal_invitations()</code>: <strong>Added</strong></li>
+<li><code>client.member_portal_invitations.delete_v1_employees_employee_id_member_portal_invitations()</code>: <strong>Added</strong></li>
+<li><code>client.member_portal_invitations.post_v1_contractors_contractor_uuid_member_portal_invitations()</code>: <strong>Added</strong></li>
+<li><code>client.member_portal_invitations.get_v1_contractors_contractor_uuid_member_portal_invitations()</code>: <strong>Added</strong></li>
+<li><code>client.member_portal_invitations.delete_v1_contractors_contractor_uuid_member_portal_invitations()</code>: <strong>Added</strong></li>
+<li><code>client.payroll_cancellations.post_v1_payroll_batches()</code>: <strong>Added</strong></li>
+<li><code>client.payroll_cancellations.get_v1_payroll_batches_payroll_batch_uuid()</code>: <strong>Added</strong></li>
+<li><code>client.reverse_wire_transactions.get_reverse_wire_transactions()</code>: <strong>Added</strong></li>
+<li><code>client.tax_payments.get_tax_payments()</code>: <strong>Added</strong></li>
+<li><code>client.tax_payments.get_tax_payment()</code>: <strong>Added</strong></li>
+<li><code>client.contractor_payments.get_receipt()</code>: <strong>Removed</strong> (Breaking ⚠️)</li>
+<li><code>client.contractor_payments.fund()</code>: <strong>Removed</strong> (Breaking ⚠️)</li>
+<li><code>client.contractor_payments.list()</code>: <strong>Removed</strong> (Breaking ⚠️)</li>
+<li><code>client.contractor_payments.create()</code>: <strong>Removed</strong> (Breaking ⚠️)</li>
+<li><code>client.pay_schedules.get_preview()</code>:
 
 <ul>
-<li><code>enum(brex)</code> <strong>Removed</strong> (Breaking ⚠️)</li>
-<li><code>enum(line_of_credit)</code> <strong>Added</strong></li>
-<li><code>enum(partner_disbursement)</code> <strong>Added</strong></li>
-<li><code>enum(rtp)</code> <strong>Added</strong></li>
+<li><code>request.pay_schedule_uuid</code> <strong>Added</strong></li>
 </ul></li>
-<li><code>client.companies.update()</code>: <code>response.funding_type</code> <strong>Changed</strong> (Breaking ⚠️)
+<li><code>client.contractor_payments.delete()</code>: <strong>Removed</strong> (Breaking ⚠️)</li>
+<li><code>client.contractor_payments.preview()</code>: <strong>Removed</strong> (Breaking ⚠️)</li>
+<li><code>client.contractor_payments.get_v1_contractor_payments_contractor_payment_id_pdf()</code>: <strong>Removed</strong> (Breaking ⚠️)</li>
+<li><code>client.companies.suspensions.suspend()</code>:
 
 <ul>
-<li><code>enum(brex)</code> <strong>Removed</strong> (Breaking ⚠️)</li>
-<li><code>enum(line_of_credit)</code> <strong>Added</strong></li>
-<li><code>enum(partner_disbursement)</code> <strong>Added</strong></li>
-<li><code>enum(rtp)</code> <strong>Added</strong></li>
-</ul></li>
-<li><code>client.payrolls.prepare()</code>:
+<li><code>request_body.leaving_for</code> <strong>Changed</strong>
 
 <ul>
-<li><code>request.sort_by</code> <strong>Changed</strong> (Breaking ⚠️)</li>
-</ul></li>
-<li><code>client.contractor_payments.get_v1_contractor_payments_contractor_payment_id_pdf()</code>:  <code>error.status[404]</code> <strong>Added</strong></li>
-<li><code>client.reports.create_custom()</code>:
-
-<ul>
-<li><code>request.body.columns[]</code> <strong>Changed</strong>
-
-<ul>
-<li><code>enum(employee_uuid)</code> <strong>Added</strong></li>
-<li><code>enum(payroll_uuid)</code> <strong>Added</strong></li>
+<li><code>enum(other_peo)</code> <strong>Added</strong></li>
+<li><code>enum(toast)</code> <strong>Added</strong></li>
 </ul></li>
 </ul></li>
-<li><code>client.employee_tax_setup.update_state_taxes()</code>:  <code>response.[].uuid</code> <strong>Added</strong></li>
-<li><code>client.employee_payment_method.delete_bank_account()</code>: <code>error</code> <strong>Changed</strong>
+<li><code>client.federal_tax_details.update()</code>:  <code>error.status[403]</code> <strong>Added</strong></li>
+<li><code>client.locations.get()</code>:  <code>response.[].warnings</code> <strong>Added</strong></li>
+<li><code>client.locations.create()</code>:  <code>response.warnings</code> <strong>Added</strong></li>
+<li><code>client.companies.put_v1_partner_managed_companies_company_uuid_disassociate()</code>: <strong>Added</strong></li>
+<li><code>client.reports.post_v1_bulk_reports()</code>: <strong>Added</strong></li>
+<li><code>client.locations.update()</code>:  <code>response.warnings</code> <strong>Added</strong></li>
+<li><code>client.contractor_payments.get()</code>: <strong>Removed</strong> (Breaking ⚠️)</li>
+<li><code>client.employees.create()</code>:  <code>response.jobs[].location.warnings</code> <strong>Added</strong></li>
+<li><code>client.employees.create_historical()</code>:  <code>response.jobs[].location.warnings</code> <strong>Added</strong></li>
+<li><code>client.employees.get()</code>:  <code>response.jobs[].location.warnings</code> <strong>Added</strong></li>
+<li><code>client.employees.update()</code>:  <code>response.jobs[].location.warnings</code> <strong>Added</strong></li>
+<li><code>client.employees.get_onboarding_status()</code>:  <code>response.blockers</code> <strong>Added</strong></li>
+<li><code>client.employees.update_onboarding_status()</code>:  <code>response.blockers</code> <strong>Added</strong></li>
+<li><code>client.historical_employees.update()</code>:  <code>response.jobs[].location.warnings</code> <strong>Added</strong></li>
+<li><code>client.employee_addresses.get()</code>:  <code>response.[].warnings</code> <strong>Added</strong></li>
+<li><code>client.employee_addresses.create()</code>:  <code>response.warnings</code> <strong>Added</strong></li>
+<li><code>client.employee_addresses.retrieve_home_address()</code>:  <code>response.warnings</code> <strong>Added</strong></li>
+<li><code>client.employee_addresses.update()</code>:  <code>response.warnings</code> <strong>Added</strong></li>
+<li><code>client.jobs_and_compensations.get_jobs()</code>:  <code>response.[].location.warnings</code> <strong>Added</strong></li>
+<li><code>client.jobs_and_compensations.create_job()</code>:  <code>response.location.warnings</code> <strong>Added</strong></li>
+<li><code>client.jobs_and_compensations.get_job()</code>:  <code>response.location.warnings</code> <strong>Added</strong></li>
+<li><code>client.jobs_and_compensations.update()</code>:  <code>response.location.warnings</code> <strong>Added</strong></li>
+<li><code>client.contractors.list()</code>:  <code>response.[].work_email</code> <strong>Added</strong></li>
+<li><code>client.contractors.create()</code>:
 
 <ul>
-<li>&rdquo; <strong>Added</strong></li>
+<li><code>request.contractor_create_request_body.work_email</code> <strong>Added</strong></li>
+<li><code>response.work_email</code> <strong>Added</strong></li>
 </ul></li>
-<li><code>client.earning_types.delete()</code>:  <code>error.status[404]</code> <strong>Added</strong></li>
-<li><code>client.external_payrolls.finalize_tax_liabilities()</code>: <code>error</code> <strong>Changed</strong>
+<li><code>client.contractors.get()</code>:  <code>response.work_email</code> <strong>Added</strong></li>
+<li><code>client.contractors.update()</code>:
 
 <ul>
-<li>&rdquo; <strong>Added</strong></li>
+<li><code>request.contractor_update_request_body.work_email</code> <strong>Added</strong></li>
+<li><code>response.work_email</code> <strong>Added</strong></li>
 </ul></li>
-<li><code>client.external_payrolls.delete()</code>: <code>error</code> <strong>Changed</strong>
+<li><code>client.contractors.get_address()</code>:  <code>response.warnings</code> <strong>Added</strong></li>
+<li><code>client.contractors.update_address()</code>:  <code>response.warnings</code> <strong>Added</strong></li>
+<li><code>client.contractors.post_v1_contractors_contractor_uuid_rehire()</code>:  <code>error.status[422]</code> <strong>Added</strong></li>
+<li><code>client.contractors.delete_v1_contractors_contractor_uuid_rehire()</code>:  <code>error.status[422]</code> <strong>Added</strong></li>
+<li><code>client.contractors.post_v1_contractors_contractor_uuid_termination()</code>:  <code>error.status[422]</code> <strong>Added</strong></li>
+<li><code>client.contractors.delete_v1_contractors_contractor_uuid_termination()</code>:  <code>error.status[422]</code> <strong>Added</strong></li>
+<li><code>client.payrolls.create_off_cycle()</code>:  <code>response.employee_compensations[].custom_withholdings</code> <strong>Added</strong></li>
+<li><code>client.payrolls.get_approved_reversals()</code>:  <code>request.x_gusto_api_version</code> <strong>Changed</strong></li>
+<li><code>client.payrolls.get()</code>:  <code>response.employee_compensations[].custom_withholdings</code> <strong>Added</strong></li>
+<li><code>client.payrolls.update()</code>:
 
 <ul>
-<li>&rdquo; <strong>Added</strong></li>
+<li><code>request.payroll_update.employee_compensations[].custom_withholdings</code> <strong>Added</strong></li>
+<li><code>response.employee_compensations[].custom_withholdings</code> <strong>Added</strong></li>
 </ul></li>
-<li><code>client.payroll_digests.post_v1_payroll_digests()</code>: <strong>Added</strong></li>
-<li><code>client.payroll_digests.get_v1_payroll_digests_payroll_digest_uuid()</code>: <strong>Added</strong></li>
-<li><code>client.employee_tax_setup.get_state_taxes()</code>:  <code>response.[].uuid</code> <strong>Added</strong></li>
-<li><code>client.company_benefits.delete()</code>: <code>error</code> <strong>Changed</strong>
+<li><code>client.payrolls.prepare()</code>:  <code>response.employee_compensations[].custom_withholdings</code> <strong>Added</strong></li>
+<li><code>client.payrolls.get_receipt()</code>: <code>request</code> <strong>Changed</strong>
 
 <ul>
-<li>&rdquo; <strong>Added</strong></li>
+<li><code>page</code> <strong>Added</strong></li>
+<li><code>per</code> <strong>Added</strong></li>
 </ul></li>
-<li><code>client.company_benefits.get_employee_benefits()</code>:  <code>response.[].deduction_reduces_taxable_income</code> <strong>Changed</strong></li>
-<li><code>client.company_benefits.update_employee_benefits()</code>:
+<li><code>client.payrolls.skip()</code>:  <code>error.status[409]</code> <strong>Added</strong></li>
+<li><code>client.contractor_payment_groups.patch_v1_contractor_payment_groups_id_partner_disbursements()</code>:
 
 <ul>
-<li><code>request.body.employee_benefits[].deduction_reduces_taxable_income</code> <strong>Changed</strong></li>
-<li><code>response.[].deduction_reduces_taxable_income</code> <strong>Changed</strong></li>
+<li><code>request_body.disbursements[].payment_method</code> <strong>Changed</strong>
+
+<ul>
+<li><code>enum(correction_payment)</code> <strong>Added</strong></li>
+<li><code>enum(historical_payment)</code> <strong>Added</strong></li>
 </ul></li>
-<li><code>client.employee_benefits.get()</code>:  <code>response.[].deduction_reduces_taxable_income</code> <strong>Changed</strong></li>
-<li><code>client.employee_benefits.create()</code>:  <code>response.deduction_reduces_taxable_income</code> <strong>Changed</strong></li>
-<li><code>client.employee_benefits.retrieve()</code>:  <code>response.deduction_reduces_taxable_income</code> <strong>Changed</strong></li>
-<li><code>client.employee_benefits.update()</code>:
-
-<ul>
-<li><code>request.body.deduction_reduces_taxable_income</code> <strong>Changed</strong></li>
-<li><code>response.deduction_reduces_taxable_income</code> <strong>Changed</strong></li>
 </ul></li>
-<li><code>client.employee_benefits.delete()</code>: <code>error</code> <strong>Changed</strong>
+<li><code>client.generated_documents.get()</code>:  <code>request.x_gusto_api_version</code> <strong>Changed</strong></li>
+<li><code>client.reports.create_custom()</code>: <code>request.create_report_body</code> <strong>Changed</strong>
 
 <ul>
-<li>&rdquo; <strong>Added</strong></li>
+<li><code>columns[].enum(additional_earnings)</code> <strong>Added</strong></li>
+<li><code>columns[].enum(employee_state_income_tax)</code> <strong>Added</strong></li>
+<li><code>date_filter_type</code> <strong>Added</strong></li>
+<li><code>groupings</code> <strong>Changed</strong></li>
 </ul></li>
-<li><code>client.information_requests.get_information_requests()</code>:  <code>request.sort_by</code> <strong>Added</strong></li>
-<li><code>client.time_off_requests.delete_v1_time_off_requests_time_off_request_uuid()</code>: <code>error</code> <strong>Changed</strong>
+<li><code>client.tax_requirements.get()</code>: <code>response.requirement_sets[].requirements[]</code> <strong>Changed</strong>
 
 <ul>
-<li>&rdquo; <strong>Added</strong></li>
+<li><code>default_value_applied</code> <strong>Added</strong></li>
+<li><code>payroll_blocking</code> <strong>Added</strong></li>
 </ul></li>
 </ul>
 </body>

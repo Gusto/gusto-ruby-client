@@ -26,6 +26,7 @@ module GustoEmbedded
           PAYROLL_SYNC = new("PayrollSync")
           PAY_SCHEDULE = new("PaySchedule")
           SIGNATORY = new("Signatory")
+          TIME_OFF_REQUEST = new("TimeOffRequest")
         end
 
         open!

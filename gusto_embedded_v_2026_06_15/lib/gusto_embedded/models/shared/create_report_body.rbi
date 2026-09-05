@@ -10,10 +10,10 @@ end
 class GustoEmbedded::Models::Shared::CreateReportBody
   def columns(); end
   def columns=(str_); end
-  def groupings(); end
-  def groupings=(str_); end
   def file_type(); end
   def file_type=(str_); end
+  def groupings(); end
+  def groupings=(str_); end
   def custom_name(); end
   def custom_name=(str_); end
   def start_date(); end
@@ -36,6 +36,8 @@ class GustoEmbedded::Models::Shared::CreateReportBody
   def work_address_uuids=(str_); end
   def with_totals(); end
   def with_totals=(str_); end
+  def date_filter_type(); end
+  def date_filter_type=(str_); end
   def employee_uuids(); end
   def employee_uuids=(str_); end
 end

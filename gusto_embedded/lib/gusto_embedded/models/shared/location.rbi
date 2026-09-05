@@ -36,6 +36,8 @@ class GustoEmbedded::Models::Shared::Location
   def active=(str_); end
   def inactive(); end
   def inactive=(str_); end
+  def warnings(); end
+  def warnings=(str_); end
   def street_2(); end
   def street_2=(str_); end
   def country(); end

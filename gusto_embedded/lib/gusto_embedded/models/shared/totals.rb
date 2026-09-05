@@ -7,39 +7,39 @@
 module GustoEmbedded
   module Models
     module Shared
-      # The subtotals for the payroll.
+
       class Totals
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # The total company debit for the payroll.
-        field :company_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_debit') } }
-        # The total company net pay for the payroll.
-        field :net_pay_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('net_pay_debit') } }
-        # The total child support debit for the payroll.
-        field :child_support_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support_debit') } }
-        # The total reimbursements for the payroll.
-        field :reimbursement_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement_debit') } }
-        # The total tax debit for the payroll.
-        field :tax_debit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('tax_debit') } }
+        # The total amount for the group of contractor payments.
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        # The total debit amount for the group of contractor payments. Sum of wage & reimbursement amount.
+        field :debit_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('debit_amount') } }
+        # The total wage amount for the group of contractor payments.
+        field :wage_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_amount') } }
+        # The total reimbursement amount for the group of contractor payments.
+        field :reimbursement_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement_amount') } }
+        # The total check amount for the group of contractor payments.
+        field :check_amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_amount') } }
 
-        sig { params(company_debit: T.nilable(::String), net_pay_debit: T.nilable(::String), child_support_debit: T.nilable(::String), reimbursement_debit: T.nilable(::String), tax_debit: T.nilable(::String)).void }
-        def initialize(company_debit: nil, net_pay_debit: nil, child_support_debit: nil, reimbursement_debit: nil, tax_debit: nil)
-          @company_debit = company_debit
-          @net_pay_debit = net_pay_debit
-          @child_support_debit = child_support_debit
-          @reimbursement_debit = reimbursement_debit
-          @tax_debit = tax_debit
+        sig { params(amount: T.nilable(::String), debit_amount: T.nilable(::String), wage_amount: T.nilable(::String), reimbursement_amount: T.nilable(::String), check_amount: T.nilable(::String)).void }
+        def initialize(amount: nil, debit_amount: nil, wage_amount: nil, reimbursement_amount: nil, check_amount: nil)
+          @amount = amount
+          @debit_amount = debit_amount
+          @wage_amount = wage_amount
+          @reimbursement_amount = reimbursement_amount
+          @check_amount = check_amount
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a? self.class
-          return false unless @company_debit == other.company_debit
-          return false unless @net_pay_debit == other.net_pay_debit
-          return false unless @child_support_debit == other.child_support_debit
-          return false unless @reimbursement_debit == other.reimbursement_debit
-          return false unless @tax_debit == other.tax_debit
+          return false unless @amount == other.amount
+          return false unless @debit_amount == other.debit_amount
+          return false unless @wage_amount == other.wage_amount
+          return false unless @reimbursement_amount == other.reimbursement_amount
+          return false unless @check_amount == other.check_amount
           true
         end
       end

@@ -16,7 +16,7 @@ module GustoEmbedded
         # Include the requested attribute(s) in each employee response. Multiple options are comma separated.
         field(
           :include,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::QueryParamInclude)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::GetV1EmployeesQueryParamInclude)),
           {'query_param': {'field_name': "include", 'style': "form", 'explode': false}}
         )
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
@@ -29,7 +29,7 @@ module GustoEmbedded
         sig {
           params(
             employee_id: ::String,
-            include: T.nilable(T::Array[Models::Operations::QueryParamInclude]),
+            include: T.nilable(T::Array[Models::Operations::GetV1EmployeesQueryParamInclude]),
             x_gusto_api_version: T.nilable(Models::Operations::GetV1EmployeesHeaderXGustoAPIVersion)
           )
             .void

@@ -27,7 +27,7 @@ module GustoEmbedded
         # Primary work location for this historical employment row.
         field :work_address, Models::Shared::WorkAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_address'), required: true } }
         # Residential address on file for tax withholding and compliance mail.
-        field :home_address, Models::Shared::HistoricalEmployeeBodyHomeAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address'), required: true } }
+        field :home_address, Models::Shared::HomeAddress, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address'), required: true } }
         # End of the historical employment period.
         field :termination, Models::Shared::HistoricalEmployeeBodyTermination, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('termination'), required: true } }
         # Hire date for the historical job used to build employments and filings.
@@ -41,7 +41,7 @@ module GustoEmbedded
         # Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable.
         field :employee_state_taxes, Crystalline::Nilable.new(Models::Shared::EmployeeStateTaxes), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_state_taxes') } }
 
-        sig { params(first_name: ::String, last_name: ::String, date_of_birth: ::Date, ssn: ::String, work_address: Models::Shared::WorkAddress, home_address: Models::Shared::HistoricalEmployeeBodyHomeAddress, termination: Models::Shared::HistoricalEmployeeBodyTermination, job: Models::Shared::HistoricalEmployeeBodyJob, middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), email: T.nilable(::String), employee_state_taxes: T.nilable(Models::Shared::EmployeeStateTaxes)).void }
+        sig { params(first_name: ::String, last_name: ::String, date_of_birth: ::Date, ssn: ::String, work_address: Models::Shared::WorkAddress, home_address: Models::Shared::HomeAddress, termination: Models::Shared::HistoricalEmployeeBodyTermination, job: Models::Shared::HistoricalEmployeeBodyJob, middle_initial: T.nilable(::String), preferred_first_name: T.nilable(::String), email: T.nilable(::String), employee_state_taxes: T.nilable(Models::Shared::EmployeeStateTaxes)).void }
         def initialize(first_name:, last_name:, date_of_birth:, ssn:, work_address:, home_address:, termination:, job:, middle_initial: nil, preferred_first_name: nil, email: nil, employee_state_taxes: nil)
           @first_name = first_name
           @last_name = last_name

@@ -26,11 +26,11 @@ module GustoEmbedded
         # The contractor's wage type, either "Fixed" or "Hourly".
         field(
           :wage_type,
-          Crystalline::Nilable.new(Models::Shared::WageType),
+          Crystalline::Nilable.new(Models::Shared::ContractorWageType),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("wage_type"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::WageType, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::ContractorWageType, true)
             }
           }
         )
@@ -72,11 +72,11 @@ module GustoEmbedded
         # One of the "onboarding_status" enum values.
         field(
           :onboarding_status,
-          Crystalline::Nilable.new(Models::Shared::ContractorOnboardingStatus1),
+          Crystalline::Nilable.new(Models::Shared::OnboardingStatus),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("onboarding_status"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::ContractorOnboardingStatus1, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::OnboardingStatus, true)
             }
           }
         )
@@ -146,6 +146,12 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("email")}}
         )
+        # The work email address of the contractor. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
+        field(
+          :work_email,
+          Crystalline::Nilable.new(::String),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("work_email")}}
+        )
         # The contractor’s home address.
         field(
           :address,
@@ -209,7 +215,7 @@ module GustoEmbedded
         # Member portal invitation status information. Only included when the include param has the portal_invitations value set.
         field(
           :member_portal_invitation_status,
-          Crystalline::Nilable.new(Models::Shared::ContractorMemberPortalInvitationStatus),
+          Crystalline::Nilable.new(Models::Shared::MemberPortalInvitationStatus),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("member_portal_invitation_status")}}
         )
         # Whether an external partner portal invitation webhook has been sent for this contractor. Only included when the include param has the portal_invitations value set.
@@ -223,13 +229,13 @@ module GustoEmbedded
           params(
             uuid: ::String,
             company_uuid: T.nilable(::String),
-            wage_type: T.nilable(Models::Shared::WageType),
+            wage_type: T.nilable(Models::Shared::ContractorWageType),
             version: T.nilable(::String),
             type: T.nilable(Models::Shared::ContractorType),
             start_date: T.nilable(::String),
             hourly_rate: T.nilable(::String),
             onboarded: T.nilable(T::Boolean),
-            onboarding_status: T.nilable(Models::Shared::ContractorOnboardingStatus1),
+            onboarding_status: T.nilable(Models::Shared::OnboardingStatus),
             has_ssn: T.nilable(T::Boolean),
             dismissal_cancellation_eligible: T.nilable(T::Boolean),
             rehire_cancellation_eligible: T.nilable(T::Boolean),
@@ -241,6 +247,7 @@ module GustoEmbedded
             ein: T.nilable(::String),
             has_ein: T.nilable(T::Boolean),
             email: T.nilable(::String),
+            work_email: T.nilable(::String),
             address: T.nilable(Models::Shared::Address),
             file_new_hire_report: T.nilable(T::Boolean),
             work_state: T.nilable(::String),
@@ -250,7 +257,7 @@ module GustoEmbedded
             department_title: T.nilable(::String),
             dismissal_date: T.nilable(::String),
             upcoming_employment: T.nilable(Models::Shared::UpcomingEmployment),
-            member_portal_invitation_status: T.nilable(Models::Shared::ContractorMemberPortalInvitationStatus),
+            member_portal_invitation_status: T.nilable(Models::Shared::MemberPortalInvitationStatus),
             partner_portal_invitation_sent: T.nilable(T::Boolean)
           )
             .void
@@ -276,6 +283,7 @@ module GustoEmbedded
           ein: nil,
           has_ein: nil,
           email: nil,
+          work_email: nil,
           address: nil,
           file_new_hire_report: nil,
           work_state: nil,
@@ -308,6 +316,7 @@ module GustoEmbedded
           @ein = ein
           @has_ein = has_ein
           @email = email
+          @work_email = work_email
           @address = address
           @file_new_hire_report = file_new_hire_report
           @work_state = work_state
@@ -344,6 +353,7 @@ module GustoEmbedded
           return false unless @ein == other.ein
           return false unless @has_ein == other.has_ein
           return false unless @email == other.email
+          return false unless @work_email == other.work_email
           return false unless @address == other.address
           return false unless @file_new_hire_report == other.file_new_hire_report
           return false unless @work_state == other.work_state

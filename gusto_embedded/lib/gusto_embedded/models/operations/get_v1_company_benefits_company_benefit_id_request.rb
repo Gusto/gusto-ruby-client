@@ -18,11 +18,11 @@ module GustoEmbedded
         field :with_employee_benefits, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'query_param': { 'field_name': 'with_employee_benefits', 'style': 'form', 'explode': true } }
         # Available options:
         # - all_benefits: If with_employee_benefits=true, include all effective dated benefits for each employee instead of only the current benefits.
-        field :include, Crystalline::Nilable.new(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdQueryParamInclude), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': true } }
+        field :include, Crystalline::Nilable.new(Models::Operations::Include), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': true } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(company_benefit_id: ::String, with_employee_benefits: T.nilable(T::Boolean), include: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdQueryParamInclude), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion)).void }
+        sig { params(company_benefit_id: ::String, with_employee_benefits: T.nilable(T::Boolean), include: T.nilable(Models::Operations::Include), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion)).void }
         def initialize(company_benefit_id:, with_employee_benefits: nil, include: nil, x_gusto_api_version: Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @company_benefit_id = company_benefit_id
           @with_employee_benefits = with_employee_benefits
