@@ -15,7 +15,7 @@ module GustoEmbedded
 
         field :contractor_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_uuid') } }
 
-        field :payment_method, Crystalline::Nilable.new(Models::Shared::PaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PaymentMethod, true) } }
+        field :payment_method, Crystalline::Nilable.new(Models::Shared::ContractorPaymentDetailsListPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ContractorPaymentDetailsListPaymentMethod, true) } }
 
         field :first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('first_name') } }
 
@@ -25,7 +25,7 @@ module GustoEmbedded
 
         field :splits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Splits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
 
-        sig { params(contractor_uuid: T.nilable(::String), payment_method: T.nilable(Models::Shared::PaymentMethod), first_name: T.nilable(::String), last_name: T.nilable(::String), split_by: T.nilable(Models::Shared::SplitBy), splits: T.nilable(T::Array[Models::Shared::Splits])).void }
+        sig { params(contractor_uuid: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentDetailsListPaymentMethod), first_name: T.nilable(::String), last_name: T.nilable(::String), split_by: T.nilable(Models::Shared::SplitBy), splits: T.nilable(T::Array[Models::Shared::Splits])).void }
         def initialize(contractor_uuid: nil, payment_method: nil, first_name: nil, last_name: nil, split_by: nil, splits: nil)
           @contractor_uuid = contractor_uuid
           @payment_method = payment_method

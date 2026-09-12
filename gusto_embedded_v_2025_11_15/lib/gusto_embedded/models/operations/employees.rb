@@ -11,30 +11,21 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # The UUID of the employee
         field(
           :uuid,
-          ::String,
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("uuid"), required: true}}
-        )
-        # The starting balance for the employee
-        field(
-          :balance,
           Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("balance")}}
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("uuid")}}
         )
 
-        sig { params(uuid: ::String, balance: T.nilable(::String)).void }
-        def initialize(uuid:, balance: nil)
+        sig { params(uuid: T.nilable(::String)).void }
+        def initialize(uuid: nil)
           @uuid = uuid
-          @balance = balance
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a?(self.class)
           return false unless @uuid == other.uuid
-          return false unless @balance == other.balance
           true
         end
       end

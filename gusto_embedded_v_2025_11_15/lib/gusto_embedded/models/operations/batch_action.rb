@@ -6,10 +6,10 @@
 module GustoEmbedded
   module Models
     module Operations
-      # BatchAction - The action to perform on the batch
+      # BatchAction - The action to perform on the batch. Only `cancel` is supported.
       class BatchAction < T::Enum
         enums do
-          CREATE = new("create")
+          CANCEL = new("cancel")
         end
       end
     end

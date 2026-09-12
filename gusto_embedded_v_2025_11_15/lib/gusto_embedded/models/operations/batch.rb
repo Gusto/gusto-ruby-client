@@ -11,7 +11,7 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # The type of entity to create
+        # The type of entity to act on.
         field(
           :entity_type,
           Models::Operations::EntityType,
@@ -23,94 +23,32 @@ module GustoEmbedded
             }
           }
         )
-
+        # The UUID of the payroll to cancel. Payrolls the partner is not authorized to access, or that do not exist, appear in the response's `exclusions` array.
         field(
-          :person,
-          Models::Operations::Person,
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("person"), required: true}}
+          :uuid,
+          ::String,
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("uuid"), required: true}}
         )
-        # Home address for the employee
+        # The UUID of the company that owns the payroll. The partner must be mapped to this company.
         field(
-          :home_address,
-          Crystalline::Nilable.new(Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesHomeAddress),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("home_address")}}
-        )
-        # Specify the company work location for the employee
-        field(
-          :work_address,
-          Crystalline::Nilable.new(Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesWorkAddress),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("work_address")}}
-        )
-        # Job details for the employee (required if compensation is provided)
-        field(
-          :job,
-          Crystalline::Nilable.new(Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesJob),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("job")}}
-        )
-        # Department details for the employee
-        field(
-          :department,
-          Crystalline::Nilable.new(Models::Operations::Department),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("department")}}
-        )
-        # Compensation details for the employee (requires job to be provided)
-        field(
-          :compensation,
-          Crystalline::Nilable.new(Models::Operations::Compensation),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("compensation")}}
-        )
-        # Creates employee bank account(s) and payment method(s) for direct deposit. Payments can be split across accounts by Percentage or by Amount. If splitting payments by `Percentage`, all splits must have a `split_amount` and the percentages must add up to `100`.
-        # If splitting payments by `Amount`, the priority is set based on the order of the bank accounts in the array and the last bank account is the remainder account (should have `split_amount` set to `null`).
-        field(
-          :bank_accounts,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::BankAccounts)),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("bank_accounts")}}
+          :company_uuid,
+          ::String,
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("company_uuid"), required: true}}
         )
 
-        sig {
-          params(
-            entity_type: Models::Operations::EntityType,
-            person: Models::Operations::Person,
-            home_address: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesHomeAddress),
-            work_address: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesWorkAddress),
-            job: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesJob),
-            department: T.nilable(Models::Operations::Department),
-            compensation: T.nilable(Models::Operations::Compensation),
-            bank_accounts: T.nilable(T::Array[Models::Operations::BankAccounts])
-          )
-            .void
-        }
-        def initialize(
-          entity_type:,
-          person:,
-          home_address: nil,
-          work_address: nil,
-          job: nil,
-          department: nil,
-          compensation: nil,
-          bank_accounts: nil
-        )
+        sig { params(entity_type: Models::Operations::EntityType, uuid: ::String, company_uuid: ::String).void }
+        def initialize(entity_type:, uuid:, company_uuid:)
           @entity_type = entity_type
-          @person = person
-          @home_address = home_address
-          @work_address = work_address
-          @job = job
-          @department = department
-          @compensation = compensation
-          @bank_accounts = bank_accounts
+          @uuid = uuid
+          @company_uuid = company_uuid
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a?(self.class)
           return false unless @entity_type == other.entity_type
-          return false unless @person == other.person
-          return false unless @home_address == other.home_address
-          return false unless @work_address == other.work_address
-          return false unless @job == other.job
-          return false unless @department == other.department
-          return false unless @compensation == other.compensation
-          return false unless @bank_accounts == other.bank_accounts
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
           true
         end
       end

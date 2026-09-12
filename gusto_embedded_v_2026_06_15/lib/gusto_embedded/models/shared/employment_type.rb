@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # EmploymentType - Employee employment type to filter by
+      # EmploymentType - Employee employment type to filter by.
       class EmploymentType < T::Enum
         enums do
           EXEMPT = new('exempt')

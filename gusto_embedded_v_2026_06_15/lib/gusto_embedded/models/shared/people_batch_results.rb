@@ -25,15 +25,15 @@ module GustoEmbedded
         # The number of items excluded from processing.
         field :excluded_items, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('excluded_items') } }
         # The results for each batch item.
-        field :results, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Results)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('results') } }
+        field :results, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PeopleBatchResultsResults)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('results') } }
         # The timestamp when the batch processing completed.
         field :completed_at, Crystalline::Nilable.new(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('completed_at'), 'decoder': ::GustoEmbedded::Utils.datetime_from_iso_format(true) } }
         # The number of items submitted in the batch.
         field :submitted_items, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('submitted_items') } }
         # Items excluded from processing due to validation errors.
-        field :exclusions, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Exclusions)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('exclusions') } }
+        field :exclusions, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PeopleBatchResultsExclusions)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('exclusions') } }
 
-        sig { params(uuid: ::String, idempotency_key: ::String, status: Models::Shared::PeopleBatchResultsStatus, submitted_at: T.nilable(::DateTime), processed_items: T.nilable(::Integer), excluded_items: T.nilable(::Integer), results: T.nilable(T::Array[Models::Shared::Results]), completed_at: T.nilable(::DateTime), submitted_items: T.nilable(::Integer), exclusions: T.nilable(T::Array[Models::Shared::Exclusions])).void }
+        sig { params(uuid: ::String, idempotency_key: ::String, status: Models::Shared::PeopleBatchResultsStatus, submitted_at: T.nilable(::DateTime), processed_items: T.nilable(::Integer), excluded_items: T.nilable(::Integer), results: T.nilable(T::Array[Models::Shared::PeopleBatchResultsResults]), completed_at: T.nilable(::DateTime), submitted_items: T.nilable(::Integer), exclusions: T.nilable(T::Array[Models::Shared::PeopleBatchResultsExclusions])).void }
         def initialize(uuid:, idempotency_key:, status:, submitted_at: nil, processed_items: nil, excluded_items: nil, results: nil, completed_at: nil, submitted_items: nil, exclusions: nil)
           @uuid = uuid
           @idempotency_key = idempotency_key

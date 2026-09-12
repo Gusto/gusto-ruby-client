@@ -134,6 +134,18 @@ module GustoEmbedded
         "gusto_embedded/models/operations/delete_v1_contractor_payment_groups_contractor_payment_group_id_response.rb"
       )
       autoload(
+        :DeleteV1ContractorsContractorUuidMemberPortalInvitationsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/delete_v1_contractors_contractor_uuid_member_portal_invitations_header_x__a5098b.rb"
+      )
+      autoload(
+        :DeleteV1ContractorsContractorUuidMemberPortalInvitationsRequest,
+        "gusto_embedded/models/operations/delete_v1_contractors_contractor_uuid_member_portal_invitations_request.rb"
+      )
+      autoload(
+        :DeleteV1ContractorsContractorUuidMemberPortalInvitationsResponse,
+        "gusto_embedded/models/operations/delete_v1_contractors_contractor_uuid_member_portal_invitations_response.rb"
+      )
+      autoload(
         :DeleteV1ContractorsContractorUuidRehireHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/delete_v1_contractors_contractor_uuid_rehire_header_x_gusto_api_version.rb"
       )
@@ -210,6 +222,18 @@ module GustoEmbedded
       autoload(
         :DeleteV1EmployeesEmployeeIdI9AuthorizationDocumentsDocumentIdResponse,
         "gusto_embedded/models/operations/delete_v1_employees_employee_id_i9_authorization_documents_document_id_response.rb"
+      )
+      autoload(
+        :DeleteV1EmployeesEmployeeIdMemberPortalInvitationsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/delete_v1_employees_employee_id_member_portal_invitations_header_x_gusto__5aaa89.rb"
+      )
+      autoload(
+        :DeleteV1EmployeesEmployeeIdMemberPortalInvitationsRequest,
+        "gusto_embedded/models/operations/delete_v1_employees_employee_id_member_portal_invitations_request.rb"
+      )
+      autoload(
+        :DeleteV1EmployeesEmployeeIdMemberPortalInvitationsResponse,
+        "gusto_embedded/models/operations/delete_v1_employees_employee_id_member_portal_invitations_response.rb"
       )
       autoload(
         :DeleteV1EmployeesEmployeeIdRehireHeaderXGustoAPIVersion,
@@ -326,10 +350,6 @@ module GustoEmbedded
       autoload :FilingStatus, "gusto_embedded/models/operations/filing_status.rb"
       autoload :FlsaStatus, "gusto_embedded/models/operations/flsa_status.rb"
       autoload :Frequency, "gusto_embedded/models/operations/frequency.rb"
-      autoload(
-        :GetAchTransactionsHeaderXGustoAPIVersion,
-        "gusto_embedded/models/operations/get_ach_transactions_header_x_gusto_api_version.rb"
-      )
       autoload :GetAchTransactionsRequest, "gusto_embedded/models/operations/get_ach_transactions_request.rb"
       autoload :GetAchTransactionsResponse, "gusto_embedded/models/operations/get_ach_transactions_response.rb"
       autoload(
@@ -482,6 +502,30 @@ module GustoEmbedded
       autoload :GetReportsRequestUuidRequest, "gusto_embedded/models/operations/get_reports_request_uuid_request.rb"
       autoload :GetReportsRequestUuidResponse, "gusto_embedded/models/operations/get_reports_request_uuid_response.rb"
       autoload(
+        :GetReverseWireTransactionsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_reverse_wire_transactions_header_x_gusto_api_version.rb"
+      )
+      autoload(
+        :GetReverseWireTransactionsRequest,
+        "gusto_embedded/models/operations/get_reverse_wire_transactions_request.rb"
+      )
+      autoload(
+        :GetReverseWireTransactionsResponse,
+        "gusto_embedded/models/operations/get_reverse_wire_transactions_response.rb"
+      )
+      autoload(
+        :GetTaxPaymentHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_tax_payment_header_x_gusto_api_version.rb"
+      )
+      autoload :GetTaxPaymentRequest, "gusto_embedded/models/operations/get_tax_payment_request.rb"
+      autoload :GetTaxPaymentResponse, "gusto_embedded/models/operations/get_tax_payment_response.rb"
+      autoload(
+        :GetTaxPaymentsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_tax_payments_header_x_gusto_api_version.rb"
+      )
+      autoload :GetTaxPaymentsRequest, "gusto_embedded/models/operations/get_tax_payments_request.rb"
+      autoload :GetTaxPaymentsResponse, "gusto_embedded/models/operations/get_tax_payments_response.rb"
+      autoload(
         :GetV1BenefitsBenefitIdHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_benefits_benefit_id_header_x_gusto_api_version.rb"
       )
@@ -521,6 +565,22 @@ module GustoEmbedded
       autoload :GetV1BenefitsRequest, "gusto_embedded/models/operations/get_v1_benefits_request.rb"
       autoload :GetV1BenefitsResponse, "gusto_embedded/models/operations/get_v1_benefits_response.rb"
       autoload(
+        :GetV1BulkReportsRequestUuidSecurity,
+        "gusto_embedded/models/operations/get_v1_bulk_reports_request_uuid_security.rb"
+      )
+      autoload(
+        :GetV1BulkReportsRequestUuidHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_bulk_reports_request_uuid_header_x_gusto_api_version.rb"
+      )
+      autoload(
+        :GetV1BulkReportsRequestUuidRequest,
+        "gusto_embedded/models/operations/get_v1_bulk_reports_request_uuid_request.rb"
+      )
+      autoload(
+        :GetV1BulkReportsRequestUuidResponse,
+        "gusto_embedded/models/operations/get_v1_bulk_reports_request_uuid_response.rb"
+      )
+      autoload(
         :GetV1CompaniesAttachmentUrlHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_companies_attachment_url_header_x_gusto_api_version.rb"
       )
@@ -555,10 +615,6 @@ module GustoEmbedded
       autoload(
         :GetV1CompaniesAttachmentsResponse,
         "gusto_embedded/models/operations/get_v1_companies_attachments_response.rb"
-      )
-      autoload(
-        :GetV1CompaniesCompanyIdAdminsHeaderXGustoAPIVersion,
-        "gusto_embedded/models/operations/get_v1_companies_company_id_admins_header_x_gusto_api_version.rb"
       )
       autoload(
         :GetV1CompaniesCompanyIdAdminsRequest,
@@ -685,6 +741,10 @@ module GustoEmbedded
         "gusto_embedded/models/operations/get_v1_companies_company_id_employees_header_x_gusto_api_version.rb"
       )
       autoload(
+        :GetV1CompaniesCompanyIdEmployeesQueryParamInclude,
+        "gusto_embedded/models/operations/get_v1_companies_company_id_employees_queryparam_include.rb"
+      )
+      autoload(
         :GetV1CompaniesCompanyIdEmployeesRequest,
         "gusto_embedded/models/operations/get_v1_companies_company_id_employees_request.rb"
       )
@@ -775,6 +835,10 @@ module GustoEmbedded
       autoload(
         :GetV1CompaniesCompanyIdPaySchedulesResponse,
         "gusto_embedded/models/operations/get_v1_companies_company_id_pay_schedules_response.rb"
+      )
+      autoload(
+        :GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_companies_company_id_payroll_reversals_header_x_gusto_api_version.rb"
       )
       autoload(
         :GetV1CompaniesCompanyIdPayrollReversalsRequest,
@@ -1047,10 +1111,6 @@ module GustoEmbedded
         "gusto_embedded/models/operations/get_v1_company_benefits_company_benefit_id_employee_benefits_header_x_gus_31d6cc.rb"
       )
       autoload(
-        :GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsQueryParamInclude,
-        "gusto_embedded/models/operations/get_v1_company_benefits_company_benefit_id_employee_benefits_queryparam_include.rb"
-      )
-      autoload(
         :GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequest,
         "gusto_embedded/models/operations/get_v1_company_benefits_company_benefit_id_employee_benefits_request.rb"
       )
@@ -1061,10 +1121,6 @@ module GustoEmbedded
       autoload(
         :GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_company_benefits_company_benefit_id_header_x_gusto_api_version.rb"
-      )
-      autoload(
-        :GetV1CompanyBenefitsCompanyBenefitIdQueryParamInclude,
-        "gusto_embedded/models/operations/get_v1_company_benefits_company_benefit_id_queryparam_include.rb"
       )
       autoload(
         :GetV1CompanyBenefitsCompanyBenefitIdRequest,
@@ -1225,6 +1281,18 @@ module GustoEmbedded
         "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_bank_accounts_response.rb"
       )
       autoload(
+        :GetV1ContractorsContractorUuidMemberPortalInvitationsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_member_portal_invitations_header_x_gus_7b121d.rb"
+      )
+      autoload(
+        :GetV1ContractorsContractorUuidMemberPortalInvitationsRequest,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_member_portal_invitations_request.rb"
+      )
+      autoload(
+        :GetV1ContractorsContractorUuidMemberPortalInvitationsResponse,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_member_portal_invitations_response.rb"
+      )
+      autoload(
         :GetV1ContractorsContractorUuidOnboardingStatusHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_onboarding_status_header_x_gusto_api_version.rb"
       )
@@ -1247,6 +1315,18 @@ module GustoEmbedded
       autoload(
         :GetV1ContractorsContractorUuidPaymentMethodResponse,
         "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_payment_method_response.rb"
+      )
+      autoload(
+        :GetV1ContractorsContractorUuidPaymentsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_payments_header_x_gusto_api_version.rb"
+      )
+      autoload(
+        :GetV1ContractorsContractorUuidPaymentsRequest,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_payments_request.rb"
+      )
+      autoload(
+        :GetV1ContractorsContractorUuidPaymentsResponse,
+        "gusto_embedded/models/operations/get_v1_contractors_contractor_uuid_payments_response.rb"
       )
       autoload(
         :GetV1ContractorsContractorUuidHeaderXGustoAPIVersion,
@@ -1435,6 +1515,18 @@ module GustoEmbedded
         "gusto_embedded/models/operations/get_v1_employees_employee_id_jobs_response.rb"
       )
       autoload(
+        :GetV1EmployeesEmployeeIdMemberPortalInvitationsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_employees_employee_id_member_portal_invitations_header_x_gusto_api_714f75.rb"
+      )
+      autoload(
+        :GetV1EmployeesEmployeeIdMemberPortalInvitationsRequest,
+        "gusto_embedded/models/operations/get_v1_employees_employee_id_member_portal_invitations_request.rb"
+      )
+      autoload(
+        :GetV1EmployeesEmployeeIdMemberPortalInvitationsResponse,
+        "gusto_embedded/models/operations/get_v1_employees_employee_id_member_portal_invitations_response.rb"
+      )
+      autoload(
         :GetV1EmployeesEmployeeIdOnboardingStatusHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_employees_employee_id_onboarding_status_header_x_gusto_api_version.rb"
       )
@@ -1558,6 +1650,10 @@ module GustoEmbedded
         :GetV1EmployeesHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/get_v1_employees_header_x_gusto_api_version.rb"
       )
+      autoload(
+        :GetV1EmployeesQueryParamInclude,
+        "gusto_embedded/models/operations/get_v1_employees_queryparam_include.rb"
+      )
       autoload :GetV1EmployeesRequest, "gusto_embedded/models/operations/get_v1_employees_request.rb"
       autoload :GetV1EmployeesResponse, "gusto_embedded/models/operations/get_v1_employees_response.rb"
       autoload(
@@ -1601,6 +1697,10 @@ module GustoEmbedded
       autoload(
         :GetV1GarnishmentsGarnishmentIdResponse,
         "gusto_embedded/models/operations/get_v1_garnishments_garnishment_id_response.rb"
+      )
+      autoload(
+        :GetV1GeneratedDocumentsDocumentTypeRequestUuidHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_generated_documents_document_type_request_uuid_header_x_gusto_api_version.rb"
       )
       autoload(
         :GetV1GeneratedDocumentsDocumentTypeRequestUuidRequest,
@@ -1695,6 +1795,22 @@ module GustoEmbedded
       autoload(
         :GetV1PaymentReceiptsPayrollsPayrollUuidResponse,
         "gusto_embedded/models/operations/get_v1_payment_receipts_payrolls_payroll_uuid_response.rb"
+      )
+      autoload(
+        :GetV1PayrollBatchesPayrollBatchUuidSecurity,
+        "gusto_embedded/models/operations/get_v1_payroll_batches_payroll_batch_uuid_security.rb"
+      )
+      autoload(
+        :GetV1PayrollBatchesPayrollBatchUuidHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_payroll_batches_payroll_batch_uuid_header_x_gusto_api_version.rb"
+      )
+      autoload(
+        :GetV1PayrollBatchesPayrollBatchUuidRequest,
+        "gusto_embedded/models/operations/get_v1_payroll_batches_payroll_batch_uuid_request.rb"
+      )
+      autoload(
+        :GetV1PayrollBatchesPayrollBatchUuidResponse,
+        "gusto_embedded/models/operations/get_v1_payroll_batches_payroll_batch_uuid_response.rb"
       )
       autoload(
         :GetV1PayrollDigestsPayrollDigestUuidSecurity,
@@ -1815,6 +1931,10 @@ module GustoEmbedded
         :GetV1TimeOffPoliciesTimeOffPolicyUuidResponse,
         "gusto_embedded/models/operations/get_v1_time_off_policies_time_off_policy_uuid_response.rb"
       )
+      autoload(
+        :GetV1TokenInfoHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/get_v1_token_info_header_x_gusto_api_version.rb"
+      )
       autoload :GetV1TokenInfoRequest, "gusto_embedded/models/operations/get_v1_token_info_request.rb"
       autoload :GetV1TokenInfoResponse, "gusto_embedded/models/operations/get_v1_token_info_response.rb"
       autoload(
@@ -1929,6 +2049,10 @@ module GustoEmbedded
       autoload :MemorialDay, "gusto_embedded/models/operations/memorial_day.rb"
       autoload :MlkDay, "gusto_embedded/models/operations/mlk_day.rb"
       autoload :NewYearsDay, "gusto_embedded/models/operations/new_years_day.rb"
+      autoload(
+        :OauthAccessTokenHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/oauth_access_token_header_x_gusto_api_version.rb"
+      )
       autoload :OauthAccessTokenRequest, "gusto_embedded/models/operations/oauth_access_token_request.rb"
       autoload :OauthAccessTokenRequestBody, "gusto_embedded/models/operations/oauth_access_token_requestbody.rb"
       autoload :OauthAccessTokenResponse, "gusto_embedded/models/operations/oauth_access_token_response.rb"
@@ -2113,6 +2237,13 @@ module GustoEmbedded
         :PostPayrollsPayrollUuidReportsGeneralLedgerResponse,
         "gusto_embedded/models/operations/post_payrolls_payroll_uuid_reports_general_ledger_response.rb"
       )
+      autoload :PostV1BulkReportsSecurity, "gusto_embedded/models/operations/post_v1_bulk_reports_security.rb"
+      autoload(
+        :PostV1BulkReportsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/post_v1_bulk_reports_header_x_gusto_api_version.rb"
+      )
+      autoload :PostV1BulkReportsRequest, "gusto_embedded/models/operations/post_v1_bulk_reports_request.rb"
+      autoload :PostV1BulkReportsResponse, "gusto_embedded/models/operations/post_v1_bulk_reports_response.rb"
       autoload(
         :PostV1CompaniesAttachmentHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/post_v1_companies_attachment_header_x_gusto_api_version.rb"
@@ -2162,16 +2293,8 @@ module GustoEmbedded
         "gusto_embedded/models/operations/post_v1_companies_company_id_company_benefits_response.rb"
       )
       autoload(
-        :PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments,
-        "gusto_embedded/models/operations/post_v1_companies_company_id_contractor_payment_groups_preview_contractor_252b61.rb"
-      )
-      autoload(
         :PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/post_v1_companies_company_id_contractor_payment_groups_preview_header_x_g_e6d53a.rb"
-      )
-      autoload(
-        :PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewPaymentMethod,
-        "gusto_embedded/models/operations/post_v1_companies_company_id_contractor_payment_groups_preview_payment_method.rb"
       )
       autoload(
         :PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequest,
@@ -2186,8 +2309,16 @@ module GustoEmbedded
         "gusto_embedded/models/operations/post_v1_companies_company_id_contractor_payment_groups_preview_response.rb"
       )
       autoload(
+        :PostV1CompaniesCompanyIdContractorPaymentGroupsContractorPayments,
+        "gusto_embedded/models/operations/post_v1_companies_company_id_contractor_payment_groups_contractor_payments.rb"
+      )
+      autoload(
         :PostV1CompaniesCompanyIdContractorPaymentGroupsHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/post_v1_companies_company_id_contractor_payment_groups_header_x_gusto_api_b58c24.rb"
+      )
+      autoload(
+        :PostV1CompaniesCompanyIdContractorPaymentGroupsPaymentMethod,
+        "gusto_embedded/models/operations/post_v1_companies_company_id_contractor_payment_groups_payment_method.rb"
       )
       autoload(
         :PostV1CompaniesCompanyIdContractorPaymentGroupsRequest,
@@ -2292,6 +2423,18 @@ module GustoEmbedded
       autoload(
         :PostV1CompaniesCompanyIdPayrollsResponse,
         "gusto_embedded/models/operations/post_v1_companies_company_id_payrolls_response.rb"
+      )
+      autoload(
+        :PostV1CompaniesCompanyIdPeopleBatchesBatch,
+        "gusto_embedded/models/operations/post_v1_companies_company_id_people_batches_batch.rb"
+      )
+      autoload(
+        :PostV1CompaniesCompanyIdPeopleBatchesBatchAction,
+        "gusto_embedded/models/operations/post_v1_companies_company_id_people_batches_batch_action.rb"
+      )
+      autoload(
+        :PostV1CompaniesCompanyIdPeopleBatchesEntityType,
+        "gusto_embedded/models/operations/post_v1_companies_company_id_people_batches_entity_type.rb"
       )
       autoload(
         :PostV1CompaniesCompanyIdPeopleBatchesHeaderXGustoAPIVersion,
@@ -2484,6 +2627,18 @@ module GustoEmbedded
         "gusto_embedded/models/operations/post_v1_contractors_contractor_uuid_bank_accounts_response.rb"
       )
       autoload(
+        :PostV1ContractorsContractorUuidMemberPortalInvitationsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/post_v1_contractors_contractor_uuid_member_portal_invitations_header_x_gu_f82447.rb"
+      )
+      autoload(
+        :PostV1ContractorsContractorUuidMemberPortalInvitationsRequest,
+        "gusto_embedded/models/operations/post_v1_contractors_contractor_uuid_member_portal_invitations_request.rb"
+      )
+      autoload(
+        :PostV1ContractorsContractorUuidMemberPortalInvitationsResponse,
+        "gusto_embedded/models/operations/post_v1_contractors_contractor_uuid_member_portal_invitations_response.rb"
+      )
+      autoload(
         :PostV1ContractorsContractorUuidRehireHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/post_v1_contractors_contractor_uuid_rehire_header_x_gusto_api_version.rb"
       )
@@ -2578,6 +2733,18 @@ module GustoEmbedded
       autoload(
         :PostV1EmployeesEmployeeIdJobsResponse,
         "gusto_embedded/models/operations/post_v1_employees_employee_id_jobs_response.rb"
+      )
+      autoload(
+        :PostV1EmployeesEmployeeIdMemberPortalInvitationsHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/post_v1_employees_employee_id_member_portal_invitations_header_x_gusto_ap_a499ab.rb"
+      )
+      autoload(
+        :PostV1EmployeesEmployeeIdMemberPortalInvitationsRequest,
+        "gusto_embedded/models/operations/post_v1_employees_employee_id_member_portal_invitations_request.rb"
+      )
+      autoload(
+        :PostV1EmployeesEmployeeIdMemberPortalInvitationsResponse,
+        "gusto_embedded/models/operations/post_v1_employees_employee_id_member_portal_invitations_response.rb"
       )
       autoload(
         :PostV1EmployeesEmployeeIdRecurringReimbursementsHeaderXGustoAPIVersion,
@@ -2708,6 +2875,17 @@ module GustoEmbedded
         :PostV1PartnerManagedCompaniesResponse,
         "gusto_embedded/models/operations/post_v1_partner_managed_companies_response.rb"
       )
+      autoload :PostV1PayrollBatchesSecurity, "gusto_embedded/models/operations/post_v1_payroll_batches_security.rb"
+      autoload(
+        :PostV1PayrollBatchesHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/post_v1_payroll_batches_header_x_gusto_api_version.rb"
+      )
+      autoload :PostV1PayrollBatchesRequest, "gusto_embedded/models/operations/post_v1_payroll_batches_request.rb"
+      autoload(
+        :PostV1PayrollBatchesRequestBody,
+        "gusto_embedded/models/operations/post_v1_payroll_batches_requestbody.rb"
+      )
+      autoload :PostV1PayrollBatchesResponse, "gusto_embedded/models/operations/post_v1_payroll_batches_response.rb"
       autoload :PostV1PayrollDigestsSecurity, "gusto_embedded/models/operations/post_v1_payroll_digests_security.rb"
       autoload :PostV1PayrollDigestsBatch, "gusto_embedded/models/operations/post_v1_payroll_digests_batch.rb"
       autoload(
@@ -2985,10 +3163,6 @@ module GustoEmbedded
         "gusto_embedded/models/operations/put_v1_companies_company_id_payrolls_response.rb"
       )
       autoload(
-        :PutV1CompaniesCompanyUuidHolidayPayPolicyAddEmployees,
-        "gusto_embedded/models/operations/put_v1_companies_company_uuid_holiday_pay_policy_add_employees.rb"
-      )
-      autoload(
         :PutV1CompaniesCompanyUuidHolidayPayPolicyAddHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/put_v1_companies_company_uuid_holiday_pay_policy_add_header_x_gusto_api_version.rb"
       )
@@ -3196,10 +3370,6 @@ module GustoEmbedded
         "gusto_embedded/models/operations/put_v1_contractors_contractor_id_payment_method_response.rb"
       )
       autoload(
-        :PutV1ContractorsContractorIdPaymentMethodType,
-        "gusto_embedded/models/operations/put_v1_contractors_contractor_id_payment_method_type.rb"
-      )
-      autoload(
         :PutV1ContractorsContractorUuidAddressHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/put_v1_contractors_contractor_uuid_address_header_x_gusto_api_version.rb"
       )
@@ -3366,6 +3536,10 @@ module GustoEmbedded
         "gusto_embedded/models/operations/put_v1_employees_employee_id_payment_method_response.rb"
       )
       autoload(
+        :PutV1EmployeesEmployeeIdPaymentMethodType,
+        "gusto_embedded/models/operations/put_v1_employees_employee_id_payment_method_type.rb"
+      )
+      autoload(
         :PutV1EmployeesEmployeeIdRehireHeaderXGustoAPIVersion,
         "gusto_embedded/models/operations/put_v1_employees_employee_id_rehire_header_x_gusto_api_version.rb"
       )
@@ -3467,6 +3641,22 @@ module GustoEmbedded
       autoload(
         :PutV1LocationsLocationIdResponse,
         "gusto_embedded/models/operations/put_v1_locations_location_id_response.rb"
+      )
+      autoload(
+        :PutV1PartnerManagedCompaniesCompanyUuidDisassociateSecurity,
+        "gusto_embedded/models/operations/put_v1_partner_managed_companies_company_uuid_disassociate_security.rb"
+      )
+      autoload(
+        :PutV1PartnerManagedCompaniesCompanyUuidDisassociateHeaderXGustoAPIVersion,
+        "gusto_embedded/models/operations/put_v1_partner_managed_companies_company_uuid_disassociate_header_x_gusto_299db8.rb"
+      )
+      autoload(
+        :PutV1PartnerManagedCompaniesCompanyUuidDisassociateRequest,
+        "gusto_embedded/models/operations/put_v1_partner_managed_companies_company_uuid_disassociate_request.rb"
+      )
+      autoload(
+        :PutV1PartnerManagedCompaniesCompanyUuidDisassociateResponse,
+        "gusto_embedded/models/operations/put_v1_partner_managed_companies_company_uuid_disassociate_response.rb"
       )
       autoload(
         :PutV1PartnerManagedCompaniesCompanyUuidMigrateHeaderXGustoAPIVersion,
@@ -3582,6 +3772,10 @@ module GustoEmbedded
       autoload(
         :PutV1TimeOffRequestsTimeOffRequestUuidDeclineResponse,
         "gusto_embedded/models/operations/put_v1_time_off_requests_time_off_request_uuid_decline_response.rb"
+      )
+      autoload(
+        :PutV1TimeOffPoliciesTimeOffPolicyUuidAddEmployeesEmployees,
+        "gusto_embedded/models/operations/put_v1_time_off_policies_time_off_policy_uuid_add_employees_employees.rb"
       )
       autoload(
         :PutV1TimeOffPoliciesTimeOffPolicyUuidAddEmployeesHeaderXGustoAPIVersion,

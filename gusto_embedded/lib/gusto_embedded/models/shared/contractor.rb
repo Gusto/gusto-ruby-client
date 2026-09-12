@@ -17,7 +17,7 @@ module GustoEmbedded
         # The UUID of the company the contractor is employed by.
         field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
         # The contractor's wage type, either "Fixed" or "Hourly".
-        field :wage_type, Crystalline::Nilable.new(Models::Shared::WageType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::WageType, true) } }
+        field :wage_type, Crystalline::Nilable.new(Models::Shared::ContractorWageType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ContractorWageType, true) } }
         # The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
         field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
         # The contractor's type, either "Individual" or "Business". 
@@ -29,7 +29,7 @@ module GustoEmbedded
         # The updated onboarding status for the contractor
         field :onboarded, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarded') } }
         # One of the "onboarding_status" enum values.
-        field :onboarding_status, Crystalline::Nilable.new(Models::Shared::ContractorOnboardingStatus1), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ContractorOnboardingStatus1, true) } }
+        field :onboarding_status, Crystalline::Nilable.new(Models::Shared::OnboardingStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::OnboardingStatus, true) } }
         # Indicates whether the contractor has an SSN in Gusto.
         field :has_ssn, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ssn') } }
         # Whether the contractor's pending dismissal can be cancelled.
@@ -52,6 +52,8 @@ module GustoEmbedded
         field :has_ein, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('has_ein') } }
         # The contractor’s email address. This attribute is optional for “Individual” contractors and will be ignored for “Business” contractors. 
         field :email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('email') } }
+        # The work email address of the contractor. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
+        field :work_email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_email') } }
         # The contractor’s home address.
         field :address, Crystalline::Nilable.new(Models::Shared::Address), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('address') } }
         # The boolean flag indicating whether Gusto will file a new hire report for the contractor
@@ -72,12 +74,12 @@ module GustoEmbedded
         # The contractor's upcoming employment details, if a rehire is scheduled.
         field :upcoming_employment, Crystalline::Nilable.new(Models::Shared::UpcomingEmployment), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('upcoming_employment') } }
         # Member portal invitation status information. Only included when the include param has the portal_invitations value set.
-        field :member_portal_invitation_status, Crystalline::Nilable.new(Models::Shared::ContractorMemberPortalInvitationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('member_portal_invitation_status') } }
+        field :member_portal_invitation_status, Crystalline::Nilable.new(Models::Shared::MemberPortalInvitationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('member_portal_invitation_status') } }
         # Whether an external partner portal invitation webhook has been sent for this contractor. Only included when the include param has the portal_invitations value set.
         field :partner_portal_invitation_sent, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_portal_invitation_sent') } }
 
-        sig { params(uuid: ::String, company_uuid: T.nilable(::String), wage_type: T.nilable(Models::Shared::WageType), version: T.nilable(::String), type: T.nilable(Models::Shared::ContractorType), start_date: T.nilable(::String), hourly_rate: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_status: T.nilable(Models::Shared::ContractorOnboardingStatus1), has_ssn: T.nilable(T::Boolean), dismissal_cancellation_eligible: T.nilable(T::Boolean), rehire_cancellation_eligible: T.nilable(T::Boolean), is_active: T.nilable(T::Boolean), first_name: T.nilable(::String), last_name: T.nilable(::String), middle_initial: T.nilable(::String), business_name: T.nilable(::String), ein: T.nilable(::String), has_ein: T.nilable(T::Boolean), email: T.nilable(::String), address: T.nilable(Models::Shared::Address), file_new_hire_report: T.nilable(T::Boolean), work_state: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentMethod1), department_uuid: T.nilable(::String), department: T.nilable(::String), department_title: T.nilable(::String), dismissal_date: T.nilable(::String), upcoming_employment: T.nilable(Models::Shared::UpcomingEmployment), member_portal_invitation_status: T.nilable(Models::Shared::ContractorMemberPortalInvitationStatus), partner_portal_invitation_sent: T.nilable(T::Boolean)).void }
-        def initialize(uuid:, company_uuid: nil, wage_type: nil, version: nil, type: nil, start_date: nil, hourly_rate: nil, onboarded: nil, onboarding_status: nil, has_ssn: nil, dismissal_cancellation_eligible: nil, rehire_cancellation_eligible: nil, is_active: true, first_name: nil, last_name: nil, middle_initial: nil, business_name: nil, ein: nil, has_ein: nil, email: nil, address: nil, file_new_hire_report: nil, work_state: nil, payment_method: nil, department_uuid: nil, department: nil, department_title: nil, dismissal_date: nil, upcoming_employment: nil, member_portal_invitation_status: nil, partner_portal_invitation_sent: nil)
+        sig { params(uuid: ::String, company_uuid: T.nilable(::String), wage_type: T.nilable(Models::Shared::ContractorWageType), version: T.nilable(::String), type: T.nilable(Models::Shared::ContractorType), start_date: T.nilable(::String), hourly_rate: T.nilable(::String), onboarded: T.nilable(T::Boolean), onboarding_status: T.nilable(Models::Shared::OnboardingStatus), has_ssn: T.nilable(T::Boolean), dismissal_cancellation_eligible: T.nilable(T::Boolean), rehire_cancellation_eligible: T.nilable(T::Boolean), is_active: T.nilable(T::Boolean), first_name: T.nilable(::String), last_name: T.nilable(::String), middle_initial: T.nilable(::String), business_name: T.nilable(::String), ein: T.nilable(::String), has_ein: T.nilable(T::Boolean), email: T.nilable(::String), work_email: T.nilable(::String), address: T.nilable(Models::Shared::Address), file_new_hire_report: T.nilable(T::Boolean), work_state: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentMethod1), department_uuid: T.nilable(::String), department: T.nilable(::String), department_title: T.nilable(::String), dismissal_date: T.nilable(::String), upcoming_employment: T.nilable(Models::Shared::UpcomingEmployment), member_portal_invitation_status: T.nilable(Models::Shared::MemberPortalInvitationStatus), partner_portal_invitation_sent: T.nilable(T::Boolean)).void }
+        def initialize(uuid:, company_uuid: nil, wage_type: nil, version: nil, type: nil, start_date: nil, hourly_rate: nil, onboarded: nil, onboarding_status: nil, has_ssn: nil, dismissal_cancellation_eligible: nil, rehire_cancellation_eligible: nil, is_active: true, first_name: nil, last_name: nil, middle_initial: nil, business_name: nil, ein: nil, has_ein: nil, email: nil, work_email: nil, address: nil, file_new_hire_report: nil, work_state: nil, payment_method: nil, department_uuid: nil, department: nil, department_title: nil, dismissal_date: nil, upcoming_employment: nil, member_portal_invitation_status: nil, partner_portal_invitation_sent: nil)
           @uuid = uuid
           @company_uuid = company_uuid
           @wage_type = wage_type
@@ -98,6 +100,7 @@ module GustoEmbedded
           @ein = ein
           @has_ein = has_ein
           @email = email
+          @work_email = work_email
           @address = address
           @file_new_hire_report = file_new_hire_report
           @work_state = work_state
@@ -134,6 +137,7 @@ module GustoEmbedded
           return false unless @ein == other.ein
           return false unless @has_ein == other.has_ein
           return false unless @email == other.email
+          return false unless @work_email == other.work_email
           return false unless @address == other.address
           return false unless @file_new_hire_report == other.file_new_hire_report
           return false unless @work_state == other.work_state

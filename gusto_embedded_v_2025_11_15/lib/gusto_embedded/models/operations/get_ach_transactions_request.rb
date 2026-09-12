@@ -56,7 +56,7 @@ module GustoEmbedded
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field(
           :x_gusto_api_version,
-          Crystalline::Nilable.new(Models::Operations::GetAchTransactionsHeaderXGustoAPIVersion),
+          Crystalline::Nilable.new(Models::Operations::XGustoAPIVersion),
           {'header': {'field_name': "X-Gusto-API-Version", 'style': "simple", 'explode': false}}
         )
 
@@ -69,7 +69,7 @@ module GustoEmbedded
             payment_direction: T.nilable(::String),
             page: T.nilable(::Integer),
             per: T.nilable(::Integer),
-            x_gusto_api_version: T.nilable(Models::Operations::GetAchTransactionsHeaderXGustoAPIVersion)
+            x_gusto_api_version: T.nilable(Models::Operations::XGustoAPIVersion)
           )
             .void
         }
@@ -81,7 +81,7 @@ module GustoEmbedded
           payment_direction: nil,
           page: nil,
           per: nil,
-          x_gusto_api_version: Models::Operations::GetAchTransactionsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15
+          x_gusto_api_version: Models::Operations::XGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15
         )
           @company_uuid = company_uuid
           @contractor_payment_uuid = contractor_payment_uuid

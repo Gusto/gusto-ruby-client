@@ -19,7 +19,7 @@ module GustoEmbedded
         # The type identifier of the document
         field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
         # The type of recipient associated with the document (will be `Contractor` for Contractor Documents)
-        field :recipient_type, Crystalline::Nilable.new(Models::Shared::RecipientType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::RecipientType, true) } }
+        field :recipient_type, Crystalline::Nilable.new(Models::Shared::DocumentRecipientType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::DocumentRecipientType, true) } }
         # Unique identifier for the recipient associated with the document
         field :recipient_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('recipient_uuid') } }
         # List of the document's pages and associated image URLs. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation.
@@ -39,7 +39,7 @@ module GustoEmbedded
         # The quarter of this document. This value is nullable and will not be present on all documents.
         field :quarter, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('quarter') } }
 
-        sig { params(uuid: T.nilable(::String), title: T.nilable(::String), name: T.nilable(::String), recipient_type: T.nilable(Models::Shared::RecipientType), recipient_uuid: T.nilable(::String), pages: T.nilable(T::Array[Models::Shared::Pages]), fields_: T.nilable(T::Array[Models::Shared::Fields]), description: T.nilable(::String), requires_signing: T.nilable(T::Boolean), draft: T.nilable(T::Boolean), signed_at: T.nilable(::String), year: T.nilable(::Integer), quarter: T.nilable(::Integer)).void }
+        sig { params(uuid: T.nilable(::String), title: T.nilable(::String), name: T.nilable(::String), recipient_type: T.nilable(Models::Shared::DocumentRecipientType), recipient_uuid: T.nilable(::String), pages: T.nilable(T::Array[Models::Shared::Pages]), fields_: T.nilable(T::Array[Models::Shared::Fields]), description: T.nilable(::String), requires_signing: T.nilable(T::Boolean), draft: T.nilable(T::Boolean), signed_at: T.nilable(::String), year: T.nilable(::Integer), quarter: T.nilable(::Integer)).void }
         def initialize(uuid: nil, title: nil, name: nil, recipient_type: nil, recipient_uuid: nil, pages: nil, fields_: nil, description: nil, requires_signing: nil, draft: nil, signed_at: nil, year: nil, quarter: nil)
           @uuid = uuid
           @title = title

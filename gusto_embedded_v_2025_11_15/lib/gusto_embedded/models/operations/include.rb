@@ -6,15 +6,11 @@
 module GustoEmbedded
   module Models
     module Operations
-
+      # Include - Available options:
+      # - all_benefits: If with_employee_benefits=true, include all effective dated benefits for each employee instead of only the current benefits.
       class Include < T::Enum
         enums do
-          ALL_COMPENSATIONS = new("all_compensations")
-          ALL_HOME_ADDRESSES = new("all_home_addresses")
-          COMPANY_NAME = new("company_name")
-          CURRENT_HOME_ADDRESS = new("current_home_address")
-          CUSTOM_FIELDS = new("custom_fields")
-          PORTAL_INVITATIONS = new("portal_invitations")
+          ALL_BENEFITS = new("all_benefits")
         end
       end
     end

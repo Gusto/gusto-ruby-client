@@ -41,7 +41,9 @@ module GustoEmbedded
       params(
         document_type: Models::Operations::DocumentType,
         request_uuid: ::String,
-        x_gusto_api_version: T.nilable(Models::Shared::VersionHeader),
+        x_gusto_api_version: T.nilable(
+          Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidHeaderXGustoAPIVersion
+        ),
         timeout_ms: T.nilable(Integer),
         http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
       )

@@ -46,6 +46,12 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("email")}}
         )
+        # The work email address of the contractor. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
+        field(
+          :work_email,
+          Crystalline::Nilable.new(::String),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("work_email")}}
+        )
         # The contractor’s first name.
         # This attribute is required for `Individual` contractors and will be ignored for `Business` contractors.
         field(
@@ -134,6 +140,7 @@ module GustoEmbedded
             start_date: ::String,
             hourly_rate: T.nilable(::String),
             email: T.nilable(::String),
+            work_email: T.nilable(::String),
             first_name: T.nilable(::String),
             last_name: T.nilable(::String),
             middle_initial: T.nilable(::String),
@@ -153,6 +160,7 @@ module GustoEmbedded
           start_date:,
           hourly_rate: nil,
           email: nil,
+          work_email: nil,
           first_name: nil,
           last_name: nil,
           middle_initial: nil,
@@ -169,6 +177,7 @@ module GustoEmbedded
           @start_date = start_date
           @hourly_rate = hourly_rate
           @email = email
+          @work_email = work_email
           @first_name = first_name
           @last_name = last_name
           @middle_initial = middle_initial
@@ -189,6 +198,7 @@ module GustoEmbedded
           return false unless @start_date == other.start_date
           return false unless @hourly_rate == other.hourly_rate
           return false unless @email == other.email
+          return false unless @work_email == other.work_email
           return false unless @first_name == other.first_name
           return false unless @last_name == other.last_name
           return false unless @middle_initial == other.middle_initial

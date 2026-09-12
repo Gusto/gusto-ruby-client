@@ -20,7 +20,7 @@ module GustoEmbedded
         # An object representing the type and value of the company contribution.
         field(
           :contribution,
-          Crystalline::Nilable.new(Models::Shared::BenefitTypeRequirementsContribution),
+          Crystalline::Nilable.new(Models::Shared::Contribution),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("contribution")}}
         )
         # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
@@ -63,7 +63,7 @@ module GustoEmbedded
         sig {
           params(
             employee_deduction: T.nilable(Models::Shared::EmployeeDeduction),
-            contribution: T.nilable(Models::Shared::BenefitTypeRequirementsContribution),
+            contribution: T.nilable(Models::Shared::Contribution),
             deduct_as_percentage: T.nilable(Models::Shared::DeductAsPercentage),
             catch_up: T.nilable(Models::Shared::CatchUp),
             limit_option: T.nilable(Models::Shared::LimitOption),

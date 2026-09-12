@@ -26,11 +26,13 @@ module GustoEmbedded
         field :day_2, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'day_2', 'style': 'form', 'explode': true } }
         # End date for the preview range. If given, this date must be in the future. When unspecified, defaults to 18 months from today.
         field :end_date, Crystalline::Nilable.new(::Date), { 'query_param': { 'field_name': 'end_date', 'style': 'form', 'explode': true } }
+        # Optional UUID of an existing pay schedule. When supplied, the preview is seeded from the persisted schedule — including internal flags (such as arrears handling) that affect period boundaries but are not exposed as request parameters. Any other query parameters override individual attributes on top of the loaded schedule.
+        field :pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'pay_schedule_uuid', 'style': 'form', 'explode': true } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(company_id: ::String, frequency: Models::Operations::Frequency, anchor_pay_date: ::Date, anchor_end_of_pay_period: ::Date, day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), end_date: T.nilable(::Date), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion)).void }
-        def initialize(company_id:, frequency:, anchor_pay_date:, anchor_end_of_pay_period:, day_1: nil, day_2: nil, end_date: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+        sig { params(company_id: ::String, frequency: Models::Operations::Frequency, anchor_pay_date: ::Date, anchor_end_of_pay_period: ::Date, day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), end_date: T.nilable(::Date), pay_schedule_uuid: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion)).void }
+        def initialize(company_id:, frequency:, anchor_pay_date:, anchor_end_of_pay_period:, day_1: nil, day_2: nil, end_date: nil, pay_schedule_uuid: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @company_id = company_id
           @frequency = frequency
           @anchor_pay_date = anchor_pay_date
@@ -38,6 +40,7 @@ module GustoEmbedded
           @day_1 = day_1
           @day_2 = day_2
           @end_date = end_date
+          @pay_schedule_uuid = pay_schedule_uuid
           @x_gusto_api_version = x_gusto_api_version
         end
 
@@ -51,6 +54,7 @@ module GustoEmbedded
           return false unless @day_1 == other.day_1
           return false unless @day_2 == other.day_2
           return false unless @end_date == other.end_date
+          return false unless @pay_schedule_uuid == other.pay_schedule_uuid
           return false unless @x_gusto_api_version == other.x_gusto_api_version
           true
         end

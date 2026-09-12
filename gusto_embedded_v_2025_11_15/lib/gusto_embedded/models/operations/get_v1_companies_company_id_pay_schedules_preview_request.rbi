@@ -48,6 +48,12 @@ class GustoEmbedded::Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPrev
   def end_date=(str_)
   end
 
+  def pay_schedule_uuid
+  end
+
+  def pay_schedule_uuid=(str_)
+  end
+
   def x_gusto_api_version
   end
 

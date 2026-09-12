@@ -126,6 +126,12 @@ class GustoEmbedded::Models::Shared::Contractor
   def email=(str_)
   end
 
+  def work_email
+  end
+
+  def work_email=(str_)
+  end
+
   def address
   end
 
