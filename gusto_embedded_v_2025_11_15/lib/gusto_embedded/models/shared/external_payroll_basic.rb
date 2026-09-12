@@ -44,11 +44,11 @@ module GustoEmbedded
         # The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized.  Once in the `processed` status all actions that can edit an external payroll will be disabled.
         field(
           :status,
-          Crystalline::Nilable.new(Models::Shared::Status),
+          Crystalline::Nilable.new(Models::Shared::ExternalPayrollBasicStatus),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("status"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::Status, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::ExternalPayrollBasicStatus, true)
             }
           }
         )
@@ -60,7 +60,7 @@ module GustoEmbedded
             check_date: T.nilable(::String),
             payment_period_start_date: T.nilable(::String),
             payment_period_end_date: T.nilable(::String),
-            status: T.nilable(Models::Shared::Status)
+            status: T.nilable(Models::Shared::ExternalPayrollBasicStatus)
           )
             .void
         }

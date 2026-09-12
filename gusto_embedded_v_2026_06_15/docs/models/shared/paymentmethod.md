@@ -1,11 +1,13 @@
 # PaymentMethod
 
+Payment method to filter by.
+
 ## Example Usage
 
 ```ruby
 require "gusto_embedded_client_v_2026_06_15"
 
-value = PaymentMethod::DIRECT_DEPOSIT
+value = PaymentMethod::CHECK
 ```
 
 
@@ -13,5 +15,5 @@ value = PaymentMethod::DIRECT_DEPOSIT
 
 | Name             | Value            |
 | ---------------- | ---------------- |
-| `DIRECT_DEPOSIT` | Direct Deposit   |
-| `CHECK`          | Check            |
+| `CHECK`          | check            |
+| `DIRECT_DEPOSIT` | direct_deposit   |

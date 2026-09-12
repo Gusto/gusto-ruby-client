@@ -6,7 +6,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # FileType - The type of file to generate
+      # FileType - The type of file to generate.
       class FileType < T::Enum
         enums do
           CSV = new("csv")

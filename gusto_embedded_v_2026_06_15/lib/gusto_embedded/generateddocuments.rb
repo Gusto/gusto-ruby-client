@@ -41,7 +41,7 @@ module GustoEmbedded
 
 
 
-    sig { params(document_type: Models::Operations::DocumentType, request_uuid: ::String, x_gusto_api_version: T.nilable(Models::Shared::VersionHeader), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidResponse) }
+    sig { params(document_type: Models::Operations::DocumentType, request_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidResponse) }
     def get(document_type:, request_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get - Get a generated document
       # Get a document given the request_uuid. The response will include the generation request's status and urls to the document. A list of urls is returned as certain document types require several urls.
@@ -71,7 +71,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -86,7 +86,7 @@ module GustoEmbedded
       error = T.let(nil, T.nilable(StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -122,13 +122,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')

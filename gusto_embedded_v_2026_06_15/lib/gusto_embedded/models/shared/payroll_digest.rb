@@ -17,11 +17,11 @@ module GustoEmbedded
         # The idempotency key provided when creating the batch.
         field :idempotency_key, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('idempotency_key'), required: true } }
         # The action being performed on the batch.
-        field :batch_action, Models::Shared::BatchAction, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('batch_action'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::BatchAction, false) } }
+        field :batch_action, Models::Shared::PayrollDigestBatchAction, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('batch_action'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollDigestBatchAction, false) } }
         # The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished — inspect `results` and `exclusions` for per-company outcomes) and `failed` (request failed; can be retried). This is distinct from the per-company `status` returned inside `results[]` and `exclusions[]`.
         field :status, Models::Shared::PayrollDigestStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollDigestStatus, false) } }
 
-        sig { params(uuid: ::String, idempotency_key: ::String, batch_action: Models::Shared::BatchAction, status: Models::Shared::PayrollDigestStatus).void }
+        sig { params(uuid: ::String, idempotency_key: ::String, batch_action: Models::Shared::PayrollDigestBatchAction, status: Models::Shared::PayrollDigestStatus).void }
         def initialize(uuid:, idempotency_key:, batch_action:, status:)
           @uuid = uuid
           @idempotency_key = idempotency_key

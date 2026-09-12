@@ -20,20 +20,17 @@ module GustoEmbedded
         # The payment method type. If type is Direct Deposit, the contractor is required to have a bank account. See [Bank account endpoint](./post-v1-contractors-contractor_uuid-bank_accounts).
         field(
           :type,
-          Models::Operations::PutV1ContractorsContractorIdPaymentMethodType,
+          Models::Operations::Type,
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("type"),
               required: true,
-              'decoder': ::GustoEmbedded::Utils.enum_from_string(
-                Models::Operations::PutV1ContractorsContractorIdPaymentMethodType,
-                false
-              )
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::Type, false)
             }
           }
         )
 
-        sig { params(version: ::String, type: Models::Operations::PutV1ContractorsContractorIdPaymentMethodType).void }
+        sig { params(version: ::String, type: Models::Operations::Type).void }
         def initialize(version:, type:)
           @version = version
           @type = type

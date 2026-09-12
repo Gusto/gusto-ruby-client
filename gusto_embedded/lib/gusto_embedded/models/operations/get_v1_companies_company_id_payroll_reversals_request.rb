@@ -19,10 +19,10 @@ module GustoEmbedded
         # Number of objects per page. For majority of endpoints will default to 25
         field :per, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'per', 'style': 'form', 'explode': true } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(company_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Shared::VersionHeader)).void }
-        def initialize(company_id:, page: nil, per: nil, x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+        sig { params(company_id: ::String, page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion)).void }
+        def initialize(company_id:, page: nil, per: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @company_id = company_id
           @page = page
           @per = per

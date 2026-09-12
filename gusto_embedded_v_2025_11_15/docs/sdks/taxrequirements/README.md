@@ -4,9 +4,54 @@
 
 ### Available Operations
 
+* [get_all](#get_all) - Get all tax requirements for a company
 * [get](#get) - Get tax requirements for a state
 * [update_state](#update_state) - Update tax requirements for a state
-* [get_all](#get_all) - Get all tax requirements for a company
+
+## get_all
+
+Retrieves all states for which a company has tax requirements, along with a boolean indicating whether tax setup
+is complete for each state. Use this to determine which states still need tax setup during company onboarding.
+
+scope: `company_tax_requirements:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_uuid-tax_requirements" method="get" path="/v1/companies/{company_uuid}/tax_requirements" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.tax_requirements.get_all(company_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyUuidTaxRequirementsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.tax_requirement_states_list.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyUuidTaxRequirementsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyuuidtaxrequirementsheaderxgustoapiversion.md)                                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1CompaniesCompanyUuidTaxRequirementsResponse)](../../models/operations/getv1companiescompanyuuidtaxrequirementsresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
 
 ## get
 
@@ -124,48 +169,3 @@ end
 | Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
-
-## get_all
-
-Retrieves all states for which a company has tax requirements, along with a boolean indicating whether tax setup
-is complete for each state. Use this to determine which states still need tax setup during company onboarding.
-
-scope: `company_tax_requirements:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_uuid-tax_requirements" method="get" path="/v1/companies/{company_uuid}/tax_requirements" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.tax_requirements.get_all(company_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyUuidTaxRequirementsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
-
-unless res.tax_requirement_states_list.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyUuidTaxRequirementsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyuuidtaxrequirementsheaderxgustoapiversion.md)                                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1CompaniesCompanyUuidTaxRequirementsResponse)](../../models/operations/getv1companiescompanyuuidtaxrequirementsresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |

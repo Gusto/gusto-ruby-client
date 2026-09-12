@@ -4,30 +4,28 @@
 
 ### Available Operations
 
-* [list](#list) - Get employees of a company
-* [create](#create) - Create an employee
+* [get_custom_fields](#get_custom_fields) - Get an employee's custom fields
 * [get_v1_companies_company_id_employees_payment_details](#get_v1_companies_company_id_employees_payment_details) - Get employee payment details for a company
-* [create_historical](#create_historical) - Create a historical employee
+* [get_time_off_activities](#get_time_off_activities) - Get employee time off activities
 * [get](#get) - Get an employee
 * [update](#update) - Update an employee.
 * [delete](#delete) - Delete an onboarding employee
-* [get_custom_fields](#get_custom_fields) - Get an employee's custom fields
-* [update_onboarding_documents_config](#update_onboarding_documents_config) - Update employee onboarding documents config
+* [list](#list) - Get employees of a company
+* [create](#create) - Create an employee
 * [get_onboarding_status](#get_onboarding_status) - Get the employee's onboarding status
 * [update_onboarding_status](#update_onboarding_status) - Update the employee's onboarding status
-* [get_time_off_activities](#get_time_off_activities) - Get employee time off activities
+* [update_onboarding_documents_config](#update_onboarding_documents_config) - Update employee onboarding documents config
+* [create_historical](#create_historical) - Create a historical employee
 
-## list
+## get_custom_fields
 
-Get all of the employees, onboarding, active and terminated, for a given company.
-
-Note: Compensation data (pay rate, payment unit, and related fields) represents sensitive employee pay information. When retrieving employee job data, these fields (`rate`, `payment_unit`, `current_compensation_uuid`, `compensations`) are only returned when the `compensations:read` scope is included. This allows you to access employee and job metadata without exposing pay rates.
+Returns a list of the employee's custom fields.
 
 scope: `employees:read`
 
 ### Example Usage
 
-<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-employees" method="get" path="/v1/companies/{company_id}/employees" -->
+<!-- UsageSnippet language="ruby" operationID="get-v1-employees-employee_id-custom_fields" method="get" path="/v1/employees/{employee_id}/custom_fields" -->
 ```ruby
 require 'gusto_embedded_client_v_2025_11_15'
 
@@ -37,57 +35,9 @@ s = ::GustoEmbedded::Client.new(
     company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
   )
 )
+res = s.employees.get_custom_fields(employee_id: '<id>', x_gusto_api_version: Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
-req = Models::Operations::GetV1CompaniesCompanyIdEmployeesRequest.new(
-  company_id: '<id>',
-  sort_by: 'name:desc'
-)
-res = s.employees.list(request: req)
-
-unless res.show_employees.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                         | Type                                                                                                                              | Required                                                                                                                          | Description                                                                                                                       |
-| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                         | [Models::Operations::GetV1CompaniesCompanyIdEmployeesRequest](../../models/operations/getv1companiescompanyidemployeesrequest.md) | :heavy_check_mark:                                                                                                                | The request object to use for the request.                                                                                        |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdEmployeesResponse)](../../models/operations/getv1companiescompanyidemployeesresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
-
-## create
-
-Create an employee.
-
-scope: `employees:manage`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="post-v1-employees" method="post" path="/v1/companies/{company_id}/employees" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.employees.create(company_id: '<id>', x_gusto_api_version: Models::Operations::PostV1EmployeesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
-
-unless res.employee.nil?
+unless res.employee_custom_field_list.nil?
   # handle response
 end
 
@@ -97,21 +47,21 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | Company ID                                                                                                                                                                                                                   |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1EmployeesHeaderXGustoAPIVersion)](../../models/operations/postv1employeesheaderxgustoapiversion.md)                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `body`                                                                                                                                                                                                                       | [T.nilable(Models::Operations::PostV1EmployeesRequestBody)](../../models/operations/postv1employeesrequestbody.md)                                                                                                           | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsHeaderXGustoAPIVersion)](../../models/operations/getv1employeesemployeeidcustomfieldsheaderxgustoapiversion.md)                                           | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `page`                                                                                                                                                                                                                       | *T.nilable(::Integer)*                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.                                                                                                                       |
+| `per`                                                                                                                                                                                                                        | *T.nilable(::Integer)*                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Number of objects per page. For majority of endpoints will default to 25                                                                                                                                                     |
 
 ### Response
 
-**[T.nilable(Models::Operations::PostV1EmployeesResponse)](../../models/operations/postv1employeesresponse.md)**
+**[T.nilable(Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse)](../../models/operations/getv1employeesemployeeidcustomfieldsresponse.md)**
 
 ### Errors
 
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
-| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
-| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
 
 ## get_v1_companies_company_id_employees_payment_details
 
@@ -168,15 +118,15 @@ end
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
-## create_historical
+## get_time_off_activities
 
-Create a historical employee, an employee that was previously dismissed from the company in the current year.
+Get employee time off activities.
 
-scope: `employees:manage`
+scope: `employee_time_off_activities:read`
 
 ### Example Usage
 
-<!-- UsageSnippet language="ruby" operationID="post-v1-historical_employees" method="post" path="/v1/companies/{company_uuid}/historical_employees" -->
+<!-- UsageSnippet language="ruby" operationID="get-version-employees-time_off_activities" method="get" path="/v1/employees/{employee_uuid}/time_off_activities" -->
 ```ruby
 require 'gusto_embedded_client_v_2025_11_15'
 
@@ -186,37 +136,9 @@ s = ::GustoEmbedded::Client.new(
     company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
   )
 )
-res = s.employees.create_historical(company_uuid: '7b1d0df1-6403-4a06-8768-c1dd7d24d27a', body: Models::Shared::HistoricalEmployeeBody.new(
-  first_name: 'Soren',
-  middle_initial: 'A',
-  last_name: 'Kierkegaard',
-  preferred_first_name: 'Angel',
-  date_of_birth: Date.parse('1995-05-05'),
-  ssn: '123456294',
-  work_address: Models::Shared::WorkAddress.new(
-    location_uuid: '1da85d35-1910-40a7-9c1f-8e2b3d4c5a6f'
-  ),
-  home_address: Models::Shared::HistoricalEmployeeBodyHomeAddress.new(
-    street_1: '55 Mission St',
-    street_2: 'Floor 3',
-    city: 'San Francisco',
-    state: 'CA',
-    zip: '94105'
-  ),
-  termination: Models::Shared::HistoricalEmployeeBodyTermination.new(
-    effective_date: Date.parse('2022-01-01')
-  ),
-  email: 'soren.kierkegaard@example.com',
-  job: Models::Shared::HistoricalEmployeeBodyJob.new(
-    hire_date: Date.parse('2020-01-01')
-  ),
-  employee_state_taxes: Models::Shared::EmployeeStateTaxes.new(
-    wc_covered: true,
-    wc_class_code: '051000'
-  )
-), x_gusto_api_version: Models::Operations::PostV1HistoricalEmployeesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+res = s.employees.get_time_off_activities(employee_uuid: '<id>', time_off_type: '<value>', x_gusto_api_version: Models::Operations::GetVersionEmployeesTimeOffActivitiesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
-unless res.employee.nil?
+unless res.time_off_activity_list.nil?
   # handle response
 end
 
@@ -224,15 +146,15 @@ end
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                      |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company that will employ this historical record.                                                                                                                                                             | 7b1d0df1-6403-4a06-8768-c1dd7d24d27a                                                                                                                                                                                         |
-| `body`                                                                                                                                                                                                                       | [Models::Shared::HistoricalEmployeeBody](../../models/shared/historicalemployeebody.md)                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |                                                                                                                                                                                                                              |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1HistoricalEmployeesHeaderXGustoAPIVersion)](../../models/operations/postv1historicalemployeesheaderxgustoapiversion.md)                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `employee_uuid`                                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
+| `time_off_type`                                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The time off type name you want to query data for. ex: 'sick' or 'vacation'                                                                                                                                                  |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetVersionEmployeesTimeOffActivitiesHeaderXGustoAPIVersion)](../../models/operations/getversionemployeestimeoffactivitiesheaderxgustoapiversion.md)                                           | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(Models::Operations::PostV1HistoricalEmployeesResponse)](../../models/operations/postv1historicalemployeesresponse.md)**
+**[T.nilable(Models::Operations::GetVersionEmployeesTimeOffActivitiesResponse)](../../models/operations/getversionemployeestimeoffactivitiesresponse.md)**
 
 ### Errors
 
@@ -276,7 +198,7 @@ end
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1EmployeesHeaderXGustoAPIVersion)](../../models/operations/getv1employeesheaderxgustoapiversion.md)                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-| `include`                                                                                                                                                                                                                    | T::Array<[Models::Operations::QueryParamInclude](../../models/operations/queryparaminclude.md)>                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                                                           | Include the requested attribute(s) in each employee response. Multiple options are comma separated.                                                                                                                          |
+| `include`                                                                                                                                                                                                                    | T::Array<[Models::Operations::GetV1EmployeesQueryParamInclude](../../models/operations/getv1employeesqueryparaminclude.md)>                                                                                                  | :heavy_minus_sign:                                                                                                                                                                                                           | Include the requested attribute(s) in each employee response. Multiple options are comma separated.                                                                                                                          |
 
 ### Response
 
@@ -391,15 +313,17 @@ end
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
-## get_custom_fields
+## list
 
-Returns a list of the employee's custom fields.
+Get all of the employees, onboarding, active and terminated, for a given company.
+
+Note: Compensation data (pay rate, payment unit, and related fields) represents sensitive employee pay information. When retrieving employee job data, these fields (`rate`, `payment_unit`, `current_compensation_uuid`, `compensations`) are only returned when the `compensations:read` scope is included. This allows you to access employee and job metadata without exposing pay rates.
 
 scope: `employees:read`
 
 ### Example Usage
 
-<!-- UsageSnippet language="ruby" operationID="get-v1-employees-employee_id-custom_fields" method="get" path="/v1/employees/{employee_id}/custom_fields" -->
+<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-employees" method="get" path="/v1/companies/{company_id}/employees" -->
 ```ruby
 require 'gusto_embedded_client_v_2025_11_15'
 
@@ -409,9 +333,57 @@ s = ::GustoEmbedded::Client.new(
     company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
   )
 )
-res = s.employees.get_custom_fields(employee_id: '<id>', x_gusto_api_version: Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
-unless res.employee_custom_field_list.nil?
+req = Models::Operations::GetV1CompaniesCompanyIdEmployeesRequest.new(
+  company_id: '<id>',
+  sort_by: 'name:desc'
+)
+res = s.employees.list(request: req)
+
+unless res.show_employees.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                         | Type                                                                                                                              | Required                                                                                                                          | Description                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                         | [Models::Operations::GetV1CompaniesCompanyIdEmployeesRequest](../../models/operations/getv1companiescompanyidemployeesrequest.md) | :heavy_check_mark:                                                                                                                | The request object to use for the request.                                                                                        |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdEmployeesResponse)](../../models/operations/getv1companiescompanyidemployeesresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
+
+## create
+
+Create an employee.
+
+scope: `employees:manage`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="post-v1-employees" method="post" path="/v1/companies/{company_id}/employees" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.employees.create(company_id: '<id>', x_gusto_api_version: Models::Operations::PostV1EmployeesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.employee.nil?
   # handle response
 end
 
@@ -421,70 +393,21 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
-| `page`                                                                                                                                                                                                                       | *T.nilable(::Integer)*                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.                                                                                                                       |
-| `per`                                                                                                                                                                                                                        | *T.nilable(::Integer)*                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | Number of objects per page. For majority of endpoints will default to 25                                                                                                                                                     |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsHeaderXGustoAPIVersion)](../../models/operations/getv1employeesemployeeidcustomfieldsheaderxgustoapiversion.md)                                           | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | Company ID                                                                                                                                                                                                                   |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1EmployeesHeaderXGustoAPIVersion)](../../models/operations/postv1employeesheaderxgustoapiversion.md)                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `body`                                                                                                                                                                                                                       | [T.nilable(Models::Operations::PostV1EmployeesRequestBody)](../../models/operations/postv1employeesrequestbody.md)                                                                                                           | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
 
 ### Response
 
-**[T.nilable(Models::Operations::GetV1EmployeesEmployeeIdCustomFieldsResponse)](../../models/operations/getv1employeesemployeeidcustomfieldsresponse.md)**
+**[T.nilable(Models::Operations::PostV1EmployeesResponse)](../../models/operations/postv1employeesresponse.md)**
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
-
-## update_onboarding_documents_config
-
-Indicate whether to include the Form I-9 for an employee during the onboarding process.
-If included, the employee will be prompted to complete Form I-9 as part of their onboarding.
-
-## Related guides
-- [Employee onboarding](doc:employee-onboarding)
-
-scope: `employees:manage`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="put-v1-employees-employee_id-onboarding_documents_config" method="put" path="/v1/employees/{employee_id}/onboarding_documents_config" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.employees.update_onboarding_documents_config(employee_id: '7b1d0df1-6403-4a06-8768-c1dd7d24d27a', x_gusto_api_version: Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
-
-unless res.employee_onboarding_document.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                      |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     | 7b1d0df1-6403-4a06-8768-c1dd7d24d27a                                                                                                                                                                                         |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigHeaderXGustoAPIVersion)](../../models/operations/putv1employeesemployeeidonboardingdocumentsconfigheaderxgustoapiversion.md)                 | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
-| `body`                                                                                                                                                                                                                       | [T.nilable(Models::Shared::EmployeeOnboardingDocumentsConfigRequest)](../../models/shared/employeeonboardingdocumentsconfigrequest.md)                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |                                                                                                                                                                                                                              |
-
-### Response
-
-**[T.nilable(Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigResponse)](../../models/operations/putv1employeesemployeeidonboardingdocumentsconfigresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
 ## get_onboarding_status
 
@@ -624,15 +547,19 @@ end
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
-## get_time_off_activities
+## update_onboarding_documents_config
 
-Get employee time off activities.
+Indicate whether to include the Form I-9 for an employee during the onboarding process.
+If included, the employee will be prompted to complete Form I-9 as part of their onboarding.
 
-scope: `employee_time_off_activities:read`
+## Related guides
+- [Employee onboarding](doc:employee-onboarding)
+
+scope: `employees:manage`
 
 ### Example Usage
 
-<!-- UsageSnippet language="ruby" operationID="get-version-employees-time_off_activities" method="get" path="/v1/employees/{employee_uuid}/time_off_activities" -->
+<!-- UsageSnippet language="ruby" operationID="put-v1-employees-employee_id-onboarding_documents_config" method="put" path="/v1/employees/{employee_id}/onboarding_documents_config" -->
 ```ruby
 require 'gusto_embedded_client_v_2025_11_15'
 
@@ -642,9 +569,9 @@ s = ::GustoEmbedded::Client.new(
     company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
   )
 )
-res = s.employees.get_time_off_activities(employee_uuid: '<id>', time_off_type: '<value>', x_gusto_api_version: Models::Operations::GetVersionEmployeesTimeOffActivitiesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+res = s.employees.update_onboarding_documents_config(employee_id: '7b1d0df1-6403-4a06-8768-c1dd7d24d27a', x_gusto_api_version: Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
-unless res.time_off_activity_list.nil?
+unless res.employee_onboarding_document.nil?
   # handle response
 end
 
@@ -652,15 +579,88 @@ end
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `employee_uuid`                                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     |
-| `time_off_type`                                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The time off type name you want to query data for. ex: 'sick' or 'vacation'                                                                                                                                                  |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetVersionEmployeesTimeOffActivitiesHeaderXGustoAPIVersion)](../../models/operations/getversionemployeestimeoffactivitiesheaderxgustoapiversion.md)                                           | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `employee_id`                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the employee                                                                                                                                                                                                     | 7b1d0df1-6403-4a06-8768-c1dd7d24d27a                                                                                                                                                                                         |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigHeaderXGustoAPIVersion)](../../models/operations/putv1employeesemployeeidonboardingdocumentsconfigheaderxgustoapiversion.md)                 | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
+| `body`                                                                                                                                                                                                                       | [T.nilable(Models::Shared::EmployeeOnboardingDocumentsConfigRequest)](../../models/shared/employeeonboardingdocumentsconfigrequest.md)                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |                                                                                                                                                                                                                              |
 
 ### Response
 
-**[T.nilable(Models::Operations::GetVersionEmployeesTimeOffActivitiesResponse)](../../models/operations/getversionemployeestimeoffactivitiesresponse.md)**
+**[T.nilable(Models::Operations::PutV1EmployeesEmployeeIdOnboardingDocumentsConfigResponse)](../../models/operations/putv1employeesemployeeidonboardingdocumentsconfigresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
+
+## create_historical
+
+Create a historical employee, an employee that was previously dismissed from the company in the current year.
+
+scope: `employees:manage`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="post-v1-historical_employees" method="post" path="/v1/companies/{company_uuid}/historical_employees" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.employees.create_historical(company_uuid: '7b1d0df1-6403-4a06-8768-c1dd7d24d27a', body: Models::Shared::HistoricalEmployeeBody.new(
+  first_name: 'Soren',
+  middle_initial: 'A',
+  last_name: 'Kierkegaard',
+  preferred_first_name: 'Angel',
+  date_of_birth: Date.parse('1995-05-05'),
+  ssn: '123456294',
+  work_address: Models::Shared::WorkAddress.new(
+    location_uuid: '1da85d35-1910-40a7-9c1f-8e2b3d4c5a6f'
+  ),
+  home_address: Models::Shared::HomeAddress.new(
+    street_1: '55 Mission St',
+    street_2: 'Floor 3',
+    city: 'San Francisco',
+    state: 'CA',
+    zip: '94105'
+  ),
+  termination: Models::Shared::HistoricalEmployeeBodyTermination.new(
+    effective_date: Date.parse('2022-01-01')
+  ),
+  email: 'soren.kierkegaard@example.com',
+  job: Models::Shared::HistoricalEmployeeBodyJob.new(
+    hire_date: Date.parse('2020-01-01')
+  ),
+  employee_state_taxes: Models::Shared::EmployeeStateTaxes.new(
+    wc_covered: true,
+    wc_class_code: '051000'
+  )
+), x_gusto_api_version: Models::Operations::PostV1HistoricalEmployeesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.employee.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company that will employ this historical record.                                                                                                                                                             | 7b1d0df1-6403-4a06-8768-c1dd7d24d27a                                                                                                                                                                                         |
+| `body`                                                                                                                                                                                                                       | [Models::Shared::HistoricalEmployeeBody](../../models/shared/historicalemployeebody.md)                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |                                                                                                                                                                                                                              |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1HistoricalEmployeesHeaderXGustoAPIVersion)](../../models/operations/postv1historicalemployeesheaderxgustoapiversion.md)                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
+
+### Response
+
+**[T.nilable(Models::Operations::PostV1HistoricalEmployeesResponse)](../../models/operations/postv1historicalemployeesresponse.md)**
 
 ### Errors
 

@@ -38,7 +38,7 @@ module GustoEmbedded
         # A string indicating whether to sort resulting events in ascending (asc) or descending (desc) chronological order. Events are sorted by their `timestamp`. Defaults to asc if left empty.
         field(
           :sort_order,
-          Crystalline::Nilable.new(Models::Operations::QueryParamSortOrder),
+          Crystalline::Nilable.new(Models::Operations::SortOrder),
           {'query_param': {'field_name': "sort_order", 'style': "form", 'explode': true}}
         )
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
@@ -54,7 +54,7 @@ module GustoEmbedded
             resource_uuid: T.nilable(::String),
             limit: T.nilable(::String),
             event_type: T.nilable(::String),
-            sort_order: T.nilable(Models::Operations::QueryParamSortOrder),
+            sort_order: T.nilable(Models::Operations::SortOrder),
             x_gusto_api_version: T.nilable(Models::Operations::GetEventsHeaderXGustoAPIVersion)
           )
             .void

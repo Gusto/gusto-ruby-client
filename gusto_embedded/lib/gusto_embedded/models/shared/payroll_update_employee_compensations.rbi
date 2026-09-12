@@ -24,6 +24,8 @@ class GustoEmbedded::Models::Shared::PayrollUpdateEmployeeCompensations
   def hourly_compensations=(str_); end
   def deductions(); end
   def deductions=(str_); end
+  def custom_withholdings(); end
+  def custom_withholdings=(str_); end
   def paid_time_off(); end
   def paid_time_off=(str_); end
   def reimbursements(); end

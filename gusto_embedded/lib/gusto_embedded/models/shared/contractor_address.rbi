@@ -14,6 +14,8 @@ class GustoEmbedded::Models::Shared::ContractorAddress
   def active=(str_); end
   def version(); end
   def version=(str_); end
+  def warnings(); end
+  def warnings=(str_); end
   def street_1(); end
   def street_1=(str_); end
   def street_2(); end

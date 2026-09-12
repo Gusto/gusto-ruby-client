@@ -21,11 +21,11 @@ module GustoEmbedded
         # A string containing the exact event name (e.g. `employee.created`), or use a wildcard match to filter for a group of events (e.g. `employee.*`, `*.created`, `notification.*.created` etc.)
         field :event_type, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'event_type', 'style': 'form', 'explode': true } }
         # A string indicating whether to sort resulting events in ascending (asc) or descending (desc) chronological order. Events are sorted by their `timestamp`. Defaults to asc if left empty.
-        field :sort_order, Crystalline::Nilable.new(Models::Operations::QueryParamSortOrder), { 'query_param': { 'field_name': 'sort_order', 'style': 'form', 'explode': true } }
+        field :sort_order, Crystalline::Nilable.new(Models::Operations::SortOrder), { 'query_param': { 'field_name': 'sort_order', 'style': 'form', 'explode': true } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetEventsHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(starting_after_uuid: T.nilable(::String), resource_uuid: T.nilable(::String), limit: T.nilable(::String), event_type: T.nilable(::String), sort_order: T.nilable(Models::Operations::QueryParamSortOrder), x_gusto_api_version: T.nilable(Models::Operations::GetEventsHeaderXGustoAPIVersion)).void }
+        sig { params(starting_after_uuid: T.nilable(::String), resource_uuid: T.nilable(::String), limit: T.nilable(::String), event_type: T.nilable(::String), sort_order: T.nilable(Models::Operations::SortOrder), x_gusto_api_version: T.nilable(Models::Operations::GetEventsHeaderXGustoAPIVersion)).void }
         def initialize(starting_after_uuid: nil, resource_uuid: nil, limit: nil, event_type: nil, sort_order: nil, x_gusto_api_version: Models::Operations::GetEventsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @starting_after_uuid = starting_after_uuid
           @resource_uuid = resource_uuid

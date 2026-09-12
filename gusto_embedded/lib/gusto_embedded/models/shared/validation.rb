@@ -13,7 +13,7 @@ module GustoEmbedded
         include Crystalline::MetadataFields
 
         # Describes the type of tax_rate validation rule
-        field :type, Models::Shared::TaxRequirementMetadataValidationType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::TaxRequirementMetadataValidationType, false) } }
+        field :type, Models::Shared::TaxRequirementMetadataType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::TaxRequirementMetadataType, false) } }
         # [for `min_max`] The inclusive lower bound of the tax rate
         field :min, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('min') } }
         # [for `min_max`] The inclusive upper bound of the tax rate
@@ -23,7 +23,7 @@ module GustoEmbedded
         #
         field :rates, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rates') } }
 
-        sig { params(type: Models::Shared::TaxRequirementMetadataValidationType, min: T.nilable(::String), max: T.nilable(::String), rates: T.nilable(T::Array[::String])).void }
+        sig { params(type: Models::Shared::TaxRequirementMetadataType, min: T.nilable(::String), max: T.nilable(::String), rates: T.nilable(T::Array[::String])).void }
         def initialize(type:, min: nil, max: nil, rates: nil)
           @type = type
           @min = min
