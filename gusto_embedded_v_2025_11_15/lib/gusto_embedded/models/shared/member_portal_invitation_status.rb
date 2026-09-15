@@ -14,11 +14,11 @@ module GustoEmbedded
         # The current status of the member portal invitation.
         field(
           :status,
-          Crystalline::Nilable.new(Models::Shared::ShowEmployeesStatus),
+          Crystalline::Nilable.new(Models::Shared::ContractorStatus),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("status"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::ShowEmployeesStatus, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::ContractorStatus, true)
             }
           }
         )
@@ -53,7 +53,7 @@ module GustoEmbedded
 
         sig {
           params(
-            status: T.nilable(Models::Shared::ShowEmployeesStatus),
+            status: T.nilable(Models::Shared::ContractorStatus),
             token_expired: T.nilable(T::Boolean),
             welcome_email_sent_at: T.nilable(::DateTime),
             last_password_resent_at: T.nilable(::DateTime)

@@ -24,6 +24,11 @@ module GustoEmbedded
         field :paid_time_off, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowPaidTimeOff)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('paid_time_off') } }
         # An array of reimbursements for the employee.
         field :reimbursements, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowReimbursements)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursements') } }
+        # The one-time custom withholding overrides applied to this payroll for this employee.
+        # `federal` is null when no federal one-time override is set; `state` is an empty
+        # array when no state one-time overrides are set.
+        #
+        field :custom_withholdings, Crystalline::Nilable.new(Models::Shared::PayrollShowCustomWithholdings), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_withholdings') } }
         # The current version of this employee compensation. This field is only available for prepared payrolls. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
         field :version, Crystalline::Nilable.new(::Object), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
         # An array of employee deductions for the pay period. Only included when `deductions` is present in the `include` parameter.
@@ -51,14 +56,15 @@ module GustoEmbedded
         # Custom text that will be printed as a personal note to the employee on a paystub.
         field :memo, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('memo') } }
 
-        sig { params(employee_uuid: T.nilable(::String), excluded: T.nilable(T::Boolean), fixed_compensations: T.nilable(T::Array[Models::Shared::PayrollShowFixedCompensations]), hourly_compensations: T.nilable(T::Array[Models::Shared::PayrollShowHourlyCompensations]), paid_time_off: T.nilable(T::Array[Models::Shared::PayrollShowPaidTimeOff]), reimbursements: T.nilable(T::Array[Models::Shared::PayrollShowReimbursements]), version: T.nilable(::Object), deductions: T.nilable(T::Array[Models::Shared::PayrollShowDeductions]), taxes: T.nilable(T::Array[Models::Shared::PayrollShowTaxes]), benefits: T.nilable(T::Array[Models::Shared::PayrollShowBenefits]), additional_properties: T.nilable(T::Hash[Symbol, ::Object]), first_name: T.nilable(::String), preferred_first_name: T.nilable(::String), last_name: T.nilable(::String), gross_pay: T.nilable(::Float), net_pay: T.nilable(::Float), check_amount: T.nilable(::Float), payment_method: T.nilable(Models::Shared::PayrollShowPaymentMethod), memo: T.nilable(::String)).void }
-        def initialize(employee_uuid: nil, excluded: nil, fixed_compensations: nil, hourly_compensations: nil, paid_time_off: nil, reimbursements: nil, version: nil, deductions: nil, taxes: nil, benefits: nil, additional_properties: nil, first_name: nil, preferred_first_name: nil, last_name: nil, gross_pay: nil, net_pay: nil, check_amount: nil, payment_method: nil, memo: nil)
+        sig { params(employee_uuid: T.nilable(::String), excluded: T.nilable(T::Boolean), fixed_compensations: T.nilable(T::Array[Models::Shared::PayrollShowFixedCompensations]), hourly_compensations: T.nilable(T::Array[Models::Shared::PayrollShowHourlyCompensations]), paid_time_off: T.nilable(T::Array[Models::Shared::PayrollShowPaidTimeOff]), reimbursements: T.nilable(T::Array[Models::Shared::PayrollShowReimbursements]), custom_withholdings: T.nilable(Models::Shared::PayrollShowCustomWithholdings), version: T.nilable(::Object), deductions: T.nilable(T::Array[Models::Shared::PayrollShowDeductions]), taxes: T.nilable(T::Array[Models::Shared::PayrollShowTaxes]), benefits: T.nilable(T::Array[Models::Shared::PayrollShowBenefits]), additional_properties: T.nilable(T::Hash[Symbol, ::Object]), first_name: T.nilable(::String), preferred_first_name: T.nilable(::String), last_name: T.nilable(::String), gross_pay: T.nilable(::Float), net_pay: T.nilable(::Float), check_amount: T.nilable(::Float), payment_method: T.nilable(Models::Shared::PayrollShowPaymentMethod), memo: T.nilable(::String)).void }
+        def initialize(employee_uuid: nil, excluded: nil, fixed_compensations: nil, hourly_compensations: nil, paid_time_off: nil, reimbursements: nil, custom_withholdings: nil, version: nil, deductions: nil, taxes: nil, benefits: nil, additional_properties: nil, first_name: nil, preferred_first_name: nil, last_name: nil, gross_pay: nil, net_pay: nil, check_amount: nil, payment_method: nil, memo: nil)
           @employee_uuid = employee_uuid
           @excluded = excluded
           @fixed_compensations = fixed_compensations
           @hourly_compensations = hourly_compensations
           @paid_time_off = paid_time_off
           @reimbursements = reimbursements
+          @custom_withholdings = custom_withholdings
           @version = version
           @deductions = deductions
           @taxes = taxes
@@ -83,6 +89,7 @@ module GustoEmbedded
           return false unless @hourly_compensations == other.hourly_compensations
           return false unless @paid_time_off == other.paid_time_off
           return false unless @reimbursements == other.reimbursements
+          return false unless @custom_withholdings == other.custom_withholdings
           return false unless @version == other.version
           return false unless @deductions == other.deductions
           return false unless @taxes == other.taxes

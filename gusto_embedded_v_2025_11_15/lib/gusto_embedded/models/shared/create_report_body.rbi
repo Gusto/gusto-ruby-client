@@ -12,16 +12,16 @@ class GustoEmbedded::Models::Shared::CreateReportBody
   def columns=(str_)
   end
 
-  def groupings
-  end
-
-  def groupings=(str_)
-  end
-
   def file_type
   end
 
   def file_type=(str_)
+  end
+
+  def groupings
+  end
+
+  def groupings=(str_)
   end
 
   def custom_name
@@ -88,6 +88,12 @@ class GustoEmbedded::Models::Shared::CreateReportBody
   end
 
   def with_totals=(str_)
+  end
+
+  def date_filter_type
+  end
+
+  def date_filter_type=(str_)
   end
 
   def employee_uuids

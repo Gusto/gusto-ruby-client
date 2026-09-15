@@ -12,7 +12,11 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # An array of employee UUIDs. If passed, only those employees payroll items will be prepared.
+        # The employees to prepare, identified by UUID. If omitted, every employee currently on the payroll is prepared.
+        #
+        # **Off-cycle payrolls that support multiple employees (`Bonus`, `Correction`, `Adhoc`):** passing `employee_uuids` also adds eligible employees who aren't yet on the payroll - a listed employee not on the payroll is added, while one already on it is simply prepared. A request may include up to 100 UUIDs, of which at most 25 may be employees not already on the payroll; an ineligible or unknown UUID, or more than 25 new employees, is rejected with a 422.
+        #
+        # **All other payrolls:** `employee_uuids` selects which of the payroll's existing employees to prepare; a UUID for an employee not on the payroll is rejected with a 422.
         field :employee_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
 
         sig { params(employee_uuids: T.nilable(T::Array[::String])).void }

@@ -21,7 +21,7 @@ module GustoEmbedded
         # The uuid of the employee's work location.
         field :work_location_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_location_uuid') } }
         # The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*.
-        field :employment_status, Crystalline::Nilable.new(Models::Shared::EmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmploymentStatus, true) } }
+        field :employment_status, Crystalline::Nilable.new(Models::Shared::RehireEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employment_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::RehireEmploymentStatus, true) } }
         # Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type.
         field :two_percent_shareholder, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
         # The UUID of the employee.
@@ -29,7 +29,7 @@ module GustoEmbedded
         # Whether the employee's rehire has gone into effect.
         field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
 
-        sig { params(version: T.nilable(::String), effective_date: T.nilable(::String), file_new_hire_report: T.nilable(T::Boolean), work_location_uuid: T.nilable(::String), employment_status: T.nilable(Models::Shared::EmploymentStatus), two_percent_shareholder: T.nilable(T::Boolean), employee_uuid: T.nilable(::String), active: T.nilable(T::Boolean)).void }
+        sig { params(version: T.nilable(::String), effective_date: T.nilable(::String), file_new_hire_report: T.nilable(T::Boolean), work_location_uuid: T.nilable(::String), employment_status: T.nilable(Models::Shared::RehireEmploymentStatus), two_percent_shareholder: T.nilable(T::Boolean), employee_uuid: T.nilable(::String), active: T.nilable(T::Boolean)).void }
         def initialize(version: nil, effective_date: nil, file_new_hire_report: nil, work_location_uuid: nil, employment_status: nil, two_percent_shareholder: nil, employee_uuid: nil, active: nil)
           @version = version
           @effective_date = effective_date
