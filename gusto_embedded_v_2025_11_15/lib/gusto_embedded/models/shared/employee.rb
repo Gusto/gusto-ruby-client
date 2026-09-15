@@ -56,7 +56,7 @@ module GustoEmbedded
         # Configuration for an employee onboarding documents during onboarding
         field(
           :onboarding_documents_config,
-          Crystalline::Nilable.new(Models::Shared::EmployeeOnboardingDocumentsConfig),
+          Crystalline::Nilable.new(Models::Shared::OnboardingDocumentsConfig),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("onboarding_documents_config")}}
         )
 
@@ -232,14 +232,11 @@ module GustoEmbedded
         # The current employment status of the employee. Full-time employees work 30+ hours per week. Part-time employees are split into two groups: those that work 20-29 hours a week, and those that work under 20 hours a week. Variable employees have hours that vary each week. Seasonal employees are hired for 6 months of the year or less.
         field(
           :current_employment_status,
-          Crystalline::Nilable.new(Models::Shared::EmployeeCurrentEmploymentStatus),
+          Crystalline::Nilable.new(Models::Shared::CurrentEmploymentStatus),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("current_employment_status"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(
-                Models::Shared::EmployeeCurrentEmploymentStatus,
-                true
-              )
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::CurrentEmploymentStatus, true)
             }
           }
         )
@@ -271,7 +268,7 @@ module GustoEmbedded
             version: T.nilable(::String),
             terminated: T.nilable(T::Boolean),
             onboarded: T.nilable(T::Boolean),
-            onboarding_documents_config: T.nilable(Models::Shared::EmployeeOnboardingDocumentsConfig),
+            onboarding_documents_config: T.nilable(Models::Shared::OnboardingDocumentsConfig),
             jobs: T.nilable(T::Array[Models::Shared::Job]),
             eligible_paid_time_off: T.nilable(T::Array[Models::Shared::PaidTimeOff]),
             terminations: T.nilable(T::Array[Models::Shared::Termination]),
@@ -297,7 +294,7 @@ module GustoEmbedded
             phone: T.nilable(::String),
             preferred_first_name: T.nilable(::String),
             payment_method: T.nilable(Models::Shared::EmployeePaymentMethod1),
-            current_employment_status: T.nilable(Models::Shared::EmployeeCurrentEmploymentStatus),
+            current_employment_status: T.nilable(Models::Shared::CurrentEmploymentStatus),
             department_uuid: T.nilable(::String),
             member_portal_invitation_status: T.nilable(Models::Shared::EmployeeMemberPortalInvitationStatus),
             partner_portal_invitation_sent: T.nilable(T::Boolean)

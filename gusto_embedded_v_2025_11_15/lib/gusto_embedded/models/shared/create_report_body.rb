@@ -14,26 +14,26 @@ module GustoEmbedded
         # Columns to include in the report
         field(
           :columns,
-          Crystalline::Array.new(Models::Shared::Columns),
+          Crystalline::Array.new(Models::Shared::CreateReportBodyColumns),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("columns"), required: true}}
-        )
-        # How to group the report
-        field(
-          :groupings,
-          Crystalline::Array.new(Models::Shared::Groupings),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("groupings"), required: true}}
         )
         # The type of file to generate
         field(
           :file_type,
-          Models::Shared::FileType,
+          Models::Shared::CreateReportBodyFileType,
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("file_type"),
               required: true,
-              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::FileType, false)
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::CreateReportBodyFileType, false)
             }
           }
+        )
+        # Optional. How to group the report. If omitted, sensible defaults are derived from the `columns` requested.
+        field(
+          :groupings,
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::CreateReportBodyGroupings)),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("groupings")}}
         )
         # The title of the report
         field(
@@ -99,11 +99,11 @@ module GustoEmbedded
         # Employee employment type to filter by
         field(
           :employment_type,
-          Crystalline::Nilable.new(Models::Shared::EmploymentType),
+          Crystalline::Nilable.new(Models::Shared::CreateReportBodyEmploymentType),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("employment_type"),
-              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmploymentType, true)
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::CreateReportBodyEmploymentType, true)
             }
           }
         )
@@ -136,6 +136,17 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Boolean.new),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("with_totals")}}
         )
+        # Which payroll date `start_date` and `end_date` filter against.
+        field(
+          :date_filter_type,
+          Crystalline::Nilable.new(Models::Shared::CreateReportBodyDateFilterType),
+          {
+            'format_json': {
+              'letter_case': ::GustoEmbedded::Utils.field_name("date_filter_type"),
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::CreateReportBodyDateFilterType, true)
+            }
+          }
+        )
         # Employees to filter by
         field(
           :employee_uuids,
@@ -145,28 +156,29 @@ module GustoEmbedded
 
         sig {
           params(
-            columns: T::Array[Models::Shared::Columns],
-            groupings: T::Array[Models::Shared::Groupings],
-            file_type: Models::Shared::FileType,
+            columns: T::Array[Models::Shared::CreateReportBodyColumns],
+            file_type: Models::Shared::CreateReportBodyFileType,
+            groupings: T.nilable(T::Array[Models::Shared::CreateReportBodyGroupings]),
             custom_name: T.nilable(::String),
             start_date: T.nilable(::Date),
             end_date: T.nilable(::Date),
             dismissed_start_date: T.nilable(::Date),
             dismissed_end_date: T.nilable(::Date),
             payment_method: T.nilable(Models::Shared::CreateReportBodyPaymentMethod),
-            employment_type: T.nilable(Models::Shared::EmploymentType),
+            employment_type: T.nilable(Models::Shared::CreateReportBodyEmploymentType),
             employment_status: T.nilable(Models::Shared::CreateReportBodyEmploymentStatus),
             department_uuids: T.nilable(T::Array[::String]),
             work_address_uuids: T.nilable(T::Array[::String]),
             with_totals: T.nilable(T::Boolean),
+            date_filter_type: T.nilable(Models::Shared::CreateReportBodyDateFilterType),
             employee_uuids: T.nilable(T::Array[::String])
           )
             .void
         }
         def initialize(
           columns:,
-          groupings:,
           file_type:,
+          groupings: nil,
           custom_name: nil,
           start_date: nil,
           end_date: nil,
@@ -178,11 +190,12 @@ module GustoEmbedded
           department_uuids: nil,
           work_address_uuids: nil,
           with_totals: false,
+          date_filter_type: Models::Shared::CreateReportBodyDateFilterType::PERIOD_END_DATE,
           employee_uuids: nil
         )
           @columns = columns
-          @groupings = groupings
           @file_type = file_type
+          @groupings = groupings
           @custom_name = custom_name
           @start_date = start_date
           @end_date = end_date
@@ -194,6 +207,7 @@ module GustoEmbedded
           @department_uuids = department_uuids
           @work_address_uuids = work_address_uuids
           @with_totals = with_totals
+          @date_filter_type = date_filter_type
           @employee_uuids = employee_uuids
         end
 
@@ -201,8 +215,8 @@ module GustoEmbedded
         def ==(other)
           return false unless other.is_a?(self.class)
           return false unless @columns == other.columns
-          return false unless @groupings == other.groupings
           return false unless @file_type == other.file_type
+          return false unless @groupings == other.groupings
           return false unless @custom_name == other.custom_name
           return false unless @start_date == other.start_date
           return false unless @end_date == other.end_date
@@ -214,6 +228,7 @@ module GustoEmbedded
           return false unless @department_uuids == other.department_uuids
           return false unless @work_address_uuids == other.work_address_uuids
           return false unless @with_totals == other.with_totals
+          return false unless @date_filter_type == other.date_filter_type
           return false unless @employee_uuids == other.employee_uuids
           true
         end

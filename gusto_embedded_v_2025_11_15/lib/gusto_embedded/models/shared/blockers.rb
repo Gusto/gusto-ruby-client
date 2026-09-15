@@ -11,30 +11,55 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # A machine-readable blocker key (e.g. `missing_bank_account`).
+        # The employee field affected.
         field(
-          :type,
-          Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("type")}}
+          :field,
+          Crystalline::Nilable.new(Models::Shared::Field),
+          {
+            'format_json': {
+              'letter_case': ::GustoEmbedded::Utils.field_name("field"),
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Field, true)
+            }
+          }
+        )
+        # Category of the blocker. See the array-level description for resolution guidance.
+        field(
+          :category,
+          Crystalline::Nilable.new(Models::Shared::EmployeeOnboardingStatusCategory),
+          {
+            'format_json': {
+              'letter_case': ::GustoEmbedded::Utils.field_name("category"),
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeeOnboardingStatusCategory, true)
+            }
+          }
         )
         # Human-readable description of the blocker.
         field(
-          :description,
+          :message,
           Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("description")}}
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("message")}}
         )
 
-        sig { params(type: T.nilable(::String), description: T.nilable(::String)).void }
-        def initialize(type: nil, description: nil)
-          @type = type
-          @description = description
+        sig {
+          params(
+            field: T.nilable(Models::Shared::Field),
+            category: T.nilable(Models::Shared::EmployeeOnboardingStatusCategory),
+            message: T.nilable(::String)
+          )
+            .void
+        }
+        def initialize(field: nil, category: nil, message: nil)
+          @field = field
+          @category = category
+          @message = message
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a?(self.class)
-          return false unless @type == other.type
-          return false unless @description == other.description
+          return false unless @field == other.field
+          return false unless @category == other.category
+          return false unless @message == other.message
           true
         end
       end

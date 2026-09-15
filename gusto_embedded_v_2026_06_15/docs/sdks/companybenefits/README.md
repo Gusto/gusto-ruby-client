@@ -38,7 +38,7 @@ s = ::GustoEmbedded::Client.new(
 )
 res = s.company_benefits.get_all(x_gusto_api_version: Models::Operations::GetV1BenefitsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15)
 
-unless res.supported_benefits.nil?
+unless res.supported_benefit_list.nil?
   # handle response
 end
 

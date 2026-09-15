@@ -13,11 +13,11 @@ module GustoEmbedded
         include Crystalline::MetadataFields
 
         # The breakdown of the report. Use 'default' for no split.
-        field :aggregation, Models::Shared::Aggregation, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('aggregation'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Aggregation, false) } }
+        field :aggregation, Models::Shared::GeneralLedgerReportBodyAggregation, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('aggregation'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::GeneralLedgerReportBodyAggregation, false) } }
         # The kind of integration set up for the company. Required when `aggregation` is 'integration'. Must be null if `aggregation` is not 'integration'.
         field :integration_type, Crystalline::Nilable.new(Models::Shared::IntegrationType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('integration_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::IntegrationType, true) } }
 
-        sig { params(aggregation: Models::Shared::Aggregation, integration_type: T.nilable(Models::Shared::IntegrationType)).void }
+        sig { params(aggregation: Models::Shared::GeneralLedgerReportBodyAggregation, integration_type: T.nilable(Models::Shared::IntegrationType)).void }
         def initialize(aggregation:, integration_type: nil)
           @aggregation = aggregation
           @integration_type = integration_type
