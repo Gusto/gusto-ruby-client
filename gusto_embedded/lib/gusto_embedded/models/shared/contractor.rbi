@@ -48,6 +48,8 @@ class GustoEmbedded::Models::Shared::Contractor
   def has_ein=(str_); end
   def email(); end
   def email=(str_); end
+  def work_email(); end
+  def work_email=(str_); end
   def address(); end
   def address=(str_); end
   def file_new_hire_report(); end

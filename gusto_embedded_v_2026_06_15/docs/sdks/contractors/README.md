@@ -170,9 +170,9 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company. This identifies the company whose contractor payment details you want to retrieve.                                                                                                                  |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyidcontractorspaymentdetailsheaderxgustoapiversion.md)                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 | `contractor_uuid`                                                                                                                                                                                                            | *T.nilable(::String)*                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                           | Optional filter to get payment details for a specific contractor. When provided, the response will only include payment details for this contractor.                                                                         |
 | `contractor_payment_group_uuid`                                                                                                                                                                                              | *T.nilable(::String)*                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                           | Optional filter to get payment details for contractors in a specific payment group. When provided, the response will only include payment details for contractors in this group.                                             |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyIdContractorsPaymentDetailsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyidcontractorspaymentdetailsheaderxgustoapiversion.md)                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
@@ -196,7 +196,8 @@ Before calling this endpoint:
 2. The contractor must not already have an upcoming employment
 
 ## Related webhooks
-- `contractor.reactivated`: Fires when the contractor becomes active again (on or after start_date)
+- `contractor.reactivated`: Fires when the rehire is recorded
+- `contractor.reactivation_effective`: Fires when the rehire takes effect (on start_date)
 
 scope: `contractors:write`
 
@@ -236,9 +237,10 @@ end
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| Errors::APIError | 4XX, 5XX         | \*/\*            |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
 ## delete_v1_contractors_contractor_uuid_rehire
 
@@ -251,7 +253,7 @@ Before calling this endpoint:
 - The contractor must have a pending rehire (upcoming employment)
 
 ## Related webhooks
-- `contractor.deactivated`: Fires when the contractor returns to inactive state after cancellation
+- `contractor.reactivation_cancelled`: Fires when the pending rehire is cancelled
 
 scope: `contractors:write`
 
@@ -288,9 +290,10 @@ end
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| Errors::APIError | 4XX, 5XX         | \*/\*            |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
 ## post_v1_contractors_contractor_uuid_termination
 
@@ -303,7 +306,8 @@ Before calling this endpoint:
 2. The contractor must have a current employment
 
 ## Related webhooks
-- `contractor.deactivated`: Fires when the contractor becomes inactive (on or after end_date)
+- `contractor.deactivated`: Fires when the dismissal is recorded
+- `contractor.deactivation_effective`: Fires when the dismissal takes effect (the day after end_date)
 
 scope: `contractors:write`
 
@@ -343,9 +347,10 @@ end
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| Errors::APIError | 4XX, 5XX         | \*/\*            |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
 ## delete_v1_contractors_contractor_uuid_termination
 
@@ -358,7 +363,7 @@ Before calling this endpoint:
 - The contractor must have a pending dismissal (scheduled or within the grace period)
 
 ## Related webhooks
-- `contractor.reactivated`: Fires when the contractor becomes active again after cancellation
+- `contractor.deactivation_cancelled`: Fires when the pending dismissal is cancelled
 
 scope: `contractors:write`
 
@@ -395,9 +400,10 @@ end
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| Errors::APIError | 4XX, 5XX         | \*/\*            |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
 ## get
 

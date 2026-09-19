@@ -11,22 +11,22 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # A categorization of the payroll blocker, e.g. "geocode_error"
+        # The UUID of the existing payroll cancellation batch that already used this idempotency key.
         field(
-          :key,
+          :request_uuid,
           Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("key")}}
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("request_uuid")}}
         )
 
-        sig { params(key: T.nilable(::String)).void }
-        def initialize(key: nil)
-          @key = key
+        sig { params(request_uuid: T.nilable(::String)).void }
+        def initialize(request_uuid: nil)
+          @request_uuid = request_uuid
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a?(self.class)
-          return false unless @key == other.key
+          return false unless @request_uuid == other.request_uuid
           true
         end
       end
