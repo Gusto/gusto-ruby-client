@@ -8,14 +8,14 @@ end
 
 
 class GustoEmbedded::Models::Shared::Totals
-  def company_debit(); end
-  def company_debit=(str_); end
-  def net_pay_debit(); end
-  def net_pay_debit=(str_); end
-  def child_support_debit(); end
-  def child_support_debit=(str_); end
-  def reimbursement_debit(); end
-  def reimbursement_debit=(str_); end
-  def tax_debit(); end
-  def tax_debit=(str_); end
+  def amount(); end
+  def amount=(str_); end
+  def debit_amount(); end
+  def debit_amount=(str_); end
+  def wage_amount(); end
+  def wage_amount=(str_); end
+  def reimbursement_amount(); end
+  def reimbursement_amount=(str_); end
+  def check_amount(); end
+  def check_amount=(str_); end
 end

@@ -41,9 +41,9 @@ module GustoEmbedded
         # | null | Identity verification process has not been completed |
         field :identity_verification_status, Crystalline::Nilable.new(Models::Shared::IdentityVerificationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('identity_verification_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::IdentityVerificationStatus, true) } }
 
-        field :home_address, Crystalline::Nilable.new(Models::Shared::HomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
+        field :home_address, Crystalline::Nilable.new(Models::Shared::SignatoryHomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('home_address') } }
 
-        sig { params(uuid: ::String, email: T.nilable(::String), is_admin: T.nilable(T::Boolean), has_ssn: T.nilable(T::Boolean), version: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), title: T.nilable(::String), phone: T.nilable(::String), birthday: T.nilable(::String), identity_verification_status: T.nilable(Models::Shared::IdentityVerificationStatus), home_address: T.nilable(Models::Shared::HomeAddress)).void }
+        sig { params(uuid: ::String, email: T.nilable(::String), is_admin: T.nilable(T::Boolean), has_ssn: T.nilable(T::Boolean), version: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), title: T.nilable(::String), phone: T.nilable(::String), birthday: T.nilable(::String), identity_verification_status: T.nilable(Models::Shared::IdentityVerificationStatus), home_address: T.nilable(Models::Shared::SignatoryHomeAddress)).void }
         def initialize(uuid:, email: nil, is_admin: nil, has_ssn: nil, version: nil, first_name: nil, last_name: nil, title: nil, phone: nil, birthday: nil, identity_verification_status: nil, home_address: nil)
           @uuid = uuid
           @email = email

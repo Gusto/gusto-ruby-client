@@ -24,19 +24,19 @@ module GustoEmbedded
         #
         field(
           :type,
-          Models::Shared::TaxRequirementMetadataType,
+          Models::Shared::Type,
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("type"),
               required: true,
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::TaxRequirementMetadataType, false)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::Type, false)
             }
           }
         )
         # [for `select` or `radio`] An array of objects describing the possible values.
         field(
           :options,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::TaxRequirementMetadataOptions)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Options)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("options")}}
         )
         # [for `workers_compensation_rate`] The industry risk class code for the rate being requested
@@ -98,8 +98,8 @@ module GustoEmbedded
 
         sig {
           params(
-            type: Models::Shared::TaxRequirementMetadataType,
-            options: T.nilable(T::Array[Models::Shared::TaxRequirementMetadataOptions]),
+            type: Models::Shared::Type,
+            options: T.nilable(T::Array[Models::Shared::Options]),
             risk_class_code: T.nilable(::String),
             risk_class_description: T.nilable(::String),
             rate_type: T.nilable(Models::Shared::RateType),

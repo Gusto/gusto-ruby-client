@@ -61,7 +61,7 @@ module GustoEmbedded
         # The results for each batch item.
         field(
           :results,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Results)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PeopleBatchResultsResults)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("results")}}
         )
         # The timestamp when the batch processing completed.
@@ -84,7 +84,7 @@ module GustoEmbedded
         # Items excluded from processing due to validation errors.
         field(
           :exclusions,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Exclusions)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PeopleBatchResultsExclusions)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("exclusions")}}
         )
 
@@ -96,10 +96,10 @@ module GustoEmbedded
             submitted_at: T.nilable(::DateTime),
             processed_items: T.nilable(::Integer),
             excluded_items: T.nilable(::Integer),
-            results: T.nilable(T::Array[Models::Shared::Results]),
+            results: T.nilable(T::Array[Models::Shared::PeopleBatchResultsResults]),
             completed_at: T.nilable(::DateTime),
             submitted_items: T.nilable(::Integer),
-            exclusions: T.nilable(T::Array[Models::Shared::Exclusions])
+            exclusions: T.nilable(T::Array[Models::Shared::PeopleBatchResultsExclusions])
           )
             .void
         }

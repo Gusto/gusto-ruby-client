@@ -14,13 +14,13 @@ module GustoEmbedded
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field(
           :x_gusto_api_version,
-          Crystalline::Nilable.new(Models::Operations::XGustoAPIVersion),
+          Crystalline::Nilable.new(Models::Operations::GetV1TokenInfoHeaderXGustoAPIVersion),
           {'header': {'field_name': "X-Gusto-API-Version", 'style': "simple", 'explode': false}}
         )
 
-        sig { params(x_gusto_api_version: T.nilable(Models::Operations::XGustoAPIVersion)).void }
+        sig { params(x_gusto_api_version: T.nilable(Models::Operations::GetV1TokenInfoHeaderXGustoAPIVersion)).void }
         def initialize(
-          x_gusto_api_version: Models::Operations::XGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15
+          x_gusto_api_version: Models::Operations::GetV1TokenInfoHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15
         )
           @x_gusto_api_version = x_gusto_api_version
         end

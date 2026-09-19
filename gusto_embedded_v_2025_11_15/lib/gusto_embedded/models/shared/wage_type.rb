@@ -6,12 +6,12 @@
 module GustoEmbedded
   module Models
     module Shared
-      # WageType - The contractor's wage type, either "Fixed" or "Hourly".
+      # WageType - The wage type for the payment.
       class WageType
         include ::Crystalline::Enum
         enums do
-          FIXED = new("Fixed")
           HOURLY = new("Hourly")
+          FIXED = new("Fixed")
         end
 
         open!

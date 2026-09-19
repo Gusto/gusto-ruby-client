@@ -1,13 +1,13 @@
 # BatchAction
 
-The action to perform on the batch
+The action to perform on the batch. Only `cancel` is supported.
 
 ## Example Usage
 
 ```ruby
 require "gusto_embedded_client"
 
-value = BatchAction::CREATE
+value = BatchAction::CANCEL
 ```
 
 
@@ -15,4 +15,4 @@ value = BatchAction::CREATE
 
 | Name     | Value    |
 | -------- | -------- |
-| `CREATE` | create   |
+| `CANCEL` | cancel   |

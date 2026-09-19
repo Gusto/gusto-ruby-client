@@ -1,0 +1,13 @@
+# BulkReportItemResult
+
+A single report's outcome.
+
+
+## Fields
+
+| Field                                                                                                   | Type                                                                                                    | Required                                                                                                | Description                                                                                             |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `report_type`                                                                                           | [Models::Shared::BulkReportItemResultReportType](../../models/shared/bulkreportitemresultreporttype.md) | :heavy_check_mark:                                                                                      | Which report this entry refers to.                                                                      |
+| `file_type`                                                                                             | *::String*                                                                                              | :heavy_check_mark:                                                                                      | The report's output file type.                                                                          |
+| `status`                                                                                                | [Models::Shared::BulkReportItemResultStatus](../../models/shared/bulkreportitemresultstatus.md)         | :heavy_check_mark:                                                                                      | The terminal state for this individual report.                                                          |
+| `error`                                                                                                 | *T.nilable(::String)*                                                                                   | :heavy_check_mark:                                                                                      | A user-facing error message when status is `failed`. Null on success.                                   |
