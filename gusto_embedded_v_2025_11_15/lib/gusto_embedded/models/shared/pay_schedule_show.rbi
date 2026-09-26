@@ -77,4 +77,10 @@ class GustoEmbedded::Models::Shared::PayScheduleShow
 
   def auto_payroll_enablement_blockers=(str_)
   end
+
+  def workweek_start_day
+  end
+
+  def workweek_start_day=(str_)
+  end
 end

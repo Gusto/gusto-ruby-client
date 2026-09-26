@@ -8,11 +8,13 @@ s = ::GustoEmbedded::Client.new(
     company_access_auth: "<YOUR_BEARER_TOKEN_HERE>"
   )
 )
-res = s
-  .introspection
-  .get_info(x_gusto_api_version: Models::Operations::XGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
-unless res.token_info.nil?
+req = Models::Operations::GetAchTransactionsRequest.new(
+  company_uuid: "<id>"
+)
+res = s.ach_transactions.get_all(request: req)
+
+unless res.ach_transaction_list.nil?
   # handle response
 end
 

@@ -23,4 +23,10 @@ class GustoEmbedded::Models::Shared::PayrollUpdateFixedCompensations
 
   def job_uuid=(str_)
   end
+
+  def breakdowns
+  end
+
+  def breakdowns=(str_)
+  end
 end

@@ -26,12 +26,12 @@ module GustoEmbedded
         # The action being performed on the batch.
         field(
           :batch_action,
-          Models::Shared::BatchAction,
+          Models::Shared::PayrollDigestBatchAction,
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("batch_action"),
               required: true,
-              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::BatchAction, false)
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollDigestBatchAction, false)
             }
           }
         )
@@ -52,7 +52,7 @@ module GustoEmbedded
           params(
             uuid: ::String,
             idempotency_key: ::String,
-            batch_action: Models::Shared::BatchAction,
+            batch_action: Models::Shared::PayrollDigestBatchAction,
             status: Models::Shared::PayrollDigestStatus
           )
             .void

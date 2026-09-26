@@ -19,24 +19,21 @@ module GustoEmbedded
         # The payment method.
         field :payment_method, Crystalline::Nilable.new(Models::Shared::ContractorPaymentsPreviewBodyPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ContractorPaymentsPreviewBodyPaymentMethod, true) } }
         # Fixed wage amount for the payment.
-        field :wage, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
+        field :wage, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
         # Number of hours worked for the payment.
-        field :hours, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
-        # Hourly rate for the payment.
-        field :hourly_rate, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_rate') } }
+        field :hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
         # Bonus amount for the payment.
-        field :bonus, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
+        field :bonus, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('bonus') } }
         # Reimbursement amount for the payment.
-        field :reimbursement, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
+        field :reimbursement, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('reimbursement') } }
 
-        sig { params(contractor_uuid: T.nilable(::String), date: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentsPreviewBodyPaymentMethod), wage: T.nilable(::Integer), hours: T.nilable(::Integer), hourly_rate: T.nilable(::Integer), bonus: T.nilable(::Integer), reimbursement: T.nilable(::Integer)).void }
-        def initialize(contractor_uuid: nil, date: nil, payment_method: nil, wage: nil, hours: nil, hourly_rate: nil, bonus: nil, reimbursement: nil)
+        sig { params(contractor_uuid: T.nilable(::String), date: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentsPreviewBodyPaymentMethod), wage: T.nilable(::String), hours: T.nilable(::String), bonus: T.nilable(::String), reimbursement: T.nilable(::String)).void }
+        def initialize(contractor_uuid: nil, date: nil, payment_method: nil, wage: nil, hours: nil, bonus: nil, reimbursement: nil)
           @contractor_uuid = contractor_uuid
           @date = date
           @payment_method = payment_method
           @wage = wage
           @hours = hours
-          @hourly_rate = hourly_rate
           @bonus = bonus
           @reimbursement = reimbursement
         end
@@ -49,7 +46,6 @@ module GustoEmbedded
           return false unless @payment_method == other.payment_method
           return false unless @wage == other.wage
           return false unless @hours == other.hours
-          return false unless @hourly_rate == other.hourly_rate
           return false unless @bonus == other.bonus
           return false unless @reimbursement == other.reimbursement
           true

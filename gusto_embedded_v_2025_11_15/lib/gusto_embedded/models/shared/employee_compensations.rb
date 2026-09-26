@@ -23,7 +23,7 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Boolean.new),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("excluded")}}
         )
-        # An array of fixed compensations for the employee. Fixed compensations include tips, bonuses, and one time reimbursements. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned.
+        # An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned.
         field(
           :fixed_compensations,
           Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowFixedCompensations)),
@@ -46,6 +46,15 @@ module GustoEmbedded
           :reimbursements,
           Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowReimbursements)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("reimbursements")}}
+        )
+        # The one-time custom withholding overrides applied to this payroll for this employee.
+        # `federal` is null when no federal one-time override is set; `state` is an empty
+        # array when no state one-time overrides are set.
+        #
+        field(
+          :custom_withholdings,
+          Crystalline::Nilable.new(Models::Shared::PayrollShowCustomWithholdings),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("custom_withholdings")}}
         )
         # The current version of this employee compensation. This field is only available for prepared payrolls. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field.
         field(
@@ -70,6 +79,15 @@ module GustoEmbedded
           :benefits,
           Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowBenefits)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("benefits")}}
+        )
+        # Adjustments applied when calculating the employee's regular rate of pay for
+        # overtime purposes (e.g. a discretionary bonus allocated across workweeks),
+        # on calculated or processed payrolls.
+        #
+        field(
+          :pay_adjustments,
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayAdjustments)),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("pay_adjustments")}}
         )
 
         field(
@@ -100,7 +118,7 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("last_name")}}
         )
-        # The employee's gross pay, equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income. This value is only available for processed payrolls.
+        # The employee's gross pay, equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income.
         field(
           :gross_pay,
           Crystalline::Nilable.new(::Float),
@@ -144,10 +162,12 @@ module GustoEmbedded
             hourly_compensations: T.nilable(T::Array[Models::Shared::PayrollShowHourlyCompensations]),
             paid_time_off: T.nilable(T::Array[Models::Shared::PayrollShowPaidTimeOff]),
             reimbursements: T.nilable(T::Array[Models::Shared::PayrollShowReimbursements]),
+            custom_withholdings: T.nilable(Models::Shared::PayrollShowCustomWithholdings),
             version: T.nilable(::Object),
             deductions: T.nilable(T::Array[Models::Shared::PayrollShowDeductions]),
             taxes: T.nilable(T::Array[Models::Shared::PayrollShowTaxes]),
             benefits: T.nilable(T::Array[Models::Shared::PayrollShowBenefits]),
+            pay_adjustments: T.nilable(T::Array[Models::Shared::PayAdjustments]),
             additional_properties: T.nilable(T::Hash[Symbol, ::Object]),
             first_name: T.nilable(::String),
             preferred_first_name: T.nilable(::String),
@@ -167,10 +187,12 @@ module GustoEmbedded
           hourly_compensations: nil,
           paid_time_off: nil,
           reimbursements: nil,
+          custom_withholdings: nil,
           version: nil,
           deductions: nil,
           taxes: nil,
           benefits: nil,
+          pay_adjustments: nil,
           additional_properties: nil,
           first_name: nil,
           preferred_first_name: nil,
@@ -187,10 +209,12 @@ module GustoEmbedded
           @hourly_compensations = hourly_compensations
           @paid_time_off = paid_time_off
           @reimbursements = reimbursements
+          @custom_withholdings = custom_withholdings
           @version = version
           @deductions = deductions
           @taxes = taxes
           @benefits = benefits
+          @pay_adjustments = pay_adjustments
           @additional_properties = additional_properties
           @first_name = first_name
           @preferred_first_name = preferred_first_name
@@ -211,10 +235,12 @@ module GustoEmbedded
           return false unless @hourly_compensations == other.hourly_compensations
           return false unless @paid_time_off == other.paid_time_off
           return false unless @reimbursements == other.reimbursements
+          return false unless @custom_withholdings == other.custom_withholdings
           return false unless @version == other.version
           return false unless @deductions == other.deductions
           return false unless @taxes == other.taxes
           return false unless @benefits == other.benefits
+          return false unless @pay_adjustments == other.pay_adjustments
           return false unless @additional_properties == other.additional_properties
           return false unless @first_name == other.first_name
           return false unless @preferred_first_name == other.preferred_first_name

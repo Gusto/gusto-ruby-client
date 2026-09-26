@@ -1,18 +1,18 @@
 # EntityType
 
-The type of entity to create
+The type of entity to act on.
 
 ## Example Usage
 
 ```ruby
 require "gusto_embedded_client_v_2025_11_15"
 
-value = EntityType::EMPLOYEE
+value = EntityType::PAYROLL
 ```
 
 
 ## Values
 
-| Name       | Value      |
-| ---------- | ---------- |
-| `EMPLOYEE` | employee   |
+| Name      | Value     |
+| --------- | --------- |
+| `PAYROLL` | payroll   |

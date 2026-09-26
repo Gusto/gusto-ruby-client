@@ -33,11 +33,11 @@ module GustoEmbedded
         # The subtotals for the contractor payment.
         field :totals, Crystalline::Nilable.new(Models::Shared::ContractorPaymentReceiptTotals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
         # An array of contractor payments for this contractor payment.
-        field :contractor_payments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPayments)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
+        field :contractor_payments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPaymentReceiptContractorPayments)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
         # The licensed payroll processor
-        field :licensee, Crystalline::Nilable.new(Models::Shared::ContractorPaymentReceiptLicensee), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('licensee') } }
+        field :licensee, Crystalline::Nilable.new(Models::Shared::Licensee), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('licensee') } }
 
-        sig { params(contractor_payment_uuid: T.nilable(::String), company_uuid: T.nilable(::String), name_of_sender: T.nilable(::String), name_of_recipient: T.nilable(::String), debit_date: T.nilable(::Date), license: T.nilable(::String), license_uri: T.nilable(::String), right_to_refund: T.nilable(::String), liability_of_licensee: T.nilable(::String), totals: T.nilable(Models::Shared::ContractorPaymentReceiptTotals), contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPayments]), licensee: T.nilable(Models::Shared::ContractorPaymentReceiptLicensee)).void }
+        sig { params(contractor_payment_uuid: T.nilable(::String), company_uuid: T.nilable(::String), name_of_sender: T.nilable(::String), name_of_recipient: T.nilable(::String), debit_date: T.nilable(::Date), license: T.nilable(::String), license_uri: T.nilable(::String), right_to_refund: T.nilable(::String), liability_of_licensee: T.nilable(::String), totals: T.nilable(Models::Shared::ContractorPaymentReceiptTotals), contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPaymentReceiptContractorPayments]), licensee: T.nilable(Models::Shared::Licensee)).void }
         def initialize(contractor_payment_uuid: nil, company_uuid: nil, name_of_sender: nil, name_of_recipient: nil, debit_date: nil, license: nil, license_uri: nil, right_to_refund: nil, liability_of_licensee: nil, totals: nil, contractor_payments: nil, licensee: nil)
           @contractor_payment_uuid = contractor_payment_uuid
           @company_uuid = company_uuid

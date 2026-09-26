@@ -23,7 +23,7 @@ module GustoEmbedded
         # Sort employees by a given field. Cannot be used with search_term. Append `:asc` or `:desc` to specify direction (e.g., `name:desc`). Defaults to ascending.
         field :sort_by, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'sort_by', 'style': 'form', 'explode': true } }
         # Include the requested attribute(s) in each employee response. Multiple options are comma separated.
-        field :include, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Include)), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
+        field :include, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::GetV1CompaniesCompanyIdEmployeesQueryParamInclude)), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
         # Filters employees by those who have completed onboarding
         field :onboarded, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'query_param': { 'field_name': 'onboarded', 'style': 'form', 'explode': true } }
         # Filters employees who are ready to work (onboarded AND active today)
@@ -41,7 +41,7 @@ module GustoEmbedded
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(company_id: ::String, location_uuid: T.nilable(::String), payroll_uuid: T.nilable(::String), search_term: T.nilable(::String), sort_by: T.nilable(::String), include: T.nilable(T::Array[Models::Operations::Include]), onboarded: T.nilable(T::Boolean), onboarded_active: T.nilable(T::Boolean), terminated: T.nilable(T::Boolean), terminated_today: T.nilable(T::Boolean), uuids: T.nilable(T::Array[::String]), page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion)).void }
+        sig { params(company_id: ::String, location_uuid: T.nilable(::String), payroll_uuid: T.nilable(::String), search_term: T.nilable(::String), sort_by: T.nilable(::String), include: T.nilable(T::Array[Models::Operations::GetV1CompaniesCompanyIdEmployeesQueryParamInclude]), onboarded: T.nilable(T::Boolean), onboarded_active: T.nilable(T::Boolean), terminated: T.nilable(T::Boolean), terminated_today: T.nilable(T::Boolean), uuids: T.nilable(T::Array[::String]), page: T.nilable(::Integer), per: T.nilable(::Integer), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion)).void }
         def initialize(company_id:, location_uuid: nil, payroll_uuid: nil, search_term: nil, sort_by: nil, include: nil, onboarded: nil, onboarded_active: nil, terminated: nil, terminated_today: nil, uuids: nil, page: nil, per: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdEmployeesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @company_id = company_id
           @location_uuid = location_uuid

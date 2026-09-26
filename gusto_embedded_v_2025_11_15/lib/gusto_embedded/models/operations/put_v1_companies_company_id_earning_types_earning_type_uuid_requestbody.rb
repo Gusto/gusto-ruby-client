@@ -17,16 +17,39 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("name")}}
         )
+        # The earning type category. Set at creation and immutable afterward — submitting a value that differs from the current one returns a 422. Submitting the current value (e.g. when echoing back the full resource) is allowed.
+        field(
+          :category,
+          Crystalline::Nilable.new(::String),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("category")}}
+        )
+        # Whether earnings of this type are included in overtime pay calculations. Set at creation and immutable afterward — submitting a value that differs from the current one returns a 422. Submitting the current value (e.g. when echoing back the full resource) is allowed.
+        field(
+          :included_in_overtime_pay,
+          Crystalline::Nilable.new(Crystalline::Boolean.new),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("included_in_overtime_pay")}}
+        )
 
-        sig { params(name: T.nilable(::String)).void }
-        def initialize(name: nil)
+        sig {
+          params(
+            name: T.nilable(::String),
+            category: T.nilable(::String),
+            included_in_overtime_pay: T.nilable(T::Boolean)
+          )
+            .void
+        }
+        def initialize(name: nil, category: nil, included_in_overtime_pay: nil)
           @name = name
+          @category = category
+          @included_in_overtime_pay = included_in_overtime_pay
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a?(self.class)
           return false unless @name == other.name
+          return false unless @category == other.category
+          return false unless @included_in_overtime_pay == other.included_in_overtime_pay
           true
         end
       end

@@ -14,6 +14,8 @@ class GustoEmbedded::Models::Shared::PayScheduleCreateRequest
   def anchor_pay_date=(str_); end
   def anchor_end_of_pay_period(); end
   def anchor_end_of_pay_period=(str_); end
+  def workweek_start_day(); end
+  def workweek_start_day=(str_); end
   def day_1(); end
   def day_1=(str_); end
   def day_2(); end
