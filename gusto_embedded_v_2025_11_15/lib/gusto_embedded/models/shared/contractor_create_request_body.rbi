@@ -30,6 +30,12 @@ class GustoEmbedded::Models::Shared::ContractorCreateRequestBody
   def email=(str_)
   end
 
+  def work_email
+  end
+
+  def work_email=(str_)
+  end
+
   def first_name
   end
 

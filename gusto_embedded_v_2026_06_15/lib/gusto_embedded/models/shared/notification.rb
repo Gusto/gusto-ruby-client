@@ -21,7 +21,7 @@ module GustoEmbedded
         # The message of the notification. This provides additional context for the user and recommends a specific action to resolve the notification.
         field :message, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message'), required: true } }
         # Represents the notification's status as managed by our system. It is updated based on observable system events and internal business logic, and does not reflect resolution steps taken outside our system. This field is read-only and cannot be modified via the API.
-        field :status, Models::Shared::Status, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Status, false) } }
+        field :status, Models::Shared::NotificationStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::NotificationStatus, false) } }
         # The notification's category.
         field :category, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), required: true } }
         # Indicates whether a notification requires action or not. If false, the notification provides critical information only.
@@ -37,7 +37,7 @@ module GustoEmbedded
         # An object containing template variables used to render the notification. The structure of this object depends on the notification category. Each category defines a fixed set of variable names (keys), which are always present. The values of these variables can vary depending on the specific notification instance.
         field :template_variables, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('template_variables') } }
 
-        sig { params(uuid: ::String, company_uuid: ::String, title: ::String, message: ::String, status: Models::Shared::Status, category: ::String, actionable: T::Boolean, can_block_payroll: T::Boolean, published_at: ::String, resources: T::Array[Models::Shared::Resources], due_at: T.nilable(::String), template_variables: T.nilable(T::Hash[Symbol, ::String])).void }
+        sig { params(uuid: ::String, company_uuid: ::String, title: ::String, message: ::String, status: Models::Shared::NotificationStatus, category: ::String, actionable: T::Boolean, can_block_payroll: T::Boolean, published_at: ::String, resources: T::Array[Models::Shared::Resources], due_at: T.nilable(::String), template_variables: T.nilable(T::Hash[Symbol, ::String])).void }
         def initialize(uuid:, company_uuid:, title:, message:, status:, category:, actionable:, can_block_payroll:, published_at:, resources:, due_at: nil, template_variables: nil)
           @uuid = uuid
           @company_uuid = company_uuid

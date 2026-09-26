@@ -41,6 +41,22 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Boolean.new),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("editable")}}
         )
+        # Whether this requirement, when blank, would block payroll processing for the company in this state.
+        # Stable across changes to the field's value: a `payroll_blocking: true` field reports `true` whether
+        # currently empty or populated.
+        #
+        field(
+          :payroll_blocking,
+          Crystalline::Nilable.new(Crystalline::Boolean.new),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("payroll_blocking")}}
+        )
+        # Whether the current `value` is a default rather than an explicitly set one.
+        #
+        field(
+          :default_value_applied,
+          Crystalline::Nilable.new(Crystalline::Boolean.new),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("default_value_applied")}}
+        )
         # A more detailed customer facing description of the requirement
         field(
           :description,
@@ -61,6 +77,8 @@ module GustoEmbedded
             label: T.nilable(::String),
             metadata: T.nilable(Models::Shared::TaxRequirementMetadata),
             editable: T.nilable(T::Boolean),
+            payroll_blocking: T.nilable(T::Boolean),
+            default_value_applied: T.nilable(T::Boolean),
             description: T.nilable(::String),
             value: T.nilable(T.any(T::Boolean, ::String, ::Float))
           )
@@ -72,6 +90,8 @@ module GustoEmbedded
           label: nil,
           metadata: nil,
           editable: nil,
+          payroll_blocking: nil,
+          default_value_applied: nil,
           description: nil,
           value: nil
         )
@@ -80,6 +100,8 @@ module GustoEmbedded
           @label = label
           @metadata = metadata
           @editable = editable
+          @payroll_blocking = payroll_blocking
+          @default_value_applied = default_value_applied
           @description = description
           @value = value
         end
@@ -92,6 +114,8 @@ module GustoEmbedded
           return false unless @label == other.label
           return false unless @metadata == other.metadata
           return false unless @editable == other.editable
+          return false unless @payroll_blocking == other.payroll_blocking
+          return false unless @default_value_applied == other.default_value_applied
           return false unless @description == other.description
           return false unless @value == other.value
           true

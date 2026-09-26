@@ -19,9 +19,9 @@ module GustoEmbedded
         # Human readable description of the payroll blocker
         field :message, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message') } }
 
-        field :metadata, Crystalline::Nilable.new(Models::Errors::Metadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
+        field :metadata, Crystalline::Nilable.new(Models::Errors::PayrollBlockersErrorMetadata), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
 
-        sig { params(error_key: T.nilable(::String), category: T.nilable(::String), message: T.nilable(::String), metadata: T.nilable(Models::Errors::Metadata)).void }
+        sig { params(error_key: T.nilable(::String), category: T.nilable(::String), message: T.nilable(::String), metadata: T.nilable(Models::Errors::PayrollBlockersErrorMetadata)).void }
         def initialize(error_key: nil, category: nil, message: nil, metadata: nil)
           @error_key = error_key
           @category = category

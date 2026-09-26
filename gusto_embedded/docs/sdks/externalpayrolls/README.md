@@ -6,13 +6,13 @@
 
 * [get](#get) - Get external payrolls for a company
 * [create](#create) - Create an external payroll for a company
+* [list_tax_liabilities](#list_tax_liabilities) - Get tax liabilities
+* [update_tax_liabilities](#update_tax_liabilities) - Update tax liabilities
+* [finalize_tax_liabilities](#finalize_tax_liabilities) - Finalize tax liabilities options and convert into processed payrolls
 * [retrieve](#retrieve) - Get an external payroll
 * [update](#update) - Update an external payroll
 * [delete](#delete) - Delete an external payroll
 * [calculate_taxes](#calculate_taxes) - Get tax suggestions for an external payroll
-* [list_tax_liabilities](#list_tax_liabilities) - Get tax liabilities
-* [update_tax_liabilities](#update_tax_liabilities) - Update tax liabilities
-* [finalize_tax_liabilities](#finalize_tax_liabilities) - Finalize tax liabilities options and convert into processed payrolls
 
 ## get
 
@@ -101,6 +101,145 @@ end
 ### Response
 
 **[T.nilable(Models::Operations::PostV1ExternalPayrollResponse)](../../models/operations/postv1externalpayrollresponse.md)**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## list_tax_liabilities
+
+Get tax liabilities from aggregate external payrolls for a company.
+
+scope: `external_payrolls:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-tax-liabilities" method="get" path="/v1/companies/{company_uuid}/external_payrolls/tax_liabilities" -->
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.external_payrolls.list_tax_liabilities(company_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1TaxLiabilitiesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+
+unless res.tax_liabilities_selections.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1TaxLiabilitiesHeaderXGustoAPIVersion)](../../models/operations/getv1taxliabilitiesheaderxgustoapiversion.md)                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1TaxLiabilitiesResponse)](../../models/operations/getv1taxliabilitiesresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
+
+## update_tax_liabilities
+
+Update tax liabilities for a company.
+
+scope: `external_payrolls:write`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="put-v1-tax-liabilities" method="put" path="/v1/companies/{company_uuid}/external_payrolls/tax_liabilities" -->
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.external_payrolls.update_tax_liabilities(company_uuid: '<id>', tax_liability_selections_request: Models::Shared::TaxLiabilitySelectionsRequest.new(
+  liability_selections: []
+), x_gusto_api_version: Models::Operations::PutV1TaxLiabilitiesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+
+unless res.tax_liabilities_selections.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `tax_liability_selections_request`                                                                                                                                                                                           | [Models::Shared::TaxLiabilitySelectionsRequest](../../models/shared/taxliabilityselectionsrequest.md)                                                                                                                        | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1TaxLiabilitiesHeaderXGustoAPIVersion)](../../models/operations/putv1taxliabilitiesheaderxgustoapiversion.md)                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::PutV1TaxLiabilitiesResponse)](../../models/operations/putv1taxliabilitiesresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
+
+## finalize_tax_liabilities
+
+Finalizes tax liabilities for a company. All external payrolls edit action will be disabled.
+
+### Asynchronous processing
+This endpoint triggers an asynchronous operation. The external payrolls will be processed in the background after finalization.
+
+scope: `external_payrolls:write`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="put-v1-tax-liabilities-finish" method="put" path="/v1/companies/{company_uuid}/external_payrolls/tax_liabilities/finish" -->
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.external_payrolls.finalize_tax_liabilities(company_uuid: '<id>', x_gusto_api_version: Models::Operations::PutV1TaxLiabilitiesFinishHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+
+if res.status_code == 200
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1TaxLiabilitiesFinishHeaderXGustoAPIVersion)](../../models/operations/putv1taxliabilitiesfinishheaderxgustoapiversion.md)                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::PutV1TaxLiabilitiesFinishResponse)](../../models/operations/putv1taxliabilitiesfinishresponse.md)**
 
 ### Errors
 
@@ -312,145 +451,6 @@ end
 ### Response
 
 **[T.nilable(Models::Operations::GetV1ExternalPayrollCalculateTaxesResponse)](../../models/operations/getv1externalpayrollcalculatetaxesresponse.md)**
-
-### Errors
-
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
-| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
-| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
-
-## list_tax_liabilities
-
-Get tax liabilities from aggregate external payrolls for a company.
-
-scope: `external_payrolls:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-v1-tax-liabilities" method="get" path="/v1/companies/{company_uuid}/external_payrolls/tax_liabilities" -->
-```ruby
-require 'gusto_embedded_client'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.external_payrolls.list_tax_liabilities(company_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1TaxLiabilitiesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
-
-unless res.tax_liabilities_selections.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1TaxLiabilitiesHeaderXGustoAPIVersion)](../../models/operations/getv1taxliabilitiesheaderxgustoapiversion.md)                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1TaxLiabilitiesResponse)](../../models/operations/getv1taxliabilitiesresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
-
-## update_tax_liabilities
-
-Update tax liabilities for a company.
-
-scope: `external_payrolls:write`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="put-v1-tax-liabilities" method="put" path="/v1/companies/{company_uuid}/external_payrolls/tax_liabilities" -->
-```ruby
-require 'gusto_embedded_client'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.external_payrolls.update_tax_liabilities(company_uuid: '<id>', tax_liability_selections_request: Models::Shared::TaxLiabilitySelectionsRequest.new(
-  liability_selections: []
-), x_gusto_api_version: Models::Operations::PutV1TaxLiabilitiesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
-
-unless res.tax_liabilities_selections.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `tax_liability_selections_request`                                                                                                                                                                                           | [Models::Shared::TaxLiabilitySelectionsRequest](../../models/shared/taxliabilityselectionsrequest.md)                                                                                                                        | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1TaxLiabilitiesHeaderXGustoAPIVersion)](../../models/operations/putv1taxliabilitiesheaderxgustoapiversion.md)                                                                             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::PutV1TaxLiabilitiesResponse)](../../models/operations/putv1taxliabilitiesresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
-
-## finalize_tax_liabilities
-
-Finalizes tax liabilities for a company. All external payrolls edit action will be disabled.
-
-### Asynchronous processing
-This endpoint triggers an asynchronous operation. The external payrolls will be processed in the background after finalization.
-
-scope: `external_payrolls:write`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="put-v1-tax-liabilities-finish" method="put" path="/v1/companies/{company_uuid}/external_payrolls/tax_liabilities/finish" -->
-```ruby
-require 'gusto_embedded_client'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.external_payrolls.finalize_tax_liabilities(company_uuid: '<id>', x_gusto_api_version: Models::Operations::PutV1TaxLiabilitiesFinishHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
-
-if res.status_code == 200
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1TaxLiabilitiesFinishHeaderXGustoAPIVersion)](../../models/operations/putv1taxliabilitiesfinishheaderxgustoapiversion.md)                                                                 | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::PutV1TaxLiabilitiesFinishResponse)](../../models/operations/putv1taxliabilitiesfinishresponse.md)**
 
 ### Errors
 

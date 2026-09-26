@@ -18,12 +18,20 @@ module GustoEmbedded
         field :hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hours') } }
         # The UUIDs of the job for the compensation.
         field :job_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('job_uuid') } }
+        # Per-workweek hours to record for this compensation. Submitted
+        # breakdowns must tile the pay period's workweeks exactly (no gaps
+        # or overlaps). Either every hourly compensation for a job must
+        # include breakdowns, or none of them may. Hours must sum to the
+        # compensation's total `hours`.
+        #
+        field :breakdowns, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollUpdateEmployeeCompensationsBreakdowns)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('breakdowns') } }
 
-        sig { params(name: T.nilable(::String), hours: T.nilable(::String), job_uuid: T.nilable(::String)).void }
-        def initialize(name: nil, hours: nil, job_uuid: nil)
+        sig { params(name: T.nilable(::String), hours: T.nilable(::String), job_uuid: T.nilable(::String), breakdowns: T.nilable(T::Array[Models::Shared::PayrollUpdateEmployeeCompensationsBreakdowns])).void }
+        def initialize(name: nil, hours: nil, job_uuid: nil, breakdowns: nil)
           @name = name
           @hours = hours
           @job_uuid = job_uuid
+          @breakdowns = breakdowns
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -32,6 +40,7 @@ module GustoEmbedded
           return false unless @name == other.name
           return false unless @hours == other.hours
           return false unless @job_uuid == other.job_uuid
+          return false unless @breakdowns == other.breakdowns
           true
         end
       end

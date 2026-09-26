@@ -1,13 +1,13 @@
 # WageType
 
-The contractor's wage type, either "Fixed" or "Hourly".
+The wage type for the payment.
 
 ## Example Usage
 
 ```ruby
 require "gusto_embedded_client_v_2025_11_15"
 
-value = WageType::FIXED
+value = WageType::HOURLY
 
 # Open enum: use .deserialize() to create instances from custom string values
 custom = WageType.deserialize("custom_value")
@@ -18,5 +18,5 @@ custom = WageType.deserialize("custom_value")
 
 | Name     | Value    |
 | -------- | -------- |
-| `FIXED`  | Fixed    |
 | `HOURLY` | Hourly   |
+| `FIXED`  | Fixed    |
