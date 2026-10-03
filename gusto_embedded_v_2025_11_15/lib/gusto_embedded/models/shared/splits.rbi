@@ -30,16 +30,16 @@ class GustoEmbedded::Models::Shared::Splits
   def routing_number=(str_)
   end
 
-  def account_type
-  end
-
-  def account_type=(str_)
-  end
-
   def priority
   end
 
   def priority=(str_)
+  end
+
+  def account_type
+  end
+
+  def account_type=(str_)
   end
 
   def encrypted_account_number

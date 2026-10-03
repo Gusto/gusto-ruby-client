@@ -32,7 +32,7 @@ module GustoEmbedded
 
         field(
           :metadata,
-          Crystalline::Nilable.new(Models::Errors::Metadata),
+          Crystalline::Nilable.new(Models::Errors::PayrollBlockersErrorMetadata),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("metadata")}}
         )
 
@@ -41,7 +41,7 @@ module GustoEmbedded
             error_key: T.nilable(::String),
             category: T.nilable(::String),
             message: T.nilable(::String),
-            metadata: T.nilable(Models::Errors::Metadata)
+            metadata: T.nilable(Models::Errors::PayrollBlockersErrorMetadata)
           )
             .void
         }

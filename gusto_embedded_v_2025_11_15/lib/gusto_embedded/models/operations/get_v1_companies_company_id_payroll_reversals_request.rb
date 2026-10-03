@@ -28,7 +28,7 @@ module GustoEmbedded
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field(
           :x_gusto_api_version,
-          Crystalline::Nilable.new(Models::Shared::VersionHeader),
+          Crystalline::Nilable.new(Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion),
           {'header': {'field_name': "X-Gusto-API-Version", 'style': "simple", 'explode': false}}
         )
 
@@ -37,7 +37,9 @@ module GustoEmbedded
             company_id: ::String,
             page: T.nilable(::Integer),
             per: T.nilable(::Integer),
-            x_gusto_api_version: T.nilable(Models::Shared::VersionHeader)
+            x_gusto_api_version: T.nilable(
+              Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion
+            )
           )
             .void
         }
@@ -45,7 +47,7 @@ module GustoEmbedded
           company_id:,
           page: nil,
           per: nil,
-          x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15
+          x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPayrollReversalsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15
         )
           @company_id = company_id
           @page = page

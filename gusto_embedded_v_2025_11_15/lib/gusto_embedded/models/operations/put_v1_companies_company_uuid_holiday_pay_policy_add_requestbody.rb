@@ -20,17 +20,11 @@ module GustoEmbedded
         # An array of employee objects, each containing an employee_uuid.
         field(
           :employees,
-          Crystalline::Array.new(Models::Operations::PutV1CompaniesCompanyUuidHolidayPayPolicyAddEmployees),
+          Crystalline::Array.new(Models::Operations::Employees),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("employees"), required: true}}
         )
 
-        sig {
-          params(
-            version: ::String,
-            employees: T::Array[Models::Operations::PutV1CompaniesCompanyUuidHolidayPayPolicyAddEmployees]
-          )
-            .void
-        }
+        sig { params(version: ::String, employees: T::Array[Models::Operations::Employees]).void }
         def initialize(version:, employees:)
           @version = version
           @employees = employees

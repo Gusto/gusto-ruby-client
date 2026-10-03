@@ -7,12 +7,18 @@
 module GustoEmbedded
   module Models
     module Shared
-      # Status - Represents the notification's status as managed by our system. It is updated based on observable system events and internal business logic, and does not reflect resolution steps taken outside our system. This field is read-only and cannot be modified via the API.
+      # Status - The batch's processing state.
+      # - `pending`: accepted, not yet started
+      # - `processing`: reports are being generated
+      # - `completed`: all reports finished
+      # - `failed`: the batch failed before completing
+      #
       class Status < T::Enum
         enums do
-          OPEN = new('open')
-          RESOLVED = new('resolved')
-          EXPIRED = new('expired')
+          PENDING = new('pending')
+          PROCESSING = new('processing')
+          COMPLETED = new('completed')
+          FAILED = new('failed')
         end
       end
     end

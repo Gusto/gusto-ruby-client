@@ -16,7 +16,7 @@ module GustoEmbedded
   class Client
     extend T::Sig
 
-    attr_accessor :ach_transactions, :companies, :company_benefits, :company_attachments, :company_attachment, :bank_accounts, :company_forms, :industry_selection, :notifications, :payment_configs, :tax_requirements, :federal_tax_details, :jobs_and_compensations, :contractor_payment_method, :contractor_payment_methods, :contractor_forms, :contractors, :contractor_payment_groups, :contractor_payments, :departments, :contractor_documents, :earning_types, :employee_payment_methods, :employee_payment_method, :employee_benefits, :employees, :employee_tax_setup, :employee_forms, :employee_employments, :reports, :events, :external_payrolls, :flows, :garnishments, :payrolls, :generated_documents, :historical_employees, :holiday_pay_policies, :employee_addresses, :i9_verification, :information_requests, :invoices, :locations, :pay_schedules, :time_off_policies, :people_batches, :recovery_cases, :reimbursements, :salary_estimates, :signatories, :time_off_requests, :introspection, :webhooks, :wire_in_requests, :payroll_digests
+    attr_accessor :ach_transactions, :companies, :company_benefits, :reports, :company_attachments, :company_attachment, :bank_accounts, :company_forms, :industry_selection, :notifications, :payment_configs, :tax_requirements, :federal_tax_details, :jobs_and_compensations, :contractor_payment_method, :contractor_payment_methods, :contractor_forms, :contractors, :contractor_payment_groups, :contractor_payments, :departments, :contractor_documents, :earning_types, :employee_payment_methods, :employee_payment_method, :employee_benefits, :employees, :employee_tax_setup, :employee_forms, :employee_employments, :events, :external_payrolls, :flows, :garnishments, :payrolls, :generated_documents, :historical_employees, :holiday_pay_policies, :employee_addresses, :i9_verification, :information_requests, :invoices, :locations, :member_portal_invitations, :pay_schedules, :payroll_cancellations, :payroll_digests, :time_off_policies, :people_batches, :recovery_cases, :reimbursements, :reverse_wire_transactions, :salary_estimates, :signatories, :tax_payments, :time_off_requests, :introspection, :webhooks, :wire_in_requests
 
     # Instantiates the SDK, configuring it with the provided parameters.
     #
@@ -81,6 +81,7 @@ module GustoEmbedded
       @ach_transactions = AchTransactions.new(@sdk_configuration)
       @companies = Companies.new(@sdk_configuration)
       @company_benefits = CompanyBenefits.new(@sdk_configuration)
+      @reports = Reports.new(@sdk_configuration)
       @company_attachments = CompanyAttachments.new(@sdk_configuration)
       @company_attachment = CompanyAttachment.new(@sdk_configuration)
       @bank_accounts = BankAccounts.new(@sdk_configuration)
@@ -107,7 +108,6 @@ module GustoEmbedded
       @employee_tax_setup = EmployeeTaxSetup.new(@sdk_configuration)
       @employee_forms = EmployeeForms.new(@sdk_configuration)
       @employee_employments = EmployeeEmployments.new(@sdk_configuration)
-      @reports = Reports.new(@sdk_configuration)
       @events = Events.new(@sdk_configuration)
       @external_payrolls = ExternalPayrolls.new(@sdk_configuration)
       @flows = Flows.new(@sdk_configuration)
@@ -121,18 +121,22 @@ module GustoEmbedded
       @information_requests = InformationRequests.new(@sdk_configuration)
       @invoices = Invoices.new(@sdk_configuration)
       @locations = Locations.new(@sdk_configuration)
+      @member_portal_invitations = MemberPortalInvitations.new(@sdk_configuration)
       @pay_schedules = PaySchedules.new(@sdk_configuration)
+      @payroll_cancellations = PayrollCancellations.new(@sdk_configuration)
+      @payroll_digests = PayrollDigests.new(@sdk_configuration)
       @time_off_policies = TimeOffPolicies.new(@sdk_configuration)
       @people_batches = PeopleBatches.new(@sdk_configuration)
       @recovery_cases = RecoveryCases.new(@sdk_configuration)
       @reimbursements = Reimbursements.new(@sdk_configuration)
+      @reverse_wire_transactions = ReverseWireTransactions.new(@sdk_configuration)
       @salary_estimates = SalaryEstimates.new(@sdk_configuration)
       @signatories = Signatories.new(@sdk_configuration)
+      @tax_payments = TaxPayments.new(@sdk_configuration)
       @time_off_requests = TimeOffRequests.new(@sdk_configuration)
       @introspection = Introspection.new(@sdk_configuration)
       @webhooks = Webhooks.new(@sdk_configuration)
       @wire_in_requests = WireInRequests.new(@sdk_configuration)
-      @payroll_digests = PayrollDigests.new(@sdk_configuration)
     end
 
     sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }

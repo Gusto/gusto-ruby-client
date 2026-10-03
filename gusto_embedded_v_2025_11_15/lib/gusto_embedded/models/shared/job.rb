@@ -47,12 +47,6 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("rate")}}
         )
-        # The UUID of the current active compensation record for this job. Requires the `compensations:read` scope.
-        field(
-          :current_compensation_uuid,
-          Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("current_compensation_uuid")}}
-        )
         # Whether the employee owns at least 2% of the company.
         field(
           :two_percent_shareholder,
@@ -83,6 +77,12 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("payment_unit")}}
         )
+        # The UUID of the current active compensation record for this job. Null when the job has no current compensation. Requires the `compensations:read` scope.
+        field(
+          :current_compensation_uuid,
+          Crystalline::Nilable.new(::String),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("current_compensation_uuid")}}
+        )
         # Whether this job is eligible for workers' compensation coverage in the state of Washington (WA).
         field(
           :state_wc_covered,
@@ -110,12 +110,12 @@ module GustoEmbedded
             hire_date: T.nilable(::String),
             primary: T.nilable(T::Boolean),
             rate: T.nilable(::String),
-            current_compensation_uuid: T.nilable(::String),
             two_percent_shareholder: T.nilable(T::Boolean),
             compensations: T.nilable(T::Array[Models::Shared::Compensation]),
             location_uuid: T.nilable(::String),
             location: T.nilable(Models::Shared::Location),
             payment_unit: T.nilable(::String),
+            current_compensation_uuid: T.nilable(::String),
             state_wc_covered: T.nilable(T::Boolean),
             state_wc_class_code: T.nilable(::String),
             title: T.nilable(::String)
@@ -129,12 +129,12 @@ module GustoEmbedded
           hire_date: nil,
           primary: nil,
           rate: nil,
-          current_compensation_uuid: nil,
           two_percent_shareholder: nil,
           compensations: nil,
           location_uuid: nil,
           location: nil,
           payment_unit: nil,
+          current_compensation_uuid: nil,
           state_wc_covered: nil,
           state_wc_class_code: nil,
           title: nil
@@ -145,12 +145,12 @@ module GustoEmbedded
           @hire_date = hire_date
           @primary = primary
           @rate = rate
-          @current_compensation_uuid = current_compensation_uuid
           @two_percent_shareholder = two_percent_shareholder
           @compensations = compensations
           @location_uuid = location_uuid
           @location = location
           @payment_unit = payment_unit
+          @current_compensation_uuid = current_compensation_uuid
           @state_wc_covered = state_wc_covered
           @state_wc_class_code = state_wc_class_code
           @title = title
@@ -165,12 +165,12 @@ module GustoEmbedded
           return false unless @hire_date == other.hire_date
           return false unless @primary == other.primary
           return false unless @rate == other.rate
-          return false unless @current_compensation_uuid == other.current_compensation_uuid
           return false unless @two_percent_shareholder == other.two_percent_shareholder
           return false unless @compensations == other.compensations
           return false unless @location_uuid == other.location_uuid
           return false unless @location == other.location
           return false unless @payment_unit == other.payment_unit
+          return false unless @current_compensation_uuid == other.current_compensation_uuid
           return false unless @state_wc_covered == other.state_wc_covered
           return false unless @state_wc_class_code == other.state_wc_class_code
           return false unless @title == other.title

@@ -13,9 +13,7 @@ module GustoEmbedded
 
         field(
           :contractor_payments,
-          Crystalline::Array.new(
-            Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments
-          ),
+          Crystalline::Array.new(Models::Operations::ContractorPayments),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("contractor_payments"), required: true}}
         )
         # Date when payments should be processed
@@ -31,12 +29,7 @@ module GustoEmbedded
         )
 
         sig {
-          params(
-            contractor_payments: T::Array[
-              Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments
-            ],
-            check_date: T.nilable(::Date)
-          )
+          params(contractor_payments: T::Array[Models::Operations::ContractorPayments], check_date: T.nilable(::Date))
             .void
         }
         def initialize(contractor_payments:, check_date: nil)

@@ -12,45 +12,15 @@ class GustoEmbedded::Models::Operations::Batch
   def entity_type=(str_)
   end
 
-  def person
+  def uuid
   end
 
-  def person=(str_)
+  def uuid=(str_)
   end
 
-  def home_address
+  def company_uuid
   end
 
-  def home_address=(str_)
-  end
-
-  def work_address
-  end
-
-  def work_address=(str_)
-  end
-
-  def job
-  end
-
-  def job=(str_)
-  end
-
-  def department
-  end
-
-  def department=(str_)
-  end
-
-  def compensation
-  end
-
-  def compensation=(str_)
-  end
-
-  def bank_accounts
-  end
-
-  def bank_accounts=(str_)
+  def company_uuid=(str_)
   end
 end
