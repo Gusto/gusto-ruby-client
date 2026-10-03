@@ -20,27 +20,30 @@ module GustoEmbedded
         # The action to perform on the batch
         field(
           :batch_action,
-          Models::Operations::BatchAction,
+          Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesBatchAction,
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("batch_action"),
               required: true,
-              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::BatchAction, false)
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(
+                Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesBatchAction,
+                false
+              )
             }
           }
         )
         # Array of people to create
         field(
           :batch,
-          Crystalline::Array.new(Models::Operations::Batch),
+          Crystalline::Array.new(Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesBatch),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("batch"), required: true}}
         )
 
         sig {
           params(
             idempotency_key: ::String,
-            batch_action: Models::Operations::BatchAction,
-            batch: T::Array[Models::Operations::Batch]
+            batch_action: Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesBatchAction,
+            batch: T::Array[Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesBatch]
           )
             .void
         }

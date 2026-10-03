@@ -46,18 +46,21 @@ module GustoEmbedded
         # How the payment is split. This field is applicable when `payment_method` is "Direct Deposit". If `split_by` is Percentage, then the split amounts must add up to exactly 100. If `split_by` is Amount, the last split amount must be `null` to capture the remainder.
         field(
           :split_by,
-          Crystalline::Nilable.new(Models::Shared::SplitBy),
+          Crystalline::Nilable.new(Models::Shared::EmployeePaymentDetailsListSplitBy),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("split_by"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::SplitBy, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(
+                Models::Shared::EmployeePaymentDetailsListSplitBy,
+                true
+              )
             }
           }
         )
         # An array of payment splits. This field is applicable when `payment_method` is "Direct Deposit".
         field(
           :splits,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Splits)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeePaymentDetailsListSplits)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("splits")}}
         )
 
@@ -67,8 +70,8 @@ module GustoEmbedded
             first_name: T.nilable(::String),
             last_name: T.nilable(::String),
             payment_method: T.nilable(Models::Shared::EmployeePaymentDetailsListPaymentMethod),
-            split_by: T.nilable(Models::Shared::SplitBy),
-            splits: T.nilable(T::Array[Models::Shared::Splits])
+            split_by: T.nilable(Models::Shared::EmployeePaymentDetailsListSplitBy),
+            splits: T.nilable(T::Array[Models::Shared::EmployeePaymentDetailsListSplits])
           )
             .void
         }

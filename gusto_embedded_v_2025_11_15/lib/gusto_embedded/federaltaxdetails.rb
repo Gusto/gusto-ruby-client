@@ -363,6 +363,27 @@ module GustoEmbedded
             "Unknown content type received"
           )
         end
+      elsif Utils.match_status_code(http_response.status, ["403"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::ForbiddenErrorObject)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
       elsif Utils.match_status_code(http_response.status, ["404"])
         if Utils.match_content_type(content_type, "application/json")
           http_response = @sdk_configuration.hooks.after_success(

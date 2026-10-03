@@ -15,7 +15,7 @@ module GustoEmbedded
         # The amount to be deducted, per pay period, from the employee's pay.
         field :employee_deduction, Crystalline::Nilable.new(Models::Shared::EmployeeDeduction), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
         # An object representing the type and value of the company contribution.
-        field :contribution, Crystalline::Nilable.new(Models::Shared::BenefitTypeRequirementsContribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
+        field :contribution, Crystalline::Nilable.new(Models::Shared::Contribution), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contribution') } }
         # Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll.
         field :deduct_as_percentage, Crystalline::Nilable.new(Models::Shared::DeductAsPercentage), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('deduct_as_percentage') } }
         # Whether the employee should use a benefit’s 'catch up' rate. Only Roth 401k and 401k benefits use this value for employees over 50.
@@ -29,7 +29,7 @@ module GustoEmbedded
         # The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set.
         field :coverage_amount, Crystalline::Nilable.new(Models::Shared::CoverageAmount), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('coverage_amount') } }
 
-        sig { params(employee_deduction: T.nilable(Models::Shared::EmployeeDeduction), contribution: T.nilable(Models::Shared::BenefitTypeRequirementsContribution), deduct_as_percentage: T.nilable(Models::Shared::DeductAsPercentage), catch_up: T.nilable(Models::Shared::CatchUp), limit_option: T.nilable(Models::Shared::LimitOption), company_contribution_annual_maximum: T.nilable(Models::Shared::CompanyContributionAnnualMaximum), coverage_salary_multiplier: T.nilable(Models::Shared::CoverageSalaryMultiplier), coverage_amount: T.nilable(Models::Shared::CoverageAmount)).void }
+        sig { params(employee_deduction: T.nilable(Models::Shared::EmployeeDeduction), contribution: T.nilable(Models::Shared::Contribution), deduct_as_percentage: T.nilable(Models::Shared::DeductAsPercentage), catch_up: T.nilable(Models::Shared::CatchUp), limit_option: T.nilable(Models::Shared::LimitOption), company_contribution_annual_maximum: T.nilable(Models::Shared::CompanyContributionAnnualMaximum), coverage_salary_multiplier: T.nilable(Models::Shared::CoverageSalaryMultiplier), coverage_amount: T.nilable(Models::Shared::CoverageAmount)).void }
         def initialize(employee_deduction: nil, contribution: nil, deduct_as_percentage: nil, catch_up: nil, limit_option: nil, company_contribution_annual_maximum: nil, coverage_salary_multiplier: nil, coverage_amount: nil)
           @employee_deduction = employee_deduction
           @contribution = contribution

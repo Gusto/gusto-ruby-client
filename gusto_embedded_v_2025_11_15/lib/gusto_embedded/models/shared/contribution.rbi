@@ -6,15 +6,27 @@ class GustoEmbedded::Models::Shared::Contribution
 end
 
 class GustoEmbedded::Models::Shared::Contribution
-  def type
+  def required
   end
 
-  def type=(str_)
+  def required=(str_)
   end
 
-  def value
+  def editable
   end
 
-  def value=(str_)
+  def editable=(str_)
+  end
+
+  def default_value
+  end
+
+  def default_value=(str_)
+  end
+
+  def choices
+  end
+
+  def choices=(str_)
   end
 end

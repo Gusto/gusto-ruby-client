@@ -40,31 +40,25 @@ module GustoEmbedded
         # Fixed wage amount for the payment.
         field(
           :wage,
-          Crystalline::Nilable.new(::Integer),
+          Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("wage")}}
         )
         # Number of hours worked for the payment.
         field(
           :hours,
-          Crystalline::Nilable.new(::Integer),
+          Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("hours")}}
-        )
-        # Hourly rate for the payment.
-        field(
-          :hourly_rate,
-          Crystalline::Nilable.new(::Integer),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("hourly_rate")}}
         )
         # Bonus amount for the payment.
         field(
           :bonus,
-          Crystalline::Nilable.new(::Integer),
+          Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("bonus")}}
         )
         # Reimbursement amount for the payment.
         field(
           :reimbursement,
-          Crystalline::Nilable.new(::Integer),
+          Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("reimbursement")}}
         )
 
@@ -73,11 +67,10 @@ module GustoEmbedded
             contractor_uuid: T.nilable(::String),
             date: T.nilable(::String),
             payment_method: T.nilable(Models::Shared::ContractorPaymentsPreviewBodyPaymentMethod),
-            wage: T.nilable(::Integer),
-            hours: T.nilable(::Integer),
-            hourly_rate: T.nilable(::Integer),
-            bonus: T.nilable(::Integer),
-            reimbursement: T.nilable(::Integer)
+            wage: T.nilable(::String),
+            hours: T.nilable(::String),
+            bonus: T.nilable(::String),
+            reimbursement: T.nilable(::String)
           )
             .void
         }
@@ -87,7 +80,6 @@ module GustoEmbedded
           payment_method: nil,
           wage: nil,
           hours: nil,
-          hourly_rate: nil,
           bonus: nil,
           reimbursement: nil
         )
@@ -96,7 +88,6 @@ module GustoEmbedded
           @payment_method = payment_method
           @wage = wage
           @hours = hours
-          @hourly_rate = hourly_rate
           @bonus = bonus
           @reimbursement = reimbursement
         end
@@ -109,7 +100,6 @@ module GustoEmbedded
           return false unless @payment_method == other.payment_method
           return false unless @wage == other.wage
           return false unless @hours == other.hours
-          return false unless @hourly_rate == other.hourly_rate
           return false unless @bonus == other.bonus
           return false unless @reimbursement == other.reimbursement
           true

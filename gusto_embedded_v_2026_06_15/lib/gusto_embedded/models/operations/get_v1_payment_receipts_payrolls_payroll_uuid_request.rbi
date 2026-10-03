@@ -10,6 +10,10 @@ end
 class GustoEmbedded::Models::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidRequest
   def payroll_uuid(); end
   def payroll_uuid=(str_); end
+  def page(); end
+  def page=(str_); end
+  def per(); end
+  def per=(str_); end
   def x_gusto_api_version(); end
   def x_gusto_api_version=(str_); end
 end

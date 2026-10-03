@@ -19,14 +19,14 @@ module GustoEmbedded
         # Raw HTTP response; suitable for custom response parsing
         field :raw_response, ::Faraday::Response
         # Successful
-        field :supported_benefits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::SupportedBenefit))
+        field :supported_benefit_list, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::SupportedBenefit))
 
-        sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, supported_benefits: T.nilable(T::Array[Models::Shared::SupportedBenefit])).void }
-        def initialize(content_type:, status_code:, raw_response:, supported_benefits: nil)
+        sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, supported_benefit_list: T.nilable(T::Array[Models::Shared::SupportedBenefit])).void }
+        def initialize(content_type:, status_code:, raw_response:, supported_benefit_list: nil)
           @content_type = content_type
           @status_code = status_code
           @raw_response = raw_response
-          @supported_benefits = supported_benefits
+          @supported_benefit_list = supported_benefit_list
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -35,7 +35,7 @@ module GustoEmbedded
           return false unless @content_type == other.content_type
           return false unless @status_code == other.status_code
           return false unless @raw_response == other.raw_response
-          return false unless @supported_benefits == other.supported_benefits
+          return false unless @supported_benefit_list == other.supported_benefit_list
           true
         end
       end

@@ -15,13 +15,13 @@ module GustoEmbedded
 
         field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
 
-        field :employee_deduction, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
+        field :employee_deduction, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_deduction') } }
 
-        field :company_contribution, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution') } }
+        field :company_contribution, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_contribution') } }
 
         field :imputed, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('imputed') } }
 
-        sig { params(name: T.nilable(::String), employee_deduction: T.nilable(::Float), company_contribution: T.nilable(::Float), imputed: T.nilable(T::Boolean)).void }
+        sig { params(name: T.nilable(::String), employee_deduction: T.nilable(::String), company_contribution: T.nilable(::String), imputed: T.nilable(T::Boolean)).void }
         def initialize(name: nil, employee_deduction: nil, company_contribution: nil, imputed: nil)
           @name = name
           @employee_deduction = employee_deduction

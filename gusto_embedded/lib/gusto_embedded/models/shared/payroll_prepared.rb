@@ -56,13 +56,18 @@ module GustoEmbedded
         field :skip_regular_deductions, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('skip_regular_deductions') } }
         # Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages. Only included for off-cycle payrolls.
         field :fixed_withholding_rate, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_withholding_rate') } }
+        # The workweeks overlapping this payroll's pay period, one entry per workweek.
+        # Null when workweek boundaries can't be determined for this payroll (e.g. some
+        # off-cycle payrolls without a defined payment period).
+        #
+        field :workweeks, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Workweeks)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('workweeks') } }
 
         field :processing_request, Crystalline::Nilable.new(Models::Shared::PayrollProcessingRequest), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('processing_request') } }
         # Will money movement for the payroll be performed by the partner rather than by Gusto?
         field :partner_owned_disbursement, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
 
-        sig { params(payroll_deadline: T.nilable(::DateTime), check_date: T.nilable(::String), processed: T.nilable(T::Boolean), uuid: T.nilable(::String), payroll_uuid: T.nilable(::String), company_uuid: T.nilable(::String), off_cycle: T.nilable(T::Boolean), auto_pilot: T.nilable(T::Boolean), external: T.nilable(T::Boolean), final_termination_payroll: T.nilable(T::Boolean), pay_period: T.nilable(Models::Shared::PayrollPayPeriodType), payroll_status_meta: T.nilable(Models::Shared::PayrollPayrollStatusMetaType), employee_compensations: T.nilable(T::Array[Models::Shared::PayrollEmployeeCompensationsType]), payment_speed_changed: T.nilable(Models::Shared::PayrollPaymentSpeedChangedType), created_at: T.nilable(::DateTime), fixed_compensation_types: T.nilable(T::Array[Models::Shared::PayrollFixedCompensationTypesType]), processed_date: T.nilable(::String), calculated_at: T.nilable(::DateTime), off_cycle_reason: T.nilable(Models::Shared::OffCycleReasonType), withholding_pay_period: T.nilable(Models::Shared::PayrollWithholdingPayPeriodType), skip_regular_deductions: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), processing_request: T.nilable(Models::Shared::PayrollProcessingRequest), partner_owned_disbursement: T.nilable(T::Boolean)).void }
-        def initialize(payroll_deadline: nil, check_date: nil, processed: nil, uuid: nil, payroll_uuid: nil, company_uuid: nil, off_cycle: nil, auto_pilot: nil, external: nil, final_termination_payroll: nil, pay_period: nil, payroll_status_meta: nil, employee_compensations: nil, payment_speed_changed: nil, created_at: nil, fixed_compensation_types: nil, processed_date: nil, calculated_at: nil, off_cycle_reason: nil, withholding_pay_period: nil, skip_regular_deductions: nil, fixed_withholding_rate: nil, processing_request: nil, partner_owned_disbursement: nil)
+        sig { params(payroll_deadline: T.nilable(::DateTime), check_date: T.nilable(::String), processed: T.nilable(T::Boolean), uuid: T.nilable(::String), payroll_uuid: T.nilable(::String), company_uuid: T.nilable(::String), off_cycle: T.nilable(T::Boolean), auto_pilot: T.nilable(T::Boolean), external: T.nilable(T::Boolean), final_termination_payroll: T.nilable(T::Boolean), pay_period: T.nilable(Models::Shared::PayrollPayPeriodType), payroll_status_meta: T.nilable(Models::Shared::PayrollPayrollStatusMetaType), employee_compensations: T.nilable(T::Array[Models::Shared::PayrollEmployeeCompensationsType]), payment_speed_changed: T.nilable(Models::Shared::PayrollPaymentSpeedChangedType), created_at: T.nilable(::DateTime), fixed_compensation_types: T.nilable(T::Array[Models::Shared::PayrollFixedCompensationTypesType]), processed_date: T.nilable(::String), calculated_at: T.nilable(::DateTime), off_cycle_reason: T.nilable(Models::Shared::OffCycleReasonType), withholding_pay_period: T.nilable(Models::Shared::PayrollWithholdingPayPeriodType), skip_regular_deductions: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), workweeks: T.nilable(T::Array[Models::Shared::Workweeks]), processing_request: T.nilable(Models::Shared::PayrollProcessingRequest), partner_owned_disbursement: T.nilable(T::Boolean)).void }
+        def initialize(payroll_deadline: nil, check_date: nil, processed: nil, uuid: nil, payroll_uuid: nil, company_uuid: nil, off_cycle: nil, auto_pilot: nil, external: nil, final_termination_payroll: nil, pay_period: nil, payroll_status_meta: nil, employee_compensations: nil, payment_speed_changed: nil, created_at: nil, fixed_compensation_types: nil, processed_date: nil, calculated_at: nil, off_cycle_reason: nil, withholding_pay_period: nil, skip_regular_deductions: nil, fixed_withholding_rate: nil, workweeks: nil, processing_request: nil, partner_owned_disbursement: nil)
           @payroll_deadline = payroll_deadline
           @check_date = check_date
           @processed = processed
@@ -85,6 +90,7 @@ module GustoEmbedded
           @withholding_pay_period = withholding_pay_period
           @skip_regular_deductions = skip_regular_deductions
           @fixed_withholding_rate = fixed_withholding_rate
+          @workweeks = workweeks
           @processing_request = processing_request
           @partner_owned_disbursement = partner_owned_disbursement
         end
@@ -114,6 +120,7 @@ module GustoEmbedded
           return false unless @withholding_pay_period == other.withholding_pay_period
           return false unless @skip_regular_deductions == other.skip_regular_deductions
           return false unless @fixed_withholding_rate == other.fixed_withholding_rate
+          return false unless @workweeks == other.workweeks
           return false unless @processing_request == other.processing_request
           return false unless @partner_owned_disbursement == other.partner_owned_disbursement
           true
