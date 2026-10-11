@@ -8,6 +8,6 @@ end
 
 
 class GustoEmbedded::Models::Errors::Metadata
-  def key(); end
-  def key=(str_); end
+  def request_uuid(); end
+  def request_uuid=(str_); end
 end

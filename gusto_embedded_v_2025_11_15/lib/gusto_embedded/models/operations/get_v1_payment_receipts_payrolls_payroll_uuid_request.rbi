@@ -12,6 +12,18 @@ class GustoEmbedded::Models::Operations::GetV1PaymentReceiptsPayrollsPayrollUuid
   def payroll_uuid=(str_)
   end
 
+  def page
+  end
+
+  def page=(str_)
+  end
+
+  def per
+  end
+
+  def per=(str_)
+  end
+
   def x_gusto_api_version
   end
 

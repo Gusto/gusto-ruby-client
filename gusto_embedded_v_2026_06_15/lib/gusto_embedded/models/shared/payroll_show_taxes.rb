@@ -17,9 +17,9 @@ module GustoEmbedded
 
         field :employer, Crystalline::Boolean.new, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer'), required: true } }
 
-        field :amount, ::Float, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount'), required: true } }
+        field :amount, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount'), required: true } }
 
-        sig { params(name: ::String, employer: T::Boolean, amount: ::Float).void }
+        sig { params(name: ::String, employer: T::Boolean, amount: ::String).void }
         def initialize(name:, employer:, amount:)
           @name = name
           @employer = employer

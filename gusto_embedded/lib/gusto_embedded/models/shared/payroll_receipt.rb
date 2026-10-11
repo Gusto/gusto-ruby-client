@@ -33,15 +33,15 @@ module GustoEmbedded
 
         field :liability_of_licensee, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('liability_of_licensee') } }
         # The subtotals for the payroll.
-        field :totals, Crystalline::Nilable.new(Models::Shared::Totals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
+        field :totals, Crystalline::Nilable.new(Models::Shared::PayrollReceiptTotals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
         # An array of totaled employer and employee taxes for the pay period.
         field :taxes, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Taxes)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('taxes') } }
         # An array of employee compensations and withholdings for this payroll
         field :employee_compensations, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollReceiptEmployeeCompensations)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_compensations') } }
         # The licensed payroll processor
-        field :licensee, Crystalline::Nilable.new(Models::Shared::Licensee), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('licensee') } }
+        field :licensee, Crystalline::Nilable.new(Models::Shared::PayrollReceiptLicensee), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('licensee') } }
 
-        sig { params(payroll_uuid: T.nilable(::String), company_uuid: T.nilable(::String), name_of_sender: T.nilable(::String), name_of_recipient: T.nilable(::String), recipient_notice: T.nilable(::String), debit_date: T.nilable(::String), license: T.nilable(::String), license_uri: T.nilable(::String), right_to_refund: T.nilable(::String), liability_of_licensee: T.nilable(::String), totals: T.nilable(Models::Shared::Totals), taxes: T.nilable(T::Array[Models::Shared::Taxes]), employee_compensations: T.nilable(T::Array[Models::Shared::PayrollReceiptEmployeeCompensations]), licensee: T.nilable(Models::Shared::Licensee)).void }
+        sig { params(payroll_uuid: T.nilable(::String), company_uuid: T.nilable(::String), name_of_sender: T.nilable(::String), name_of_recipient: T.nilable(::String), recipient_notice: T.nilable(::String), debit_date: T.nilable(::String), license: T.nilable(::String), license_uri: T.nilable(::String), right_to_refund: T.nilable(::String), liability_of_licensee: T.nilable(::String), totals: T.nilable(Models::Shared::PayrollReceiptTotals), taxes: T.nilable(T::Array[Models::Shared::Taxes]), employee_compensations: T.nilable(T::Array[Models::Shared::PayrollReceiptEmployeeCompensations]), licensee: T.nilable(Models::Shared::PayrollReceiptLicensee)).void }
         def initialize(payroll_uuid: nil, company_uuid: nil, name_of_sender: nil, name_of_recipient: nil, recipient_notice: nil, debit_date: nil, license: nil, license_uri: nil, right_to_refund: nil, liability_of_licensee: nil, totals: nil, taxes: nil, employee_compensations: nil, licensee: nil)
           @payroll_uuid = payroll_uuid
           @company_uuid = company_uuid
