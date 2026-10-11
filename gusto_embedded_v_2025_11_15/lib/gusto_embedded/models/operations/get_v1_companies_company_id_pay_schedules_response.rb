@@ -20,7 +20,7 @@ module GustoEmbedded
         # Successful
         field(
           :pay_schedule_show_response,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleShow))
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleListItem))
         )
 
         sig {
@@ -28,7 +28,7 @@ module GustoEmbedded
             content_type: ::String,
             status_code: ::Integer,
             raw_response: ::Faraday::Response,
-            pay_schedule_show_response: T.nilable(T::Array[Models::Shared::PayScheduleShow])
+            pay_schedule_show_response: T.nilable(T::Array[Models::Shared::PayScheduleListItem])
           )
             .void
         }

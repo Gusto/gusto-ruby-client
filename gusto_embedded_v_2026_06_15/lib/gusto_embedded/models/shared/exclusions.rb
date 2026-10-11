@@ -12,30 +12,45 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # The external ID of the excluded item(s).
-        field :external_id, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_id') } }
-        # The exclusion category.
-        field :category, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category') } }
-        # Human-readable explanation for exclusion.
+        # The index of this payroll in the original POST batch array.
+        field :idx, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('idx') } }
+        # The type of entity this exclusion represents.
+        field :entity_type, Crystalline::Nilable.new(Models::Shared::PayrollBatchResultsEntityType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollBatchResultsEntityType, true) } }
+        # The UUID of the excluded payroll.
+        field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
+        # The UUID of the company asserted to own the payroll.
+        field :company_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_uuid') } }
+        # Always `failed` for an excluded payroll.
+        field :status, Crystalline::Nilable.new(Models::Shared::PayrollBatchResultsExclusionsStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollBatchResultsExclusionsStatus, true) } }
+        # Machine-readable category for why the payroll was excluded.
+        # - `not_found`: the payroll does not exist, or is not associated with a company the partner is mapped to
+        # - `duplicate_operation`: the same payroll UUID appeared more than once in the request; only the first occurrence is processed
+        #
+        field :category, Crystalline::Nilable.new(Models::Shared::PayrollBatchResultsCategory), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollBatchResultsCategory, true) } }
+        # Human-readable explanation for the exclusion.
         field :message, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('message') } }
-        # Number of items affected by this exclusion.
-        field :item_count, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('item_count') } }
 
-        sig { params(external_id: T.nilable(::String), category: T.nilable(::String), message: T.nilable(::String), item_count: T.nilable(::Integer)).void }
-        def initialize(external_id: nil, category: nil, message: nil, item_count: nil)
-          @external_id = external_id
+        sig { params(idx: T.nilable(::Integer), entity_type: T.nilable(Models::Shared::PayrollBatchResultsEntityType), uuid: T.nilable(::String), company_uuid: T.nilable(::String), status: T.nilable(Models::Shared::PayrollBatchResultsExclusionsStatus), category: T.nilable(Models::Shared::PayrollBatchResultsCategory), message: T.nilable(::String)).void }
+        def initialize(idx: nil, entity_type: nil, uuid: nil, company_uuid: nil, status: nil, category: nil, message: nil)
+          @idx = idx
+          @entity_type = entity_type
+          @uuid = uuid
+          @company_uuid = company_uuid
+          @status = status
           @category = category
           @message = message
-          @item_count = item_count
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a? self.class
-          return false unless @external_id == other.external_id
+          return false unless @idx == other.idx
+          return false unless @entity_type == other.entity_type
+          return false unless @uuid == other.uuid
+          return false unless @company_uuid == other.company_uuid
+          return false unless @status == other.status
           return false unless @category == other.category
           return false unless @message == other.message
-          return false unless @item_count == other.item_count
           true
         end
       end

@@ -20,12 +20,15 @@ module GustoEmbedded
         # The payment method type. If type is Check, split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
         field(
           :type,
-          Models::Operations::Type,
+          Models::Operations::PutV1EmployeesEmployeeIdPaymentMethodType,
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("type"),
               required: true,
-              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::Type, false)
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(
+                Models::Operations::PutV1EmployeesEmployeeIdPaymentMethodType,
+                false
+              )
             }
           }
         )
@@ -50,7 +53,7 @@ module GustoEmbedded
         sig {
           params(
             version: ::String,
-            type: Models::Operations::Type,
+            type: Models::Operations::PutV1EmployeesEmployeeIdPaymentMethodType,
             split_by: T.nilable(Models::Operations::SplitBy),
             splits: T.nilable(T::Array[Models::Operations::Splits])
           )

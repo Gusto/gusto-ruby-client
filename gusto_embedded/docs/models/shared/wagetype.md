@@ -1,13 +1,13 @@
 # WageType
 
-The contractor's wage type, either "Fixed" or "Hourly".
+The wage type for the payment.
 
 ## Example Usage
 
 ```ruby
 require "gusto_embedded_client"
 
-value = WageType::FIXED
+value = WageType::HOURLY
 ```
 
 
@@ -15,5 +15,5 @@ value = WageType::FIXED
 
 | Name     | Value    |
 | -------- | -------- |
-| `FIXED`  | Fixed    |
 | `HOURLY` | Hourly   |
+| `FIXED`  | Fixed    |
