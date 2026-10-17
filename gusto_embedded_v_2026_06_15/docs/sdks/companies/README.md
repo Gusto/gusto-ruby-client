@@ -11,6 +11,7 @@
 * [get_custom_fields](#get_custom_fields) - Get the custom fields of a company
 * [get_onboarding_status](#get_onboarding_status) - Get company onboarding status
 * [finish_onboarding](#finish_onboarding) - Finish company onboarding
+* [put_v1_partner_managed_companies_company_uuid_disassociate](#put_v1_partner_managed_companies_company_uuid_disassociate) - Disassociate a partner managed company
 * [migrate](#migrate) - Migrate company to embedded payroll
 * [create_partner_managed](#create_partner_managed) - Create a partner managed company
 * [get_v1_partner_managed_companies_company_uuid_migration_readiness](#get_v1_partner_managed_companies_company_uuid_migration_readiness) - Check company migration readiness
@@ -278,7 +279,7 @@ s = ::GustoEmbedded::Client.new(
     company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
   )
 )
-res = s.companies.get_onboarding_status(company_uuid: '7b1d0df1-6403-4a06-8768-c1dd7d24d27a', additional_steps: 'external_payroll', x_gusto_api_version: Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15)
+res = s.companies.get_onboarding_status(company_uuid: '7b1d0df1-6403-4a06-8768-c1dd7d24d27a', x_gusto_api_version: Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15, additional_steps: 'external_payroll')
 
 unless res.company_onboarding_status.nil?
   # handle response
@@ -291,8 +292,8 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                      |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      | 7b1d0df1-6403-4a06-8768-c1dd7d24d27a                                                                                                                                                                                         |
-| `additional_steps`                                                                                                                                                                                                           | *T.nilable(::String)*                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                           | Comma-delimited string of additional onboarding steps to include. Currently only supports the value "external_payroll".                                                                                                      | external_payroll                                                                                                                                                                                                             |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion)](../../models/operations/getv1companyonboardingstatusheaderxgustoapiversion.md)                                                           | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
+| `additional_steps`                                                                                                                                                                                                           | *T.nilable(::String)*                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                           | Comma-delimited string of additional onboarding steps to include. Currently only supports the value "external_payroll".                                                                                                      | external_payroll                                                                                                                                                                                                             |
 
 ### Response
 
@@ -355,6 +356,54 @@ end
 ### Response
 
 **[T.nilable(Models::Operations::GetV1CompanyFinishOnboardingResponse)](../../models/operations/getv1companyfinishonboardingresponse.md)**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## put_v1_partner_managed_companies_company_uuid_disassociate
+
+Disassociate a company from your embedded payroll product, reversing an earlier association or migration. You can only disassociate a company that is currently associated with your application.
+
+📘 System Access Authentication
+
+This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access)
+
+scope: `partner_managed_companies:disassociate`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="put-v1-partner-managed-companies-company-uuid-disassociate" method="put" path="/v1/partner_managed_companies/{company_uuid}/disassociate" -->
+```ruby
+require 'gusto_embedded_client_v_2026_06_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new
+res = s.companies.put_v1_partner_managed_companies_company_uuid_disassociate(security: Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateSecurity.new(
+  system_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+), company_uuid: '<id>', x_gusto_api_version: Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15)
+
+unless res.partner_managed_company_disassociate_response.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `security`                                                                                                                                                                                                                   | [Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateSecurity](../../models/operations/putv1partnermanagedcompaniescompanyuuiddisassociatesecurity.md)                                                    | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
+| `company_uuid`                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateHeaderXGustoAPIVersion)](../../models/operations/putv1partnermanagedcompaniescompanyuuiddisassociateheaderxgustoapiversion.md)             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateResponse)](../../models/operations/putv1partnermanagedcompaniescompanyuuiddisassociateresponse.md)**
 
 ### Errors
 

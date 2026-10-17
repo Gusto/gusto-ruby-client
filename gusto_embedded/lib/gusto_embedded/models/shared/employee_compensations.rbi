@@ -20,6 +20,8 @@ class GustoEmbedded::Models::Shared::EmployeeCompensations
   def paid_time_off=(str_); end
   def reimbursements(); end
   def reimbursements=(str_); end
+  def custom_withholdings(); end
+  def custom_withholdings=(str_); end
   def version(); end
   def version=(str_); end
   def deductions(); end
@@ -28,6 +30,8 @@ class GustoEmbedded::Models::Shared::EmployeeCompensations
   def taxes=(str_); end
   def benefits(); end
   def benefits=(str_); end
+  def pay_adjustments(); end
+  def pay_adjustments=(str_); end
   def additional_properties(); end
   def additional_properties=(str_); end
   def first_name(); end

@@ -50,6 +50,17 @@ module GustoEmbedded
             }
           }
         )
+
+        field(
+          :workweek_start_day,
+          Crystalline::Nilable.new(Models::Shared::WorkweekStartDay),
+          {
+            'format_json': {
+              'letter_case': ::GustoEmbedded::Utils.field_name("workweek_start_day"),
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::WorkweekStartDay, true)
+            }
+          }
+        )
         # An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies.
         #
         # On create: required for Twice per month and Monthly; omit or null for Every week and Every other week.
@@ -83,6 +94,7 @@ module GustoEmbedded
             frequency: Models::Shared::Frequency,
             anchor_pay_date: ::Date,
             anchor_end_of_pay_period: ::Date,
+            workweek_start_day: T.nilable(Models::Shared::WorkweekStartDay),
             day_1: T.nilable(::Integer),
             day_2: T.nilable(::Integer),
             custom_name: T.nilable(::String)
@@ -93,6 +105,7 @@ module GustoEmbedded
           frequency:,
           anchor_pay_date:,
           anchor_end_of_pay_period:,
+          workweek_start_day: nil,
           day_1: nil,
           day_2: nil,
           custom_name: nil
@@ -100,6 +113,7 @@ module GustoEmbedded
           @frequency = frequency
           @anchor_pay_date = anchor_pay_date
           @anchor_end_of_pay_period = anchor_end_of_pay_period
+          @workweek_start_day = workweek_start_day
           @day_1 = day_1
           @day_2 = day_2
           @custom_name = custom_name
@@ -111,6 +125,7 @@ module GustoEmbedded
           return false unless @frequency == other.frequency
           return false unless @anchor_pay_date == other.anchor_pay_date
           return false unless @anchor_end_of_pay_period == other.anchor_end_of_pay_period
+          return false unless @workweek_start_day == other.workweek_start_day
           return false unless @day_1 == other.day_1
           return false unless @day_2 == other.day_2
           return false unless @custom_name == other.custom_name

@@ -32,11 +32,11 @@ module GustoEmbedded
         # The type of recipient associated with the document (will be `Contractor` for Contractor Documents)
         field(
           :recipient_type,
-          Crystalline::Nilable.new(Models::Shared::RecipientType),
+          Crystalline::Nilable.new(Models::Shared::DocumentRecipientType),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("recipient_type"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::RecipientType, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::DocumentRecipientType, true)
             }
           }
         )
@@ -100,7 +100,7 @@ module GustoEmbedded
             uuid: T.nilable(::String),
             title: T.nilable(::String),
             name: T.nilable(::String),
-            recipient_type: T.nilable(Models::Shared::RecipientType),
+            recipient_type: T.nilable(Models::Shared::DocumentRecipientType),
             recipient_uuid: T.nilable(::String),
             pages: T.nilable(T::Array[Models::Shared::Pages]),
             fields_: T.nilable(T::Array[Models::Shared::Fields]),

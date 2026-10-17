@@ -15,9 +15,9 @@ module GustoEmbedded
         # The wage and reimbursement totals for all contractor payments within a given time period.
         field :total, Crystalline::Nilable.new(Models::Shared::Total), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('total') } }
         # The individual contractor payments, within a given time period, grouped by contractor.
-        field :contractor_payments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPaymentSummaryContractorPayments)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
+        field :contractor_payments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPayments)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
 
-        sig { params(total: T.nilable(Models::Shared::Total), contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPaymentSummaryContractorPayments])).void }
+        sig { params(total: T.nilable(Models::Shared::Total), contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPayments])).void }
         def initialize(total: nil, contractor_payments: nil)
           @total = total
           @contractor_payments = contractor_payments
