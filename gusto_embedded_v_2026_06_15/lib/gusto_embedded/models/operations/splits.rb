@@ -18,7 +18,7 @@ module GustoEmbedded
         field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
         # Order of priority for each payment split; priority 1 is the first account paid. Must be unique and sequential.
         field :priority, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('priority') } }
-        # If split_by is Amount, value is in cents (e.g., 500 for $5.00) and exactly one account must have null to capture the remainder. If split_by is Percentage, value is the percentage (e.g., 60 for 60%).
+        # If split_by is Amount, value is in cents (e.g., 500 for $5.00) and exactly one account must have null to capture the remainder. Amount must be less than or equal to 2147483647. If split_by is Percentage, value is the percentage (e.g., 60 for 60%).
         field :split_amount, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_amount') } }
 
         sig { params(uuid: T.nilable(::String), name: T.nilable(::String), priority: T.nilable(::Integer), split_amount: T.nilable(::Float)).void }

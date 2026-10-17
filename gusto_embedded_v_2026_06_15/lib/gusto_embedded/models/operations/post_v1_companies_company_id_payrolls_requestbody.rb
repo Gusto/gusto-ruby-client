@@ -22,6 +22,8 @@ module GustoEmbedded
         field :end_date, ::Date, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date'), required: true, 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(false) } }
         # A pay schedule is required for transition from old pay schedule payroll to identify the matching transition pay period.
         field :pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('pay_schedule_uuid') } }
+        # A list of employee UUIDs to include on the payroll. At least one UUID is required for non-termination off-cycle payrolls.
+        field :employee_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
         # Payment date.
         field :check_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(true) } }
         # The payment schedule tax rate the payroll is based on.
@@ -32,22 +34,20 @@ module GustoEmbedded
         field :fixed_withholding_rate, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fixed_withholding_rate') } }
         # When true, all employees in the payroll will be paid by check and the check date can be set to today or any future business day (rather than requiring ACH lead time). Payment methods cannot be changed on check-only payrolls.
         field :is_check_only_payroll, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('is_check_only_payroll') } }
-        # A list of employee uuids to include on the payroll.
-        field :employee_uuids, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuids') } }
 
-        sig { params(off_cycle: T::Boolean, off_cycle_reason: Models::Operations::OffCycleReason, start_date: ::Date, end_date: ::Date, pay_schedule_uuid: T.nilable(::String), check_date: T.nilable(::Date), withholding_pay_period: T.nilable(Models::Operations::WithholdingPayPeriod), skip_regular_deductions: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), is_check_only_payroll: T.nilable(T::Boolean), employee_uuids: T.nilable(T::Array[::String])).void }
-        def initialize(off_cycle:, off_cycle_reason:, start_date:, end_date:, pay_schedule_uuid: nil, check_date: nil, withholding_pay_period: nil, skip_regular_deductions: nil, fixed_withholding_rate: nil, is_check_only_payroll: nil, employee_uuids: nil)
+        sig { params(off_cycle: T::Boolean, off_cycle_reason: Models::Operations::OffCycleReason, start_date: ::Date, end_date: ::Date, pay_schedule_uuid: T.nilable(::String), employee_uuids: T.nilable(T::Array[::String]), check_date: T.nilable(::Date), withholding_pay_period: T.nilable(Models::Operations::WithholdingPayPeriod), skip_regular_deductions: T.nilable(T::Boolean), fixed_withholding_rate: T.nilable(T::Boolean), is_check_only_payroll: T.nilable(T::Boolean)).void }
+        def initialize(off_cycle:, off_cycle_reason:, start_date:, end_date:, pay_schedule_uuid: nil, employee_uuids: nil, check_date: nil, withholding_pay_period: nil, skip_regular_deductions: nil, fixed_withholding_rate: nil, is_check_only_payroll: nil)
           @off_cycle = off_cycle
           @off_cycle_reason = off_cycle_reason
           @start_date = start_date
           @end_date = end_date
           @pay_schedule_uuid = pay_schedule_uuid
+          @employee_uuids = employee_uuids
           @check_date = check_date
           @withholding_pay_period = withholding_pay_period
           @skip_regular_deductions = skip_regular_deductions
           @fixed_withholding_rate = fixed_withholding_rate
           @is_check_only_payroll = is_check_only_payroll
-          @employee_uuids = employee_uuids
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -58,12 +58,12 @@ module GustoEmbedded
           return false unless @start_date == other.start_date
           return false unless @end_date == other.end_date
           return false unless @pay_schedule_uuid == other.pay_schedule_uuid
+          return false unless @employee_uuids == other.employee_uuids
           return false unless @check_date == other.check_date
           return false unless @withholding_pay_period == other.withholding_pay_period
           return false unless @skip_regular_deductions == other.skip_regular_deductions
           return false unless @fixed_withholding_rate == other.fixed_withholding_rate
           return false unless @is_check_only_payroll == other.is_check_only_payroll
-          return false unless @employee_uuids == other.employee_uuids
           true
         end
       end

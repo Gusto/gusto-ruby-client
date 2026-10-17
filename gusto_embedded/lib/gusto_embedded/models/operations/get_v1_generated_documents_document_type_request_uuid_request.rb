@@ -17,10 +17,10 @@ module GustoEmbedded
         # The UUID of the request to generate a document. Generate document endpoints return request_uuids to be used with the GET generated document endpoint.
         field :request_uuid, ::String, { 'path_param': { 'field_name': 'request_uuid', 'style': 'simple', 'explode': false } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Shared::VersionHeader), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(document_type: Models::Operations::DocumentType, request_uuid: ::String, x_gusto_api_version: T.nilable(Models::Shared::VersionHeader)).void }
-        def initialize(document_type:, request_uuid:, x_gusto_api_version: Models::Shared::VersionHeader::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+        sig { params(document_type: Models::Operations::DocumentType, request_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidHeaderXGustoAPIVersion)).void }
+        def initialize(document_type:, request_uuid:, x_gusto_api_version: Models::Operations::GetV1GeneratedDocumentsDocumentTypeRequestUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @document_type = document_type
           @request_uuid = request_uuid
           @x_gusto_api_version = x_gusto_api_version

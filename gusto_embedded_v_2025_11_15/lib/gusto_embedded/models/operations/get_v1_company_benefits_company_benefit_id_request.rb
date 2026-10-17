@@ -27,7 +27,7 @@ module GustoEmbedded
         # - all_benefits: If with_employee_benefits=true, include all effective dated benefits for each employee instead of only the current benefits.
         field(
           :include,
-          Crystalline::Nilable.new(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdQueryParamInclude),
+          Crystalline::Nilable.new(Models::Operations::Include),
           {'query_param': {'field_name': "include", 'style': "form", 'explode': true}}
         )
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
@@ -41,7 +41,7 @@ module GustoEmbedded
           params(
             company_benefit_id: ::String,
             with_employee_benefits: T.nilable(T::Boolean),
-            include: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdQueryParamInclude),
+            include: T.nilable(Models::Operations::Include),
             x_gusto_api_version: T.nilable(
               Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion
             )

@@ -42,12 +42,6 @@ class GustoEmbedded::Models::Shared::Job
   def rate=(str_)
   end
 
-  def current_compensation_uuid
-  end
-
-  def current_compensation_uuid=(str_)
-  end
-
   def two_percent_shareholder
   end
 
@@ -76,6 +70,12 @@ class GustoEmbedded::Models::Shared::Job
   end
 
   def payment_unit=(str_)
+  end
+
+  def current_compensation_uuid
+  end
+
+  def current_compensation_uuid=(str_)
   end
 
   def state_wc_covered

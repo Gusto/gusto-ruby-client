@@ -45,21 +45,18 @@ module GustoEmbedded
         # Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the amount represents cents and the last split amount must be `null` to capture the remainder.
         field(
           :split_by,
-          Crystalline::Nilable.new(Models::Shared::ContractorPaymentDetailsListSplitBy),
+          Crystalline::Nilable.new(Models::Shared::SplitBy),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("split_by"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(
-                Models::Shared::ContractorPaymentDetailsListSplitBy,
-                true
-              )
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::SplitBy, true)
             }
           }
         )
 
         field(
           :splits,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPaymentDetailsListSplits)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Splits)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("splits")}}
         )
 
@@ -69,8 +66,8 @@ module GustoEmbedded
             payment_method: T.nilable(Models::Shared::ContractorPaymentDetailsListPaymentMethod),
             first_name: T.nilable(::String),
             last_name: T.nilable(::String),
-            split_by: T.nilable(Models::Shared::ContractorPaymentDetailsListSplitBy),
-            splits: T.nilable(T::Array[Models::Shared::ContractorPaymentDetailsListSplits])
+            split_by: T.nilable(Models::Shared::SplitBy),
+            splits: T.nilable(T::Array[Models::Shared::Splits])
           )
             .void
         }

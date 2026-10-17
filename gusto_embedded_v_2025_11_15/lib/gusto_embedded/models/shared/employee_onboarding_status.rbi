@@ -23,4 +23,10 @@ class GustoEmbedded::Models::Shared::EmployeeOnboardingStatus
 
   def onboarding_steps=(str_)
   end
+
+  def blockers
+  end
+
+  def blockers=(str_)
+  end
 end

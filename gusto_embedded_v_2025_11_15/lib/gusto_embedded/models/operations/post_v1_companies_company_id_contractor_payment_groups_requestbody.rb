@@ -32,7 +32,7 @@ module GustoEmbedded
 
         field(
           :contractor_payments,
-          Crystalline::Array.new(Models::Operations::ContractorPayments),
+          Crystalline::Array.new(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsContractorPayments),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("contractor_payments"), required: true}}
         )
         # Optional array of submission blockers with selected unblock options. Returned from the preview endpoint and can be submitted with selected_option to resolve blockers.
@@ -46,7 +46,9 @@ module GustoEmbedded
           params(
             check_date: ::Date,
             creation_token: ::String,
-            contractor_payments: T::Array[Models::Operations::ContractorPayments],
+            contractor_payments: T::Array[
+              Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsContractorPayments
+            ],
             submission_blockers: T.nilable(T::Array[Models::Operations::SubmissionBlockers])
           )
             .void

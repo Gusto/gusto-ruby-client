@@ -20,11 +20,17 @@ module GustoEmbedded
         # For "Select" type questions, the allowed values and display labels.
         field(
           :options,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Options)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeStateTaxInputQuestionFormatOptions)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("options")}}
         )
 
-        sig { params(type: ::String, options: T.nilable(T::Array[Models::Shared::Options])).void }
+        sig {
+          params(
+            type: ::String,
+            options: T.nilable(T::Array[Models::Shared::EmployeeStateTaxInputQuestionFormatOptions])
+          )
+            .void
+        }
         def initialize(type:, options: nil)
           @type = type
           @options = options

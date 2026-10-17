@@ -18,6 +18,8 @@ class GustoEmbedded::Models::Operations::PostV1CompaniesCompanyIdPayrollsRequest
   def end_date=(str_); end
   def pay_schedule_uuid(); end
   def pay_schedule_uuid=(str_); end
+  def employee_uuids(); end
+  def employee_uuids=(str_); end
   def check_date(); end
   def check_date=(str_); end
   def withholding_pay_period(); end
@@ -28,6 +30,4 @@ class GustoEmbedded::Models::Operations::PostV1CompaniesCompanyIdPayrollsRequest
   def fixed_withholding_rate=(str_); end
   def is_check_only_payroll(); end
   def is_check_only_payroll=(str_); end
-  def employee_uuids(); end
-  def employee_uuids=(str_); end
 end

@@ -44,7 +44,7 @@ module GustoEmbedded
 
         field(
           :employees,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::BenefitSummaryEmployees)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Employees)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("employees")}}
         )
 
@@ -55,7 +55,7 @@ module GustoEmbedded
             description: T.nilable(::String),
             company_benefit_deduction: T.nilable(::String),
             company_benefit_contribution: T.nilable(::String),
-            employees: T.nilable(T::Array[Models::Shared::BenefitSummaryEmployees])
+            employees: T.nilable(T::Array[Models::Shared::Employees])
           )
             .void
         }

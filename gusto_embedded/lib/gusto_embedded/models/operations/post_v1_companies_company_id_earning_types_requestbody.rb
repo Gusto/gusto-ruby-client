@@ -12,17 +12,25 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
+        # The earning type category. Only settable when the company has access to categorized custom bonus earning types.
+        field :category, Crystalline::Nilable.new(Models::Operations::Category), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Operations::Category, true) } }
+        # Whether earnings of this type are included when calculating an employee's regular rate of pay for overtime purposes. Only settable when `category` is `Other`.
+        field :included_in_overtime_pay, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('included_in_overtime_pay') } }
         # The name of the custom earning type.
         field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
 
-        sig { params(name: T.nilable(::String)).void }
-        def initialize(name: 'Gym Membership')
+        sig { params(category: T.nilable(Models::Operations::Category), included_in_overtime_pay: T.nilable(T::Boolean), name: T.nilable(::String)).void }
+        def initialize(category: nil, included_in_overtime_pay: nil, name: 'Gym Membership')
+          @category = category
+          @included_in_overtime_pay = included_in_overtime_pay
           @name = name
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a? self.class
+          return false unless @category == other.category
+          return false unless @included_in_overtime_pay == other.included_in_overtime_pay
           return false unless @name == other.name
           true
         end

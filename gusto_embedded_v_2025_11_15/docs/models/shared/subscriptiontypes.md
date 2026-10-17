@@ -32,3 +32,4 @@ custom = SubscriptionTypes.deserialize("custom_value")
 | `PAYROLL_SYNC`              | PayrollSync                 |
 | `PAY_SCHEDULE`              | PaySchedule                 |
 | `SIGNATORY`                 | Signatory                   |
+| `TIME_OFF_REQUEST`          | TimeOffRequest              |

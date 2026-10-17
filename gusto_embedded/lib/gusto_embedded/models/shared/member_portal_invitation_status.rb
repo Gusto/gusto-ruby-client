@@ -13,7 +13,7 @@ module GustoEmbedded
         include Crystalline::MetadataFields
 
         # The current status of the member portal invitation.
-        field :status, Crystalline::Nilable.new(Models::Shared::ShowEmployeesStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ShowEmployeesStatus, true) } }
+        field :status, Crystalline::Nilable.new(Models::Shared::ContractorStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ContractorStatus, true) } }
         # Whether the invitation token has expired.
         field :token_expired, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('token_expired') } }
         # The date and time when the welcome email was sent.
@@ -21,7 +21,7 @@ module GustoEmbedded
         # The date and time when the password reset was last resent.
         field :last_password_resent_at, Crystalline::Nilable.new(::DateTime), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_password_resent_at'), 'decoder': ::GustoEmbedded::Utils.datetime_from_iso_format(true) } }
 
-        sig { params(status: T.nilable(Models::Shared::ShowEmployeesStatus), token_expired: T.nilable(T::Boolean), welcome_email_sent_at: T.nilable(::DateTime), last_password_resent_at: T.nilable(::DateTime)).void }
+        sig { params(status: T.nilable(Models::Shared::ContractorStatus), token_expired: T.nilable(T::Boolean), welcome_email_sent_at: T.nilable(::DateTime), last_password_resent_at: T.nilable(::DateTime)).void }
         def initialize(status: nil, token_expired: nil, welcome_email_sent_at: nil, last_password_resent_at: nil)
           @status = status
           @token_expired = token_expired

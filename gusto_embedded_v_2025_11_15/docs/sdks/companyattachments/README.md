@@ -4,57 +4,9 @@
 
 ### Available Operations
 
-* [get_details](#get_details) - Get Company Attachment Details
 * [get_list](#get_list) - Get List of Company Attachments
 * [create](#create) - Create Company Attachment and Upload File
-
-## get_details
-
-Retrieve the detail of an attachment uploaded by the company.
-
-### Related guides
-- [Manage company attachments](doc:manage-company-attachments)
-
-scope: `company_attachments:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-v1-companies-attachment" method="get" path="/v1/companies/{company_id}/attachments/{company_attachment_uuid}" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.company_attachments.get_details(company_id: '<id>', company_attachment_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesAttachmentHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
-
-unless res.company_attachment.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `company_attachment_uuid`                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company attachment                                                                                                                                                                                           |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesAttachmentHeaderXGustoAPIVersion)](../../models/operations/getv1companiesattachmentheaderxgustoapiversion.md)                                                                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1CompaniesAttachmentResponse)](../../models/operations/getv1companiesattachmentresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
+* [get_details](#get_details) - Get Company Attachment Details
 
 ## get_list
 
@@ -157,3 +109,51 @@ end
 | Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## get_details
+
+Retrieve the detail of an attachment uploaded by the company.
+
+### Related guides
+- [Manage company attachments](doc:manage-company-attachments)
+
+scope: `company_attachments:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-companies-attachment" method="get" path="/v1/companies/{company_id}/attachments/{company_attachment_uuid}" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.company_attachments.get_details(company_id: '<id>', company_attachment_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesAttachmentHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.company_attachment.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `company_attachment_uuid`                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company attachment                                                                                                                                                                                           |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesAttachmentHeaderXGustoAPIVersion)](../../models/operations/getv1companiesattachmentheaderxgustoapiversion.md)                                                                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1CompaniesAttachmentResponse)](../../models/operations/getv1companiesattachmentresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
