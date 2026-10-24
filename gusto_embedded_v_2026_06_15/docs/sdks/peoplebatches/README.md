@@ -29,7 +29,7 @@ s = ::GustoEmbedded::Client.new(
 )
 res = s.people_batches.post_v1_companies_company_id_people_batches(company_id: '<id>', request_body: Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesRequestBody.new(
   idempotency_key: '550e8400-e29b-41d4-a716-446655440000',
-  batch_action: Models::Operations::BatchAction::CREATE,
+  batch_action: Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesBatchAction::CREATE,
   batch: []
 ), x_gusto_api_version: Models::Operations::PostV1CompaniesCompanyIdPeopleBatchesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15)
 

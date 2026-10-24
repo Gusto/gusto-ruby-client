@@ -6,10 +6,10 @@
 module GustoEmbedded
   module Models
     module Operations
-      # EntityType - The type of entity to create
+      # EntityType - The type of entity to act on.
       class EntityType < T::Enum
         enums do
-          EMPLOYEE = new("employee")
+          PAYROLL = new("payroll")
         end
       end
     end

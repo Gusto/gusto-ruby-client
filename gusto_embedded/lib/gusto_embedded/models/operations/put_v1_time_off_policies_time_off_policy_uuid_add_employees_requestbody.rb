@@ -13,9 +13,9 @@ module GustoEmbedded
         include Crystalline::MetadataFields
 
 
-        field :employees, Crystalline::Array.new(Models::Operations::Employees), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees'), required: true } }
+        field :employees, Crystalline::Array.new(Models::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidAddEmployeesEmployees), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees'), required: true } }
 
-        sig { params(employees: T::Array[Models::Operations::Employees]).void }
+        sig { params(employees: T::Array[Models::Operations::PutV1TimeOffPoliciesTimeOffPolicyUuidAddEmployeesEmployees]).void }
         def initialize(employees:)
           @employees = employees
         end

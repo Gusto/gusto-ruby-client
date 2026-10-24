@@ -29,19 +29,34 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeOnboardingStatusOnboardingStep)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("onboarding_steps")}}
         )
+        # Validation issues that should be resolved before this employee's onboarding is complete. Each entry identifies an affected field, a category describing the type of problem, and a human-readable message.
+        #
+        # Supported categories:
+        #
+        # - `duplicate_value`: Another employee in the same company already has this value. To resolve, cancel this onboarding and initiate a rehire if it's a returning employee, or contact support to investigate the conflict.
+        #
+        # This list may grow over time as new validation rules are added.
+        #
+        field(
+          :blockers,
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Blockers)),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("blockers")}}
+        )
 
         sig {
           params(
             uuid: ::String,
             onboarding_status: T.nilable(::String),
-            onboarding_steps: T.nilable(T::Array[Models::Shared::EmployeeOnboardingStatusOnboardingStep])
+            onboarding_steps: T.nilable(T::Array[Models::Shared::EmployeeOnboardingStatusOnboardingStep]),
+            blockers: T.nilable(T::Array[Models::Shared::Blockers])
           )
             .void
         }
-        def initialize(uuid:, onboarding_status: nil, onboarding_steps: nil)
+        def initialize(uuid:, onboarding_status: nil, onboarding_steps: nil, blockers: nil)
           @uuid = uuid
           @onboarding_status = onboarding_status
           @onboarding_steps = onboarding_steps
+          @blockers = blockers
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -50,6 +65,7 @@ module GustoEmbedded
           return false unless @uuid == other.uuid
           return false unless @onboarding_status == other.onboarding_status
           return false unless @onboarding_steps == other.onboarding_steps
+          return false unless @blockers == other.blockers
           true
         end
       end

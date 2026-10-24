@@ -21,11 +21,11 @@ module GustoEmbedded
 
         field :last_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('last_name') } }
         # Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the amount represents cents and the last split amount must be `null` to capture the remainder.
-        field :split_by, Crystalline::Nilable.new(Models::Shared::ContractorPaymentDetailsListSplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ContractorPaymentDetailsListSplitBy, true) } }
+        field :split_by, Crystalline::Nilable.new(Models::Shared::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::SplitBy, true) } }
 
-        field :splits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPaymentDetailsListSplits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
+        field :splits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Splits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
 
-        sig { params(contractor_uuid: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentDetailsListPaymentMethod), first_name: T.nilable(::String), last_name: T.nilable(::String), split_by: T.nilable(Models::Shared::ContractorPaymentDetailsListSplitBy), splits: T.nilable(T::Array[Models::Shared::ContractorPaymentDetailsListSplits])).void }
+        sig { params(contractor_uuid: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentDetailsListPaymentMethod), first_name: T.nilable(::String), last_name: T.nilable(::String), split_by: T.nilable(Models::Shared::SplitBy), splits: T.nilable(T::Array[Models::Shared::Splits])).void }
         def initialize(contractor_uuid: nil, payment_method: nil, first_name: nil, last_name: nil, split_by: nil, splits: nil)
           @contractor_uuid = contractor_uuid
           @payment_method = payment_method

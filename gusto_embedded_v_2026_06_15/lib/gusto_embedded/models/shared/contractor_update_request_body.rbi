@@ -18,6 +18,8 @@ class GustoEmbedded::Models::Shared::ContractorUpdateRequestBody
   def hourly_rate=(str_); end
   def email(); end
   def email=(str_); end
+  def work_email(); end
+  def work_email=(str_); end
   def first_name(); end
   def first_name=(str_); end
   def last_name(); end

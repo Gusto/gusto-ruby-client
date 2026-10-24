@@ -4,16 +4,116 @@
 
 ### Available Operations
 
+* [get_pay_periods](#get_pay_periods) - Get pay periods for a company
+* [get_unprocessed_termination_periods](#get_unprocessed_termination_periods) - Get termination pay periods for a company
 * [get_all](#get_all) - Get the pay schedules for a company
 * [create](#create) - Create a new pay schedule
 * [get_preview](#get_preview) - Preview pay schedule dates
 * [get](#get) - Get a pay schedule
 * [update](#update) - Update a pay schedule
-* [get_pay_periods](#get_pay_periods) - Get pay periods for a company
-* [get_unprocessed_termination_periods](#get_unprocessed_termination_periods) - Get termination pay periods for a company
-* [get_assignments](#get_assignments) - Get pay schedule assignments for a company
 * [preview_assignment](#preview_assignment) - Preview pay schedule assignments for a company
 * [assign](#assign) - Assign pay schedules for a company
+* [get_assignments](#get_assignments) - Get pay schedule assignments for a company
+
+## get_pay_periods
+
+Pay periods are the foundation of payroll. Compensation, time & attendance, taxes, and expense reports all rely on when they happened.
+
+To begin submitting information for a given payroll, we need to agree on the time period.
+
+By default, this endpoint returns pay periods starting from 6 months ago to the date today. Use the `start_date` and `end_date` parameters to change the scope of the response. End dates can be up to 3 months in the future and there is no limit on start dates.
+
+Starting in version 2023-04-01, the `eligible_employees` attribute was removed from the response. The eligible employees for a payroll are determined by the employee_compensations returned from the [PUT /v1/companies/{company_id}/payrolls/{payroll_id}/prepare](ref:put-v1-companies-company_id-payrolls-payroll_id-prepare) endpoint.
+
+scope: `payrolls:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-pay_periods" method="get" path="/v1/companies/{company_id}/pay_periods" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+
+req = Models::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest.new(
+  company_id: '<id>'
+)
+res = s.pay_schedules.get_pay_periods(request: req)
+
+unless res.pay_periods.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                           | Type                                                                                                                                | Required                                                                                                                            | Description                                                                                                                         |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                           | [Models::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest](../../models/operations/getv1companiescompanyidpayperiodsrequest.md) | :heavy_check_mark:                                                                                                                  | The request object to use for the request.                                                                                          |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdPayPeriodsResponse)](../../models/operations/getv1companiescompanyidpayperiodsresponse.md)**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## get_unprocessed_termination_periods
+
+When a payroll admin terminates an employee and selects "Dismissal Payroll" as the employee's final payroll, their last pay period will appear on the list.
+
+This endpoint returns the unprocessed pay periods for past and future terminated employees in a given company.
+
+scope: `payrolls:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-unprocessed_termination_pay_periods" method="get" path="/v1/companies/{company_id}/pay_periods/unprocessed_termination_pay_periods" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.pay_schedules.get_unprocessed_termination_periods(company_id: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.unprocessed_termination_pay_periods.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyidunprocessedterminationpayperiodsheaderxgustoapiversion.md)     | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse)](../../models/operations/getv1companiescompanyidunprocessedterminationpayperiodsresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
 
 ## get_all
 
@@ -99,7 +199,8 @@ res = s.pay_schedules.create(company_id: '<id>', body: Models::Shared::PaySchedu
   anchor_end_of_pay_period: Date.parse('2020-05-08'),
   day_1: 15,
   day_2: 31,
-  custom_name: 'demo pay schedule'
+  custom_name: 'demo pay schedule',
+  workweek_start_day: Models::Shared::WorkweekStartDay::MONDAY
 ), x_gusto_api_version: Models::Operations::PostV1CompaniesCompanyIdPaySchedulesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
 unless res.pay_schedule_show.nil?
@@ -113,7 +214,7 @@ end
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                      |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |                                                                                                                                                                                                                              |
-| `body`                                                                                                                                                                                                                       | [Models::Shared::PayScheduleCreateRequest](../../models/shared/payschedulecreaterequest.md)                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          | {<br/>"frequency": "Twice per month",<br/>"anchor_pay_date": "2020-05-15",<br/>"anchor_end_of_pay_period": "2020-05-08",<br/>"day_1": 15,<br/>"day_2": 31,<br/>"custom_name": "demo pay schedule"<br/>}                      |
+| `body`                                                                                                                                                                                                                       | [Models::Shared::PayScheduleCreateRequest](../../models/shared/payschedulecreaterequest.md)                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          | {<br/>"frequency": "Twice per month",<br/>"anchor_pay_date": "2020-05-15",<br/>"anchor_end_of_pay_period": "2020-05-08",<br/>"day_1": 15,<br/>"day_2": 31,<br/>"custom_name": "demo pay schedule",<br/>"workweek_start_day": "Monday"<br/>} |
 | `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesHeaderXGustoAPIVersion)](../../models/operations/postv1companiescompanyidpayschedulesheaderxgustoapiversion.md)                                           | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |                                                                                                                                                                                                                              |
 
 ### Response
@@ -269,7 +370,8 @@ res = s.pay_schedules.update(company_id: '<id>', pay_schedule_id: '<id>', body: 
   anchor_end_of_pay_period: Date.parse('2021-10-15'),
   day_1: 15,
   day_2: 31,
-  custom_name: 'demo pay schedule'
+  custom_name: 'demo pay schedule',
+  workweek_start_day: Models::Shared::PayScheduleUpdateRequestWorkweekStartDay::MONDAY
 ), x_gusto_api_version: Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
 unless res.pay_schedule_show.nil?
@@ -280,12 +382,12 @@ end
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                                        | Type                                                                                                                                                                                                                                             | Required                                                                                                                                                                                                                                         | Description                                                                                                                                                                                                                                      | Example                                                                                                                                                                                                                                          |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `company_id`                                                                                                                                                                                                                                     | *::String*                                                                                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                                                                                               | The UUID of the company                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                  |
-| `pay_schedule_id`                                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                                                                                               | The UUID of the pay schedule                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                  |
-| `body`                                                                                                                                                                                                                                           | [Models::Shared::PayScheduleUpdateRequest](../../models/shared/payscheduleupdaterequest.md)                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                                               | N/A                                                                                                                                                                                                                                              | {<br/>"version": "68934a3e9455fa72420237eb05902327",<br/>"auto_payroll": true,<br/>"frequency": "Twice per month",<br/>"anchor_pay_date": "2021-10-15",<br/>"anchor_end_of_pay_period": "2021-10-15",<br/>"day_1": 15,<br/>"day_2": 31,<br/>"custom_name": "demo pay schedule"<br/>} |
-| `x_gusto_api_version`                                                                                                                                                                                                                            | [T.nilable(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdHeaderXGustoAPIVersion)](../../models/operations/putv1companiescompanyidpayschedulespayscheduleidheaderxgustoapiversion.md)                                       | :heavy_minus_sign:                                                                                                                                                                                                                               | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.                     |                                                                                                                                                                                                                                                  |
+| Parameter                                                                                                                                                                                                                                                                        | Type                                                                                                                                                                                                                                                                             | Required                                                                                                                                                                                                                                                                         | Description                                                                                                                                                                                                                                                                      | Example                                                                                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                                                                     | *::String*                                                                                                                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                                                                                                                               | The UUID of the company                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                  |
+| `pay_schedule_id`                                                                                                                                                                                                                                                                | *::String*                                                                                                                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                                                                                                                               | The UUID of the pay schedule                                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                  |
+| `body`                                                                                                                                                                                                                                                                           | [Models::Shared::PayScheduleUpdateRequest](../../models/shared/payscheduleupdaterequest.md)                                                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                                                                               | N/A                                                                                                                                                                                                                                                                              | {<br/>"version": "68934a3e9455fa72420237eb05902327",<br/>"auto_payroll": true,<br/>"frequency": "Twice per month",<br/>"anchor_pay_date": "2021-10-15",<br/>"anchor_end_of_pay_period": "2021-10-15",<br/>"day_1": 15,<br/>"day_2": 31,<br/>"custom_name": "demo pay schedule",<br/>"workweek_start_day": "Monday"<br/>} |
+| `x_gusto_api_version`                                                                                                                                                                                                                                                            | [T.nilable(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdHeaderXGustoAPIVersion)](../../models/operations/putv1companiescompanyidpayschedulespayscheduleidheaderxgustoapiversion.md)                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                               | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.                                                     |                                                                                                                                                                                                                                                                                  |
 
 ### Response
 
@@ -298,150 +400,6 @@ end
 | Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
 | Models::Errors::UnprocessableEntityError | 409, 422                                 | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
-
-## get_pay_periods
-
-Pay periods are the foundation of payroll. Compensation, time & attendance, taxes, and expense reports all rely on when they happened.
-
-To begin submitting information for a given payroll, we need to agree on the time period.
-
-By default, this endpoint returns pay periods starting from 6 months ago to the date today. Use the `start_date` and `end_date` parameters to change the scope of the response. End dates can be up to 3 months in the future and there is no limit on start dates.
-
-Starting in version 2023-04-01, the `eligible_employees` attribute was removed from the response. The eligible employees for a payroll are determined by the employee_compensations returned from the [PUT /v1/companies/{company_id}/payrolls/{payroll_id}/prepare](ref:put-v1-companies-company_id-payrolls-payroll_id-prepare) endpoint.
-
-scope: `payrolls:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-pay_periods" method="get" path="/v1/companies/{company_id}/pay_periods" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-
-req = Models::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest.new(
-  company_id: '<id>'
-)
-res = s.pay_schedules.get_pay_periods(request: req)
-
-unless res.pay_periods.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                           | Type                                                                                                                                | Required                                                                                                                            | Description                                                                                                                         |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                           | [Models::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest](../../models/operations/getv1companiescompanyidpayperiodsrequest.md) | :heavy_check_mark:                                                                                                                  | The request object to use for the request.                                                                                          |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdPayPeriodsResponse)](../../models/operations/getv1companiescompanyidpayperiodsresponse.md)**
-
-### Errors
-
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
-| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
-| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
-
-## get_unprocessed_termination_periods
-
-When a payroll admin terminates an employee and selects "Dismissal Payroll" as the employee's final payroll, their last pay period will appear on the list.
-
-This endpoint returns the unprocessed pay periods for past and future terminated employees in a given company.
-
-scope: `payrolls:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-unprocessed_termination_pay_periods" method="get" path="/v1/companies/{company_id}/pay_periods/unprocessed_termination_pay_periods" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.pay_schedules.get_unprocessed_termination_periods(company_id: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
-
-unless res.unprocessed_termination_pay_periods.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyidunprocessedterminationpayperiodsheaderxgustoapiversion.md)     | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse)](../../models/operations/getv1companiescompanyidunprocessedterminationpayperiodsresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
-
-## get_assignments
-
-This endpoint returns the current pay schedule assignment for a company, with pay schedule and employee/department mappings depending on the pay schedule type.
-
-scope: `pay_schedules:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-pay_schedules-assignments" method="get" path="/v1/companies/{company_id}/pay_schedules/assignments" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.pay_schedules.get_assignments(company_id: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
-
-unless res.pay_schedule_assignment.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyidpayschedulesassignmentsheaderxgustoapiversion.md)                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsResponse)](../../models/operations/getv1companiescompanyidpayschedulesassignmentsresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
 
 ## preview_assignment
 
@@ -539,3 +497,47 @@ end
 | Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## get_assignments
+
+This endpoint returns the current pay schedule assignment for a company, with pay schedule and employee/department mappings depending on the pay schedule type.
+
+scope: `pay_schedules:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-companies-company_id-pay_schedules-assignments" method="get" path="/v1/companies/{company_id}/pay_schedules/assignments" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.pay_schedules.get_assignments(company_id: '<id>', x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.pay_schedule_assignment.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsHeaderXGustoAPIVersion)](../../models/operations/getv1companiescompanyidpayschedulesassignmentsheaderxgustoapiversion.md)                       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsResponse)](../../models/operations/getv1companiescompanyidpayschedulesassignmentsresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |

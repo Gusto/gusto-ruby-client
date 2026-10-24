@@ -23,11 +23,11 @@ module GustoEmbedded
         # The status of this company's digest computation.
         field :status, Crystalline::Nilable.new(Models::Shared::PayrollDigestResultsResultsStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollDigestResultsResultsStatus, true) } }
         # Reasons the company cannot currently run payroll. Applies to every payroll in this company's `payrolls` array — blockers are evaluated at the company level, not per payroll. Empty when there are no blockers.
-        field :blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Blockers)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blockers') } }
+        field :blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollDigestResultsBlockers)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('blockers') } }
         # Payrolls for this company within the digest date window (7 days past, 30–60 days future). May be empty.
         field :payrolls, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Payrolls)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payrolls') } }
 
-        sig { params(idx: T.nilable(::Integer), entity_type: T.nilable(Models::Shared::PayrollDigestResultsEntityType), uuid: T.nilable(::String), name: T.nilable(::String), status: T.nilable(Models::Shared::PayrollDigestResultsResultsStatus), blockers: T.nilable(T::Array[Models::Shared::Blockers]), payrolls: T.nilable(T::Array[Models::Shared::Payrolls])).void }
+        sig { params(idx: T.nilable(::Integer), entity_type: T.nilable(Models::Shared::PayrollDigestResultsEntityType), uuid: T.nilable(::String), name: T.nilable(::String), status: T.nilable(Models::Shared::PayrollDigestResultsResultsStatus), blockers: T.nilable(T::Array[Models::Shared::PayrollDigestResultsBlockers]), payrolls: T.nilable(T::Array[Models::Shared::Payrolls])).void }
         def initialize(idx: nil, entity_type: nil, uuid: nil, name: nil, status: nil, blockers: nil, payrolls: nil)
           @idx = idx
           @entity_type = entity_type

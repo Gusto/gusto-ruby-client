@@ -24,8 +24,6 @@ module GustoEmbedded
         field :primary, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('primary') } }
         # The employee's pay rate for this job (e.g., hourly wage or annual salary). This is sensitive compensation data and requires the `compensations:read` scope.
         field :rate, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('rate') } }
-        # The UUID of the current active compensation record for this job. Requires the `compensations:read` scope.
-        field :current_compensation_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('current_compensation_uuid') } }
         # Whether the employee owns at least 2% of the company.
         field :two_percent_shareholder, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('two_percent_shareholder') } }
         # The compensation history for this job, including pay rate, payment unit, FLSA status, and effective dates. This is sensitive pay information and requires the `compensations:read` scope.
@@ -36,6 +34,8 @@ module GustoEmbedded
         field :location, Crystalline::Nilable.new(Models::Shared::Location), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('location') } }
         # How the employee is paid for this job (e.g., Hour, Week, Month, Year, Paycheck). This is sensitive compensation data and requires the `compensations:read` scope.
         field :payment_unit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_unit') } }
+        # The UUID of the current active compensation record for this job. Null when the job has no current compensation. Requires the `compensations:read` scope.
+        field :current_compensation_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('current_compensation_uuid') } }
         # Whether this job is eligible for workers' compensation coverage in the state of Washington (WA).
         field :state_wc_covered, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state_wc_covered') } }
         # The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more.
@@ -43,20 +43,20 @@ module GustoEmbedded
         # The title for the job.
         field :title, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('title') } }
 
-        sig { params(uuid: ::String, version: T.nilable(::String), employee_uuid: T.nilable(::String), hire_date: T.nilable(::String), primary: T.nilable(T::Boolean), rate: T.nilable(::String), current_compensation_uuid: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), compensations: T.nilable(T::Array[Models::Shared::Compensation]), location_uuid: T.nilable(::String), location: T.nilable(Models::Shared::Location), payment_unit: T.nilable(::String), state_wc_covered: T.nilable(T::Boolean), state_wc_class_code: T.nilable(::String), title: T.nilable(::String)).void }
-        def initialize(uuid:, version: nil, employee_uuid: nil, hire_date: nil, primary: nil, rate: nil, current_compensation_uuid: nil, two_percent_shareholder: nil, compensations: nil, location_uuid: nil, location: nil, payment_unit: nil, state_wc_covered: nil, state_wc_class_code: nil, title: nil)
+        sig { params(uuid: ::String, version: T.nilable(::String), employee_uuid: T.nilable(::String), hire_date: T.nilable(::String), primary: T.nilable(T::Boolean), rate: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), compensations: T.nilable(T::Array[Models::Shared::Compensation]), location_uuid: T.nilable(::String), location: T.nilable(Models::Shared::Location), payment_unit: T.nilable(::String), current_compensation_uuid: T.nilable(::String), state_wc_covered: T.nilable(T::Boolean), state_wc_class_code: T.nilable(::String), title: T.nilable(::String)).void }
+        def initialize(uuid:, version: nil, employee_uuid: nil, hire_date: nil, primary: nil, rate: nil, two_percent_shareholder: nil, compensations: nil, location_uuid: nil, location: nil, payment_unit: nil, current_compensation_uuid: nil, state_wc_covered: nil, state_wc_class_code: nil, title: nil)
           @uuid = uuid
           @version = version
           @employee_uuid = employee_uuid
           @hire_date = hire_date
           @primary = primary
           @rate = rate
-          @current_compensation_uuid = current_compensation_uuid
           @two_percent_shareholder = two_percent_shareholder
           @compensations = compensations
           @location_uuid = location_uuid
           @location = location
           @payment_unit = payment_unit
+          @current_compensation_uuid = current_compensation_uuid
           @state_wc_covered = state_wc_covered
           @state_wc_class_code = state_wc_class_code
           @title = title
@@ -71,12 +71,12 @@ module GustoEmbedded
           return false unless @hire_date == other.hire_date
           return false unless @primary == other.primary
           return false unless @rate == other.rate
-          return false unless @current_compensation_uuid == other.current_compensation_uuid
           return false unless @two_percent_shareholder == other.two_percent_shareholder
           return false unless @compensations == other.compensations
           return false unless @location_uuid == other.location_uuid
           return false unless @location == other.location
           return false unless @payment_unit == other.payment_unit
+          return false unless @current_compensation_uuid == other.current_compensation_uuid
           return false unless @state_wc_covered == other.state_wc_covered
           return false unless @state_wc_class_code == other.state_wc_class_code
           return false unless @title == other.title
