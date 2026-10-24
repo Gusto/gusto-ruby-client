@@ -16,7 +16,7 @@ module GustoEmbedded
         field :payment_speed, Crystalline::Nilable.new(Models::Shared::PaymentConfigsUpdateRequestPaymentSpeed), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_speed'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PaymentConfigsUpdateRequestPaymentSpeed, true) } }
         # Whether to use the partner-owned disbursement payment rail.
         field :partner_owned_disbursement, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
-        # Payment limit for 1-day or 2-day payroll (in dollars).
+        # Payment limit for 1-day or 2-day payroll (in dollars). Applies to the 24-hour aggregate of all payments; a payment that exceeds it moves to 4-day.
         field :fast_payment_limit, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fast_payment_limit') } }
 
         sig { params(payment_speed: T.nilable(Models::Shared::PaymentConfigsUpdateRequestPaymentSpeed), partner_owned_disbursement: T.nilable(T::Boolean), fast_payment_limit: T.nilable(::Float)).void }

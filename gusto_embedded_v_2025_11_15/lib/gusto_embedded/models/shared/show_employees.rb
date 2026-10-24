@@ -6,7 +6,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # The representation of an employee in Gusto.
+      # An employee, with additional fields that are only ever returned on GET requests gated behind the `include` query parameter.
       class ShowEmployees
         extend T::Sig
         include Crystalline::MetadataFields
@@ -56,7 +56,7 @@ module GustoEmbedded
         # Configuration for an employee onboarding documents during onboarding
         field(
           :onboarding_documents_config,
-          Crystalline::Nilable.new(Models::Shared::OnboardingDocumentsConfig),
+          Crystalline::Nilable.new(Models::Shared::ShowEmployeesOnboardingDocumentsConfig),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("onboarding_documents_config")}}
         )
 
@@ -153,13 +153,19 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Array.new(::Float)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("applicable_tax_ids")}}
         )
+        # The name of the company the employee is associated with. Only included when the include param has the company_name value set.
+        field(
+          :company_name,
+          Crystalline::Nilable.new(::String),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("company_name")}}
+        )
 
         field(
           :current_home_address,
           Crystalline::Nilable.new(Models::Shared::EmployeeHomeAddress),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("current_home_address")}}
         )
-
+        # All of the employee's home addresses, past and present. Only included when the include param has the all_home_addresses value set.
         field(
           :all_home_addresses,
           Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeHomeAddressHistoryEntry)),
@@ -215,11 +221,14 @@ module GustoEmbedded
         # The current onboarding status of the employee
         field(
           :onboarding_status,
-          Crystalline::Nilable.new(Models::Shared::OnboardingStatus),
+          Crystalline::Nilable.new(Models::Shared::ShowEmployeesOnboardingStatus),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("onboarding_status"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::OnboardingStatus, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(
+                Models::Shared::ShowEmployeesOnboardingStatus,
+                true
+              )
             }
           }
         )
@@ -244,22 +253,25 @@ module GustoEmbedded
         # The employee's payment method
         field(
           :payment_method,
-          Crystalline::Nilable.new(Models::Shared::PaymentMethod),
+          Crystalline::Nilable.new(Models::Shared::ShowEmployeesPaymentMethod),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("payment_method"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::PaymentMethod, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::ShowEmployeesPaymentMethod, true)
             }
           }
         )
         # The current employment status of the employee. Full-time employees work 30+ hours per week. Part-time employees are split into two groups: those that work 20-29 hours a week, and those that work under 20 hours a week. Variable employees have hours that vary each week. Seasonal employees are hired for 6 months of the year or less.
         field(
           :current_employment_status,
-          Crystalline::Nilable.new(Models::Shared::CurrentEmploymentStatus),
+          Crystalline::Nilable.new(Models::Shared::ShowEmployeesCurrentEmploymentStatus),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("current_employment_status"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::CurrentEmploymentStatus, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(
+                Models::Shared::ShowEmployeesCurrentEmploymentStatus,
+                true
+              )
             }
           }
         )
@@ -272,7 +284,7 @@ module GustoEmbedded
         # Member portal invitation status information. Only included when the include param has the portal_invitations value set.
         field(
           :member_portal_invitation_status,
-          Crystalline::Nilable.new(Models::Shared::MemberPortalInvitationStatus),
+          Crystalline::Nilable.new(Models::Shared::ShowEmployeesMemberPortalInvitationStatus),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("member_portal_invitation_status")}}
         )
         # Whether an external partner portal invitation webhook has been sent for this employee. Only included when the include param has the portal_invitations value set.
@@ -291,7 +303,7 @@ module GustoEmbedded
             version: T.nilable(::String),
             terminated: T.nilable(T::Boolean),
             onboarded: T.nilable(T::Boolean),
-            onboarding_documents_config: T.nilable(Models::Shared::OnboardingDocumentsConfig),
+            onboarding_documents_config: T.nilable(Models::Shared::ShowEmployeesOnboardingDocumentsConfig),
             jobs: T.nilable(T::Array[Models::Shared::Job]),
             eligible_paid_time_off: T.nilable(T::Array[Models::Shared::PaidTimeOff]),
             terminations: T.nilable(T::Array[Models::Shared::Termination]),
@@ -306,6 +318,7 @@ module GustoEmbedded
             hidden_ssn: T.nilable(::String),
             flsa_status: T.nilable(Models::Shared::FlsaStatusType),
             applicable_tax_ids: T.nilable(T::Array[::Float]),
+            company_name: T.nilable(::String),
             current_home_address: T.nilable(Models::Shared::EmployeeHomeAddress),
             all_home_addresses: T.nilable(T::Array[Models::Shared::EmployeeHomeAddressHistoryEntry]),
             additional_properties: T.nilable(T::Hash[Symbol, ::Object]),
@@ -315,14 +328,14 @@ module GustoEmbedded
             department: T.nilable(::String),
             two_percent_shareholder: T.nilable(T::Boolean),
             work_email: T.nilable(::String),
-            onboarding_status: T.nilable(Models::Shared::OnboardingStatus),
+            onboarding_status: T.nilable(Models::Shared::ShowEmployeesOnboardingStatus),
             date_of_birth: T.nilable(::String),
             phone: T.nilable(::String),
             preferred_first_name: T.nilable(::String),
-            payment_method: T.nilable(Models::Shared::PaymentMethod),
-            current_employment_status: T.nilable(Models::Shared::CurrentEmploymentStatus),
+            payment_method: T.nilable(Models::Shared::ShowEmployeesPaymentMethod),
+            current_employment_status: T.nilable(Models::Shared::ShowEmployeesCurrentEmploymentStatus),
             department_uuid: T.nilable(::String),
-            member_portal_invitation_status: T.nilable(Models::Shared::MemberPortalInvitationStatus),
+            member_portal_invitation_status: T.nilable(Models::Shared::ShowEmployeesMemberPortalInvitationStatus),
             partner_portal_invitation_sent: T.nilable(T::Boolean)
           )
             .void
@@ -350,6 +363,7 @@ module GustoEmbedded
           hidden_ssn: nil,
           flsa_status: nil,
           applicable_tax_ids: nil,
+          company_name: nil,
           current_home_address: nil,
           all_home_addresses: nil,
           additional_properties: nil,
@@ -363,7 +377,7 @@ module GustoEmbedded
           date_of_birth: nil,
           phone: nil,
           preferred_first_name: nil,
-          payment_method: Models::Shared::PaymentMethod::CHECK,
+          payment_method: Models::Shared::ShowEmployeesPaymentMethod::CHECK,
           current_employment_status: nil,
           department_uuid: nil,
           member_portal_invitation_status: nil,
@@ -391,6 +405,7 @@ module GustoEmbedded
           @hidden_ssn = hidden_ssn
           @flsa_status = flsa_status
           @applicable_tax_ids = applicable_tax_ids
+          @company_name = company_name
           @current_home_address = current_home_address
           @all_home_addresses = all_home_addresses
           @additional_properties = additional_properties
@@ -436,6 +451,7 @@ module GustoEmbedded
           return false unless @hidden_ssn == other.hidden_ssn
           return false unless @flsa_status == other.flsa_status
           return false unless @applicable_tax_ids == other.applicable_tax_ids
+          return false unless @company_name == other.company_name
           return false unless @current_home_address == other.current_home_address
           return false unless @all_home_addresses == other.all_home_addresses
           return false unless @additional_properties == other.additional_properties

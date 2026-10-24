@@ -11,13 +11,12 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # The UUID of the bank account.
         field(
           :bank_account_uuid,
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("bank_account_uuid")}}
         )
-        # The name of the bank account.
+
         field(
           :name,
           Crystalline::Nilable.new(::String),
@@ -29,17 +28,11 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("hidden_account_number")}}
         )
-        # The routing number of the bank account.
+
         field(
           :routing_number,
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("routing_number")}}
-        )
-        # The bank account type (e.g., "Checking" or "Savings").
-        field(
-          :account_type,
-          Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("account_type")}}
         )
         # The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential.
         field(
@@ -47,7 +40,13 @@ module GustoEmbedded
           Crystalline::Nilable.new(::Integer),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("priority")}}
         )
-        # Ciphertext containing the full bank account number, which must be decrypted using a key provided by Gusto. Only visible with the `employee_payment_methods:read:account_number` scope.
+
+        field(
+          :account_type,
+          Crystalline::Nilable.new(::String),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("account_type")}}
+        )
+        # Ciphertext containing the full bank account number, which must be decrypted using a key provided by Gusto. Only visible with the `contractor_payment_methods:read:account_number` scope.
         field(
           :encrypted_account_number,
           Crystalline::Nilable.new(::String),
@@ -66,8 +65,8 @@ module GustoEmbedded
             name: T.nilable(::String),
             hidden_account_number: T.nilable(::String),
             routing_number: T.nilable(::String),
-            account_type: T.nilable(::String),
             priority: T.nilable(::Integer),
+            account_type: T.nilable(::String),
             encrypted_account_number: T.nilable(::String),
             split_amount: T.nilable(::Float)
           )
@@ -78,8 +77,8 @@ module GustoEmbedded
           name: nil,
           hidden_account_number: nil,
           routing_number: nil,
-          account_type: nil,
           priority: nil,
+          account_type: nil,
           encrypted_account_number: nil,
           split_amount: nil
         )
@@ -87,8 +86,8 @@ module GustoEmbedded
           @name = name
           @hidden_account_number = hidden_account_number
           @routing_number = routing_number
-          @account_type = account_type
           @priority = priority
+          @account_type = account_type
           @encrypted_account_number = encrypted_account_number
           @split_amount = split_amount
         end
@@ -100,8 +99,8 @@ module GustoEmbedded
           return false unless @name == other.name
           return false unless @hidden_account_number == other.hidden_account_number
           return false unless @routing_number == other.routing_number
-          return false unless @account_type == other.account_type
           return false unless @priority == other.priority
+          return false unless @account_type == other.account_type
           return false unless @encrypted_account_number == other.encrypted_account_number
           return false unless @split_amount == other.split_amount
           true

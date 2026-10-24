@@ -79,13 +79,13 @@ module GustoEmbedded
         # An array of contractor payments for this contractor payment.
         field(
           :contractor_payments,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPayments)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPaymentReceiptContractorPayments)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("contractor_payments")}}
         )
         # The licensed payroll processor
         field(
           :licensee,
-          Crystalline::Nilable.new(Models::Shared::ContractorPaymentReceiptLicensee),
+          Crystalline::Nilable.new(Models::Shared::Licensee),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("licensee")}}
         )
 
@@ -101,8 +101,8 @@ module GustoEmbedded
             right_to_refund: T.nilable(::String),
             liability_of_licensee: T.nilable(::String),
             totals: T.nilable(Models::Shared::ContractorPaymentReceiptTotals),
-            contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPayments]),
-            licensee: T.nilable(Models::Shared::ContractorPaymentReceiptLicensee)
+            contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPaymentReceiptContractorPayments]),
+            licensee: T.nilable(Models::Shared::Licensee)
           )
             .void
         }

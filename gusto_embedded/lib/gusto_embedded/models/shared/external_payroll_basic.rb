@@ -23,9 +23,9 @@ module GustoEmbedded
         # External payroll's pay period end date.
         field :payment_period_end_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_period_end_date') } }
         # The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized.  Once in the `processed` status all actions that can edit an external payroll will be disabled.
-        field :status, Crystalline::Nilable.new(Models::Shared::Status), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Status, true) } }
+        field :status, Crystalline::Nilable.new(Models::Shared::ExternalPayrollBasicStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ExternalPayrollBasicStatus, true) } }
 
-        sig { params(uuid: ::String, company_uuid: T.nilable(::String), check_date: T.nilable(::String), payment_period_start_date: T.nilable(::String), payment_period_end_date: T.nilable(::String), status: T.nilable(Models::Shared::Status)).void }
+        sig { params(uuid: ::String, company_uuid: T.nilable(::String), check_date: T.nilable(::String), payment_period_start_date: T.nilable(::String), payment_period_end_date: T.nilable(::String), status: T.nilable(Models::Shared::ExternalPayrollBasicStatus)).void }
         def initialize(uuid:, company_uuid: nil, check_date: nil, payment_period_start_date: nil, payment_period_end_date: nil, status: nil)
           @uuid = uuid
           @company_uuid = company_uuid

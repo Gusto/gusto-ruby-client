@@ -24,6 +24,8 @@ module GustoEmbedded
         field :anchor_pay_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('anchor_pay_date'), 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(true) } }
 
         field :anchor_end_of_pay_period, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('anchor_end_of_pay_period'), 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(true) } }
+
+        field :workweek_start_day, Crystalline::Nilable.new(Models::Shared::PayScheduleUpdateRequestWorkweekStartDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('workweek_start_day'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayScheduleUpdateRequestWorkweekStartDay, true) } }
         # An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies.
         #
         field :day_1, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('day_1') } }
@@ -33,13 +35,14 @@ module GustoEmbedded
         # A custom pay schedule name; null clears any custom name so the default frequency description applies.
         field :custom_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('custom_name') } }
 
-        sig { params(version: ::String, auto_payroll: T.nilable(T::Boolean), frequency: T.nilable(Models::Shared::PayScheduleUpdateRequestFrequency), anchor_pay_date: T.nilable(::Date), anchor_end_of_pay_period: T.nilable(::Date), day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), custom_name: T.nilable(::String)).void }
-        def initialize(version:, auto_payroll: nil, frequency: nil, anchor_pay_date: nil, anchor_end_of_pay_period: nil, day_1: nil, day_2: nil, custom_name: nil)
+        sig { params(version: ::String, auto_payroll: T.nilable(T::Boolean), frequency: T.nilable(Models::Shared::PayScheduleUpdateRequestFrequency), anchor_pay_date: T.nilable(::Date), anchor_end_of_pay_period: T.nilable(::Date), workweek_start_day: T.nilable(Models::Shared::PayScheduleUpdateRequestWorkweekStartDay), day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), custom_name: T.nilable(::String)).void }
+        def initialize(version:, auto_payroll: nil, frequency: nil, anchor_pay_date: nil, anchor_end_of_pay_period: nil, workweek_start_day: nil, day_1: nil, day_2: nil, custom_name: nil)
           @version = version
           @auto_payroll = auto_payroll
           @frequency = frequency
           @anchor_pay_date = anchor_pay_date
           @anchor_end_of_pay_period = anchor_end_of_pay_period
+          @workweek_start_day = workweek_start_day
           @day_1 = day_1
           @day_2 = day_2
           @custom_name = custom_name
@@ -53,6 +56,7 @@ module GustoEmbedded
           return false unless @frequency == other.frequency
           return false unless @anchor_pay_date == other.anchor_pay_date
           return false unless @anchor_end_of_pay_period == other.anchor_end_of_pay_period
+          return false unless @workweek_start_day == other.workweek_start_day
           return false unless @day_1 == other.day_1
           return false unless @day_2 == other.day_2
           return false unless @custom_name == other.custom_name

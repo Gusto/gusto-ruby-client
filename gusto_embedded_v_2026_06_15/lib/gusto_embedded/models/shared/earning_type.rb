@@ -18,12 +18,22 @@ module GustoEmbedded
         field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
         # Whether the earning type is active.
         field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
+        # The earning type category. Only present when the company has access to
+        # categorized custom bonus earning types.
+        #
+        field :category, Crystalline::Nilable.new(Models::Shared::EarningTypeCategory), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('category'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EarningTypeCategory, true) } }
+        # Whether earnings of this type are included when calculating an employee's
+        # regular rate of pay for overtime purposes. Only settable when `category` is `Other`.
+        #
+        field :included_in_overtime_pay, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('included_in_overtime_pay') } }
 
-        sig { params(uuid: ::String, name: T.nilable(::String), active: T.nilable(T::Boolean)).void }
-        def initialize(uuid:, name: nil, active: nil)
+        sig { params(uuid: ::String, name: T.nilable(::String), active: T.nilable(T::Boolean), category: T.nilable(Models::Shared::EarningTypeCategory), included_in_overtime_pay: T.nilable(T::Boolean)).void }
+        def initialize(uuid:, name: nil, active: nil, category: nil, included_in_overtime_pay: nil)
           @uuid = uuid
           @name = name
           @active = active
+          @category = category
+          @included_in_overtime_pay = included_in_overtime_pay
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -32,6 +42,8 @@ module GustoEmbedded
           return false unless @uuid == other.uuid
           return false unless @name == other.name
           return false unless @active == other.active
+          return false unless @category == other.category
+          return false unless @included_in_overtime_pay == other.included_in_overtime_pay
           true
         end
       end

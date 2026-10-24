@@ -24,9 +24,9 @@ class GustoEmbedded::Models::Operations::GetV1BenefitsResponse
   def raw_response=(str_)
   end
 
-  def supported_benefits
+  def supported_benefit_list
   end
 
-  def supported_benefits=(str_)
+  def supported_benefit_list=(str_)
   end
 end

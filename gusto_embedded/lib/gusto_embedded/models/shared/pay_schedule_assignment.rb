@@ -13,7 +13,7 @@ module GustoEmbedded
         include Crystalline::MetadataFields
 
         # The pay schedule assignment type.
-        field :type, Crystalline::Nilable.new(Models::Shared::Type), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Type, true) } }
+        field :type, Crystalline::Nilable.new(Models::Shared::PayScheduleAssignmentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayScheduleAssignmentType, true) } }
         # Pay schedule for hourly employees.
         field :hourly_pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('hourly_pay_schedule_uuid') } }
         # Pay schedule for salaried employees.
@@ -25,7 +25,7 @@ module GustoEmbedded
         # List of departments and their pay schedules.
         field :departments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleAssignmentDepartment)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('departments') } }
 
-        sig { params(type: T.nilable(Models::Shared::Type), hourly_pay_schedule_uuid: T.nilable(::String), salaried_pay_schedule_uuid: T.nilable(::String), default_pay_schedule_uuid: T.nilable(::String), employees: T.nilable(T::Array[Models::Shared::PayScheduleAssignmentEmployee]), departments: T.nilable(T::Array[Models::Shared::PayScheduleAssignmentDepartment])).void }
+        sig { params(type: T.nilable(Models::Shared::PayScheduleAssignmentType), hourly_pay_schedule_uuid: T.nilable(::String), salaried_pay_schedule_uuid: T.nilable(::String), default_pay_schedule_uuid: T.nilable(::String), employees: T.nilable(T::Array[Models::Shared::PayScheduleAssignmentEmployee]), departments: T.nilable(T::Array[Models::Shared::PayScheduleAssignmentDepartment])).void }
         def initialize(type: nil, hourly_pay_schedule_uuid: nil, salaried_pay_schedule_uuid: nil, default_pay_schedule_uuid: nil, employees: nil, departments: nil)
           @type = type
           @hourly_pay_schedule_uuid = hourly_pay_schedule_uuid

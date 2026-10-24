@@ -17,11 +17,11 @@ module GustoEmbedded
         # A token used to make contractor payment group creation idempotent. The string must be unique for each group you intend to create.
         field :creation_token, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('creation_token'), required: true } }
 
-        field :contractor_payments, Crystalline::Array.new(Models::Operations::ContractorPayments), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments'), required: true } }
+        field :contractor_payments, Crystalline::Array.new(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsContractorPayments), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments'), required: true } }
         # Optional array of submission blockers with selected unblock options. Returned from the preview endpoint and can be submitted with selected_option to resolve blockers.
         field :submission_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::SubmissionBlockers)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('submission_blockers') } }
 
-        sig { params(check_date: ::Date, creation_token: ::String, contractor_payments: T::Array[Models::Operations::ContractorPayments], submission_blockers: T.nilable(T::Array[Models::Operations::SubmissionBlockers])).void }
+        sig { params(check_date: ::Date, creation_token: ::String, contractor_payments: T::Array[Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsContractorPayments], submission_blockers: T.nilable(T::Array[Models::Operations::SubmissionBlockers])).void }
         def initialize(check_date:, creation_token:, contractor_payments:, submission_blockers: nil)
           @check_date = check_date
           @creation_token = creation_token
