@@ -4,8 +4,54 @@
 
 ### Available Operations
 
-* [get_details](#get_details) - Get a notification's details
 * [get_company_notifications](#get_company_notifications) - Get notifications for company
+* [get_details](#get_details) - Get a notification's details
+
+## get_company_notifications
+
+Returns all notifications relevant for the given company.
+
+scope: `notifications:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-company-notifications" method="get" path="/v1/companies/{company_uuid}/notifications" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+
+req = Models::Operations::GetCompanyNotificationsRequest.new(
+  company_uuid: '<id>'
+)
+res = s.notifications.get_company_notifications(request: req)
+
+unless res.notifications_list.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                       | Type                                                                                                            | Required                                                                                                        | Description                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                       | [Models::Operations::GetCompanyNotificationsRequest](../../models/operations/getcompanynotificationsrequest.md) | :heavy_check_mark:                                                                                              | The request object to use for the request.                                                                      |
+
+### Response
+
+**[T.nilable(Models::Operations::GetCompanyNotificationsResponse)](../../models/operations/getcompanynotificationsresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| Errors::APIError | 4XX, 5XX         | \*/\*            |
 
 ## get_details
 
@@ -55,49 +101,3 @@ end
 | Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
-
-## get_company_notifications
-
-Returns all notifications relevant for the given company.
-
-scope: `notifications:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-company-notifications" method="get" path="/v1/companies/{company_uuid}/notifications" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-
-req = Models::Operations::GetCompanyNotificationsRequest.new(
-  company_uuid: '<id>'
-)
-res = s.notifications.get_company_notifications(request: req)
-
-unless res.notifications_list.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                       | Type                                                                                                            | Required                                                                                                        | Description                                                                                                     |
-| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                       | [Models::Operations::GetCompanyNotificationsRequest](../../models/operations/getcompanynotificationsrequest.md) | :heavy_check_mark:                                                                                              | The request object to use for the request.                                                                      |
-
-### Response
-
-**[T.nilable(Models::Operations::GetCompanyNotificationsResponse)](../../models/operations/getcompanynotificationsresponse.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| Errors::APIError | 4XX, 5XX         | \*/\*            |

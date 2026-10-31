@@ -40,7 +40,9 @@ module GustoEmbedded
         # Include the requested attribute(s) in each employee response. Multiple options are comma separated.
         field(
           :include,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::Include)),
+          Crystalline::Nilable.new(
+            Crystalline::Array.new(Models::Operations::GetV1CompaniesCompanyIdEmployeesQueryParamInclude)
+          ),
           {'query_param': {'field_name': "include", 'style': "form", 'explode': false}}
         )
         # Filters employees by those who have completed onboarding
@@ -99,7 +101,7 @@ module GustoEmbedded
             payroll_uuid: T.nilable(::String),
             search_term: T.nilable(::String),
             sort_by: T.nilable(::String),
-            include: T.nilable(T::Array[Models::Operations::Include]),
+            include: T.nilable(T::Array[Models::Operations::GetV1CompaniesCompanyIdEmployeesQueryParamInclude]),
             onboarded: T.nilable(T::Boolean),
             onboarded_active: T.nilable(T::Boolean),
             terminated: T.nilable(T::Boolean),

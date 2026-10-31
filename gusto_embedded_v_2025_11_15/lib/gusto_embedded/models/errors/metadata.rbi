@@ -6,9 +6,9 @@ class GustoEmbedded::Models::Errors::Metadata
 end
 
 class GustoEmbedded::Models::Errors::Metadata
-  def key
+  def request_uuid
   end
 
-  def key=(str_)
+  def request_uuid=(str_)
   end
 end

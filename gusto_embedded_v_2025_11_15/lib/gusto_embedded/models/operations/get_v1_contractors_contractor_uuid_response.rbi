@@ -24,9 +24,9 @@ class GustoEmbedded::Models::Operations::GetV1ContractorsContractorUuidResponse
   def raw_response=(str_)
   end
 
-  def contractor
+  def contractor_show
   end
 
-  def contractor=(str_)
+  def contractor_show=(str_)
   end
 end

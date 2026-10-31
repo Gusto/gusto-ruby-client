@@ -119,7 +119,7 @@ s = ::GustoEmbedded::Client.new(
 )
 res = s.contractor_payment_method.update(contractor_uuid: '<id>', request_body: Models::Operations::PutV1ContractorsContractorIdPaymentMethodRequestBody.new(
   version: '63859768485e218ccf8a449bb60f14ed',
-  type: Models::Operations::PutV1ContractorsContractorIdPaymentMethodType::DIRECT_DEPOSIT
+  type: Models::Operations::Type::DIRECT_DEPOSIT
 ), x_gusto_api_version: Models::Operations::PutV1ContractorsContractorIdPaymentMethodHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
 
 unless res.contractor_payment_method.nil?
