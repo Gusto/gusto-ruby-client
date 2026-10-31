@@ -60,9 +60,12 @@ module GustoEmbedded
         field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
         # List of blockers preventing automatic payroll from being enabled. If automatic payroll is already enabled, this field is null.
         field :auto_payroll_enablement_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleAutoPayrollEnablementBlocker)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('auto_payroll_enablement_blockers') } }
+        # The day of the week that this pay schedule's workweeks start on, used for regular rate of pay overtime calculations. Null when no workweek start day has been configured (e.g. legacy pay schedules).
+        #
+        field :workweek_start_day, Crystalline::Nilable.new(Models::Shared::PayScheduleWorkweekStartDay), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('workweek_start_day'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayScheduleWorkweekStartDay, true) } }
 
-        sig { params(uuid: ::String, version: ::String, frequency: T.nilable(Models::Shared::PayScheduleFrequency), anchor_pay_date: T.nilable(::Date), anchor_end_of_pay_period: T.nilable(::Date), custom_name: T.nilable(::String), auto_pilot: T.nilable(T::Boolean), auto_payroll: T.nilable(T::Boolean), active: T.nilable(T::Boolean), day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), name: T.nilable(::String), auto_payroll_enablement_blockers: T.nilable(T::Array[Models::Shared::PayScheduleAutoPayrollEnablementBlocker])).void }
-        def initialize(uuid:, version:, frequency: nil, anchor_pay_date: nil, anchor_end_of_pay_period: nil, custom_name: nil, auto_pilot: nil, auto_payroll: nil, active: nil, day_1: nil, day_2: nil, name: nil, auto_payroll_enablement_blockers: nil)
+        sig { params(uuid: ::String, version: ::String, frequency: T.nilable(Models::Shared::PayScheduleFrequency), anchor_pay_date: T.nilable(::Date), anchor_end_of_pay_period: T.nilable(::Date), custom_name: T.nilable(::String), auto_pilot: T.nilable(T::Boolean), auto_payroll: T.nilable(T::Boolean), active: T.nilable(T::Boolean), day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), name: T.nilable(::String), auto_payroll_enablement_blockers: T.nilable(T::Array[Models::Shared::PayScheduleAutoPayrollEnablementBlocker]), workweek_start_day: T.nilable(Models::Shared::PayScheduleWorkweekStartDay)).void }
+        def initialize(uuid:, version:, frequency: nil, anchor_pay_date: nil, anchor_end_of_pay_period: nil, custom_name: nil, auto_pilot: nil, auto_payroll: nil, active: nil, day_1: nil, day_2: nil, name: nil, auto_payroll_enablement_blockers: nil, workweek_start_day: nil)
           @uuid = uuid
           @version = version
           @frequency = frequency
@@ -76,6 +79,7 @@ module GustoEmbedded
           @day_2 = day_2
           @name = name
           @auto_payroll_enablement_blockers = auto_payroll_enablement_blockers
+          @workweek_start_day = workweek_start_day
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -94,6 +98,7 @@ module GustoEmbedded
           return false unless @day_2 == other.day_2
           return false unless @name == other.name
           return false unless @auto_payroll_enablement_blockers == other.auto_payroll_enablement_blockers
+          return false unless @workweek_start_day == other.workweek_start_day
           true
         end
       end

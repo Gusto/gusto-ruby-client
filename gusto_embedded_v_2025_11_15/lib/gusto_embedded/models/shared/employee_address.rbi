@@ -66,6 +66,12 @@ class GustoEmbedded::Models::Shared::EmployeeAddress
   def active=(str_)
   end
 
+  def warnings
+  end
+
+  def warnings=(str_)
+  end
+
   def street_2
   end
 

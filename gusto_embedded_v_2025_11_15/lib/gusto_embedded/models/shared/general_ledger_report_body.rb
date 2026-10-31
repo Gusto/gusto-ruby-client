@@ -14,12 +14,15 @@ module GustoEmbedded
         # The breakdown of the report. Use 'default' for no split.
         field(
           :aggregation,
-          Models::Shared::Aggregation,
+          Models::Shared::GeneralLedgerReportBodyAggregation,
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("aggregation"),
               required: true,
-              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Aggregation, false)
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(
+                Models::Shared::GeneralLedgerReportBodyAggregation,
+                false
+              )
             }
           }
         )
@@ -36,7 +39,10 @@ module GustoEmbedded
         )
 
         sig {
-          params(aggregation: Models::Shared::Aggregation, integration_type: T.nilable(Models::Shared::IntegrationType))
+          params(
+            aggregation: Models::Shared::GeneralLedgerReportBodyAggregation,
+            integration_type: T.nilable(Models::Shared::IntegrationType)
+          )
             .void
         }
         def initialize(aggregation:, integration_type: nil)

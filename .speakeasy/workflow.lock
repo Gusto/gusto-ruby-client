@@ -1,23 +1,23 @@
-speakeasyVersion: 1.768.2
+speakeasyVersion: 1.805.0
 sources:
     GustoEmbedded-OAS:
         sourceNamespace: gusto-embedded-oas
-        sourceRevisionDigest: sha256:379bbf7e06f163379db1f96afc529190fb2a2d4919fa7302e269a4983316c665
-        sourceBlobDigest: sha256:8203c96e2a5a6525354b175c0aed3ae72b00a4fe1d2afdce59de98d0d0d15706
+        sourceRevisionDigest: sha256:7905c9e265ffdf9addb6197c2a932a73869497056c11aaf32e4194de696b2cbd
+        sourceBlobDigest: sha256:dd320d78717b871f7aa76eb3c7d49f5dd8a69aa868e8972b3cd74ba66988233f
         tags:
             - latest
             - "2025-06-15"
     GustoEmbedded-OAS-v2025-11-15:
         sourceNamespace: gusto-embedded-oas-v2025-11-15
-        sourceRevisionDigest: sha256:d0217da4f7a5b3f63ceb5d299cfbbc8f1178772aff3dec517ce4d42f286174ae
-        sourceBlobDigest: sha256:3d0895671895eef6530d62138db4cfbcdee7bf182602f02934031e0dc17b180d
+        sourceRevisionDigest: sha256:f25063a83a11091b144e01665826a1363ca2df43fd9310e23961aecc75c42124
+        sourceBlobDigest: sha256:24e4fabcbe033a8bb4ea3851546917ec41a49137da2a6c4b96ba23cdaac5ec34
         tags:
             - latest
             - "2025-11-15"
     GustoEmbedded-OAS-v2026-06-15:
         sourceNamespace: gusto-embedded-oas-v2026-06-15
-        sourceRevisionDigest: sha256:f35a7078c0b3bf293e5bbc12b5694caf35de97d2bcd7430f4e761bfa296e7aff
-        sourceBlobDigest: sha256:e64d71e6ecd26d23f86e0bec1bf340c3098096316fde81124dd56f9c9c9ca7dc
+        sourceRevisionDigest: sha256:614d645163a9bcaa2cd257fb30682414fd288df7a92de0de5c97bf93716c3d60
+        sourceBlobDigest: sha256:157bd8e931569a946e1ecbca84df93f74ea4963f5b722fe0c63f7b8fcc3c979c
         tags:
             - latest
             - "2026-06-15"
@@ -25,24 +25,24 @@ targets:
     gusto-embedded:
         source: GustoEmbedded-OAS
         sourceNamespace: gusto-embedded-oas
-        sourceRevisionDigest: sha256:379bbf7e06f163379db1f96afc529190fb2a2d4919fa7302e269a4983316c665
-        sourceBlobDigest: sha256:8203c96e2a5a6525354b175c0aed3ae72b00a4fe1d2afdce59de98d0d0d15706
+        sourceRevisionDigest: sha256:7905c9e265ffdf9addb6197c2a932a73869497056c11aaf32e4194de696b2cbd
+        sourceBlobDigest: sha256:dd320d78717b871f7aa76eb3c7d49f5dd8a69aa868e8972b3cd74ba66988233f
         codeSamplesNamespace: gusto-embedded-oas-code-samples
-        codeSamplesRevisionDigest: sha256:e71a173c3e1a5029d677f9b694524698387f162e865d9a5ae438f900eb170758
+        codeSamplesRevisionDigest: sha256:d0ebe46ac9adac7e844dc12a95480abb19931095207a6f51fc5747d0142a9bde
     gusto-embedded-v2025-11-15:
         source: GustoEmbedded-OAS-v2025-11-15
         sourceNamespace: gusto-embedded-oas-v2025-11-15
-        sourceRevisionDigest: sha256:d0217da4f7a5b3f63ceb5d299cfbbc8f1178772aff3dec517ce4d42f286174ae
-        sourceBlobDigest: sha256:3d0895671895eef6530d62138db4cfbcdee7bf182602f02934031e0dc17b180d
+        sourceRevisionDigest: sha256:f25063a83a11091b144e01665826a1363ca2df43fd9310e23961aecc75c42124
+        sourceBlobDigest: sha256:24e4fabcbe033a8bb4ea3851546917ec41a49137da2a6c4b96ba23cdaac5ec34
         codeSamplesNamespace: gusto-embedded-oas-code-samples-v2025-11-15-code-samples
-        codeSamplesRevisionDigest: sha256:862f1c00b052f0807056f36d2b60076e59067fd3db418d66e3b7f46385c5a54d
+        codeSamplesRevisionDigest: sha256:07c2e276b326abb3a091f745a71b9fd50894a327c8fe8df439a48b2498d73d81
     gusto-embedded-v2026-06-15:
         source: GustoEmbedded-OAS-v2026-06-15
         sourceNamespace: gusto-embedded-oas-v2026-06-15
-        sourceRevisionDigest: sha256:f35a7078c0b3bf293e5bbc12b5694caf35de97d2bcd7430f4e761bfa296e7aff
-        sourceBlobDigest: sha256:e64d71e6ecd26d23f86e0bec1bf340c3098096316fde81124dd56f9c9c9ca7dc
+        sourceRevisionDigest: sha256:614d645163a9bcaa2cd257fb30682414fd288df7a92de0de5c97bf93716c3d60
+        sourceBlobDigest: sha256:157bd8e931569a946e1ecbca84df93f74ea4963f5b722fe0c63f7b8fcc3c979c
         codeSamplesNamespace: gusto-embedded-oas-code-samples-v2026-06-15-code-samples
-        codeSamplesRevisionDigest: sha256:c6bc63a1f392e5f4521c023bb0ba977f8bca73558f25a6eec39f82cc27babcd8
+        codeSamplesRevisionDigest: sha256:95061d4238a3cf0ded8bf3f5ac35cd431510945669564125e84c6389e73bdd62
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

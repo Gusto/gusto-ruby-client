@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # The representation of an employee in Gusto.
+      # An employee, with additional fields that are only ever returned on GET requests gated behind the `include` query parameter.
       class ShowEmployees
         extend T::Sig
         include Crystalline::MetadataFields
@@ -27,7 +27,7 @@ module GustoEmbedded
         # Whether the employee has completed onboarding.
         field :onboarded, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarded') } }
         # Configuration for an employee onboarding documents during onboarding
-        field :onboarding_documents_config, Crystalline::Nilable.new(Models::Shared::OnboardingDocumentsConfig), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_documents_config') } }
+        field :onboarding_documents_config, Crystalline::Nilable.new(Models::Shared::ShowEmployeesOnboardingDocumentsConfig), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_documents_config') } }
 
         field :jobs, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Job)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('jobs') } }
 
@@ -56,9 +56,11 @@ module GustoEmbedded
         field :flsa_status, Crystalline::Nilable.new(Models::Shared::FlsaStatusType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::FlsaStatusType, true) } }
 
         field :applicable_tax_ids, Crystalline::Nilable.new(Crystalline::Array.new(::Float)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('applicable_tax_ids') } }
+        # The name of the company the employee is associated with. Only included when the include param has the company_name value set.
+        field :company_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_name') } }
 
         field :current_home_address, Crystalline::Nilable.new(Models::Shared::EmployeeHomeAddress), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('current_home_address') } }
-
+        # All of the employee's home addresses, past and present. Only included when the include param has the all_home_addresses value set.
         field :all_home_addresses, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeHomeAddress)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('all_home_addresses') } }
 
         field :additional_properties, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_properties'), 'additional_properties': true } }
@@ -75,7 +77,7 @@ module GustoEmbedded
         # The work email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing).
         field :work_email, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('work_email') } }
         # The current onboarding status of the employee
-        field :onboarding_status, Crystalline::Nilable.new(Models::Shared::OnboardingStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::OnboardingStatus, true) } }
+        field :onboarding_status, Crystalline::Nilable.new(Models::Shared::ShowEmployeesOnboardingStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('onboarding_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ShowEmployeesOnboardingStatus, true) } }
 
         field :date_of_birth, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('date_of_birth') } }
 
@@ -83,18 +85,18 @@ module GustoEmbedded
 
         field :preferred_first_name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('preferred_first_name') } }
         # The employee's payment method
-        field :payment_method, Crystalline::Nilable.new(Models::Shared::PaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PaymentMethod, true) } }
+        field :payment_method, Crystalline::Nilable.new(Models::Shared::ShowEmployeesPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ShowEmployeesPaymentMethod, true) } }
         # The current employment status of the employee. Full-time employees work 30+ hours per week. Part-time employees are split into two groups: those that work 20-29 hours a week, and those that work under 20 hours a week. Variable employees have hours that vary each week. Seasonal employees are hired for 6 months of the year or less.
-        field :current_employment_status, Crystalline::Nilable.new(Models::Shared::CurrentEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('current_employment_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::CurrentEmploymentStatus, true) } }
+        field :current_employment_status, Crystalline::Nilable.new(Models::Shared::ShowEmployeesCurrentEmploymentStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('current_employment_status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ShowEmployeesCurrentEmploymentStatus, true) } }
         # The UUID of the department the employee is under
         field :department_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('department_uuid') } }
         # Member portal invitation status information. Only included when the include param has the portal_invitations value set.
-        field :member_portal_invitation_status, Crystalline::Nilable.new(Models::Shared::MemberPortalInvitationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('member_portal_invitation_status') } }
+        field :member_portal_invitation_status, Crystalline::Nilable.new(Models::Shared::ShowEmployeesMemberPortalInvitationStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('member_portal_invitation_status') } }
         # Whether an external partner portal invitation webhook has been sent for this employee. Only included when the include param has the portal_invitations value set.
         field :partner_portal_invitation_sent, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_portal_invitation_sent') } }
 
-        sig { params(uuid: ::String, first_name: ::String, last_name: ::String, company_uuid: T.nilable(::String), version: T.nilable(::String), terminated: T.nilable(T::Boolean), onboarded: T.nilable(T::Boolean), onboarding_documents_config: T.nilable(Models::Shared::OnboardingDocumentsConfig), jobs: T.nilable(T::Array[Models::Shared::Job]), eligible_paid_time_off: T.nilable(T::Array[Models::Shared::PaidTimeOff]), terminations: T.nilable(T::Array[Models::Shared::Termination]), garnishments: T.nilable(T::Array[Models::Shared::Garnishment]), custom_fields: T.nilable(T::Array[Models::Shared::EmployeeCustomField]), has_ssn: T.nilable(T::Boolean), ssn: T.nilable(::String), historical: T.nilable(T::Boolean), employee_code: T.nilable(::String), title: T.nilable(::String), hired_at: T.nilable(::Date), hidden_ssn: T.nilable(::String), flsa_status: T.nilable(Models::Shared::FlsaStatusType), applicable_tax_ids: T.nilable(T::Array[::Float]), current_home_address: T.nilable(Models::Shared::EmployeeHomeAddress), all_home_addresses: T.nilable(T::Array[Models::Shared::EmployeeHomeAddress]), additional_properties: T.nilable(T::Hash[Symbol, ::Object]), middle_initial: T.nilable(::String), email: T.nilable(::String), manager_uuid: T.nilable(::String), department: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), work_email: T.nilable(::String), onboarding_status: T.nilable(Models::Shared::OnboardingStatus), date_of_birth: T.nilable(::String), phone: T.nilable(::String), preferred_first_name: T.nilable(::String), payment_method: T.nilable(Models::Shared::PaymentMethod), current_employment_status: T.nilable(Models::Shared::CurrentEmploymentStatus), department_uuid: T.nilable(::String), member_portal_invitation_status: T.nilable(Models::Shared::MemberPortalInvitationStatus), partner_portal_invitation_sent: T.nilable(T::Boolean)).void }
-        def initialize(uuid:, first_name:, last_name:, company_uuid: nil, version: nil, terminated: nil, onboarded: nil, onboarding_documents_config: nil, jobs: nil, eligible_paid_time_off: nil, terminations: nil, garnishments: nil, custom_fields: nil, has_ssn: nil, ssn: nil, historical: nil, employee_code: nil, title: nil, hired_at: nil, hidden_ssn: nil, flsa_status: nil, applicable_tax_ids: nil, current_home_address: nil, all_home_addresses: nil, additional_properties: nil, middle_initial: nil, email: nil, manager_uuid: nil, department: nil, two_percent_shareholder: nil, work_email: nil, onboarding_status: nil, date_of_birth: nil, phone: nil, preferred_first_name: nil, payment_method: Models::Shared::PaymentMethod::CHECK, current_employment_status: nil, department_uuid: nil, member_portal_invitation_status: nil, partner_portal_invitation_sent: nil)
+        sig { params(uuid: ::String, first_name: ::String, last_name: ::String, company_uuid: T.nilable(::String), version: T.nilable(::String), terminated: T.nilable(T::Boolean), onboarded: T.nilable(T::Boolean), onboarding_documents_config: T.nilable(Models::Shared::ShowEmployeesOnboardingDocumentsConfig), jobs: T.nilable(T::Array[Models::Shared::Job]), eligible_paid_time_off: T.nilable(T::Array[Models::Shared::PaidTimeOff]), terminations: T.nilable(T::Array[Models::Shared::Termination]), garnishments: T.nilable(T::Array[Models::Shared::Garnishment]), custom_fields: T.nilable(T::Array[Models::Shared::EmployeeCustomField]), has_ssn: T.nilable(T::Boolean), ssn: T.nilable(::String), historical: T.nilable(T::Boolean), employee_code: T.nilable(::String), title: T.nilable(::String), hired_at: T.nilable(::Date), hidden_ssn: T.nilable(::String), flsa_status: T.nilable(Models::Shared::FlsaStatusType), applicable_tax_ids: T.nilable(T::Array[::Float]), company_name: T.nilable(::String), current_home_address: T.nilable(Models::Shared::EmployeeHomeAddress), all_home_addresses: T.nilable(T::Array[Models::Shared::EmployeeHomeAddress]), additional_properties: T.nilable(T::Hash[Symbol, ::Object]), middle_initial: T.nilable(::String), email: T.nilable(::String), manager_uuid: T.nilable(::String), department: T.nilable(::String), two_percent_shareholder: T.nilable(T::Boolean), work_email: T.nilable(::String), onboarding_status: T.nilable(Models::Shared::ShowEmployeesOnboardingStatus), date_of_birth: T.nilable(::String), phone: T.nilable(::String), preferred_first_name: T.nilable(::String), payment_method: T.nilable(Models::Shared::ShowEmployeesPaymentMethod), current_employment_status: T.nilable(Models::Shared::ShowEmployeesCurrentEmploymentStatus), department_uuid: T.nilable(::String), member_portal_invitation_status: T.nilable(Models::Shared::ShowEmployeesMemberPortalInvitationStatus), partner_portal_invitation_sent: T.nilable(T::Boolean)).void }
+        def initialize(uuid:, first_name:, last_name:, company_uuid: nil, version: nil, terminated: nil, onboarded: nil, onboarding_documents_config: nil, jobs: nil, eligible_paid_time_off: nil, terminations: nil, garnishments: nil, custom_fields: nil, has_ssn: nil, ssn: nil, historical: nil, employee_code: nil, title: nil, hired_at: nil, hidden_ssn: nil, flsa_status: nil, applicable_tax_ids: nil, company_name: nil, current_home_address: nil, all_home_addresses: nil, additional_properties: nil, middle_initial: nil, email: nil, manager_uuid: nil, department: nil, two_percent_shareholder: nil, work_email: nil, onboarding_status: nil, date_of_birth: nil, phone: nil, preferred_first_name: nil, payment_method: Models::Shared::ShowEmployeesPaymentMethod::CHECK, current_employment_status: nil, department_uuid: nil, member_portal_invitation_status: nil, partner_portal_invitation_sent: nil)
           @uuid = uuid
           @first_name = first_name
           @last_name = last_name
@@ -117,6 +119,7 @@ module GustoEmbedded
           @hidden_ssn = hidden_ssn
           @flsa_status = flsa_status
           @applicable_tax_ids = applicable_tax_ids
+          @company_name = company_name
           @current_home_address = current_home_address
           @all_home_addresses = all_home_addresses
           @additional_properties = additional_properties
@@ -162,6 +165,7 @@ module GustoEmbedded
           return false unless @hidden_ssn == other.hidden_ssn
           return false unless @flsa_status == other.flsa_status
           return false unless @applicable_tax_ids == other.applicable_tax_ids
+          return false unless @company_name == other.company_name
           return false unless @current_home_address == other.current_home_address
           return false unless @all_home_addresses == other.all_home_addresses
           return false unless @additional_properties == other.additional_properties

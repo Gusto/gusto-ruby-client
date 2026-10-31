@@ -26,7 +26,7 @@ module GustoEmbedded
         # An object representing the type and value of the company contribution.
         field(
           :contribution,
-          Crystalline::Nilable.new(Models::Shared::Contribution),
+          Crystalline::Nilable.new(Models::Shared::EmployeeBenefitContribution),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("contribution")}}
         )
         # The date the employee benefit will start.
@@ -179,7 +179,7 @@ module GustoEmbedded
           params(
             uuid: ::String,
             version: T.nilable(::String),
-            contribution: T.nilable(Models::Shared::Contribution),
+            contribution: T.nilable(Models::Shared::EmployeeBenefitContribution),
             effective_date: T.nilable(::Date),
             employee_uuid: T.nilable(::String),
             company_benefit_uuid: T.nilable(::String),

@@ -20,6 +20,8 @@ class GustoEmbedded::Models::Shared::PayrollEmployeeCompensationsType
   def paid_time_off=(str_); end
   def reimbursements(); end
   def reimbursements=(str_); end
+  def custom_withholdings(); end
+  def custom_withholdings=(str_); end
   def version(); end
   def version=(str_); end
   def deductions(); end
