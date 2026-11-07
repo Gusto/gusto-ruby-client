@@ -138,6 +138,12 @@ class GustoEmbedded::Models::Shared::PayrollPrepared
   def fixed_withholding_rate=(str_)
   end
 
+  def workweeks
+  end
+
+  def workweeks=(str_)
+  end
+
   def processing_request
   end
 

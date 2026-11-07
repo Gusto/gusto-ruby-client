@@ -4,31 +4,27 @@
 
 ### Available Operations
 
-* [get_receipt](#get_receipt) - Get a single contractor payment receipt
-* [fund](#fund) - Fund a contractor payment [DEMO]
+* [get_v1_contractors_contractor_uuid_payments](#get_v1_contractors_contractor_uuid_payments) - Get contractor payments
+* [get_v1_contractor_payments_contractor_payment_id_pdf](#get_v1_contractor_payments_contractor_payment_id_pdf) - Get a contractor payment PDF
 * [list](#list) - Get contractor payments for a company
 * [create](#create) - Create a contractor payment
 * [get](#get) - Get a single contractor payment
 * [delete](#delete) - Cancel a contractor payment
 * [preview](#preview) - Preview contractor payment debit date
-* [get_v1_contractor_payments_contractor_payment_id_pdf](#get_v1_contractor_payments_contractor_payment_id_pdf) - Get a contractor payment PDF
+* [get_receipt](#get_receipt) - Get a single contractor payment receipt
+* [fund](#fund) - Fund a contractor payment [DEMO]
 
-## get_receipt
+## get_v1_contractors_contractor_uuid_payments
 
-Returns a contractor payment receipt.
+Returns a paginated list of payments for a single contractor.
 
-Notes:
-* Receipts are only available for direct deposit payments and are only available once those payments have been funded.
-* Payroll Receipt requests for payrolls which do not have receipts available (e.g. payment by check) will return a 404 status.
-* Hour and dollar amounts are returned as string representations of numeric decimals.
-* Dollar amounts are represented to the cent.
-* If no data has yet be inserted for a given field, it defaults to “0.00” (for fixed amounts).
+Results are sortable by `check_date` or `created_at`. Append `:asc` or `:desc` to control direction (e.g., `check_date:desc`).
 
-scope: `payrolls:read`
+scope: `contractor_pay_stubs:read`
 
 ### Example Usage
 
-<!-- UsageSnippet language="ruby" operationID="get-v1-contractor_payments-contractor_payment_uuid-receipt" method="get" path="/v1/contractor_payments/{contractor_payment_uuid}/receipt" -->
+<!-- UsageSnippet language="ruby" operationID="get-v1-contractors-contractor_uuid-payments" method="get" path="/v1/contractors/{contractor_uuid}/payments" -->
 ```ruby
 require 'gusto_embedded_client_v_2025_11_15'
 
@@ -38,57 +34,14 @@ s = ::GustoEmbedded::Client.new(
     company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
   )
 )
-res = s.contractor_payments.get_receipt(contractor_payment_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
-unless res.contractor_payment_receipt.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `contractor_payment_uuid`                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor payment                                                                                                                                                                                           |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptHeaderXGustoAPIVersion)](../../models/operations/getv1contractorpaymentscontractorpaymentuuidreceiptheaderxgustoapiversion.md)             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptResponse)](../../models/operations/getv1contractorpaymentscontractorpaymentuuidreceiptresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
-
-## fund
-
-> 🚧 Demo action
->
-> This action is only available in the Demo environment
-
-Simulate funding a contractor payment. Funding only occurs automatically in the production environment when bank transactions are generated. Use this action in the demo environment to transition a contractor payment's `status` from `Unfunded` to `Funded`. A `Funded` status is required for generating a contractor payment receipt.
-
-scope: `payrolls:run`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-v1-contractor_payments-contractor_payment_uuid-fund" method="put" path="/v1/contractor_payments/{contractor_payment_uuid}/fund" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
+req = Models::Operations::GetV1ContractorsContractorUuidPaymentsRequest.new(
+  contractor_uuid: '<id>',
+  sort_by: 'check_date:desc'
 )
-res = s.contractor_payments.fund(contractor_payment_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+res = s.contractor_payments.get_v1_contractors_contractor_uuid_payments(request: req)
 
-unless res.contractor_payment.nil?
+unless res.contractor_payment_listings.nil?
   # handle response
 end
 
@@ -96,14 +49,13 @@ end
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `contractor_payment_uuid`                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor payment                                                                                                                                                                                           |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundHeaderXGustoAPIVersion)](../../models/operations/getv1contractorpaymentscontractorpaymentuuidfundheaderxgustoapiversion.md)                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| Parameter                                                                                                                                     | Type                                                                                                                                          | Required                                                                                                                                      | Description                                                                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                     | [Models::Operations::GetV1ContractorsContractorUuidPaymentsRequest](../../models/operations/getv1contractorscontractoruuidpaymentsrequest.md) | :heavy_check_mark:                                                                                                                            | The request object to use for the request.                                                                                                    |
 
 ### Response
 
-**[T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundResponse)](../../models/operations/getv1contractorpaymentscontractorpaymentuuidfundresponse.md)**
+**[T.nilable(Models::Operations::GetV1ContractorsContractorUuidPaymentsResponse)](../../models/operations/getv1contractorscontractoruuidpaymentsresponse.md)**
 
 ### Errors
 
@@ -112,6 +64,50 @@ end
 | Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## get_v1_contractor_payments_contractor_payment_id_pdf
+
+Get a PDF document for a single contractor payment.
+
+scope: `payrolls:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-contractor_payments-contractor_payment_id-pdf" method="get" path="/v1/contractor_payments/{contractor_payment_id}/pdf" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.contractor_payments.get_v1_contractor_payments_contractor_payment_id_pdf(contractor_payment_id: '<id>', x_gusto_api_version: Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+if res.status_code == 200
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contractor_payment_id`                                                                                                                                                                                                      | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor payment                                                                                                                                                                                           |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfHeaderXGustoAPIVersion)](../../models/operations/getv1contractorpaymentscontractorpaymentidpdfheaderxgustoapiversion.md)                         | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfResponse)](../../models/operations/getv1contractorpaymentscontractorpaymentidpdfresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
 
 ## list
 
@@ -358,15 +354,22 @@ end
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
-## get_v1_contractor_payments_contractor_payment_id_pdf
+## get_receipt
 
-Get a PDF document for a single contractor payment.
+Returns a contractor payment receipt.
+
+Notes:
+* Receipts are only available for direct deposit payments and are only available once those payments have been funded.
+* Payroll Receipt requests for payrolls which do not have receipts available (e.g. payment by check) will return a 404 status.
+* Hour and dollar amounts are returned as string representations of numeric decimals.
+* Dollar amounts are represented to the cent.
+* If no data has yet be inserted for a given field, it defaults to “0.00” (for fixed amounts).
 
 scope: `payrolls:read`
 
 ### Example Usage
 
-<!-- UsageSnippet language="ruby" operationID="get-v1-contractor_payments-contractor_payment_id-pdf" method="get" path="/v1/contractor_payments/{contractor_payment_id}/pdf" -->
+<!-- UsageSnippet language="ruby" operationID="get-v1-contractor_payments-contractor_payment_uuid-receipt" method="get" path="/v1/contractor_payments/{contractor_payment_uuid}/receipt" -->
 ```ruby
 require 'gusto_embedded_client_v_2025_11_15'
 
@@ -376,9 +379,9 @@ s = ::GustoEmbedded::Client.new(
     company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
   )
 )
-res = s.contractor_payments.get_v1_contractor_payments_contractor_payment_id_pdf(contractor_payment_id: '<id>', x_gusto_api_version: Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+res = s.contractor_payments.get_receipt(contractor_payment_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
 
-if res.status_code == 200
+unless res.contractor_payment_receipt.nil?
   # handle response
 end
 
@@ -388,12 +391,12 @@ end
 
 | Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `contractor_payment_id`                                                                                                                                                                                                      | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor payment                                                                                                                                                                                           |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfHeaderXGustoAPIVersion)](../../models/operations/getv1contractorpaymentscontractorpaymentidpdfheaderxgustoapiversion.md)                         | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+| `contractor_payment_uuid`                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor payment                                                                                                                                                                                           |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptHeaderXGustoAPIVersion)](../../models/operations/getv1contractorpaymentscontractorpaymentuuidreceiptheaderxgustoapiversion.md)             | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
 
 ### Response
 
-**[T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentIdPdfResponse)](../../models/operations/getv1contractorpaymentscontractorpaymentidpdfresponse.md)**
+**[T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidReceiptResponse)](../../models/operations/getv1contractorpaymentscontractorpaymentuuidreceiptresponse.md)**
 
 ### Errors
 
@@ -401,3 +404,52 @@ end
 | ----------------------------------- | ----------------------------------- | ----------------------------------- |
 | Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
 | Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
+
+## fund
+
+> 🚧 Demo action
+>
+> This action is only available in the Demo environment
+
+Simulate funding a contractor payment. Funding only occurs automatically in the production environment when bank transactions are generated. Use this action in the demo environment to transition a contractor payment's `status` from `Unfunded` to `Funded`. A `Funded` status is required for generating a contractor payment receipt.
+
+scope: `payrolls:run`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-contractor_payments-contractor_payment_uuid-fund" method="put" path="/v1/contractor_payments/{contractor_payment_uuid}/fund" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.contractor_payments.fund(contractor_payment_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.contractor_payment.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contractor_payment_uuid`                                                                                                                                                                                                    | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor payment                                                                                                                                                                                           |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundHeaderXGustoAPIVersion)](../../models/operations/getv1contractorpaymentscontractorpaymentuuidfundheaderxgustoapiversion.md)                   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1ContractorPaymentsContractorPaymentUuidFundResponse)](../../models/operations/getv1contractorpaymentscontractorpaymentuuidfundresponse.md)**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |

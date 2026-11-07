@@ -28,6 +28,8 @@ class GustoEmbedded::Models::Shared::EmployeeAddress
   def zip=(str_); end
   def active(); end
   def active=(str_); end
+  def warnings(); end
+  def warnings=(str_); end
   def street_2(); end
   def street_2=(str_); end
   def country(); end

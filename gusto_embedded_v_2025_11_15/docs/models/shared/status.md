@@ -1,13 +1,18 @@
 # Status
 
-The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized.  Once in the `processed` status all actions that can edit an external payroll will be disabled.
+The batch's processing state.
+- `pending`: accepted, not yet started
+- `processing`: reports are being generated
+- `completed`: all reports finished
+- `failed`: the batch failed before completing
+
 
 ## Example Usage
 
 ```ruby
 require "gusto_embedded_client_v_2025_11_15"
 
-value = Status::UNPROCESSED
+value = Status::PENDING
 
 # Open enum: use .deserialize() to create instances from custom string values
 custom = Status.deserialize("custom_value")
@@ -16,7 +21,9 @@ custom = Status.deserialize("custom_value")
 
 ## Values
 
-| Name          | Value         |
-| ------------- | ------------- |
-| `UNPROCESSED` | unprocessed   |
-| `PROCESSED`   | processed     |
+| Name         | Value        |
+| ------------ | ------------ |
+| `PENDING`    | pending      |
+| `PROCESSING` | processing   |
+| `COMPLETED`  | completed    |
+| `FAILED`     | failed       |

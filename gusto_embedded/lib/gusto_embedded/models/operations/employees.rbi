@@ -10,6 +10,4 @@ end
 class GustoEmbedded::Models::Operations::Employees
   def uuid(); end
   def uuid=(str_); end
-  def balance(); end
-  def balance=(str_); end
 end

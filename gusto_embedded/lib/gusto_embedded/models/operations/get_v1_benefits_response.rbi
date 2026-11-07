@@ -14,6 +14,6 @@ class GustoEmbedded::Models::Operations::GetV1BenefitsResponse
   def status_code=(str_); end
   def raw_response(); end
   def raw_response=(str_); end
-  def supported_benefits(); end
-  def supported_benefits=(str_); end
+  def supported_benefit_list(); end
+  def supported_benefit_list=(str_); end
 end

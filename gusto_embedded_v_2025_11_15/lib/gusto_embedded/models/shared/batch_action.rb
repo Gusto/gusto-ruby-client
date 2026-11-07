@@ -9,7 +9,7 @@ module GustoEmbedded
       # BatchAction - The action being performed on the batch.
       class BatchAction < T::Enum
         enums do
-          CREATE = new("create")
+          CANCEL = new("cancel")
         end
       end
     end

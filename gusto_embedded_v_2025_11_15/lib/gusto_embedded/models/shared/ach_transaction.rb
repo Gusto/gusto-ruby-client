@@ -101,11 +101,11 @@ module GustoEmbedded
         # The type of recipient associated with the ACH transaction
         field(
           :recipient_type,
-          Crystalline::Nilable.new(Models::Shared::AchTransactionRecipientType),
+          Crystalline::Nilable.new(Models::Shared::RecipientType),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("recipient_type"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::AchTransactionRecipientType, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::RecipientType, true)
             }
           }
         )
@@ -130,7 +130,7 @@ module GustoEmbedded
             payment_date: T.nilable(::String),
             amount: T.nilable(::String),
             description: T.nilable(::String),
-            recipient_type: T.nilable(Models::Shared::AchTransactionRecipientType),
+            recipient_type: T.nilable(Models::Shared::RecipientType),
             error_code: T.nilable(::String)
           )
             .void

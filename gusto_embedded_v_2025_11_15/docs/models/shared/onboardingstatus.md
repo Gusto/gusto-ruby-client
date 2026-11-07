@@ -1,11 +1,13 @@
 # OnboardingStatus
 
+One of the "onboarding_status" enum values.
+
 ## Example Usage
 
 ```ruby
 require "gusto_embedded_client_v_2025_11_15"
 
-value = OnboardingStatus::ONBOARDING_COMPLETED
+value = OnboardingStatus::ADMIN_ONBOARDING_INCOMPLETE
 
 # Open enum: use .deserialize() to create instances from custom string values
 custom = OnboardingStatus.deserialize("custom_value")
@@ -14,13 +16,12 @@ custom = OnboardingStatus.deserialize("custom_value")
 
 ## Values
 
-| Name                                    | Value                                   |
-| --------------------------------------- | --------------------------------------- |
-| `ONBOARDING_COMPLETED`                  | onboarding_completed                    |
-| `ADMIN_ONBOARDING_INCOMPLETE`           | admin_onboarding_incomplete             |
-| `SELF_ONBOARDING_PENDING_INVITE`        | self_onboarding_pending_invite          |
-| `SELF_ONBOARDING_INVITED`               | self_onboarding_invited                 |
-| `SELF_ONBOARDING_INVITED_STARTED`       | self_onboarding_invited_started         |
-| `SELF_ONBOARDING_INVITED_OVERDUE`       | self_onboarding_invited_overdue         |
-| `SELF_ONBOARDING_COMPLETED_BY_EMPLOYEE` | self_onboarding_completed_by_employee   |
-| `SELF_ONBOARDING_AWAITING_ADMIN_REVIEW` | self_onboarding_awaiting_admin_review   |
+| Name                          | Value                         |
+| ----------------------------- | ----------------------------- |
+| `ADMIN_ONBOARDING_INCOMPLETE` | admin_onboarding_incomplete   |
+| `ADMIN_ONBOARDING_REVIEW`     | admin_onboarding_review       |
+| `SELF_ONBOARDING_NOT_INVITED` | self_onboarding_not_invited   |
+| `SELF_ONBOARDING_INVITED`     | self_onboarding_invited       |
+| `SELF_ONBOARDING_STARTED`     | self_onboarding_started       |
+| `SELF_ONBOARDING_REVIEW`      | self_onboarding_review        |
+| `ONBOARDING_COMPLETED`        | onboarding_completed          |
