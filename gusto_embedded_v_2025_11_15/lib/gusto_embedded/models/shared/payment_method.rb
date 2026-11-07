@@ -6,15 +6,12 @@
 module GustoEmbedded
   module Models
     module Shared
-      # PaymentMethod - The employee's payment method
-      class PaymentMethod
-        include ::Crystalline::Enum
+      # PaymentMethod - Payment method to filter by.
+      class PaymentMethod < T::Enum
         enums do
-          DIRECT_DEPOSIT = new("Direct Deposit")
-          CHECK = new("Check")
+          CHECK = new("check")
+          DIRECT_DEPOSIT = new("direct_deposit")
         end
-
-        open!
       end
     end
   end

@@ -18,7 +18,7 @@ module GustoEmbedded
         field :status_code, ::Integer
         # Raw HTTP response; suitable for custom response parsing
         field :raw_response, ::Faraday::Response
-        # created
+        # created a primary job with a null title
         field :job, Crystalline::Nilable.new(Models::Shared::Job)
 
         sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, job: T.nilable(Models::Shared::Job)).void }

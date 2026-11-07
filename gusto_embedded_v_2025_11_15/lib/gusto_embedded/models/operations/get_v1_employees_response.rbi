@@ -24,9 +24,9 @@ class GustoEmbedded::Models::Operations::GetV1EmployeesResponse
   def raw_response=(str_)
   end
 
-  def employee
+  def employee_show
   end
 
-  def employee=(str_)
+  def employee_show=(str_)
   end
 end

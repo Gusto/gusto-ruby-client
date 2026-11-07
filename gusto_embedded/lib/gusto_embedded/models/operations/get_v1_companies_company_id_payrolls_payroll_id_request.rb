@@ -16,7 +16,7 @@ module GustoEmbedded
         field :company_id, ::String, { 'path_param': { 'field_name': 'company_id', 'style': 'simple', 'explode': false } }
         # The UUID of the payroll
         field :payroll_id, ::String, { 'path_param': { 'field_name': 'payroll_id', 'style': 'simple', 'explode': false } }
-        # Include the requested attribute in the response, for multiple attributes comma separate the values, i.e. `?include=benefits,deductions,taxes`
+        # Include the requested attribute in the response, for multiple attributes comma separate the values, i.e. `?include=benefits,deductions,taxes`. The include option `totals` is ignored and will be removed from the list of valid values in a future API version. `totals` are always included for calculated and processed payrolls.
         field :include, Crystalline::Nilable.new(Crystalline::Array.new(Models::Operations::GetV1CompaniesCompanyIdPayrollsPayrollIdQueryParamInclude)), { 'query_param': { 'field_name': 'include', 'style': 'form', 'explode': false } }
         # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
         field :page, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'page', 'style': 'form', 'explode': true } }

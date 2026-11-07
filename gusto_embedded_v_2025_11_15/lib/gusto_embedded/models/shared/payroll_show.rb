@@ -138,7 +138,7 @@ module GustoEmbedded
 
         field(
           :employee_compensations,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeeCompensations)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollShowEmployeeCompensations)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("employee_compensations")}}
         )
         # The date at which the payroll was processed. Null if the payroll isn't processed yet.
@@ -229,7 +229,7 @@ module GustoEmbedded
             created_at: T.nilable(::DateTime),
             submission_blockers: T.nilable(T::Array[Models::Shared::PayrollSubmissionBlockerType]),
             credit_blockers: T.nilable(T::Array[Models::Shared::PayrollCreditBlockerType]),
-            employee_compensations: T.nilable(T::Array[Models::Shared::EmployeeCompensations]),
+            employee_compensations: T.nilable(T::Array[Models::Shared::PayrollShowEmployeeCompensations]),
             processed_date: T.nilable(::String),
             calculated_at: T.nilable(::DateTime),
             off_cycle_reason: T.nilable(Models::Shared::OffCycleReasonType),

@@ -50,7 +50,7 @@ module GustoEmbedded
         # Residential address on file for tax withholding and compliance mail.
         field(
           :home_address,
-          Models::Shared::HistoricalEmployeeBodyHomeAddress,
+          Models::Shared::HomeAddress,
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("home_address"), required: true}}
         )
         # End of the historical employment period.
@@ -97,7 +97,7 @@ module GustoEmbedded
             date_of_birth: ::Date,
             ssn: ::String,
             work_address: Models::Shared::WorkAddress,
-            home_address: Models::Shared::HistoricalEmployeeBodyHomeAddress,
+            home_address: Models::Shared::HomeAddress,
             termination: Models::Shared::HistoricalEmployeeBodyTermination,
             job: Models::Shared::HistoricalEmployeeBodyJob,
             middle_initial: T.nilable(::String),

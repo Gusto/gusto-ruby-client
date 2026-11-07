@@ -14,4 +14,6 @@ class GustoEmbedded::Models::Shared::PayrollUpdateHourlyCompensations
   def hours=(str_); end
   def job_uuid(); end
   def job_uuid=(str_); end
+  def breakdowns(); end
+  def breakdowns=(str_); end
 end

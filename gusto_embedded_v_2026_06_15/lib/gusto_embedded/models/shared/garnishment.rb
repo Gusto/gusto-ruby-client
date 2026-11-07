@@ -18,11 +18,11 @@ module GustoEmbedded
         field :version, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('version') } }
         # The UUID of the employee to which this garnishment belongs.
         field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-        # The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00".
+        # The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00". Child-support percentages cannot exceed 65; applicable federal or state rules may require a lower limit.
         field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
         # The description of the garnishment.
         field :description, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('description') } }
-        # Whether the garnishment is court ordered.
+        # Whether the garnishment is court ordered. Must remain true for specific garnishment types other than other_garnishment.
         field :court_ordered, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('court_ordered') } }
         # Whether or not this garnishment is currently active.
         field :active, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('active') } }
@@ -34,7 +34,7 @@ module GustoEmbedded
         field :garnishment_type, Crystalline::Nilable.new(Models::Shared::GarnishmentType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('garnishment_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::GarnishmentType, true) } }
         # Additional child support order details
         field :child_support, Crystalline::Nilable.new(Models::Shared::GarnishmentChildSupport), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('child_support') } }
-        # The number of times to apply the garnishment. Ignored if recurring is true.
+        # The number of times to apply the garnishment. Must be a positive integer when creating or changing a non-recurring count. Updates may echo an unchanged legacy zero. Ignored if recurring is true; use recurring rather than a negative count for indefinite deductions.
         field :times, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('times') } }
         # The maximum deduction per annum. A null value indicates no maximum. Represented as a float, e.g. "200.00".
         field :annual_maximum, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('annual_maximum') } }

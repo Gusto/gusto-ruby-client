@@ -20,24 +20,43 @@ module GustoEmbedded
         field :anchor_pay_date, ::Date, { 'query_param': { 'field_name': 'anchor_pay_date', 'style': 'form', 'explode': true } }
         # The last date of the first pay period. This can be the same date as the anchor pay date.
         field :anchor_end_of_pay_period, ::Date, { 'query_param': { 'field_name': 'anchor_end_of_pay_period', 'style': 'form', 'explode': true } }
-        # An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies.
+        # Legacy field, retained unchanged for compatibility. The first pay day for Monthly and regular Twice per month schedules, or the first pay-period end day for flexible Twice per month schedules. Prefer the explicit pay-period fields. Do not combine day_1/day_2 with explicit fields in a request.
+        #
+        # @deprecated true: This will be removed in a future release, please migrate away from it as soon as possible.
         field :day_1, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'day_1', 'style': 'form', 'explode': true } }
-        # An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, the second pay date is set to the last day of the month. It will be null for pay schedules with other frequencies.
+        # Legacy field, retained unchanged for compatibility. The second pay day for regular Twice per month schedules, or the second pay-period end day for flexible Twice per month schedules. A value of 31 means the last day of the month. Prefer the explicit pay-period fields. Do not combine day_1/day_2 with explicit fields in a request.
+        #
+        # @deprecated true: This will be removed in a future release, please migrate away from it as soon as possible.
         field :day_2, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'day_2', 'style': 'form', 'explode': true } }
+        # The first pay day (1-31) for Monthly or Twice per month. For Twice per month, provide both pay-day fields together. Pay days alone configure a regular schedule; adding both explicit period-end days configures a flexible schedule. Omitted fields preserve existing values on update or persisted preview. Pay days on an existing flexible schedule cannot both be cleared. Do not mix explicit fields with day_1/day_2.
+        field :first_pay_period_pay_day, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'first_pay_period_pay_day', 'style': 'form', 'explode': true } }
+        # The second pay day (1-31) for Twice per month. Provide both pay-day fields together. Pay days alone configure a regular schedule; adding both explicit period-end days configures a flexible schedule. Omitted fields preserve existing values on update or persisted preview. Pay days on an existing flexible schedule cannot both be cleared. A pay day may fall in the following month. Do not mix explicit fields with day_1/day_2.
+        field :second_pay_period_pay_day, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'second_pay_period_pay_day', 'style': 'form', 'explode': true } }
+        # The last day (1-31) of the first pay period for a flexible Twice per month schedule. On create or conversion, both explicit period-end days are required. On an existing flexible schedule, omitted values are preserved and changing them requires a matching anchor_end_of_pay_period and anchor_pay_date. Do not mix explicit fields with day_1/day_2.
+        field :first_pay_period_end_day, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'first_pay_period_end_day', 'style': 'form', 'explode': true } }
+        # The last day (1-31) of the second pay period for a flexible Twice per month schedule. A value of 31 means the last day of the month. On create or conversion, both explicit period-end days are required. On an existing flexible schedule, omitted values are preserved and changing them requires a matching anchor_end_of_pay_period and anchor_pay_date. Do not mix explicit fields with day_1/day_2.
+        field :second_pay_period_end_day, Crystalline::Nilable.new(::Integer), { 'query_param': { 'field_name': 'second_pay_period_end_day', 'style': 'form', 'explode': true } }
         # End date for the preview range. If given, this date must be in the future. When unspecified, defaults to 18 months from today.
         field :end_date, Crystalline::Nilable.new(::Date), { 'query_param': { 'field_name': 'end_date', 'style': 'form', 'explode': true } }
+        # Optional UUID of an existing pay schedule. When supplied, the preview is seeded from the persisted schedule — including internal flags (such as arrears handling) that affect period boundaries but are not exposed as request parameters. Any other query parameters override individual attributes on top of the loaded schedule.
+        field :pay_schedule_uuid, Crystalline::Nilable.new(::String), { 'query_param': { 'field_name': 'pay_schedule_uuid', 'style': 'form', 'explode': true } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(company_id: ::String, frequency: Models::Operations::Frequency, anchor_pay_date: ::Date, anchor_end_of_pay_period: ::Date, day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), end_date: T.nilable(::Date), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion)).void }
-        def initialize(company_id:, frequency:, anchor_pay_date:, anchor_end_of_pay_period:, day_1: nil, day_2: nil, end_date: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+        sig { params(company_id: ::String, frequency: Models::Operations::Frequency, anchor_pay_date: ::Date, anchor_end_of_pay_period: ::Date, day_1: T.nilable(::Integer), day_2: T.nilable(::Integer), first_pay_period_pay_day: T.nilable(::Integer), second_pay_period_pay_day: T.nilable(::Integer), first_pay_period_end_day: T.nilable(::Integer), second_pay_period_end_day: T.nilable(::Integer), end_date: T.nilable(::Date), pay_schedule_uuid: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion)).void }
+        def initialize(company_id:, frequency:, anchor_pay_date:, anchor_end_of_pay_period:, day_1: nil, day_2: nil, first_pay_period_pay_day: nil, second_pay_period_pay_day: nil, first_pay_period_end_day: nil, second_pay_period_end_day: nil, end_date: nil, pay_schedule_uuid: nil, x_gusto_api_version: Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @company_id = company_id
           @frequency = frequency
           @anchor_pay_date = anchor_pay_date
           @anchor_end_of_pay_period = anchor_end_of_pay_period
           @day_1 = day_1
           @day_2 = day_2
+          @first_pay_period_pay_day = first_pay_period_pay_day
+          @second_pay_period_pay_day = second_pay_period_pay_day
+          @first_pay_period_end_day = first_pay_period_end_day
+          @second_pay_period_end_day = second_pay_period_end_day
           @end_date = end_date
+          @pay_schedule_uuid = pay_schedule_uuid
           @x_gusto_api_version = x_gusto_api_version
         end
 
@@ -50,7 +69,12 @@ module GustoEmbedded
           return false unless @anchor_end_of_pay_period == other.anchor_end_of_pay_period
           return false unless @day_1 == other.day_1
           return false unless @day_2 == other.day_2
+          return false unless @first_pay_period_pay_day == other.first_pay_period_pay_day
+          return false unless @second_pay_period_pay_day == other.second_pay_period_pay_day
+          return false unless @first_pay_period_end_day == other.first_pay_period_end_day
+          return false unless @second_pay_period_end_day == other.second_pay_period_end_day
           return false unless @end_date == other.end_date
+          return false unless @pay_schedule_uuid == other.pay_schedule_uuid
           return false unless @x_gusto_api_version == other.x_gusto_api_version
           true
         end

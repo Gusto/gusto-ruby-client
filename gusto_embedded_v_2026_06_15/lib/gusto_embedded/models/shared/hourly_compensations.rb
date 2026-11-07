@@ -24,15 +24,20 @@ module GustoEmbedded
         field :compensation_multiplier, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('compensation_multiplier') } }
         # The FLSA Status of the employee's primary job compensation
         field :flsa_status, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('flsa_status') } }
+        # Per-workweek hours for this compensation, one entry per workweek
+        # overlapping the pay period.
+        #
+        field :breakdowns, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollEmployeeCompensationsTypeBreakdowns)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('breakdowns') } }
 
-        sig { params(name: T.nilable(::String), hours: T.nilable(::String), amount: T.nilable(::String), job_uuid: T.nilable(::String), compensation_multiplier: T.nilable(::Float), flsa_status: T.nilable(::String)).void }
-        def initialize(name: nil, hours: nil, amount: nil, job_uuid: nil, compensation_multiplier: nil, flsa_status: nil)
+        sig { params(name: T.nilable(::String), hours: T.nilable(::String), amount: T.nilable(::String), job_uuid: T.nilable(::String), compensation_multiplier: T.nilable(::Float), flsa_status: T.nilable(::String), breakdowns: T.nilable(T::Array[Models::Shared::PayrollEmployeeCompensationsTypeBreakdowns])).void }
+        def initialize(name: nil, hours: nil, amount: nil, job_uuid: nil, compensation_multiplier: nil, flsa_status: nil, breakdowns: nil)
           @name = name
           @hours = hours
           @amount = amount
           @job_uuid = job_uuid
           @compensation_multiplier = compensation_multiplier
           @flsa_status = flsa_status
+          @breakdowns = breakdowns
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -44,6 +49,7 @@ module GustoEmbedded
           return false unless @job_uuid == other.job_uuid
           return false unless @compensation_multiplier == other.compensation_multiplier
           return false unless @flsa_status == other.flsa_status
+          return false unless @breakdowns == other.breakdowns
           true
         end
       end

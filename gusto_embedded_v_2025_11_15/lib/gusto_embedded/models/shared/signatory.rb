@@ -90,7 +90,7 @@ module GustoEmbedded
 
         field(
           :home_address,
-          Crystalline::Nilable.new(Models::Shared::HomeAddress),
+          Crystalline::Nilable.new(Models::Shared::SignatoryHomeAddress),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("home_address")}}
         )
 
@@ -107,7 +107,7 @@ module GustoEmbedded
             phone: T.nilable(::String),
             birthday: T.nilable(::String),
             identity_verification_status: T.nilable(Models::Shared::IdentityVerificationStatus),
-            home_address: T.nilable(Models::Shared::HomeAddress)
+            home_address: T.nilable(Models::Shared::SignatoryHomeAddress)
           )
             .void
         }

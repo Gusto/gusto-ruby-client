@@ -6,76 +6,57 @@
 module GustoEmbedded
   module Models
     module Shared
-
+      # Residential address on file for tax withholding and compliance mail.
       class HomeAddress
         extend T::Sig
         include Crystalline::MetadataFields
 
+        # Street address line 1.
         field(
           :street_1,
-          Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("street_1")}}
+          ::String,
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("street_1"), required: true}}
         )
-
+        # City.
+        field(
+          :city,
+          ::String,
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("city"), required: true}}
+        )
+        # Two-letter U.S. state or territory postal abbreviation.
+        field(
+          :state,
+          ::String,
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("state"), required: true}}
+        )
+        # ZIP or ZIP+4.
+        field :zip, ::String, {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("zip"), required: true}}
+        # Apartment, suite, unit, or building (optional).
         field(
           :street_2,
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("street_2")}}
         )
 
-        field(
-          :city,
-          Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("city")}}
-        )
-
-        field(
-          :state,
-          Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("state")}}
-        )
-
-        field(
-          :zip,
-          Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("zip")}}
-        )
-
-        field(
-          :country,
-          Crystalline::Nilable.new(::String),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("country")}}
-        )
-
         sig {
-          params(
-            street_1: T.nilable(::String),
-            street_2: T.nilable(::String),
-            city: T.nilable(::String),
-            state: T.nilable(::String),
-            zip: T.nilable(::String),
-            country: T.nilable(::String)
-          )
-            .void
+          params(street_1: ::String, city: ::String, state: ::String, zip: ::String, street_2: T.nilable(::String)).void
         }
-        def initialize(street_1: nil, street_2: nil, city: nil, state: nil, zip: nil, country: "USA")
+        def initialize(street_1:, city:, state:, zip:, street_2: nil)
           @street_1 = street_1
-          @street_2 = street_2
           @city = city
           @state = state
           @zip = zip
-          @country = country
+          @street_2 = street_2
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a?(self.class)
           return false unless @street_1 == other.street_1
-          return false unless @street_2 == other.street_2
           return false unless @city == other.city
           return false unless @state == other.state
           return false unless @zip == other.zip
-          return false unless @country == other.country
+          return false unless @street_2 == other.street_2
           true
         end
       end

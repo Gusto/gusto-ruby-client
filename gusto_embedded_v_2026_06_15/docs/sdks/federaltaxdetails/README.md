@@ -109,6 +109,7 @@ end
 
 | Error Type                               | Status Code                              | Content Type                             |
 | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::ForbiddenErrorObject     | 403                                      | application/json                         |
 | Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
 | Models::Errors::UnprocessableEntityError | 409, 422                                 | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
