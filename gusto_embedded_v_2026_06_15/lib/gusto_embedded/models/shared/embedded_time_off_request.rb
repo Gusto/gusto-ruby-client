@@ -17,7 +17,7 @@ module GustoEmbedded
         # The status of the time off request.
         field :status, Models::Shared::EmbeddedTimeOffRequestStatus, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmbeddedTimeOffRequestStatus, false) } }
         # An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}).
-        field :days, Crystalline::Hash.new(Symbol, ::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('days'), required: true } }
+        field :days, Crystalline::Hash.new(::Symbol, ::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('days'), required: true } }
 
         field :employee, Models::Shared::EmbeddedTimeOffRequestEmployee, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee'), required: true } }
         # A note about the time off request, from the employee to the employer.
@@ -33,7 +33,7 @@ module GustoEmbedded
         # This value will be null if the request has not been approved.
         field :approver, Crystalline::Nilable.new(Models::Shared::Approver), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('approver'), required: true } }
 
-        sig { params(uuid: ::String, status: Models::Shared::EmbeddedTimeOffRequestStatus, days: T::Hash[Symbol, ::String], employee: Models::Shared::EmbeddedTimeOffRequestEmployee, employee_note: T.nilable(::String), employer_note: T.nilable(::String), policy_type: T.nilable(::String), policy_uuid: T.nilable(::String), initiator: T.nilable(Models::Shared::Initiator), approver: T.nilable(Models::Shared::Approver)).void }
+        sig { params(uuid: ::String, status: Models::Shared::EmbeddedTimeOffRequestStatus, days: T::Hash[::Symbol, ::String], employee: Models::Shared::EmbeddedTimeOffRequestEmployee, employee_note: T.nilable(::String), employer_note: T.nilable(::String), policy_type: T.nilable(::String), policy_uuid: T.nilable(::String), initiator: T.nilable(Models::Shared::Initiator), approver: T.nilable(Models::Shared::Approver)).void }
         def initialize(uuid:, status:, days:, employee:, employee_note: nil, employer_note: nil, policy_type: nil, policy_uuid: nil, initiator: nil, approver: nil)
           @uuid = uuid
           @status = status

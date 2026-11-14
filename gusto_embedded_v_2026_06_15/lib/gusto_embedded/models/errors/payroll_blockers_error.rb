@@ -10,7 +10,7 @@ module GustoEmbedded
       # Payroll Blockers Error
       #
       # For detailed information, see the [Payroll Blockers guide](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers)
-      class PayrollBlockersError < StandardError
+      class PayrollBlockersError < ::StandardError
         extend T::Sig
         include Crystalline::MetadataFields
 

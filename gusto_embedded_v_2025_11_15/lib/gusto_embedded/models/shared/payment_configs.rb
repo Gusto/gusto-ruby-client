@@ -50,7 +50,7 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EarnedFastAchBlockers)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("earned_fast_ach_blockers")}}
         )
-        # Payment limit for 1-day or 2-day payroll (string representation of decimal).
+        # Payment limit for 1-day or 2-day payroll (string representation of decimal). Applies to the 24-hour aggregate of all payments; a payment that exceeds it moves to 4-day.
         field(
           :fast_payment_limit,
           Crystalline::Nilable.new(::String),

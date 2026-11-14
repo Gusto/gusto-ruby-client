@@ -50,7 +50,7 @@ module GustoEmbedded
         # List of employees and their pay schedules.
         field(
           :employees,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Employees)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleAssignmentBodyEmployees)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("employees")}}
         )
         # List of departments and their pay schedules.
@@ -67,7 +67,7 @@ module GustoEmbedded
             salaried_pay_schedule_uuid: T.nilable(::String),
             default_pay_schedule_uuid: T.nilable(::String),
             partial_assignment: T.nilable(T::Boolean),
-            employees: T.nilable(T::Array[Models::Shared::Employees]),
+            employees: T.nilable(T::Array[Models::Shared::PayScheduleAssignmentBodyEmployees]),
             departments: T.nilable(T::Array[Models::Shared::Departments])
           )
             .void

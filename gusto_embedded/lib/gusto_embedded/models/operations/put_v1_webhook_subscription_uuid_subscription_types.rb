@@ -27,6 +27,8 @@ module GustoEmbedded
           PAY_SCHEDULE = new('PaySchedule')
           PEOPLE_BATCH = new('PeopleBatch')
           SIGNATORY = new('Signatory')
+          TIME_OFF_REQUEST = new('TimeOffRequest')
+          TIME_SHEETS_BATCH = new('TimeSheetsBatch')
         end
       end
     end

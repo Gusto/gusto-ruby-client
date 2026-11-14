@@ -6,11 +6,10 @@
 module GustoEmbedded
   module Models
     module Shared
-      # RecipientType - The type of recipient associated with the document (will be `Contractor` for Contractor Documents)
+
       class RecipientType
         include ::Crystalline::Enum
         enums do
-          COMPANY = new("Company")
           EMPLOYEE = new("Employee")
           CONTRACTOR = new("Contractor")
         end

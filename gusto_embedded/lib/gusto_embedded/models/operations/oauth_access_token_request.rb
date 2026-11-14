@@ -15,10 +15,10 @@ module GustoEmbedded
 
         field :request_body, Crystalline::Union.new(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest), { 'request': { 'media_type': 'application/json' } }
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
-        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::HeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
+        field :x_gusto_api_version, Crystalline::Nilable.new(Models::Operations::OauthAccessTokenHeaderXGustoAPIVersion), { 'header': { 'field_name': 'X-Gusto-API-Version', 'style': 'simple', 'explode': false } }
 
-        sig { params(request_body: T.any(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest), x_gusto_api_version: T.nilable(Models::Operations::HeaderXGustoAPIVersion)).void }
-        def initialize(request_body:, x_gusto_api_version: Models::Operations::HeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+        sig { params(request_body: T.any(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest), x_gusto_api_version: T.nilable(Models::Operations::OauthAccessTokenHeaderXGustoAPIVersion)).void }
+        def initialize(request_body:, x_gusto_api_version: Models::Operations::OauthAccessTokenHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
           @request_body = request_body
           @x_gusto_api_version = x_gusto_api_version
         end

@@ -90,6 +90,12 @@ class GustoEmbedded::Models::Shared::Location
   def inactive=(str_)
   end
 
+  def warnings
+  end
+
+  def warnings=(str_)
+  end
+
   def street_2
   end
 

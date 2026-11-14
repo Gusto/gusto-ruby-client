@@ -15,7 +15,7 @@ module GustoEmbedded
         # The name of the deduction.
         field :name, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('name') } }
         # The amount of the deduction for the pay period.
-        field :amount, Crystalline::Nilable.new(::Float), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
+        field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
         # The amount type of the deduction for the pay period. Only present for unprocessed payrolls.
         field :amount_type, Crystalline::Nilable.new(Models::Shared::PayrollShowAmountType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollShowAmountType, true) } }
         # The UUID of the deduction. Only present for unprocessed payrolls.
@@ -23,7 +23,7 @@ module GustoEmbedded
         # Whether the deduction can be updated via the payroll update endpoint. Only present for unprocessed payrolls.
         field :updatable_via_payroll, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('updatable_via_payroll') } }
 
-        sig { params(name: T.nilable(::String), amount: T.nilable(::Float), amount_type: T.nilable(Models::Shared::PayrollShowAmountType), uuid: T.nilable(::String), updatable_via_payroll: T.nilable(T::Boolean)).void }
+        sig { params(name: T.nilable(::String), amount: T.nilable(::String), amount_type: T.nilable(Models::Shared::PayrollShowAmountType), uuid: T.nilable(::String), updatable_via_payroll: T.nilable(T::Boolean)).void }
         def initialize(name: nil, amount: nil, amount_type: nil, uuid: nil, updatable_via_payroll: nil)
           @name = name
           @amount = amount

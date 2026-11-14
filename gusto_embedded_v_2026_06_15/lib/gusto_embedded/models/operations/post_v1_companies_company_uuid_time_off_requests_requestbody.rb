@@ -21,11 +21,11 @@ module GustoEmbedded
         # The end date of the time off request (YYYY-MM-DD)
         field :end_date, ::String, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('end_date'), required: true } }
         # An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"})
-        field :days, Crystalline::Hash.new(Symbol, ::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('days'), required: true } }
+        field :days, Crystalline::Hash.new(::Symbol, ::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('days'), required: true } }
         # A note from the employee about the request
         field :employee_note, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_note') } }
 
-        sig { params(employee_uuid: ::String, policy_uuid: ::String, start_date: ::String, end_date: ::String, days: T::Hash[Symbol, ::String], employee_note: T.nilable(::String)).void }
+        sig { params(employee_uuid: ::String, policy_uuid: ::String, start_date: ::String, end_date: ::String, days: T::Hash[::Symbol, ::String], employee_note: T.nilable(::String)).void }
         def initialize(employee_uuid:, policy_uuid:, start_date:, end_date:, days:, employee_note: nil)
           @employee_uuid = employee_uuid
           @policy_uuid = policy_uuid

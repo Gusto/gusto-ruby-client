@@ -20,13 +20,17 @@ module GustoEmbedded
         field :amount, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('amount') } }
         # The outstanding hours paid upon termination. This field is only applicable for termination payrolls.
         field :final_payout_unused_hours_input, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('final_payout_unused_hours_input') } }
+        # Total hours of approved time off requests overlapping this pay period for this time-off policy. Only populated on unprocessed (draft) payrolls; absent on processed payrolls. Read-only.
+        #
+        field :approved_request_hours, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('approved_request_hours') } }
 
-        sig { params(name: T.nilable(::String), hours: T.nilable(::String), amount: T.nilable(::String), final_payout_unused_hours_input: T.nilable(::String)).void }
-        def initialize(name: nil, hours: nil, amount: nil, final_payout_unused_hours_input: nil)
+        sig { params(name: T.nilable(::String), hours: T.nilable(::String), amount: T.nilable(::String), final_payout_unused_hours_input: T.nilable(::String), approved_request_hours: T.nilable(::String)).void }
+        def initialize(name: nil, hours: nil, amount: nil, final_payout_unused_hours_input: nil, approved_request_hours: nil)
           @name = name
           @hours = hours
           @amount = amount
           @final_payout_unused_hours_input = final_payout_unused_hours_input
+          @approved_request_hours = approved_request_hours
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -36,6 +40,7 @@ module GustoEmbedded
           return false unless @hours == other.hours
           return false unless @amount == other.amount
           return false unless @final_payout_unused_hours_input == other.final_payout_unused_hours_input
+          return false unless @approved_request_hours == other.approved_request_hours
           true
         end
       end

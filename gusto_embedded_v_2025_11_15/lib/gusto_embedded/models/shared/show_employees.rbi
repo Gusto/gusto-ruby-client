@@ -138,6 +138,12 @@ class GustoEmbedded::Models::Shared::ShowEmployees
   def applicable_tax_ids=(str_)
   end
 
+  def company_name
+  end
+
+  def company_name=(str_)
+  end
+
   def current_home_address
   end
 

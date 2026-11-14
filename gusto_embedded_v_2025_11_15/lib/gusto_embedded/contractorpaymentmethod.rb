@@ -22,7 +22,11 @@ module GustoEmbedded
       @sdk_configuration = sdk_config
     end
 
-    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    sig {
+      params(base_url: ::String, url_variables: T.nilable(T::Hash[::Symbol, T.any(::String, T::Enum)])).returns(
+        ::String
+      )
+    }
     def get_url(base_url:, url_variables: nil)
       sd_base_url, sd_options = @sdk_configuration.get_server_details
 
@@ -43,8 +47,8 @@ module GustoEmbedded
         x_gusto_api_version: T.nilable(
           Models::Operations::GetV1ContractorsContractorUuidBankAccountsHeaderXGustoAPIVersion
         ),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::GetV1ContractorsContractorUuidBankAccountsResponse)
     }
@@ -68,7 +72,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -87,7 +91,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -107,7 +111,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -144,7 +148,7 @@ module GustoEmbedded
           )
           response_data = http_response.env.response_body
           obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
+            ::JSON.parse(response_data),
             Crystalline::Array.new(Models::Shared::ContractorBankAccount)
           )
           response = Models::Operations::GetV1ContractorsContractorUuidBankAccountsResponse.new(
@@ -174,7 +178,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise(
@@ -223,8 +227,8 @@ module GustoEmbedded
         x_gusto_api_version: T.nilable(
           Models::Operations::GetV1ContractorsContractorUuidPaymentMethodHeaderXGustoAPIVersion
         ),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::GetV1ContractorsContractorUuidPaymentMethodResponse)
     }
@@ -250,7 +254,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -269,7 +273,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -289,7 +293,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -325,7 +329,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::ContractorPaymentMethod)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::ContractorPaymentMethod)
           response = Models::Operations::GetV1ContractorsContractorUuidPaymentMethodResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -353,7 +357,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise(
@@ -403,8 +407,8 @@ module GustoEmbedded
         x_gusto_api_version: T.nilable(
           Models::Operations::PutV1ContractorsContractorIdPaymentMethodHeaderXGustoAPIVersion
         ),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::PutV1ContractorsContractorIdPaymentMethodResponse)
     }
@@ -430,15 +434,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :body, :json)
       headers["content-type"] = req_content_type
-      raise StandardError, "request body is required" if data.nil? && form.nil?
+      raise ::StandardError, "request body is required" if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, "application/x-www-form-urlencoded")
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -461,7 +465,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -482,7 +486,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -518,7 +522,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::ContractorPaymentMethod)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::ContractorPaymentMethod)
           response = Models::Operations::PutV1ContractorsContractorIdPaymentMethodResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -546,7 +550,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise(
@@ -567,7 +571,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::ConflictErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::ConflictErrorObject)
           raise obj
         else
           raise(
@@ -588,7 +592,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise(

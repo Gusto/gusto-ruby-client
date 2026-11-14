@@ -18,10 +18,20 @@ class GustoEmbedded::Models::Shared::PayScheduleUpdateRequest
   def anchor_pay_date=(str_); end
   def anchor_end_of_pay_period(); end
   def anchor_end_of_pay_period=(str_); end
+  def workweek_start_day(); end
+  def workweek_start_day=(str_); end
   def day_1(); end
   def day_1=(str_); end
   def day_2(); end
   def day_2=(str_); end
+  def first_pay_period_pay_day(); end
+  def first_pay_period_pay_day=(str_); end
+  def second_pay_period_pay_day(); end
+  def second_pay_period_pay_day=(str_); end
+  def first_pay_period_end_day(); end
+  def first_pay_period_end_day=(str_); end
+  def second_pay_period_end_day(); end
+  def second_pay_period_end_day=(str_); end
   def custom_name(); end
   def custom_name=(str_); end
 end

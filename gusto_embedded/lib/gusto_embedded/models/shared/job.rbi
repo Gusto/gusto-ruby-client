@@ -20,8 +20,6 @@ class GustoEmbedded::Models::Shared::Job
   def primary=(str_); end
   def rate(); end
   def rate=(str_); end
-  def current_compensation_uuid(); end
-  def current_compensation_uuid=(str_); end
   def two_percent_shareholder(); end
   def two_percent_shareholder=(str_); end
   def compensations(); end
@@ -32,6 +30,8 @@ class GustoEmbedded::Models::Shared::Job
   def location=(str_); end
   def payment_unit(); end
   def payment_unit=(str_); end
+  def current_compensation_uuid(); end
+  def current_compensation_uuid=(str_); end
   def state_wc_covered(); end
   def state_wc_covered=(str_); end
   def state_wc_class_code(); end

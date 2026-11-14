@@ -86,7 +86,7 @@ module GustoEmbedded
         # An object containing template variables used to render the notification. The structure of this object depends on the notification category. Each category defines a fixed set of variable names (keys), which are always present. The values of these variables can vary depending on the specific notification instance.
         field(
           :template_variables,
-          Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::String)),
+          Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::String)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("template_variables")}}
         )
 
@@ -103,7 +103,7 @@ module GustoEmbedded
             published_at: ::String,
             resources: T::Array[Models::Shared::Resources],
             due_at: T.nilable(::String),
-            template_variables: T.nilable(T::Hash[Symbol, ::String])
+            template_variables: T.nilable(T::Hash[::Symbol, ::String])
           )
             .void
         }
