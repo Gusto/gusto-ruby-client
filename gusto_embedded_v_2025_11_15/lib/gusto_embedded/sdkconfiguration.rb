@@ -23,7 +23,7 @@ module GustoEmbedded
       demo: "https://api.gusto-demo.com",
       prod: "https://api.gusto.com"
     }.freeze,
-    T::Hash[T.any(String, Symbol), String]
+    T::Hash[T.any(::String, ::Symbol), ::String]
   )
   # Contains the list of servers available to the SDK
 
@@ -39,31 +39,31 @@ module GustoEmbedded
     sig { returns(T.nilable(::GustoEmbedded::Utils::RetryConfig)) }
     attr_accessor :retry_config
 
-    sig { returns(T.nilable(Float)) }
+    sig { returns(T.nilable(::Float)) }
     attr_accessor :timeout
 
     sig { returns(T.nilable(T.proc.returns(T.nilable(Models::Shared::Security)))) }
     attr_accessor :security_source
 
-    sig { returns(T.nilable(String)) }
+    sig { returns(T.nilable(::String)) }
     attr_accessor :server_url
 
-    sig { returns(Symbol) }
+    sig { returns(::Symbol) }
     attr_accessor :server
 
-    sig { returns(String) }
+    sig { returns(::String) }
     attr_accessor :language
 
-    sig { returns(String) }
+    sig { returns(::String) }
     attr_accessor :openapi_doc_version
 
-    sig { returns(String) }
+    sig { returns(::String) }
     attr_accessor :sdk_version
 
-    sig { returns(String) }
+    sig { returns(::String) }
     attr_accessor :gen_version
 
-    sig { returns(String) }
+    sig { returns(::String) }
     attr_accessor :user_agent
 
     sig do
@@ -71,11 +71,11 @@ module GustoEmbedded
         client: T.nilable(Faraday::Connection),
         hooks: ::GustoEmbedded::SDKHooks::Hooks,
         retry_config: T.nilable(::GustoEmbedded::Utils::RetryConfig),
-        timeout_ms: T.nilable(Integer),
+        timeout_ms: T.nilable(::Integer),
         security: T.nilable(Models::Shared::Security),
         security_source: T.nilable(T.proc.returns(Models::Shared::Security)),
-        server_url: T.nilable(String),
-        server: T.nilable(Symbol)
+        server_url: T.nilable(::String),
+        server: T.nilable(::Symbol)
       )
         .void
     end
@@ -86,7 +86,7 @@ module GustoEmbedded
       @server_url = server_url
       @timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       @server = server.nil? ? SERVER_DEMO : server
-      raise StandardError, "Invalid server \"#{server}\"" if !SERVERS.key?(@server)
+      raise ::StandardError, "Invalid server \"#{server}\"" if !SERVERS.key?(@server)
       if !security_source.nil?
         @security_source = security_source
       elsif !security.nil?
@@ -95,12 +95,12 @@ module GustoEmbedded
 
       @language = "ruby"
       @openapi_doc_version = "2025-11-15"
-      @sdk_version = "0.0.2"
-      @gen_version = "2.889.1"
-      @user_agent = "speakeasy-sdk/ruby 0.0.2 2.889.1 2025-11-15 gusto_embedded_client_v_2025_11_15"
+      @sdk_version = "0.0.3"
+      @gen_version = "2.961.1"
+      @user_agent = "speakeasy-sdk/ruby 0.0.3 2.961.1 2025-11-15 gusto_embedded_client_v_2025_11_15"
     end
 
-    sig { returns([String, T::Hash[Symbol, String]]) }
+    sig { returns([::String, T::Hash[::Symbol, ::String]]) }
     def get_server_details
       return [@server_url.delete_suffix("/"), {}] if !@server_url.nil?
       @server = T.must(@server)

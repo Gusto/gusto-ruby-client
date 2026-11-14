@@ -23,9 +23,9 @@ module GustoEmbedded
         # The aggregate of company contribution for all employees given the period of time and the specific company benefit.
         field :company_benefit_contribution, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('company_benefit_contribution') } }
 
-        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::BenefitSummaryEmployees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
+        field :employees, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Employees)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employees') } }
 
-        sig { params(start_date: T.nilable(::String), end_date: T.nilable(::String), description: T.nilable(::String), company_benefit_deduction: T.nilable(::String), company_benefit_contribution: T.nilable(::String), employees: T.nilable(T::Array[Models::Shared::BenefitSummaryEmployees])).void }
+        sig { params(start_date: T.nilable(::String), end_date: T.nilable(::String), description: T.nilable(::String), company_benefit_deduction: T.nilable(::String), company_benefit_contribution: T.nilable(::String), employees: T.nilable(T::Array[Models::Shared::Employees])).void }
         def initialize(start_date: nil, end_date: nil, description: nil, company_benefit_deduction: nil, company_benefit_contribution: nil, employees: nil)
           @start_date = start_date
           @end_date = end_date

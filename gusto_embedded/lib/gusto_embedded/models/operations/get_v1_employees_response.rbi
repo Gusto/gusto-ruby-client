@@ -14,6 +14,6 @@ class GustoEmbedded::Models::Operations::GetV1EmployeesResponse
   def status_code=(str_); end
   def raw_response(); end
   def raw_response=(str_); end
-  def employee(); end
-  def employee=(str_); end
+  def employee_show(); end
+  def employee_show=(str_); end
 end

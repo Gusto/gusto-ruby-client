@@ -20,4 +20,6 @@ class GustoEmbedded::Models::Shared::PayrollShowHourlyCompensations
   def compensation_multiplier=(str_); end
   def flsa_status(); end
   def flsa_status=(str_); end
+  def breakdowns(); end
+  def breakdowns=(str_); end
 end

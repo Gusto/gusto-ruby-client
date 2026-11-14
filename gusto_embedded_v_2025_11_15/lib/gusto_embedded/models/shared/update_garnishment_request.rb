@@ -17,7 +17,7 @@ module GustoEmbedded
           ::String,
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("version"), required: true}}
         )
-        # The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00".
+        # The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00". Child-support percentages cannot exceed 65; applicable federal or state rules may require a lower limit.
         field(
           :amount,
           Crystalline::Nilable.new(::String),
@@ -29,7 +29,7 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("description")}}
         )
-        # Whether the garnishment is court ordered.
+        # Whether the garnishment is court ordered. Must remain true for specific garnishment types other than other_garnishment.
         field(
           :court_ordered,
           Crystalline::Nilable.new(Crystalline::Boolean.new),
@@ -79,7 +79,7 @@ module GustoEmbedded
           Crystalline::Nilable.new(Models::Shared::GarnishmentChildSupport),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("child_support")}}
         )
-        # The number of times to apply the garnishment. Ignored if recurring is true.
+        # The number of times to apply the garnishment. Must be a positive integer when creating or changing a non-recurring count. Updates may echo an unchanged legacy zero. Ignored if recurring is true; use recurring rather than a negative count for indefinite deductions.
         field(
           :times,
           Crystalline::Nilable.new(::Integer),

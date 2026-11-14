@@ -22,7 +22,11 @@ module GustoEmbedded
       @sdk_configuration = sdk_config
     end
 
-    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    sig {
+      params(base_url: ::String, url_variables: T.nilable(T::Hash[::Symbol, T.any(::String, T::Enum)])).returns(
+        ::String
+      )
+    }
     def get_url(base_url:, url_variables: nil)
       sd_base_url, sd_options = @sdk_configuration.get_server_details
 
@@ -39,1011 +43,9 @@ module GustoEmbedded
 
     sig {
       params(
-        request: Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsRequest,
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
-      )
-        .returns(Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsResponse)
-    }
-    def list(request:, timeout_ms: nil, http_headers: nil)
-      # list - Get benefits for a company
-      # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
-      #
-      # Note that company benefits can be deactivated only when no employees are enrolled.
-      #
-      # Benefits containing PHI are only visible to applications with the `company_benefits:read:phi` scope.
-      #
-      # scope: `company_benefits:read`
-      #
-      # If set, this operation will use `company_access_auth` from the global security.
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsRequest,
-        base_url,
-        "/v1/companies/{company_id}/company_benefits",
-        request
-      )
-      headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
-      query_params = Utils.get_query_params(
-        Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsRequest,
-        request,
-        nil
-      )
-      headers["Accept"] = "application/json"
-      headers["user-agent"] = @sdk_configuration.user_agent
-
-      security = @sdk_configuration.security_source&.call
-
-      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
-      timeout ||= @sdk_configuration.timeout
-
-      connection = @sdk_configuration.client
-
-      hook_ctx = SDKHooks::HookContext.new(
-        config: @sdk_configuration,
-        base_url: base_url,
-        oauth2_scopes: nil,
-        operation_id: "get-v1-companies-company_id-company_benefits",
-        security_source: @sdk_configuration.security_source
-      )
-
-      error = T.let(nil, T.nilable(StandardError))
-      http_response = T.let(nil, T.nilable(Faraday::Response))
-
-      begin
-        http_response = T.must(connection).get(url) do |req|
-          req.headers.merge!(headers)
-          req.options.timeout = timeout unless timeout.nil?
-          req.params = query_params
-          Utils.configure_request_security(req, security, %i[company_access_auth])
-          http_headers&.each do |key, value|
-            req.headers[key.to_s] = value
-          end
-
-          @sdk_configuration.hooks.before_request(
-            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            request: req
-          )
-        end
-
-      rescue StandardError => e
-        error = e
-      ensure
-        if http_response.nil? || Utils.error_status?(http_response.status)
-          http_response = @sdk_configuration.hooks.after_error(
-            error: error,
-            hook_ctx: SDKHooks::AfterErrorHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        else
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        end
-
-        if http_response.nil?
-          raise error if !error.nil?
-          raise "no response"
-        end
-      end
-
-      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
-      if Utils.match_status_code(http_response.status, ["200"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
-            Crystalline::Array.new(Models::Shared::CompanyBenefit)
-          )
-          response = Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsResponse.new(
-            status_code: http_response.status,
-            content_type: content_type,
-            raw_response: http_response,
-            company_benefits: T.unsafe(obj)
-          )
-
-          return response
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["404"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["4XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      elsif Utils.match_status_code(http_response.status, ["5XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      else
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "Unknown status code received"
-        )
-
-      end
-    end
-
-    sig {
-      params(
-        body: Models::Shared::CompanyBenefitCreateRequest,
-        company_id: ::String,
-        x_gusto_api_version: T.nilable(
-          Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsHeaderXGustoAPIVersion
-        ),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
-      )
-        .returns(Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsResponse)
-    }
-    def create(body:, company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
-      # create - Create a company benefit
-      # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
-      #
-      # Note that company benefits can be deactivated only when no employees are enrolled.
-      #
-      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only create company benefits for benefit types that are permitted for the application.
-      #
-      # scope: `company_benefits:write`
-      #
-      # If set, this operation will use `company_access_auth` from the global security.
-      request = Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequest.new(
-        company_id: company_id,
-        body: body,
-        x_gusto_api_version: x_gusto_api_version
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequest,
-        base_url,
-        "/v1/companies/{company_id}/company_benefits",
-        request
-      )
-      headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
-      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :body, :json)
-      headers["content-type"] = req_content_type
-      raise StandardError, "request body is required" if data.nil? && form.nil?
-
-      if form && !form.empty?
-        body = Utils.encode_form(form)
-      elsif Utils.match_content_type(req_content_type, "application/x-www-form-urlencoded")
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
-      else
-        body = data
-      end
-
-      headers["Accept"] = "application/json"
-      headers["user-agent"] = @sdk_configuration.user_agent
-
-      security = @sdk_configuration.security_source&.call
-
-      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
-      timeout ||= @sdk_configuration.timeout
-
-      connection = @sdk_configuration.client
-
-      hook_ctx = SDKHooks::HookContext.new(
-        config: @sdk_configuration,
-        base_url: base_url,
-        oauth2_scopes: nil,
-        operation_id: "post-v1-companies-company_id-company_benefits",
-        security_source: @sdk_configuration.security_source
-      )
-
-      error = T.let(nil, T.nilable(StandardError))
-      http_response = T.let(nil, T.nilable(Faraday::Response))
-
-      begin
-        http_response = T.must(connection).post(url) do |req|
-          req.body = body
-          req.headers.merge!(headers)
-          req.options.timeout = timeout unless timeout.nil?
-          Utils.configure_request_security(req, security, %i[company_access_auth])
-          http_headers&.each do |key, value|
-            req.headers[key.to_s] = value
-          end
-
-          @sdk_configuration.hooks.before_request(
-            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            request: req
-          )
-        end
-
-      rescue StandardError => e
-        error = e
-      ensure
-        if http_response.nil? || Utils.error_status?(http_response.status)
-          http_response = @sdk_configuration.hooks.after_error(
-            error: error,
-            hook_ctx: SDKHooks::AfterErrorHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        else
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        end
-
-        if http_response.nil?
-          raise error if !error.nil?
-          raise "no response"
-        end
-      end
-
-      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
-      if Utils.match_status_code(http_response.status, ["201"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::CompanyBenefit)
-          response = Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsResponse.new(
-            status_code: http_response.status,
-            content_type: content_type,
-            raw_response: http_response,
-            company_benefit: T.unsafe(obj)
-          )
-
-          return response
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["404"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["422"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["4XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      elsif Utils.match_status_code(http_response.status, ["5XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      else
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "Unknown status code received"
-        )
-
-      end
-    end
-
-    sig {
-      params(
-        company_benefit_id: ::String,
-        x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion),
-        with_employee_benefits: T.nilable(T::Boolean),
-        include: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdQueryParamInclude),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
-      )
-        .returns(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdResponse)
-    }
-    def get(
-      company_benefit_id:,
-      x_gusto_api_version: nil,
-      with_employee_benefits: nil,
-      include: nil,
-      timeout_ms: nil,
-      http_headers: nil
-    )
-      # get - Get a company benefit
-      # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
-      #
-      # Note that company benefits can be deactivated only when no employees are enrolled.
-      #
-      # When with_employee_benefits parameter with true value is passed, employee_benefits:read scope is required to return employee_benefits.
-      #
-      # scope: `company_benefits:read`
-      #
-      # If set, this operation will use `company_access_auth` from the global security.
-      request = Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdRequest.new(
-        company_benefit_id: company_benefit_id,
-        x_gusto_api_version: x_gusto_api_version,
-        with_employee_benefits: with_employee_benefits,
-        include: include
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdRequest,
-        base_url,
-        "/v1/company_benefits/{company_benefit_id}",
-        request
-      )
-      headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
-      query_params = Utils.get_query_params(
-        Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdRequest,
-        request,
-        nil
-      )
-      headers["Accept"] = "application/json"
-      headers["user-agent"] = @sdk_configuration.user_agent
-
-      security = @sdk_configuration.security_source&.call
-
-      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
-      timeout ||= @sdk_configuration.timeout
-
-      connection = @sdk_configuration.client
-
-      hook_ctx = SDKHooks::HookContext.new(
-        config: @sdk_configuration,
-        base_url: base_url,
-        oauth2_scopes: nil,
-        operation_id: "get-v1-company_benefits-company_benefit_id",
-        security_source: @sdk_configuration.security_source
-      )
-
-      error = T.let(nil, T.nilable(StandardError))
-      http_response = T.let(nil, T.nilable(Faraday::Response))
-
-      begin
-        http_response = T.must(connection).get(url) do |req|
-          req.headers.merge!(headers)
-          req.options.timeout = timeout unless timeout.nil?
-          req.params = query_params
-          Utils.configure_request_security(req, security, %i[company_access_auth])
-          http_headers&.each do |key, value|
-            req.headers[key.to_s] = value
-          end
-
-          @sdk_configuration.hooks.before_request(
-            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            request: req
-          )
-        end
-
-      rescue StandardError => e
-        error = e
-      ensure
-        if http_response.nil? || Utils.error_status?(http_response.status)
-          http_response = @sdk_configuration.hooks.after_error(
-            error: error,
-            hook_ctx: SDKHooks::AfterErrorHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        else
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        end
-
-        if http_response.nil?
-          raise error if !error.nil?
-          raise "no response"
-        end
-      end
-
-      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
-      if Utils.match_status_code(http_response.status, ["200"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
-            Models::Shared::CompanyBenefitWithEmployeeBenefits
-          )
-          response = Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdResponse.new(
-            status_code: http_response.status,
-            content_type: content_type,
-            raw_response: http_response,
-            company_benefit_with_employee_benefits: T.unsafe(obj)
-          )
-
-          return response
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["404"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["4XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      elsif Utils.match_status_code(http_response.status, ["5XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      else
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "Unknown status code received"
-        )
-
-      end
-    end
-
-    sig {
-      params(
-        body: Models::Shared::CompanyBenefitUpdateRequest,
-        company_benefit_id: ::String,
-        x_gusto_api_version: T.nilable(Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
-      )
-        .returns(Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdResponse)
-    }
-    def update(body:, company_benefit_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
-      # update - Update a company benefit
-      # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
-      #
-      # Note that company benefits can be deactivated only when no employees are enrolled.
-      #
-      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only update company benefits for benefit types that are permitted for the application.
-      #
-      # scope: `company_benefits:write`
-      #
-      # If set, this operation will use `company_access_auth` from the global security.
-      request = Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequest.new(
-        company_benefit_id: company_benefit_id,
-        body: body,
-        x_gusto_api_version: x_gusto_api_version
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequest,
-        base_url,
-        "/v1/company_benefits/{company_benefit_id}",
-        request
-      )
-      headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
-      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :body, :json)
-      headers["content-type"] = req_content_type
-      raise StandardError, "request body is required" if data.nil? && form.nil?
-
-      if form && !form.empty?
-        body = Utils.encode_form(form)
-      elsif Utils.match_content_type(req_content_type, "application/x-www-form-urlencoded")
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
-      else
-        body = data
-      end
-
-      headers["Accept"] = "application/json"
-      headers["user-agent"] = @sdk_configuration.user_agent
-
-      security = @sdk_configuration.security_source&.call
-
-      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
-      timeout ||= @sdk_configuration.timeout
-
-      connection = @sdk_configuration.client
-
-      hook_ctx = SDKHooks::HookContext.new(
-        config: @sdk_configuration,
-        base_url: base_url,
-        oauth2_scopes: nil,
-        operation_id: "put-v1-company_benefits-company_benefit_id",
-        security_source: @sdk_configuration.security_source
-      )
-
-      error = T.let(nil, T.nilable(StandardError))
-      http_response = T.let(nil, T.nilable(Faraday::Response))
-
-      begin
-        http_response = T.must(connection).put(url) do |req|
-          req.body = body
-          req.headers.merge!(headers)
-          req.options.timeout = timeout unless timeout.nil?
-          Utils.configure_request_security(req, security, %i[company_access_auth])
-          http_headers&.each do |key, value|
-            req.headers[key.to_s] = value
-          end
-
-          @sdk_configuration.hooks.before_request(
-            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            request: req
-          )
-        end
-
-      rescue StandardError => e
-        error = e
-      ensure
-        if http_response.nil? || Utils.error_status?(http_response.status)
-          http_response = @sdk_configuration.hooks.after_error(
-            error: error,
-            hook_ctx: SDKHooks::AfterErrorHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        else
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        end
-
-        if http_response.nil?
-          raise error if !error.nil?
-          raise "no response"
-        end
-      end
-
-      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
-      if Utils.match_status_code(http_response.status, ["200"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::CompanyBenefit)
-          response = Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdResponse.new(
-            status_code: http_response.status,
-            content_type: content_type,
-            raw_response: http_response,
-            company_benefit: T.unsafe(obj)
-          )
-
-          return response
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["404"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["422"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["4XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      elsif Utils.match_status_code(http_response.status, ["5XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      else
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "Unknown status code received"
-        )
-
-      end
-    end
-
-    sig {
-      params(
-        company_benefit_id: ::String,
-        x_gusto_api_version: T.nilable(
-          Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion
-        ),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
-      )
-        .returns(Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdResponse)
-    }
-    def delete(company_benefit_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
-      # delete - Delete a company benefit
-      # The following must be true in order to delete a company benefit
-      #
-      #   - There are no employee benefits associated with the company benefit
-      #   - There are no payroll items associated with the company benefit
-      #   - The benefit is not managed by a Partner or by Gusto (type must be 'External')
-      #
-      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only delete company benefits for benefit types that are permitted for the application.
-      #
-      # scope: `company_benefits:write`
-      #
-      # If set, this operation will use `company_access_auth` from the global security.
-      request = Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdRequest.new(
-        company_benefit_id: company_benefit_id,
-        x_gusto_api_version: x_gusto_api_version
-      )
-      url, params = @sdk_configuration.get_server_details
-      base_url = Utils.template_url(url, params)
-      url = Utils.generate_url(
-        Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdRequest,
-        base_url,
-        "/v1/company_benefits/{company_benefit_id}",
-        request
-      )
-      headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
-      headers["Accept"] = "application/json"
-      headers["user-agent"] = @sdk_configuration.user_agent
-
-      security = @sdk_configuration.security_source&.call
-
-      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
-      timeout ||= @sdk_configuration.timeout
-
-      connection = @sdk_configuration.client
-
-      hook_ctx = SDKHooks::HookContext.new(
-        config: @sdk_configuration,
-        base_url: base_url,
-        oauth2_scopes: nil,
-        operation_id: "delete-v1-company_benefits-company_benefit_id",
-        security_source: @sdk_configuration.security_source
-      )
-
-      error = T.let(nil, T.nilable(StandardError))
-      http_response = T.let(nil, T.nilable(Faraday::Response))
-
-      begin
-        http_response = T.must(connection).delete(url) do |req|
-          req.headers.merge!(headers)
-          req.options.timeout = timeout unless timeout.nil?
-          Utils.configure_request_security(req, security, %i[company_access_auth])
-          http_headers&.each do |key, value|
-            req.headers[key.to_s] = value
-          end
-
-          @sdk_configuration.hooks.before_request(
-            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            request: req
-          )
-        end
-
-      rescue StandardError => e
-        error = e
-      ensure
-        if http_response.nil? || Utils.error_status?(http_response.status)
-          http_response = @sdk_configuration.hooks.after_error(
-            error: error,
-            hook_ctx: SDKHooks::AfterErrorHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        else
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-        end
-
-        if http_response.nil?
-          raise error if !error.nil?
-          raise "no response"
-        end
-      end
-
-      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
-      if Utils.match_status_code(http_response.status, ["204"])
-        http_response = @sdk_configuration.hooks.after_success(
-          hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-            hook_ctx: hook_ctx
-          ),
-          response: http_response
-        )
-        return Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdResponse.new(
-          status_code: http_response.status,
-          content_type: content_type,
-          raw_response: http_response
-        )
-      elsif Utils.match_status_code(http_response.status, ["404"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["422"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["4XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      elsif Utils.match_status_code(http_response.status, ["5XX"])
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "API error occurred"
-        )
-      else
-        raise(
-          ::GustoEmbedded::Models::Errors::APIError.new(
-            status_code: http_response.status,
-            body: http_response.env.response_body,
-            raw_response: http_response
-          ),
-          "Unknown status code received"
-        )
-
-      end
-    end
-
-    sig {
-      params(
         x_gusto_api_version: T.nilable(Models::Operations::GetV1BenefitsHeaderXGustoAPIVersion),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::GetV1BenefitsResponse)
     }
@@ -1061,7 +63,7 @@ module GustoEmbedded
       base_url = Utils.template_url(url, params)
       url = "#{base_url}/v1/benefits"
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -1080,7 +82,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -1100,7 +102,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1137,14 +139,14 @@ module GustoEmbedded
           )
           response_data = http_response.env.response_body
           obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
+            ::JSON.parse(response_data),
             Crystalline::Array.new(Models::Shared::SupportedBenefit)
           )
           response = Models::Operations::GetV1BenefitsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
             raw_response: http_response,
-            supported_benefits: T.unsafe(obj)
+            supported_benefit_list: T.unsafe(obj)
           )
 
           return response
@@ -1193,8 +195,8 @@ module GustoEmbedded
       params(
         benefit_id: ::String,
         x_gusto_api_version: T.nilable(Models::Operations::GetV1BenefitsBenefitIdHeaderXGustoAPIVersion),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::GetV1BenefitsBenefitIdResponse)
     }
@@ -1218,7 +220,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -1237,7 +239,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -1257,7 +259,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1293,7 +295,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::SupportedBenefit)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::SupportedBenefit)
           response = Models::Operations::GetV1BenefitsBenefitIdResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1345,36 +347,34 @@ module GustoEmbedded
 
     sig {
       params(
-        request: Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryRequest,
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        benefit_id: ::String,
+        x_gusto_api_version: T.nilable(Models::Operations::GetV1BenefitsBenefitsIdRequirementsHeaderXGustoAPIVersion),
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
-        .returns(Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryResponse)
+        .returns(Models::Operations::GetV1BenefitsBenefitsIdRequirementsResponse)
     }
-    def get_summary(request:, timeout_ms: nil, http_headers: nil)
-      # get_summary - Get company benefit summary by company benefit id.
-      # Returns summary benefit data for the requested company benefit id.
+    def get_requirements(benefit_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # get_requirements - Get benefit fields requirements by benefit type
+      # Returns the field requirements for a given benefit type.
       #
-      # Benefits containing PHI are only visible to applications with the `company_benefits:read:phi` scope.
-      #
-      # scope: `company_benefits:read`
+      # scope: `benefits:read`
       #
       # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetV1BenefitsBenefitsIdRequirementsRequest.new(
+        benefit_id: benefit_id,
+        x_gusto_api_version: x_gusto_api_version
+      )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryRequest,
+        Models::Operations::GetV1BenefitsBenefitsIdRequirementsRequest,
         base_url,
-        "/v1/company_benefits/{company_benefit_id}/summary",
+        "/v1/benefits/{benefit_id}/requirements",
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
-      query_params = Utils.get_query_params(
-        Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryRequest,
-        request,
-        nil
-      )
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -1389,18 +389,17 @@ module GustoEmbedded
         config: @sdk_configuration,
         base_url: base_url,
         oauth2_scopes: nil,
-        operation_id: "get-v1-benefits-company_benefit_id-summary",
+        operation_id: "get-v1-benefits-benefits_id-requirements",
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
           req.options.timeout = timeout unless timeout.nil?
-          req.params = query_params
           Utils.configure_request_security(req, security, %i[company_access_auth])
           http_headers&.each do |key, value|
             req.headers[key.to_s] = value
@@ -1414,7 +413,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1450,12 +449,12 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::BenefitSummary)
-          response = Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryResponse.new(
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::BenefitTypeRequirements)
+          response = Models::Operations::GetV1BenefitsBenefitsIdRequirementsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
             raw_response: http_response,
-            benefit_summary: T.unsafe(obj)
+            benefit_type_requirements: T.unsafe(obj)
           )
 
           return response
@@ -1478,7 +477,1009 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["4XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      elsif Utils.match_status_code(http_response.status, ["5XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      else
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "Unknown status code received"
+        )
+
+      end
+    end
+
+    sig {
+      params(
+        request: Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsRequest,
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
+      )
+        .returns(Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsResponse)
+    }
+    def list(request:, timeout_ms: nil, http_headers: nil)
+      # list - Get benefits for a company
+      # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
+      #
+      # Note that company benefits can be deactivated only when no employees are enrolled.
+      #
+      # Benefits containing PHI are only visible to applications with the `company_benefits:read:phi` scope.
+      #
+      # scope: `company_benefits:read`
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsRequest,
+        base_url,
+        "/v1/companies/{company_id}/company_benefits",
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      query_params = Utils.get_query_params(
+        Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsRequest,
+        request,
+        nil
+      )
+      headers["Accept"] = "application/json"
+      headers["user-agent"] = @sdk_configuration.user_agent
+
+      security = @sdk_configuration.security_source&.call
+
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: "get-v1-companies-company_id-company_benefits",
+        security_source: @sdk_configuration.security_source
+      )
+
+      error = T.let(nil, T.nilable(::StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+
+      begin
+        http_response = T.must(connection).get(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          req.params = query_params
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+
+      rescue ::StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+
+        if http_response.nil?
+          raise error if !error.nil?
+          raise "no response"
+        end
+      end
+
+      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
+      if Utils.match_status_code(http_response.status, ["200"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(
+            ::JSON.parse(response_data),
+            Crystalline::Array.new(Models::Shared::CompanyBenefit)
+          )
+          response = Models::Operations::GetV1CompaniesCompanyIdCompanyBenefitsResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            company_benefits: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["404"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["4XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      elsif Utils.match_status_code(http_response.status, ["5XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      else
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "Unknown status code received"
+        )
+
+      end
+    end
+
+    sig {
+      params(
+        body: Models::Shared::CompanyBenefitCreateRequest,
+        company_id: ::String,
+        x_gusto_api_version: T.nilable(
+          Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsHeaderXGustoAPIVersion
+        ),
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
+      )
+        .returns(Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsResponse)
+    }
+    def create(body:, company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # create - Create a company benefit
+      # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
+      #
+      # Note that company benefits can be deactivated only when no employees are enrolled.
+      #
+      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only create company benefits for benefit types that are permitted for the application.
+      #
+      # scope: `company_benefits:write`
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequest.new(
+        company_id: company_id,
+        body: body,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsRequest,
+        base_url,
+        "/v1/companies/{company_id}/company_benefits",
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :body, :json)
+      headers["content-type"] = req_content_type
+      raise ::StandardError, "request body is required" if data.nil? && form.nil?
+
+      if form && !form.empty?
+        body = Utils.encode_form(form)
+      elsif Utils.match_content_type(req_content_type, "application/x-www-form-urlencoded")
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
+      else
+        body = data
+      end
+
+      headers["Accept"] = "application/json"
+      headers["user-agent"] = @sdk_configuration.user_agent
+
+      security = @sdk_configuration.security_source&.call
+
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: "post-v1-companies-company_id-company_benefits",
+        security_source: @sdk_configuration.security_source
+      )
+
+      error = T.let(nil, T.nilable(::StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+
+      begin
+        http_response = T.must(connection).post(url) do |req|
+          req.body = body
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+
+      rescue ::StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+
+        if http_response.nil?
+          raise error if !error.nil?
+          raise "no response"
+        end
+      end
+
+      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
+      if Utils.match_status_code(http_response.status, ["201"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::CompanyBenefit)
+          response = Models::Operations::PostV1CompaniesCompanyIdCompanyBenefitsResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            company_benefit: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["404"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["422"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["4XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      elsif Utils.match_status_code(http_response.status, ["5XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      else
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "Unknown status code received"
+        )
+
+      end
+    end
+
+    sig {
+      params(
+        company_benefit_id: ::String,
+        x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion),
+        with_employee_benefits: T.nilable(T::Boolean),
+        include: T.nilable(Models::Operations::Include),
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
+      )
+        .returns(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdResponse)
+    }
+    def get(
+      company_benefit_id:,
+      x_gusto_api_version: nil,
+      with_employee_benefits: nil,
+      include: nil,
+      timeout_ms: nil,
+      http_headers: nil
+    )
+      # get - Get a company benefit
+      # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
+      #
+      # Note that company benefits can be deactivated only when no employees are enrolled.
+      #
+      # When with_employee_benefits parameter with true value is passed, employee_benefits:read scope is required to return employee_benefits.
+      #
+      # scope: `company_benefits:read`
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdRequest.new(
+        company_benefit_id: company_benefit_id,
+        x_gusto_api_version: x_gusto_api_version,
+        with_employee_benefits: with_employee_benefits,
+        include: include
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdRequest,
+        base_url,
+        "/v1/company_benefits/{company_benefit_id}",
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      query_params = Utils.get_query_params(
+        Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdRequest,
+        request,
+        nil
+      )
+      headers["Accept"] = "application/json"
+      headers["user-agent"] = @sdk_configuration.user_agent
+
+      security = @sdk_configuration.security_source&.call
+
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: "get-v1-company_benefits-company_benefit_id",
+        security_source: @sdk_configuration.security_source
+      )
+
+      error = T.let(nil, T.nilable(::StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+
+      begin
+        http_response = T.must(connection).get(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          req.params = query_params
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+
+      rescue ::StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+
+        if http_response.nil?
+          raise error if !error.nil?
+          raise "no response"
+        end
+      end
+
+      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
+      if Utils.match_status_code(http_response.status, ["200"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(
+            ::JSON.parse(response_data),
+            Models::Shared::CompanyBenefitWithEmployeeBenefits
+          )
+          response = Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            company_benefit_with_employee_benefits: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["404"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["4XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      elsif Utils.match_status_code(http_response.status, ["5XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      else
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "Unknown status code received"
+        )
+
+      end
+    end
+
+    sig {
+      params(
+        body: Models::Shared::CompanyBenefitUpdateRequest,
+        company_benefit_id: ::String,
+        x_gusto_api_version: T.nilable(Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion),
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
+      )
+        .returns(Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdResponse)
+    }
+    def update(body:, company_benefit_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # update - Update a company benefit
+      # Company benefits represent the benefits that a company is offering to employees. This ties together a particular supported benefit with the company-specific information for the offering of that benefit.
+      #
+      # Note that company benefits can be deactivated only when no employees are enrolled.
+      #
+      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only update company benefits for benefit types that are permitted for the application.
+      #
+      # scope: `company_benefits:write`
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequest.new(
+        company_benefit_id: company_benefit_id,
+        body: body,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdRequest,
+        base_url,
+        "/v1/company_benefits/{company_benefit_id}",
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :body, :json)
+      headers["content-type"] = req_content_type
+      raise ::StandardError, "request body is required" if data.nil? && form.nil?
+
+      if form && !form.empty?
+        body = Utils.encode_form(form)
+      elsif Utils.match_content_type(req_content_type, "application/x-www-form-urlencoded")
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
+      else
+        body = data
+      end
+
+      headers["Accept"] = "application/json"
+      headers["user-agent"] = @sdk_configuration.user_agent
+
+      security = @sdk_configuration.security_source&.call
+
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: "put-v1-company_benefits-company_benefit_id",
+        security_source: @sdk_configuration.security_source
+      )
+
+      error = T.let(nil, T.nilable(::StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+
+      begin
+        http_response = T.must(connection).put(url) do |req|
+          req.body = body
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+
+      rescue ::StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+
+        if http_response.nil?
+          raise error if !error.nil?
+          raise "no response"
+        end
+      end
+
+      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
+      if Utils.match_status_code(http_response.status, ["200"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::CompanyBenefit)
+          response = Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            company_benefit: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["404"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["422"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["4XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      elsif Utils.match_status_code(http_response.status, ["5XX"])
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "API error occurred"
+        )
+      else
+        raise(
+          ::GustoEmbedded::Models::Errors::APIError.new(
+            status_code: http_response.status,
+            body: http_response.env.response_body,
+            raw_response: http_response
+          ),
+          "Unknown status code received"
+        )
+
+      end
+    end
+
+    sig {
+      params(
+        company_benefit_id: ::String,
+        x_gusto_api_version: T.nilable(
+          Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdHeaderXGustoAPIVersion
+        ),
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
+      )
+        .returns(Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdResponse)
+    }
+    def delete(company_benefit_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # delete - Delete a company benefit
+      # The following must be true in order to delete a company benefit
+      #
+      #   - There are no employee benefits associated with the company benefit
+      #   - There are no payroll items associated with the company benefit
+      #   - The benefit is not managed by a Partner or by Gusto (type must be 'External')
+      #
+      # When the application has the `company_benefits:write:benefit_type_limited` data scope, the application can only delete company benefits for benefit types that are permitted for the application.
+      #
+      # scope: `company_benefits:write`
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdRequest.new(
+        company_benefit_id: company_benefit_id,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdRequest,
+        base_url,
+        "/v1/company_benefits/{company_benefit_id}",
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      headers["Accept"] = "application/json"
+      headers["user-agent"] = @sdk_configuration.user_agent
+
+      security = @sdk_configuration.security_source&.call
+
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: "delete-v1-company_benefits-company_benefit_id",
+        security_source: @sdk_configuration.security_source
+      )
+
+      error = T.let(nil, T.nilable(::StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+
+      begin
+        http_response = T.must(connection).delete(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+
+      rescue ::StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+
+        if http_response.nil?
+          raise error if !error.nil?
+          raise "no response"
+        end
+      end
+
+      content_type = http_response.headers.fetch("Content-Type", "application/octet-stream")
+      if Utils.match_status_code(http_response.status, ["204"])
+        http_response = @sdk_configuration.hooks.after_success(
+          hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+            hook_ctx: hook_ctx
+          ),
+          response: http_response
+        )
+        return Models::Operations::DeleteV1CompanyBenefitsCompanyBenefitIdResponse.new(
+          status_code: http_response.status,
+          content_type: content_type,
+          raw_response: http_response
+        )
+      elsif Utils.match_status_code(http_response.status, ["404"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["422"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise(
@@ -1524,8 +1525,8 @@ module GustoEmbedded
     sig {
       params(
         request: Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequest,
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse)
     }
@@ -1549,7 +1550,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       query_params = Utils.get_query_params(
         Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsRequest,
         request,
@@ -1573,7 +1574,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -1594,7 +1595,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1631,7 +1632,7 @@ module GustoEmbedded
           )
           response_data = http_response.env.response_body
           obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
+            ::JSON.parse(response_data),
             Crystalline::Array.new(Models::Shared::EmployeeBenefit)
           )
           response = Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse.new(
@@ -1661,7 +1662,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise(
@@ -1711,8 +1712,8 @@ module GustoEmbedded
         x_gusto_api_version: T.nilable(
           Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsHeaderXGustoAPIVersion
         ),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse)
     }
@@ -1749,15 +1750,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :body, :json)
       headers["content-type"] = req_content_type
-      raise StandardError, "request body is required" if data.nil? && form.nil?
+      raise ::StandardError, "request body is required" if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, "application/x-www-form-urlencoded")
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -1780,7 +1781,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -1801,7 +1802,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1838,7 +1839,7 @@ module GustoEmbedded
           )
           response_data = http_response.env.response_body
           obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
+            ::JSON.parse(response_data),
             Crystalline::Array.new(Models::Shared::EmployeeBenefit)
           )
           response = Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdEmployeeBenefitsResponse.new(
@@ -1868,7 +1869,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise(
@@ -1889,7 +1890,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise(
@@ -1934,34 +1935,36 @@ module GustoEmbedded
 
     sig {
       params(
-        benefit_id: ::String,
-        x_gusto_api_version: T.nilable(Models::Operations::GetV1BenefitsBenefitsIdRequirementsHeaderXGustoAPIVersion),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        request: Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryRequest,
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
-        .returns(Models::Operations::GetV1BenefitsBenefitsIdRequirementsResponse)
+        .returns(Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryResponse)
     }
-    def get_requirements(benefit_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
-      # get_requirements - Get benefit fields requirements by benefit type
-      # Returns the field requirements for a given benefit type.
+    def get_summary(request:, timeout_ms: nil, http_headers: nil)
+      # get_summary - Get company benefit summary by company benefit id.
+      # Returns summary benefit data for the requested company benefit id.
       #
-      # scope: `benefits:read`
+      # Benefits containing PHI are only visible to applications with the `company_benefits:read:phi` scope.
+      #
+      # scope: `company_benefits:read`
       #
       # If set, this operation will use `company_access_auth` from the global security.
-      request = Models::Operations::GetV1BenefitsBenefitsIdRequirementsRequest.new(
-        benefit_id: benefit_id,
-        x_gusto_api_version: x_gusto_api_version
-      )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        Models::Operations::GetV1BenefitsBenefitsIdRequirementsRequest,
+        Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryRequest,
         base_url,
-        "/v1/benefits/{benefit_id}/requirements",
+        "/v1/company_benefits/{company_benefit_id}/summary",
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      query_params = Utils.get_query_params(
+        Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryRequest,
+        request,
+        nil
+      )
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -1976,17 +1979,18 @@ module GustoEmbedded
         config: @sdk_configuration,
         base_url: base_url,
         oauth2_scopes: nil,
-        operation_id: "get-v1-benefits-benefits_id-requirements",
+        operation_id: "get-v1-benefits-company_benefit_id-summary",
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
           req.options.timeout = timeout unless timeout.nil?
+          req.params = query_params
           Utils.configure_request_security(req, security, %i[company_access_auth])
           http_headers&.each do |key, value|
             req.headers[key.to_s] = value
@@ -2000,7 +2004,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -2036,12 +2040,12 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::BenefitTypeRequirements)
-          response = Models::Operations::GetV1BenefitsBenefitsIdRequirementsResponse.new(
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::BenefitSummary)
+          response = Models::Operations::GetV1BenefitsCompanyBenefitIdSummaryResponse.new(
             status_code: http_response.status,
             content_type: content_type,
             raw_response: http_response,
-            benefit_type_requirements: T.unsafe(obj)
+            benefit_summary: T.unsafe(obj)
           )
 
           return response
@@ -2064,7 +2068,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise(
@@ -2113,8 +2117,8 @@ module GustoEmbedded
         x_gusto_api_version: T.nilable(
           Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdContributionExclusionsHeaderXGustoAPIVersion
         ),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdContributionExclusionsResponse)
     }
@@ -2145,7 +2149,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -2164,7 +2168,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -2184,7 +2188,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -2221,7 +2225,7 @@ module GustoEmbedded
           )
           response_data = http_response.env.response_body
           obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
+            ::JSON.parse(response_data),
             Crystalline::Array.new(Models::Shared::ContributionExclusion)
           )
           response = Models::Operations::GetV1CompanyBenefitsCompanyBenefitIdContributionExclusionsResponse.new(
@@ -2251,7 +2255,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise(
@@ -2301,8 +2305,8 @@ module GustoEmbedded
         x_gusto_api_version: T.nilable(
           Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdContributionExclusionsHeaderXGustoAPIVersion
         ),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
         .returns(Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdContributionExclusionsResponse)
     }
@@ -2335,15 +2339,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :body, :json)
       headers["content-type"] = req_content_type
-      raise StandardError, "request body is required" if data.nil? && form.nil?
+      raise ::StandardError, "request body is required" if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, "application/x-www-form-urlencoded")
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -2366,7 +2370,7 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
@@ -2387,7 +2391,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -2424,7 +2428,7 @@ module GustoEmbedded
           )
           response_data = http_response.env.response_body
           obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
+            ::JSON.parse(response_data),
             Crystalline::Array.new(Models::Shared::ContributionExclusion)
           )
           response = Models::Operations::PutV1CompanyBenefitsCompanyBenefitIdContributionExclusionsResponse.new(
@@ -2454,7 +2458,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise(
@@ -2475,7 +2479,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise(

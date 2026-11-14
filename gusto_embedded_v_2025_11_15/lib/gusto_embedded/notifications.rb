@@ -22,7 +22,11 @@ module GustoEmbedded
       @sdk_configuration = sdk_config
     end
 
-    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    sig {
+      params(base_url: ::String, url_variables: T.nilable(T::Hash[::Symbol, T.any(::String, T::Enum)])).returns(
+        ::String
+      )
+    }
     def get_url(base_url:, url_variables: nil)
       sd_base_url, sd_options = @sdk_configuration.get_server_details
 
@@ -39,38 +43,30 @@ module GustoEmbedded
 
     sig {
       params(
-        notification_uuid: ::String,
-        x_gusto_api_version: T.nilable(Models::Operations::GetNotificationsNotificationUuidHeaderXGustoAPIVersion),
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        request: Models::Operations::GetCompanyNotificationsRequest,
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
-        .returns(Models::Operations::GetNotificationsNotificationUuidResponse)
+        .returns(Models::Operations::GetCompanyNotificationsResponse)
     }
-    def get_details(notification_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
-      # get_details - Get a notification's details
-      # Upon receiving a notification webhook event, use this endpoint to fetch the notification's details. The notification details include basic suggested content that can help you build notifications in your platform.
-      #
-      # Note: partners are responsible for the delivery and any custom state management of notifications in their application. Refer to our [partner notification guide](https://docs.gusto.com/embedded-payroll/docs/partner-notifications) for more details.
-      #
-      # If the notification UUID is not found, the response will be 404 Not Found. If the notification's supporting data is no longer valid, the response will be 422 Unprocessable Entity.
+    def get_company_notifications(request:, timeout_ms: nil, http_headers: nil)
+      # get_company_notifications - Get notifications for company
+      # Returns all notifications relevant for the given company.
       #
       # scope: `notifications:read`
       #
       # If set, this operation will use `company_access_auth` from the global security.
-      request = Models::Operations::GetNotificationsNotificationUuidRequest.new(
-        notification_uuid: notification_uuid,
-        x_gusto_api_version: x_gusto_api_version
-      )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        Models::Operations::GetNotificationsNotificationUuidRequest,
+        Models::Operations::GetCompanyNotificationsRequest,
         base_url,
-        "/v1/notifications/{notification_uuid}",
+        "/v1/companies/{company_uuid}/notifications",
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      query_params = Utils.get_query_params(Models::Operations::GetCompanyNotificationsRequest, request, nil)
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -85,17 +81,18 @@ module GustoEmbedded
         config: @sdk_configuration,
         base_url: base_url,
         oauth2_scopes: nil,
-        operation_id: "get-notifications-notification_uuid",
+        operation_id: "get-company-notifications",
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
           req.options.timeout = timeout unless timeout.nil?
+          req.params = query_params
           Utils.configure_request_security(req, security, %i[company_access_auth])
           http_headers&.each do |key, value|
             req.headers[key.to_s] = value
@@ -109,7 +106,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -145,57 +142,18 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::Notification)
-          response = Models::Operations::GetNotificationsNotificationUuidResponse.new(
+          obj = Crystalline.unmarshal_json(
+            ::JSON.parse(response_data),
+            Crystalline::Array.new(Models::Shared::Notification)
+          )
+          response = Models::Operations::GetCompanyNotificationsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
             raw_response: http_response,
-            notification: T.unsafe(obj)
+            notifications_list: T.unsafe(obj)
           )
 
           return response
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["404"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
-          raise obj
-        else
-          raise(
-            ::GustoEmbedded::Models::Errors::APIError.new(
-              status_code: http_response.status,
-              body: http_response.env.response_body,
-              raw_response: http_response
-            ),
-            "Unknown content type received"
-          )
-        end
-      elsif Utils.match_status_code(http_response.status, ["422"])
-        if Utils.match_content_type(content_type, "application/json")
-          http_response = @sdk_configuration.hooks.after_success(
-            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
-              hook_ctx: hook_ctx
-            ),
-            response: http_response
-          )
-          response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
-          raise obj
         else
           raise(
             ::GustoEmbedded::Models::Errors::APIError.new(
@@ -239,30 +197,38 @@ module GustoEmbedded
 
     sig {
       params(
-        request: Models::Operations::GetCompanyNotificationsRequest,
-        timeout_ms: T.nilable(Integer),
-        http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])
+        notification_uuid: ::String,
+        x_gusto_api_version: T.nilable(Models::Operations::GetNotificationsNotificationUuidHeaderXGustoAPIVersion),
+        timeout_ms: T.nilable(::Integer),
+        http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])
       )
-        .returns(Models::Operations::GetCompanyNotificationsResponse)
+        .returns(Models::Operations::GetNotificationsNotificationUuidResponse)
     }
-    def get_company_notifications(request:, timeout_ms: nil, http_headers: nil)
-      # get_company_notifications - Get notifications for company
-      # Returns all notifications relevant for the given company.
+    def get_details(notification_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # get_details - Get a notification's details
+      # Upon receiving a notification webhook event, use this endpoint to fetch the notification's details. The notification details include basic suggested content that can help you build notifications in your platform.
+      #
+      # Note: partners are responsible for the delivery and any custom state management of notifications in their application. Refer to our [partner notification guide](https://docs.gusto.com/embedded-payroll/docs/partner-notifications) for more details.
+      #
+      # If the notification UUID is not found, the response will be 404 Not Found. If the notification's supporting data is no longer valid, the response will be 422 Unprocessable Entity.
       #
       # scope: `notifications:read`
       #
       # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetNotificationsNotificationUuidRequest.new(
+        notification_uuid: notification_uuid,
+        x_gusto_api_version: x_gusto_api_version
+      )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
       url = Utils.generate_url(
-        Models::Operations::GetCompanyNotificationsRequest,
+        Models::Operations::GetNotificationsNotificationUuidRequest,
         base_url,
-        "/v1/companies/{company_uuid}/notifications",
+        "/v1/notifications/{notification_uuid}",
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
-      query_params = Utils.get_query_params(Models::Operations::GetCompanyNotificationsRequest, request, nil)
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers["Accept"] = "application/json"
       headers["user-agent"] = @sdk_configuration.user_agent
 
@@ -277,18 +243,17 @@ module GustoEmbedded
         config: @sdk_configuration,
         base_url: base_url,
         oauth2_scopes: nil,
-        operation_id: "get-company-notifications",
+        operation_id: "get-notifications-notification_uuid",
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
 
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
           req.options.timeout = timeout unless timeout.nil?
-          req.params = query_params
           Utils.configure_request_security(req, security, %i[company_access_auth])
           http_headers&.each do |key, value|
             req.headers[key.to_s] = value
@@ -302,7 +267,7 @@ module GustoEmbedded
           )
         end
 
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -338,18 +303,57 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(
-            JSON.parse(response_data),
-            Crystalline::Array.new(Models::Shared::Notification)
-          )
-          response = Models::Operations::GetCompanyNotificationsResponse.new(
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::Notification)
+          response = Models::Operations::GetNotificationsNotificationUuidResponse.new(
             status_code: http_response.status,
             content_type: content_type,
             raw_response: http_response,
-            notifications_list: T.unsafe(obj)
+            notification: T.unsafe(obj)
           )
 
           return response
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["404"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise(
+            ::GustoEmbedded::Models::Errors::APIError.new(
+              status_code: http_response.status,
+              body: http_response.env.response_body,
+              raw_response: http_response
+            ),
+            "Unknown content type received"
+          )
+        end
+      elsif Utils.match_status_code(http_response.status, ["422"])
+        if Utils.match_content_type(content_type, "application/json")
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
         else
           raise(
             ::GustoEmbedded::Models::Errors::APIError.new(

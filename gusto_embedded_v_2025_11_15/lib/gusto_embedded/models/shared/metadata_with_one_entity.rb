@@ -26,7 +26,7 @@ module GustoEmbedded
 
         field(
           :additional_properties,
-          Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)),
+          Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::Object)),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("additional_properties"),
@@ -63,7 +63,7 @@ module GustoEmbedded
           params(
             entity_type: T.nilable(::String),
             entity_uuid: T.nilable(::String),
-            additional_properties: T.nilable(T::Hash[Symbol, ::Object]),
+            additional_properties: T.nilable(T::Hash[::Symbol, ::Object]),
             valid_from: T.nilable(::String),
             valid_up_to: T.nilable(::String),
             key: T.nilable(::String),

@@ -9,7 +9,7 @@ module GustoEmbedded
       # Not Found
       #
       # The requested resource does not exist. Make sure the provided ID/UUID is valid.
-      class NotFoundErrorObject < StandardError
+      class NotFoundErrorObject < ::StandardError
         extend T::Sig
         include Crystalline::MetadataFields
 

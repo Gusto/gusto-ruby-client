@@ -26,7 +26,7 @@ module GustoEmbedded
         # An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}). Use this to override the requested hours.
         field(
           :days,
-          Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::String)),
+          Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::String)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("days")}}
         )
 
@@ -34,7 +34,7 @@ module GustoEmbedded
           params(
             approver_uuid: T.nilable(::String),
             employer_note: T.nilable(::String),
-            days: T.nilable(T::Hash[Symbol, ::String])
+            days: T.nilable(T::Hash[::Symbol, ::String])
           )
             .void
         }

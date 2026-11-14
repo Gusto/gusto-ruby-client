@@ -12,12 +12,6 @@ class GustoEmbedded::Models::Shared::HomeAddress
   def street_1=(str_)
   end
 
-  def street_2
-  end
-
-  def street_2=(str_)
-  end
-
   def city
   end
 
@@ -36,9 +30,9 @@ class GustoEmbedded::Models::Shared::HomeAddress
   def zip=(str_)
   end
 
-  def country
+  def street_2
   end
 
-  def country=(str_)
+  def street_2=(str_)
   end
 end

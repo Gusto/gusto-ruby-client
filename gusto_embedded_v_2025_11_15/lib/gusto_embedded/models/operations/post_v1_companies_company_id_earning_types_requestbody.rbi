@@ -6,6 +6,18 @@ class GustoEmbedded::Models::Operations::PostV1CompaniesCompanyIdEarningTypesReq
 end
 
 class GustoEmbedded::Models::Operations::PostV1CompaniesCompanyIdEarningTypesRequestBody
+  def category
+  end
+
+  def category=(str_)
+  end
+
+  def included_in_overtime_pay
+  end
+
+  def included_in_overtime_pay=(str_)
+  end
+
   def name
   end
 

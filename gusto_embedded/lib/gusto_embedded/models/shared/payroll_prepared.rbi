@@ -52,6 +52,8 @@ class GustoEmbedded::Models::Shared::PayrollPrepared
   def skip_regular_deductions=(str_); end
   def fixed_withholding_rate(); end
   def fixed_withholding_rate=(str_); end
+  def workweeks(); end
+  def workweeks=(str_); end
   def processing_request(); end
   def processing_request=(str_); end
   def partner_owned_disbursement(); end

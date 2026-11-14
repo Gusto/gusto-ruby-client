@@ -17,6 +17,18 @@ module GustoEmbedded
           ::String,
           {'path_param': {'field_name': "payroll_uuid", 'style': "simple", 'explode': false}}
         )
+        # The page that is requested. When unspecified, will load all objects unless endpoint forces pagination.
+        field(
+          :page,
+          Crystalline::Nilable.new(::Integer),
+          {'query_param': {'field_name': "page", 'style': "form", 'explode': true}}
+        )
+        # Number of objects per page. For majority of endpoints will default to 25
+        field(
+          :per,
+          Crystalline::Nilable.new(::Integer),
+          {'query_param': {'field_name': "per", 'style': "form", 'explode': true}}
+        )
         # Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.
         field(
           :x_gusto_api_version,
@@ -27,6 +39,8 @@ module GustoEmbedded
         sig {
           params(
             payroll_uuid: ::String,
+            page: T.nilable(::Integer),
+            per: T.nilable(::Integer),
             x_gusto_api_version: T.nilable(
               Models::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidHeaderXGustoAPIVersion
             )
@@ -35,9 +49,13 @@ module GustoEmbedded
         }
         def initialize(
           payroll_uuid:,
+          page: nil,
+          per: nil,
           x_gusto_api_version: Models::Operations::GetV1PaymentReceiptsPayrollsPayrollUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15
         )
           @payroll_uuid = payroll_uuid
+          @page = page
+          @per = per
           @x_gusto_api_version = x_gusto_api_version
         end
 
@@ -45,6 +63,8 @@ module GustoEmbedded
         def ==(other)
           return false unless other.is_a?(self.class)
           return false unless @payroll_uuid == other.payroll_uuid
+          return false unless @page == other.page
+          return false unless @per == other.per
           return false unless @x_gusto_api_version == other.x_gusto_api_version
           true
         end

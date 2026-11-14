@@ -31,7 +31,7 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Boolean.new),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("partner_owned_disbursement")}}
         )
-        # Payment limit for 1-day or 2-day payroll (in dollars).
+        # Payment limit for 1-day or 2-day payroll (in dollars). Applies to the 24-hour aggregate of all payments; a payment that exceeds it moves to 4-day.
         field(
           :fast_payment_limit,
           Crystalline::Nilable.new(::Float),

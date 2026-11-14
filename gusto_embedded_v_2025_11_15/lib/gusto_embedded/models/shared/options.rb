@@ -11,23 +11,30 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # A display label that corresponds to the answer value
+        # A customer facing label for the answer
         field(
           :label,
           ::String,
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("label"), required: true}}
         )
-        # An allowed value to answer the question
+        # The actual value to be submitted
         field(
           :value,
-          Crystalline::Nilable.new(Crystalline::Union.new(::String, Crystalline::Boolean.new, ::Float)),
-          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("value")}}
+          Crystalline::Union.new(::String, Crystalline::Boolean.new),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("value"), required: true}}
+        )
+        # A less verbose label that may sometimes be available
+        field(
+          :short_label,
+          Crystalline::Nilable.new(::String),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("short_label")}}
         )
 
-        sig { params(label: ::String, value: T.nilable(T.any(::String, T::Boolean, ::Float))).void }
-        def initialize(label:, value: nil)
+        sig { params(label: ::String, value: T.any(::String, T::Boolean), short_label: T.nilable(::String)).void }
+        def initialize(label:, value:, short_label: nil)
           @label = label
           @value = value
+          @short_label = short_label
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -35,6 +42,7 @@ module GustoEmbedded
           return false unless other.is_a?(self.class)
           return false unless @label == other.label
           return false unless @value == other.value
+          return false unless @short_label == other.short_label
           true
         end
       end

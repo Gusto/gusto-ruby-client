@@ -36,12 +36,6 @@ class GustoEmbedded::Models::Shared::ContractorPaymentsPreviewBodyContractorPaym
   def hours=(str_)
   end
 
-  def hourly_rate
-  end
-
-  def hourly_rate=(str_)
-  end
-
   def bonus
   end
 

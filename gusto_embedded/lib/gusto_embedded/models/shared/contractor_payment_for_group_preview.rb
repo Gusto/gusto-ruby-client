@@ -31,13 +31,13 @@ module GustoEmbedded
         # The fixed wage of the payment, regardless of hours worked.
         field :wage, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage') } }
         # The wage type for the payment.
-        field :wage_type, Crystalline::Nilable.new(Models::Shared::ContractorPaymentForGroupPreviewWageType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::ContractorPaymentForGroupPreviewWageType, true) } }
+        field :wage_type, Crystalline::Nilable.new(Models::Shared::WageType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::WageType, true) } }
         # (hours * hourly_rate) + wage + bonus
         field :wage_total, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('wage_total') } }
         # The unique identifier of the contractor payment in Gusto.
         field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
 
-        sig { params(contractor_uuid: T.nilable(::String), bonus: T.nilable(::String), hours: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentForGroupPreviewPaymentMethod), reimbursement: T.nilable(::String), status: T.nilable(Models::Shared::ContractorPaymentForGroupPreviewStatus), hourly_rate: T.nilable(::String), may_cancel: T.nilable(T::Boolean), wage: T.nilable(::String), wage_type: T.nilable(Models::Shared::ContractorPaymentForGroupPreviewWageType), wage_total: T.nilable(::String), uuid: T.nilable(::String)).void }
+        sig { params(contractor_uuid: T.nilable(::String), bonus: T.nilable(::String), hours: T.nilable(::String), payment_method: T.nilable(Models::Shared::ContractorPaymentForGroupPreviewPaymentMethod), reimbursement: T.nilable(::String), status: T.nilable(Models::Shared::ContractorPaymentForGroupPreviewStatus), hourly_rate: T.nilable(::String), may_cancel: T.nilable(T::Boolean), wage: T.nilable(::String), wage_type: T.nilable(Models::Shared::WageType), wage_total: T.nilable(::String), uuid: T.nilable(::String)).void }
         def initialize(contractor_uuid: nil, bonus: nil, hours: nil, payment_method: nil, reimbursement: nil, status: nil, hourly_rate: nil, may_cancel: nil, wage: nil, wage_type: nil, wage_total: nil, uuid: nil)
           @contractor_uuid = contractor_uuid
           @bonus = bonus

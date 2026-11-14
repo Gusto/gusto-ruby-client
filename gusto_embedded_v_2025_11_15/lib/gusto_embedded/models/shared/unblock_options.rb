@@ -26,7 +26,7 @@ module GustoEmbedded
         # Additional data associated with the unblock option.
         field(
           :metadata,
-          Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)),
+          Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::Object)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("metadata")}}
         )
 
@@ -34,7 +34,7 @@ module GustoEmbedded
           params(
             unblock_type: T.nilable(::String),
             check_date: T.nilable(::String),
-            metadata: T.nilable(T::Hash[Symbol, ::Object])
+            metadata: T.nilable(T::Hash[::Symbol, ::Object])
           )
             .void
         }
