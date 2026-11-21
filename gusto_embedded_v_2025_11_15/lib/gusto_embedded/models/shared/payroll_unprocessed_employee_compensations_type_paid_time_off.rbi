@@ -23,4 +23,10 @@ class GustoEmbedded::Models::Shared::PayrollUnprocessedEmployeeCompensationsType
 
   def final_payout_unused_hours_input=(str_)
   end
+
+  def approved_request_hours
+  end
+
+  def approved_request_hours=(str_)
+  end
 end

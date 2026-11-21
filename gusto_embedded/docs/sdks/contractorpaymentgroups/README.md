@@ -4,14 +4,112 @@
 
 ### Available Operations
 
+* [preview](#preview) - Preview a contractor payment group
+* [fund](#fund) - Fund a contractor payment group [DEMO]
 * [get_list](#get_list) - Get contractor payment groups for a company
 * [create](#create) - Create a contractor payment group
-* [preview](#preview) - Preview a contractor payment group
 * [get](#get) - Get a contractor payment group
 * [delete](#delete) - Cancel a contractor payment group
-* [fund](#fund) - Fund a contractor payment group [DEMO]
 * [get_v1_contractor_payment_groups_id_partner_disbursements](#get_v1_contractor_payment_groups_id_partner_disbursements) - Get partner disbursements for a contractor payment group
 * [patch_v1_contractor_payment_groups_id_partner_disbursements](#patch_v1_contractor_payment_groups_id_partner_disbursements) - Update partner disbursements for a contractor payment group
+
+## preview
+
+Preview a group of contractor payments. Request will validate inputs and return preview of the contractor payment group including the expected `debit_date`. The `uuid` field will be null in the response.
+
+The returned `creation_token` is a required parameter in order to create the contractor payment group.
+
+scope: `payrolls:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="post-v1-companies-company_id-contractor_payment_groups-preview" method="post" path="/v1/companies/{company_id}/contractor_payment_groups/preview" -->
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.contractor_payment_groups.preview(company_id: '<id>', request_body: Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequestBody.new(
+  contractor_payments: []
+), x_gusto_api_version: Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+
+unless res.contractor_payment_group_preview.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
+| `request_body`                                                                                                                                                                                                               | [Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequestBody](../../models/operations/postv1companiescompanyidcontractorpaymentgroupspreviewrequestbody.md)                                        | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewHeaderXGustoAPIVersion)](../../models/operations/postv1companiescompanyidcontractorpaymentgroupspreviewheaderxgustoapiversion.md)       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewResponse)](../../models/operations/postv1companiescompanyidcontractorpaymentgroupspreviewresponse.md)**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## fund
+
+> 🚧 Demo action
+> This action is only available in the Demo environment
+
+Simulate funding a contractor payment group. Funding only occurs automatically in the production environment when bank transactions are generated. Use this action in the demo environment to transition a contractor payment group's `status` from `Unfunded` to `Funded`. A `Funded` status is required for generating a contractor payment receipt.
+
+scope: `payrolls:run`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="put-v1-contractor_payment_groups-contractor_payment_group_id-fund" method="put" path="/v1/contractor_payment_groups/{contractor_payment_group_uuid}/fund" -->
+```ruby
+require 'gusto_embedded_client'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.contractor_payment_groups.fund(contractor_payment_group_uuid: '<id>', x_gusto_api_version: Models::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
+
+unless res.contractor_payment_group.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contractor_payment_group_uuid`                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor payment group                                                                                                                                                                                     |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundHeaderXGustoAPIVersion)](../../models/operations/putv1contractorpaymentgroupscontractorpaymentgroupidfundheaderxgustoapiversion.md)   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse)](../../models/operations/putv1contractorpaymentgroupscontractorpaymentgroupidfundresponse.md)**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
 ## get_list
 
@@ -112,56 +210,6 @@ end
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
 
-## preview
-
-Preview a group of contractor payments. Request will validate inputs and return preview of the contractor payment group including the expected `debit_date`. The `uuid` field will be null in the response.
-
-The returned `creation_token` is a required parameter in order to create the contractor payment group.
-
-scope: `payrolls:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="post-v1-companies-company_id-contractor_payment_groups-preview" method="post" path="/v1/companies/{company_id}/contractor_payment_groups/preview" -->
-```ruby
-require 'gusto_embedded_client'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.contractor_payment_groups.preview(company_id: '<id>', request_body: Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequestBody.new(
-  contractor_payments: []
-), x_gusto_api_version: Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
-
-unless res.contractor_payment_group_preview.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `company_id`                                                                                                                                                                                                                 | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the company                                                                                                                                                                                                      |
-| `request_body`                                                                                                                                                                                                               | [Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewRequestBody](../../models/operations/postv1companiescompanyidcontractorpaymentgroupspreviewrequestbody.md)                                        | :heavy_check_mark:                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                          |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewHeaderXGustoAPIVersion)](../../models/operations/postv1companiescompanyidcontractorpaymentgroupspreviewheaderxgustoapiversion.md)       | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewResponse)](../../models/operations/postv1companiescompanyidcontractorpaymentgroupspreviewresponse.md)**
-
-### Errors
-
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
-| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
-| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
-
 ## get
 
 Returns a contractor payment group with all associated contractor payments.
@@ -242,54 +290,6 @@ end
 ### Response
 
 **[T.nilable(Models::Operations::DeleteV1ContractorPaymentGroupsContractorPaymentGroupIdResponse)](../../models/operations/deletev1contractorpaymentgroupscontractorpaymentgroupidresponse.md)**
-
-### Errors
-
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
-| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
-| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
-
-## fund
-
-> 🚧 Demo action
-> This action is only available in the Demo environment
-
-Simulate funding a contractor payment group. Funding only occurs automatically in the production environment when bank transactions are generated. Use this action in the demo environment to transition a contractor payment group's `status` from `Unfunded` to `Funded`. A `Funded` status is required for generating a contractor payment receipt.
-
-scope: `payrolls:run`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="put-v1-contractor_payment_groups-contractor_payment_group_id-fund" method="put" path="/v1/contractor_payment_groups/{contractor_payment_group_uuid}/fund" -->
-```ruby
-require 'gusto_embedded_client'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new(
-  security: Models::Shared::Security.new(
-    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-  )
-)
-res = s.contractor_payment_groups.fund(contractor_payment_group_uuid: '<id>', x_gusto_api_version: Models::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_06_MINUS_15)
-
-unless res.contractor_payment_group.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `contractor_payment_group_uuid`                                                                                                                                                                                              | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The UUID of the contractor payment group                                                                                                                                                                                     |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundHeaderXGustoAPIVersion)](../../models/operations/putv1contractorpaymentgroupscontractorpaymentgroupidfundheaderxgustoapiversion.md)   | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse)](../../models/operations/putv1contractorpaymentgroupscontractorpaymentgroupidfundresponse.md)**
 
 ### Errors
 

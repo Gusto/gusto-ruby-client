@@ -37,7 +37,7 @@ module GustoEmbedded
         # Optional configuration object that varies based on the flow_type. This can contain arbitrary key-value pairs specific to the flow being generated.
         field(
           :options,
-          Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)),
+          Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::Object)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("options")}}
         )
 
@@ -46,7 +46,7 @@ module GustoEmbedded
             flow_type: ::String,
             entity_uuid: T.nilable(::String),
             entity_type: T.nilable(Models::Shared::CreateFlowRequestEntityType),
-            options: T.nilable(T::Hash[Symbol, ::Object])
+            options: T.nilable(T::Hash[::Symbol, ::Object])
           )
             .void
         }

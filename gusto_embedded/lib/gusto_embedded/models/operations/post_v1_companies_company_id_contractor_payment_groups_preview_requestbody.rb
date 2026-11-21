@@ -13,11 +13,11 @@ module GustoEmbedded
         include Crystalline::MetadataFields
 
 
-        field :contractor_payments, Crystalline::Array.new(Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments'), required: true } }
+        field :contractor_payments, Crystalline::Array.new(Models::Operations::ContractorPayments), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments'), required: true } }
         # Date when payments should be processed
         field :check_date, Crystalline::Nilable.new(::Date), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date'), 'decoder': ::GustoEmbedded::Utils.date_from_iso_format(true) } }
 
-        sig { params(contractor_payments: T::Array[Models::Operations::PostV1CompaniesCompanyIdContractorPaymentGroupsPreviewContractorPayments], check_date: T.nilable(::Date)).void }
+        sig { params(contractor_payments: T::Array[Models::Operations::ContractorPayments], check_date: T.nilable(::Date)).void }
         def initialize(contractor_payments:, check_date: nil)
           @contractor_payments = contractor_payments
           @check_date = check_date

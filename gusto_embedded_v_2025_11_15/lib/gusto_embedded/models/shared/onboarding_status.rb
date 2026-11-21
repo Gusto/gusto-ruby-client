@@ -6,18 +6,17 @@
 module GustoEmbedded
   module Models
     module Shared
-
+      # OnboardingStatus - One of the "onboarding_status" enum values.
       class OnboardingStatus
         include ::Crystalline::Enum
         enums do
-          ONBOARDING_COMPLETED = new("onboarding_completed")
           ADMIN_ONBOARDING_INCOMPLETE = new("admin_onboarding_incomplete")
-          SELF_ONBOARDING_PENDING_INVITE = new("self_onboarding_pending_invite")
+          ADMIN_ONBOARDING_REVIEW = new("admin_onboarding_review")
+          SELF_ONBOARDING_NOT_INVITED = new("self_onboarding_not_invited")
           SELF_ONBOARDING_INVITED = new("self_onboarding_invited")
-          SELF_ONBOARDING_INVITED_STARTED = new("self_onboarding_invited_started")
-          SELF_ONBOARDING_INVITED_OVERDUE = new("self_onboarding_invited_overdue")
-          SELF_ONBOARDING_COMPLETED_BY_EMPLOYEE = new("self_onboarding_completed_by_employee")
-          SELF_ONBOARDING_AWAITING_ADMIN_REVIEW = new("self_onboarding_awaiting_admin_review")
+          SELF_ONBOARDING_STARTED = new("self_onboarding_started")
+          SELF_ONBOARDING_REVIEW = new("self_onboarding_review")
+          ONBOARDING_COMPLETED = new("onboarding_completed")
         end
 
         open!

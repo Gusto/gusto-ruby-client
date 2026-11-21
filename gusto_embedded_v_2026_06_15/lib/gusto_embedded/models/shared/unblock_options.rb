@@ -17,9 +17,9 @@ module GustoEmbedded
         # The payment check date associated with the unblock option.
         field :check_date, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('check_date') } }
         # Additional data associated with the unblock option.
-        field :metadata, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
+        field :metadata, Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('metadata') } }
 
-        sig { params(unblock_type: T.nilable(::String), check_date: T.nilable(::String), metadata: T.nilable(T::Hash[Symbol, ::Object])).void }
+        sig { params(unblock_type: T.nilable(::String), check_date: T.nilable(::String), metadata: T.nilable(T::Hash[::Symbol, ::Object])).void }
         def initialize(unblock_type: nil, check_date: nil, metadata: nil)
           @unblock_type = unblock_type
           @check_date = check_date

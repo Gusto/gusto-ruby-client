@@ -32,7 +32,7 @@ module GustoEmbedded
         #
         # - `Every week`: Employees are paid weekly.
         # - `Every other week`: Employees are paid bi-weekly (every two weeks).
-        # - `Twice per month`: Employees are paid on two fixed days each month (e.g. 1st and 15th); use day_1 and day_2.
+        # - `Twice per month`: Employees are paid twice per month. The explicit pay-day fields always represent pay days; explicit period-end fields are populated only for flexible schedules. Legacy day_1/day_2 retain their historical values.
         # - `Monthly`: Employees are paid once per month; use day_1 for the pay day.
         # - `Quarterly`: Employees are paid every three months.
         # - `Annually`: Employees are paid once per year.
@@ -92,19 +92,51 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Boolean.new),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("active")}}
         )
-        # An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies.
+        # Legacy field, retained unchanged for compatibility. The first pay day for Monthly and regular Twice per month schedules, or the first pay-period end day for flexible Twice per month schedules. Prefer the explicit pay-period fields. Do not combine day_1/day_2 with explicit fields in a request.
         #
+        #
+        # @deprecated true: This will be removed in a future release, please migrate away from it as soon as possible.
         field(
           :day_1,
           Crystalline::Nilable.new(::Integer),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("day_1")}}
         )
-        # An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, this field should be set to 31. For months shorter than 31 days, the second pay date is set to the last day of the month. It will be null for pay schedules with other frequencies.
+        # Legacy field, retained unchanged for compatibility. The second pay day for regular Twice per month schedules, or the second pay-period end day for flexible Twice per month schedules. A value of 31 means the last day of the month. Prefer the explicit pay-period fields. Do not combine day_1/day_2 with explicit fields in a request.
         #
+        #
+        # @deprecated true: This will be removed in a future release, please migrate away from it as soon as possible.
         field(
           :day_2,
           Crystalline::Nilable.new(::Integer),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("day_2")}}
+        )
+        # The first pay day of the month (1-31) for Monthly and Twice per month schedules; null for other frequencies. For flexible schedules, this is independent of first_pay_period_end_day. A pay day may fall in the following month.
+        #
+        field(
+          :first_pay_period_pay_day,
+          Crystalline::Nilable.new(::Integer),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("first_pay_period_pay_day")}}
+        )
+        # The second pay day of the month (1-31) for Twice per month schedules; null for other frequencies. For flexible schedules, this is independent of second_pay_period_end_day. A value of 31 means the last day of the month; a pay day may fall in the following month.
+        #
+        field(
+          :second_pay_period_pay_day,
+          Crystalline::Nilable.new(::Integer),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("second_pay_period_pay_day")}}
+        )
+        # The last day (1-31) of the first pay period for a flexible Twice per month schedule; null for regular schedules and other frequencies.
+        #
+        field(
+          :first_pay_period_end_day,
+          Crystalline::Nilable.new(::Integer),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("first_pay_period_end_day")}}
+        )
+        # The last day (1-31) of the second pay period for a flexible Twice per month schedule; null for regular schedules and other frequencies. A value of 31 means the last day of the month.
+        #
+        field(
+          :second_pay_period_end_day,
+          Crystalline::Nilable.new(::Integer),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("second_pay_period_end_day")}}
         )
         # This field will be hourly when the pay schedule is for hourly employees, salaried when the pay schedule is for salaried employees, the department name if pay schedule is by department, and null when the pay schedule is for all employees.
         field(
@@ -117,6 +149,18 @@ module GustoEmbedded
           :auto_payroll_enablement_blockers,
           Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleAutoPayrollEnablementBlocker)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("auto_payroll_enablement_blockers")}}
+        )
+        # The day of the week that this pay schedule's workweeks start on, used for regular rate of pay overtime calculations. Null when no workweek start day has been configured (e.g. legacy pay schedules).
+        #
+        field(
+          :workweek_start_day,
+          Crystalline::Nilable.new(Models::Shared::PayScheduleWorkweekStartDay),
+          {
+            'format_json': {
+              'letter_case': ::GustoEmbedded::Utils.field_name("workweek_start_day"),
+              'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayScheduleWorkweekStartDay, true)
+            }
+          }
         )
 
         sig {
@@ -131,10 +175,15 @@ module GustoEmbedded
             active: T.nilable(T::Boolean),
             day_1: T.nilable(::Integer),
             day_2: T.nilable(::Integer),
+            first_pay_period_pay_day: T.nilable(::Integer),
+            second_pay_period_pay_day: T.nilable(::Integer),
+            first_pay_period_end_day: T.nilable(::Integer),
+            second_pay_period_end_day: T.nilable(::Integer),
             name: T.nilable(::String),
             auto_payroll_enablement_blockers: T.nilable(
               T::Array[Models::Shared::PayScheduleAutoPayrollEnablementBlocker]
-            )
+            ),
+            workweek_start_day: T.nilable(Models::Shared::PayScheduleWorkweekStartDay)
           )
             .void
         }
@@ -149,8 +198,13 @@ module GustoEmbedded
           active: nil,
           day_1: nil,
           day_2: nil,
+          first_pay_period_pay_day: nil,
+          second_pay_period_pay_day: nil,
+          first_pay_period_end_day: nil,
+          second_pay_period_end_day: nil,
           name: nil,
-          auto_payroll_enablement_blockers: nil
+          auto_payroll_enablement_blockers: nil,
+          workweek_start_day: nil
         )
           @uuid = uuid
           @version = version
@@ -162,8 +216,13 @@ module GustoEmbedded
           @active = active
           @day_1 = day_1
           @day_2 = day_2
+          @first_pay_period_pay_day = first_pay_period_pay_day
+          @second_pay_period_pay_day = second_pay_period_pay_day
+          @first_pay_period_end_day = first_pay_period_end_day
+          @second_pay_period_end_day = second_pay_period_end_day
           @name = name
           @auto_payroll_enablement_blockers = auto_payroll_enablement_blockers
+          @workweek_start_day = workweek_start_day
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -179,8 +238,13 @@ module GustoEmbedded
           return false unless @active == other.active
           return false unless @day_1 == other.day_1
           return false unless @day_2 == other.day_2
+          return false unless @first_pay_period_pay_day == other.first_pay_period_pay_day
+          return false unless @second_pay_period_pay_day == other.second_pay_period_pay_day
+          return false unless @first_pay_period_end_day == other.first_pay_period_end_day
+          return false unless @second_pay_period_end_day == other.second_pay_period_end_day
           return false unless @name == other.name
           return false unless @auto_payroll_enablement_blockers == other.auto_payroll_enablement_blockers
+          return false unless @workweek_start_day == other.workweek_start_day
           true
         end
       end

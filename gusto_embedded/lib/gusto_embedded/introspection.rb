@@ -23,7 +23,7 @@ module GustoEmbedded
       
     end
 
-    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    sig { params(base_url: ::String, url_variables: T.nilable(T::Hash[::Symbol, T.any(::String, T::Enum)])).returns(::String) }
     def get_url(base_url:, url_variables: nil)
       sd_base_url, sd_options = @sdk_configuration.get_server_details
 
@@ -41,30 +41,36 @@ module GustoEmbedded
 
 
 
-    sig { params(x_gusto_api_version: T.nilable(Models::Operations::XGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1TokenInfoResponse) }
-    def get_info(x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
-      # get_info - Get info about the current access token
-      # Returns scope and resource information associated with the current access token. Use this endpoint to verify the following for the current access token:
-      # * Resource (company, employee, contractor, or application) and resource owner
-      # * Access level
-      #
-      # If set, this operation will use `company_access_auth` from the global security.
-      request = Models::Operations::GetV1TokenInfoRequest.new(
+    sig { params(request_body: T.any(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest), x_gusto_api_version: T.nilable(Models::Operations::OauthAccessTokenHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::OauthAccessTokenResponse) }
+    def oauth_access_token(request_body:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # oauth_access_token - Create a System Access Token or Refresh an Access Token
+      # Creates a system access token or refreshes an oauth access token
+      request = Models::Operations::OauthAccessTokenRequest.new(
+        request_body: request_body,
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
-      url = "#{base_url}/v1/token_info"
+      url = "#{base_url}/oauth/token"
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
+      headers['content-type'] = req_content_type
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
+
+      if form && !form.empty?
+        body = Utils.encode_form(form)
+      elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
+      else
+        body = data
+      end
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
-      security = @sdk_configuration.security_source&.call
-
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -72,19 +78,19 @@ module GustoEmbedded
         config: @sdk_configuration,
         base_url: base_url,
         oauth2_scopes: nil,
-        operation_id: 'get-v1-token-info',
-        security_source: @sdk_configuration.security_source
+        operation_id: 'oauth-access-token',
+        security_source: nil
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
-        http_response = T.must(connection).get(url) do |req|
+        http_response = T.must(connection).post(url) do |req|
+          req.body = body
           req.headers.merge!(headers)
           req.options.timeout = timeout unless timeout.nil?
-          Utils.configure_request_security(req, security, %i[company_access_auth])
           http_headers&.each do |key, value|
             req.headers[key.to_s] = value
           end
@@ -96,7 +102,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -115,13 +121,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -132,12 +138,12 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::TokenInfo)
-          response = Models::Operations::GetV1TokenInfoResponse.new(
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Crystalline::Union.new(Models::Shared::CreateTokenAuthentication, Models::Shared::RefreshTokenAuthentication))
+          response = Models::Operations::OauthAccessTokenResponse.new(
             status_code: http_response.status,
             content_type: content_type,
             raw_response: http_response,
-            token_info: T.unsafe(obj)
+            authentication: T.unsafe(obj)
           )
 
           return response
@@ -155,36 +161,30 @@ module GustoEmbedded
     end
 
 
-    sig { params(request_body: T.any(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest), x_gusto_api_version: T.nilable(Models::Operations::HeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::OauthAccessTokenResponse) }
-    def oauth_access_token(request_body:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
-      # oauth_access_token - Create a System Access Token or Refresh an Access Token
-      # Creates a system access token or refreshes an oauth access token
-      request = Models::Operations::OauthAccessTokenRequest.new(
-        request_body: request_body,
+    sig { params(x_gusto_api_version: T.nilable(Models::Operations::GetV1TokenInfoHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1TokenInfoResponse) }
+    def get_info(x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # get_info - Get info about the current access token
+      # Returns scope and resource information associated with the current access token. Use this endpoint to verify the following for the current access token:
+      # * Resource (company, employee, contractor, or application) and resource owner
+      # * Access level
+      #
+      # If set, this operation will use `company_access_auth` from the global security.
+      request = Models::Operations::GetV1TokenInfoRequest.new(
         x_gusto_api_version: x_gusto_api_version
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
-      url = "#{base_url}/oauth/token"
+      url = "#{base_url}/v1/token_info"
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
-      req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
-      headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
-
-      if form && !form.empty?
-        body = Utils.encode_form(form)
-      elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
-      else
-        body = data
-      end
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
+      security = @sdk_configuration.security_source&.call
+
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -192,19 +192,19 @@ module GustoEmbedded
         config: @sdk_configuration,
         base_url: base_url,
         oauth2_scopes: nil,
-        operation_id: 'oauth-access-token',
-        security_source: nil
+        operation_id: 'get-v1-token-info',
+        security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
-        http_response = T.must(connection).post(url) do |req|
-          req.body = body
+        http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
           req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security, %i[company_access_auth])
           http_headers&.each do |key, value|
             req.headers[key.to_s] = value
           end
@@ -216,7 +216,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -235,13 +235,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -252,12 +252,12 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Union.new(Models::Shared::CreateTokenAuthentication, Models::Shared::RefreshTokenAuthentication))
-          response = Models::Operations::OauthAccessTokenResponse.new(
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::TokenInfo)
+          response = Models::Operations::GetV1TokenInfoResponse.new(
             status_code: http_response.status,
             content_type: content_type,
             raw_response: http_response,
-            authentication: T.unsafe(obj)
+            token_info: T.unsafe(obj)
           )
 
           return response

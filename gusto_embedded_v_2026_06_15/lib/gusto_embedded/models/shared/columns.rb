@@ -10,6 +10,7 @@ module GustoEmbedded
 
       class Columns < T::Enum
         enums do
+          ADDITIONAL_EARNINGS = new('additional_earnings')
           BANK_ACCOUNT_ACCOUNT_NUMBER = new('bank_account_account_number')
           BANK_ACCOUNT_ROUTING_NUMBER = new('bank_account_routing_number')
           BANK_ACCOUNT_TYPE = new('bank_account_type')
@@ -39,6 +40,7 @@ module GustoEmbedded
           EMPLOYEE_MEDICARE_TAX = new('employee_medicare_tax')
           EMPLOYEE_PHONE_NUMBER = new('employee_phone_number')
           EMPLOYEE_SOCIAL_SECURITY_TAX = new('employee_social_security_tax')
+          EMPLOYEE_STATE_INCOME_TAX = new('employee_state_income_tax')
           EMPLOYEE_TAXES = new('employee_taxes')
           EMPLOYEE_UUID = new('employee_uuid')
           EMPLOYEE_WORK_EMAIL = new('employee_work_email')

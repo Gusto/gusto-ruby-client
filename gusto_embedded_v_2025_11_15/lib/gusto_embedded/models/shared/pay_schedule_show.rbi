@@ -66,6 +66,30 @@ class GustoEmbedded::Models::Shared::PayScheduleShow
   def day_2=(str_)
   end
 
+  def first_pay_period_pay_day
+  end
+
+  def first_pay_period_pay_day=(str_)
+  end
+
+  def second_pay_period_pay_day
+  end
+
+  def second_pay_period_pay_day=(str_)
+  end
+
+  def first_pay_period_end_day
+  end
+
+  def first_pay_period_end_day=(str_)
+  end
+
+  def second_pay_period_end_day
+  end
+
+  def second_pay_period_end_day=(str_)
+  end
+
   def name
   end
 
@@ -76,5 +100,11 @@ class GustoEmbedded::Models::Shared::PayScheduleShow
   end
 
   def auto_payroll_enablement_blockers=(str_)
+  end
+
+  def workweek_start_day
+  end
+
+  def workweek_start_day=(str_)
   end
 end

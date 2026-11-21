@@ -7,7 +7,7 @@ The action being performed on the batch.
 ```ruby
 require "gusto_embedded_client_v_2026_06_15"
 
-value = BatchAction::CREATE
+value = BatchAction::CANCEL
 ```
 
 
@@ -15,4 +15,4 @@ value = BatchAction::CREATE
 
 | Name     | Value    |
 | -------- | -------- |
-| `CREATE` | create   |
+| `CANCEL` | cancel   |

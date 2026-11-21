@@ -19,9 +19,9 @@ module GustoEmbedded
         # Raw HTTP response; suitable for custom response parsing
         field :raw_response, ::Faraday::Response
         # Successful
-        field :pay_schedule_show_response, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleShow))
+        field :pay_schedule_show_response, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayScheduleListItem))
 
-        sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, pay_schedule_show_response: T.nilable(T::Array[Models::Shared::PayScheduleShow])).void }
+        sig { params(content_type: ::String, status_code: ::Integer, raw_response: ::Faraday::Response, pay_schedule_show_response: T.nilable(T::Array[Models::Shared::PayScheduleListItem])).void }
         def initialize(content_type:, status_code:, raw_response:, pay_schedule_show_response: nil)
           @content_type = content_type
           @status_code = status_code

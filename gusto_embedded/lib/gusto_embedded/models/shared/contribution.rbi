@@ -8,8 +8,12 @@ end
 
 
 class GustoEmbedded::Models::Shared::Contribution
-  def type(); end
-  def type=(str_); end
-  def value(); end
-  def value=(str_); end
+  def required(); end
+  def required=(str_); end
+  def editable(); end
+  def editable=(str_); end
+  def default_value(); end
+  def default_value=(str_); end
+  def choices(); end
+  def choices=(str_); end
 end

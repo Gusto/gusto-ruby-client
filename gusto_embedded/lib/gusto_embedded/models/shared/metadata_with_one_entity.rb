@@ -17,7 +17,7 @@ module GustoEmbedded
         # Unique identifier for the entity.
         field :entity_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_uuid') } }
 
-        field :additional_properties, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_properties'), 'additional_properties': true } }
+        field :additional_properties, Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('additional_properties'), 'additional_properties': true } }
 
         field :valid_from, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('valid_from') } }
 
@@ -27,7 +27,7 @@ module GustoEmbedded
 
         field :state, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('state') } }
 
-        sig { params(entity_type: T.nilable(::String), entity_uuid: T.nilable(::String), additional_properties: T.nilable(T::Hash[Symbol, ::Object]), valid_from: T.nilable(::String), valid_up_to: T.nilable(::String), key: T.nilable(::String), state: T.nilable(::String)).void }
+        sig { params(entity_type: T.nilable(::String), entity_uuid: T.nilable(::String), additional_properties: T.nilable(T::Hash[::Symbol, ::Object]), valid_from: T.nilable(::String), valid_up_to: T.nilable(::String), key: T.nilable(::String), state: T.nilable(::String)).void }
         def initialize(entity_type: nil, entity_uuid: nil, additional_properties: nil, valid_from: nil, valid_up_to: nil, key: nil, state: nil)
           @entity_type = entity_type
           @entity_uuid = entity_uuid
