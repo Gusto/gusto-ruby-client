@@ -18,6 +18,10 @@ class GustoEmbedded::Models::Shared::TaxRequirement
   def metadata=(str_); end
   def editable(); end
   def editable=(str_); end
+  def payroll_blocking(); end
+  def payroll_blocking=(str_); end
+  def default_value_applied(); end
+  def default_value_applied=(str_); end
   def description(); end
   def description=(str_); end
   def value(); end

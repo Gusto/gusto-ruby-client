@@ -23,9 +23,9 @@ module GustoEmbedded
         # - `tax_rate`: A decimal value representing a tax rate, e.g. `0.034` representing a tax rate of `3.4%`, see `validation` for additional validation guidance
         # - `workers_compensation_rate`: A decimal value representing a percentage, see `risk_class_code`, `risk_class_description`, and `rate_type`
         #
-        field :type, Models::Shared::TaxRequirementMetadataType, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::TaxRequirementMetadataType, false) } }
+        field :type, Models::Shared::Type, { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type'), required: true, 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Type, false) } }
         # [for `select` or `radio`] An array of objects describing the possible values.
-        field :options, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::TaxRequirementMetadataOptions)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
+        field :options, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Options)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
         # [for `workers_compensation_rate`] The industry risk class code for the rate being requested
         field :risk_class_code, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('risk_class_code') } }
         # [for `workers_compensation_rate`] A description of the industry risk class for the rate being requested
@@ -54,7 +54,7 @@ module GustoEmbedded
         # [for `account_number`] A value that precedes the value to be collected - useful for display, but should not be submitted as part of the value. E.g. some tax agencies use an account number that is a company's federal ein plus two digits. In that case the mask would be `##` and the prefix `XXXXX1234`.
         field :prefix, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('prefix') } }
 
-        sig { params(type: Models::Shared::TaxRequirementMetadataType, options: T.nilable(T::Array[Models::Shared::TaxRequirementMetadataOptions]), risk_class_code: T.nilable(::String), risk_class_description: T.nilable(::String), rate_type: T.nilable(Models::Shared::RateType), validation: T.nilable(Models::Shared::Validation), mask: T.nilable(::String), prefix: T.nilable(::String)).void }
+        sig { params(type: Models::Shared::Type, options: T.nilable(T::Array[Models::Shared::Options]), risk_class_code: T.nilable(::String), risk_class_description: T.nilable(::String), rate_type: T.nilable(Models::Shared::RateType), validation: T.nilable(Models::Shared::Validation), mask: T.nilable(::String), prefix: T.nilable(::String)).void }
         def initialize(type:, options: nil, risk_class_code: nil, risk_class_description: nil, rate_type: nil, validation: nil, mask: nil, prefix: nil)
           @type = type
           @options = options

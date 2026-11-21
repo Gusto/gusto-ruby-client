@@ -52,6 +52,8 @@ class GustoEmbedded::Models::Shared::ShowEmployees
   def flsa_status=(str_); end
   def applicable_tax_ids(); end
   def applicable_tax_ids=(str_); end
+  def company_name(); end
+  def company_name=(str_); end
   def current_home_address(); end
   def current_home_address=(str_); end
   def all_home_addresses(); end

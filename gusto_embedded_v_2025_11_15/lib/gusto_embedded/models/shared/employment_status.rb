@@ -6,19 +6,17 @@
 module GustoEmbedded
   module Models
     module Shared
-      # EmploymentStatus - The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*.
-      class EmploymentStatus
-        include ::Crystalline::Enum
+      # EmploymentStatus - Employee employment status to filter by.
+      class EmploymentStatus < T::Enum
         enums do
-          PART_TIME = new("part_time")
-          FULL_TIME = new("full_time")
-          PART_TIME_ELIGIBLE = new("part_time_eligible")
-          VARIABLE = new("variable")
-          SEASONAL = new("seasonal")
-          NOT_SET = new("not_set")
+          ACTIVE_FULL_TIME = new("active_full_time")
+          ACTIVE_PART_TIME = new("active_part_time")
+          ACTIVE_PART_TIME_ELIGIBLE = new("active_part_time_eligible")
+          ACTIVE_VARIABLE = new("active_variable")
+          ACTIVE_SEASONAL = new("active_seasonal")
+          ACTIVE = new("active")
+          DISMISSED = new("dismissed")
         end
-
-        open!
       end
     end
   end

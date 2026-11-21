@@ -38,7 +38,7 @@ module GustoEmbedded
         # An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"})
         field(
           :days,
-          Crystalline::Hash.new(Symbol, ::String),
+          Crystalline::Hash.new(::Symbol, ::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("days"), required: true}}
         )
         # A note from the employer about the request
@@ -60,7 +60,7 @@ module GustoEmbedded
             policy_uuid: ::String,
             start_date: ::String,
             end_date: ::String,
-            days: T::Hash[Symbol, ::String],
+            days: T::Hash[::Symbol, ::String],
             employer_note: T.nilable(::String),
             approver_uuid: T.nilable(::String)
           )

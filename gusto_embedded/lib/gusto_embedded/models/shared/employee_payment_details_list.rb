@@ -21,11 +21,11 @@ module GustoEmbedded
         # The type of payment method.
         field :payment_method, Crystalline::Nilable.new(Models::Shared::EmployeePaymentDetailsListPaymentMethod), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('payment_method'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeePaymentDetailsListPaymentMethod, true) } }
         # How the payment is split. This field is applicable when `payment_method` is "Direct Deposit". If `split_by` is Percentage, then the split amounts must add up to exactly 100. If `split_by` is Amount, the last split amount must be `null` to capture the remainder.
-        field :split_by, Crystalline::Nilable.new(Models::Shared::SplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::SplitBy, true) } }
+        field :split_by, Crystalline::Nilable.new(Models::Shared::EmployeePaymentDetailsListSplitBy), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('split_by'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::EmployeePaymentDetailsListSplitBy, true) } }
         # An array of payment splits. This field is applicable when `payment_method` is "Direct Deposit".
-        field :splits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Splits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
+        field :splits, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EmployeePaymentDetailsListSplits)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('splits') } }
 
-        sig { params(employee_uuid: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), payment_method: T.nilable(Models::Shared::EmployeePaymentDetailsListPaymentMethod), split_by: T.nilable(Models::Shared::SplitBy), splits: T.nilable(T::Array[Models::Shared::Splits])).void }
+        sig { params(employee_uuid: T.nilable(::String), first_name: T.nilable(::String), last_name: T.nilable(::String), payment_method: T.nilable(Models::Shared::EmployeePaymentDetailsListPaymentMethod), split_by: T.nilable(Models::Shared::EmployeePaymentDetailsListSplitBy), splits: T.nilable(T::Array[Models::Shared::EmployeePaymentDetailsListSplits])).void }
         def initialize(employee_uuid: nil, first_name: nil, last_name: nil, payment_method: nil, split_by: nil, splits: nil)
           @employee_uuid = employee_uuid
           @first_name = first_name

@@ -110,20 +110,11 @@ require 'gusto_embedded_client_v_2026_06_15'
 
 Models = ::GustoEmbedded::Models
 s = ::GustoEmbedded::Client.new
-res = s.companies.create_partner_managed(security: Models::Operations::PostV1PartnerManagedCompaniesSecurity.new(
+res = s.companies.put_v1_partner_managed_companies_company_uuid_disassociate(security: Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateSecurity.new(
   system_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-), partner_managed_company_create_request: Models::Shared::PartnerManagedCompanyCreateRequest.new(
-  user: Models::Shared::User.new(
-    first_name: 'Marco',
-    last_name: 'Trantow',
-    email: 'Jewell_Greenholt72@hotmail.com'
-  ),
-  company: Models::Shared::PartnerManagedCompanyCreateRequestCompany.new(
-    name: '<value>'
-  )
-), x_gusto_api_version: Models::Operations::PostV1PartnerManagedCompaniesHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15)
+), company_uuid: '<id>', x_gusto_api_version: Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15)
 
-unless res.partner_managed_company.nil?
+unless res.partner_managed_company_disassociate_response.nil?
   # handle response
 end
 
@@ -157,6 +148,7 @@ end
 * [get_custom_fields](docs/sdks/companies/README.md#get_custom_fields) - Get the custom fields of a company
 * [get_onboarding_status](docs/sdks/companies/README.md#get_onboarding_status) - Get company onboarding status
 * [finish_onboarding](docs/sdks/companies/README.md#finish_onboarding) - Finish company onboarding
+* [put_v1_partner_managed_companies_company_uuid_disassociate](docs/sdks/companies/README.md#put_v1_partner_managed_companies_company_uuid_disassociate) - Disassociate a partner managed company
 * [migrate](docs/sdks/companies/README.md#migrate) - Migrate company to embedded payroll
 * [create_partner_managed](docs/sdks/companies/README.md#create_partner_managed) - Create a partner managed company
 * [get_v1_partner_managed_companies_company_uuid_migration_readiness](docs/sdks/companies/README.md#get_v1_partner_managed_companies_company_uuid_migration_readiness) - Check company migration readiness
@@ -204,6 +196,18 @@ end
 * [get_pdf](docs/sdks/companyforms/README.md#get_pdf) - Get a company form pdf
 * [sign](docs/sdks/companyforms/README.md#sign) - Sign a company form
 
+### [ContractorPayments](docs/sdks/contractorpayments/README.md)
+
+* [get_v1_contractors_contractor_uuid_payments](docs/sdks/contractorpayments/README.md#get_v1_contractors_contractor_uuid_payments) - Get contractor payments
+* [get_v1_contractor_payments_contractor_payment_id_pdf](docs/sdks/contractorpayments/README.md#get_v1_contractor_payments_contractor_payment_id_pdf) - Get a contractor payment PDF
+* [list](docs/sdks/contractorpayments/README.md#list) - Get contractor payments for a company
+* [create](docs/sdks/contractorpayments/README.md#create) - Create a contractor payment
+* [get](docs/sdks/contractorpayments/README.md#get) - Get a single contractor payment
+* [delete](docs/sdks/contractorpayments/README.md#delete) - Cancel a contractor payment
+* [preview](docs/sdks/contractorpayments/README.md#preview) - Preview contractor payment debit date
+* [get_receipt](docs/sdks/contractorpayments/README.md#get_receipt) - Get a single contractor payment receipt
+* [fund](docs/sdks/contractorpayments/README.md#fund) - Fund a contractor payment [DEMO]
+
 ### [ContractorDocuments](docs/sdks/contractordocuments/README.md)
 
 * [get_all](docs/sdks/contractordocuments/README.md#get_all) - Get all contractor documents
@@ -238,17 +242,6 @@ end
 ### [ContractorPaymentMethods](docs/sdks/contractorpaymentmethods/README.md)
 
 * [create_bank_account](docs/sdks/contractorpaymentmethods/README.md#create_bank_account) - Create a contractor bank account
-
-### [ContractorPayments](docs/sdks/contractorpayments/README.md)
-
-* [list](docs/sdks/contractorpayments/README.md#list) - Get contractor payments for a company
-* [create](docs/sdks/contractorpayments/README.md#create) - Create a contractor payment
-* [get](docs/sdks/contractorpayments/README.md#get) - Get a single contractor payment
-* [delete](docs/sdks/contractorpayments/README.md#delete) - Cancel a contractor payment
-* [preview](docs/sdks/contractorpayments/README.md#preview) - Preview contractor payment debit date
-* [get_receipt](docs/sdks/contractorpayments/README.md#get_receipt) - Get a single contractor payment receipt
-* [fund](docs/sdks/contractorpayments/README.md#fund) - Fund a contractor payment [DEMO]
-* [get_v1_contractor_payments_contractor_payment_id_pdf](docs/sdks/contractorpayments/README.md#get_v1_contractor_payments_contractor_payment_id_pdf) - Get a contractor payment PDF
 
 ### [Contractors](docs/sdks/contractors/README.md)
 
@@ -467,6 +460,15 @@ end
 * [get](docs/sdks/locations/README.md#get) - Get all company locations
 * [create](docs/sdks/locations/README.md#create) - Create a company location
 
+### [MemberPortalInvitations](docs/sdks/memberportalinvitations/README.md)
+
+* [post_v1_employees_employee_id_member_portal_invitations](docs/sdks/memberportalinvitations/README.md#post_v1_employees_employee_id_member_portal_invitations) - Create an employee member portal invitation
+* [get_v1_employees_employee_id_member_portal_invitations](docs/sdks/memberportalinvitations/README.md#get_v1_employees_employee_id_member_portal_invitations) - Get an employee member portal invitation
+* [delete_v1_employees_employee_id_member_portal_invitations](docs/sdks/memberportalinvitations/README.md#delete_v1_employees_employee_id_member_portal_invitations) - Cancel an employee member portal invitation
+* [post_v1_contractors_contractor_uuid_member_portal_invitations](docs/sdks/memberportalinvitations/README.md#post_v1_contractors_contractor_uuid_member_portal_invitations) - Create a contractor member portal invitation
+* [get_v1_contractors_contractor_uuid_member_portal_invitations](docs/sdks/memberportalinvitations/README.md#get_v1_contractors_contractor_uuid_member_portal_invitations) - Get a contractor member portal invitation
+* [delete_v1_contractors_contractor_uuid_member_portal_invitations](docs/sdks/memberportalinvitations/README.md#delete_v1_contractors_contractor_uuid_member_portal_invitations) - Cancel a contractor member portal invitation
+
 ### [Notifications](docs/sdks/notifications/README.md)
 
 * [get_company_notifications](docs/sdks/notifications/README.md#get_company_notifications) - Get notifications for company
@@ -476,6 +478,11 @@ end
 
 * [get](docs/sdks/paymentconfigs/README.md#get) - Get a company's payment configs
 * [update](docs/sdks/paymentconfigs/README.md#update) - Update a company's payment configs
+
+### [PayrollCancellations](docs/sdks/payrollcancellations/README.md)
+
+* [post_v1_payroll_batches](docs/sdks/payrollcancellations/README.md#post_v1_payroll_batches) - Create a payroll cancellation batch
+* [get_v1_payroll_batches_payroll_batch_uuid](docs/sdks/payrollcancellations/README.md#get_v1_payroll_batches_payroll_batch_uuid) - Get a payroll cancellation batch
 
 ### [PayrollDigests](docs/sdks/payrolldigests/README.md)
 
@@ -490,11 +497,6 @@ end
 * [get_v1_companies_company_id_payrolls_id_partner_disbursements](docs/sdks/payrolls/README.md#get_v1_companies_company_id_payrolls_id_partner_disbursements) - Get partner disbursements for a payroll
 * [patch_v1_companies_company_id_payrolls_id_partner_disbursements](docs/sdks/payrolls/README.md#patch_v1_companies_company_id_payrolls_id_partner_disbursements) - Update partner disbursements for a payroll
 * [get_approved_reversals](docs/sdks/payrolls/README.md#get_approved_reversals) - Get approved payroll reversals
-* [get](docs/sdks/payrolls/README.md#get) - Get a single payroll
-* [update](docs/sdks/payrolls/README.md#update) - Update a payroll by ID
-* [delete](docs/sdks/payrolls/README.md#delete) - Delete a payroll
-* [list](docs/sdks/payrolls/README.md#list) - Get all payrolls for a company
-* [create_off_cycle](docs/sdks/payrolls/README.md#create_off_cycle) - Create an off-cycle payroll
 * [get_receipt](docs/sdks/payrolls/README.md#get_receipt) - Get a single payroll receipt
 * [cancel](docs/sdks/payrolls/README.md#cancel) - Cancel a payroll
 * [prepare](docs/sdks/payrolls/README.md#prepare) - Prepare a payroll for update
@@ -503,6 +505,11 @@ end
 * [skip](docs/sdks/payrolls/README.md#skip) - Skip a payroll
 * [submit](docs/sdks/payrolls/README.md#submit) - Submit payroll
 * [calculate_gross_up](docs/sdks/payrolls/README.md#calculate_gross_up) - Calculate gross up for a payroll
+* [get](docs/sdks/payrolls/README.md#get) - Get a single payroll
+* [update](docs/sdks/payrolls/README.md#update) - Update a payroll by ID
+* [delete](docs/sdks/payrolls/README.md#delete) - Delete a payroll
+* [list](docs/sdks/payrolls/README.md#list) - Get all payrolls for a company
+* [create_off_cycle](docs/sdks/payrolls/README.md#create_off_cycle) - Create an off-cycle payroll
 
 ### [PaySchedules](docs/sdks/payschedules/README.md)
 
@@ -537,11 +544,17 @@ end
 
 ### [Reports](docs/sdks/reports/README.md)
 
+* [post_v1_bulk_reports](docs/sdks/reports/README.md#post_v1_bulk_reports) - Create a bulk report batch
+* [get_v1_bulk_reports_request_uuid](docs/sdks/reports/README.md#get_v1_bulk_reports_request_uuid) - Get a bulk report batch
 * [post_v1_companies_company_id_reports_employees_annual_fica_wage](docs/sdks/reports/README.md#post_v1_companies_company_id_reports_employees_annual_fica_wage) - Create an employees annual FICA wage report
 * [create_custom](docs/sdks/reports/README.md#create_custom) - Create a custom report
 * [post_payrolls_payroll_uuid_reports_general_ledger](docs/sdks/reports/README.md#post_payrolls_payroll_uuid_reports_general_ledger) - Create a general ledger report
 * [get_reports_request_uuid](docs/sdks/reports/README.md#get_reports_request_uuid) - Get a report
 * [get_template](docs/sdks/reports/README.md#get_template) - Get a report template
+
+### [ReverseWireTransactions](docs/sdks/reversewiretransactions/README.md)
+
+* [get_reverse_wire_transactions](docs/sdks/reversewiretransactions/README.md#get_reverse_wire_transactions) - Get all reverse wire transactions for a company
 
 ### [SalaryEstimates](docs/sdks/salaryestimates/README.md)
 
@@ -558,6 +571,11 @@ end
 * [invite](docs/sdks/signatories/README.md#invite) - Invite a signatory
 * [update](docs/sdks/signatories/README.md#update) - Update a signatory
 * [delete](docs/sdks/signatories/README.md#delete) - Delete a signatory
+
+### [TaxPayments](docs/sdks/taxpayments/README.md)
+
+* [get_tax_payments](docs/sdks/taxpayments/README.md#get_tax_payments) - Get all tax payments for a company
+* [get_tax_payment](docs/sdks/taxpayments/README.md#get_tax_payment) - Get a tax payment for a company
 
 ### [TaxRequirements](docs/sdks/taxrequirements/README.md)
 

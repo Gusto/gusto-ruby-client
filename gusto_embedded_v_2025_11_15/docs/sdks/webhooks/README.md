@@ -9,8 +9,8 @@
 * [get_subscription](#get_subscription) - Get a webhook subscription
 * [update_subscription](#update_subscription) - Update a webhook subscription
 * [delete_subscription](#delete_subscription) - Delete a webhook subscription
-* [verify](#verify) - Verify a webhook subscription
 * [request_verification_token](#request_verification_token) - Request a verification token for a webhook subscription
+* [verify](#verify) - Verify a webhook subscription
 * [get_v1_webhooks_health_check](#get_v1_webhooks_health_check) - Get the webhooks health status
 
 ## list_subscriptions
@@ -257,6 +257,53 @@ end
 | Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
 | Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
 
+## request_verification_token
+
+Request that the webhook subscription `verification_token` be POSTed to the Subscription URL.
+
+📘 System Access Authentication
+
+This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access)
+
+scope: `webhook_subscriptions:read`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="get-v1-webhook-subscription-verification-token-uuid" method="get" path="/v1/webhook_subscriptions/{webhook_subscription_uuid}/request_verification_token" -->
+```ruby
+require 'gusto_embedded_client_v_2025_11_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new
+res = s.webhooks.request_verification_token(security: Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidSecurity.new(
+  system_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+), webhook_subscription_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
+
+unless res.webhook_verification_token_response.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `security`                                                                                                                                                                                                                   | [Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidSecurity](../../models/operations/getv1webhooksubscriptionverificationtokenuuidsecurity.md)                                                                | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
+| `webhook_subscription_uuid`                                                                                                                                                                                                  | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The webhook subscription UUID.                                                                                                                                                                                               |
+| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidHeaderXGustoAPIVersion)](../../models/operations/getv1webhooksubscriptionverificationtokenuuidheaderxgustoapiversion.md)                         | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
+
+### Response
+
+**[T.nilable(Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidResponse)](../../models/operations/getv1webhooksubscriptionverificationtokenuuidresponse.md)**
+
+### Errors
+
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
+| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
+
 ## verify
 
 When a webhook subscription is created, a `verification_token` is POSTed to the registered webhook subscription URL. This `verify` endpoint needs to be called with `verification_token` before webhook events can be sent to the registered webhook URL.
@@ -309,53 +356,6 @@ end
 | Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
 | Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
 | Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
-
-## request_verification_token
-
-Request that the webhook subscription `verification_token` be POSTed to the Subscription URL.
-
-📘 System Access Authentication
-
-This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access)
-
-scope: `webhook_subscriptions:read`
-
-### Example Usage
-
-<!-- UsageSnippet language="ruby" operationID="get-v1-webhook-subscription-verification-token-uuid" method="get" path="/v1/webhook_subscriptions/{webhook_subscription_uuid}/request_verification_token" -->
-```ruby
-require 'gusto_embedded_client_v_2025_11_15'
-
-Models = ::GustoEmbedded::Models
-s = ::GustoEmbedded::Client.new
-res = s.webhooks.request_verification_token(security: Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidSecurity.new(
-  system_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
-), webhook_subscription_uuid: '<id>', x_gusto_api_version: Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_FIVE_MINUS_11_MINUS_15)
-
-unless res.webhook_verification_token_response.nil?
-  # handle response
-end
-
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                                                                                   | [Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidSecurity](../../models/operations/getv1webhooksubscriptionverificationtokenuuidsecurity.md)                                                                | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
-| `webhook_subscription_uuid`                                                                                                                                                                                                  | *::String*                                                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                           | The webhook subscription UUID.                                                                                                                                                                                               |
-| `x_gusto_api_version`                                                                                                                                                                                                        | [T.nilable(Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidHeaderXGustoAPIVersion)](../../models/operations/getv1webhooksubscriptionverificationtokenuuidheaderxgustoapiversion.md)                         | :heavy_minus_sign:                                                                                                                                                                                                           | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used. |
-
-### Response
-
-**[T.nilable(Models::Operations::GetV1WebhookSubscriptionVerificationTokenUuidResponse)](../../models/operations/getv1webhooksubscriptionverificationtokenuuidresponse.md)**
-
-### Errors
-
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| Models::Errors::NotFoundErrorObject | 404                                 | application/json                    |
-| Errors::APIError                    | 4XX, 5XX                            | \*/\*                               |
 
 ## get_v1_webhooks_health_check
 

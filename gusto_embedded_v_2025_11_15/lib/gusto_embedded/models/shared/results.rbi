@@ -6,24 +6,6 @@ class GustoEmbedded::Models::Shared::Results
 end
 
 class GustoEmbedded::Models::Shared::Results
-  def external_id
-  end
-
-  def external_id=(str_)
-  end
-
-  def role
-  end
-
-  def role=(str_)
-  end
-
-  def status
-  end
-
-  def status=(str_)
-  end
-
   def idx
   end
 
@@ -36,10 +18,10 @@ class GustoEmbedded::Models::Shared::Results
   def uuid=(str_)
   end
 
-  def employee_uuid
+  def status
   end
 
-  def employee_uuid=(str_)
+  def status=(str_)
   end
 
   def errors

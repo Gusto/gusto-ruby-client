@@ -1,16 +1,13 @@
 # PaymentMethod
 
-The employee's payment method
+Payment method to filter by.
 
 ## Example Usage
 
 ```ruby
 require "gusto_embedded_client_v_2025_11_15"
 
-value = PaymentMethod::DIRECT_DEPOSIT
-
-# Open enum: use .deserialize() to create instances from custom string values
-custom = PaymentMethod.deserialize("custom_value")
+value = PaymentMethod::CHECK
 ```
 
 
@@ -18,5 +15,5 @@ custom = PaymentMethod.deserialize("custom_value")
 
 | Name             | Value            |
 | ---------------- | ---------------- |
-| `DIRECT_DEPOSIT` | Direct Deposit   |
-| `CHECK`          | Check            |
+| `CHECK`          | check            |
+| `DIRECT_DEPOSIT` | direct_deposit   |

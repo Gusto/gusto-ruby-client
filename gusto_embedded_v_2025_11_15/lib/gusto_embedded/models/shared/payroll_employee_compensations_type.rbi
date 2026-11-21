@@ -42,6 +42,12 @@ class GustoEmbedded::Models::Shared::PayrollEmployeeCompensationsType
   def reimbursements=(str_)
   end
 
+  def custom_withholdings
+  end
+
+  def custom_withholdings=(str_)
+  end
+
   def version
   end
 

@@ -57,7 +57,7 @@ module GustoEmbedded
         # Reasons the company cannot currently run payroll. Applies to every payroll in this company's `payrolls` array — blockers are evaluated at the company level, not per payroll. Empty when there are no blockers.
         field(
           :blockers,
-          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::Blockers)),
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollDigestResultsBlockers)),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("blockers")}}
         )
         # Payrolls for this company within the digest date window (7 days past, 30–60 days future). May be empty.
@@ -74,7 +74,7 @@ module GustoEmbedded
             uuid: T.nilable(::String),
             name: T.nilable(::String),
             status: T.nilable(Models::Shared::PayrollDigestResultsResultsStatus),
-            blockers: T.nilable(T::Array[Models::Shared::Blockers]),
+            blockers: T.nilable(T::Array[Models::Shared::PayrollDigestResultsBlockers]),
             payrolls: T.nilable(T::Array[Models::Shared::Payrolls])
           )
             .void

@@ -7,7 +7,7 @@
 module GustoEmbedded
   module Models
     module Shared
-      # Aggregation - The breakdown of the report. Use 'default' for no split.
+      # Aggregation - The breakdown of the report. Use `default` for no split.
       class Aggregation < T::Enum
         enums do
           DEFAULT = new('default')
