@@ -1,0 +1,28 @@
+# TreasuryTippedOccupationCodeCategory
+
+Human-readable category name.
+
+## Example Usage
+
+```ruby
+require "gusto_embedded_client_v_2025_11_15"
+
+value = TreasuryTippedOccupationCodeCategory::BEVERAGE_AND_FOOD_SERVICE
+
+# Open enum: use .deserialize() to create instances from custom string values
+custom = TreasuryTippedOccupationCodeCategory.deserialize("custom_value")
+```
+
+
+## Values
+
+| Name                               | Value                              |
+| ---------------------------------- | ---------------------------------- |
+| `BEVERAGE_AND_FOOD_SERVICE`        | Beverage & Food Service            |
+| `ENTERTAINMENT_AND_EVENTS`         | Entertainment & Events             |
+| `HOSPITALITY_AND_GUEST_SERVICES`   | Hospitality & Guest Services       |
+| `HOME_SERVICES`                    | Home Services                      |
+| `PERSONAL_SERVICES`                | Personal Services                  |
+| `PERSONAL_APPEARANCE_AND_WELLNESS` | Personal Appearance & Wellness     |
+| `RECREATION_AND_INSTRUCTION`       | Recreation & Instruction           |
+| `TRANSPORTATION_AND_DELIVERY`      | Transportation & Delivery          |

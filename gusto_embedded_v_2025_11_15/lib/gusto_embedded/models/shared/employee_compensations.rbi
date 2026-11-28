@@ -12,100 +12,16 @@ class GustoEmbedded::Models::Shared::EmployeeCompensations
   def employee_uuid=(str_)
   end
 
-  def excluded
+  def employee_first_name
   end
 
-  def excluded=(str_)
+  def employee_first_name=(str_)
   end
 
-  def fixed_compensations
+  def employee_last_name
   end
 
-  def fixed_compensations=(str_)
-  end
-
-  def hourly_compensations
-  end
-
-  def hourly_compensations=(str_)
-  end
-
-  def paid_time_off
-  end
-
-  def paid_time_off=(str_)
-  end
-
-  def reimbursements
-  end
-
-  def reimbursements=(str_)
-  end
-
-  def version
-  end
-
-  def version=(str_)
-  end
-
-  def deductions
-  end
-
-  def deductions=(str_)
-  end
-
-  def taxes
-  end
-
-  def taxes=(str_)
-  end
-
-  def benefits
-  end
-
-  def benefits=(str_)
-  end
-
-  def additional_properties
-  end
-
-  def additional_properties=(str_)
-  end
-
-  def first_name
-  end
-
-  def first_name=(str_)
-  end
-
-  def preferred_first_name
-  end
-
-  def preferred_first_name=(str_)
-  end
-
-  def last_name
-  end
-
-  def last_name=(str_)
-  end
-
-  def gross_pay
-  end
-
-  def gross_pay=(str_)
-  end
-
-  def net_pay
-  end
-
-  def net_pay=(str_)
-  end
-
-  def check_amount
-  end
-
-  def check_amount=(str_)
+  def employee_last_name=(str_)
   end
 
   def payment_method
@@ -114,9 +30,33 @@ class GustoEmbedded::Models::Shared::EmployeeCompensations
   def payment_method=(str_)
   end
 
-  def memo
+  def net_pay
   end
 
-  def memo=(str_)
+  def net_pay=(str_)
+  end
+
+  def total_tax
+  end
+
+  def total_tax=(str_)
+  end
+
+  def total_garnishments
+  end
+
+  def total_garnishments=(str_)
+  end
+
+  def child_support_garnishment
+  end
+
+  def child_support_garnishment=(str_)
+  end
+
+  def total_reimbursement
+  end
+
+  def total_reimbursement=(str_)
   end
 end

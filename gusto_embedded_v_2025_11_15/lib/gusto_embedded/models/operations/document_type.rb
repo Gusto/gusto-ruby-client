@@ -10,6 +10,7 @@ module GustoEmbedded
       class DocumentType < T::Enum
         enums do
           PRINTABLE_PAYROLL_CHECKS = new("printable_payroll_checks")
+          PRINTABLE_CONTRACTOR_PAYMENT_CHECKS = new("printable_contractor_payment_checks")
         end
       end
     end

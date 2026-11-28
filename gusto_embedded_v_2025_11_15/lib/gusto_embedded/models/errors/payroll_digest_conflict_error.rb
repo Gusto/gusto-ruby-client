@@ -7,7 +7,7 @@ module GustoEmbedded
   module Models
     module Errors
       # Error response when a payroll digest idempotency key has already been used by the same partner.
-      class PayrollDigestConflictError < StandardError
+      class PayrollDigestConflictError < ::StandardError
         extend T::Sig
         include Crystalline::MetadataFields
 

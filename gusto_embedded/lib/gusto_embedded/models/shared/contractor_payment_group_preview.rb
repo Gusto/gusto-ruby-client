@@ -25,7 +25,7 @@ module GustoEmbedded
         # List of credit blockers for the contractor payment group.
         field :credit_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollCreditBlockerType)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('credit_blockers') } }
 
-        field :totals, Crystalline::Nilable.new(Models::Shared::ContractorPaymentGroupPreviewTotals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
+        field :totals, Crystalline::Nilable.new(Models::Shared::Totals), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('totals') } }
 
         field :contractor_payments, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::ContractorPaymentForGroupPreview)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('contractor_payments') } }
         # The unique identifier of the contractor payment group.
@@ -35,7 +35,7 @@ module GustoEmbedded
         # Whether the disbursement is partner owned.
         field :partner_owned_disbursement, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
 
-        sig { params(company_uuid: T.nilable(::String), check_date: T.nilable(::String), debit_date: T.nilable(::String), status: T.nilable(Models::Shared::ContractorPaymentGroupPreviewStatus), submission_blockers: T.nilable(T::Array[Models::Shared::PayrollSubmissionBlockerType]), credit_blockers: T.nilable(T::Array[Models::Shared::PayrollCreditBlockerType]), totals: T.nilable(Models::Shared::ContractorPaymentGroupPreviewTotals), contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPaymentForGroupPreview]), uuid: T.nilable(::String), creation_token: T.nilable(::String), partner_owned_disbursement: T.nilable(T::Boolean)).void }
+        sig { params(company_uuid: T.nilable(::String), check_date: T.nilable(::String), debit_date: T.nilable(::String), status: T.nilable(Models::Shared::ContractorPaymentGroupPreviewStatus), submission_blockers: T.nilable(T::Array[Models::Shared::PayrollSubmissionBlockerType]), credit_blockers: T.nilable(T::Array[Models::Shared::PayrollCreditBlockerType]), totals: T.nilable(Models::Shared::Totals), contractor_payments: T.nilable(T::Array[Models::Shared::ContractorPaymentForGroupPreview]), uuid: T.nilable(::String), creation_token: T.nilable(::String), partner_owned_disbursement: T.nilable(T::Boolean)).void }
         def initialize(company_uuid: nil, check_date: nil, debit_date: nil, status: nil, submission_blockers: nil, credit_blockers: nil, totals: nil, contractor_payments: nil, uuid: nil, creation_token: nil, partner_owned_disbursement: nil)
           @company_uuid = company_uuid
           @check_date = check_date

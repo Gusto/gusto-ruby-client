@@ -12,6 +12,7 @@
 * [delete](#delete) - Cancel a contractor payment group
 * [get_v1_contractor_payment_groups_id_partner_disbursements](#get_v1_contractor_payment_groups_id_partner_disbursements) - Get partner disbursements for a contractor payment group
 * [patch_v1_contractor_payment_groups_id_partner_disbursements](#patch_v1_contractor_payment_groups_id_partner_disbursements) - Update partner disbursements for a contractor payment group
+* [post_v1_contractor_payment_groups_contractor_payment_group_uuid_generated_documents_printable_contractor_payment_checks](#post_v1_contractor_payment_groups_contractor_payment_group_uuid_generated_documents_printable_contractor_payment_checks) - Generate printable contractor payment checks (pdf)
 
 ## preview
 
@@ -386,6 +387,54 @@ end
 ### Response
 
 **[T.nilable(Models::Operations::PatchV1ContractorPaymentGroupsIdPartnerDisbursementsResponse)](../../models/operations/patchv1contractorpaymentgroupsidpartnerdisbursementsresponse.md)**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Models::Errors::NotFoundErrorObject      | 404                                      | application/json                         |
+| Models::Errors::UnprocessableEntityError | 422                                      | application/json                         |
+| Errors::APIError                         | 4XX, 5XX                                 | \*/\*                                    |
+
+## post_v1_contractor_payment_groups_contractor_payment_group_uuid_generated_documents_printable_contractor_payment_checks
+
+This endpoint initiates the generation of contractor checks for the contractor payment group specified by contractor_payment_group_uuid. A generation status and corresponding request_uuid will be returned. Use the generated document GET endpoint with document_type: `printable_contractor_payment_checks` and request_uuid to poll the check generation process and retrieve the generated check URL upon completion.
+
+scope: `generated_documents:write`
+
+### Example Usage
+
+<!-- UsageSnippet language="ruby" operationID="post-v1-contractor_payment_groups-contractor_payment_group_uuid-generated_documents-printable_contractor_payment_checks" method="post" path="/v1/contractor_payment_groups/{contractor_payment_group_uuid}/generated_documents/printable_contractor_payment_checks" -->
+```ruby
+require 'gusto_embedded_client_v_2026_06_15'
+
+Models = ::GustoEmbedded::Models
+s = ::GustoEmbedded::Client.new(
+  security: Models::Shared::Security.new(
+    company_access_auth: '<YOUR_BEARER_TOKEN_HERE>'
+  )
+)
+res = s.contractor_payment_groups.post_v1_contractor_payment_groups_contractor_payment_group_uuid_generated_documents_printable_contractor_payment_checks(contractor_payment_group_uuid: '<id>', printable_contractor_payment_checks_body: Models::Shared::PrintableContractorPaymentChecksBody.new(
+  printing_format: Models::Shared::PrintableContractorPaymentChecksBodyPrintingFormat::TOP
+), x_gusto_api_version: Models::Operations::PostV1ContractorPaymentGroupsContractorPaymentGroupUuidGeneratedDocumentsPrintableContractorPaymentChecksHeaderXGustoAPIVersion::TWO_THOUSAND_AND_TWENTY_SIX_MINUS_06_MINUS_15)
+
+unless res.contractor_payment_group_check.nil?
+  # handle response
+end
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                                                                     | Type                                                                                                                                                                                                                                                                          | Required                                                                                                                                                                                                                                                                      | Description                                                                                                                                                                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `contractor_payment_group_uuid`                                                                                                                                                                                                                                               | *::String*                                                                                                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                                                                                                            | The UUID of the contractor payment group                                                                                                                                                                                                                                      |
+| `printable_contractor_payment_checks_body`                                                                                                                                                                                                                                    | [Models::Shared::PrintableContractorPaymentChecksBody](../../models/shared/printablecontractorpaymentchecksbody.md)                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                                                                            | N/A                                                                                                                                                                                                                                                                           |
+| `x_gusto_api_version`                                                                                                                                                                                                                                                         | [T.nilable(Models::Operations::PostV1ContractorPaymentGroupsContractorPaymentGroupUuidGeneratedDocumentsPrintableContractorPaymentChecksHeaderXGustoAPIVersion)](../../models/operations/postv1contractorpaymentgroupscontractorpaymentgroupuuidgenerateddocuments_46363e.md) | :heavy_minus_sign:                                                                                                                                                                                                                                                            | Determines the date-based API version associated with your API call. If none is provided, your application's [minimum API version](https://docs.gusto.com/embedded-payroll/docs/api-versioning#minimum-api-version) is used.                                                  |
+
+### Response
+
+**[T.nilable(Models::Operations::PostV1ContractorPaymentGroupsContractorPaymentGroupUuidGeneratedDocumentsPrintableContractorPaymentChecksResponse)](../../models/operations/postv1contractorpaymentgroupscontractorpaymentgroupuuidgenerateddocuments_ccfd54.md)**
 
 ### Errors
 

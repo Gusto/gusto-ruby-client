@@ -23,7 +23,7 @@ module GustoEmbedded
       
     end
 
-    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    sig { params(base_url: ::String, url_variables: T.nilable(T::Hash[::Symbol, T.any(::String, T::Enum)])).returns(::String) }
     def get_url(base_url:, url_variables: nil)
       sd_base_url, sd_options = @sdk_configuration.get_server_details
 
@@ -41,7 +41,7 @@ module GustoEmbedded
 
 
 
-    sig { params(request: Models::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest, timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdPayPeriodsResponse) }
+    sig { params(request: Models::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest, timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesCompanyIdPayPeriodsResponse) }
     def get_pay_periods(request:, timeout_ms: nil, http_headers: nil)
       # get_pay_periods - Get pay periods for a company
       # Pay periods are the foundation of payroll. Compensation, time & attendance, taxes, and expense reports all rely on when they happened.
@@ -64,7 +64,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       query_params = Utils.get_query_params(Models::Operations::GetV1CompaniesCompanyIdPayPeriodsRequest, request, nil)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
@@ -73,7 +73,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -85,10 +85,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -106,7 +106,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -125,13 +125,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -142,7 +142,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Array.new(Models::Shared::PayPeriod))
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Crystalline::Array.new(Models::Shared::PayPeriod))
           response = Models::Operations::GetV1CompaniesCompanyIdPayPeriodsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -163,7 +163,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -177,7 +177,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -193,7 +193,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse) }
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse) }
     def get_unprocessed_termination_periods(company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get_unprocessed_termination_periods - Get termination pay periods for a company
       # When a payroll admin terminates an employee and selects "Dismissal Payroll" as the employee's final payroll, their last pay period will appear on the list.
@@ -216,7 +216,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -224,7 +224,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -236,10 +236,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -256,7 +256,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -275,13 +275,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -292,7 +292,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Array.new(Models::Shared::UnprocessedTerminationPayPeriod))
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Crystalline::Array.new(Models::Shared::UnprocessedTerminationPayPeriod))
           response = Models::Operations::GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -313,7 +313,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -329,7 +329,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesHeaderXGustoAPIVersion), page: T.nilable(::Integer), per: T.nilable(::Integer), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesResponse) }
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesHeaderXGustoAPIVersion), page: T.nilable(::Integer), per: T.nilable(::Integer), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesResponse) }
     def get_all(company_id:, x_gusto_api_version: nil, page: nil, per: nil, timeout_ms: nil, http_headers: nil)
       # get_all - Get the pay schedules for a company
       # Returns all pay schedules for a company. The pay schedule object captures the details of when employees work and when they should be paid. A company can have multiple pay schedules.
@@ -352,7 +352,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       query_params = Utils.get_query_params(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesRequest, request, nil)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
@@ -361,7 +361,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -373,10 +373,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -394,7 +394,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -413,13 +413,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -430,7 +430,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Array.new(Models::Shared::PayScheduleShow))
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Crystalline::Array.new(Models::Shared::PayScheduleListItem))
           response = Models::Operations::GetV1CompaniesCompanyIdPaySchedulesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -451,7 +451,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -467,7 +467,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(pay_schedule_create_request: Models::Shared::PayScheduleCreateRequest, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesResponse) }
+    sig { params(pay_schedule_create_request: Models::Shared::PayScheduleCreateRequest, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesResponse) }
     def create(pay_schedule_create_request:, company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # create - Create a new pay schedule
       # If a company does not have any pay schedules, this endpoint will create a single pay schedule and assign it to all employees. This is a common use case during company onboarding.
@@ -503,15 +503,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :pay_schedule_create_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -522,7 +522,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -534,10 +534,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -555,7 +555,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -574,13 +574,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['201'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -591,7 +591,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PayScheduleShow)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PayScheduleShow)
           response = Models::Operations::PostV1CompaniesCompanyIdPaySchedulesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -612,7 +612,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -626,7 +626,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -642,7 +642,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(request: Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewRequest, timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewResponse) }
+    sig { params(request: Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewRequest, timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewResponse) }
     def get_preview(request:, timeout_ms: nil, http_headers: nil)
       # get_preview - Preview pay schedule dates
       # Provides a preview of a pay schedule with the specified parameters for the next 18 months. Use this before creating or updating a pay schedule to show expected check dates, pay period boundaries, and payroll deadlines.
@@ -663,7 +663,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       query_params = Utils.get_query_params(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewRequest, request, nil)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
@@ -672,7 +672,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -684,10 +684,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -705,7 +705,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -724,13 +724,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -741,7 +741,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PaySchedulePreview)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PaySchedulePreview)
           response = Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPreviewResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -762,7 +762,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -776,7 +776,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -792,7 +792,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, pay_schedule_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPayScheduleIdHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse) }
+    sig { params(company_id: ::String, pay_schedule_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPayScheduleIdHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse) }
     def get(company_id:, pay_schedule_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get - Get a pay schedule
       # Returns a single pay schedule by UUID. The pay schedule object in Gusto captures the details of when employees work and when they should be paid. A company can have multiple pay schedules.
@@ -814,7 +814,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -822,7 +822,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -834,10 +834,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -854,7 +854,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -873,13 +873,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -890,7 +890,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PayScheduleShow)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PayScheduleShow)
           response = Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -911,7 +911,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -927,7 +927,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(pay_schedule_update_request: Models::Shared::PayScheduleUpdateRequest, company_id: ::String, pay_schedule_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse) }
+    sig { params(pay_schedule_update_request: Models::Shared::PayScheduleUpdateRequest, company_id: ::String, pay_schedule_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse) }
     def update(pay_schedule_update_request:, company_id:, pay_schedule_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # update - Update a pay schedule
       # Updates a pay schedule. The `version` parameter from the GET response is required for [optimistic concurrency](doc:api-fundamentals); a mismatch returns 409 Conflict.
@@ -963,15 +963,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :pay_schedule_update_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -982,7 +982,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -994,10 +994,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).put(url) do |req|
           req.body = body
@@ -1015,7 +1015,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1034,13 +1034,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1051,7 +1051,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PayScheduleShow)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PayScheduleShow)
           response = Models::Operations::PutV1CompaniesCompanyIdPaySchedulesPayScheduleIdResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1072,7 +1072,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1086,7 +1086,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1102,7 +1102,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(pay_schedule_assignment_body: Models::Shared::PayScheduleAssignmentBody, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignmentPreviewHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignmentPreviewResponse) }
+    sig { params(pay_schedule_assignment_body: Models::Shared::PayScheduleAssignmentBody, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignmentPreviewHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignmentPreviewResponse) }
     def preview_assignment(pay_schedule_assignment_body:, company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # preview_assignment - Preview pay schedule assignments for a company
       # This endpoint returns the employee changes, including pay period and transition pay periods, for changing the pay schedule.
@@ -1124,15 +1124,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :pay_schedule_assignment_body, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -1143,7 +1143,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1155,10 +1155,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -1176,7 +1176,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1195,13 +1195,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1212,7 +1212,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PayScheduleAssignmentPreview)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PayScheduleAssignmentPreview)
           response = Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignmentPreviewResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1233,7 +1233,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1247,7 +1247,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1263,7 +1263,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(pay_schedule_assignment_body: Models::Shared::PayScheduleAssignmentBody, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignResponse) }
+    sig { params(pay_schedule_assignment_body: Models::Shared::PayScheduleAssignmentBody, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostV1CompaniesCompanyIdPaySchedulesAssignResponse) }
     def assign(pay_schedule_assignment_body:, company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # assign - Assign pay schedules for a company
       # This endpoint assigns employees to pay schedules based on the schedule type.
@@ -1286,15 +1286,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :pay_schedule_assignment_body, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -1305,7 +1305,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1317,10 +1317,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -1338,7 +1338,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1357,13 +1357,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         http_response = @sdk_configuration.hooks.after_success(
@@ -1386,7 +1386,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1400,7 +1400,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1416,7 +1416,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsResponse) }
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsResponse) }
     def get_assignments(company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get_assignments - Get pay schedule assignments for a company
       # This endpoint returns the current pay schedule assignment for a company, with pay schedule and employee/department mappings depending on the pay schedule type.
@@ -1437,7 +1437,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -1445,7 +1445,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1457,10 +1457,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -1477,7 +1477,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1496,13 +1496,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1513,7 +1513,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PayScheduleAssignment)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PayScheduleAssignment)
           response = Models::Operations::GetV1CompaniesCompanyIdPaySchedulesAssignmentsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1534,7 +1534,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'

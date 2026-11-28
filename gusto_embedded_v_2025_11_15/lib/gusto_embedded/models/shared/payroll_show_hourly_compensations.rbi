@@ -41,4 +41,10 @@ class GustoEmbedded::Models::Shared::PayrollShowHourlyCompensations
 
   def flsa_status=(str_)
   end
+
+  def breakdowns
+  end
+
+  def breakdowns=(str_)
+  end
 end

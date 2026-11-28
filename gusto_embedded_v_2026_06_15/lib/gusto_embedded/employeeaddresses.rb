@@ -23,7 +23,7 @@ module GustoEmbedded
       
     end
 
-    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    sig { params(base_url: ::String, url_variables: T.nilable(T::Hash[::Symbol, T.any(::String, T::Enum)])).returns(::String) }
     def get_url(base_url:, url_variables: nil)
       sd_base_url, sd_options = @sdk_configuration.get_server_details
 
@@ -41,7 +41,7 @@ module GustoEmbedded
 
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1EmployeesEmployeeIdHomeAddressesHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1EmployeesEmployeeIdHomeAddressesResponse) }
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1EmployeesEmployeeIdHomeAddressesHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1EmployeesEmployeeIdHomeAddressesResponse) }
     def get(employee_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get - Get an employee's home addresses
       # The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
@@ -64,7 +64,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -72,7 +72,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -84,10 +84,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -104,7 +104,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -123,13 +123,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -140,7 +140,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Array.new(Models::Shared::EmployeeAddress))
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Crystalline::Array.new(Models::Shared::EmployeeAddress))
           response = Models::Operations::GetV1EmployeesEmployeeIdHomeAddressesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -161,7 +161,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -177,7 +177,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(request_body: Models::Operations::PostV1EmployeesEmployeeIdHomeAddressesRequestBody, employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1EmployeesEmployeeIdHomeAddressesHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1EmployeesEmployeeIdHomeAddressesResponse) }
+    sig { params(request_body: Models::Operations::PostV1EmployeesEmployeeIdHomeAddressesRequestBody, employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1EmployeesEmployeeIdHomeAddressesHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostV1EmployeesEmployeeIdHomeAddressesResponse) }
     def create(request_body:, employee_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # create - Create an employee's home address
       # The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
@@ -201,15 +201,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -220,7 +220,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -232,10 +232,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -253,7 +253,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -272,13 +272,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['201'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -289,7 +289,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::EmployeeAddress)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::EmployeeAddress)
           response = Models::Operations::PostV1EmployeesEmployeeIdHomeAddressesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -310,7 +310,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -324,7 +324,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -340,7 +340,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1HomeAddressesHomeAddressUuidResponse) }
+    sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1HomeAddressesHomeAddressUuidResponse) }
     def retrieve_home_address(home_address_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # retrieve_home_address - Get an employee's home address
       # The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
@@ -363,7 +363,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -371,7 +371,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -383,10 +383,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -403,7 +403,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -422,13 +422,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -439,7 +439,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::EmployeeAddress)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::EmployeeAddress)
           response = Models::Operations::GetV1HomeAddressesHomeAddressUuidResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -460,7 +460,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -476,7 +476,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(request_body: Models::Operations::PutV1HomeAddressesHomeAddressUuidRequestBody, home_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PutV1HomeAddressesHomeAddressUuidResponse) }
+    sig { params(request_body: Models::Operations::PutV1HomeAddressesHomeAddressUuidRequestBody, home_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PutV1HomeAddressesHomeAddressUuidResponse) }
     def update(request_body:, home_address_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # update - Update an employee's home address
       # The home address of an employee is used to determine certain tax information about them. Addresses are geocoded on create and update to ensure validity.
@@ -500,15 +500,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -519,7 +519,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -531,10 +531,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).put(url) do |req|
           req.body = body
@@ -552,7 +552,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -571,13 +571,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -588,7 +588,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::EmployeeAddress)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::EmployeeAddress)
           response = Models::Operations::PutV1HomeAddressesHomeAddressUuidResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -609,7 +609,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -623,7 +623,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -639,7 +639,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::DeleteV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::DeleteV1HomeAddressesHomeAddressUuidResponse) }
+    sig { params(home_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::DeleteV1HomeAddressesHomeAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::DeleteV1HomeAddressesHomeAddressUuidResponse) }
     def delete(home_address_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # delete - Delete an employee's home address
       # Used for deleting an employee's home address. Cannot delete the employee's active home address.
@@ -660,7 +660,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -668,7 +668,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -680,10 +680,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).delete(url) do |req|
           req.headers.merge!(headers)
@@ -700,7 +700,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -719,13 +719,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['204'])
         http_response = @sdk_configuration.hooks.after_success(
@@ -748,7 +748,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -762,7 +762,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -778,7 +778,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1EmployeesEmployeeIdWorkAddressesResponse) }
+    sig { params(employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1EmployeesEmployeeIdWorkAddressesResponse) }
     def get_work_addresses(employee_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get_work_addresses - Get an employee's work addresses
       # Returns a list of an employee's work addresses. Each address includes its effective
@@ -800,7 +800,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -808,7 +808,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -820,10 +820,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -840,7 +840,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -859,13 +859,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -876,7 +876,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Array.new(Models::Shared::EmployeeWorkAddress))
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Crystalline::Array.new(Models::Shared::EmployeeWorkAddress))
           response = Models::Operations::GetV1EmployeesEmployeeIdWorkAddressesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -897,7 +897,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -913,7 +913,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(request_body: Models::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody, employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1EmployeesEmployeeIdWorkAddressesResponse) }
+    sig { params(request_body: Models::Operations::PostV1EmployeesEmployeeIdWorkAddressesRequestBody, employee_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1EmployeesEmployeeIdWorkAddressesHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostV1EmployeesEmployeeIdWorkAddressesResponse) }
     def create_work_address(request_body:, employee_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # create_work_address - Create an employee work address
       # The work address of an employee describes when an employee began working at an associated company location.
@@ -935,15 +935,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -954,7 +954,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -966,10 +966,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -987,7 +987,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1006,13 +1006,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['201'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1023,7 +1023,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::EmployeeWorkAddress)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::EmployeeWorkAddress)
           response = Models::Operations::PostV1EmployeesEmployeeIdWorkAddressesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1044,7 +1044,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1058,7 +1058,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1074,7 +1074,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1WorkAddressesWorkAddressUuidResponse) }
+    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1WorkAddressesWorkAddressUuidResponse) }
     def retrieve_work_address(work_address_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # retrieve_work_address - Get an employee work address
       # The work address of an employee is used for payroll tax purposes.
@@ -1095,7 +1095,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -1103,7 +1103,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1115,10 +1115,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -1135,7 +1135,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1154,13 +1154,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1171,7 +1171,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::EmployeeWorkAddress)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::EmployeeWorkAddress)
           response = Models::Operations::GetV1WorkAddressesWorkAddressUuidResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1192,7 +1192,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1208,7 +1208,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(request_body: Models::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, work_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PutV1WorkAddressesWorkAddressUuidResponse) }
+    sig { params(request_body: Models::Operations::PutV1WorkAddressesWorkAddressUuidRequestBody, work_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PutV1WorkAddressesWorkAddressUuidResponse) }
     def update_work_address(request_body:, work_address_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # update_work_address - Update an employee work address
       # The work address of an employee is used for payroll tax purposes.
@@ -1230,15 +1230,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -1249,7 +1249,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1261,10 +1261,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).put(url) do |req|
           req.body = body
@@ -1282,7 +1282,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1301,13 +1301,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1318,7 +1318,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::EmployeeWorkAddress)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::EmployeeWorkAddress)
           response = Models::Operations::PutV1WorkAddressesWorkAddressUuidResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1339,7 +1339,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1353,7 +1353,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1369,7 +1369,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::DeleteV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::DeleteV1WorkAddressesWorkAddressUuidResponse) }
+    sig { params(work_address_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::DeleteV1WorkAddressesWorkAddressUuidHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::DeleteV1WorkAddressesWorkAddressUuidResponse) }
     def delete_work_address(work_address_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # delete_work_address - Delete an employee's work address
       # Used for deleting an employee's work address. Cannot delete the employee's active work address.
@@ -1390,7 +1390,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -1398,7 +1398,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1410,10 +1410,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).delete(url) do |req|
           req.headers.merge!(headers)
@@ -1430,7 +1430,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1449,13 +1449,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['204'])
         http_response = @sdk_configuration.hooks.after_success(
@@ -1478,7 +1478,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1492,7 +1492,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'

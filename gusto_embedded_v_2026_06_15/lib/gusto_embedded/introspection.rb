@@ -23,7 +23,7 @@ module GustoEmbedded
       
     end
 
-    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    sig { params(base_url: ::String, url_variables: T.nilable(T::Hash[::Symbol, T.any(::String, T::Enum)])).returns(::String) }
     def get_url(base_url:, url_variables: nil)
       sd_base_url, sd_options = @sdk_configuration.get_server_details
 
@@ -41,7 +41,7 @@ module GustoEmbedded
 
 
 
-    sig { params(request_body: T.any(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest), x_gusto_api_version: T.nilable(Models::Operations::OauthAccessTokenHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::OauthAccessTokenResponse) }
+    sig { params(request_body: T.any(Models::Operations::RefreshTokenRequest, Models::Operations::SystemAccessTokenRequest), x_gusto_api_version: T.nilable(Models::Operations::OauthAccessTokenHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::OauthAccessTokenResponse) }
     def oauth_access_token(request_body:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # oauth_access_token - Create a System Access Token or Refresh an Access Token
       # Creates a system access token or refreshes an oauth access token
@@ -53,15 +53,15 @@ module GustoEmbedded
       base_url = Utils.template_url(url, params)
       url = "#{base_url}/oauth/token"
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -70,7 +70,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -82,10 +82,10 @@ module GustoEmbedded
         security_source: nil
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -102,7 +102,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -121,13 +121,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -138,7 +138,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Union.new(Models::Shared::CreateTokenAuthentication, Models::Shared::RefreshTokenAuthentication))
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Crystalline::Union.new(Models::Shared::CreateTokenAuthentication, Models::Shared::RefreshTokenAuthentication))
           response = Models::Operations::OauthAccessTokenResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -161,7 +161,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(x_gusto_api_version: T.nilable(Models::Operations::GetV1TokenInfoHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1TokenInfoResponse) }
+    sig { params(x_gusto_api_version: T.nilable(Models::Operations::GetV1TokenInfoHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1TokenInfoResponse) }
     def get_info(x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get_info - Get info about the current access token
       # Returns scope and resource information associated with the current access token. Use this endpoint to verify the following for the current access token:
@@ -176,7 +176,7 @@ module GustoEmbedded
       base_url = Utils.template_url(url, params)
       url = "#{base_url}/v1/token_info"
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -184,7 +184,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -196,10 +196,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -216,7 +216,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -235,13 +235,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -252,7 +252,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::TokenInfo)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::TokenInfo)
           response = Models::Operations::GetV1TokenInfoResponse.new(
             status_code: http_response.status,
             content_type: content_type,

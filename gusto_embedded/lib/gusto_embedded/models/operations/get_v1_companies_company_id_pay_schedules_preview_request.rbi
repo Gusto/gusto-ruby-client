@@ -20,8 +20,18 @@ class GustoEmbedded::Models::Operations::GetV1CompaniesCompanyIdPaySchedulesPrev
   def day_1=(str_); end
   def day_2(); end
   def day_2=(str_); end
+  def first_pay_period_pay_day(); end
+  def first_pay_period_pay_day=(str_); end
+  def second_pay_period_pay_day(); end
+  def second_pay_period_pay_day=(str_); end
+  def first_pay_period_end_day(); end
+  def first_pay_period_end_day=(str_); end
+  def second_pay_period_end_day(); end
+  def second_pay_period_end_day=(str_); end
   def end_date(); end
   def end_date=(str_); end
+  def pay_schedule_uuid(); end
+  def pay_schedule_uuid=(str_); end
   def x_gusto_api_version(); end
   def x_gusto_api_version=(str_); end
 end

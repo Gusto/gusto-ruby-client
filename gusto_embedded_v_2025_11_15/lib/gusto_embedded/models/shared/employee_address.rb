@@ -76,6 +76,12 @@ module GustoEmbedded
           Crystalline::Nilable.new(Crystalline::Boolean.new),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("active")}}
         )
+        # An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved.
+        field(
+          :warnings,
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::WarningObject)),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("warnings")}}
+        )
 
         field(
           :street_2,
@@ -101,6 +107,7 @@ module GustoEmbedded
             state: T.nilable(::String),
             zip: T.nilable(::String),
             active: T.nilable(T::Boolean),
+            warnings: T.nilable(T::Array[Models::Shared::WarningObject]),
             street_2: T.nilable(::String),
             country: T.nilable(::String)
           )
@@ -117,6 +124,7 @@ module GustoEmbedded
           state: nil,
           zip: nil,
           active: nil,
+          warnings: nil,
           street_2: nil,
           country: "USA"
         )
@@ -130,6 +138,7 @@ module GustoEmbedded
           @state = state
           @zip = zip
           @active = active
+          @warnings = warnings
           @street_2 = street_2
           @country = country
         end
@@ -147,6 +156,7 @@ module GustoEmbedded
           return false unless @state == other.state
           return false unless @zip == other.zip
           return false unless @active == other.active
+          return false unless @warnings == other.warnings
           return false unless @street_2 == other.street_2
           return false unless @country == other.country
           true

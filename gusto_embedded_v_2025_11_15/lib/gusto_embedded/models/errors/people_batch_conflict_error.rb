@@ -7,7 +7,7 @@ module GustoEmbedded
   module Models
     module Errors
       # Error response when a people batch idempotency key conflict occurs.
-      class PeopleBatchConflictError < StandardError
+      class PeopleBatchConflictError < ::StandardError
         extend T::Sig
         include Crystalline::MetadataFields
 

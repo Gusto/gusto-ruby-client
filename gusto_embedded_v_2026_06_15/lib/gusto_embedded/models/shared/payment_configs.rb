@@ -26,7 +26,7 @@ module GustoEmbedded
         field :partner_owned_disbursement, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('partner_owned_disbursement') } }
         # Blockers preventing the company from earning fast ACH payments
         field :earned_fast_ach_blockers, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::EarnedFastAchBlockers)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('earned_fast_ach_blockers') } }
-        # Payment limit for 1-day or 2-day payroll (string representation of decimal).
+        # Payment limit for 1-day or 2-day payroll (string representation of decimal). Applies to the 24-hour aggregate of all payments; a payment that exceeds it moves to 4-day.
         field :fast_payment_limit, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('fast_payment_limit') } }
 
         sig { params(company_uuid: T.nilable(::String), partner_uuid: T.nilable(::String), payment_speed: T.nilable(Models::Shared::PaymentSpeed), partner_owned_disbursement: T.nilable(T::Boolean), earned_fast_ach_blockers: T.nilable(T::Array[Models::Shared::EarnedFastAchBlockers]), fast_payment_limit: T.nilable(::String)).void }

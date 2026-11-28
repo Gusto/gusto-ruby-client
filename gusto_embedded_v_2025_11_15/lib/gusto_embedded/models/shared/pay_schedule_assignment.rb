@@ -14,11 +14,11 @@ module GustoEmbedded
         # The pay schedule assignment type.
         field(
           :type,
-          Crystalline::Nilable.new(Models::Shared::Type),
+          Crystalline::Nilable.new(Models::Shared::PayScheduleAssignmentType),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("type"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::Type, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::PayScheduleAssignmentType, true)
             }
           }
         )
@@ -55,7 +55,7 @@ module GustoEmbedded
 
         sig {
           params(
-            type: T.nilable(Models::Shared::Type),
+            type: T.nilable(Models::Shared::PayScheduleAssignmentType),
             hourly_pay_schedule_uuid: T.nilable(::String),
             salaried_pay_schedule_uuid: T.nilable(::String),
             default_pay_schedule_uuid: T.nilable(::String),
