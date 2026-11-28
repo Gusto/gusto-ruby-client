@@ -7,11 +7,11 @@
 module GustoEmbedded
   module Models
     module Operations
-      # Type - The payment method type. If type is Check, split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required.
+      # Type - The payment method type. If type is Direct Deposit, the contractor is required to have a bank account. See [Bank account endpoint](./post-v1-contractors-contractor_uuid-bank_accounts).
       class Type < T::Enum
         enums do
-          CHECK = new('Check')
           DIRECT_DEPOSIT = new('Direct Deposit')
+          CHECK = new('Check')
         end
       end
     end

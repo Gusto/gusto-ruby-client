@@ -12,30 +12,30 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # The company contribution scheme.
-        #
-        # "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar.
-        #
-        # "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar.
-        #
-        # "tiered": The company contribution varies according to the size of the employee deduction.
-        field :type, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('type') } }
-        # For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage.
-        #
-        # For the `tiered` contribution type, an array of tiers.
-        field :value, Crystalline::Nilable.new(Crystalline::Union.new(::String, Models::Shared::Two)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('value') } }
 
-        sig { params(type: T.nilable(::String), value: T.nilable(T.any(::String, Models::Shared::Two))).void }
-        def initialize(type: nil, value: nil)
-          @type = type
-          @value = value
+        field :required, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('required') } }
+
+        field :editable, Crystalline::Nilable.new(Crystalline::Boolean.new), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('editable') } }
+
+        field :default_value, Crystalline::Nilable.new(Models::Shared::BenefitTypeRequirementsDefaultValue), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('default_value') } }
+
+        field :choices, Crystalline::Nilable.new(Crystalline::Array.new(::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('choices') } }
+
+        sig { params(required: T.nilable(T::Boolean), editable: T.nilable(T::Boolean), default_value: T.nilable(Models::Shared::BenefitTypeRequirementsDefaultValue), choices: T.nilable(T::Array[::String])).void }
+        def initialize(required: nil, editable: nil, default_value: nil, choices: nil)
+          @required = required
+          @editable = editable
+          @default_value = default_value
+          @choices = choices
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a? self.class
-          return false unless @type == other.type
-          return false unless @value == other.value
+          return false unless @required == other.required
+          return false unless @editable == other.editable
+          return false unless @default_value == other.default_value
+          return false unless @choices == other.choices
           true
         end
       end

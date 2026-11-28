@@ -12,41 +12,32 @@ module GustoEmbedded
         extend T::Sig
         include Crystalline::MetadataFields
 
-        # The external ID provided in the batch request.
-        field :external_id, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('external_id') } }
-        # The type of person created.
-        field :role, Crystalline::Nilable.new(Models::Shared::Role), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('role'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::Role, true) } }
-        # The status of this batch item.
-        field :status, Crystalline::Nilable.new(Models::Shared::PeopleBatchResultsResultsStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PeopleBatchResultsResultsStatus, true) } }
-        # The index of this item in the original batch request.
+        # The index of this payroll in the original POST batch array.
         field :idx, Crystalline::Nilable.new(::Integer), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('idx') } }
-        # The UUID of the created person.
+        # The UUID of the payroll.
         field :uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('uuid') } }
-        # The UUID of the created employee (if role is employee).
-        field :employee_uuid, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employee_uuid') } }
-        # Errors encountered while processing this batch item.
-        field :errors, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PeopleBatchResultsErrors)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('errors') } }
+        # The outcome of cancelling this payroll. A cancel is atomic — there is no per-payroll `partial_success`.
+        # - `success`: the payroll was cancelled, or required no action (already cancelled / never run)
+        # - `failed`: the payroll could not be cancelled; see `errors`
+        #
+        field :status, Crystalline::Nilable.new(Models::Shared::PayrollBatchResultsResultsStatus), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('status'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::PayrollBatchResultsResultsStatus, true) } }
+        # Present only when `status` is `failed`. A cancel is a single atomic operation, so this is a flat array with exactly one error.
+        field :errors, Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollBatchResultsErrors)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('errors') } }
 
-        sig { params(external_id: T.nilable(::String), role: T.nilable(Models::Shared::Role), status: T.nilable(Models::Shared::PeopleBatchResultsResultsStatus), idx: T.nilable(::Integer), uuid: T.nilable(::String), employee_uuid: T.nilable(::String), errors: T.nilable(T::Array[Models::Shared::PeopleBatchResultsErrors])).void }
-        def initialize(external_id: nil, role: nil, status: nil, idx: nil, uuid: nil, employee_uuid: nil, errors: nil)
-          @external_id = external_id
-          @role = role
-          @status = status
+        sig { params(idx: T.nilable(::Integer), uuid: T.nilable(::String), status: T.nilable(Models::Shared::PayrollBatchResultsResultsStatus), errors: T.nilable(T::Array[Models::Shared::PayrollBatchResultsErrors])).void }
+        def initialize(idx: nil, uuid: nil, status: nil, errors: nil)
           @idx = idx
           @uuid = uuid
-          @employee_uuid = employee_uuid
+          @status = status
           @errors = errors
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
         def ==(other)
           return false unless other.is_a? self.class
-          return false unless @external_id == other.external_id
-          return false unless @role == other.role
-          return false unless @status == other.status
           return false unless @idx == other.idx
           return false unless @uuid == other.uuid
-          return false unless @employee_uuid == other.employee_uuid
+          return false unless @status == other.status
           return false unless @errors == other.errors
           true
         end

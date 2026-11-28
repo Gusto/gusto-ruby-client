@@ -189,7 +189,7 @@ module GustoEmbedded
           deduction_reduces_taxable_income: nil,
           company_contribution: "0.00",
           contribute_as_percentage: false,
-          effective_date: Date.parse("1970-01-01"),
+          effective_date: ::Date.parse("1970-01-01"),
           expiration_date: nil
         )
           @company_benefit_uuid = company_benefit_uuid

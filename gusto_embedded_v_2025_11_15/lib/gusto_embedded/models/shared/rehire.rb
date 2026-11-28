@@ -38,11 +38,11 @@ module GustoEmbedded
         # The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*.
         field(
           :employment_status,
-          Crystalline::Nilable.new(Models::Shared::EmploymentStatus),
+          Crystalline::Nilable.new(Models::Shared::RehireEmploymentStatus),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("employment_status"),
-              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::EmploymentStatus, true)
+              'decoder': ::GustoEmbedded::Utils.open_enum_from_string(Models::Shared::RehireEmploymentStatus, true)
             }
           }
         )
@@ -71,7 +71,7 @@ module GustoEmbedded
             effective_date: T.nilable(::String),
             file_new_hire_report: T.nilable(T::Boolean),
             work_location_uuid: T.nilable(::String),
-            employment_status: T.nilable(Models::Shared::EmploymentStatus),
+            employment_status: T.nilable(Models::Shared::RehireEmploymentStatus),
             two_percent_shareholder: T.nilable(T::Boolean),
             employee_uuid: T.nilable(::String),
             active: T.nilable(T::Boolean)

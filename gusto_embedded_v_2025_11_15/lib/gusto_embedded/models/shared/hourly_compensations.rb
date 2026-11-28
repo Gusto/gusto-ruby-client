@@ -47,6 +47,16 @@ module GustoEmbedded
           Crystalline::Nilable.new(::String),
           {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("flsa_status")}}
         )
+        # Per-workweek hours for this compensation, one entry per workweek
+        # overlapping the pay period. Empty when the compensation isn't split
+        # across workweeks, including when only a single breakdown spanning
+        # the whole pay period was submitted.
+        #
+        field(
+          :breakdowns,
+          Crystalline::Nilable.new(Crystalline::Array.new(Models::Shared::PayrollEmployeeCompensationsTypeBreakdowns)),
+          {'format_json': {'letter_case': ::GustoEmbedded::Utils.field_name("breakdowns")}}
+        )
 
         sig {
           params(
@@ -55,7 +65,8 @@ module GustoEmbedded
             amount: T.nilable(::String),
             job_uuid: T.nilable(::String),
             compensation_multiplier: T.nilable(::Float),
-            flsa_status: T.nilable(::String)
+            flsa_status: T.nilable(::String),
+            breakdowns: T.nilable(T::Array[Models::Shared::PayrollEmployeeCompensationsTypeBreakdowns])
           )
             .void
         }
@@ -65,7 +76,8 @@ module GustoEmbedded
           amount: nil,
           job_uuid: nil,
           compensation_multiplier: nil,
-          flsa_status: nil
+          flsa_status: nil,
+          breakdowns: nil
         )
           @name = name
           @hours = hours
@@ -73,6 +85,7 @@ module GustoEmbedded
           @job_uuid = job_uuid
           @compensation_multiplier = compensation_multiplier
           @flsa_status = flsa_status
+          @breakdowns = breakdowns
         end
 
         sig { params(other: T.untyped).returns(T::Boolean) }
@@ -84,6 +97,7 @@ module GustoEmbedded
           return false unless @job_uuid == other.job_uuid
           return false unless @compensation_multiplier == other.compensation_multiplier
           return false unless @flsa_status == other.flsa_status
+          return false unless @breakdowns == other.breakdowns
           true
         end
       end

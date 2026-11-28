@@ -28,7 +28,7 @@ module GustoEmbedded
       @suspensions = ::GustoEmbedded::Suspensions.new(@sdk_configuration)
     end
 
-    sig { params(base_url: String, url_variables: T.nilable(T::Hash[Symbol, T.any(String, T::Enum)])).returns(String) }
+    sig { params(base_url: ::String, url_variables: T.nilable(T::Hash[::Symbol, T.any(::String, T::Enum)])).returns(::String) }
     def get_url(base_url:, url_variables: nil)
       sd_base_url, sd_options = @sdk_configuration.get_server_details
 
@@ -46,7 +46,7 @@ module GustoEmbedded
 
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::HeaderXGustoAPIVersion), page: T.nilable(::Integer), per: T.nilable(::Integer), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdAdminsResponse) }
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::HeaderXGustoAPIVersion), page: T.nilable(::Integer), per: T.nilable(::Integer), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesCompanyIdAdminsResponse) }
     def list_admins(company_id:, x_gusto_api_version: nil, page: nil, per: nil, timeout_ms: nil, http_headers: nil)
       # list_admins - Get all the admins at a company
       # Returns a list of all the admins at a company
@@ -69,7 +69,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       query_params = Utils.get_query_params(Models::Operations::GetV1CompaniesCompanyIdAdminsRequest, request, nil)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
@@ -78,7 +78,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -90,10 +90,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -111,7 +111,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -130,13 +130,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -147,7 +147,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Crystalline::Array.new(Models::Shared::Admin))
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Crystalline::Array.new(Models::Shared::Admin))
           response = Models::Operations::GetV1CompaniesCompanyIdAdminsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -168,7 +168,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -184,7 +184,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(admin_create_request: Models::Shared::AdminCreateRequest, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdAdminsHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1CompaniesCompanyIdAdminsResponse) }
+    sig { params(admin_create_request: Models::Shared::AdminCreateRequest, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1CompaniesCompanyIdAdminsHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostV1CompaniesCompanyIdAdminsResponse) }
     def create_admin(admin_create_request:, company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # create_admin - Create an admin for the company
       # Creates a new admin for a company.
@@ -207,15 +207,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :admin_create_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -226,7 +226,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -238,10 +238,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -259,7 +259,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -278,13 +278,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -295,7 +295,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::Admin)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::Admin)
           response = Models::Operations::PostV1CompaniesCompanyIdAdminsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -316,7 +316,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -330,7 +330,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -346,7 +346,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesResponse) }
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesResponse) }
     def get(company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get - Get a company
       # Get a company.
@@ -371,7 +371,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -379,7 +379,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -391,10 +391,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -411,7 +411,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -430,13 +430,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -447,7 +447,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::Company)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::Company)
           response = Models::Operations::GetV1CompaniesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -468,7 +468,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -484,7 +484,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(request_body: Models::Operations::PutV1CompaniesRequestBody, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1CompaniesHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PutV1CompaniesResponse) }
+    sig { params(request_body: Models::Operations::PutV1CompaniesRequestBody, company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1CompaniesHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PutV1CompaniesResponse) }
     def update(request_body:, company_id:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # update - Update a company
       # Update a company.
@@ -506,15 +506,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :request_body, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -525,7 +525,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -537,10 +537,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).put(url) do |req|
           req.body = body
@@ -558,7 +558,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -577,13 +577,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -594,7 +594,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::Company)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::Company)
           response = Models::Operations::PutV1CompaniesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -615,7 +615,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -629,7 +629,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -645,7 +645,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdCustomFieldsHeaderXGustoAPIVersion), page: T.nilable(::Integer), per: T.nilable(::Integer), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompaniesCompanyIdCustomFieldsResponse) }
+    sig { params(company_id: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompaniesCompanyIdCustomFieldsHeaderXGustoAPIVersion), page: T.nilable(::Integer), per: T.nilable(::Integer), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompaniesCompanyIdCustomFieldsResponse) }
     def get_custom_fields(company_id:, x_gusto_api_version: nil, page: nil, per: nil, timeout_ms: nil, http_headers: nil)
       # get_custom_fields - Get the custom fields of a company
       # Returns a list of the custom fields of the company. Useful when you need to know the schema of custom fields for an entire company.
@@ -668,7 +668,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       query_params = Utils.get_query_params(Models::Operations::GetV1CompaniesCompanyIdCustomFieldsRequest, request, nil)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
@@ -677,7 +677,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -689,10 +689,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -710,7 +710,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -729,13 +729,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -746,7 +746,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::CompanyCustomFieldList)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::CompanyCustomFieldList)
           response = Models::Operations::GetV1CompaniesCompanyIdCustomFieldsResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -767,7 +767,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -783,8 +783,8 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_uuid: ::String, additional_steps: T.nilable(::String), x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompanyOnboardingStatusResponse) }
-    def get_onboarding_status(company_uuid:, additional_steps: nil, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyOnboardingStatusHeaderXGustoAPIVersion), additional_steps: T.nilable(::String), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompanyOnboardingStatusResponse) }
+    def get_onboarding_status(company_uuid:, x_gusto_api_version: nil, additional_steps: nil, timeout_ms: nil, http_headers: nil)
       # get_onboarding_status - Get company onboarding status
       # Retrieves a company's onboarding status, including whether onboarding is complete and the list of
       # required onboarding steps with their respective completion state.
@@ -794,8 +794,8 @@ module GustoEmbedded
       # If set, this operation will use `company_access_auth` from the global security.
       request = Models::Operations::GetV1CompanyOnboardingStatusRequest.new(
         company_uuid: company_uuid,
-        additional_steps: additional_steps,
-        x_gusto_api_version: x_gusto_api_version
+        x_gusto_api_version: x_gusto_api_version,
+        additional_steps: additional_steps
       )
       url, params = @sdk_configuration.get_server_details
       base_url = Utils.template_url(url, params)
@@ -806,7 +806,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       query_params = Utils.get_query_params(Models::Operations::GetV1CompanyOnboardingStatusRequest, request, nil)
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
@@ -815,7 +815,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -827,10 +827,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -848,7 +848,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -867,13 +867,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -884,7 +884,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::CompanyOnboardingStatus)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::CompanyOnboardingStatus)
           response = Models::Operations::GetV1CompanyOnboardingStatusResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -905,7 +905,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -921,7 +921,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyFinishOnboardingHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1CompanyFinishOnboardingResponse) }
+    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1CompanyFinishOnboardingHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1CompanyFinishOnboardingResponse) }
     def finish_onboarding(company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # finish_onboarding - Finish company onboarding
       # Finalize a company's onboarding process.
@@ -956,7 +956,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -964,7 +964,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -976,10 +976,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).put(url) do |req|
           req.headers.merge!(headers)
@@ -996,7 +996,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1015,13 +1015,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1032,7 +1032,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::CompanyOnboardingStatus)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::CompanyOnboardingStatus)
           response = Models::Operations::GetV1CompanyFinishOnboardingResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1053,7 +1053,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1067,7 +1067,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1083,7 +1083,155 @@ module GustoEmbedded
     end
 
 
-    sig { params(partner_managed_company_migrate_request: Models::Shared::PartnerManagedCompanyMigrateRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateResponse) }
+    sig { params(security: Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateSecurity, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateResponse) }
+    def put_v1_partner_managed_companies_company_uuid_disassociate(security:, company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
+      # put_v1_partner_managed_companies_company_uuid_disassociate - Disassociate a partner managed company
+      # Disassociate a company from your embedded payroll product, reversing an earlier association or migration. You can only disassociate a company that is currently associated with your application.
+      #
+      # 📘 System Access Authentication
+      #
+      # This endpoint uses the [Bearer Auth scheme with the system-level access token in the HTTP Authorization header](https://docs.gusto.com/embedded-payroll/docs/system-access)
+      #
+      # scope: `partner_managed_companies:disassociate`
+      request = Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateRequest.new(
+        company_uuid: company_uuid,
+        x_gusto_api_version: x_gusto_api_version
+      )
+      url, params = @sdk_configuration.get_server_details
+      base_url = Utils.template_url(url, params)
+      url = Utils.generate_url(
+        Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateRequest,
+        base_url,
+        '/v1/partner_managed_companies/{company_uuid}/disassociate',
+        request
+      )
+      headers = Utils.get_headers(request)
+      headers = T.cast(headers, T::Hash[::String, ::String])
+      headers['Accept'] = 'application/json'
+      headers['user-agent'] = @sdk_configuration.user_agent
+
+      timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
+      timeout ||= @sdk_configuration.timeout
+
+
+      connection = @sdk_configuration.client
+
+      hook_ctx = SDKHooks::HookContext.new(
+        config: @sdk_configuration,
+        base_url: base_url,
+        oauth2_scopes: nil,
+        operation_id: 'put-v1-partner-managed-companies-company-uuid-disassociate',
+        security_source: -> { security }
+      )
+
+      error = T.let(nil, T.nilable(::StandardError))
+      http_response = T.let(nil, T.nilable(Faraday::Response))
+      
+
+      begin
+        http_response = T.must(connection).put(url) do |req|
+          req.headers.merge!(headers)
+          req.options.timeout = timeout unless timeout.nil?
+          Utils.configure_request_security(req, security)
+          http_headers&.each do |key, value|
+            req.headers[key.to_s] = value
+          end
+
+          @sdk_configuration.hooks.before_request(
+            hook_ctx: SDKHooks::BeforeRequestHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            request: req
+          )
+        end
+      rescue ::StandardError => e
+        error = e
+      ensure
+        if http_response.nil? || Utils.error_status?(http_response.status)
+          http_response = @sdk_configuration.hooks.after_error(
+            error: error,
+            hook_ctx: SDKHooks::AfterErrorHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        else
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+        end
+
+        if http_response.nil?
+          raise error if !error.nil?
+          raise 'no response'
+        end
+      end
+
+      content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
+      if Utils.match_status_code(http_response.status, ['200'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PartnerManagedCompanyDisassociateResponse)
+          response = Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidDisassociateResponse.new(
+            status_code: http_response.status,
+            content_type: content_type,
+            raw_response: http_response,
+            partner_managed_company_disassociate_response: T.unsafe(obj)
+          )
+
+          return response
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['404'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['422'])
+        if Utils.match_content_type(content_type, 'application/json')
+          http_response = @sdk_configuration.hooks.after_success(
+            hook_ctx: SDKHooks::AfterSuccessHookContext.new(
+              hook_ctx: hook_ctx
+            ),
+            response: http_response
+          )
+          response_data = http_response.env.response_body
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          raise obj
+        else
+          raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
+        end
+      elsif Utils.match_status_code(http_response.status, ['4XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      elsif Utils.match_status_code(http_response.status, ['5XX'])
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'API error occurred'
+      else
+        raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown status code received'
+
+      end
+    end
+
+
+    sig { params(partner_managed_company_migrate_request: Models::Shared::PartnerManagedCompanyMigrateRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateResponse) }
     def migrate(partner_managed_company_migrate_request:, company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # migrate - Migrate company to embedded payroll
       # Migrate an existing Gusto customer to your embedded payroll product.
@@ -1113,15 +1261,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :partner_managed_company_migrate_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -1132,7 +1280,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1144,10 +1292,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).put(url) do |req|
           req.body = body
@@ -1165,7 +1313,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1184,13 +1332,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1201,7 +1349,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PartnerManagedCompanyMigrateResponse)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PartnerManagedCompanyMigrateResponse)
           response = Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidMigrateResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1222,7 +1370,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1236,7 +1384,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1252,7 +1400,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(security: Models::Operations::PostV1PartnerManagedCompaniesSecurity, partner_managed_company_create_request: Models::Shared::PartnerManagedCompanyCreateRequest, x_gusto_api_version: T.nilable(Models::Operations::PostV1PartnerManagedCompaniesHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1PartnerManagedCompaniesResponse) }
+    sig { params(security: Models::Operations::PostV1PartnerManagedCompaniesSecurity, partner_managed_company_create_request: Models::Shared::PartnerManagedCompanyCreateRequest, x_gusto_api_version: T.nilable(Models::Operations::PostV1PartnerManagedCompaniesHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostV1PartnerManagedCompaniesResponse) }
     def create_partner_managed(security:, partner_managed_company_create_request:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # create_partner_managed - Create a partner managed company
       # Create a partner managed company. When you successfully call the API, it does the following:
@@ -1277,15 +1425,15 @@ module GustoEmbedded
       base_url = Utils.template_url(url, params)
       url = "#{base_url}/v1/partner_managed_companies"
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :partner_managed_company_create_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -1294,7 +1442,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1306,10 +1454,10 @@ module GustoEmbedded
         security_source: -> { security }
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -1327,7 +1475,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1346,13 +1494,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1363,7 +1511,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PartnerManagedCompany)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PartnerManagedCompany)
           response = Models::Operations::PostV1PartnerManagedCompaniesResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1384,7 +1532,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1400,7 +1548,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidMigrationReadinessHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidMigrationReadinessResponse) }
+    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidMigrationReadinessHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidMigrationReadinessResponse) }
     def get_v1_partner_managed_companies_company_uuid_migration_readiness(company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get_v1_partner_managed_companies_company_uuid_migration_readiness - Check company migration readiness
       # Check if an existing Gusto customer is ready to be migrated to embedded payroll. This endpoint returns blockers and warnings associated with migrating the company and is recommended to be called before attempting to migrate a company.
@@ -1421,7 +1569,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -1429,7 +1577,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1441,10 +1589,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -1461,7 +1609,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1480,13 +1628,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1497,7 +1645,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PartnerManagedCompanyMigrationReadinessResponse)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PartnerManagedCompanyMigrationReadinessResponse)
           response = Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidMigrationReadinessResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1518,7 +1666,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1534,7 +1682,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(partner_managed_company_accept_terms_of_service_request: Models::Shared::PartnerManagedCompanyAcceptTermsOfServiceRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceResponse) }
+    sig { params(partner_managed_company_accept_terms_of_service_request: Models::Shared::PartnerManagedCompanyAcceptTermsOfServiceRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostPartnerManagedCompaniesCompanyUuidAcceptTermsOfServiceResponse) }
     def accept_terms_of_service(partner_managed_company_accept_terms_of_service_request:, company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # accept_terms_of_service - Accept terms of service for an admin
       # > Deprecated: use [POST /v1/partner_managed_companies/{company_uuid}/terms_of_service](https://docs.gusto.com/embedded-payroll/reference/post-v1-partner-managed-companies-company-uuid-terms_of_service).
@@ -1561,15 +1709,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :partner_managed_company_accept_terms_of_service_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -1580,7 +1728,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1592,10 +1740,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -1613,7 +1761,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1632,13 +1780,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['404'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1649,7 +1797,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1677,7 +1825,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(partner_managed_company_retrieve_terms_of_service_request: Models::Shared::PartnerManagedCompanyRetrieveTermsOfServiceRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceResponse) }
+    sig { params(partner_managed_company_retrieve_terms_of_service_request: Models::Shared::PartnerManagedCompanyRetrieveTermsOfServiceRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostPartnerManagedCompaniesCompanyUuidRetrieveTermsOfServiceResponse) }
     def retrieve_terms_of_service(partner_managed_company_retrieve_terms_of_service_request:, company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # retrieve_terms_of_service - Retrieve terms of service status for an admin
       # > Deprecated: use [PUT /v1/partner_managed_companies/{company_uuid}/terms_of_service](https://docs.gusto.com/embedded-payroll/reference/put-v1-partner-managed-companies-company-uuid-terms_of_service) for user-level status, or [GET /v1/partner_managed_companies/{company_uuid}/terms_of_service](https://docs.gusto.com/embedded-payroll/reference/get-v1-partner-managed-companies-company-uuid-terms_of_service) for company-level status.
@@ -1703,15 +1851,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :partner_managed_company_retrieve_terms_of_service_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -1722,7 +1870,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1734,10 +1882,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -1755,7 +1903,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1774,13 +1922,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['404'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1791,7 +1939,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1819,7 +1967,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse) }
+    sig { params(company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse) }
     def get_v1_partner_managed_companies_company_uuid_terms_of_service(company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # get_v1_partner_managed_companies_company_uuid_terms_of_service - Get the terms of service status for a company
       # Check if any company payroll admin has accepted the Gusto Embedded Payroll's [Terms of Service](https://flows.gusto.com/terms).
@@ -1842,7 +1990,7 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       headers['Accept'] = 'application/json'
       headers['user-agent'] = @sdk_configuration.user_agent
 
@@ -1850,7 +1998,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -1862,10 +2010,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).get(url) do |req|
           req.headers.merge!(headers)
@@ -1882,7 +2030,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -1901,13 +2049,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -1918,7 +2066,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PartnerManagedCompanyTermsOfServiceResponse)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PartnerManagedCompanyTermsOfServiceResponse)
           response = Models::Operations::GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -1939,7 +2087,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -1955,7 +2103,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(partner_managed_company_retrieve_terms_of_service_request: Models::Shared::PartnerManagedCompanyRetrieveTermsOfServiceRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse) }
+    sig { params(partner_managed_company_retrieve_terms_of_service_request: Models::Shared::PartnerManagedCompanyRetrieveTermsOfServiceRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse) }
     def put_v1_partner_managed_companies_company_uuid_terms_of_service(partner_managed_company_retrieve_terms_of_service_request:, company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # put_v1_partner_managed_companies_company_uuid_terms_of_service - Check terms of service status for a specific user
       # Check user-specific Terms of Service acceptance for the Gusto Embedded Payroll [Terms of Service](https://flows.gusto.com/terms).
@@ -1981,15 +2129,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :partner_managed_company_retrieve_terms_of_service_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -2000,7 +2148,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -2012,10 +2160,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).put(url) do |req|
           req.body = body
@@ -2033,7 +2181,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -2052,13 +2200,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -2069,7 +2217,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PartnerManagedCompanyTermsOfServiceResponse)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PartnerManagedCompanyTermsOfServiceResponse)
           response = Models::Operations::PutV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -2090,7 +2238,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -2104,7 +2252,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -2120,7 +2268,7 @@ module GustoEmbedded
     end
 
 
-    sig { params(partner_managed_company_accept_terms_of_service_request: Models::Shared::PartnerManagedCompanyAcceptTermsOfServiceRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(Integer), http_headers: T.nilable(T::Hash[T.any(String, Symbol), String])).returns(Models::Operations::PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse) }
+    sig { params(partner_managed_company_accept_terms_of_service_request: Models::Shared::PartnerManagedCompanyAcceptTermsOfServiceRequest, company_uuid: ::String, x_gusto_api_version: T.nilable(Models::Operations::PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceHeaderXGustoAPIVersion), timeout_ms: T.nilable(::Integer), http_headers: T.nilable(T::Hash[T.any(::String, ::Symbol), ::String])).returns(Models::Operations::PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse) }
     def post_v1_partner_managed_companies_company_uuid_terms_of_service(partner_managed_company_accept_terms_of_service_request:, company_uuid:, x_gusto_api_version: nil, timeout_ms: nil, http_headers: nil)
       # post_v1_partner_managed_companies_company_uuid_terms_of_service - Accept terms of service for a specific user
       # Accept the Gusto Embedded Payroll's [Terms of Service](https://flows.gusto.com/terms) on behalf of a specific user. The user must have a role on the company.
@@ -2142,15 +2290,15 @@ module GustoEmbedded
         request
       )
       headers = Utils.get_headers(request)
-      headers = T.cast(headers, T::Hash[String, String])
+      headers = T.cast(headers, T::Hash[::String, ::String])
       req_content_type, data, form = Utils.serialize_request_body(request, false, false, :partner_managed_company_accept_terms_of_service_request, :json)
       headers['content-type'] = req_content_type
-      raise StandardError, 'request body is required' if data.nil? && form.nil?
+      raise ::StandardError, 'request body is required' if data.nil? && form.nil?
 
       if form && !form.empty?
         body = Utils.encode_form(form)
       elsif Utils.match_content_type(req_content_type, 'application/x-www-form-urlencoded')
-        body = URI.encode_www_form(T.cast(data, T::Hash[Symbol, Object]))
+        body = ::URI.encode_www_form(T.cast(data, T::Hash[::Symbol, ::Object]))
       else
         body = data
       end
@@ -2161,7 +2309,7 @@ module GustoEmbedded
 
       timeout = (timeout_ms.to_f / 1000) unless timeout_ms.nil?
       timeout ||= @sdk_configuration.timeout
-      
+
 
       connection = @sdk_configuration.client
 
@@ -2173,10 +2321,10 @@ module GustoEmbedded
         security_source: @sdk_configuration.security_source
       )
 
-      error = T.let(nil, T.nilable(StandardError))
+      error = T.let(nil, T.nilable(::StandardError))
       http_response = T.let(nil, T.nilable(Faraday::Response))
       
-      
+
       begin
         http_response = T.must(connection).post(url) do |req|
           req.body = body
@@ -2194,7 +2342,7 @@ module GustoEmbedded
             request: req
           )
         end
-      rescue StandardError => e
+      rescue ::StandardError => e
         error = e
       ensure
         if http_response.nil? || Utils.error_status?(http_response.status)
@@ -2213,13 +2361,13 @@ module GustoEmbedded
             response: http_response
           )
         end
-        
+
         if http_response.nil?
           raise error if !error.nil?
           raise 'no response'
         end
       end
-      
+
       content_type = http_response.headers.fetch('Content-Type', 'application/octet-stream')
       if Utils.match_status_code(http_response.status, ['200'])
         if Utils.match_content_type(content_type, 'application/json')
@@ -2230,7 +2378,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Shared::PartnerManagedCompanyTermsOfServiceResponse)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Shared::PartnerManagedCompanyTermsOfServiceResponse)
           response = Models::Operations::PostV1PartnerManagedCompaniesCompanyUuidTermsOfServiceResponse.new(
             status_code: http_response.status,
             content_type: content_type,
@@ -2251,7 +2399,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::NotFoundErrorObject)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'
@@ -2265,7 +2413,7 @@ module GustoEmbedded
             response: http_response
           )
           response_data = http_response.env.response_body
-          obj = Crystalline.unmarshal_json(JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
+          obj = Crystalline.unmarshal_json(::JSON.parse(response_data), Models::Errors::UnprocessableEntityError)
           raise obj
         else
           raise ::GustoEmbedded::Models::Errors::APIError.new(status_code: http_response.status, body: http_response.env.response_body, raw_response: http_response), 'Unknown content type received'

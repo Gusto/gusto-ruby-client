@@ -17,9 +17,9 @@ module GustoEmbedded
         # A note from the employer about the approval
         field :employer_note, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('employer_note') } }
         # An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}). Use this to override the requested hours.
-        field :days, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('days') } }
+        field :days, Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('days') } }
 
-        sig { params(approver_uuid: T.nilable(::String), employer_note: T.nilable(::String), days: T.nilable(T::Hash[Symbol, ::String])).void }
+        sig { params(approver_uuid: T.nilable(::String), employer_note: T.nilable(::String), days: T.nilable(T::Hash[::Symbol, ::String])).void }
         def initialize(approver_uuid: nil, employer_note: nil, days: nil)
           @approver_uuid = approver_uuid
           @employer_note = employer_note

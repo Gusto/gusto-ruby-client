@@ -60,7 +60,7 @@ module GustoEmbedded
 
         field(
           :additional_properties,
-          Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)),
+          Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::Object)),
           {
             'format_json': {
               'letter_case': ::GustoEmbedded::Utils.field_name("additional_properties"),
@@ -188,7 +188,7 @@ module GustoEmbedded
             effective_date: T.nilable(::Date),
             uuid: T.nilable(::String),
             action: T.nilable(Models::Shared::Action),
-            additional_properties: T.nilable(T::Hash[Symbol, ::Object]),
+            additional_properties: T.nilable(T::Hash[::Symbol, ::Object]),
             active: T.nilable(T::Boolean),
             employee_deduction: T.nilable(::String),
             deduct_as_percentage: T.nilable(T::Boolean),

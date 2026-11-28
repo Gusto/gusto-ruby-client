@@ -35,9 +35,9 @@ module GustoEmbedded
         # Timestamp of when the notification is due. If the notification has no due date, this field will be null.
         field :due_at, Crystalline::Nilable.new(::String), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('due_at'), required: true } }
         # An object containing template variables used to render the notification. The structure of this object depends on the notification category. Each category defines a fixed set of variable names (keys), which are always present. The values of these variables can vary depending on the specific notification instance.
-        field :template_variables, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('template_variables') } }
+        field :template_variables, Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::String)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('template_variables') } }
 
-        sig { params(uuid: ::String, company_uuid: ::String, title: ::String, message: ::String, status: Models::Shared::NotificationStatus, category: ::String, actionable: T::Boolean, can_block_payroll: T::Boolean, published_at: ::String, resources: T::Array[Models::Shared::Resources], due_at: T.nilable(::String), template_variables: T.nilable(T::Hash[Symbol, ::String])).void }
+        sig { params(uuid: ::String, company_uuid: ::String, title: ::String, message: ::String, status: Models::Shared::NotificationStatus, category: ::String, actionable: T::Boolean, can_block_payroll: T::Boolean, published_at: ::String, resources: T::Array[Models::Shared::Resources], due_at: T.nilable(::String), template_variables: T.nilable(T::Hash[::Symbol, ::String])).void }
         def initialize(uuid:, company_uuid:, title:, message:, status:, category:, actionable:, can_block_payroll:, published_at:, resources:, due_at: nil, template_variables: nil)
           @uuid = uuid
           @company_uuid = company_uuid

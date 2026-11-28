@@ -14,6 +14,6 @@ class GustoEmbedded::Models::Operations::GetV1CompaniesCompanyUuidContractorsRes
   def status_code=(str_); end
   def raw_response(); end
   def raw_response=(str_); end
-  def contractors(); end
-  def contractors=(str_); end
+  def show_contractors(); end
+  def show_contractors=(str_); end
 end

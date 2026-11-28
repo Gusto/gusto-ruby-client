@@ -19,9 +19,9 @@ module GustoEmbedded
         # The type of target entity applicable to the flow. This field is optional for company flows.
         field :entity_type, Crystalline::Nilable.new(Models::Shared::CreateFlowRequestEntityType), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('entity_type'), 'decoder': ::GustoEmbedded::Utils.enum_from_string(Models::Shared::CreateFlowRequestEntityType, true) } }
         # Optional configuration object that varies based on the flow_type. This can contain arbitrary key-value pairs specific to the flow being generated.
-        field :options, Crystalline::Nilable.new(Crystalline::Hash.new(Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
+        field :options, Crystalline::Nilable.new(Crystalline::Hash.new(::Symbol, ::Object)), { 'format_json': { 'letter_case': ::GustoEmbedded::Utils.field_name('options') } }
 
-        sig { params(flow_type: ::String, entity_uuid: T.nilable(::String), entity_type: T.nilable(Models::Shared::CreateFlowRequestEntityType), options: T.nilable(T::Hash[Symbol, ::Object])).void }
+        sig { params(flow_type: ::String, entity_uuid: T.nilable(::String), entity_type: T.nilable(Models::Shared::CreateFlowRequestEntityType), options: T.nilable(T::Hash[::Symbol, ::Object])).void }
         def initialize(flow_type:, entity_uuid: nil, entity_type: nil, options: nil)
           @flow_type = flow_type
           @entity_uuid = entity_uuid
